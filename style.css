@@ -42,12 +42,19 @@ nav {
   gap: 20px; /* espaçamento entre links */
 }
 
+nav a:hover {
+  color: #fa8a01;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #fa8a01;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 nav a {
   color: #fa8a01;
   text-decoration: none;
+  margin: 0 15px;
   font-weight: bold;
-  font-size: 18px;
-  transition: color 0.3s;
+  transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block; /* permite aplicar transform */
 }
 
 nav a:hover {
