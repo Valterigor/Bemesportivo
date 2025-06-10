@@ -1,0 +1,75 @@
+index.html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bem Esportivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
+    <h1>Bem Esportivo</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="profissionais.html">Profissionais</a>
+      <a href="Reportagens.html">Reportagens</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="destaque">
+      <h2>Destaque de Notícias</h2>
+      <article>
+        <h3><a href="#">Brasil x Paraguai</a></h3>
+        <p class="texto-resumo">
+          Brasil e Paraguai se enfrentam na Neo Quimica Arena hoje a partir das 21:30hs. 
+          O jogo promete ser um dos mais disputados desta fase classificatória, com ambas as equipes buscando uma vitória para garantir sua posição no torneio. 
+          Os torcedores já estão ansiosos para ver o desempenho dos craques em campo.
+        </p>
+        <button class="leia-mais">Leia mais</button>
+      </article>
+    </section>
+
+    <section class="midia">
+      <h2>Vídeos e Fotos</h2>
+
+      <!-- Vídeo do YouTube -->
+      <iframe width="300" height="169" 
+        src="https://www.youtube.com/embed/XAqoWwc5Y1w" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+
+      <!-- Imagem -->
+      <img src="img/brasil-paraguai.jpg" alt="Academia" width="300" />
+    </section>
+
+    <script>
+      document.querySelector('.leia-mais').addEventListener('click', function() {
+        const texto = document.querySelector('.texto-resumo');
+        texto.classList.toggle('expandido');
+        this.textContent = texto.classList.contains('expandido') ? 'Leia menos' : 'Leia mais';
+      });
+    </script>
+
+    <aside class="anuncio">
+      <a href="https://www.instagram.com/_eucompromesmo" target="_blank" class="anuncio-link">
+        <img src="img/EUCOMPROMESMO.png" alt="Instagram @_eucompromesmo" class="anuncio-img" />
+        <div class="anuncio-texto">@_eucompromesmo</div>
+      </a>
+    </aside>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Bem Esportivo</p>
+    <a href="https://www.instagram.com/bemesportivo" target="_blank">
+      <img src="img/instagram.png" alt="Instagram" width="20" height="20" /> @bemesportivo
+    </a>
+  </footer>
+</body>
+</html>

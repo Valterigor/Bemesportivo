@@ -1,0 +1,116 @@
+profissionais.html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Profissionais - Esporte, Saúde e Lazer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    #detalhes {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      display: none;
+    }
+    #resultados li {
+      cursor: pointer;
+      padding: 5px;
+    }
+    #resultados li:hover {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
+    <h1>Bem Esportivo</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="profissionais.html">Profissionais</a>
+      <a href="Reportagens.html">Reportagens</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container-busca">
+      <h2>Busca de Profissionais</h2>
+      <div class="barra-de-busca">
+        <i class="fas fa-search"></i>
+        <input type="text" id="busca" placeholder="Pesquisar por nutricionista, personal trainer..." />
+      </div>
+      <ul id="resultados"></ul>
+      <div id="detalhes"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Esporte, Saúde e Lazer</p>
+  </footer>
+
+  <script>
+    const profissionais = [
+      {
+        nome: "Válter Igor - Fotógrafo",
+        redeSocial: "@valterigor @iofimagens",
+        especialidade: "Fotografia esportiva e corporativa"
+      },
+      {
+        nome: "Bruno - Personal Trainer",
+        redeSocial: "@bruno.rb90",
+        especialidade: "Treinamento funcional e musculação"
+      },
+      {
+        nome: "Luciano - Personal Soccer",
+        redeSocial: "@dasilvalourençoluciano",
+        especialidade: "Treinamento de futebol/funcional individual e em grupo"
+      },
+      {
+        nome: "Grasiele - Psicóloga",
+        redeSocial: "@psicologagrasielebomtempo",
+        especialidade: "Psicoterapia  - Presencial/online"
+      },
+      {
+        nome: "Rafael Esmeria - Personal Trainer",
+        redeSocial: "@rafaelesmeria.personal",
+        especialidade: "Treinamento de alta performance e Musculação"
+      }
+    ];
+
+    document.getElementById("busca").addEventListener("input", function () {
+      const termo = this.value.toLowerCase();
+      const resultadosFiltrados = profissionais.filter(p => p.nome.toLowerCase().includes(termo));
+
+      const resultadosHTML = resultadosFiltrados.map(p =>
+        `<li onclick="mostrarDetalhes('${p.nome.replace(/'/g, "\\'")}')">${p.nome}</li>`
+      ).join("");
+
+      document.getElementById("resultados").innerHTML = resultadosHTML;
+
+      // Oculta os detalhes se o termo for apagado
+      if (termo === "") {
+        document.getElementById("detalhes").style.display = "none";
+      }
+    });
+
+    function mostrarDetalhes(nomeProfissional) {
+      const profissional = profissionais.find(p => p.nome === nomeProfissional);
+      if (profissional) {
+        document.getElementById("detalhes").innerHTML = `
+          <h3>${profissional.nome}</h3>
+          <p><strong>Rede Social:</strong> ${profissional.redeSocial}</p>
+          <p><strong>Especialidade:</strong> ${profissional.especialidade}</p>
+          <p style="color: green; font-weight: bold;">Para contratar com desconto use o cupom <strong>BEM5</strong> e terá 5% de desconto.</p>
+        `;
+        document.getElementById("detalhes").style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
+
+

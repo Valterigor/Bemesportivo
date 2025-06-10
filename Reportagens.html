@@ -1,0 +1,64 @@
+Reportagens.html
+<!DOCTYPE html> 
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reportagens - Bem Esportivo</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Efeito para imagens e vídeos */
+    img, video {
+      border-radius: 10px;
+      margin-bottom: 25px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    img:hover, video:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px #fa8a01;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
+    <h1>Bem Esportivo</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="profissionais.html">Profissionais</a>
+      <a href="Reportagens.html" class="active">Reportagens</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Reportagens Especiais</h2>
+
+      <article>
+        <h3>Superação no Esporte</h3>
+        <p>Conheça a história de João, que voltou a correr após um grave acidente.</p>
+        <img src="img/joao-correndo.jpg" alt="João correndo" width="300" />
+        <video controls width="300">
+          <source src="videos/superacao.mp4" type="video/mp4" />
+          Seu navegador não suporta vídeo.
+        </video>
+      </article>
+
+      <article>
+        <h3>Alimentação e Performance</h3>
+        <p>Veja como uma dieta balanceada ajudou atletas amadores a melhorarem seu desempenho.</p>
+        <img src="img/alimentacao.jpg" alt="Alimentação saudável" width="300" />
+        <video controls width="300">
+          <source src="videos/superacao.mp4" type="video/mp4" />
+          Seu navegador não suporta vídeo.
+        </video>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Bem Esportivo</p>
+  </footer>
+</body>
+</html>
