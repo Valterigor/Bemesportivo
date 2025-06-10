@@ -71,5 +71,14 @@ index.html
       <img src="img/instagram.png" alt="Instagram" width="20" height="20" /> @bemesportivo
     </a>
   </footer>
+  
+  <button id="voltar-topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
+<script>
+  window.addEventListener('scroll', () => {
+    const botao = document.getElementById('voltar-topo');
+    botao.style.display = window.scrollY > 200 ? 'block' : 'none';
+  });
+</script>
+
 </body>
 </html>
