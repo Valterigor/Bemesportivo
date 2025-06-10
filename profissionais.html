@@ -6,6 +6,16 @@ profissionais.html
   <title>Profissionais - Esporte, Saúde e Lazer</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
   <style>
     #detalhes {
       margin-top: 20px;
@@ -62,7 +72,7 @@ profissionais.html
       {
         nome: "Bruno - Personal Trainer",
         redeSocial: "@bruno.rb90",
-        especialidade: "Treinamento funcional e musculação"
+        especialidade: "Treinamento funcional e Personal Soccer"
       },
       {
         nome: "Luciano - Personal Soccer",
@@ -78,7 +88,13 @@ profissionais.html
         nome: "Rafael Esmeria - Personal Trainer",
         redeSocial: "@rafaelesmeria.personal",
         especialidade: "Treinamento de alta performance e Musculação"
-      }
+      },
+
+      {
+        nome: "Rodrigo Barboza - Futebol/ Goleiro",
+        redeSocial: "@rodrigo_012",
+        especialidade: "Treinamento de goleiros para alta performance"
+      },
     ];
 
     document.getElementById("busca").addEventListener("input", function () {
