@@ -280,6 +280,32 @@ footer img {
   padding: 10px;
   margin-top: 15px;
 }
+/* Estilo para hover de imagens e vídeos */
+img:hover, video:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px #fa8a01;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Botão Voltar ao Topo */
+#voltar-topo {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #fa8a01;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  display: none;
+  z-index: 1000;
+}
+
+#voltar-topo:hover {
+  background-color: #ffb347;
+}
 
 
 
