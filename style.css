@@ -18,37 +18,40 @@ body {
 header {
   background-color: #000000;
   color: #fa8a01;
-  padding: 20px;
+  padding: 15px 0;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 header img {
-  max-width: 80px;
-  vertical-align: middle;
+  max-width: 150px; /* AUMENTAR o tamanho do logo */
+  margin-bottom: 10px; /* espaço entre logo e menu */
   border-radius: 10px;
 }
 
 header h1 {
-  display: inline-block;
-  margin-left: 10px;
-  font-size: 2rem;
-  vertical-align: middle;
+  display: none; /* opcional esconder se não quiser o texto em cima */
 }
 
 nav {
-  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px; /* espaçamento entre links */
 }
 
 nav a {
   color: #fa8a01;
   text-decoration: none;
-  margin: 0 15px;
   font-weight: bold;
+  font-size: 18px;
   transition: color 0.3s;
 }
 
 nav a:hover {
-  color: #fa8a01;
+  color: #ffffff;
 }
 
 /* Main */
@@ -280,6 +283,7 @@ footer img {
   padding: 10px;
   margin-top: 15px;
 }
+
 /* Estilo para hover de imagens e vídeos */
 img:hover, video:hover {
   transform: scale(1.03);
@@ -306,6 +310,25 @@ img:hover, video:hover {
 #voltar-topo:hover {
   background-color: #ffb347;
 }
+/* Responsividade para celular */
+@media (max-width: 600px) {
+  header img {
+    max-width: 120px; /* menor logo no celular */
+    margin-bottom: 10px;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav a {
+    font-size: 16px;
+    padding: 5px 0;
+  }
+}
+
+
 
 
 
