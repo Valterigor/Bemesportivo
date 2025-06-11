@@ -30,4 +30,3 @@ function carregarAnuncios() {
 
 // Simula o carregamento de anúncios após 2 segundos
 setTimeout(carregarAnuncios, 2000);
-
