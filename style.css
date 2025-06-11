@@ -376,32 +376,15 @@ a:focus, button:focus {
   }
 
   nav {
-    flex-direction: row; /* em vez de column */
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 12px;
   }
 
   nav a {
-    font-size: 16px;
-    padding: 5px 10px;
-  }
-
-  main {
-    padding: 15px;
-  }
-
-  .leia-mais {
-    width: 100%;
-    text-align: center;
+    font-size: 15px;
+    white-space: nowrap;
+    padding: 6px 10px;
   }
 }
-
-
-
-
-
-
-
-
-
