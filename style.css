@@ -376,7 +376,9 @@ a:focus, button:focus {
   }
 
   nav {
-    flex-direction: column;
+    flex-direction: row; /* em vez de column */
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
   }
 
