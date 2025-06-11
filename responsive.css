@@ -1,7 +1,10 @@
 responsive.css
 /* responsive.css - mobile-first com paleta personalizada */
 
-* {
+/* RESET GLOBAL */
+*,
+html,
+body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -12,7 +15,7 @@ body {
   background-color: #000000;
   color: #ffffff;
   line-height: 1.6;
-  padding: 10px;
+  padding: 0.625rem;
 }
 
 /* HEADER */
@@ -20,7 +23,7 @@ header {
   background-color: #000000;
   color: #fa8a01;
   text-align: center;
-  padding: 15px 0;
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,20 +33,20 @@ header img {
   width: 100%;
   max-width: 150px;
   border-radius: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 
 nav {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 nav a {
   color: #fa8a01;
   text-decoration: none;
   font-weight: bold;
-  padding: 8px;
+  padding: 0.5rem;
   border-radius: 5px;
   background-color: #111;
   transition: all 0.3s ease;
@@ -57,24 +60,25 @@ nav a:hover {
 
 /* MAIN */
 main {
-  margin-top: 20px;
+  margin-top: 1.25rem;
+  padding: 0 0.625rem;
 }
 
 .destaque, .midia {
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
 }
 
 .destaque h2,
 .midia h2 {
   color: #fdfcfb;
   font-size: 1.5rem;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 
 article {
   background: #000;
   border-left: 4px solid #fa8a01;
-  padding: 15px;
+  padding: 0.9375rem;
   border-radius: 5px;
 }
 
@@ -88,25 +92,25 @@ article h3 a:hover {
 }
 
 article p {
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 .texto-resumo {
-  max-height: 60px;
+  max-height: 3.75rem;
   overflow: hidden;
   transition: max-height 0.5s ease;
 }
 
 .texto-resumo.expandido {
-  max-height: 500px;
+  max-height: 31.25rem;
 }
 
 .leia-mais {
-  margin-top: 10px;
+  margin-top: 0.625rem;
   background-color: #ff9a02;
   color: #000;
   border: none;
-  padding: 5px 10px;
+  padding: 0.3125rem 0.625rem;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -138,8 +142,8 @@ article p {
   background-color: #ff9a02;
   border-radius: 10px;
   text-align: center;
-  padding: 15px;
-  margin-top: 30px;
+  padding: 1rem;
+  margin-top: 2rem;
   color: #000;
 }
 
@@ -150,15 +154,16 @@ article p {
 }
 
 .anuncio-img {
-  width: 100px;
-  margin-bottom: 10px;
+  width: 100%;
+  max-width: 100px;
+  margin-bottom: 0.625rem;
 }
 
 /* FOOTER */
 footer {
-  margin-top: 40px;
+  margin-top: 2.5rem;
   text-align: center;
-  padding: 15px;
+  padding: 1rem;
   background-color: #000000;
   color: #fa8a01;
 }
@@ -182,19 +187,41 @@ footer img {
 #voltar-topo {
   display: none;
   position: fixed;
-  bottom: 25px;
-  right: 25px;
+  bottom: 1.5rem;
+  right: 1.5rem;
   background: #fa8a01;
   color: #fff;
   border: none;
-  padding: 10px 15px;
+  padding: 0.625rem 0.9375rem;
   border-radius: 50px;
-  font-size: 16px;
+  font-size: 1rem;
+  cursor: pointer;
   z-index: 1000;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
 #voltar-topo:hover {
   background: #ffb347;
+  transform: translateY(-3px);
+}
+
+/* REDUZIR MOVIMENTO PARA USUÁRIOS QUE PREFEREM */
+@media (prefers-reduced-motion: reduce) {
+  .gestao-section {
+    transition: none;
+    transform: none;
+  }
+
+  .midia iframe:hover,
+  .midia img:hover,
+  .midia video:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  #voltar-topo:hover {
+    transform: none;
+  }
 }
 
 /* RESPONSIVO: TABLETS */
@@ -205,12 +232,12 @@ footer img {
   }
 
   nav a {
-    padding: 10px 15px;
+    padding: 0.625rem 0.9375rem;
     background-color: transparent;
   }
 
   main {
-    padding: 0 30px;
+    padding: 0 1.875rem;
   }
 }
 
@@ -219,11 +246,72 @@ footer img {
   main {
     display: flex;
     justify-content: space-between;
-    gap: 40px;
-    padding: 0 60px;
+    gap: 2.5rem;
+    padding: 0 3.75rem;
   }
 
   .destaque, .midia {
     flex: 1;
+  }
+}
+
+/* GESTÃO ESPORTIVA */
+.gestao-section {
+  padding: 2rem 1rem;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border-radius: 1rem;
+  margin: 2rem 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.6s ease;
+}
+
+.gestao-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gestao-container h2 {
+  font-size: 1.25rem;
+  color: #f97316;
+  margin-bottom: 1rem;
+}
+
+.gestao-container p {
+  font-size: 1rem;
+  color: #e5e5e5;
+  margin-bottom: 1.5rem;
+}
+
+.gestao-btn {
+  background-color: #f97316;
+  color: #000;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.gestao-btn:hover {
+  background-color: #fb923c;
+}
+
+@media screen and (min-width: 768px) {
+  .gestao-section {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 3rem 2rem;
+  }
+
+  .gestao-container h2 {
+    font-size: 1.75rem;
+  }
+
+  .gestao-container p {
+    font-size: 1.1rem;
   }
 }

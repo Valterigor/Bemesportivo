@@ -11,7 +11,6 @@ body {
   line-height: 1.6;
   background-color: #000000;
   color: #ffffff;
-  padding: 0;
 }
 
 /* Header */
@@ -26,39 +25,35 @@ header {
 }
 
 header img {
-  max-width: 150px; /* AUMENTAR o tamanho do logo */
-  margin-bottom: 10px; /* espaço entre logo e menu */
+  max-width: 150px;
+  margin-bottom: 10px;
   border-radius: 10px;
 }
 
 header h1 {
-  display: none; /* opcional esconder se não quiser o texto em cima */
+  display: none;
 }
 
+/* Navegação */
 nav {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 20px; /* espaçamento entre links */
+  gap: 20px;
 }
 
-nav a:hover {
-  color: #fa8a01;
-  transform: scale(1.05);
-  box-shadow: 0 0 10px #fa8a01;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
 nav a {
   color: #fa8a01;
   text-decoration: none;
-  margin: 0 15px;
   font-weight: bold;
   transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  display: inline-block; /* permite aplicar transform */
+  display: inline-block;
 }
 
 nav a:hover {
   color: #ffffff;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #fa8a01;
 }
 
 /* Main */
@@ -80,7 +75,7 @@ main {
 }
 
 article {
-  background: rgb(0, 0, 0);
+  background: #000000;
   padding: 15px;
   margin-bottom: 15px;
   border-left: 4px solid #fa8a01;
@@ -100,11 +95,11 @@ article p {
   margin-top: 5px;
 }
 
-/* Texto resumo com animação de expansão */
+/* Texto resumo com expansão */
 .texto-resumo {
   max-height: 60px;
   overflow: hidden;
-  transition: max-height 0.5s ease;
+  transition: max-height 0.5s ease-in-out;
 }
 
 .texto-resumo.expandido {
@@ -119,6 +114,7 @@ article p {
   padding: 5px 10px;
   cursor: pointer;
   border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 .leia-mais:hover {
@@ -126,14 +122,20 @@ article p {
 }
 
 /* Mídia */
-.midia video, .midia img, .midia iframe {
+.midia video,
+.midia img,
+.midia iframe {
   display: inline-block;
   margin-right: 20px;
   border-radius: 5px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 100%;
+  height: auto;
 }
 
-.midia video:hover, .midia img:hover, .midia iframe:hover {
+.midia video:hover,
+.midia img:hover,
+.midia iframe:hover {
   transform: scale(1.03);
   box-shadow: 0 0 15px #fa8a01;
 }
@@ -155,7 +157,6 @@ article p {
   align-items: center;
   text-decoration: none;
   color: #000000;
-  font-family: 'Rubik', sans-serif;
   font-weight: 700;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -250,7 +251,8 @@ footer img {
 
 #resultados li {
   padding: 10px;
-  background-color: #000000;
+  background-color: #111;
+  color: #fff;
   margin-bottom: 5px;
   border-radius: 6px;
   cursor: pointer;
@@ -258,7 +260,7 @@ footer img {
 }
 
 #resultados li:hover {
-  background-color: #000000;
+  background-color: #222;
 }
 
 /* Detalhes do profissional */
@@ -291,7 +293,43 @@ footer img {
   margin-top: 15px;
 }
 
-/* Estilo para hover de imagens e vídeos */
+/* Perfil Profissional */
+.perfil-profissional {
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.perfil-profissional:hover {
+  transform: translateY(-5px);
+}
+
+.perfil-profissional img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 4px solid #fa8a01;
+  background-color: #fff;
+}
+
+.perfil-profissional h3 {
+  margin: 10px 0 8px;
+  font-size: 1.2rem;
+  color: #111;
+}
+
+.perfil-profissional p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.perfil-profissional p strong {
+  color: #000000;
+}
+
+/* Hover de imagem e vídeo */
 img:hover, video:hover {
   transform: scale(1.03);
   box-shadow: 0 0 20px #fa8a01;
@@ -312,16 +350,23 @@ img:hover, video:hover {
   cursor: pointer;
   display: none;
   z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 #voltar-topo:hover {
   background-color: #ffb347;
 }
-/* Responsividade para celular */
+
+/* Acessibilidade */
+a:focus, button:focus {
+  outline: 2px dashed #fa8a01;
+  outline-offset: 4px;
+}
+
+/* Responsividade Mobile */
 @media (max-width: 600px) {
   header img {
-    max-width: 120px; /* menor logo no celular */
-    margin-bottom: 10px;
+    max-width: 120px;
   }
 
   nav {
@@ -333,46 +378,17 @@ img:hover, video:hover {
     font-size: 16px;
     padding: 5px 0;
   }
-}
-.perfil-profissional img {
-  width: 200px;
-  height: auto;
-  border-radius: 12px; /* ou remova para deixar quadrado */
-  object-fit: contain;
-  border: 4px solid #fa8a01;
-  margin-bottom: 15px;
-  background-color: #fff; /* ajuda se a imagem tiver fundo escuro */
+
+  main {
+    padding: 15px;
+  }
+
+  .leia-mais {
+    width: 100%;
+    text-align: center;
+  }
 }
 
-
-.perfil-profissional:hover {
-  transform: translateY(-5px);
-}
-
-.perfil-profissional img {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 15px;
-  border: 4px solid #fa8a01;
-}
-
-.perfil-profissional h3 {
-  margin: 10px 0 8px;
-  font-size: 1.2rem;
-  color: #111;
-}
-
-.perfil-profissional p {
-  margin: 6px 0;
-  font-size: 0.95rem;
-  color: #333;
-}
-
-.perfil-profissional p strong {
-  color: #000000;
-}
 
 
 

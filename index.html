@@ -17,6 +17,7 @@
   </script>
 
 </head>
+
 <body>
   <header>
     <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
@@ -67,6 +68,15 @@
       });
     </script>
 
+    <section class="gestao-section fade-slide">
+  <div class="gestao-container">
+    <h2>Gestão Esportiva com MyClub</h2>
+    <p>Controle atletas, treinos e pagamentos em uma plataforma moderna e gratuita.</p>
+    <a href="https://myclub.app" target="_blank" class="gestao-btn">Acessar Plataforma</a>
+  </div>
+</section>
+
+
     <aside class="anuncio">
       <a href="https://www.instagram.com/_eucompromesmo" target="_blank" class="anuncio-link">
         <img src="img/EUCOMPROMESMO.png" alt="Instagram @_eucompromesmo" class="anuncio-img" />
@@ -75,6 +85,7 @@
     </aside>
   </main>
 
+  
   <footer>
     <p>&copy; 2025 Bem Esportivo</p>
     <a href="https://www.instagram.com/bemesportivo" target="_blank">
@@ -89,6 +100,21 @@
     botao.style.display = window.scrollY > 200 ? 'block' : 'none';
   });
 </script>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  });
+
+  document.querySelectorAll('.fade-slide').forEach(section => {
+    observer.observe(section);
+  });
+</script>
+
 
 </body>
 </html>
