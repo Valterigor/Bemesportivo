@@ -6,7 +6,7 @@
   <title>Bem Esportivo</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-<link rel="stylesheet" href="responsive.css" />
+  <link rel="stylesheet" href="responsive.css" />
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
@@ -15,7 +15,6 @@
     gtag('js', new Date());
     gtag('config', 'G-E801T7L4BC');
   </script>
-
 </head>
 
 <body>
@@ -34,10 +33,10 @@
     <section class="destaque">
       <h2>Destaque de Notícias</h2>
       <article>
-        <h3><a href="#">Brasil x Paraguai</a></h3>
+        <h3><a href="#">Gerson deixará o Flamengo</a></h3>
         <p class="texto-resumo">
-          Brasil e Paraguai se enfrentam na Neo Quimica Arena hoje a partir das 21:30hs. 
-          O jogo promete ser um dos mais disputados desta fase classificatória, com ambas as equipes buscando uma vitória para garantir sua posição no torneio. 
+          Gerson aceitou a proposta do Zenit. Agora, o clube russo vai aguardar o fim da participação do Flamengo
+          na Copa do Mundo de Clubes para pagar a multa de 25 milhões de euros (RS 158 milhões na cotação atual) e contratar o meio-campista. 
           Os torcedores já estão ansiosos para ver o desempenho dos craques em campo.
         </p>
         <button class="leia-mais">Leia mais</button>
@@ -46,18 +45,23 @@
 
     <section class="midia">
       <h2>Vídeos e Fotos</h2>
+      
+      <!-- Imagem com legenda -->
+      <figure style="text-align: center;">
+        <img src="img/gerson.avif" alt="Academia" width="300" />
+        <figcaption style="font-size: 12px; color: white; margin-top: 4px;">
+          Foto: Ettore Chiereguini/AGIF
+        </figcaption>
+      </figure>
 
-      <!-- Vídeo do YouTube -->
+<!-- Vídeo do YouTube -->
       <iframe width="300" height="169" 
-  src="https://www.youtube.com/embed/XAqoWwc5Y1w" 
-  frameborder="0" 
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-  allowfullscreen>
-</iframe>
+        src="" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
 
-
-      <!-- Imagem -->
-      <img src="img/brasil-paraguai.jpg" alt="Academia" width="300" />
     </section>
 
     <script>
@@ -69,13 +73,12 @@
     </script>
 
     <section class="gestao-section fade-slide">
-  <div class="gestao-container">
-    <h2>Gestão Esportiva com MyClub</h2>
-    <p>Controle atletas, treinos e pagamentos em uma plataforma moderna e gratuita.</p>
-    <a href="https://myclub.app" target="_blank" class="gestao-btn">Acessar Plataforma</a>
-  </div>
-</section>
-
+      <div class="gestao-container">
+        <h2>Gestão Esportiva com MyClub</h2>
+        <p>Controle atletas, treinos e pagamentos em uma plataforma moderna e gratuita.</p>
+        <a href="https://myclub.app" target="_blank" class="gestao-btn">Acessar Plataforma</a>
+      </div>
+    </section>
 
     <aside class="anuncio">
       <a href="https://www.instagram.com/_eucompromesmo" target="_blank" class="anuncio-link">
@@ -85,7 +88,6 @@
     </aside>
   </main>
 
-  
   <footer>
     <p>&copy; 2025 Bem Esportivo</p>
     <a href="https://www.instagram.com/bemesportivo" target="_blank">
@@ -94,27 +96,25 @@
   </footer>
 
   <button id="voltar-topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
-<script>
-  window.addEventListener('scroll', () => {
-    const botao = document.getElementById('voltar-topo');
-    botao.style.display = window.scrollY > 200 ? 'block' : 'none';
-  });
-</script>
-
-<script>
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+  <script>
+    window.addEventListener('scroll', () => {
+      const botao = document.getElementById('voltar-topo');
+      botao.style.display = window.scrollY > 200 ? 'block' : 'none';
     });
-  });
+  </script>
 
-  document.querySelectorAll('.fade-slide').forEach(section => {
-    observer.observe(section);
-  });
-</script>
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    });
 
-
+    document.querySelectorAll('.fade-slide').forEach(section => {
+      observer.observe(section);
+    });
+  </script>
 </body>
 </html>
