@@ -5,7 +5,7 @@ eventos.html
   <meta charset="UTF-8" />
   <title>Eventos - Bem Esportivo</title>
   <link rel="stylesheet" href="style.css" />
-
+<link rel="stylesheet" href="responsive.css" />
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
@@ -67,7 +67,7 @@ eventos.html
     <section>
       <h2>Próximos Eventos</h2>
       <ul id="lista-eventos">
-        <li data-evento="volei">12/06 - Torneio de Vôlei de Praia</li>
+        <li data-evento="volei">00/00 -EM BREVE</li>
       </ul>
     </section>
 
@@ -92,9 +92,9 @@ eventos.html
   <script>
     const eventos = {
       volei: {
-        titulo: 'Torneio de Vôlei de Praia',
-        data: '12/06/2025',
-        descricao: 'Evento emocionante com as melhores duplas da região competindo na areia.',
+        titulo: 'BREVE NOVOS EVENTOS',
+        data: '00/00/0000',
+        descricao: 'AGUARDEM',
         fotos: [
           'img/volei1.jpg',
           'img/volei2.jpg',
@@ -104,28 +104,7 @@ eventos.html
           'videos/volei1.mp4'
         ]
       },
-      caminhada: {
-        titulo: 'Caminhada da Saúde',
-        data: '18/06/2025',
-        descricao: 'Caminhada aberta a todos, promovendo saúde e integração comunitária.',
-        fotos: [
-          'img/caminhada1.jpg',
-          'img/caminhada2.jpg'
-        ],
-        videos: [
-          'videos/caminhada1.mp4',
-          'videos/caminhada2.mp4'
-        ]
-      },
-      palestra: {
-        titulo: 'Palestra sobre bem-estar',
-        data: '25/06/2025',
-        descricao: 'Especialistas debatem dicas para melhorar sua qualidade de vida.',
-        fotos: [
-          'img/palestra1.jpg'
-        ],
-        videos: []
-      }
+      
     };
 
     const listaEventos = document.getElementById('lista-eventos');

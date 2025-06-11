@@ -5,13 +5,14 @@ profissionais.html
   <meta charset="UTF-8" />
   <title>Profissionais - Esporte, Saúde e Lazer</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="responsive.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
+
   <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E801T7L4BC"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-E801T7L4BC');
   </script>
@@ -32,9 +33,32 @@ profissionais.html
     #resultados li:hover {
       background-color: #eee;
     }
+    .perfil-profissional img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 4px solid #fa8a01;
+    }
+    .botao-cupom {
+      background-color: #fa8a01;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+      display: inline-block;
+    }
+    .botao-cupom:hover {
+      background-color: #d87400;
+    }
   </style>
 </head>
 <body>
+
   <header>
     <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
     <h1>Bem Esportivo</h1>
@@ -42,7 +66,7 @@ profissionais.html
       <a href="index.html">Início</a>
       <a href="eventos.html">Eventos</a>
       <a href="profissionais.html">Profissionais</a>
-      <a href="Reportagens.html">Reportagens</a>
+      <a href="reportagens.html">Reportagens</a>
     </nav>
   </header>
 
@@ -62,80 +86,99 @@ profissionais.html
     <p>&copy; 2025 Esporte, Saúde e Lazer</p>
   </footer>
 
+  <!-- Script para busca e exibição de profissionais -->
   <script>
     const profissionais = [
       {
         nome: "Válter Igor - Fotógrafo",
         redeSocial: "@valterigor @iofimagens",
-        especialidade: "Fotografia esportiva e corporativa"
+        especialidade: "Fotografia esportiva e corporativa",
+        foto: "img/profissionais/valter.jpg"
       },
       {
-        nome: "Bruno - Personal Trainer",
+        nome: "Bruno Rezende - Personal Trainer",
         redeSocial: "@bruno.rb90",
-        especialidade: "Treinamento funcional e Personal Soccer"
+        especialidade: "Treinamento funcional e Personal Soccer",
+        foto: "img/profissionais/bruno.jpg"
       },
       {
         nome: "Luciano - Personal Soccer",
         redeSocial: "@dasilvalourençoluciano",
-        especialidade: "Treinamento de futebol/funcional individual e em grupo"
+        especialidade: "Treinamento de futebol/funcional individual e em grupo",
+        foto: "img/profissionais/luciano.jpg"
       },
       {
         nome: "Grasiele - Psicóloga",
         redeSocial: "@psicologagrasielebomtempo",
-        especialidade: "Psicoterapia  - Presencial/online"
+        especialidade: "Psicoterapia - Presencial/online",
+        foto: "img/profissionais/grasiele.jpg"
       },
       {
         nome: "Rafael Esmeria - Personal Trainer",
         redeSocial: "@rafaelesmeria.personal",
-        especialidade: "Treinamento de alta performance e Musculação"
+        especialidade: "Treinamento de alta performance e Musculação",
+        foto: "img/profissionais/rafael.jpg"
       },
-
       {
         nome: "Rodrigo Barboza - Futebol/ Goleiro",
         redeSocial: "@rodrigo_012",
-        especialidade: "Treinamento de goleiros para alta performance"
-      },
+        especialidade: "Treinamento de goleiros para alta performance",
+        foto: "img/profissionais/rodrigo.jpg"
+      }
     ];
+
+    const resultados = document.getElementById("resultados");
+    const detalhes = document.getElementById("detalhes");
 
     document.getElementById("busca").addEventListener("input", function () {
       const termo = this.value.toLowerCase();
-      const resultadosFiltrados = profissionais.filter(p => p.nome.toLowerCase().includes(termo));
+      const filtrados = profissionais.filter(p => p.nome.toLowerCase().includes(termo));
 
-      const resultadosHTML = resultadosFiltrados.map(p =>
-        `<li onclick="mostrarDetalhes('${p.nome.replace(/'/g, "\\'")}')">${p.nome}</li>`
-      ).join("");
+      resultados.innerHTML = filtrados.map(p => `
+        <li onclick="mostrarDetalhes('${p.nome.replace(/'/g, "\\'")}')">${p.nome}</li>
+      `).join("");
 
-      document.getElementById("resultados").innerHTML = resultadosHTML;
-
-      // Oculta os detalhes se o termo for apagado
       if (termo === "") {
-        document.getElementById("detalhes").style.display = "none";
+        detalhes.style.display = "none";
       }
     });
 
-    function mostrarDetalhes(nomeProfissional) {
-      const profissional = profissionais.find(p => p.nome === nomeProfissional);
-      if (profissional) {
-        document.getElementById("detalhes").innerHTML = `
-          <h3>${profissional.nome}</h3>
-          <p><strong>Rede Social:</strong> ${profissional.redeSocial}</p>
-          <p><strong>Especialidade:</strong> ${profissional.especialidade}</p>
-          <p style="color: green; font-weight: bold;">Para contratar com desconto use o cupom <strong>BEM5</strong> e terá 5% de desconto.</p>
+    function mostrarDetalhes(nome) {
+      const prof = profissionais.find(p => p.nome === nome);
+      if (prof) {
+        detalhes.innerHTML = `
+          <div class="perfil-profissional">
+            <img src="${prof.foto}" alt="${prof.nome}" />
+            <h3>${prof.nome}</h3>
+            <p><strong>Rede Social:</strong> ${prof.redeSocial}</p>
+            <p><strong>Especialidade:</strong> ${prof.especialidade}</p>
+            <button onclick="copiarCupom()" class="botao-cupom">Clique aqui e ganhe 5% de desconto com o cupom <strong>BEM5</strong></button>
+          </div>
         `;
-        document.getElementById("detalhes").style.display = "block";
+        detalhes.style.display = "block";
       }
+    }
+
+    function copiarCupom() {
+      const cupom = "BEM5";
+      navigator.clipboard.writeText(cupom).then(() => {
+        alert("Cupom BEM5 copiado! Envie para o profissional e garanta seu desconto.");
+      }).catch(() => {
+        alert("Erro ao copiar. Copie manualmente: BEM5");
+      });
     }
   </script>
 
+  <!-- Botão de voltar ao topo -->
   <button id="voltar-topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
-<script>
-  window.addEventListener('scroll', () => {
-    const botao = document.getElementById('voltar-topo');
-    botao.style.display = window.scrollY > 200 ? 'block' : 'none';
-  });
-</script>
+  <script>
+    window.addEventListener('scroll', () => {
+      const botao = document.getElementById('voltar-topo');
+      botao.style.display = window.scrollY > 200 ? 'block' : 'none';
+    });
+  </script>
 
+  <!-- Script externo -->
+  <script src="script.js"></script>
 </body>
 </html>
-
-

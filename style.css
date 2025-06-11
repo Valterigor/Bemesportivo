@@ -334,6 +334,45 @@ img:hover, video:hover {
     padding: 5px 0;
   }
 }
+.perfil-profissional img {
+  width: 200px;
+  height: auto;
+  border-radius: 12px; /* ou remova para deixar quadrado */
+  object-fit: contain;
+  border: 4px solid #fa8a01;
+  margin-bottom: 15px;
+  background-color: #fff; /* ajuda se a imagem tiver fundo escuro */
+}
+
+
+.perfil-profissional:hover {
+  transform: translateY(-5px);
+}
+
+.perfil-profissional img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 4px solid #fa8a01;
+}
+
+.perfil-profissional h3 {
+  margin: 10px 0 8px;
+  font-size: 1.2rem;
+  color: #111;
+}
+
+.perfil-profissional p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.perfil-profissional p strong {
+  color: #000000;
+}
 
 
 
