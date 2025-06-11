@@ -388,3 +388,52 @@ a:focus, button:focus {
     padding: 6px 10px;
   }
 }
+
+/* Seção Lojas - Mercado Livre e Hotmart */
+.lojas-section {
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #111;
+  border: 2px solid #fa8a01;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.lojas-section h2 {
+  color: #fa8a01;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.btn-loja {
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #000;
+  background-color: #fa8a01;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-loja:hover {
+  background-color: #fff;
+  transform: scale(1.05);
+}
+
+.btn-loja.mercado-livre {
+  background-color: #ffe600;
+  color: #000;
+}
+
+.btn-loja.hotmart {
+  background-color: #ff5722;
+  color: #fff;
+}
+
+.btn-loja.ho.Amazon {
+  background-color: #373638;
+  color: #fff;
+
+}
