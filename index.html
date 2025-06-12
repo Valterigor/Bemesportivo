@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="bqKc4BCvXFVX5H4ZtIwD-NP5M7f2KW19uaHIBpajx3g" />
   <title>Bem Esportivo</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="responsive.css" />
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E801T7L4BC"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -16,20 +16,19 @@
     gtag('config', 'G-E801T7L4BC');
   </script>
 </head>
-
 <body>
+
   <header>
     <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
-    <h1>Bem Esportivo</h1>
     <nav>
-  <a href="index.html">Início</a>
-  <a href="eventos.html">Eventos</a>
-  <a href="profissionais.html">Profissionais</a>
-  <a href="Reportagens.html">Reportagens</a>
-  <a href="academias.html">Academias</a>
-  <a href="escolasdefutebol.html">Escolas de Futebol</a>
-  <a href="comunidade.html">comunidade</a>
-</nav>
+      <a href="index.html">Início</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="profissionais.html">Profissionais</a>
+      <a href="Reportagens.html">Reportagens</a>
+      <a href="academias.html">Academias</a>
+      <a href="escolasdefutebol.html">Escolas de Futebol</a>
+      <a href="comunidade.html">Comunidade</a>
+    </nav>
   </header>
 
   <main>
@@ -38,9 +37,7 @@
       <article>
         <h3><a href="#">Gerson deixará o Flamengo</a></h3>
         <p class="texto-resumo">
-          Gerson aceitou a proposta do Zenit. Agora, o clube russo vai aguardar o fim da participação do Flamengo
-          na Copa do Mundo de Clubes para pagar a multa de 25 milhões de euros (RS 158 milhões na cotação atual) e contratar o meio-campista. 
-          Os torcedores já estão ansiosos para ver o desempenho dos craques em campo.
+          Gerson aceitou a proposta do Zenit. Agora, o clube russo vai aguardar o fim da participação do Flamengo na Copa do Mundo de Clubes para pagar a multa de 25 milhões de euros (R$ 158 milhões na cotação atual) e contratar o meio-campista.
         </p>
         <button class="leia-mais">Leia mais</button>
       </article>
@@ -48,54 +45,53 @@
 
     <section class="midia">
       <h2>Vídeos e Fotos</h2>
-      
-      <!-- Imagem com legenda -->
       <figure style="text-align: center;">
-        <img src="img/gerson.avif" alt="Academia" width="300" />
+        <img src="img/gerson.avif" alt="Foto de Gerson" width="300" loading="lazy" />
         <figcaption style="font-size: 12px; color: white; margin-top: 4px;">
           Foto: Ettore Chiereguini/AGIF
         </figcaption>
       </figure>
 
-<!-- Vídeo do YouTube -->
+      <!-- Vídeo incorporado do YouTube -->
       <iframe width="300" height="169" 
-        src="" 
-        frameborder="0" 
+        src="https://www.youtube.com/embed/Qi1lRW18kvM" 
+        title="Duda e o Futebol" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>
       </iframe>
-
     </section>
 
     <script>
-      document.querySelector('.leia-mais').addEventListener('click', function() {
+      document.querySelector('.leia-mais').addEventListener('click', function () {
         const texto = document.querySelector('.texto-resumo');
         texto.classList.toggle('expandido');
         this.textContent = texto.classList.contains('expandido') ? 'Leia menos' : 'Leia mais';
       });
     </script>
 
+    <!-- Produtos -->
     <section class="lojas-section fade-slide">
-  <div class="lojas-container">
-    <h2>Conheça Nossos Produtos</h2>
-    <a href="https://mercadolivre.com/sec/2xoHqbE" target="_blank" class="btn-loja mercado-livre">Mercado Livre</a>
-    <a href="https://go.hotmart.com/V100243971W" target="_blank" class="btn-loja hotmart">Hotmart</a>
-    <a href="https://amzn.to/3ZtcYuL" target="_blank" class="btn-loja hotmart">Amazon</a>
-  </div>
-</section>
+      <div class="lojas-container">
+        <h2>Conheça Nossos Produtos</h2>
+        <a href="https://mercadolivre.com/sec/2xoHqbE" target="_blank" class="btn-loja mercado-livre">Mercado Livre</a>
+        <a href="https://go.hotmart.com/V100243971W" target="_blank" class="btn-loja hotmart">Hotmart</a>
+        <a href="https://amzn.to/3ZtcYuL" target="_blank" class="btn-loja hotmart">Amazon</a>
+      </div>
+    </section>
 
+    <!-- Gestão -->
     <section class="gestao-section fade-slide">
-  <div class="gestao-container">
-    <h2>Dica para Gestão Esportiva com Clupik</h2>
-    <p>Gerencie treinos, competições, atletas e pagamentos com uma plataforma moderna e gratuita.</p>
-    <a href="https://clupik.com/pt-br/" target="_blank" class="gestao-btn">Acessar Clupik</a>
-  </div>
-</section>
+      <div class="gestao-container">
+        <h2>Dica para Gestão Esportiva com Clupik</h2>
+        <p>Gerencie treinos, competições, atletas e pagamentos com uma plataforma moderna e gratuita.</p>
+        <a href="https://clupik.com/pt-br/" target="_blank" class="gestao-btn">Acessar Clupik</a>
+      </div>
+    </section>
 
-
+    <!-- Anúncio -->
     <aside class="anuncio">
       <a href="https://www.instagram.com/_eucompromesmo" target="_blank" class="anuncio-link">
-        <img src="img/EUCOMPROMESMO.png" alt="Instagram @_eucompromesmo" class="anuncio-img" />
+        <img src="img/EUCOMPROMESMO.png" alt="@_eucompromesmo" class="anuncio-img" />
         <div class="anuncio-texto">@_eucompromesmo</div>
       </a>
     </aside>
@@ -114,9 +110,7 @@
       const botao = document.getElementById('voltar-topo');
       botao.style.display = window.scrollY > 200 ? 'block' : 'none';
     });
-  </script>
 
-  <script>
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
