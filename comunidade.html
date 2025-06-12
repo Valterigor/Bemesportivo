@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comunidade - Bem Esportivo</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="responsive.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+  <header>
+    <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
+    <h1>Bem Esportivo</h1>
+     <nav>
+  <a href="index.html">Início</a>
+  <a href="eventos.html">Eventos</a>
+  <a href="profissionais.html">Profissionais</a>
+  <a href="Reportagens.html">Reportagens</a>
+  <a href="academias.html">Academias</a>
+  <a href="comunidade.html">comunidade</a>
+  <a href="escolasdefutebol.html">Escolas de Futebol</a>
+</nav>
+  </header>
+
+  <main>
+    <section class="depoimentos">
+      <h2>Depoimentos da Comunidade</h2>
+      <blockquote>
+        <p>"Graças ao Bem Esportivo, meu filho encontrou motivação no futebol!"</p>
+        <footer>— Ana Clara, mãe do João</footer>
+      </blockquote>
+      <blockquote>
+        <p>"Acompanhar os eventos me ajudou a criar hábitos saudáveis."</p>
+        <footer>— Felipe Moura</footer>
+      </blockquote>
+    </section>
+
+    <section class="galeria">
+      <h2>#bemesportivo na rede</h2>
+      <div class="fotos">
+        <img src="img/galeria1.jpg" alt="Foto enviada por seguidor" loading="lazy" />
+        <img src="img/galeria2.jpg" alt="Participante do evento" loading="lazy" />
+        <img src="img/galeria3.jpg" alt="Equipe do Bem Esportivo" loading="lazy" />
+      </div>
+    </section>
+
+    <section class="formulario">
+      <h2>Compartilhe sua história</h2>
+      <p>Tem uma jornada inspiradora no esporte, saúde ou lazer?</p>
+      <a href="mailto:bemesportivo@yahoo.com" class="botao">📩 Enviar por e-mail</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Bem Esportivo</p>
+    <a href="https://www.instagram.com/bemesportivo" target="_blank">
+      <img src="img/instagram.png" alt="Instagram" width="20" height="20" />
+      @bemesportivo
+    </a>
+  </footer>
+
+  <button id="voltar-topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
+  <script>
+    window.addEventListener('scroll', () => {
+      const botao = document.getElementById('voltar-topo');
+      botao.style.display = window.scrollY > 200 ? 'block' : 'none';
+    });
+  </script>
+</body>
+</html>
