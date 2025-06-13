@@ -29,7 +29,7 @@ header img {
   margin-bottom: 15px;
 }
 
-/* === MENU PADRÃO MOBILE-FIRST === */
+/* === MENU MOBILE-FIRST === */
 nav {
   display: flex;
   flex-direction: column;
@@ -60,7 +60,22 @@ nav a:hover {
   transform: translateY(-2px);
 }
 
-/* === MENU EM TABLET E DESKTOP === */
+/* === TABLET === */
+@media (min-width: 600px) {
+  nav {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    font-size: 16px;
+    padding: 12px 24px;
+    margin: 5px;
+  }
+}
+
+/* === DESKTOP === */
 @media (min-width: 768px) {
   header {
     flex-direction: row;
@@ -78,9 +93,8 @@ nav a:hover {
   }
 
   nav a {
-    margin: 0 5px;
     font-size: 18px;
-    padding: 12px 24px;
+    padding: 14px 28px;
   }
 }
 
@@ -90,6 +104,24 @@ main {
   width: 100%;
   max-width: 1000px;
   margin: auto;
+}
+
+/* === SECTIONS === */
+section {
+  margin: 40px auto;
+  max-width: 1000px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #111;
+}
+
+section h2 {
+  color: #fa8a01;
+  margin-bottom: 20px;
+}
+
+section p {
+  color: #ddd;
 }
 
 /* === FOOTER === */
@@ -117,7 +149,7 @@ footer a:hover {
   background: #fa8a01;
   color: #000;
   border: none;
-  padding: 10px;
+  padding: 10px 14px;
   border-radius: 50px;
   font-size: 16px;
   display: none;
@@ -129,10 +161,7 @@ footer a:hover {
   background-color: #ffb347;
 }
 
-/* === DEMAIS ELEMENTOS (EXEMPLO) === */
-/* Adicione aqui outros blocos como .lojas-section, .container-busca, artigos, etc, conforme já está no seu projeto. */
-
-
+/* === LOJAS SECTION === */
 .lojas-section {
   margin: 40px auto;
   padding: 30px 20px;
@@ -144,14 +173,12 @@ footer a:hover {
 }
 
 .lojas-section h2 {
-  color: #fa8a01;
   font-size: 1.8rem;
   margin-bottom: 20px;
   font-weight: 700;
 }
 
-/* Botões da loja */
-.lojas-section .btn-loja {
+.btn-loja {
   display: inline-block;
   margin: 10px 15px;
   padding: 12px 24px;
@@ -163,17 +190,13 @@ footer a:hover {
 }
 
 .btn-loja.mercado-livre {
-  background-color: #ffe600;
+  background: #ffe600;
   color: #000;
 }
 
-.btn-loja.hotmart {
-  background-color: #ff5722;
-  color: #fff;
-}
-
+.btn-loja.hotmart,
 .btn-loja.amazon {
-  background-color: #ff5722;
+  background: #ff5722;
   color: #fff;
 }
 
@@ -182,21 +205,20 @@ footer a:hover {
   box-shadow: 0 0 8px #fa8a01;
 }
 
+/* === BUSCA === */
 .container-busca {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   max-width: 800px;
   margin: 30px auto;
-  background-color: #000;
+  background: #000;
   padding: 20px 30px;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(250, 126, 1, 0.1);
 }
 
 .container-busca h2 {
-  color: #fff;
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
@@ -205,7 +227,7 @@ footer a:hover {
 .barra-de-busca {
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background: #fff;
   border-radius: 10px;
   padding: 10px 15px;
   width: 100%;
@@ -223,41 +245,38 @@ footer a:hover {
   border: none;
   font-size: 18px;
   outline: none;
-  color: #000;
-  background-color: transparent;
+  background: transparent;
 }
 
 #resultados {
   list-style: none;
   width: 100%;
   max-width: 700px;
-  padding: 0;
   margin: 0 0 20px 0;
+  padding: 0;
 }
 
 #resultados li {
   padding: 12px 15px;
   margin-bottom: 8px;
-  background-color: #111;
+  background: #111;
   color: #fff;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background 0.2s ease;
+  transition: background 0.2s;
 }
 
 #resultados li:hover {
-  background-color: #222;
+  background: #222;
 }
 
 #detalhes {
-  background-color: #f9f9f9;
+  background: #f9f9f9;
   color: #000;
   padding: 30px 20px;
   border-radius: 10px;
-  width: 100%;
   max-width: 700px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
 }
 
 .perfil-profissional {
@@ -284,22 +303,19 @@ footer a:hover {
   font-size: 16px;
 }
 
-.perfil-profissional p strong {
-  color: #000;
-}
-
 .perfil-profissional .cupom {
-  background-color: #fa8a01;
+  background: #fa8a01;
   color: #fff;
   padding: 12px 18px;
   border-radius: 8px;
   font-weight: bold;
-  margin-top: 20px;
   display: inline-block;
+  margin-top: 20px;
 }
 
+/* === ACADEMIA CARD === */
 .academia-card {
-  background-color: #111;
+  background: #111;
   border: 2px solid #fa8a01;
   border-radius: 12px;
   padding: 20px;
@@ -322,30 +338,31 @@ footer a:hover {
 
 .academia-card p {
   color: #ccc;
-  font-size: 0.95rem;
 }
 
 .botao-link, .academia-card .btn {
   margin-top: 15px;
   display: inline-block;
-  background-color: #fa8a01;
+  background: #fa8a01;
   color: #000;
   padding: 10px 16px;
   border-radius: 6px;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .botao-link:hover, .academia-card .btn:hover {
-  background-color: #fff;
+  background: #fff;
   color: #000;
+  transform: scale(1.05);
 }
 
+/* === EMAIL COMUNIDADE === */
 .email-comunidade {
   text-align: center;
   padding: 2rem 1rem;
-  background-color: #000;
+  background: #000;
   border-top: 2px solid #fa8a01;
   border-bottom: 2px solid #fa8a01;
   margin: 2rem auto;
@@ -360,130 +377,23 @@ footer a:hover {
 .email-comunidade p {
   color: #f5f5f5;
   margin-bottom: 1rem;
-  font-size: 1rem;
 }
 
 .btn-email {
-  background-color: #fa8a01;
+  background: #fa8a01;
   color: #000;
   padding: 12px 24px;
   border-radius: 30px;
   text-decoration: none;
   font-weight: bold;
-  font-family: 'Rubik', sans-serif;
   display: inline-block;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .btn-email:hover {
-  background-color: #ffffff;
+  background: #fff;
   color: #000;
   transform: scale(1.05);
   box-shadow: 0 0 10px #fa8a01;
 }
 
-/* Menu horizontal no desktop */
-@media (min-width: 768px) {
-  header {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  header .logo {
-    margin-bottom: 0;
-  }
-
-  nav {
-    flex-direction: row;
-    gap: 20px;
-  }
-}
-
-/* === MOBILE FIRST === */
-nav {
-  display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-  gap: 10px;
-  justify-content: flex-start;
-  padding: 8px 0;
-}
-
-nav a {
-  font-size: 15px;
-  padding: 10px 16px; /* leve aumento */
-  background-color: #fa8a01;
-  color: #fff;
-  border-radius: 6px; /* canto mais arredondado */
-  text-decoration: none;
-  white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* sombra para destacar */
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-nav a:hover {
-  background-color: #e37900;
-  transform: translateY(-2px); /* leve elevação no hover */
-}
-
-/* === TABLET === */
-@media (min-width: 600px) {
-  nav {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  nav a {
-    font-size: 16px;
-    padding: 12px 20px;
-    margin: 5px; /* espaçamento extra entre links */
-  }
-}
-
-/* === DESKTOP === */
-@media (min-width: 1024px) {
-  nav {
-    overflow: visible; /* desativa scroll horizontal */
-  }
-
-  nav a {
-    font-size: 18px;
-    padding: 14px 24px;
-  }
-}
-
-/* --- MENU PADRÃO --- */
-nav {
-  display: flex;
-  flex-direction: column; /* Mobile-first: vertical */
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-}
-
-nav a {
-  display: block;
-  color: #fa8a01;
-  background-color: transparent;
-  border: 2px solid #fa8a01;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-nav a:hover {
-  background-color: #fa8a01;
-  color: #000;
-  box-shadow: 0 0 10px #fa8a01;
-}
-
-/* Tablet e Desktop: horizontal */
-@media (min-width: 768px) {
-  nav {
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-}

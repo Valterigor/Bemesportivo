@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="responsive.css" />
+  <link rel="stylesheet" href="ebook.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-E801T7L4BC"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -26,115 +27,122 @@
     <a href="Reportagens.html">Reportagens</a>
     <a href="academias.html">Academias</a>
     <a href="escolasdefutebol.html">Escolas de Futebol</a>
+    <a href="ebook.html">ebook</a>
     <a href="comunidade.html">Comunidade</a>
   </nav>
 </header>
 
+<main>
+  <section class="destaque">
+    <h2>Destaque de Notícias</h2>
+    <article>
+      <h3><a href="#">Gerson deixará o Flamengo</a></h3>
+      <p class="texto-resumo">
+        Gerson aceitou a proposta do Zenit. Agora, o clube russo vai aguardar o fim da participação do Flamengo na Copa do Mundo de Clubes para pagar a multa de 25 milhões de euros (R$ 158 milhões na cotação atual) e contratar o meio-campista.
+      </p>
+      <button class="leia-mais">Leia mais</button>
+    </article>
+  </section>
 
-  <main>
-    <section class="destaque">
-      <h2>Destaque de Notícias</h2>
-      <article>
-        <h3><a href="#">Gerson deixará o Flamengo</a></h3>
-        <p class="texto-resumo">
-          Gerson aceitou a proposta do Zenit. Agora, o clube russo vai aguardar o fim da participação do Flamengo na Copa do Mundo de Clubes para pagar a multa de 25 milhões de euros (R$ 158 milhões na cotação atual) e contratar o meio-campista.
-        </p>
-        <button class="leia-mais">Leia mais</button>
-      </article>
-    </section>
+  <section class="midia">
+    <h2>Vídeos e Fotos</h2>
+    <figure style="text-align: center;">
+      <img src="img/gerson.avif" alt="Foto de Gerson" width="300" loading="lazy" />
+      <figcaption style="font-size: 12px; color: white; margin-top: 4px;">
+        Foto: Ettore Chiereguini/AGIF
+      </figcaption>
+    </figure>
 
-    <section class="midia">
-      <h2>Vídeos e Fotos</h2>
-      <figure style="text-align: center;">
-        <img src="img/gerson.avif" alt="Foto de Gerson" width="300" loading="lazy" />
-        <figcaption style="font-size: 12px; color: white; margin-top: 4px;">
-          Foto: Ettore Chiereguini/AGIF
-        </figcaption>
-      </figure>
+    <!-- Vídeo incorporado do YouTube -->
+    <iframe width="300" height="169" 
+      src="" 
+      title="" frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
+  </section>
 
-      <!-- Vídeo incorporado do YouTube -->
-      <iframe width="300" height="169" 
-        src="" 
-        title="" frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-      </iframe>
-    </section>
-
-    <script>
-      document.querySelector('.leia-mais').addEventListener('click', function () {
-        const texto = document.querySelector('.texto-resumo');
-        texto.classList.toggle('expandido');
-        this.textContent = texto.classList.contains('expandido') ? 'Leia menos' : 'Leia mais';
-      });
-    </script>
-
-    <!-- Produtos -->
-    <section class="lojas-section fade-slide">
-      <div class="lojas-container">
-        <h2>Conheça Nossos Produtos</h2>
-        <a href="https://mercadolivre.com/sec/2xoHqbE" target="_blank" class="btn-loja mercado-livre">Mercado Livre</a>
-        <a href="https://go.hotmart.com/V100243971W" target="_blank" class="btn-loja hotmart">Hotmart</a>
-        <a href="https://amzn.to/3ZtcYuL" target="_blank" class="btn-loja hotmart">Amazon</a>
-      </div>
-    </section>
-
-    <!-- Gestão -->
-    <section class="gestao-section fade-slide">
-      <div class="gestao-container">
-        <h2>Dica para Gestão Esportiva com Clupik</h2>
-        <p>Gerencie treinos, competições, atletas e pagamentos com uma plataforma moderna e gratuita.</p>
-        <a href="https://clupik.com/pt-br/" target="_blank" class="gestao-btn">Acessar Clupik</a>
-      </div>
-    </section>
-
-    <!-- Anúncio -->
-    <aside class="anuncio">
-      <a href="https://www.instagram.com/_eucompromesmo" target="_blank" class="anuncio-link">
-        <img src="img/EUCOMPROMESMO.png" alt="@_eucompromesmo" class="anuncio-img" />
-        <div class="anuncio-texto">@_eucompromesmo</div>
-      </a>
-    </aside>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Bem Esportivo</p>
-    <a href="https://www.instagram.com/bemesportivo" target="_blank">
-      <img src="img/instagram.png" alt="Instagram" width="20" height="20" /> @bemesportivo
-    </a>
-  </footer>
-
-  <button id="voltar-topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
   <script>
-    window.addEventListener('scroll', () => {
-      const botao = document.getElementById('voltar-topo');
-      botao.style.display = window.scrollY > 200 ? 'block' : 'none';
-    });
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    });
-
-    document.querySelectorAll('.fade-slide').forEach(section => {
-      observer.observe(section);
+    document.querySelector('.leia-mais').addEventListener('click', function () {
+      const texto = document.querySelector('.texto-resumo');
+      texto.classList.toggle('expandido');
+      this.textContent = texto.classList.contains('expandido') ? 'Leia menos' : 'Leia mais';
     });
   </script>
 
+  <!-- Produtos -->
+  <section class="lojas-section fade-slide">
+    <div class="lojas-container">
+      <h2>Conheça Nossos Produtos</h2>
+      <a href="https://mercadolivre.com/sec/2xoHqbE" target="_blank" class="btn-loja mercado-livre">Mercado Livre</a>
+      <a href="https://go.hotmart.com/V100243971W?redirectionUrl=https://valterigorcruz.hotmart.host/marketing-digital-empreendedor-de-sucesso-em-7-dias-26d2737e-8999-4c27-8243-125f81f6be3b" target="_blank" class="btn-loja hotmart">Hotmart</a>
+      <a href="https://amzn.to/3ZtcYuL" target="_blank" class="btn-loja amazon">Amazon</a>
+    </div>
+  </section>
+
+  <!-- E-book -->
+  <section id="ebook">
+    <h2>📘 E-book Exclusivo</h2>
+    <img src="CAMINHO_DA_IMAGEM" alt="E-book Marketing Digital - Empreendedor de Sucesso em 7 Dias" style="max-width: 200px;">
+    <p><strong>Marketing Digital:</strong> Torne-se um Empreendedor de Sucesso em apenas 7 dias! Estratégias práticas também para quem trabalha na área esportiva.</p>
+    <a href="https://go.hotmart.com/V100243971W?redirectionUrl=https://valterigorcruz.hotmart.host/marketing-digital-empreendedor-de-sucesso-em-7-d2737e-8999-4c27-8243-125f81f6be3b" target="_blank" style="background:#fa8a01;color:#fff;padding:10px 20px;border-radius:5px;text-decoration:none;">Quero meu e-book agora</a>
+  </section>
+
+  <!-- Gestão -->
+  <section class="gestao-section fade-slide">
+    <div class="gestao-container">
+      <h2>Dica para Gestão Esportiva com Clupik</h2>
+      <p>Gerencie treinos, competições, atletas e pagamentos com uma plataforma moderna e gratuita.</p>
+      <a href="https://clupik.com/pt-br/" target="_blank" class="gestao-btn">Acessar Clupik</a>
+    </div>
+  </section>
+
+  <!-- Anúncio -->
+  <aside class="anuncio">
+    <a href="https://www.instagram.com/_eucompromesmo" target="_blank" class="anuncio-link">
+      <img src="img/EUCOMPROMESMO.png" alt="@_eucompromesmo" class="anuncio-img" />
+      <div class="anuncio-texto">@_eucompromesmo</div>
+    </a>
+  </aside>
+</main>
+
+<footer>
+  <p>&copy; 2025 Bem Esportivo</p>
+  <a href="https://www.instagram.com/bemesportivo" target="_blank">
+    <img src="img/instagram.png" alt="Instagram" width="20" height="20" /> @bemesportivo
+  </a>
+</footer>
+
+<button id="voltar-topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
+
 <script>
+  window.addEventListener('scroll', () => {
+    const botao = document.getElementById('voltar-topo');
+    botao.style.display = window.scrollY > 200 ? 'block' : 'none';
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  });
+
+  document.querySelectorAll('.fade-slide').forEach(section => {
+    observer.observe(section);
+  });
+
   const menuToggle = document.getElementById('menu-toggle');
   const nav = document.querySelector('nav');
 
-  menuToggle.addEventListener('click', () => {
-    menuToggle.classList.toggle('active');
-    nav.classList.toggle('show');
-  });
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      nav.classList.toggle('show');
+    });
+  }
 </script>
-
-
 
 </body>
 </html>
