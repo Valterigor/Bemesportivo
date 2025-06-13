@@ -2,15 +2,15 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-site-verification" content="bqKc4BCvXFVX5H4ZtIwD-NP5M7f2KW19uaHIBpajx3g" />
   <title>Bem Esportivo</title>
 
   <!-- Fontes e estilos -->
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="responsive.css" />
-  <link rel="stylesheet" href="ebook.css">
+  <link rel="stylesheet" href="ebook.css" />
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-E801T7L4BC"></script>
@@ -23,9 +23,10 @@
 
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5985848391425143"
-     crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 </head>
 <body>
+
 <header>
   <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
   <nav>
@@ -35,12 +36,13 @@
     <a href="Reportagens.html">Reportagens</a>
     <a href="academias.html">Academias</a>
     <a href="escolasdefutebol.html">Escolas de Futebol</a>
-    <a href="ebook.html">ebook</a>
+    <a href="ebook.html">E-book</a>
     <a href="comunidade.html">Comunidade</a>
   </nav>
 </header>
 
 <main>
+  <!-- Seção de Destaque -->
   <section class="destaque">
     <h2>Destaque de Notícias</h2>
     <article>
@@ -52,6 +54,7 @@
     </article>
   </section>
 
+  <!-- Seção de Mídia -->
   <section class="midia">
     <h2>Vídeos e Fotos</h2>
     <figure style="text-align: center;">
@@ -61,15 +64,16 @@
       </figcaption>
     </figure>
 
-    <!-- Vídeo incorporado do YouTube -->
-    <iframe width="300" height="169" 
-      src="" 
-      title="" frameborder="0" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    <!-- Vídeo do YouTube -->
+    <iframe width="300" height="169"
+      src=""
+      title="" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen>
     </iframe>
   </section>
 
+  <!-- Script Leia Mais -->
   <script>
     document.querySelector('.leia-mais').addEventListener('click', function () {
       const texto = document.querySelector('.texto-resumo');
@@ -78,7 +82,7 @@
     });
   </script>
 
-  <!-- Produtos -->
+  <!-- Seção Lojas -->
   <section class="lojas-section fade-slide">
     <div class="lojas-container">
       <h2>Conheça Nossos Produtos</h2>
@@ -88,7 +92,7 @@
     </div>
   </section>
 
-  <!-- E-book -->
+  <!-- Seção E-book -->
   <section id="ebook" class="ebook-section">
     <h2>📘 E-book Exclusivo</h2>
     <div class="ebook-content">
@@ -98,7 +102,7 @@
     </div>
   </section>
 
-  <!-- Gestão -->
+  <!-- Seção Gestão -->
   <section class="gestao-section fade-slide">
     <div class="gestao-container">
       <h2>Dica para Gestão Esportiva com Clupik</h2>
@@ -107,7 +111,7 @@
     </div>
   </section>
 
-  <!-- Exemplo de Bloco de Anúncio AdSense -->
+  <!-- Anúncio AdSense -->
   <section>
     <h2>Anúncio Patrocinado</h2>
     <ins class="adsbygoogle"
@@ -121,7 +125,7 @@
     </script>
   </section>
 
-  <!-- Anúncio fixo -->
+  <!-- Anúncio Fixo -->
   <aside class="anuncio">
     <a href="https://www.instagram.com/_eucompromesmo" target="_blank" class="anuncio-link">
       <img src="img/EUCOMPROMESMO.png" alt="@_eucompromesmo" class="anuncio-img" />
@@ -139,12 +143,15 @@
 
 <button id="voltar-topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
 
+<!-- Scripts finais -->
 <script>
+  // Botão voltar ao topo
   window.addEventListener('scroll', () => {
     const botao = document.getElementById('voltar-topo');
     botao.style.display = window.scrollY > 200 ? 'block' : 'none';
   });
 
+  // Efeito fade-slide
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -157,6 +164,7 @@
     observer.observe(section);
   });
 
+  // Menu toggle (se existir)
   const menuToggle = document.getElementById('menu-toggle');
   const nav = document.querySelector('nav');
 
