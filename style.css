@@ -1,5 +1,4 @@
-style.css
-/* Reset básico */
+/* === RESET === */
 * {
   margin: 0;
   padding: 0;
@@ -14,11 +13,10 @@ body {
   overflow-x: hidden;
 }
 
-/* Header */
+/* === HEADER E LOGO === */
 header {
   background-color: #000;
-  color: #fa8a01;
-  padding: 15px 0;
+  padding: 15px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -28,38 +26,65 @@ header {
 header img {
   max-width: 180px;
   border-radius: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-/* Navegação */
+/* === MENU PADRÃO MOBILE-FIRST === */
 nav {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  overflow-x: auto;
-  padding: 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 0;
 }
 
 nav a {
+  display: block;
   color: #fa8a01;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 8px 12px;
-  background-color: rgba(255,255,255,0.05);
+  background: transparent;
+  border: 2px solid #fa8a01;
   border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-decoration: none;
   white-space: nowrap;
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: all 0.3s ease, transform 0.2s ease;
 }
 
 nav a:hover {
-  color: #fff;
-  background-color: rgba(250,138,1,0.2);
-  box-shadow: 0 0 10px #fa8a01;
+  background: #fa8a01;
+  color: #000;
+  box-shadow: 0 0 10px #fa8a01, 0 0 20px #fa8a01;
+  transform: translateY(-2px);
 }
 
+/* === MENU EM TABLET E DESKTOP === */
+@media (min-width: 768px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
-/* Main */
+  header img {
+    margin-bottom: 0;
+  }
+
+  nav {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    margin: 0 5px;
+    font-size: 18px;
+    padding: 12px 24px;
+  }
+}
+
+/* === MAIN === */
 main {
   padding: 20px;
   width: 100%;
@@ -67,95 +92,7 @@ main {
   margin: auto;
 }
 
-/* Destaques e Artigos */
-.destaque, .midia {
-  margin-bottom: 40px;
-}
-
-.destaque h2, .midia h2 {
-  color: #fa8a01;
-  font-size: 1.8rem;
-  margin-bottom: 15px;
-}
-
-article {
-  background: #000;
-  border-left: 4px solid #fa8a01;
-  border-radius: 6px;
-  padding: 15px;
-  margin-bottom: 15px;
-}
-
-article h3 a {
-  color: #fff;
-  text-decoration: none;
-}
-
-article h3 a:hover {
-  text-decoration: underline;
-}
-
-.texto-resumo {
-  max-height: 60px;
-  overflow: hidden;
-  transition: max-height 0.4s ease;
-}
-
-.texto-resumo.expandido {
-  max-height: 500px;
-}
-
-.leia-mais {
-  margin-top: 10px;
-  background: #fa8a01;
-  color: #000;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.leia-mais:hover {
-  background-color: #fff;
-}
-
-/* Mídia */
-.midia img, .midia video, .midia iframe {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-/* Anúncio */
-.anuncio {
-  background: #fa8a01;
-  padding: 15px;
-  border-radius: 10px;
-  text-align: center;
-  margin: 30px auto;
-  max-width: 400px;
-}
-
-.anuncio-link {
-  text-decoration: none;
-  color: #000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.anuncio-img {
-  width: 100px;
-  margin-bottom: 10px;
-}
-
-.anuncio-texto {
-  font-weight: bold;
-}
-
-/* Footer */
+/* === FOOTER === */
 footer {
   background-color: #000;
   color: #fa8a01;
@@ -172,7 +109,7 @@ footer a:hover {
   text-decoration: underline;
 }
 
-/* Botão Voltar */
+/* === BOTÃO VOLTAR === */
 #voltar-topo {
   position: fixed;
   bottom: 25px;
@@ -191,6 +128,10 @@ footer a:hover {
 #voltar-topo:hover {
   background-color: #ffb347;
 }
+
+/* === DEMAIS ELEMENTOS (EXEMPLO) === */
+/* Adicione aqui outros blocos como .lojas-section, .container-busca, artigos, etc, conforme já está no seu projeto. */
+
 
 .lojas-section {
   margin: 40px auto;
@@ -441,3 +382,108 @@ footer a:hover {
   box-shadow: 0 0 10px #fa8a01;
 }
 
+/* Menu horizontal no desktop */
+@media (min-width: 768px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  header .logo {
+    margin-bottom: 0;
+  }
+
+  nav {
+    flex-direction: row;
+    gap: 20px;
+  }
+}
+
+/* === MOBILE FIRST === */
+nav {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  gap: 10px;
+  justify-content: flex-start;
+  padding: 8px 0;
+}
+
+nav a {
+  font-size: 15px;
+  padding: 10px 16px; /* leve aumento */
+  background-color: #fa8a01;
+  color: #fff;
+  border-radius: 6px; /* canto mais arredondado */
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* sombra para destacar */
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+nav a:hover {
+  background-color: #e37900;
+  transform: translateY(-2px); /* leve elevação no hover */
+}
+
+/* === TABLET === */
+@media (min-width: 600px) {
+  nav {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    font-size: 16px;
+    padding: 12px 20px;
+    margin: 5px; /* espaçamento extra entre links */
+  }
+}
+
+/* === DESKTOP === */
+@media (min-width: 1024px) {
+  nav {
+    overflow: visible; /* desativa scroll horizontal */
+  }
+
+  nav a {
+    font-size: 18px;
+    padding: 14px 24px;
+  }
+}
+
+/* --- MENU PADRÃO --- */
+nav {
+  display: flex;
+  flex-direction: column; /* Mobile-first: vertical */
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+nav a {
+  display: block;
+  color: #fa8a01;
+  background-color: transparent;
+  border: 2px solid #fa8a01;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #fa8a01;
+  color: #000;
+  box-shadow: 0 0 10px #fa8a01;
+}
+
+/* Tablet e Desktop: horizontal */
+@media (min-width: 768px) {
+  nav {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}

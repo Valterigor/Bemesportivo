@@ -17,19 +17,19 @@
   </script>
 </head>
 <body>
+ <header>
+  <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="eventos.html">Eventos</a>
+    <a href="profissionais.html">Profissionais</a>
+    <a href="Reportagens.html">Reportagens</a>
+    <a href="academias.html">Academias</a>
+    <a href="escolasdefutebol.html">Escolas de Futebol</a>
+    <a href="comunidade.html">Comunidade</a>
+  </nav>
+</header>
 
-  <header>
-    <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
-    <nav>
-      <a href="index.html">Início</a>
-      <a href="eventos.html">Eventos</a>
-      <a href="profissionais.html">Profissionais</a>
-      <a href="Reportagens.html">Reportagens</a>
-      <a href="academias.html">Academias</a>
-      <a href="escolasdefutebol.html">Escolas de Futebol</a>
-      <a href="comunidade.html">Comunidade</a>
-    </nav>
-  </header>
 
   <main>
     <section class="destaque">
@@ -123,5 +123,18 @@
       observer.observe(section);
     });
   </script>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const nav = document.querySelector('nav');
+
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    nav.classList.toggle('show');
+  });
+</script>
+
+
+
 </body>
 </html>
