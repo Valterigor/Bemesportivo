@@ -1,0 +1,166 @@
+noticias.html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notícias - Bem Esportivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: 'Rubik', sans-serif;
+      margin: 0;
+    }
+
+    header {
+      background-color: #111;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header img {
+      height: 50px;
+    }
+
+    nav a {
+      color: white;
+      margin-left: 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffa500;
+      margin-bottom: 30px;
+    }
+
+    .noticia-lista {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .noticia {
+      background-color: #1a1a1a;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
+      transition: transform 0.3s;
+    }
+
+    .noticia:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
+    }
+
+    .noticia h2 {
+      color: #fff;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .noticia p {
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .noticia a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #ffa500;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #111;
+      color: #ccc;
+    }
+
+    .btn-voltar {
+      display: block;
+      margin: 30px auto 0;
+      background-color: #ffa500;
+      color: black;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      width: fit-content;
+    }
+
+    .btn-voltar:hover {
+      background-color: #e69500;
+    }
+
+  
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="eventos.html">Eventos</a>
+    <a href="profissionais.html">Profissionais</a>
+    <a href="Reportagens.html">Reportagens</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Notícias Recentes</h1>
+
+  <div class="noticia-lista">
+    <div class="noticia">
+      <h2>Corinthians vence clássico e respira no Brasileirão</h2>
+      <p>Com gols de Romero e Wesley, o Timão supera o São Paulo e afasta a crise momentaneamente.</p>
+      <a href="#">Leia mais</a>
+    </div>
+
+    <div class="noticia">
+      <h2>Brasil se prepara para a Copa América</h2>
+      <p>Com treinos intensivos em Miami, a seleção brasileira foca na estreia contra a Colômbia.</p>
+      <a href="#">Leia mais</a>
+    </div>
+
+    <div class="noticia">
+      <h2>Neymar revela plano de retorno aos gramados</h2>
+      <p>Craque brasileiro já projeta volta ao futebol em 2025 após longa recuperação.</p>
+      <a href="#">Leia mais</a>
+    </div>
+
+    <div class="noticia">
+      <h2>Atletas olímpicos brasileiros fazem preparação final na Europa</h2>
+      <p>Delegação se concentra na Espanha antes dos Jogos de Paris 2024, focando em modalidades como judô e atletismo.</p>
+      <a href="#">Leia mais</a>
+    </div>
+
+    <div class="noticia">
+      <h2>Novos investimentos em centros esportivos no Brasil</h2>
+      <p>Governo federal anuncia pacote de R$ 100 milhões para modernização de estruturas esportivas.</p>
+      <a href="#">Leia mais</a>
+    </div>
+  </div>
+
+  <a href="index.html" class="btn-voltar">← Voltar para o Início</a>
+</main>
+
+<footer>
+  <p>&copy; 2025 Bem Esportivo</p>
+</footer>
+
+</body>
+</html>
