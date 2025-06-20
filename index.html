@@ -53,18 +53,114 @@
 </script>
 
 <main>
-  <!-- Seção de Destaque -->
-  <section class="destaque">
-    <h2>Destaque de Notícias</h2>
-    <article>
-      <h3><a href="#">Gerson deixará o Flamengo</a></h3>
-      <p class="texto-resumo">
-        Gerson aceitou a proposta do Zenit. Agora, o clube russo vai aguardar o fim da participação do Flamengo na Copa do Mundo de Clubes para pagar a multa de 25 milhões de euros (R$ 158 milhões na cotação atual) e contratar o meio-campista.
-      </p>
-      <button class="leia-mais">Leia mais</button>
-    </article>
 
-    
+  <!-- Seção de Destaque -->
+<section class="destaque">
+  <h2>Destaque de Reportagem</h2>
+  <article>
+    <section class="noticia-destaque">
+      <article class="reportagem">
+        <h1>Dedicação e Talento Mirim em Campo: Treino Técnico e Tático Agita a Academia de Futebol Portela</h1>
+        <p>
+          <strong>Por Redação Bem Esportivo</strong><br />
+          📍 <em>Freguesia do Ó, São Paulo</em> | 📅 <em>Data do treino: 09 de junho </em>
+        </p>
+
+        <figure>
+          <img src="img/IMG_0957.jpg" alt="Dia de treino" />
+          <figcaption>
+            <em>Professor Bruno e seus alunos: metodologia moderna e foco no crescimento individual.</em>
+          </figcaption>
+        </figure>
+
+        <p class="resumo">
+          Na última semana, a bola rolou com intensidade na <strong>Academia de Futebol Portela</strong>, localizada na tradicional Freguesia do Ó, zona norte de São Paulo. Sob o comando do experiente professor <strong>Bruno</strong>, um treino físico, técnico e tático movimentou o campo e revelou a dedicação de jovens talentos em formação.
+        </p>
+
+        <div class="completo">
+          <p>
+            Os grandes protagonistas foram os alunos <strong>João Pedro</strong>, de apenas <strong>9 anos</strong>, e <strong>Lorenzo</strong>, de <strong>10 anos</strong>, que demonstraram disciplina, garra e muita habilidade com a bola nos pés.
+          </p>
+
+          <p>
+            O trabalho começou com um circuito físico para desenvolver resistência e agilidade, seguido por exercícios técnicos voltados ao domínio de bola, finalização e passe em movimento. João Pedro impressionou pelo controle refinado e pela leitura de jogo apurada, enquanto Lorenzo mostrou potência nos chutes e espírito de liderança em campo.
+          </p>
+
+          <figure>
+            <img src="img/IMG_0905.jpg" alt="Professor Bruno orienta os alunos" />
+            <figcaption>
+              <em>Professor Bruno orienta os alunos: metodologia moderna e foco no crescimento individual.</em>
+            </figcaption>
+          </figure>
+
+          <figure>
+            <img src="img/IMG_0902.jpg" alt="João Pedro em ação durante o treino técnico" />
+            <figcaption>
+              <em>João Pedro em ação durante o treino técnico — foco e determinação em cada movimento.</em>
+            </figcaption>
+          </figure>
+
+          <figure>
+            <img src="img/IMG_0901.jpg" alt="Lorenzo em treino de finalização" />
+            <figcaption>
+              <em>Lorenzo se destaca nos exercícios de finalização com precisão e força.</em>
+            </figcaption>
+          </figure>
+
+          <p class="destaque-enzo">
+  A atividade contou ainda com a participação especial do jovem <strong>goleiro Enzo</strong>, que foi testado em diversos cenários defensivos durante o treino tático. Sua performance foi essencial para simular situações de jogo reais, ajudando os colegas a se prepararem melhor para partidas futuras.
+</p>
+
+
+          <h2>João Pedro e Lorenzo: Novos Nomes para Ficar de Olho</h2>
+          <p>
+            Com muito futebol nos pés e sede de evolução, os pequenos atletas representam a nova geração de craques. Tanto João Pedro quanto Lorenzo seguem encantando os que acompanham seus passos no campo, deixando claro que o futuro do futebol começa nas categorias de base — com dedicação, apoio familiar e professores comprometidos, como o professor Bruno.
+          </p>
+
+          <p>
+            <strong>🎯 Bem Esportivo</strong> segue acompanhando os bastidores do futebol de base com exclusividade. Continue com a gente para mais histórias inspiradoras como essa.
+          </p>
+        </div>
+
+        
+ <!-- 🎥 Vídeo do YouTube incorporado -->
+  <div style="text-align:center; margin: 20px 0;">
+    <iframe 
+      width="560" 
+      height="315" 
+      src="https://www.youtube.com/embed/gBkon6LC2OU" 
+      title="Treino técnico e tático - Academia de Futebol Portela"
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
+    <figcaption style="font-size: 13px; color: #666; margin-top: 5px;">
+      Vídeo: Treino técnico e tático com o professor Bruno
+    </figcaption>
+  </div>
+  <!-- Fim do vídeo -->
+
+        <button class="leia-mais">Leia mais</button>
+      </article>
+    </section>
+  </article>
+</section>
+
+
+<script>
+  document.querySelector('.leia-mais').addEventListener('click', function () {
+    const completo = document.querySelector('.completo');
+    if (completo.style.display === 'block') {
+      completo.style.display = 'none';
+      this.textContent = 'Leia mais';
+    } else {
+      completo.style.display = 'block';
+      this.textContent = 'Leia menos';
+    }
+  });
+</script>
+
+         
     <!-- ✅ Botão para a página de notícias -->
     <a href="noticias.html" class="btn-ver-todas">→ Ver todas as notícias</a>
 
@@ -84,19 +180,23 @@
   </script>
 
   <!-- Seção de Mídia -->
-  <section class="midia">
-    <h2>Vídeos e Fotos</h2>
-    <figure style="text-align: center;">
-      <img src="img/gerson.avif" alt="Foto de Gerson" width="300" loading="lazy" />
-      <figcaption style="font-size: 12px; color: white; margin-top: 4px;">
-        Foto: Ettore Chiereguini/AGIF
-      </figcaption>
-    </figure>
-    <iframe width="300" height="169" src="" title="" frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  </section>
+<section class="midia" style="text-align: center; padding: 2em 1em;">
+  <h2 style="color: white; margin-bottom: 1em;">Vídeo em Destaque</h2>
+  
+  <iframe 
+    width="560" 
+    height="315" 
+    src="https://youtu.be/gBkon6LC2OU?si=cQG4U4ujVskokru4" 
+    title="Treino na Academia de Futebol Portela"
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
+  
+  <figcaption style="font-size: 12px; color: white; margin-top: 8px;">
+    Vídeo: Treino técnico e tático com o professor Bruno
+  </figcaption>
+</section>
 
   <!-- Script Leia Mais -->
   <script>
@@ -106,6 +206,35 @@
       this.textContent = texto.classList.contains('expandido') ? 'Leia menos' : 'Leia mais';
     });
   </script>
+
+  <!-- Seção de Notícias Gerais -->
+<section class="noticias-gerais fade-slide">
+  <h2>Últimas Notícias</h2>
+
+  <div class="noticia-card">
+    <img src="img/IMG_0899.jpg" alt="Treino com bola" />
+    <h3>Foco no Posicionamento: Atletas Aprendem a Ler o Jogo</h3>
+    <p>Durante a semana, os atletas receberam instruções específicas sobre ocupação de espaço e movimentação sem a bola.</p>
+    <a href="noticia-posicionamento.html">Leia mais →</a>
+  </div>
+
+  <div class="noticia-card">
+    <img src="img/IMG_0888.jpg" alt="Treino físico na quadra" />
+    <h3>Condicionamento Físico Ganha Destaque no Início do Mês</h3>
+    <p>O professor Bruno implementou um novo método de treinos que melhora a resistência dos jovens atletas.</p>
+    <a href="noticia-condicionamento.html">Leia mais →</a>
+  </div>
+
+  <div class="noticia-card">
+    <img src="img/IMG_0912.jpg" alt="Time reunido" />
+    <h3>Treino Coletivo Foca na Tomada de Decisão Rápida</h3>
+    <p>Com simulações de jogo, os alunos foram desafiados a reagir com rapidez e eficiência em campo.</p>
+    <a href="noticia-decisao.html">Leia mais →</a>
+  </div>
+
+  <a href="noticias.html" class="btn-ver-todas">Ver todas as notícias</a>
+</section>
+
 
   <!-- Seção Lojas -->
   <section class="lojas-section fade-slide">

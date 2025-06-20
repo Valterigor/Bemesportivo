@@ -435,3 +435,61 @@ footer a:hover {
   color: #000;
   font-weight: bold;
 }
+
+.texto-completo {
+  display: none;
+  margin-top: 10px;
+  color: #ddd;
+  line-height: 1.5;
+}
+
+.texto-resumo {
+  color: #fff;
+  line-height: 1.5;
+}
+
+.texto-completo.expandido {
+  display: block;
+}
+
+.leia-mais {
+  margin-top: 10px;
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 700;
+  font-family: 'Rubik', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.leia-mais:hover {
+  background-color: #e65c00;
+}
+.completo {
+  display: none;
+}
+
+.completo.expandido {
+  display: block;
+}
+.noticia-destaque img {
+  max-width: 100%;   /* para que a imagem não ultrapasse o tamanho do container */
+  height: auto;      /* mantém a proporção */
+  max-height: 300px; /* limita a altura para no máximo 300px, ajuste como preferir */
+  display: block;
+  margin: 1em 0;     /* espaçamento em cima e embaixo */
+  object-fit: cover; /* opcional: mantém a imagem preenchida no espaço definido */
+}
+
+.destaque-enzo {
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+  font-weight: 600; /* opcional, deixa o texto um pouco mais destacado */
+  background-color: #020202; /* opcional, um fundo claro para destacar */
+  padding: 1em;
+  border-left: 4px solid #f90; /* opcional, uma borda colorida para destacar */
+  border-radius: 4px;
+}
