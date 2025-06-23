@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produtos | Bem Esportivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="responsive.css" />
+</head>
+<body>
+
+<header>
+  <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="noticias.html">Notícias</a>
+    <a href="eventos.html">Eventos</a>
+    <a href="profissionais.html">Profissionais</a>
+    <a href="produtos.html" class="ativo">Produtos</a>
+    <a href="ebook.html">E-book</a>
+    <a href="comunidade.html">Comunidade</a>
+  </nav>
+</header>
+
+<main>
+  <section class="produtos-section fade-slide">
+    <h1>🛍️ Produtos Recomendados</h1>
+    <p>Seleção especial para você que vive o esporte.</p>
+
+    <div class="produtos-grid">
+      <div class="produto-card">
+        <img src="img/produto1.jpg" alt="Produto 1">
+        <h2>Joelheira de Compressão Ortopédica</h2>
+        <p>Proteação Patelar Reforçada Para Recuperação Alívio de Dores Articulares Ajustável com Elástico Ideal para Corrida Academia Vôlei Futebol Ciclismo.</p>
+        <a href="https://a.co/d/iJu2qK4" target="_blank" class="btn-comprar">Comprar na Amazon</a>
+      </div>
+
+      <div class="produto-card">
+        <img src="img/produto2.jpg" alt="Produto 2">
+        <h2>Bola de Futebol Profissional</h2>
+        <p>Alta durabilidade e performance para jogos oficiais.</p>
+        <a href="https://mercadolivre.com/sec/33DoDKw" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+      </div>
+
+      <div class="produto-card">
+        <img src="img/ebook.png" alt="Produto 3">
+        <h2>E-book Marketing Digital</h2>
+        <p>Empreenda no esporte com estratégias comprovadas.</p>
+        <a href="https://go.hotmart.com/V100243971W?redirectionUrl=https://valterigorcruz.hotmart.host/marketing-digital-empreendedor-de-sucesso-em-7-dias-26d2737e-8999-4c27-8243-125f81f6be3b" target="_blank" class="btn-comprar">Ver na Hotmart</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 Bem Esportivo</p>
+  <a href="https://www.instagram.com/bemesportivo" target="_blank">
+    <img src="img/instagram.png" alt="Instagram" width="20" height="20" /> @bemesportivo
+  </a>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  });
+
+  document.querySelectorAll('.fade-slide').forEach(section => {
+    observer.observe(section);
+  });
+</script>
+
+</body>
+</html>

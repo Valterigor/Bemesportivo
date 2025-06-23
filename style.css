@@ -510,3 +510,63 @@ footer a:hover {
   width: 100%;
   height: 100%;
 }
+
+.produtos-section {
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #111;
+  color: #fff;
+}
+
+.produtos-section h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.produtos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.produto-card {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(255, 102, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.produto-card:hover {
+  transform: scale(1.03);
+}
+
+.produto-card img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.produto-card h2 {
+  font-size: 1.2rem;
+  color: #ffa500;
+  margin: 10px 0;
+}
+
+.btn-comprar {
+  display: inline-block;
+  padding: 10px 16px;
+  margin-top: 10px;
+  background: #ff6600;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-comprar:hover {
+  background: #ff3300;
+  font-weight: 700;
+}
