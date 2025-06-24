@@ -570,3 +570,28 @@ footer a:hover {
   background: #ff3300;
   font-weight: 700;
 }
+/* Botão Voltar ao Início */
+.voltar-inicio {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.btn-voltar {
+  background-color: #ff6600;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn-voltar:hover {
+  background-color: #ff3300;
+  font-weight: 700;
+}
+
+/* Cor laranja para destaques */
+.laranja {
+  color: #ffa500;
+}
