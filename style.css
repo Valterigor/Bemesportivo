@@ -595,3 +595,66 @@ footer a:hover {
 .laranja {
   color: #ffa500;
 }
+
+.podio {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.produto-card {
+  background-color: #111;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  width: 280px;
+  box-shadow: 0 0 10px rgba(250, 138, 1, 0.4);
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.produto-card img {
+  width: 1000px;
+  height: 100px;
+  object-fit: contain;
+  margin: 0.5rem auto;
+}
+
+.produto-card h3 {
+  font-size: 1rem;
+  color: #fa8a01;
+}
+
+.produto-card h4 {
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+.produto-card.primeiro {
+  background-color: #fa8a01;
+  color: #000;
+  transform: scale(1.05);
+}
+
+.produto-card.primeiro h3 {
+  color: #000;
+}
+
+.produto-card a.btn-comprar {
+  display: inline-block;
+  margin-top: 0.8rem;
+  padding: 0.4rem 1rem;
+  background-color: #fff;
+  color: #000;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.produto-card a.btn-comprar:hover {
+  background-color: #fa8a01;
+  color: #fff;
+}

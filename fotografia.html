@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fotografia Esportiva - Bem Esportivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background-color: #000;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header, footer {
+      background-color: #111;
+      padding: 10px 20px;
+    }
+
+    header img {
+      height: 60px;
+    }
+
+    nav a {
+      color: #fa8a01;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    h1, h2 {
+      color: #fa8a01;
+      text-align: center;
+    }
+
+    .intro {
+      text-align: center;
+      padding: 30px 15px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      padding: 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .galeria img {
+      width: 100%;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      box-shadow: 0 0 12px rgba(255, 138, 1, 0.4);
+    }
+
+    .galeria img:hover {
+      transform: scale(1.05);
+    }
+
+    .contato {
+      text-align: center;
+      margin: 40px auto;
+    }
+
+    .contato a {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 25px;
+      background-color: #fa8a01;
+      color: #000;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .contato a:hover {
+      background-color: #fff;
+      color: #fa8a01;
+    }
+
+    /* Modal para imagem ampliada */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.85);
+    }
+
+    .modal-content {
+      display: block;
+      margin: 5% auto;
+      max-width: 80%;
+      border-radius: 12px;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .contato a {
+        display: block;
+        margin: 10px auto;
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="img/logo-bem.jpg" alt="Logo Bem Esportivo" />
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="fotografia.html" class="ativo">Fotografia</a>
+      <a href="noticias.html">Notícias</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="produtos.html">Produtos</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h1>Fotografia Esportiva & Ensaios</h1>
+      <p>Registros que eternizam o movimento, a paixão e a energia do esporte. Ensaios personalizados e cobertura de jogos com olhar artístico e profissional.</p>
+      <p><strong>Fotos por Válter Igor</strong>, fotógrafo esportivo especializado em registrar atletas, eventos e momentos únicos com qualidade e sensibilidade.</p>
+    </section>
+
+    <section class="galeria">
+      <img src="img/foto1.jpg" alt="Foto Esportiva 1" onclick="abrirModal(this)">
+      <img src="img/foto2.jpg" alt="Foto Esportiva 2" onclick="abrirModal(this)">
+      <img src="img/foto3.jpg" alt="Foto Esportiva 3" onclick="abrirModal(this)">
+      <img src="img/foto4.jpg" alt="Foto Esportiva 4" onclick="abrirModal(this)">
+      <img src="img/foto5.jpg" alt="Foto Esportiva 5" onclick="abrirModal(this)">
+      <img src="img/foto6.jpg" alt="Foto Esportiva 6" onclick="abrirModal(this)">
+    </section>
+
+    <section class="contato">
+      <h2>📲 Agende seu ensaio ou cobertura esportiva</h2>
+      <a href="https://wa.me/5511986366965" target="_blank">WhatsApp</a>
+      <a href="https://instagram.com/iofimagens" target="_blank">@iofimagens</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Bem Esportivo | Fotografia por Válter Igor</p>
+  </footer>
+
+  <!-- Modal de imagem -->
+  <div id="modal" class="modal">
+    <span class="close" onclick="fecharModal()">&times;</span>
+    <img class="modal-content" id="modal-img">
+  </div>
+
+  <script>
+    function abrirModal(img) {
+      const modal = document.getElementById("modal");
+      const modalImg = document.getElementById("modal-img");
+      modal.style.display = "block";
+      modalImg.src = img.src;
+    }
+
+    function fecharModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
