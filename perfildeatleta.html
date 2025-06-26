@@ -85,12 +85,29 @@
       margin-top: 10px;
     }
     #logoBemEsportivo {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      width: 100px;
-      height: auto;
-      z-index: 10;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 70px; /* Tamanho menor */
+  height: auto;
+  z-index: 10;
+}
+    #btnVoltarInicio {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #fa8a01;
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 0 10px #fa8a01;
+      z-index: 999;
+      display: none; /* Oculto até o resultado aparecer */
     }
     @media (max-width: 480px) {
       #avataresContainer {
@@ -135,6 +152,9 @@
     </div>
     <button id="baixarBtn" onclick="baixarImagem()">Baixar Resultado para postar</button>
   </div>
+
+  <!-- Botão fixo para voltar ao início -->
+  <button onclick="voltarInicio()" id="btnVoltarInicio">🏠 Início</button>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
@@ -210,6 +230,7 @@
       avatarImg.src = imgPath;
 
       document.getElementById('resultado').style.display = 'block';
+      document.getElementById('btnVoltarInicio').style.display = 'block'; // mostra botão fixo
       document.getElementById('resultado').scrollIntoView({behavior: 'smooth'});
     }
 
@@ -232,10 +253,10 @@
         alert('Erro ao gerar imagem: ' + err);
       });
     }
+
+    function voltarInicio() {
+      window.location.href = 'index.html'; // ajuste se for outra página
+    }
   </script>
 </body>
 </html>
-
-
-
-
