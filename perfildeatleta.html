@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Descubra seu Perfil de Atleta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background-color: #000;
+      color: #fff;
+      padding: 20px;
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    h1 {
+      color: #fa8a01;
+      margin-bottom: 10px;
+    }
+    form, #resultado {
+      background-color: #111;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #fa8a01;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    input[type="file"] {
+      background-color: #222;
+      color: #fff;
+    }
+    button {
+      background-color: #fa8a01;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #preview {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 3px solid #fa8a01;
+      display: none;
+    }
+    #avataresContainer {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .avatar-circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #fa8a01;
+      background-color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .avatar-fallback {
+      font-size: 48px;
+    }
+    #textoResultado {
+      text-align: left;
+      margin-top: 10px;
+    }
+    #logoBemEsportivo {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 100px;
+      height: auto;
+      z-index: 10;
+    }
+    @media (max-width: 480px) {
+      #avataresContainer {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Descubra seu Perfil de Atleta!</h1>
+  <form id="formulario" onsubmit="return analisarPerfil(event)">
+    <input type="text" id="nome" placeholder="Seu nome ou apelido" required />
+    <select id="esporte" required>
+      <option value="">Escolha seu esporte</option>
+      <option value="futebol">Futebol</option>
+      <option value="volei">Vôlei</option>
+      <option value="basquete">Basquete</option>
+      <option value="corrida">Corrida</option>
+      <option value="natacao">Natação</option>
+      <option value="ciclismo">Ciclismo</option>
+      <option value="luta">Luta</option>
+      <option value="skate">Skate</option>
+    </select>
+    <input type="file" id="foto" accept="image/*" onchange="mostrarPreview(event)" required />
+    <img id="preview" src="" alt="Preview" />
+    <button type="submit">Analisar Perfil</button>
+  </form>
+
+  <div id="resultado" style="display:none;">
+    <img id="logoBemEsportivo" src="img/logo-bemesportivo.png" alt="Bem Esportivo" />
+    <h2>Perfil de Atleta</h2>
+    <p id="nomeResultado" style="font-size:1.2rem; font-weight: bold; margin-top: 5px;"></p>
+    <div id="avataresContainer">
+      <div class="avatar-circle"><img id="fotoUsuario" src="" alt="Usuário" /></div>
+      <div class="avatar-circle" id="avatarPosicao"></div>
+    </div>
+    <div id="textoResultado">
+      <p><strong>Posição ideal:</strong> <span id="posicao"></span></p>
+      <p><strong>Estilo de jogo:</strong> <span id="estilo"></span></p>
+      <p><strong>Modalidade:</strong> <span id="modalidade"></span></p>
+    </div>
+    <button id="baixarBtn" onclick="baixarImagem()">Baixar Resultado para postar</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    const perfis = {
+      futebol: { posicoes: ['Goleiro', 'Atacante', 'Meio-campista', 'Defensor'], estilos: ['Reflexos rápidos', 'Finalizador nato', 'Controlador de jogo', 'Muralha defensiva'], emojis: { Goleiro: '🧤', Atacante: '⚽', 'Meio-campista': '⚖️', Defensor: '⛔' } },
+      volei: { posicoes: ['Levantador', 'Ponteiro', 'Central', 'Líbero'], estilos: ['Estratégico e técnico', 'Explosivo e potente', 'Forte no bloqueio', 'Defensor ágil'], emojis: { Levantador: '🏐', Ponteiro: '🎾', Central: '⚔️', Líbero: '🧬' } },
+      basquete: { posicoes: ['Armador', 'Ala', 'Pivô'], estilos: ['Rápido e criativo', 'Versátil e ágil', 'Dominante na área'], emojis: { Armador: '🏀', Ala: '🏋️', Pivô: '🧙' } },
+      corrida: { posicoes: ['Velocista', 'Maratonista'], estilos: ['Explosivo e rápido', 'Resistente e constante'], emojis: { Velocista: '🏃‍♂️', Maratonista: '⏱️' } },
+      natacao: { posicoes: ['Velocista', 'Fundista'], estilos: ['Braçadas poderosas', 'Fôlego interminável'], emojis: { Velocista: '🏊‍♂️', Fundista: '🌊' } },
+      ciclismo: { posicoes: ['Sprinter', 'Escalador'], estilos: ['Rápido nas retas', 'Forte em subidas'], emojis: { Sprinter: '🚴‍♂️', Escalador: '⛰️' } },
+      luta: { posicoes: ['Boxeador', 'Grappler'], estilos: ['Golpes precisos', 'Controle no solo'], emojis: { Boxeador: '🥊', Grappler: '🤼‍♂️' } },
+      skate: { posicoes: ['Street', 'Vert'], estilos: ['Truques técnicos', 'Aéreos radicais'], emojis: { Street: '🛹', Vert: '🎢' } }
+    };
+
+    function mostrarPreview(event) {
+      const preview = document.getElementById('preview');
+      const foto = document.getElementById('fotoUsuario');
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+          foto.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function analisarPerfil(e) {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value;
+      const esporte = document.getElementById('esporte').value;
+      const perfil = perfis[esporte];
+      if (!perfil) return;
+
+      const idx = Math.floor(Math.random() * perfil.posicoes.length);
+      const posicao = perfil.posicoes[idx];
+      const estilo = perfil.estilos[idx];
+
+      document.getElementById('nomeResultado').textContent = nome;
+      document.getElementById('posicao').textContent = posicao;
+      document.getElementById('estilo').textContent = estilo;
+      document.getElementById('modalidade').textContent = esporte.charAt(0).toUpperCase() + esporte.slice(1);
+
+      const avatarPosicaoContainer = document.getElementById('avatarPosicao');
+      avatarPosicaoContainer.innerHTML = '';
+
+      const emojiFallback = {
+        Goleiro: '🧤', Atacante: '⚽', 'Meio-campista': '🧠', Defensor: '🛡️',
+        Levantador: '🏐', Ponteiro: '💥', Central: '🚧', Líbero: '🦶',
+        Armador: '🎯', Ala: '🏃‍♂️', Pivô: '📏', Velocista: '🔥', Maratonista: '⏱️',
+        Sprinter: '🚴‍♂️', Escalador: '⛰️', Boxeador: '🥊', Grappler: '🤼‍♂️',
+        Street: '🛹', Vert: '🎢'
+      };
+
+      let imgPath = `img/avatares/${posicao.toLowerCase().replace(/\s/g, '')}.jpg`;
+      const avatarImg = new Image();
+
+      avatarImg.onload = () => {
+        avatarPosicaoContainer.innerHTML = '';
+        avatarImg.alt = `Avatar de ${posicao}`;
+        avatarImg.style.width = '100%';
+        avatarImg.style.height = '100%';
+        avatarImg.style.objectFit = 'cover';
+        avatarPosicaoContainer.appendChild(avatarImg);
+      };
+
+      avatarImg.onerror = () => {
+        avatarPosicaoContainer.innerHTML = `<div style="font-size:48px;">${emojiFallback[posicao] || '🏅'}</div>`;
+      };
+
+      avatarImg.src = imgPath;
+
+      document.getElementById('resultado').style.display = 'block';
+      document.getElementById('resultado').scrollIntoView({behavior: 'smooth'});
+    }
+
+    function baixarImagem() {
+      const resultado = document.getElementById('resultado');
+      const botao = document.getElementById('baixarBtn');
+      botao.style.display = 'none';
+
+      html2canvas(resultado, {
+        backgroundColor: '#000',
+        scale: 2
+      }).then(canvas => {
+        botao.style.display = 'block';
+        const link = document.createElement('a');
+        link.download = 'perfil_bemesportivo.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }).catch(err => {
+        botao.style.display = 'block';
+        alert('Erro ao gerar imagem: ' + err);
+      });
+    }
+  </script>
+</body>
+</html>
+
+
+
+
