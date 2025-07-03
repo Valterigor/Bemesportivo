@@ -658,3 +658,12 @@ footer a:hover {
   background-color: #fa8a01;
   color: #fff;
 }
+
+.noticia-destaque img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  object-fit: contain; /* ou remova se estiver */
+  max-width: 100%;
+}
