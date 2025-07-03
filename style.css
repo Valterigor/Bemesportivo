@@ -667,3 +667,37 @@ footer a:hover {
   object-fit: contain; /* ou remova se estiver */
   max-width: 100%;
 }
+
+.compartilhar {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #ccc;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-share {
+  background-color: #222;
+  color: #ffa500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-share:hover {
+  background-color: #ffa500;
+  color: #000;
+}
+
+.btn-share.instagram {
+  background-color: #fa8602;
+  color: white;
+}
+
+.btn-share.instagram:hover {
+  background-color: #ff9501;
+}
