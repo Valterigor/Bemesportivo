@@ -701,3 +701,18 @@ footer a:hover {
 .btn-share.instagram:hover {
   background-color: #ff9501;
 }
+
+.produto-card img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%; /* Deixa a imagem redonda */
+  border: 4px solid #e0e0e0; /* Opcional: borda leve para destacar */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+.produto-card img:hover {
+  transform: scale(1.05); /* Efeito sutil ao passar o mouse */
+}
