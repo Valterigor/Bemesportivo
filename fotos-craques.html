@@ -1,0 +1,191 @@
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fotos – Craques da Fé</title>
+  <style>
+   
+   body {
+  font-family: Arial, sans-serif;
+  background-color: #000;   /* fundo preto */
+  color: orange;            /* texto laranja */
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: orange;
+}
+
+a {
+  color: orange;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.galeria img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(255, 165, 0, 0.3); /* sombra laranja suave */
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.galeria img:hover {
+  transform: scale(1.05);
+}
+
+.voltar {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.voltar a {
+  color: orange;
+  font-weight: bold;
+}
+
+.voltar a:hover {
+  text-decoration: underline;
+}
+
+/* LIGHTBOX */
+.lightbox {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  box-shadow: 0 0 20px orange;
+}
+
+.lightbox:target {
+  display: flex;
+}
+
+.close-lightbox {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 40px;
+  color: orange;
+  text-decoration: none;
+  font-weight: bold;
+  z-index: 1001;
+}
+
+.close-lightbox:hover {
+  color: #fff;
+}
+
+  </style>
+</head>
+<body>
+
+  <h1>Galeria de Fotos – Craques da Fé</h1>
+
+  <div class="galeria">
+    <a href="#img1"><img src="img/projetos/galeria/foto1 (10).JPG" alt=""></a>
+    <a href="#img2"><img src="img/projetos/galeria/foto1 (13).JPG" alt=""></a>
+    <a href="#img3"><img src="img/projetos/galeria/foto1 (14).JPG" alt=""></a>
+    <a href="#img4"><img src="img/projetos/galeria/foto1 (15).JPG" alt=""></a>
+    <a href="#img5"><img src="img/projetos/galeria/foto1 (4).JPG" alt=""></a>
+    <a href="#img6"><img src="img/projetos/galeria/foto1 (7).JPG" alt=""></a>
+    <a href="#img7"><img src="img/projetos/galeria/foto1 (8).JPG" alt=""></a>
+    <a href="#img8"><img src="img/projetos/galeria/foto1 (9).JPG" alt=""></a>
+    <a href="#img9"><img src="img/projetos/galeria/foto1 (6).JPG" alt=""></a>
+    <a href="#img10"><img src="img/projetos/galeria/foto1 (12).JPG" alt=""></a>
+    <a href="#img11"><img src="img/projetos/galeria/foto1 (11).JPG" alt=""></a>
+    <a href="#img12"><img src="img/projetos/galeria/foto1 (5).JPG" alt=""></a>
+  </div>
+
+  <!-- Lightbox de cada imagem -->
+  <div id="img1" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (10).JPG" alt="">
+  </div>
+
+  <div id="img2" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (13).JPG" alt="">
+  </div>
+
+  <div id="img3" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (14).JPG" alt="">
+  </div>
+
+  <div id="img4" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (15).JPG" alt="">
+  </div>
+
+  <div id="img5" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (4).JPG" alt="">
+  </div>
+
+  <div id="img6" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (7).JPG" alt="">
+  </div>
+
+  <div id="img7" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (8).JPG" alt="">
+  </div>
+
+  <div id="img8" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (9).JPG" alt="">
+  </div>
+
+  <div id="img9" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (6).JPG" alt="">
+  </div>
+
+  <div id="img10" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (12).JPG" alt="">
+  </div>
+
+  <div id="img11" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (11).JPG" alt="">
+  </div>
+
+  <div id="img12" class="lightbox">
+    <a href="#" class="close-lightbox">&times;</a>
+    <img src="img/projetos/galeria/foto1 (5).JPG" alt="">
+  </div>
+
+  <div class="voltar">
+    <p><a href="index.html">← Voltar para a página principal</a></p>
+  </div>
+
+</body>
+</html>
+

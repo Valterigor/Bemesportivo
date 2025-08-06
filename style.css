@@ -716,3 +716,11 @@ footer a:hover {
 .produto-card img:hover {
   transform: scale(1.05); /* Efeito sutil ao passar o mouse */
 }
+
+.link-laranja {
+  color: orange;
+  text-decoration: none; /* remove o sublinhado, opcional */
+}
+.link-laranja:hover {
+  text-decoration: underline; /* efeito ao passar o mouse, opcional */
+}

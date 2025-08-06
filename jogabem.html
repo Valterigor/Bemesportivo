@@ -185,15 +185,106 @@
     <h1>Atleta em Destaque - Joga Bem</h1>
 
     <!-- Vídeo principal -->
-    <iframe src="https://www.youtube.com/embed/SEU_VIDEO_DESTAQUE" allowfullscreen></iframe>
+        <div class="galeria-videos">
+      <iframe width="360" height="640"
+    src="https://www.youtube.com/embed/smILtT-J6HA"
+    title="Shorts funcionando"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+</iframe>
+            <!-- Adicione mais vídeos conforme necessário -->
+    </div>
+      <img src="img/kaiojorge.jpg"Tá Gravando?" style="max-width: 100%; height: auto; display: block; margin: 0 auto 15px;" />
+    <h2 style="text-align: center; font-size: 1px;">Kaio Jorge comemora gol pelo Cruzeiro contra o Palmeiras — Foto: Gustavo Aleixo/Cruzeiro</h2>
 
     <!-- Texto da matéria -->
     <div class="texto-materia">
-      <p><strong>Nome do Atleta:</strong> Fulano da Silva</p>
-      <p><strong>Cidade:</strong> São Paulo - SP</p>
-      <p>Fulano é um talento do futebol amador, conhecido por seus dribles rápidos e visão de jogo. Na última partida, chamou atenção ao marcar um golaço de fora da área, sendo eleito o "Joga Bem da Semana".</p>
-      <p>O atleta tem se destacado em campeonatos locais e sonha em jogar profissionalmente. Veja mais lances dele e de outros atletas abaixo!</p>
-    </div>
+  <p><strong>Atleta:</strong> Kaio Jorge</p>
+  <p>
+    A boa fase do líder do Campeonato Brasileiro passa muito pelo recordista Kaio Jorge. 
+    O centroavante é o artilheiro da competição, com 12 gols, e ainda deu quatro assistências 
+    (duas na goleada em cima do Juventude), o que o torna recordista em participações em gols 
+    nesta altura da competição desde 2010 sendo eleito o "Joga Bem da Semana".
+  </p>
+  <p><strong>E aí, merece o título de Joga Bem da Semana?</strong></p>
+
+  <div class="botoes-votacao">
+    <button onclick="votar('sim')" class="botao-voto">Sim</button>
+    <button onclick="votar('nao')" class="botao-voto">Não</button>
+  </div>
+
+  <div id="resultado" class="resultado-voto">
+    <p>Votos Sim: <span id="votos-sim">0</span></p>
+    <p>Votos Não: <span id="votos-nao">0</span></p>
+    <p><strong>Mais votado: <span id="mais-votado">Nenhum voto ainda</span></strong></p>
+  </div>
+</div>
+
+<style>
+  .botoes-votacao {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .botao-voto {
+    padding: 10px 30px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #ff7f00;
+    background-color: transparent;
+    border: 2px solid #ff7f00;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .botao-voto:hover {
+    background-color: #ff7f00;
+    color: #000;
+  }
+
+  .resultado-voto {
+    margin-top: 30px;
+    text-align: center;
+    color: #fff;
+  }
+
+  .resultado-voto span {
+    color: #ff7f00;
+    font-weight: bold;
+  }
+</style>
+
+<script>
+  let votosSim = 0;
+  let votosNao = 0;
+
+  function votar(opcao) {
+    if (opcao === 'sim') {
+      votosSim++;
+    } else if (opcao === 'nao') {
+      votosNao++;
+    }
+
+    document.getElementById('votos-sim').textContent = votosSim;
+    document.getElementById('votos-nao').textContent = votosNao;
+
+    let ranking = '';
+    if (votosSim > votosNao) {
+      ranking = 'Sim';
+    } else if (votosNao > votosSim) {
+      ranking = 'Não';
+    } else {
+      ranking = 'Empate';
+    }
+
+    document.getElementById('mais-votado').textContent = ranking;
+  }
+</script>
+
 
     <!-- Galeria de outros vídeos -->
     <div class="galeria-videos">
