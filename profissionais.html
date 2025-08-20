@@ -15,102 +15,59 @@
     gtag('js', new Date());
     gtag('config', 'G-E801T7L4BC');
   </script>
-
-  <style>
-    #detalhes {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: #f9f9f9;
-      display: none;
-    }
-    #resultados li {
-      cursor: pointer;
-      padding: 5px;
-    }
-    #resultados li:hover {
-      background-color: #eee;
-    }
-    .perfil-profissional img {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 15px;
-      border: 4px solid #fa8a01;
-    }
-    .botao-cupom {
-      background-color: #fa8a01;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 15px;
-      display: inline-block;
-    }
-    .botao-cupom:hover {
-      background-color: #d87400;
-    }
-  </style>
 </head>
 <body>
 
+  <!-- HEADER -->
   <header>
-  <img src="img/logo-bem.png" alt="Logo Bem Esportivo" />
- <nav>
-  <a href="index.html">Início</a>
-  <a href="noticias.html">Notícias</a> <!-- ✅ NOVO LINK ADICIONADO AQUI -->
-  <a href="eventos.html">Eventos</a>
-  <a href="profissionais.html">Profissionais</a>
-  <a href="Reportagens.html">Reportagens</a>
-  <a href="academias.html">Academias</a>
-  <a href="escolasdefutebol.html">Escolas de Futebol</a>
-  <a href="ebook.html">E-book</a>
-  <a href="comunidade.html">Comunidade</a>
-</nav>
+    <img src="img/logo-bem.png" alt="Logo Bem Esportivo" class="logo" />
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="noticias.html">Notícias</a>
+      <a href="profissionais.html" class="ativo">Profissionais</a>
+      <a href="reportagens.html">Reportagens</a>
+      <a href="academias.html">Academias</a>
+      <a href="escolasdefutebol.html">Escolas de Futebol</a>
+      <a href="ebook.html">E-book</a>
+      <a href="comunidade.html">Comunidade</a>
+    </nav>
+  </header>
 
-</header>
-
-
-
+  <!-- MAIN -->
   <main>
-  <div class="container-busca">
-    <h2>Busca de Profissionais</h2>
-    <div class="barra-de-busca">
-      <i class="fas fa-search"></i>
-      <input type="text" id="busca" placeholder="Pesquisar por nutricionista, personal trainer..." />
+    <div class="container-busca">
+      <h2>Busca de Profissionais</h2>
+      <div class="barra-de-busca">
+        <i class="fas fa-search"></i>
+        <input type="text" id="busca" placeholder="Pesquisar por nutricionista, personal trainer..." />
+      </div>
+      <ul id="resultados"></ul>
+      <div id="detalhes"></div>
+
+      <!-- CADASTRE-SE -->
+      <div class="cadastre-se">
+        <h2>É profissional de Saúde, esporte ou lazer?</h2>
+        <p>Cadastre-se gratuitamente para aparecer aqui!</p>
+        <p>
+          <a href="https://wa.me/5511986366965" target="_blank" class="whatsapp">
+            <i class="fab fa-whatsapp"></i> Fale pelo WhatsApp
+          </a>
+        </p>
+        <p>
+          <a href="mailto:bemesportivo@yahoo.com" class="email">
+            <i class="fas fa-envelope"></i> Enviar e-mail
+          </a>
+        </p>
+      </div>
     </div>
-    <ul id="resultados"></ul>
-    <div id="detalhes"></div>
+  </main>
 
-    <!-- Início da seção Cadastre-se -->
-<div class="cadastre-se" style="margin-top: 40px; text-align: center;">
-  <h2>É profissional de Saúde, esporte ou lazer?</h2>
-  <p>Cadastre-se gratuitamente para aparecer aqui!</p>
-  <p>
-    <a href="https://wa.me/5511986366965" target="_blank" style="color: #25D366; font-weight: bold;">
-      <i class="fab fa-whatsapp"></i> Fale pelo WhatsApp
-    </a>
-  </p>
-  <p>
-    <a href="mailto:bemesportivo@yahoo.com" style="color: #fa8a01; font-weight: bold;">
-      <i class="fas fa-envelope"></i> Enviar e-mail
-    </a>
-  </p>
-</div>
-<!-- Fim da seção Cadastre-se -->
-</main>
-
-
-
+  <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 Esporte, Saúde e Lazer</p>
   </footer>
 
-  <!-- Script para busca e exibição de profissionais -->
+  <!-- SCRIPT -->
   <script>
     const profissionais = [
       {
@@ -150,11 +107,11 @@
         foto: "img/profissionais/rodrigo.jpg"
       },
       {
-  nome: "Vinicius Custódio - Futebol/ Personal",
-  redeSocial: "@_vinicius_custodio",
-  especialidade: "Futebol, futsal, personal trainer e treinamento funcional",
-  foto: "img/profissionais/vinicius_custodio.jpg"
-}
+        nome: "Vinicius Custódio - Futebol/ Personal",
+        redeSocial: "@_vinicius_custodio",
+        especialidade: "Futebol, futsal, personal trainer e treinamento funcional",
+        foto: "img/profissionais/vinicius_custodio.jpg"
+      }
     ];
 
     const resultados = document.getElementById("resultados");
@@ -162,13 +119,16 @@
 
     document.getElementById("busca").addEventListener("input", function () {
       const termo = this.value.toLowerCase();
-      const filtrados = profissionais.filter(p => p.nome.toLowerCase().includes(termo));
+      const filtrados = profissionais.filter(p =>
+        p.nome.toLowerCase().includes(termo) || p.especialidade.toLowerCase().includes(termo)
+      );
 
       resultados.innerHTML = filtrados.map(p => `
         <li onclick="mostrarDetalhes('${p.nome.replace(/'/g, "\\'")}')">${p.nome}</li>
       `).join("");
 
       if (termo === "") {
+        resultados.innerHTML = "";
         detalhes.style.display = "none";
       }
     });
@@ -182,7 +142,9 @@
             <h3>${prof.nome}</h3>
             <p><strong>Rede Social:</strong> ${prof.redeSocial}</p>
             <p><strong>Especialidade:</strong> ${prof.especialidade}</p>
-            <button onclick="copiarCupom()" class="botao-cupom">Clique aqui e ganhe 5% de desconto com o cupom <strong>BEM5</strong></button>
+            <button onclick="copiarCupom()" class="botao-cupom">
+              Clique aqui e ganhe 5% de desconto com o cupom <strong>BEM5</strong>
+            </button>
           </div>
         `;
         detalhes.style.display = "block";
@@ -197,18 +159,16 @@
         alert("Erro ao copiar. Copie manualmente: BEM5");
       });
     }
-  </script>
 
-  <!-- Botão de voltar ao topo -->
-  <button id="voltar-topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
-  <script>
+    // Botão voltar ao topo
     window.addEventListener('scroll', () => {
       const botao = document.getElementById('voltar-topo');
       botao.style.display = window.scrollY > 200 ? 'block' : 'none';
     });
   </script>
 
-  <!-- Script externo -->
-  <script src="script.js"></script>
+  <!-- BOTÃO VOLTAR AO TOPO -->
+  <button id="voltar-topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
 </body>
 </html>
+

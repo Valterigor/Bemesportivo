@@ -1,34 +1,51 @@
-script.js
-// Exibe alerta ao clicar nos links de navegação (efeito de demonstração)
-document.querySelectorAll("nav a").forEach(link => {
-  link.addEventListener("mouseover", () => {
-    link.style.color = "#ff6600"; // muda a cor ao passar o mouse
-  });
+// Botão voltar ao topo
+window.addEventListener("scroll", () => {
+  const botao = document.getElementById("voltar-topo");
+  botao.style.display = window.scrollY > 200 ? "block" : "none";
+});
 
-  link.addEventListener("mouseout", () => {
-    link.style.color = "orange"; // volta à cor original
+// Clique no botão voltar ao topo
+document.getElementById("voltar-topo").addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// Leia mais
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("leia-mais")) {
+    const completo = e.target.previousElementSibling;
+    completo.classList.toggle("expandido");
+    e.target.textContent = completo.classList.contains("expandido") ? "Leia menos" : "Leia mais";
+  }
+});
+
+// Menu responsivo
+const menuToggle = document.getElementById("menu-toggle");
+const nav = document.querySelector("nav");
+menuToggle.addEventListener("click", () => {
+  nav.classList.toggle("show");
+});
+
+// Animações ao rolar
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+    }
   });
 });
 
-// Exemplo de carregamento de destaque interativo
+document.querySelectorAll(".fade-slide").forEach(sec => observer.observe(sec));
+
+const menuToggle = document.getElementById('menu-toggle');
+const nav = document.querySelector('nav');
+
+menuToggle.addEventListener('click', () => {
+  nav.classList.toggle('active');
+});
+
+// Exibir todos os profissionais ao carregar a página
 window.addEventListener("DOMContentLoaded", () => {
-  const destaques = document.querySelectorAll(".destaque article");
-  destaques.forEach((artigo, index) => {
-    artigo.style.opacity = 0;
-    setTimeout(() => {
-      artigo.style.transition = "opacity 1s";
-      artigo.style.opacity = 1;
-    }, index * 500);
-  });
+  resultados.innerHTML = profissionais.map(p => `
+    <li onclick="mostrarDetalhes('${p.nome.replace(/'/g, "\\'")}')">${p.nome}</li>
+  `).join("");
 });
-
-// Placeholder para futura integração de anúncios dinâmicos
-function carregarAnuncios() {
-  const anuncio = document.querySelector(".anuncio");
-  anuncio.innerHTML += `<p><em>Anúncio patrocinado: Clínica Sport Vida</em></p>`;
-}
-
-// Simula o carregamento de anúncios após 2 segundos
-setTimeout(carregarAnuncios, 2000);
-
-

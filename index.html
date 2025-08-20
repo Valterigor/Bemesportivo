@@ -3,39 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="google-site-verification" content="bqKc4BCvXFVX5H4ZtIwD-NP5M7f2KW19uaHIBpajx3g" />
-  <meta name="description" content="Bem Esportivo acompanha o futebol de base com reportagens exclusivas, produtos esportivos, ebooks e dicas de gestão. Confira!" />
+  <meta name="description" content="Bem Esportivo - notícias, reportagens, produtos esportivos e dicas de gestão." />
   <title>Bem Esportivo</title>
 
-  <!-- Fontes e estilos -->
+  <!-- Fonte e estilo -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="responsive.css" />
-  <link rel="stylesheet" href="ebook.css" />
-
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E801T7L4BC"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-E801T7L4BC');
-  </script>
-
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
-    crossorigin="anonymous"></script>
 </head>
 <body>
 
 <header>
-  <img src="img/logo-bem.png" alt="Logo Bem Esportivo" />
+  <div class="logo">
+    <img src="img/logo-bem.png" alt="Logo Bem Esportivo" />
+  </div>
+  <button id="menu-toggle" aria-label="Abrir menu">☰</button>
   <nav>
-    <a href="index.html" class="ativo">Início</a>
+   <a href="index.html" class="ativo">Início</a>
     <a href="jogabem.html" >Joga Bem</a>
-    <a href="perfildeatleta.html">Perfil de atleta</a>
     <a href="noticias.html">Notícias</a>
-    <a href="eventos.html">Eventos</a>
     <a href="profissionais.html">Profissionais</a>
     <a href="fotografia.html">Fotografia</a>
     <a href="Reportagens.html">Reportagens</a>
@@ -44,200 +29,99 @@
     <a href="produtos.html">Produtos</a>
     <a href="ebook.html">E-book</a>
     <a href="comunidade.html">Comunidade</a>
+
   </nav>
 </header>
 
 <main>
+  <!-- Hero -->
+  <section class="hero fade-slide">
+    <h1>Bem Esportivo</h1>
+    <p>Acompanhe notícias, entrevistas,reportagens e produtos do mundo esportivo.</p>
+    <a href="noticias.html" class="btn">Ver Notícias</a>
+  </section>
 
-<section class="ta-gravando" style="margin-bottom: 40px;">
-  <img src="img/ta-gravando-logo.png.png" alt="Tá Gravando?" style="max-width: 100%; height: auto; display: block; margin: 0 auto 15px;" />
-  <h2 style="text-align: center;">🎤 Tá Gravando</h2>
-  <p style="text-align: center;">Entrevistas exclusivas com quem vive o esporte de verdade:</p>
-  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-top: 15px;">
-    <iframe 
-      src="https://www.youtube.com/embed/57ufvvB21iQ" 
-      title="Tá Gravando - Entrevistas Bem Esportivo" 
-      frameborder="0" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-      allowfullscreen 
-      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-    </iframe>
-  </div>
-</section>
+  <!-- Notícia em Destaque -->
+<section class="destaque fade-slide">
+  <h2>📰 Notícia em Destaque</h2>
 
-
-
-  <section class="novidades-entretenimento">
-  <h2>🎬 Novidades do Entretenimento</h2>
-  <p>Confira o que há de novo no mundo do entretenimento:</p>
-  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-bottom: 20px;">
-    <iframe 
-      src="https://www.youtube.com/embed/U4sndXXtrtE" 
-      title="Novidades do Entretenimento" 
-      frameborder="0" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-      allowfullscreen 
-      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-    </iframe>
-  </div>
-</section>
-  <!-- Seção de Destaque -->
-
-  <section class="noticia-destaque">
-      <main>
-  <h1>Notícia em Destaque</h1>
-
-  <div class="noticia-lista">
-    <div class="noticia">
-      <h2>O Esporte está de luto - Morre Diogo Jota atacante do Liverpool</h2>
-      <p>O futebol está de luto.
-
-Na madrugada desta quinta-feira, 3 de julho, o atacante português Diogo Jota, do Liverpool, faleceu aos 28 anos de idade.
-
-A notícia foi divulgada primeiramente pelo jornal Marca, da Espanha.
-
-Diogo Jota sofreu um trágico acidente de carro na região de Zamora, no norte do país.
-
-Infelizmente, seu irmão, André Silva, de 25 anos, também não resistiu e faleceu no local.
-
-A morte de Diogo Jota deixa o mundo do futebol em choque e tristeza profunda.
-
-Um talento que marcou sua geração... e que agora nos deixa de forma precoce.
-
-Nossos sentimentos à família, aos amigos e a todos os fãs ao redor do mundo.</p>
-
-      <img src="img/foto-evento.jpg" alt="Foto do evento" style="width: 100%; border-radius: 8px; margin: 15px 0;" />
-
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-bottom: 10px;">
-  <iframe 
-    src="https://www.youtube.com/embed/BVdGa3lpSog" 
-    title="Vídeo do Evento" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen 
-    style="position: absolute; top:0; left: 0; width: 100%; height: 100%;">
-  </iframe>
-</div>
-
-
-      <p>Nossos sentimentos a toda familia e fãs do atleta.</p>
-    </div>
-
-    <div class="compartilhar">
-  <span>Compartilhar:</span>
-  <a href="https://wa.me/?text=https://bemesportivo.com" target="_blank" class="btn-share whatsapp">WhatsApp</a>
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https://bemesportivo.com" target="_blank" class="btn-share facebook">Facebook</a>
-  <a href="https://twitter.com/intent/tweet?text=Confira%20essa%20notícia%20em%20https://bemesportivo.com" target="_blank" class="btn-share twitter">X (Twitter)</a>
-  <button onclick="copiarLink()" class="btn-share instagram">Instagram (copiar link)</button>
-
-</div>
-
-  </div>
-</main>
-    </section>
-
-  <section class="destaque">
-    <h2>Destaque de Reportagem</h2>
-    <article>
-      <section class="noticia-destaque">
-        <article class="reportagem">
-          <h1>Dedicação e Talento Mirim em Campo: Treino Técnico e Tático Agita a Academia de Futebol Portela</h1>
-          <p><strong>Por Redação Bem Esportivo</strong><br />
-          📍 <em>Freguesia do Ó, São Paulo</em> | 🗓️ <em>Data do treino: 09 de junho</em></p>
-
-          <figure>
-            <img src="img/IMG_0957.jpg" alt="Professor Bruno e seus alunos em treino" />
-            <figcaption><em>Professor Bruno e seus alunos: metodologia moderna e foco no crescimento individual.</em></figcaption>
-          </figure>
-
-          <p class="resumo">
-            Na última semana, a bola rolou com intensidade na <strong>Academia de Futebol Portela</strong>, localizada na tradicional Freguesia do Ó, zona norte de São Paulo. Sob o comando do experiente professor <strong>Bruno</strong>, um treino físico, técnico e tático movimentou o campo e revelou a dedicação de jovens talentos em formação.
-          </p>
-
-          <div class="completo" style="display: none;">
-            <p>Os grandes protagonistas foram os alunos <strong>João Pedro</strong>, de apenas <strong>9 anos</strong>, e <strong>Lorenzo</strong>, de <strong>10 anos</strong>, que demonstraram disciplina, garra e muita habilidade com a bola nos pés.</p>
-            <p>O trabalho começou com um circuito físico para desenvolver resistência e agilidade, seguido por exercícios técnicos voltados ao domínio de bola, finalização e passe em movimento. João Pedro impressionou pelo controle refinado e pela leitura de jogo apurada, enquanto Lorenzo mostrou potência nos chutes e espírito de liderança em campo.</p>
-
-            <figure>
-              <img src="img/IMG_0905.jpg" alt="Professor Bruno orientando os alunos" />
-              <figcaption><em>Professor Bruno orienta os alunos: foco no crescimento individual.</em></figcaption>
-            </figure>
-            <figure>
-              <img src="img/IMG_0902.jpg" alt="João Pedro em ação" />
-              <figcaption><em>João Pedro em ação durante o treino técnico.</em></figcaption>
-            </figure>
-            <figure>
-              <img src="img/IMG_0901.jpg" alt="Lorenzo em treino" />
-              <figcaption><em>Lorenzo se destaca nos exercícios de finalização.</em></figcaption>
-            </figure>
-
-            <p>A atividade contou ainda com a participação especial do jovem <strong>goleiro Enzo</strong>, que foi testado em diversos cenários defensivos durante o treino tático.</p>
-
-            <h2>João Pedro e Lorenzo: Novos Nomes para Ficar de Olho</h2>
-            <p>Com muito futebol nos pés e sede de evolução, os pequenos atletas representam a nova geração de craques. Tanto João Pedro quanto Lorenzo seguem encantando os que acompanham seus passos no campo.</p>
-            <p><strong>🎯 Bem Esportivo</strong> segue acompanhando os bastidores do futebol de base com exclusividade. Continue com a gente para mais histórias inspiradoras como essa.</p>
-          </div>
-
-          <div class="video-container">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/gBkon6LC2OU" title="Treino técnico e tático - Academia de Futebol Portela" frameborder="0" allowfullscreen></iframe>
-            <figcaption style="font-size: 13px; color: #666; margin-top: 5px;">Vídeo: Treino técnico e tático com o professor Bruno</figcaption>
-          </div>
-          
-          <div class="compartilhar">
-  <span>Compartilhar:</span>
-  <a href="https://wa.me/?text=https://bemesportivo.com" target="_blank" class="btn-share whatsapp">WhatsApp</a>
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https://bemesportivo.com" target="_blank" class="btn-share facebook">Facebook</a>
-  <a href="https://twitter.com/intent/tweet?text=Confira%20essa%20notícia%20em%20https://bemesportivo.com" target="_blank" class="btn-share twitter">X (Twitter)</a>
-  <button onclick="copiarLink()" class="btn-share instagram">Instagram (copiar link)</button>
-</div>
-
-          <button class="leia-mais">Leia mais</button>
-        </article>
-      </section>
+  <div class="destaque-container">
+    <!-- Bloco da notícia -->
+    <article class="destaque-texto">
+      <img src="img/bem (1).jpg" alt="Evento Esportivo" class="destaque-img" />
+      <h3>BEplay</h3>
+      <p class="texto-resumo">Agora no Youtube</p>
+      <div class="texto-completo">
+        Acompanhe notícias, entrevistas, reportagens e tudo sobre o mundo esportivo.
+      </div>
+      <button class="leia-mais">Leia mais</button>
     </article>
-    <a href="noticias.html" class="btn-ver-todas">→ Ver todas as notícias</a>
-  </section>
 
-  <!-- Produtos -->
-  <section class="lojas-section fade-slide">
-    <div class="lojas-container">
-      <h2>Conheça Nossos Produtos</h2>
-      <a href="https://mercadolivre.com/sec/2xoHqbE" target="_blank" class="btn-loja mercado-livre">Mercado Livre</a>
-      <a href="https://go.hotmart.com/V100243971W" target="_blank" class="btn-loja hotmart">Hotmart</a>
-      <a href="https://amzn.to/3ZtcYuL" target="_blank" class="btn-loja amazon">Amazon</a>
+    <!-- Bloco do vídeo -->
+    <div class="video-container">
+      <iframe 
+        src="https://www.youtube.com/embed/dYiX4fvxGG8"
+        title="Increva-se no canal para não perder nada"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+      <figcaption>
+        🎥 Increva-se no canal para não perder nada 
+      </figcaption>
     </div>
-    
-  </section>
-
-  <!-- Ebook -->
-  <section id="ebook" class="ebook-section">
-    <h2>📘 E-book Exclusivo</h2>
-    <div class="ebook-content">
-      <img src="img/ebook.png" alt="E-book Marketing Digital" />
-      <p><strong>Marketing Digital:</strong> Torne-se um Empreendedor de Sucesso em apenas 7 dias! Estratégias práticas também para quem trabalha na área esportiva.</p>
-      <a href="https://go.hotmart.com/V100243971W" target="_blank" class="cta-btn">Quero garantir agora</a>
-    </div>
-  </section>
-
-  <!-- Gestão -->
-  <section class="gestao-section fade-slide">
-    <div class="gestao-container">
-      <h2>Dica para Gestão Esportiva com Clupik</h2>
-      <p>Gerencie treinos, competições, atletas e pagamentos com uma plataforma moderna e gratuita.</p>
-      <a href="https://clupik.com/pt-br/" target="_blank" class="gestao-btn">Acessar Clupik</a>
-    </div>
-  </section>
-
-  <aside class="anuncio">
-    <a href="https://www.instagram.com/_eucompromesmo" target="_blank" class="anuncio-link">
-      <img src="img/EUCOMPROMESMO.png" alt="@_eucompromesmo" class="anuncio-img" />
-      <div class="anuncio-texto">@_eucompromesmo</div>
-    </a>
-  </aside>
-
-  <div class="voltar-inicio">
-    <a href="index.html" class="btn-voltar">⬅ Voltar ao Início</a>
   </div>
+</section>
+
+
+
+  <!-- Produtos em destaque -->
+<section class="produtos-home fade-slide">
+  <h2>🏆 Produtos em Destaque</h2>
+  <p class="subtitulo">Escolha já o seu favorito e compre online!</p>
+
+  <div class="grid">
+    <!-- Produto 1 -->
+    <div class="card">
+      <div class="produto-card primeiro">
+        <h3>🥇 1º Lugar do Futebol</h3>
+        <img src="img/chuteira.jpg" alt="chuteira">
+        <h4>Chuteira Profissional Society</h4>
+        <p>Leve, confortável e ideal para dominar o campo.</p>
+        <a href="https://mercadolivre.com/sec/1fEaBox" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+      </div>
+
+    <!-- Produto 2 (em destaque) -->
+    <div class="produto-card primeiro">
+        <h3>🥇 1º Lugar do Treino em casa </h3>
+        <img src="img/elastico.jpg" alt="Elástico">
+        <h4>Elásticos de Resistência</h4>
+        <p>Praticidade e eficiência no treino em casa ou na academia.</p>
+        <a href="https://mercadolivre.com/sec/2bR9Tt8" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+      </div>
+
+    <!-- Produto 3 -->
+    <div class="produto-card primeiro">
+        <h3>🥇 1º Lugar das Academias</h3>
+        <img src="img/tenis.jpg" alt="Tênis de corrida">
+        <h4>Tênis de Corrida</h4>
+        <p>Conforto, leveza e performance nas passadas.</p>
+        <a href="https://mercadolivre.com/sec/27t6Xk1" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+      </div>
+  </div>
+</section>
+
+  <!-- E-book -->
+<section id="ebook" class="ebook fade-slide">
+  <h2>📘 E-book Exclusivo</h2>
+  <div class="ebook-content">
+    <img src="img/ebook.png" alt="E-book Marketing Digital" />
+    <p><strong>Marketing Digital:</strong> Torne-se um empreendedor de sucesso em apenas 7 dias!</p>
+    <a href="https://go.hotmart.com/V100243971W" target="_blank" class="btn">
+      Quero garantir agora
+    </a>
+  </div>
+</section>
 </main>
 
 <footer>
@@ -247,42 +131,9 @@ Nossos sentimentos à família, aos amigos e a todos os fãs ao redor do mundo.<
   </a>
 </footer>
 
-<button id="voltar-topo" aria-label="Voltar ao topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">&uarr;</button>
+<!-- Botão voltar ao topo -->
+<button id="voltar-topo" aria-label="Voltar ao topo">&uarr;</button>
 
-<script>
-  document.querySelector('.leia-mais').addEventListener('click', function () {
-    const completo = document.querySelector('.completo');
-    if (completo.style.display === 'block') {
-      completo.style.display = 'none';
-      this.textContent = 'Leia mais';
-    } else {
-      completo.style.display = 'block';
-      this.textContent = 'Leia menos';
-    }
-  });
-
-  window.addEventListener('scroll', () => {
-    const botao = document.getElementById('voltar-topo');
-    botao.style.display = window.scrollY > 200 ? 'block' : 'none';
-  });
-
-  const menuToggle = document.getElementById('menu-toggle');
-  const nav = document.querySelector('nav');
-  if (menuToggle && nav) {
-    menuToggle.addEventListener('click', () => {
-      nav.classList.toggle('show');
-    });
-  }
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  });
-  document.querySelectorAll('.fade-slide').forEach(section => observer.observe(section));
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
