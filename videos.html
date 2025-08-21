@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vídeos | Bem Esportivo</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+
+<header>
+  <img src="img/logo-bem.png" alt="Logo Bem Esportivo">
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="noticias.html">Notícias</a>
+    <a href="eventos.html">Eventos</a>
+    <a href="profissionais.html">Profissionais</a>
+    <a href="videos.html" class="ativo">Vídeos</a>
+  </nav>
+</header>
+
+<main class="videos-page">
+
+  <!-- Player fixo -->
+  <section class="player-principal">
+    <iframe id="videoPlayer" width="100%" height="400" 
+      src="https://www.youtube.com/embed/gvqd6yS-Vx4" 
+      title="Bem Esportivo Play"
+      frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
+      encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+    </iframe>
+  </section>
+
+  <!-- Grid de vídeos -->
+  <section class="videos-grid">
+    <div class="video-card">
+      <img src="img/thumb1.jpg" alt="Treino técnico">
+      <h3>Treino técnico com Professor Bruno</h3>
+      <button onclick="trocarVideo('https://www.youtube.com/embed/gvqd6yS-Vx4')">Assistir</button>
+    </div>
+
+    <div class="video-card">
+      <img src="img/thumb2.jpg" alt="Duda e o Futebol">
+      <h3>Duda e o Futebol</h3>
+      <button onclick="trocarVideo('https://www.youtube.com/embed/Qi1lRW18kvM')">Assistir</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 Bem Esportivo</p>
+</footer>
+
+<script>
+  // Troca o vídeo no player principal
+  function trocarVideo(url) {
+    document.getElementById("videoPlayer").src = url;
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // sobe pro player
+  }
+</script>
+
+</body>
+</html>

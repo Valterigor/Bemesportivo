@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beplay | Bem Esportivo</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Rubik', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px;
+      border-bottom: 2px solid #fa8a01;
+    }
+
+    header img {
+      max-width: 180px;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .video-card {
+      background: #111;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .video-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px rgba(250, 138, 1, 0.5);
+    }
+
+    .video-thumb {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .video-card h3 {
+      margin: 10px 0;
+      font-size: 1.2rem;
+      color: #fa8a01;
+    }
+
+    .btn-play {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 10px 18px;
+      background: #fa8a01;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .btn-play:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    iframe {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      display: none; /* Só aparece quando o usuário clicar */
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111;
+      color: #888;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="img/beplay.jpg" alt="Beplay Logo">
+    
+
+    <div class="banner-video">
+  <video autoplay muted loop playsinline>
+    <source src="videos/vinheta.mp4.mp4" type="video/mp4">
+    Seu navegador não suporta vídeo.
+  </video>
+</div>
+
+
+</header>
+
+  <main>
+    <section class="videos-grid">
+
+      <!-- Video 1 -->
+      <div class="video-card">
+        <img src="img/thumb1.jpg" alt="Treino técnico" class="video-thumb">
+        <h3>Treino Técnico e Tático</h3>
+        <button class="btn-play" data-video="https://www.youtube.com/embed/gBkon6LC2OU">▶ Assistir Agora</button>
+        <iframe src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+      <!-- Video 2 -->
+      <div class="video-card">
+        <img src="img/thumb2.jpg" alt="Duda e o Futebol" class="video-thumb">
+        <h3>Duda e o Futebol</h3>
+        <button class="btn-play" data-video="https://www.youtube.com/embed/Qi1lRW18kvM">▶ Assistir Agora</button>
+        <iframe src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+      <!-- Video 3 -->
+      <div class="video-card">
+        <img src="img/thumb3.jpg" alt="Outro vídeo" class="video-thumb">
+        <h3>Futebol e areia</h3>
+        <button class="btn-play" data-video="https://www.youtube.com/embed/dYiX4fvxGG8">▶ Assistir Agora</button>
+        <iframe src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Bem Esportivo - Beplay
+  </footer>
+
+  <script>
+    // Troca thumbnail pelo player ao clicar no botão
+    document.querySelectorAll(".btn-play").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const card = btn.closest(".video-card");
+        const iframe = card.querySelector("iframe");
+        const videoUrl = btn.getAttribute("data-video") + "?autoplay=1";
+
+        iframe.src = videoUrl;
+        iframe.style.display = "block";
+        card.querySelector(".video-thumb").style.display = "none";
+        btn.style.display = "none";
+      });
+    });
+  </script>
+
+</body>
+</html>

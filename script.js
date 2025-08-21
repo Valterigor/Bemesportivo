@@ -49,3 +49,31 @@ window.addEventListener("DOMContentLoaded", () => {
     <li onclick="mostrarDetalhes('${p.nome.replace(/'/g, "\\'")}')">${p.nome}</li>
   `).join("");
 });
+
+
+
+
+const videoCards = document.querySelectorAll('.video-card');
+const modal = document.getElementById('videoModal');
+const fechar = modal.querySelector('.fechar');
+const videoFrame = document.getElementById('videoFrame');
+
+videoCards.forEach(card => {
+  card.addEventListener('click', () => {
+    const url = card.getAttribute('data-video');
+    videoFrame.src = url + "?autoplay=1";
+    modal.style.display = 'block';
+  });
+});
+
+fechar.addEventListener('click', () => {
+  videoFrame.src = "";
+  modal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    videoFrame.src = "";
+    modal.style.display = 'none';
+  }
+});
