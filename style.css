@@ -764,3 +764,27 @@ footer {
   display: block;
   border-radius: 8px; /* opcional: bordas arredondadas */
 }
+
+/*botão retorno beplay*/
+
+.btn-retorno {
+  display: inline-block;
+  padding: 10px 18px;
+  background: #fa8a01;
+  color: #000;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn-retorno:hover {
+  background: #fff;
+  color: #000;
+}
+
+
+/* cor palavra menu beplay*/
+.menu-beplay {
+  color: #fff !important;
+}
