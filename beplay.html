@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -41,7 +41,6 @@
       background: #111;
       border-radius: 12px;
       padding: 15px;
-      text-align: center;
       transition: transform 0.3s ease;
       position: relative;
     }
@@ -57,17 +56,20 @@
       border-radius: 10px;
       object-fit: cover;
       margin-bottom: 10px;
+      background-size: cover;
+      background-position: center;
     }
 
     .video-card h3 {
       margin: 10px 0;
       font-size: 1.2rem;
       color: #fa8a01;
+      text-align: center;
     }
 
     .btn-play {
       display: inline-block;
-      margin-top: 8px;
+      margin: 8px auto;
       padding: 10px 18px;
       background: #fa8a01;
       color: #000;
@@ -83,13 +85,6 @@
       color: #000;
     }
 
-    iframe {
-      width: 100%;
-      height: 200px;
-      border-radius: 10px;
-      display: none; /* Só aparece quando o usuário clicar */
-    }
-
     footer {
       text-align: center;
       padding: 20px;
@@ -97,78 +92,386 @@
       color: #888;
       font-size: 0.9rem;
     }
+
+    /* === Interações === */
+    .interacao {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
+    }
+
+    .interacao button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .interacao button:hover {
+      transform: scale(1.1);
+      color: #fa8a01;
+    }
+
+    .comentarios {
+      margin-top: 15px;
+      display: none;
+    }
+
+    .lista-comentarios {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 10px;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    .lista-comentarios li {
+      background: #222;
+      padding: 6px 10px;
+      border-radius: 8px;
+      margin-bottom: 5px;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    .input-comentario {
+      width: 70%;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    .enviar-comentario {
+      background: #fa8a01;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-left: 5px;
+      cursor: pointer;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .btn-retorno {
+      background: #fa8a01;
+      color: #000;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn-retorno:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    /* === Modal === */
+    .modal {
+      display: none; 
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      position: relative;
+      background: #000;
+      padding: 10px;
+      border-radius: 12px;
+      max-width: 900px;
+      width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+    }
+
+    .modal-content iframe {
+      width: 100%;
+      height: 500px;
+      border-radius: 12px;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px; /* dentro do modal */
+      right: 0;
+      font-size: 30px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* === Postagens do Usuário === */
+    .user-posts {
+      padding: 30px;
+      background: #111;
+      margin-top: 20px;
+      border-top: 2px solid #fa8a01;
+    }
+
+    .user-posts h2 {
+      color: #fa8a01;
+      text-align: center;
+    }
+
+    .upload-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .upload-box input {
+      margin: 10px 0;
+    }
+
+    .post {
+      background: #222;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .post img, .post video {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .like-btn {
+      background: none;
+      border: none;
+      color: #fa8a01;
+      font-size: 18px;
+      cursor: pointer;
+    }
   </style>
 </head>
-<body>
 
+<body>
   <header>
     <img src="img/beplay.jpg" alt="Beplay Logo">
-    
-
     <div class="banner-video">
-  <video autoplay muted loop playsinline>
-    <source src="videos/vinheta.mp4.mp4" type="video/mp4">
-    Seu navegador não suporta vídeo.
-  </video>
-</div>
-
-
-</header>
+      <video autoplay muted loop playsinline>
+        <source src="videos/vinheta.mp4.mp4" type="video/mp4">
+        Seu navegador não suporta vídeo.
+      </video>
+    </div>
+  </header>
 
   <main>
     <section class="videos-grid">
+      <!-- Vídeo 1 -->
+      <div class="video-card" data-video="https://www.youtube.com/embed/gBkon6LC2OU">
+        <div class="video-thumb"></div>
+        <h3>Treino Técnico e Tático</h3>
+        <button class="btn-play">▶ Assistir Agora</button>
+      </div>
 
-  <!-- Video 1 -->
-  <div class="video-card">
-    <img src="https://img.youtube.com/vi/gBkon6LC2OU/maxresdefault.jpg" alt="Treino técnico" class="video-thumb">
-    <h3>Treino Técnico e Tático</h3>
-    <button class="btn-play" data-video="https://www.youtube.com/embed/gBkon6LC2OU">▶ Assistir Agora</button>
-    <iframe src="" frameborder="0" allowfullscreen></iframe>
-  </div>
+      <!-- Vídeo 2 -->
+      <div class="video-card" data-video="https://www.youtube.com/embed/Qi1lRW18kvM">
+        <div class="video-thumb"></div>
+        <h3>Duda e o Futebol</h3>
+        <button class="btn-play">▶ Assistir Agora</button>
+      </div>
 
-  <!-- Video 2 -->
-  <div class="video-card">
-    <img src="https://img.youtube.com/vi/Qi1lRW18kvM/maxresdefault.jpg" alt="Duda e o Futebol" class="video-thumb">
-    <h3>Duda e o Futebol</h3>
-    <button class="btn-play" data-video="https://www.youtube.com/embed/Qi1lRW18kvM">▶ Assistir Agora</button>
-    <iframe src="" frameborder="0" allowfullscreen></iframe>
-  </div>
+      <!-- Vídeo 3 -->
+      <div class="video-card" data-video="https://www.youtube.com/embed/dYiX4fvxGG8">
+        <div class="video-thumb"></div>
+        <h3>Futebol e Areia</h3>
+        <button class="btn-play">▶ Assistir Agora</button>
+      </div>
+    </section>
 
-  <!-- Video 3 -->
-  <div class="video-card">
-    <img src="https://img.youtube.com/vi/dYiX4fvxGG8/maxresdefault.jpg" alt="Futebol e areia" class="video-thumb">
-    <h3>Futebol e areia</h3>
-    <button class="btn-play" data-video="https://www.youtube.com/embed/dYiX4fvxGG8">▶ Assistir Agora</button>
-    <iframe src="" frameborder="0" allowfullscreen></iframe>
-  </div>
-
-</section>
-
+    <!-- Postagens dos usuários -->
+    <section class="user-posts">
+      <h2>Compartilhe seu momento esportivo</h2>
+      <div class="upload-box">
+        <input type="file" id="uploadInput" accept="image/*,video/*">
+        <button id="uploadBtn" class="btn-play">Enviar</button>
+      </div>
+      <div id="postsContainer"></div>
+    </section>
   </main>
 
   <div style="text-align: center; margin: 20px;">
-  <a href="index.html" class="btn-retorno">⬅ Voltar para Início</a>
-</div>
+    <a href="index.html" class="btn-retorno">⬅ Voltar para Início</a>
+  </div>
+
+  <section id="ranking" style="padding:30px; background:#111; margin-top:30px; border-top:2px solid #fa8a01;">
+  <h2 style="color:#fa8a01; text-align:center;">🏆 Ranking dos Mais Curtidos</h2>
+  <ul id="ranking-list" style="list-style:none; padding:0; margin-top:20px; max-width:600px; margin-left:auto; margin-right:auto; font-size:1.1rem; color:#fff;">
+    <!-- Aqui os itens do ranking serão inseridos pelo JS -->
+  </ul>
+</section>
+
 
   <footer>
     &copy; 2025 Bem Esportivo - Beplay
   </footer>
 
-  <script>
-    // Troca thumbnail pelo player ao clicar no botão
-    document.querySelectorAll(".btn-play").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const card = btn.closest(".video-card");
-        const iframe = card.querySelector("iframe");
-        const videoUrl = btn.getAttribute("data-video") + "?autoplay=1";
+  <!-- === Modal === -->
+  <div id="videoModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <iframe src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
 
-        iframe.src = videoUrl;
-        iframe.style.display = "block";
-        card.querySelector(".video-thumb").style.display = "none";
-        btn.style.display = "none";
+  <script>
+    const tiposPermitidos = ["image/png","image/jpeg","image/jpg","video/mp4","video/webm","video/ogg"];
+
+    function arquivoSeguro(file) {
+      return tiposPermitidos.includes(file.type);
+    }
+
+    // Gera thumbnails dos vídeos
+    document.querySelectorAll(".video-card").forEach(card => {
+      const videoUrl = card.getAttribute("data-video");
+      const videoId = videoUrl.split("/embed/")[1];
+      const thumbUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+      card.querySelector(".video-thumb").style.backgroundImage = `url(${thumbUrl})`;
+    });
+
+    const modal = document.getElementById("videoModal");
+    const modalIframe = modal.querySelector("iframe");
+    const closeBtn = modal.querySelector(".close");
+
+    // Abrir modal
+    document.querySelectorAll(".btn-play").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const card = e.target.closest(".video-card");
+        if (!card) return; // evita conflito com uploadBtn
+        const videoUrl = card.getAttribute("data-video");
+        if (videoUrl) {
+          modal.style.display = "flex";
+          modalIframe.src = videoUrl + "?autoplay=1";
+        }
       });
     });
-  </script>
 
+    // Fechar modal
+    function fecharModal(){
+      modal.style.display = "none";
+      modalIframe.src = "";
+    }
+
+    closeBtn.addEventListener("click", fecharModal);
+    window.addEventListener("click", e => { if(e.target === modal) fecharModal(); });
+    window.addEventListener("keydown", e => { if(e.key === "Escape") fecharModal(); });
+
+    // === Sistema de postagens ===
+    const uploadInput = document.getElementById("uploadInput");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const postsContainer = document.getElementById("postsContainer");
+
+    let posts = JSON.parse(localStorage.getItem("userPosts")) || [];
+
+    function renderPosts(){
+      postsContainer.innerHTML = "";
+      posts.forEach((post, index) => {
+        const div = document.createElement("div");
+        div.classList.add("post");
+
+        if(post.type === "image"){
+          const img = document.createElement("img");
+          img.src = post.content;
+          div.appendChild(img);
+        } else if(post.type === "video"){
+          const vid = document.createElement("video");
+          vid.src = post.content;
+          vid.controls = true;
+          div.appendChild(vid);
+        }
+
+        const likeBtn = document.createElement("button");
+        likeBtn.classList.add("like-btn");
+        likeBtn.innerHTML = `❤️ ${post.likes}`;
+        likeBtn.addEventListener("click", () => {
+          posts[index].likes++;
+          localStorage.setItem("userPosts", JSON.stringify(posts));
+          renderPosts();
+        });
+
+        div.appendChild(likeBtn);
+        postsContainer.appendChild(div);
+      });
+    }
+
+    renderPosts();
+
+    uploadBtn.addEventListener("click", () => {
+      const file = uploadInput.files[0];
+      if(!file){ alert("Selecione um arquivo!"); return; }
+      if(!arquivoSeguro(file)){ alert("Formato não permitido."); return; }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        let newPost = {type:"", content:event.target.result, likes:0};
+        if(file.type.startsWith("image/")) newPost.type = "image";
+        else if(file.type.startsWith("video/")) newPost.type = "video";
+
+        posts.unshift(newPost);
+        localStorage.setItem("userPosts", JSON.stringify(posts));
+        renderPosts();
+      };
+      reader.readAsDataURL(file);
+      uploadInput.value = "";
+    });
+
+// === Ranking dos Mais Curtidos ===
+function atualizarRanking() {
+  const rankingList = document.getElementById("ranking-list");
+  rankingList.innerHTML = "";
+
+  let itens = [];
+
+  // pegar vídeos
+  document.querySelectorAll(".video-card").forEach((card, i) => {
+    const titulo = card.querySelector("h3").innerText;
+    const curtidas = parseInt(card.querySelector(".curtidas").innerText);
+    itens.push({titulo, curtidas});
+  });
+
+  // pegar posts dos usuários
+  document.querySelectorAll(".user-post").forEach((post, i) => {
+    const titulo = "Post do Usuário " + (i+1);
+    const curtidas = parseInt(post.querySelector(".curtidas").innerText);
+    itens.push({titulo, curtidas});
+  });
+
+  // ordenar por curtidas (maior primeiro)
+  itens.sort((a, b) => b.curtidas - a.curtidas);
+
+  // mostrar no ranking
+  itens.forEach(item => {
+    if(item.curtidas > 0){ // só aparece quem tem curtidas
+      const li = document.createElement("li");
+      li.textContent = `${item.titulo} — ❤️ ${item.curtidas}`;
+      rankingList.appendChild(li);
+    }
+  });
+}
+
+// Atualizar sempre que clicar em curtir
+document.querySelectorAll(".curtir").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const span = btn.querySelector(".curtidas");
+    span.textContent = parseInt(span.textContent) + 1;
+    atualizarRanking();
+  });
+});
+
+
+  </script>
 </body>
 </html>
+
+
