@@ -1,22 +1,36 @@
-/* Reset */
+/* ======================================================
+   RESET & BASE
+====================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+:root {
+  --bg: #000;
+  --bg-soft: #111;
+  --card: #1a1a1a;
+  --primary: #fa8a01;
+  --text: #fff;
+  --text-muted: #bbb;
+  --radius: 14px;
+}
+
 body {
   font-family: 'Rubik', sans-serif;
-  background: #000;
-  color: #fff;
+  background: var(--bg);
+  color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
 }
 
-/* Header */
+/* ======================================================
+   HEADER / NAV
+====================================================== */
 header {
   background: #000;
-  border-bottom: 2px solid #fa8a01;
+  border-bottom: 2px solid var(--primary);
   padding: 15px 30px;
   display: flex;
   justify-content: space-between;
@@ -27,7 +41,7 @@ header {
 }
 
 header img {
-  max-width: 160px;
+  max-height: 70px;
 }
 
 #menu-toggle {
@@ -35,7 +49,7 @@ header img {
   font-size: 28px;
   background: none;
   border: none;
-  color: #fa8a01;
+  color: var(--primary);
   cursor: pointer;
 }
 
@@ -45,10 +59,10 @@ nav {
 }
 
 nav a {
-  color: #fa8a01;
+  color: var(--primary);
   font-weight: bold;
   text-decoration: none;
-  transition: color 0.3s;
+  transition: .3s;
 }
 
 nav a:hover {
@@ -60,904 +74,219 @@ nav a:hover {
   #menu-toggle {
     display: block;
   }
-
   nav {
     display: none;
     flex-direction: column;
     background: #111;
     position: absolute;
-    top: 70px;
+    top: 75px;
     right: 20px;
     padding: 15px;
-    border-radius: 8px;
+    border-radius: var(--radius);
   }
-
   nav.show {
     display: flex;
   }
 }
 
-/* Hero */
+/* ======================================================
+   HERO
+====================================================== */
 .hero {
+  padding: 90px 20px;
   text-align: center;
-  padding: 80px 20px;
-  background: linear-gradient(135deg, #111, #000);
+  background: linear-gradient(160deg, #111, #000);
 }
 
 .hero h1 {
-  font-size: 2.5rem;
-  color: #fa8a01;
+  font-size: 2.6rem;
+  color: var(--primary);
 }
 
 .hero p {
-  margin: 15px 0;
+  max-width: 700px;
+  margin: 15px auto 30px;
+  color: var(--text-muted);
   font-size: 1.2rem;
-  color: #ddd;
 }
 
-/* Botões */
+/* ======================================================
+   BOTÕES
+====================================================== */
 .btn {
   display: inline-block;
-  background: #fa8a01;
+  padding: 14px 30px;
+  background: linear-gradient(45deg, var(--primary), #ffb347);
   color: #000;
-  padding: 12px 24px;
-  border-radius: 30px;
   font-weight: bold;
+  border-radius: 40px;
   text-decoration: none;
-  transition: transform 0.2s, background 0.3s;
+  transition: .3s;
 }
 
 .btn:hover {
-  background: #fff;
   transform: scale(1.05);
+  background: linear-gradient(45deg, #ffb347, var(--primary));
 }
 
-/* Seções */
+/* ======================================================
+   SEÇÕES
+====================================================== */
 section {
-  padding: 60px 20px;
+  padding: 70px 20px;
   max-width: 1200px;
   margin: auto;
 }
 
 section h2 {
-  color: #fa8a01;
-  margin-bottom: 30px;
   text-align: center;
+  color: var(--primary);
+  font-size: 2.2rem;
+  margin-bottom: 40px;
 }
 
-/* Destaque */
-.destaque article {
-  background: #111;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(250,138,1,0.2);
-}
-
-.destaque img {
-  max-width: 100%;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.texto-completo {
-  display: none;
-  margin-top: 10px;
-}
-
-.texto-completo.expandido {
-  display: block;
-}
-
-/* Produtos */
+/* ======================================================
+   GRID / CARDS
+====================================================== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
   gap: 30px;
 }
 
 .card {
-  background: #111;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  transition: transform 0.3s;
+  background: var(--card);
+  padding: 25px;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(0,0,0,.6);
+  transition: .3s;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.8);
 }
 
-.card img {
-  max-width: 100%;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.card h3 {
-  margin-bottom: 10px;
-  color: #fa8a01;
-}
-
-/* Ebook */
-.ebook-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.ebook-content img {
-  max-width: 250px;
-  border-radius: 8px;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  background: #000;
-  border-top: 2px solid #fa8a01;
-  padding: 20px;
-  margin-top: 40px;
-}
-
-footer a {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  color: #fa8a01;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-/* Voltar ao topo */
-#voltar-topo {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background: #fa8a01;
-  color: #000;
-  border: none;
-  padding: 12px 16px;
-  border-radius: 50%;
-  font-size: 18px;
-  cursor: pointer;
-  display: none;
-  z-index: 1000;
-  transition: background 0.3s;
-}
-
-#voltar-topo:hover {
-  background: #fff;
-}
-
-/* === Reportagens (corrigir imagens) === */
-.reportagem img {
-  width: 100%;
-  height: auto;
-  max-width: 900px;   /* limita o tamanho */
-  border-radius: 8px;
-  margin: 20px auto;
-  display: block;
-  object-fit: cover;  /* mantém proporção sem distorcer */
-}
-
-/* Produtos - imagens circulares */
-.produto-card img {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 4px solid #e0e0e0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
-.produto-card img:hover {
-  transform: scale(1.05);
-}
-
-/* ===================== */
-/* Produtos em Destaque  */
-/* ===================== */
-.produtos-home {
-  text-align: center;
-  padding: 70px 20px;
-  background: linear-gradient(180deg, #111, #1a1a1a);
-  color: #fff;
-}
-
-.produtos-home h2 {
-  font-size: 2.4rem;
-  margin-bottom: 10px;
-  color: #fa8a01;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.produtos-home .subtitulo {
-  font-size: 1rem;
-  color: #bbb;
-  margin-bottom: 50px;
-}
-
-.produtos-home .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 35px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Card do Produto */
+/* ======================================================
+   PRODUTOS
+====================================================== */
 .produto-card {
-  background: #1e1e1e;
-  border-radius: 16px;
-  padding: 25px;
   text-align: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
-  border: 2px solid transparent;
 }
 
-.produto-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.7);
-  border: 2px solid #fa8a01;
-}
-
-/* Imagens */
 .produto-card img {
   width: 200px;
   height: 200px;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 15px;
-  transition: transform 0.4s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  box-shadow: 0 4px 12px rgba(0,0,0,.6);
 }
 
-.produto-card:hover img {
-  transform: scale(1.08);
-}
-
-/* Títulos e textos */
 .produto-card h3 {
-  font-size: 1.2rem;
-  color: #fa8a01;
+  color: var(--primary);
   margin-bottom: 8px;
 }
 
-.produto-card h4 {
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-  color: #fff;
-}
-
 .produto-card p {
-  font-size: 0.95rem;
-  color: #ccc;
-  margin-bottom: 15px;
-  line-height: 1.4;
+  color: var(--text-muted);
+  font-size: .95rem;
 }
 
-/* Botão */
 .btn-comprar {
+  margin-top: 15px;
   display: inline-block;
-  padding: 12px 25px;
-  border-radius: 30px;
-  background: linear-gradient(45deg, #fa8a01, #ffb347);
+  padding: 12px 26px;
+  background: linear-gradient(45deg, var(--primary), #ffb347);
   color: #000;
+  border-radius: 30px;
   font-weight: bold;
   text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(250,138,1,0.5);
+  transition: .3s;
 }
 
 .btn-comprar:hover {
-  background: linear-gradient(45deg, #ffb347, #fa8a01);
   transform: scale(1.07);
-  box-shadow: 0 6px 18px rgba(250,138,1,0.7);
 }
 
-
-/* ===================== */
-/* Notícia em Destaque   */
-/* ===================== */
+/* ======================================================
+   DESTAQUE / NOTÍCIA
+====================================================== */
 .destaque {
-  padding: 60px 20px;
-  background: #111;
-  color: #fff;
-  text-align: center;
-}
-
-.destaque h2 {
-  font-size: 2rem;
-  margin-bottom: 40px;
-  color: #fa8a01;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
 }
 
 .destaque-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
   gap: 40px;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Texto + Imagem */
-.destaque-texto {
-  background: #1a1a1a;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-  text-align: left;
 }
 
 .destaque-img {
   width: 100%;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  transition: transform 0.3s ease;
+  border-radius: var(--radius);
 }
 
-.destaque-img:hover {
-  transform: scale(1.03);
-}
-
-.destaque h3 {
-  font-size: 1.5rem;
-  margin: 10px 0;
-  color: #fa8a01;
-}
-
-.destaque .texto-resumo {
+.texto-resumo {
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.destaque .texto-completo {
-  font-size: 0.95rem;
-  color: #ccc;
-  margin-bottom: 15px;
+.texto-completo {
+  display: none;
+  color: var(--text-muted);
 }
 
-/* Botão Leia Mais */
+.texto-completo.expandido {
+  display: block;
+}
+
 .leia-mais {
-  background: linear-gradient(45deg, #fa8a01, #ffb347);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 25px;
-  color: #000;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.leia-mais:hover {
-  transform: scale(1.05);
-  background: linear-gradient(45deg, #ffb347, #fa8a01);
-}
-
-/* Vídeo */
-.video-container {
-  text-align: center;
-}
-
-.video-container iframe {
-  width: 100%;
-  max-width: 560px;
-  aspect-ratio: 16/9;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-}
-
-.video-container figcaption {
-  font-size: 0.85rem;
-  color: #bbb;
-  margin-top: 8px;
-}
-
-
-/* Busca */
-.container-busca {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #1a1a1a;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
-}
-.container-busca h2 {
-  margin-bottom: 15px;
-  color: #fa8a01;
-  text-align: center;
-}
-.barra-de-busca {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-.barra-de-busca i {
-  padding: 10px;
-  color: #333;
-}
-.barra-de-busca input {
-  flex: 1;
-  border: none;
-  padding: 10px;
-  font-size: 16px;
-  outline: none;
-}
-
-/* Resultados */
-#resultados {
-  list-style: none;
-}
-#resultados li {
-  background: #222;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-#resultados li:hover {
-  background: #333;
-}
-
-/* Detalhes do profissional */
-#detalhes {
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 10px;
-  background: #f9f9f9;
-  color: #000;
-  display: none;
-  text-align: center;
-}
-.perfil-profissional img {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 15px;
-  border: 4px solid #fa8a01;
-}
-.botao-cupom {
-  background-color: #fa8a01;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
   margin-top: 15px;
-}
-.botao-cupom:hover {
-  background-color: #d87400;
-}
-
-/* Cadastre-se */
-.cadastre-se {
-  margin-top: 40px;
-  text-align: center;
-}
-.cadastre-se h2 {
-  color: #fa8a01;
-  margin-bottom: 10px;
-}
-.cadastre-se .whatsapp {
-  color: #25D366;
-  font-weight: bold;
-}
-.cadastre-se .email {
-  color: #fa8a01;
-  font-weight: bold;
-}
-
-/* Footer profissionais */
-footer {
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
-  background: #000;
-  color: #aaa;
-}
-
-/* Botão voltar ao topo */
-#voltar-topo {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #fa8a01;
-  color: #fff;
+  padding: 10px 22px;
+  border-radius: 30px;
   border: none;
-  padding: 12px 15px;
-  border-radius: 50%;
-  font-size: 20px;
-  display: none;
+  background: var(--primary);
+  font-weight: bold;
   cursor: pointer;
 }
-#voltar-topo:hover {
-  background: #d87400;
-}
-/*videos*/
 
-.videos-page {
-  padding: 40px 20px;
-  background: #111;
-  color: #fff;
-}
-
-.hero {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.hero h1 {
-  font-size: 2.5rem;
-  color: #fa8a01;
-}
-
-.categorias {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
-
-.categorias button {
-  background: #222;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  color: #fff;
-  transition: all .3s;
-}
-
-.categorias button.ativo,
-.categorias button:hover {
-  background: #fa8a01;
-  color: #000;
-}
-
+/* ======================================================
+   VÍDEOS
+====================================================== */
 .videos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap: 25px;
 }
 
 .video-card {
-  position: relative;
-  cursor: pointer;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform .3s;
-}
-
-.video-card:hover {
-  transform: scale(1.05);
-}
-
-.video-card img {
-  width: 100%;
-  display: block;
-}
-
-.video-card h3 {
-  margin: 10px;
-  font-size: 1rem;
-  color: #fff;
-}
-
-.video-card .duracao {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background: rgba(0,0,0,0.7);
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-}
-
-/* Player principal fixo */
-.player-principal {
-  max-width: 900px;
-  margin: 20px auto;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-/* Grid de vídeos */
-.videos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  max-width: 1000px;
-  margin: 30px auto;
-  padding: 0 15px;
-}
-
-.video-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background: var(--card);
+  border-radius: var(--radius);
   padding: 15px;
-  text-align: center;
-  transition: transform 0.3s;
-}
-
-.video-card:hover {
-  transform: translateY(-5px);
-}
-
-.video-card img {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-.video-card button {
-  background: #fa8a01;
-  color: #fff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.video-card button:hover {
-  background: #e67a00;
-}
-
-/* ===== Cabeçalho ===== */
-.site-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #000;
-  padding: 10px 20px;
-}
-
-.site-header img {
-  object-fit: contain;
-}
-
-/* === Logo principal: BE (Bem Esportivo) - lado esquerdo === */
-.logo-left img {
-  height: 80px; /* altura padronizada */
-}
-
-/* === Logo secundário: Beplay - lado direito === */
-.logo-right img {
-  height: 200px; /* mesma altura que o BE */
-}
-
-/*banner video*//* Vídeo no centro do cabeçalho */
-.banner-video {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  padding: 0 15px;
-  max-height: 150px; /* controla a altura */
-  overflow: hidden;
-}
-
-.banner-video video {
-  height: 250px;   /* ajuste aqui para o tamanho desejado */
-  width: auto;
-  display: block;
-  border-radius: 8px; /* opcional: bordas arredondadas */
-}
-
-
-
-
-.video-thumb {
-  width: 100%;
-  height: 200px;
-  border-radius: 10px;
-  background-size: cover;
-  background-position: center;
-  margin-bottom: 10px;
-}
-
-.videos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.video-card {
-  background: #111;
-  border-radius: 12px;
-  padding: 15px;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: .3s;
 }
 
 .video-card:hover {
   transform: scale(1.03);
-  box-shadow: 0 0 15px rgba(250, 138, 1, 0.5);
 }
 
-/* Thumb responsiva */
-.video-thumb, iframe {
-  width: 100%;
-  aspect-ratio: 16/9; /* mantém proporção do YouTube */
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-/* Títulos */
-.video-card h3 {
-  font-size: 1.1rem;
-  margin: 10px 0;
-  color: #fa8a01;
-}
-
-/* Botão de play */
-.btn-play {
-  margin-top: 8px;
-  padding: 10px 16px;
-  background: #fa8a01;
-  color: #000;
-  font-weight: bold;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: 0.3s;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.btn-play:hover {
-  background: #fff;
-  color: #000;
-}
-
-/* Ajustes específicos para telas pequenas */
-@media (max-width: 480px) {
-  header {
-    padding: 20px 10px;
-  }
-
-  .video-card h3 {
-    font-size: 1rem;
-  }
-
-  .btn-play {
-    font-size: 0.9rem;
-    padding: 8px 14px;
-  }
-}
-
-
-
-/* Fundo escuro */
-.modal {
-  display: none; /* escondido por padrão */
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-}
-
-/* Caixa central do vídeo */
-.modal-content {
-  position: relative;
-  background: #000;
-  padding: 10px;
-  border-radius: 12px;
-  max-width: 90%;
-  width: 800px;
-  box-shadow: 0 0 20px rgba(250,138,1,0.6);
-}
-
-/* Iframe responsivo */
-.modal-content iframe {
+.video-thumb,
+iframe {
   width: 100%;
   aspect-ratio: 16/9;
   border-radius: 10px;
 }
 
-/* Botão fechar */
-.close {
-  position: absolute;
-  top: -15px;
-  right: -15px;
-  background: #fa8a01;
-  color: #000;
-  font-size: 22px;
-  font-weight: bold;
-  padding: 6px 12px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.close:hover {
-  background: #fff;
-  color: #000;
-}
-
-
-
-/*botão retorno beplay*/
-
-.btn-retorno {
-  display: inline-block;
-  padding: 10px 18px;
-  background: #fa8a01;
-  color: #000;
-  font-weight: bold;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.btn-retorno:hover {
-  background: #fff;
-  color: #000;
-}
-
-
-/* cor palavra menu beplay*/
-.menu-beplay {
-  color: #fff !important;
-}
-
-.videos-atletas {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 15px;
-  font-family: "Rubik", sans-serif;
-  color: #fff;
-}
-
-.videos-atletas h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #fa8a01;
-}
-
-.video-card {
-  background: #111;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 25px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-}
-
-.video-card video {
-  width: 100%;
-  border-radius: 10px;
-}
-
+/* ======================================================
+   INTERAÇÃO SOCIAL
+====================================================== */
 .interacao {
   display: flex;
   justify-content: space-around;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .interacao button {
@@ -966,23 +295,15 @@ footer {
   color: #fff;
   font-size: 18px;
   cursor: pointer;
-  transition: transform 0.2s;
 }
 
 .interacao button:hover {
-  transform: scale(1.1);
-  color: #fa8a01;
+  color: var(--primary);
 }
 
 .comentarios {
-  margin-top: 15px;
-  display: none; /* só aparece quando usuário abre */
-}
-
-.lista-comentarios {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 10px;
+  display: none;
+  margin-top: 10px;
 }
 
 .lista-comentarios li {
@@ -993,23 +314,62 @@ footer {
   font-size: 14px;
 }
 
-.input-comentario {
-  width: 70%;
-  padding: 8px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
+/* ======================================================
+   FOOTER
+====================================================== */
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  border-top: 2px solid var(--primary);
+  color: #aaa;
+  margin-top: 60px;
 }
 
-.enviar-comentario {
-  background: #fa8a01;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  margin-left: 5px;
-  cursor: pointer;
+/* ==============================
+   MODO EDITORIAL – REPORTAGENS
+================================ */
+
+body.layout-editorial {
+  background: #f8f8f8;
+  color: #111;
+}
+
+.layout-editorial main {
+  padding-top: 80px; /* espaço do header fixo */
+}
+
+.layout-editorial .editorial-container {
+  max-width: 760px;
+  margin: auto;
+  padding: 32px 20px;
+}
+
+.layout-editorial h1,
+.layout-editorial h2,
+.layout-editorial h3 {
+  font-family: 'Rubik', sans-serif;
+}
+
+.layout-editorial p {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+
+/* ======================================================
+   BOTÃO TOPO
+====================================================== */
+#voltar-topo {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: var(--primary);
   color: #000;
-  font-weight: bold;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 50%;
+  display: none;
+  cursor: pointer;
 }
-
 

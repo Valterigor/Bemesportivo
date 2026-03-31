@@ -3,60 +3,218 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Marketing Digital - Empreendedor de Sucesso em 7 Dias</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="ebook.css">
-</head>
-<body>
-    </head>
-<body>
- <header>
-  <img src="img/logo-bem.png" alt="Logo Bem Esportivo" />
-  <nav>
-  <a href="index.html">Início</a>
-  <a href="noticias.html">Notícias</a> 
-  <a href="profissionais.html">Profissionais</a>
-  <a href="Reportagens.html">Reportagens</a>
-  <a href="academias.html">Academias</a>
-  <a href="escolasdefutebol.html">Escolas de Futebol</a>
-  <a href="ebook.html">E-book</a>
-  <a href="comunidade.html">Comunidade</a>
-</nav>
+  <title>E-book Marketing Digital | Bem Esportivo</title>
 
+  <meta name="description" content="Aprenda marketing digital e comece a faturar em 7 dias mesmo começando do zero." />
+
+  <!-- Fonte -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #fc6e02;
+      --secondary: #9a5700;
+      --dark: #1c1c1c;
+      --light: #f8f9fa;
+      --radius: 14px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 24px;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 60px 20px;
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      margin-bottom: 20px;
+    }
+
+    .hero img {
+      width: 100%;
+      border-radius: var(--radius);
+    }
+
+    .btn {
+      display: inline-block;
+      background: #fff;
+      color: var(--primary);
+      padding: 14px 26px;
+      border-radius: 30px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    section {
+      padding: 60px 0;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    /* LISTA */
+    ul {
+      list-style: none;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+    }
+
+    /* BOX */
+    .box {
+      background: #fff;
+      padding: 30px;
+      border-radius: var(--radius);
+      text-align: center;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container hero-content">
+
+    <div>
+      <h1>Marketing Digital em 7 Dias</h1>
+      <p>
+        Aprenda a faturar todos os dias na internet — mesmo começando do zero.
+      </p>
+
+      <a href="https://go.hotmart.com/V100243971W?redirectionUrl=https://valterigorcruz.hotmart.host/marketing-digital-empreendedor-de-sucesso-em-7-dias-26d2737e-8999-4c27-8243-125f81f6be3b"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="btn">
+        Quero meu E-book
+      </a>
+    </div>
+
+    <div>
+      <img src="img/ebook.png" alt="Capa do ebook marketing digital" loading="lazy">
+    </div>
+
+  </div>
 </header>
 
-    <main>
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Marketing Digital - Empreendedor de Sucesso em 7 Dias</h1>
-        <p>Aprenda a faturar todos os dias usando a internet — mesmo começando do zero! Estratégias práticas para todos os nichos, inclusive o esportivo.</p>
-        <a href="https://go.hotmart.com/V100243971W?redirectionUrl=https://valterigorcruz.hotmart.host/marketing-digital-empreendedor-de-sucesso-em-7-dias-26d2737e-8999-4c27-8243-125f81f6be3b" target="_blank" class="cta-btn">Quero meu E-book agora</a>
-      </div>
-      <img src="img/ebook.png" alt="Capa do E-book" class="hero-image"/>
-    </section>
+<main>
 
-    <section class="benefits">
-      <h2>📌 O que você vai aprender:</h2>
-      <ul>
-        <li>✅ Como se posicionar nas redes sociais</li>
-        <li>✅ Ferramentas práticas e anúncios que vendem</li>
-        <li>✅ Plano de ação para 7 dias</li>
-        <li>✅ Dicas específicas para negócios e serviços esportivos</li>
-      </ul>
-    </section>
+<!-- BENEFÍCIOS -->
+<section>
+  <div class="container">
+    <h2>📌 O que você vai aprender</h2>
 
-    <section class="guarantee">
-      <h3>🛡️ Compra 100% Segura via Hotmart</h3>
-      <p>Você tem garantia de 7 dias para testar o conteúdo. Se não gostar, seu dinheiro de volta!</p>
-      <a href="https://go.hotmart.com/V100243971W?redirectionUrl=https://valterigorcruz.hotmart.host/marketing-digital-empreendedor-de-sucesso-em-7-dias-26d2737e-8999-4c27-8243-125f81f6be3b" target="_blank" class="cta-btn">Quero garantir agora</a>
-    </section>
-  </main>
+    <ul>
+      <li>Como se posicionar nas redes sociais</li>
+      <li>Ferramentas práticas que geram vendas</li>
+      <li>Plano de ação para 7 dias</li>
+      <li>Estratégias para o nicho esportivo</li>
+    </ul>
+  </div>
+</section>
 
-  <footer>
-    <p>@_naoesquece | @valterigor</p>
-  </footer>
+<!-- GARANTIA -->
+<section>
+  <div class="container">
+    <div class="box">
+      <h2>🛡️ Compra Segura</h2>
+      <p>
+        Teste por 7 dias. Se não gostar, você recebe seu dinheiro de volta.
+      </p>
+
+      <a href="https://go.hotmart.com/V100243971W?redirectionUrl=https://valterigorcruz.hotmart.host/marketing-digital-empreendedor-de-sucesso-em-7-dias-26d2737e-8999-4c27-8243-125f81f6be3b"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="btn">
+        Garantir acesso agora
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section>
+  <div class="container">
+    <div class="box">
+      <h2>🚀 Comece hoje</h2>
+      <p>
+        Você pode continuar parado ou começar a faturar ainda essa semana.
+      </p>
+
+      <a href="https://go.hotmart.com/V100243971W"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="btn">
+        Quero começar agora
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>&copy; 2025 Bem Esportivo</p>
+</footer>
 
 </body>
 </html>
-

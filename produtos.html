@@ -2,170 +2,280 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Produtos | Bem Esportivo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="responsive.css" />
-  <link rel="stylesheet" href="modal.css" />
+
+  <meta name="description" content="Top produtos esportivos mais vendidos para futebol, academia e treino." />
+
+  <!-- Fonte -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #fc6e02;
+      --secondary: #9a5700;
+      --dark: #1c1c1c;
+      --light: #f8f9fa;
+      --radius: 14px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 24px;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    /* SEÇÕES */
+    section {
+      padding: 50px 0;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: var(--radius);
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #fff;
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+    }
+
+    .modal img {
+      margin: auto;
+      display: block;
+      max-width: 80%;
+      border-radius: 10px;
+    }
+
+    .fechar {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      color: #fff;
+      font-size: 30px;
+      cursor: pointer;
+    }
+  </style>
 </head>
+
 <body>
 
-<header>
-  <img src="img/logo-bem.png" alt="Logo Bem Esportivo" />
-  <nav>
-    <a href="index.html">Início</a>
-    <a href="noticias.html">Notícias</a>
-    <a href="profissionais.html">Profissionais</a>
-    <a href="produtos.html" class="ativo">Produtos</a>
-    <a href="ebook.html">E-book</a>
-    <a href="comunidade.html">Comunidade</a>
-  </nav>
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <h1>🏆 Produtos Mais Vendidos</h1>
+    <p>Os melhores equipamentos para sua performance</p>
+  </div>
 </header>
 
 <main>
-  <section class="produtos-section fade-slide">
-    <h1>🏆 Top 3 Produtos Mais Vendidos</h1>
-    <p>Os campeões em cada categoria para você que vive o esporte!</p>
 
-    <!-- FUTEBOL -->
+<!-- FUTEBOL -->
+<section>
+  <div class="container">
     <h2>⚽ Futebol</h2>
-    <div class="podio">
-      <div class="produto-card segundo">
-        <h3>🥈 2º Lugar</h3>
-        <img src="img/produto2.jpg" alt="Bola de Futebol">
-        <h4>Bola de Futebol Profissional</h4>
-        <p>Alta durabilidade e performance para jogos oficiais.</p>
-        <a href="https://mercadolivre.com/sec/33DoDKw" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+
+    <div class="grid">
+
+      <div class="card">
+        <img src="img/chuteira.jpg" alt="Chuteira" loading="lazy">
+        <h3>🥇 Chuteira Society</h3>
+        <p>Leve e confortável para alto desempenho.</p>
+        <a href="https://mercadolivre.com/sec/1fEaBox" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
       </div>
 
-      <div class="produto-card primeiro">
-        <h3>🥇 1º Lugar</h3>
-        <img src="img/chuteira.jpg" alt="chuteira">
-        <h4>Chuteira Profissional Society</h4>
-        <p>Leve, confortável e ideal para dominar o campo.</p>
-        <a href="https://mercadolivre.com/sec/1fEaBox" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+      <div class="card">
+        <img src="img/produto2.jpg" alt="Bola de futebol" loading="lazy">
+        <h3>🥈 Bola Profissional</h3>
+        <p>Alta durabilidade para jogos intensos.</p>
+        <a href="https://mercadolivre.com/sec/33DoDKw" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
       </div>
 
-      <div class="produto-card terceiro">
-        <h3>🥉 3º Lugar</h3>
-        <img src="img/caneleira.jpg" alt="Caneleira">
-        <h4>Caneleira Reforçada</h4>
-        <p>Proteção total para treinos e partidas intensas.</p>
-        <a href="https://mercadolivre.com/sec/1Fhtngw" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+      <div class="card">
+        <img src="img/caneleira.jpg" alt="Caneleira" loading="lazy">
+        <h3>🥉 Caneleira</h3>
+        <p>Proteção total nos jogos.</p>
+        <a href="https://mercadolivre.com/sec/1Fhtngw" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
       </div>
+
     </div>
+  </div>
+</section>
 
-    <!-- ACADEMIA -->
+<!-- ACADEMIA -->
+<section>
+  <div class="container">
     <h2>🏋️ Academia</h2>
-    <div class="podio">
-      <div class="produto-card segundo">
-        <h3>🥈 2º Lugar</h3>
-        <img src="img/luva.jpg" alt="Luva">
-        <h4>Luvas de Musculação</h4>
-        <p>Mais segurança e firmeza durante os treinos.</p>
-        <a href="https://mercadolivre.com/sec/2zmyzwf" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+
+    <div class="grid">
+
+      <div class="card">
+        <img src="img/elastico.jpg" alt="Elástico" loading="lazy">
+        <h3>🥇 Elástico</h3>
+        <p>Treine em qualquer lugar.</p>
+        <a href="https://mercadolivre.com/sec/2bR9Tt8" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
       </div>
 
-      <div class="produto-card primeiro">
-        <h3>🥇 1º Lugar</h3>
-        <img src="img/elastico.jpg" alt="Elástico">
-        <h4>Elásticos de Resistência</h4>
-        <p>Praticidade e eficiência no treino em casa ou na academia.</p>
-        <a href="https://mercadolivre.com/sec/2bR9Tt8" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+      <div class="card">
+        <img src="img/luva.jpg" alt="Luva academia" loading="lazy">
+        <h3>🥈 Luvas</h3>
+        <p>Mais segurança no treino.</p>
+        <a href="https://mercadolivre.com/sec/2zmyzwf" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
       </div>
 
-      <div class="produto-card terceiro">
-        <h3>🥉 3º Lugar</h3>
-        <img src="img/tapete.jpg" alt="Tapete">
-        <h4>Tapete de Yoga</h4>
-        <p>Conforto para alongamentos, pilates e yoga.</p>
-        <a href="https://mercadolivre.com/sec/2UWNGMu" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+      <div class="card">
+        <img src="img/tapete.jpg" alt="Tapete yoga" loading="lazy">
+        <h3>🥉 Tapete</h3>
+        <p>Conforto para exercícios.</p>
+        <a href="https://mercadolivre.com/sec/2UWNGMu" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
       </div>
+
     </div>
+  </div>
+</section>
 
-    <!-- PRÁTICA GERAL -->
+<!-- ESPORTE -->
+<section>
+  <div class="container">
     <h2>🏃 Prática Esportiva</h2>
-    <div class="podio">
-      <div class="produto-card segundo">
-        <h3>🥈 2º Lugar</h3>
-        <img src="img/smartband.jpg" alt="Smartband">
-        <h4>Smartband Fitness</h4>
-        <p>Monitore seus treinos, batimentos e evolução.</p>
-        <a href="https://mercadolivre.com/sec/16G6sNL" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+
+    <div class="grid">
+
+      <div class="card">
+        <img src="img/tenis.jpg" alt="Tênis corrida" loading="lazy">
+        <h3>🥇 Tênis</h3>
+        <p>Conforto e performance.</p>
+        <a href="https://mercadolivre.com/sec/27t6Xk1" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
       </div>
 
-      <div class="produto-card primeiro">
-        <h3>🥇 1º Lugar</h3>
-        <img src="img/tenis.jpg" alt="Tênis de corrida">
-        <h4>Tênis de Corrida</h4>
-        <p>Conforto, leveza e performance nas passadas.</p>
-        <a href="https://mercadolivre.com/sec/27t6Xk1" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+      <div class="card">
+        <img src="img/smartband.jpg" alt="Smartband" loading="lazy">
+        <h3>🥈 Smartband</h3>
+        <p>Monitore sua evolução.</p>
+        <a href="https://mercadolivre.com/sec/16G6sNL" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
       </div>
 
-      <div class="produto-card terceiro">
-        <h3>🥉 3º Lugar</h3>
-        <img src="img/garrafa.jpg" alt="Garrafa Térmica">
-        <h4>Garrafa Esportiva</h4>
-        <p>Hidratação com estilo durante seus treinos.</p>
-        <a href="https://mercadolivre.com/sec/12MKoWH" target="_blank" class="btn-comprar">Comprar no Mercado Livre</a>
+      <div class="card">
+        <img src="img/garrafa.jpg" alt="Garrafa" loading="lazy">
+        <h3>🥉 Garrafa</h3>
+        <p>Hidratação com estilo.</p>
+        <a href="https://mercadolivre.com/sec/12MKoWH" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
       </div>
+
     </div>
-  </section>
+  </div>
+</section>
+
 </main>
 
 <footer>
   <p>&copy; 2025 Bem Esportivo</p>
-  <a href="https://www.instagram.com/bemesportivo" target="_blank">
-    <img src="img/instagram.png" alt="Instagram" width="20" height="20" /> @bemesportivo
-  </a>
 </footer>
 
-<!-- Modal para imagem ampliada -->
-<div id="modalImagem" class="modal">
+<!-- MODAL -->
+<div id="modal" class="modal">
   <span class="fechar">&times;</span>
-  <img class="modal-conteudo" id="imgAmpliada" alt="Imagem ampliada" />
+  <img id="imgModal">
 </div>
 
 <script>
-  // Observer fade-slide (seu código já existente)
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
+document.addEventListener("DOMContentLoaded", () => {
+
+  const modal = document.getElementById("modal");
+  const imgModal = document.getElementById("imgModal");
+  const fechar = document.querySelector(".fechar");
+
+  document.querySelectorAll(".card img").forEach(img => {
+    img.addEventListener("click", () => {
+      modal.style.display = "block";
+      imgModal.src = img.src;
     });
   });
 
-  document.querySelectorAll('.fade-slide').forEach(section => {
-    observer.observe(section);
-  });
+  fechar.onclick = () => modal.style.display = "none";
 
-  // Modal e elementos
-  const modal = document.getElementById('modalImagem');
-  const imgAmpliada = document.getElementById('imgAmpliada');
-  const fechar = document.querySelector('.fechar');
+  modal.onclick = (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  };
 
-  // Quando clicar em qualquer imagem dos produtos
-  document.querySelectorAll('.produto-card img').forEach(img => {
-    img.addEventListener('click', () => {
-      modal.style.display = 'block';
-      imgAmpliada.src = img.src;
-      imgAmpliada.alt = img.alt;
-    });
-  });
-
-  // Fecha modal ao clicar no "X"
-  fechar.addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
-
-  // Fecha modal ao clicar fora da imagem ampliada
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
+});
 </script>
 
 </body>
 </html>
-

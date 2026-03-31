@@ -1,53 +1,238 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Reportagens - Bem Esportivo</title>
-  <link rel="stylesheet" href="style.css" />
-<link rel="stylesheet" href="responsive.css" />
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-E801T7L4BC');
-  </script>
+  <meta charset="UTF-8">
 
+  <!-- OBRIGATÓRIO PARA MOBILE -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Reportagens - Bem Esportivo</title>
+  <meta name="description" content="Reportagens especiais do Bem Esportivo. Histórias inspiradoras do esporte brasileiro.">
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- CSS BASE + MOBILE -->
   <style>
-    /* Efeito para imagens e vídeos */
-    img, video {
-      border-radius: 10px;
-      margin-bottom: 25px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    img:hover, video:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 15px #fa8a01;
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f8f8;
+      color: #111;
+      line-height: 1.7;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Rubik', sans-serif;
+      margin-bottom: 12px;
+    }
+
+    main {
+      max-width: 720px;
+      margin: auto;
+      padding: 16px;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      background: #000;
+      color: #fff;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    header img {
+      max-height: 45px;
+    }
+
+    #menu-toggle {
+      background: none;
+      border: none;
+      font-size: 26px;
+      color: #fa8a01;
+      cursor: pointer;
+    }
+
+    nav {
+      position: absolute;
+      top: 70px;
+      right: 16px;
+      background: #111;
+      display: none;
+      flex-direction: column;
+      padding: 14px;
+      border-radius: 10px;
+    }
+
+    nav a {
+      color: #fa8a01;
+      text-decoration: none;
+      padding: 8px 0;
+      font-weight: 600;
+    }
+
+    nav.show {
+      display: flex;
+    }
+
+    /* REPORTAGEM */
+    article {
+      margin-bottom: 60px;
+    }
+
+    .meta {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .resumo {
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .completo {
+      display: none;
+    }
+
+    .completo.ativo {
+      display: block;
+    }
+
+    .leia-mais {
+      margin-top: 16px;
+      padding: 10px 22px;
+      border-radius: 25px;
+      border: none;
+      background: #fa8a01;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* VIDEO RESPONSIVO */
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      margin: 20px 0;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 30px 16px;
+      background: #000;
+      color: #aaa;
+    }
+
+    /* BOTÃO TOPO */
+    #voltar-topo {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #fa8a01;
+      border: none;
+      border-radius: 50%;
+      padding: 12px 16px;
+      display: none;
+      cursor: pointer;
+      font-weight: bold;
     }
   </style>
 </head>
+
 <body>
 
- <header>
-  <img src="img/logo-bemesportivo.png" alt="Logo Bem Esportivo" />
-  <nav>
-  <a href="index.html">Início</a>
-  <a href="noticias.html">Notícias</a>
-  <a href="profissionais.html">Profissionais</a>
-  <a href="Reportagens.html">Reportagens</a>
-  <a href="academias.html">Academias</a>
-  <a href="escolasdefutebol.html">Escolas de Futebol</a>
-  <a href="ebook.html">E-book</a>
-  <a href="comunidade.html">Comunidade</a>
-</nav>
+<header>
+  <img src="img/logo-bemesportivo.png" alt="Logo Bem Esportivo">
 
+  <button id="menu-toggle" aria-label="Abrir menu">☰</button>
+
+  <nav id="menu">
+    <a href="/">Início</a>
+    <a href="/noticias">Notícias</a>
+    <a href="/reportagens">Reportagens</a>
+    <a href="/academias">Academias</a>
+    <a href="/ebook">E-book</a>
+    <a href="/comunidade">Comunidade</a>
+  </nav>
 </header>
 
+<main>
 
+  <article>
+    <h1>Dedicação e Talento Mirim em Campo</h1>
 
-  <main>
+    <p class="meta">
+      <strong>Por Redação Bem Esportivo</strong><br>
+      📍 Freguesia do Ó, São Paulo | 📅 09 de junho
+    </p>
+
+    <img src="img/IMG_0957.jpg" alt="Treino técnico na Academia de Futebol Portela">
+
+    <p class="resumo">
+      A bola rolou com intensidade na Academia de Futebol Portela, revelando jovens talentos em formação sob a orientação do professor Bruno.
+    </p>
+
+    <div class="completo">
+      <p>
+        Os destaques do treino foram João Pedro, de 9 anos, e Lorenzo, de 10 anos, que demonstraram disciplina, técnica e muita personalidade em campo.
+      </p>
+
+      <p>
+        O treino contou com circuitos físicos, exercícios técnicos e situações reais de jogo, preparando os atletas para desafios futuros.
+      </p>
+
+      <img src="img/IMG_0905.jpg" alt="Professor Bruno orientando os alunos">
+
+      <p>
+        O goleiro Enzo também participou ativamente, simulando situações defensivas e contribuindo para o desenvolvimento coletivo.
+      </p>
+
+      <div class="video-container">
+        <iframe 
+          src="https://www.youtube.com/embed/gBkon6LC2OU"
+          title="Treino técnico e tático - Academia de Futebol Portela"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <button class="leia-mais">Leia mais</button>
+  </article>
+
+</main>
+
+<main>
     <section>
       <h2>Reportagens Especiais</h2>
 
@@ -62,124 +247,39 @@
   </iframe>
 </article>
             </section>
-            <section>
-              <h2>Reportagens Especiais</h2>
-   <article>
-    <section class="noticia-destaque">
-      <article class="reportagem">
-        <h1>Dedicação e Talento Mirim em Campo: Treino Técnico e Tático Agita a Academia de Futebol Portela</h1>
-        <p>
-          <strong>Por Redação Bem Esportivo</strong><br />
-          📍 <em>Freguesia do Ó, São Paulo</em> | 📅 <em>Data do treino: 09 de junho </em>
-        </p>
 
-        <figure>
-          <img src="img/IMG_0957.jpg" alt="Dia de treino" />
-          <figcaption>
-            <em>Professor Bruno e seus alunos: metodologia moderna e foco no crescimento individual.</em>
-          </figcaption>
-        </figure>
+<footer>
+  <p>&copy; 2025 Bem Esportivo</p>
+</footer>
 
-        <p class="resumo">
-          Na última semana, a bola rolou com intensidade na <strong>Academia de Futebol Portela</strong>, localizada na tradicional Freguesia do Ó, zona norte de São Paulo. Sob o comando do experiente professor <strong>Bruno</strong>, um treino físico, técnico e tático movimentou o campo e revelou a dedicação de jovens talentos em formação.
-        </p>
-
-        <div class="completo">
-          <p>
-            Os grandes protagonistas foram os alunos <strong>João Pedro</strong>, de apenas <strong>9 anos</strong>, e <strong>Lorenzo</strong>, de <strong>10 anos</strong>, que demonstraram disciplina, garra e muita habilidade com a bola nos pés.
-          </p>
-
-          <p>
-            O trabalho começou com um circuito físico para desenvolver resistência e agilidade, seguido por exercícios técnicos voltados ao domínio de bola, finalização e passe em movimento. João Pedro impressionou pelo controle refinado e pela leitura de jogo apurada, enquanto Lorenzo mostrou potência nos chutes e espírito de liderança em campo.
-          </p>
-
-          <figure>
-            <img src="img/IMG_0905.jpg" alt="Professor Bruno orienta os alunos" />
-            <figcaption>
-              <em>Professor Bruno orienta os alunos: metodologia moderna e foco no crescimento individual.</em>
-            </figcaption>
-          </figure>
-
-          <figure>
-            <img src="img/IMG_0902.jpg" alt="João Pedro em ação durante o treino técnico" />
-            <figcaption>
-              <em>João Pedro em ação durante o treino técnico — foco e determinação em cada movimento.</em>
-            </figcaption>
-          </figure>
-
-          <figure>
-            <img src="img/IMG_0901.jpg" alt="Lorenzo em treino de finalização" />
-            <figcaption>
-              <em>Lorenzo se destaca nos exercícios de finalização com precisão e força.</em>
-            </figcaption>
-          </figure>
-
-          <p class="destaque-enzo">
-  A atividade contou ainda com a participação especial do jovem <strong>goleiro Enzo</strong>, que foi testado em diversos cenários defensivos durante o treino tático. Sua performance foi essencial para simular situações de jogo reais, ajudando os colegas a se prepararem melhor para partidas futuras.
-</p>
-
-
-          <h2>João Pedro e Lorenzo: Novos Nomes para Ficar de Olho</h2>
-          <p>
-            Com muito futebol nos pés e sede de evolução, os pequenos atletas representam a nova geração de craques. Tanto João Pedro quanto Lorenzo seguem encantando os que acompanham seus passos no campo, deixando claro que o futuro do futebol começa nas categorias de base — com dedicação, apoio familiar e professores comprometidos, como o professor Bruno.
-          </p>
-
-          <p>
-            <strong>🎯 Bem Esportivo</strong> segue acompanhando os bastidores do futebol de base com exclusividade. Continue com a gente para mais histórias inspiradoras como essa.
-          </p>
-        </div>
-
-        
- <!-- 🎥 Vídeo do YouTube incorporado -->
-  <div class="video-container">
-    <iframe 
-      width="560" 
-      height="315" 
-      src="https://www.youtube.com/embed/gBkon6LC2OU" 
-      title="Treino técnico e tático - Academia de Futebol Portela"
-      frameborder="0" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-      allowfullscreen>
-    </iframe>
-    <figcaption style="font-size: 13px; color: #666; margin-top: 5px;">
-      Vídeo: Treino técnico e tático com o professor Bruno
-    </figcaption>
-  </div>
-  <!-- Fim do vídeo -->
-   
-
-        <button class="leia-mais">Leia mais</button>
-      </article>
-    </section>
-  </article>
-</section>
-
+<button id="voltar-topo">↑</button>
 
 <script>
-  document.querySelector('.leia-mais').addEventListener('click', function () {
-    const completo = document.querySelector('.completo');
-    if (completo.style.display === 'block') {
-      completo.style.display = 'none';
-      this.textContent = 'Leia mais';
-    } else {
-      completo.style.display = 'block';
-      this.textContent = 'Leia menos';
-    }
+  // MENU MOBILE
+  const menuToggle = document.getElementById('menu-toggle');
+  const nav = document.getElementById('menu');
+
+  menuToggle.addEventListener('click', () => {
+    nav.classList.toggle('show');
   });
-</script>
 
-    </section>
-  </main>
+  // LEIA MAIS
+  document.querySelectorAll('.leia-mais').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const completo = btn.previousElementSibling;
+      completo.classList.toggle('ativo');
+      btn.textContent = completo.classList.contains('ativo') ? 'Leia menos' : 'Leia mais';
+    });
+  });
 
-  <footer>
-    <p>&copy; 2025 Bem Esportivo</p>
-  </footer>
-
-  <button id="voltar-topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
-<script>
+  // VOLTAR AO TOPO
+  const topo = document.getElementById('voltar-topo');
   window.addEventListener('scroll', () => {
-    const botao = document.getElementById('voltar-topo');
-    botao.style.display = window.scrollY > 200 ? 'block' : 'none';
+    topo.style.display = window.scrollY > 300 ? 'block' : 'none';
+  });
+
+  topo.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 </script>
 

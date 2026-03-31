@@ -4,372 +4,289 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beplay | Bem Esportivo</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      background: #000;
-      color: #fff;
-      font-family: 'Rubik', sans-serif;
+    :root {
+      --primary: #fc6e02;
+      --secondary: #9a5700;
+      --dark: #1c1c1c;
+      --light: #f8f9fa;
+      --radius: 14px;
+    }
+
+    * {
       margin: 0;
       padding: 0;
-      overflow-x: hidden;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
     }
 
-    header {
+    body {
+      background: var(--light);
+      color: var(--dark);
+      padding-top: 90px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 24px;
+    }
+
+    /* MENU */
+    .menu {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .menu-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #1c1c1c;
+      font-weight: 600;
+    }
+
+    .search-box input {
+      padding: 8px 12px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
       text-align: center;
-      padding: 30px 20px;
-      border-bottom: 2px solid #fa8a01;
+      padding: 50px 20px;
     }
 
-    header img {
-      max-width: 180px;
-      margin-bottom: 10px;
-      animation: fadeDown 1s ease forwards;
-    }
-
+    /* GRID */
     .videos-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
-      padding: 30px;
+      padding: 30px 0;
     }
 
     .video-card {
-      background: rgba(20,20,20,0.9);
-      border-radius: 15px;
+      background: #fff;
+      border-radius: var(--radius);
       padding: 15px;
-      position: relative;
-      transition: all 0.4s ease;
-      transform: translateY(30px);
-      opacity: 0;
-    }
-
-    .video-card.visible {
-      transform: translateY(0);
-      opacity: 1;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      transition: 0.3s;
     }
 
     .video-card:hover {
-      transform: scale(1.05) translateY(-5px);
-      box-shadow: 0 0 25px rgba(250, 138, 1, 0.6);
-      backdrop-filter: blur(8px);
+      transform: translateY(-5px);
     }
 
     .video-thumb {
       width: 100%;
-      height: 200px;
-      border-radius: 10px;
-      margin-bottom: 10px;
+      height: 180px;
+      border-radius: var(--radius);
       background-size: cover;
       background-position: center;
-      transition: 0.3s ease;
     }
 
     .video-card h3 {
-      margin: 10px 0;
-      font-size: 1.2rem;
-      color: #fa8a01;
       text-align: center;
+      margin: 10px 0;
     }
 
     .btn-play {
-      display: inline-block;
-      margin: 8px auto;
-      padding: 10px 18px;
-      background: #fa8a01;
-      color: #000;
-      font-weight: bold;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-
-    .btn-play:hover {
-      background: #fff;
-      color: #000;
-      transform: scale(1.05);
-    }
-
-    /* === Vídeo de abertura (vinheta) === */
-.banner-video {
-  width: 100%;
-  max-height: 300px; /* altura menor */
-  overflow: hidden;  /* evita corte estranho */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.banner-video video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* preenche sem cortar estranhamente */
-  border-bottom: 2px solid #fa8a01;
-}
-
-/* === Miniaturas dos vídeos === */
-.video-thumb {
-  width: 100%;
-  height: 180px;  /* altura menor para não cortar */
-  border-radius: 10px;
-  object-fit: cover;
-  background-size: cover;
-  background-position: center center;
-
-}
-
-/* Miniaturas dos vídeos */
-.video-thumb {
-  width: 100%;
-  height: 180px;              /* altura fixa para ficar uniforme */
-  border-radius: 10px;
-  background-size: contain;   /* mostra o vídeo inteiro */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: #000;     /* fundo preto para não ficar vazio */
-}
-
-
-
-    /* Curtidas */
-    .video-card .curtir {
-      background: none;
-      border: none;
-      color: #fa8a01;
-      font-size: 20px;
-      cursor: pointer;
-      margin-top: 8px;
       display: block;
-      margin-left: auto;
-      margin-right: auto;
-      transition: transform 0.2s ease;
-    }
-
-    .video-card .curtir:hover {
-      transform: scale(1.3);
-    }
-
-    .curtir.animado {
-      animation: pulse 0.4s ease;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.5); color: #ff4081; }
-      100% { transform: scale(1); color: #fa8a01; }
-    }
-
-    /* Ranking */
-    #ranking-list li {
+      text-align: center;
+      background: var(--primary);
+      color: #fff;
       padding: 10px;
-      margin-bottom: 8px;
-      background: #222;
-      border-radius: 8px;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeInUp 0.5s forwards;
+      border-radius: 20px;
+      cursor: pointer;
     }
 
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Modal */
+    /* MODAL */
     .modal {
       display: none;
       position: fixed;
-      z-index: 9999;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
+      inset: 0;
       background: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
     }
-    .modal.show { display: flex; opacity: 1; }
 
-    .modal-content {
-      position: relative;
-      background: #000;
-      padding: 10px;
-      border-radius: 12px;
-      max-width: 900px;
+    .modal.show {
+      display: flex;
+    }
+
+    iframe {
       width: 90%;
-      transform: scale(0.7);
-      transition: transform 0.3s ease;
-    }
-    .modal.show .modal-content { transform: scale(1); }
-
-    .modal-content iframe {
-      width: 100%;
       height: 500px;
-      border-radius: 12px;
     }
 
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 0;
-      font-size: 30px;
+    /* BOTÕES */
+    #voltar-topo {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: none;
+      padding: 12px;
+      border-radius: 50%;
+      background: var(--primary);
       color: #fff;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .close:hover { color: #fa8a01; transform: rotate(90deg); }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #111;
-      color: #888;
-      font-size: 0.9rem;
+      border: none;
     }
 
-    .btn-retorno {
-      background: #fa8a01;
-      color: #000;
-      padding: 10px 15px;
-      border-radius: 8px;
+    .btn-home {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: none;
+      background: linear-gradient(135deg, #fc6e02, #9a5700);
+      color: #fff;
+      padding: 14px;
+      border-radius: 50%;
       text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
     }
-    .btn-retorno:hover { background: #fff; color: #000; }
 
-    /* Animações de entrada */
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .logo {
+  font-size: 22px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
   </style>
 </head>
+
 <body>
-  <header>
-    <img src="img/beplay.jpg" alt="Beplay Logo">
-    <div class="banner-video">
-      <video autoplay muted loop playsinline>
-        <source src="videos/vinheta.mp4.mp4" type="video/mp4">
-      </video>
+
+<header class="menu">
+  <div class="container menu-content">
+    <div class="logo">Beplay</div>
+    
+
+
+    <nav>
+      <a href="index.html">Início</a>
+          </nav>
+
+    <!-- BUSCA -->
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Buscar vídeos...">
     </div>
-  </header>
-
-  <main>
-    <section class="videos-grid">
-      <div class="video-card" data-video="https://www.youtube.com/embed/gBkon6LC2OU">
-        <div class="video-thumb"></div>
-        <h3>Treino Técnico e Tático</h3>
-        <button class="btn-play">▶ Assistir Agora</button>
-        <button class="curtir">❤️ <span class="curtidas">0</span></button>
-      </div>
-
-      <div class="video-card" data-video="https://www.youtube.com/embed/Qi1lRW18kvM">
-        <div class="video-thumb"></div>
-        <h3>Duda e o Futebol</h3>
-        <button class="btn-play">▶ Assistir Agora</button>
-        <button class="curtir">❤️ <span class="curtidas">0</span></button>
-      </div>
-
-      <div class="video-card" data-video="https://www.youtube.com/embed/dYiX4fvxGG8">
-        <div class="video-thumb"></div>
-        <h3>Futebol e Areia</h3>
-        <button class="btn-play">▶ Assistir Agora</button>
-        <button class="curtir">❤️ <span class="curtidas">0</span></button>
-      </div>
-    </section>
-  </main>
-
-  <div style="text-align:center; margin:20px;">
-    <a href="index.html" class="btn-retorno">⬅ Voltar para Início</a>
   </div>
+</header>
 
-  <section id="ranking" style="padding:30px; background:#111; margin-top:30px; border-top:2px solid #fa8a01;">
-    <h2 style="color:#fa8a01; text-align:center;">🏆 Ranking dos Mais Curtidos</h2>
-    <ul id="ranking-list" style="list-style:none; padding:0; margin-top:20px; max-width:600px; margin:auto; font-size:1.1rem; color:#fff;"></ul>
+<header class="hero">
+  <h1>🎥 BEplay</h1>
+  <p>Conteúdos exclusivos de esporte</p>
+</header>
+
+<main class="container">
+
+  <section class="videos-grid">
+
+    <div class="video-card" data-video="https://www.youtube.com/embed/gBkon6LC2OU">
+      <div class="video-thumb"></div>
+      <h3>Treino Técnico e Tático</h3>
+      <div class="btn-play">Assistir</div>
+    </div>
+
+    <div class="video-card" data-video="https://www.youtube.com/embed/Qi1lRW18kvM">
+      <div class="video-thumb"></div>
+      <h3>Duda e o Futebol</h3>
+      <div class="btn-play">Assistir</div>
+    </div>
+
+    <div class="video-card" data-video="https://www.youtube.com/embed/dYiX4fvxGG8">
+      <div class="video-thumb"></div>
+      <h3>Futebol e Areia</h3>
+      <div class="btn-play">Assistir</div>
+    </div>
+
   </section>
 
-  <footer>&copy; 2025 Bem Esportivo - Beplay</footer>
+</main>
 
-  <div id="videoModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <iframe src="" frameborder="0" allowfullscreen></iframe>
-    </div>
-  </div>
+<footer style="text-align:center; padding:20px; background:#111; color:#fff;">
+  © 2025 Bem Esportivo
+</footer>
 
-  <script>
-    // Thumbnails YouTube
-    document.querySelectorAll(".video-card").forEach(card => {
-      const videoUrl = card.dataset.video;
-      const videoId = videoUrl.split("/embed/")[1];
-      card.querySelector(".video-thumb").style.backgroundImage = `url(https://img.youtube.com/vi/${videoId}/maxresdefault.jpg)`;
-    });
+<!-- BOTÕES -->
+<button id="voltar-topo">↑</button>
+<a href="index.html" class="btn-home">🏠</a>
 
-    // Modal
-    const modal = document.getElementById("videoModal");
-    const modalIframe = modal.querySelector("iframe");
-    const closeBtn = modal.querySelector(".close");
+<!-- MODAL -->
+<div id="videoModal" class="modal">
+  <iframe src=""></iframe>
+</div>
 
-    document.querySelectorAll(".btn-play").forEach(btn => {
-      btn.addEventListener("click", e => {
-        const card = e.target.closest(".video-card");
-        modal.classList.add("show");
-        modalIframe.src = card.dataset.video + "?autoplay=1";
-      });
-    });
+<script>
+/* THUMBNAIL */
+document.querySelectorAll(".video-card").forEach(card => {
+  const id = card.dataset.video.split("/embed/")[1];
+  card.querySelector(".video-thumb").style.backgroundImage =
+    `url(https://img.youtube.com/vi/${id}/hqdefault.jpg)`;
+});
 
-    function fecharModal(){
-      modal.classList.remove("show");
-      modalIframe.src = "";
-    }
-    closeBtn.addEventListener("click", fecharModal);
-    window.addEventListener("click", e => { if(e.target === modal) fecharModal(); });
-    window.addEventListener("keydown", e => { if(e.key === "Escape") fecharModal(); });
+/* MODAL */
+const modal = document.getElementById("videoModal");
+const iframe = modal.querySelector("iframe");
 
-    // Curtidas + Ranking
-    function atualizarRanking() {
-      const rankingList = document.getElementById("ranking-list");
-      rankingList.innerHTML = "";
-      let itens = [];
+document.querySelectorAll(".btn-play").forEach(btn => {
+  btn.onclick = e => {
+    const card = e.target.closest(".video-card");
+    modal.classList.add("show");
+    iframe.src = card.dataset.video + "?autoplay=1";
+  };
+});
 
-      document.querySelectorAll(".video-card").forEach(card => {
-        const titulo = card.querySelector("h3").innerText;
-        const curtidas = parseInt(card.querySelector(".curtidas").innerText);
-        itens.push({titulo, curtidas});
-      });
+modal.onclick = () => {
+  modal.classList.remove("show");
+  iframe.src = "";
+};
 
-      itens.sort((a,b) => b.curtidas - a.curtidas);
+/* BUSCA */
+const input = document.getElementById("searchInput");
 
-      itens.forEach(item => {
-        if(item.curtidas > 0){
-          const li = document.createElement("li");
-          li.textContent = `${item.titulo} — ❤️ ${item.curtidas}`;
-          rankingList.appendChild(li);
-        }
-      });
-    }
+input.addEventListener("keyup", () => {
+  const filtro = input.value.toLowerCase();
+  const cards = document.querySelectorAll(".video-card");
 
-    document.querySelectorAll(".curtir").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const span = btn.querySelector(".curtidas");
-        span.textContent = parseInt(span.textContent) + 1;
-        btn.classList.add("animado");
-        setTimeout(()=>btn.classList.remove("animado"),400);
-        atualizarRanking();
-      });
-    });
+  cards.forEach(card => {
+    const titulo = card.querySelector("h3").textContent.toLowerCase();
+    card.style.display = titulo.includes(filtro) ? "block" : "none";
+  });
+});
 
-    // Scroll animation (cards aparecem suavemente)
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add("visible");
-        }
-      });
-    }, {threshold:0.2});
+/* BOTÕES */
+const topo = document.getElementById("voltar-topo");
+const home = document.querySelector(".btn-home");
 
-    document.querySelectorAll(".video-card").forEach(card => observer.observe(card));
-  </script>
+window.addEventListener("scroll", () => {
+  const show = window.scrollY > 200;
+  topo.style.display = show ? "block" : "none";
+  home.style.display = show ? "block" : "none";
+});
+
+topo.onclick = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+</script>
+
 </body>
 </html>
-

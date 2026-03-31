@@ -1,4 +1,3 @@
-ebook.css
 /* RESET */
 * {
   margin: 0;
@@ -6,6 +5,7 @@ ebook.css
   box-sizing: border-box;
 }
 
+/* BASE */
 body {
   font-family: 'Rubik', sans-serif;
   background: #000;
@@ -14,57 +14,7 @@ body {
   padding: 20px;
 }
 
-header, .hero, .hero-content, .hero-image, .cta-btn, .benefits, .guarantee, footer {
-  /* Somente o que aparece na página do ebook */
-}
-
-.cta-btn:hover { ... }
-
-.benefits { ... }
-.guarantee { ... }
-footer { ... }
-
-/* Botão principal - visual atualizado */
-.cta-btn {
-  display: inline-block;
-  background: #fa8a01;
-  color: #000;
-  padding: 16px 40px;
-  border-radius: 50px;
-  font-weight: 700;
-  text-decoration: none;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(250, 138, 1, 0.5);
-}
-
-.cta-btn:hover {
-  background: #fff;
-  color: #000;
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(250, 138, 1, 0.6);
-}
-
-/* Opcional: destacar a garantia */
-.guarantee {
-  background: #111;
-  padding: 40px 20px;
-  text-align: center;
-  border-radius: 12px;
-  margin: 50px auto;
-  max-width: 600px;
-}
-
-.guarantee h3 {
-  color: #fa8a01;
-  margin-bottom: 10px;
-}
-
-.guarantee p {
-  color: #fff;
-  margin-bottom: 20px;
-}
-
+/* HERO */
 .hero {
   text-align: center;
   margin: 40px auto;
@@ -86,6 +36,28 @@ footer { ... }
   border-radius: 12px;
 }
 
+/* BOTÃO PRINCIPAL */
+.cta-btn {
+  display: inline-block;
+  background: #fa8a01;
+  color: #000;
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(250, 138, 1, 0.5);
+}
+
+.cta-btn:hover {
+  background: #fff;
+  color: #000;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(250, 138, 1, 0.6);
+}
+
+/* BENEFÍCIOS */
 .benefits {
   max-width: 600px;
   margin: 40px auto;
@@ -104,8 +76,36 @@ footer { ... }
   margin-bottom: 10px;
   font-size: 1.1rem;
 }
+
+/* GARANTIA */
+.guarantee {
+  background: #111;
+  padding: 40px 20px;
+  text-align: center;
+  border-radius: 12px;
+  margin: 50px auto;
+  max-width: 600px;
+}
+
+.guarantee h3 {
+  color: #fa8a01;
+  margin-bottom: 10px;
+}
+
+.guarantee p {
+  margin-bottom: 20px;
+}
+
+/* IMAGEM DO EBOOK */
 .ebook-section img {
-  max-width: 150px; /* antes era 200px */
+  max-width: 150px;
   margin-bottom: 20px;
   border-radius: 12px;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #aaa;
 }
