@@ -14,6 +14,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
+  <!-- GRÁFICO -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     :root {
       --primary: #fc6e02;
@@ -160,7 +163,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center;
     }
 
     section {
@@ -190,6 +192,15 @@
       width: 100%;
       border-radius: var(--radius);
       margin-bottom: 10px;
+    }
+
+    /* NOVO BLOCO */
+    .avaliacao-box input,
+    .avaliacao-box select {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
     }
 
     footer {
@@ -257,11 +268,42 @@
 
 <div class="banner-wrapper">
   <div class="banner-produtos">
-    <img src="img/banner.png" alt="Banner Produtos Esportivos">
+    <img src="img/banner.png">
   </div>
 </div>
 
 <main>
+
+<!-- NOVA SEÇÃO -->
+<section>
+  <div class="container">
+    <h2>📊 Avaliação Física</h2>
+
+    <div class="card avaliacao-box">
+
+      <input type="text" id="peso" placeholder="Peso (kg)">
+      <input type="text" id="altura" placeholder="Altura (ex: 1.75)">
+      <input type="number" id="idade" placeholder="Idade">
+
+      <select id="atividade">
+        <option value="">Nível de atividade</option>
+        <option value="sedentario">Sedentário</option>
+        <option value="leve">Atividade leve</option>
+        <option value="moderado">Moderado</option>
+        <option value="intenso">Intenso</option>
+      </select>
+
+      <br><br>
+
+      <button onclick="calcular()" class="btn">Calcular</button>
+
+      <div id="resultado"></div>
+
+      <canvas id="grafico"></canvas>
+
+    </div>
+  </div>
+</section>
 
 <section>
   <div class="container">
@@ -303,6 +345,57 @@
 <button id="voltar-topo">↑</button>
 
 <script>
+let chart;
+
+function calcular() {
+  const peso = parseFloat(document.getElementById("peso").value);
+  const altura = parseFloat(document.getElementById("altura").value.replace(",", "."));
+  const idade = document.getElementById("idade").value;
+  const atividade = document.getElementById("atividade").value;
+
+  if (!peso || !altura || !idade || !atividade) {
+    alert("Preencha todos os campos corretamente");
+    return;
+  }
+
+  const imc = (peso / (altura * altura)).toFixed(1);
+
+  let classificacao = "";
+  let dica = "";
+
+  if (imc < 18.5) {
+    classificacao = "Abaixo do peso";
+    dica = "Aumente ingestão calórica e foque em treino de força.";
+  } else if (imc < 25) {
+    classificacao = "Peso ideal";
+    dica = "Mantenha uma rotina equilibrada.";
+  } else if (imc < 30) {
+    classificacao = "Sobrepeso";
+    dica = "Inclua exercícios aeróbicos.";
+  } else {
+    classificacao = "Obesidade";
+    dica = "Procure orientação profissional.";
+  }
+
+  document.getElementById("resultado").innerHTML =
+    `IMC: ${imc} - ${classificacao} <br> 💡 ${dica}`;
+
+  const ctx = document.getElementById("grafico");
+
+  if (chart) chart.destroy();
+
+  chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Seu IMC"],
+      datasets: [{
+        data: [imc]
+      }]
+    }
+  });
+}
+
+/* SEU JS ORIGINAL */
 const toggle = document.getElementById("menu-toggle");
 const nav = document.getElementById("nav");
 
