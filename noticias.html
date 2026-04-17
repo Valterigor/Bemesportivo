@@ -1,172 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Notícias - Bem Esportivo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Título da Notícia | Bem Esportivo</title>
+  <meta name="description" content="Resumo da notícia para aparecer no Google">
+  <link rel="icon" href="img/logo-bem.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      background-color: #000;
-      color: white;
-      font-family: 'Rubik', sans-serif;
-      margin: 0;
-    }
+    body{font-family:'Inter',sans-serif;background:#f8f9fa;color:#1c1c1c;margin:0;}
+    .container{max-width:900px;margin:auto;padding:20px;}
 
-    header {
-      background-color: #111;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    .menu{background:#fff;padding:15px 20px;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo img{height:40px;}
 
-    header img {
-      height: 50px;
-    }
+    h1{font-size:2rem;margin-bottom:10px;}
+    .meta{color:gray;font-size:14px;margin-bottom:20px;}
 
-    nav a {
-      color: white;
-      margin-left: 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+    .imagem{width:100%;border-radius:12px;margin:20px 0;}
 
-    main {
-      padding: 40px 20px;
-    }
+    .conteudo p{margin-bottom:15px;line-height:1.6;}
 
-    h1 {
-      text-align: center;
-      color: #ffa500;
-      margin-bottom: 30px;
-    }
+    .btn-voltar{display:inline-block;margin-top:30px;background:#fc6e02;color:#fff;padding:10px 20px;border-radius:20px;text-decoration:none;}
 
-    .noticia-lista {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-    }
-
-    .noticia {
-      background-color: #1a1a1a;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
-      transition: transform 0.3s;
-    }
-
-    .noticia:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
-    }
-
-    .noticia h2 {
-      color: #fff;
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    .noticia p {
-      color: #ccc;
-      font-size: 14px;
-    }
-
-    .noticia a {
-      display: inline-block;
-      margin-top: 10px;
-      color: #ffa500;
-      text-decoration: underline;
-      font-weight: bold;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #111;
-      color: #ccc;
-    }
-
-    .btn-voltar {
-      display: block;
-      margin: 30px auto 0;
-      background-color: #ffa500;
-      color: black;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: bold;
-      text-decoration: none;
-      width: fit-content;
-    }
-
-    .btn-voltar:hover {
-      background-color: #e69500;
-    }
-
-  
+    footer{text-align:center;padding:30px;background:#fff;margin-top:40px;}
   </style>
 </head>
+
 <body>
 
-<header>
-  <img src="img/logo-bem.png" alt="Logo Bem Esportivo" />
-  <nav>
-    <a href="index.html">Início</a>
-    <a href="profissionais.html">Profissionais</a>
-    <a href="Reportagens.html">Reportagens</a>
-  </nav>
+<header class="menu">
+  <div class="logo">
+    <a href="index.html">
+      <img src="img/logo-bem.png" alt="Bem Esportivo">
+    </a>
+    <strong>Bem Esportivo</strong>
+  </div>
 </header>
 
-<main>
-  <h1>Notícia em Destaque</h1>
+<main class="container">
 
-  <div class="noticia-lista">
-    <div class="noticia">
-      <h2>O Esporte está de luto - Morre Diogo Jota atacante do Liverpool</h2>
-      <p>O futebol está de luto.
+  <h1>Título da Notícia Principal Aqui</h1>
 
-Na madrugada desta quinta-feira, 3 de julho, o atacante português Diogo Jota, do Liverpool, faleceu aos 28 anos de idade.
-
-A notícia foi divulgada primeiramente pelo jornal Marca, da Espanha.
-
-Diogo Jota sofreu um trágico acidente de carro na região de Zamora, no norte do país.
-
-Infelizmente, seu irmão, André Silva, de 25 anos, também não resistiu e faleceu no local.
-
-A morte de Diogo Jota deixa o mundo do futebol em choque e tristeza profunda.
-
-Um talento que marcou sua geração... e que agora nos deixa de forma precoce.
-
-Nossos sentimentos à família, aos amigos e a todos os fãs ao redor do mundo.</p>
-
-      <img src="img/foto-evento.jpg" alt="Foto do evento" style="width: 100%; border-radius: 8px; margin: 15px 0;" />
-
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-bottom: 10px;">
-  <iframe 
-    src="https://www.youtube.com/embed/BVdGa3lpSog" 
-    title="Vídeo do Evento" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen 
-    style="position: absolute; top:0; left: 0; width: 100%; height: 100%;">
-  </iframe>
-</div>
-
-
-      <p>Nossos sentimento a toda familia e fãs do atleta.</p>
-    </div>
+  <div class="meta">
+    Por Bem Esportivo • 11/04/2026 • Futebol
   </div>
-</main>
 
+  <img src="img/noticia1.jpg" class="imagem">
 
+  <div class="conteudo">
+    <p>Primeiro parágrafo da notícia. Aqui você coloca a informação mais importante logo no início.</p>
 
-  <a href="index.html" class="btn-voltar">← Voltar para o Início</a>
+    <p>Segundo parágrafo com mais detalhes sobre o que aconteceu, trazendo contexto e informações relevantes.</p>
+
+    <p>Terceiro parágrafo com análise, opinião ou impacto da notícia.</p>
+
+    <p>Finalização com conclusão ou próximos passos relacionados ao tema.</p>
+  </div>
+
+  <a href="index.html" class="btn-voltar">← Voltar para Home</a>
+
 </main>
 
 <footer>
-  <p>&copy; 2025 Bem Esportivo</p>
+  <p>© 2026 Bem Esportivo</p>
 </footer>
 
-</body>
+</body> 
 </html>

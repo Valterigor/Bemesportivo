@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Coluna do Valtinho | Bem Esportivo</title>
+
+  <link rel="icon" href="img/logo-bem.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body{font-family:'Inter',sans-serif;background:#f8f9fa;margin:0;padding-top:80px;}
+    .container{max-width:900px;margin:auto;padding:20px;}
+
+    /* MENU */
+    .menu{
+      position:fixed;
+      width:100%;
+      top:0;
+      background:#fff;
+      box-shadow:0 2px 10px rgba(0,0,0,0.1);
+      z-index:1000;
+    }
+
+    .menu-content{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      max-width:1100px;
+      margin:auto;
+      padding:15px 20px;
+    }
+
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#000;}
+    .logo img{height:40px;}
+
+    .btn-home{
+      background:#fc6e02;
+      color:#fff;
+      padding:8px 16px;
+      border-radius:20px;
+      text-decoration:none;
+      font-weight:600;
+    }
+
+    .hero{
+      background:linear-gradient(135deg,#fc6e02,#9a5700);
+      color:#fff;
+      padding:60px 20px;
+      text-align:center;
+    }
+
+    .sobre{
+      background:#fff;
+      display:flex;
+      gap:20px;
+      padding:20px;
+      border-radius:12px;
+      margin-top:-40px;
+      margin-bottom:30px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.08);
+      align-items:center;
+    }
+
+    .sobre img{
+      width:100px;
+      height:100px;
+      border-radius:50%;
+      object-fit:cover;
+    }
+
+    .post{
+      background:#fff;
+      padding:20px;
+      border-radius:12px;
+      margin-bottom:20px;
+      box-shadow:0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .meta{font-size:12px;color:gray;}
+
+    .btn{
+      display:inline-block;
+      margin-top:10px;
+      background:#fc6e02;
+      color:#fff;
+      padding:10px 20px;
+      border-radius:20px;
+      text-decoration:none;
+      cursor:pointer;
+    }
+
+    /* TEXTO OCULTO */
+    .texto-completo{
+      display:none;
+      margin-top:15px;
+      line-height:1.6;
+    }
+
+    @media(max-width:768px){
+      .sobre{flex-direction:column;text-align:center;}
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="menu">
+  <div class="menu-content">
+
+    <a href="index.html" class="logo">
+      <img src="img/logo-bem.png">
+      <strong>Bem Esportivo</strong>
+    </a>
+
+    <a href="index.html" class="btn-home">Início</a>
+
+  </div>
+</header>
+
+<section class="hero">
+  <h1>🎙 Coluna do Valtinho</h1>
+  <p>Opinião, análise e visão real do esporte</p>
+</section>
+
+<div class="container">
+
+  <div class="sobre">
+    <img src="img/valtinho.jpg">
+
+    <div>
+      <h3>Valtinho</h3>
+      <p>
+        Estudante de jornalismo e apaixonado por esporte e performance.
+      </p>
+    </div>
+  </div>
+
+  <!-- POST 1 -->
+  <div class="post">
+    <h2>O futebol brasileiro precisa mudar</h2>
+    <p class="meta">Por Valtinho • 11/04/2026</p>
+    <p>O futebol brasileiro vive um momento de transição...</p>
+
+    <button class="btn" onclick="toggleTexto('texto1')">
+      Ler texto completo
+    </button>
+
+    <div id="texto1" class="texto-completo">
+      <p>
+        O futebol brasileiro precisa evoluir taticamente.
+        Hoje, vemos equipes que ainda dependem muito do talento individual,
+        enquanto o futebol moderno exige organização coletiva.
+      </p>
+
+      <p>
+        Clubes que investem em análise de desempenho,
+        posicionamento e leitura de jogo estão saindo na frente.
+      </p>
+    </div>
+  </div>
+
+  <!-- POST 2 -->
+  <div class="post">
+    <h2>Saúde e esporte: o equilíbrio ideal</h2>
+    <p class="meta">Por Valtinho • 10/04/2026</p>
+    <p>Mais do que performance, o esporte precisa ser saúde...</p>
+
+    <button class="btn" onclick="toggleTexto('texto2')">
+      Ler texto completo
+    </button>
+
+    <div id="texto2" class="texto-completo">
+      <p>
+        O esporte não deve ser apenas performance.
+        Ele precisa estar alinhado com qualidade de vida e saúde mental.
+      </p>
+
+      <p>
+        O equilíbrio entre corpo e mente é o verdadeiro caminho
+        para resultados duradouros.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleTexto(id){
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === "block" ? "none" : "block";
+}
+</script>
+
+<footer>
+  <p>© 2026 Bem Esportivo</p>
+</footer>
+</body>
+</html>

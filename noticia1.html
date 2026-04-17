@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Título da Notícia | Bem Esportivo</title>
+  <meta name="description" content="Resumo da notícia para aparecer no Google">
+  <link rel="icon" href="img/logo-bem.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary:#fc6e02;
+      --dark:#1c1c1c;
+      --light:#f8f9fa;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Inter',sans-serif;
+    }
+
+    body{
+      background:#f8f9fa;
+      color:#1c1c1c;
+      padding-top:80px; /* espaço pro menu fixo */
+    }
+
+    .container{
+      max-width:900px;
+      margin:auto;
+      padding:20px;
+    }
+
+    /* MENU PADRÃO */
+    .menu{
+      position:fixed;
+      width:100%;
+      top:0;
+      background:#fff;
+      box-shadow:0 2px 10px rgba(0,0,0,0.1);
+      z-index:1000;
+    }
+
+    .menu-content{
+      max-width:1100px;
+      margin:auto;
+      padding:15px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      color:#000;
+    }
+
+    .logo img{
+      height:40px;
+    }
+
+    .btn-home{
+      background:var(--primary);
+      color:#fff;
+      padding:8px 18px;
+      border-radius:20px;
+      text-decoration:none;
+      font-weight:600;
+      transition:0.3s;
+    }
+
+    .btn-home:hover{
+      transform:scale(1.05);
+    }
+
+    h1{
+      font-size:2rem;
+      margin-bottom:10px;
+    }
+
+    .meta{
+      color:gray;
+      font-size:14px;
+      margin-bottom:20px;
+    }
+
+    .imagem{
+      width:100%;
+      border-radius:12px;
+      margin:20px 0;
+    }
+
+    .conteudo p{
+      margin-bottom:15px;
+      line-height:1.6;
+    }
+
+    .btn-voltar{
+      display:inline-block;
+      margin-top:30px;
+      background:var(--primary);
+      color:#fff;
+      padding:10px 20px;
+      border-radius:20px;
+      text-decoration:none;
+    }
+
+    footer{
+      text-align:center;
+      padding:30px;
+      background:#fff;
+      margin-top:40px;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- MENU CORRIGIDO -->
+<header class="menu">
+  <div class="menu-content">
+
+    <a href="index.html" class="logo">
+      <img src="img/logo-bem.png" alt="Bem Esportivo">
+      <strong>Bem Esportivo</strong>
+    </a>
+
+    <a href="index.html" class="btn-home">Início</a>
+
+  </div>
+</header>
+
+<main class="container">
+
+  <h1>Título da Notícia Principal Aqui</h1>
+
+  <div class="meta">
+    Por Bem Esportivo • 11/04/2026 • Futebol
+  </div>
+
+  <img src="img/noticia1.jpg" class="imagem">
+
+  <div class="conteudo">
+    <p>Primeiro parágrafo da notícia. Aqui você coloca a informação mais importante logo no início.</p>
+
+    <p>Segundo parágrafo com mais detalhes sobre o que aconteceu, trazendo contexto e informações relevantes.</p>
+
+    <p>Terceiro parágrafo com análise, opinião ou impacto da notícia.</p>
+
+    <p>Finalização com conclusão ou próximos passos relacionados ao tema.</p>
+  </div>
+
+  <a href="index.html" class="btn-voltar">← Voltar para Home</a>
+
+</main>
+
+<footer>
+  <p>© 2026 Bem Esportivo</p>
+</footer>
+
+</body>
+</html>

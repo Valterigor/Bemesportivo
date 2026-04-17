@@ -1,13 +1,15 @@
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Produtos | Bem Esportivo</title>
 
+  <title>Produtos | Bem Esportivo</title>
   <meta name="description" content="Top produtos esportivos mais vendidos para futebol, academia e treino." />
 
-  <!-- Fonte -->
+  <!-- Favicon -->
+  <link rel="icon" href="img/logo-bem.png">
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -29,6 +31,12 @@
     body {
       background: var(--light);
       color: var(--dark);
+      padding-top: 90px; /* 🔥 corrige menu fixo */
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
     }
 
     .container {
@@ -37,12 +45,53 @@
       padding: 24px;
     }
 
+    /* HEADER */
+    .menu {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .menu-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #1c1c1c;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
     /* HERO */
     .hero {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: #fff;
       text-align: center;
-      padding: 60px 20px;
+      padding: 100px 20px 60px;
     }
 
     .hero h1 {
@@ -50,7 +99,6 @@
       margin-bottom: 10px;
     }
 
-    /* SEÇÕES */
     section {
       padding: 50px 0;
     }
@@ -60,7 +108,6 @@
       margin-bottom: 30px;
     }
 
-    /* GRID */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -81,7 +128,6 @@
     }
 
     .card img {
-      width: 100%;
       border-radius: var(--radius);
       margin-bottom: 10px;
       cursor: pointer;
@@ -136,7 +182,23 @@
 
 <body>
 
-<!-- HERO -->
+<header class="menu">
+  <div class="container menu-content">
+
+    <div class="logo">
+      <a href="index.html">
+        <img src="img/logo-bem.png" alt="Bem Esportivo">
+      </a>
+      <strong>Bem Esportivo</strong>
+    </div>
+
+    <nav>
+      <a href="index.html">Início</a>
+          </nav>
+
+  </div>
+</header>
+
 <header class="hero">
   <div class="container">
     <h1>🏆 Produtos Mais Vendidos</h1>
@@ -146,66 +208,31 @@
 
 <main>
 
-<!-- FUTEBOL -->
 <section>
   <div class="container">
     <h2>⚽ Futebol</h2>
 
     <div class="grid">
-
       <div class="card">
-        <img src="img/chuteira.jpg" alt="Chuteira" loading="lazy">
+        <img src="img/chuteira.jpg" alt="Chuteira Society">
         <h3>🥇 Chuteira Society</h3>
         <p>Leve e confortável para alto desempenho.</p>
-        <a href="https://mercadolivre.com/sec/1fEaBox" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
+        <a href="https://mercadolivre.com/sec/1fEaBox" target="_blank" class="btn">Comprar</a>
       </div>
 
       <div class="card">
-        <img src="img/produto2.jpg" alt="Bola de futebol" loading="lazy">
+        <img src="img/produto2.jpg" alt="Bola Profissional">
         <h3>🥈 Bola Profissional</h3>
         <p>Alta durabilidade para jogos intensos.</p>
-        <a href="https://mercadolivre.com/sec/33DoDKw" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
+        <a href="https://mercadolivre.com/sec/33DoDKw" target="_blank" class="btn">Comprar</a>
       </div>
 
       <div class="card">
-        <img src="img/caneleira.jpg" alt="Caneleira" loading="lazy">
+        <img src="img/caneleira.jpg" alt="Caneleira">
         <h3>🥉 Caneleira</h3>
         <p>Proteção total nos jogos.</p>
-        <a href="https://mercadolivre.com/sec/1Fhtngw" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
+        <a href="https://mercadolivre.com/sec/1Fhtngw" target="_blank" class="btn">Comprar</a>
       </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ACADEMIA -->
-<section>
-  <div class="container">
-    <h2>🏋️ Academia</h2>
-
-    <div class="grid">
-
-      <div class="card">
-        <img src="img/elastico.jpg" alt="Elástico" loading="lazy">
-        <h3>🥇 Elástico</h3>
-        <p>Treine em qualquer lugar.</p>
-        <a href="https://mercadolivre.com/sec/2bR9Tt8" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
-      </div>
-
-      <div class="card">
-        <img src="img/luva.jpg" alt="Luva academia" loading="lazy">
-        <h3>🥈 Luvas</h3>
-        <p>Mais segurança no treino.</p>
-        <a href="https://mercadolivre.com/sec/2zmyzwf" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
-      </div>
-
-      <div class="card">
-        <img src="img/tapete.jpg" alt="Tapete yoga" loading="lazy">
-        <h3>🥉 Tapete</h3>
-        <p>Conforto para exercícios.</p>
-        <a href="https://mercadolivre.com/sec/2UWNGMu" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
-      </div>
-
     </div>
   </div>
 </section>
@@ -239,19 +266,17 @@
       </div>
 
     </div>
-  </div>
-</section>
+  </section>
 
 </main>
 
 <footer>
-  <p>&copy; 2025 Bem Esportivo</p>
+  <p>&copy; 2026 Bem Esportivo</p>
 </footer>
 
-<!-- MODAL -->
 <div id="modal" class="modal">
   <span class="fechar">&times;</span>
-  <img id="imgModal">
+  <img id="imgModal" alt="Imagem ampliada">
 </div>
 
 <script>
@@ -276,6 +301,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+<footer>
+  <p>© 2026 Bem Esportivo</p>
+</footer>
 
 </body>
 </html>

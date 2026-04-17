@@ -1,221 +1,154 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>   
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- ADSENSE -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
-     crossorigin="anonymous"></script>
-    
-  <title>Bem Esportivo</title>
 
-  <meta name="description" content="Bem Esportivo - notícias, produtos esportivos e oportunidades no mundo do esporte.">
+  <title>Bem Esportivo | Notícias Esportivas</title>
 
+  <link rel="icon" href="img/logo-bem.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <!-- GRÁFICO -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <style>
-    :root {
-      --primary: #fc6e02;
-      --secondary: #9a5700;
-      --dark: #1c1c1c;
-      --light: #f8f9fa;
-      --radius: 14px;
+    :root {--primary:#fc6e02;--secondary:#9a5700;--dark:#1c1c1c;--light:#f8f9fa;}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+
+    body{background:var(--light);color:var(--dark);padding-top:80px;}
+    .container{max-width:1100px;margin:auto;padding:20px;}
+
+    /* MENU */
+    .menu{position:fixed;width:100%;top:0;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.1);z-index:1000;}
+    .menu-content{display:flex;justify-content:space-between;align-items:center;}
+
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#000;}
+    .logo img{height:40px;}
+
+    nav{display:flex;gap:20px;}
+    nav a{text-decoration:none;color:#000;font-weight:600;}
+    nav a:hover{color:var(--primary);}
+
+    /* NOVO BLOCO MENU DIREITA */
+    .menu-actions{
+      display:flex;
+      align-items:center;
+      gap:15px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
+    .search{
+      padding:8px 15px;
+      border-radius:20px;
+      border:1px solid #ccc;
+      outline:none;
+      width:160px;
+      transition:0.3s;
     }
 
-    body {
-      background: var(--light);
-      color: var(--dark);
-      padding-top: 90px;
+    .search:focus{
+      width:200px;
+      border-color:var(--primary);
     }
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 24px;
+    .btn-contato{
+      background:var(--primary);
+      color:#fff;
+      padding:8px 18px;
+      border-radius:20px;
+      text-decoration:none;
+      font-weight:600;
+      transition:0.3s;
     }
 
-    .menu {
-      position: fixed;
-      width: 100%;
-      top: 0;
-      background: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      z-index: 1000;
+    .btn-contato:hover{
+      background:#e65c00;
+      transform:scale(1.05);
     }
 
-    .menu-content {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    /* BOTÃO MODERNO */
+    .menu-btn {
+      width:40px;height:40px;border:none;background:transparent;
+      display:none;flex-direction:column;justify-content:center;gap:6px;cursor:pointer;
     }
 
-    .logo img {
-      height: 45px;
+    .menu-btn span {
+      height:3px;width:100%;background:#1c1c1c;border-radius:3px;transition:0.3s;
     }
 
-    nav {
-      display: flex;
-      gap: 20px;
+    .menu-btn.active span:nth-child(1){
+      transform:rotate(45deg) translate(5px,5px);
+    }
+    .menu-btn.active span:nth-child(2){
+      opacity:0;
+    }
+    .menu-btn.active span:nth-child(3){
+      transform:rotate(-45deg) translate(6px,-6px);
     }
 
-    nav a {
-      text-decoration: none;
-      color: #1c1c1c;
-      font-weight: 600;
+    /* BANNER */
+    .banner-top{
+      background: url('img/imgbanner.jpg.png') center/contain no-repeat;
+      background-color:#000;
+      height:300px;
     }
 
-    .cta {
-      background: #fc6e02;
-      color: #fff;
-      padding: 8px 15px;
-      border-radius: 20px;
-      text-decoration: none;
+    /* HERO */
+    .hero{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:60px 20px;}
+    .destaque{background:#fff;color:#000;padding:20px;border-radius:12px;margin-top:20px;}
+
+    .meta{font-size:12px;color:gray;}
+    .btn{display:inline-block;background:var(--primary);color:#fff;padding:10px 20px;border-radius:20px;text-decoration:none;margin-top:10px;}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+    .card{background:#fff;padding:15px;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,0.05);}
+    .card img{width:100%;border-radius:10px;margin-bottom:10px;}
+
+    .layout{display:grid;grid-template-columns:2fr 1fr;gap:20px;}
+
+    .sidebar{background:#fff;padding:15px;border-radius:12px;}
+
+    .valtinho{
+      background:#fff;
+      padding:20px;
+      border-left:5px solid var(--primary);
+      border-radius:12px;
+      box-shadow:0 5px 15px rgba(0,0,0,0.05);
+      margin-top:20px;
     }
 
-    .search-box input {
-      padding: 8px 12px;
-      border-radius: 20px;
-      border: 1px solid #ccc;
-    }
+    footer{text-align:center;padding:30px;background:#fff;margin-top:40px;}
 
-    #menu-toggle {
-      display: none;
-      font-size: 26px;
-      background: none;
-      border: none;
-    }
+    /* MOBILE */
+    @media(max-width:768px){
 
-    @media (max-width: 768px) {
-      nav {
-        position: absolute;
-        top: 70px;
-        right: 0;
-        background: #fff;
-        flex-direction: column;
-        width: 200px;
-        padding: 20px;
-        display: none;
+      .menu-btn{display:flex;}
+
+      nav{
+        position:absolute;
+        top:70px;
+        right:0;
+        background:#fff;
+        flex-direction:column;
+        width:220px;
+        padding:20px;
+        display:none;
+        box-shadow:0 5px 15px rgba(0,0,0,0.1);
       }
 
-      nav.active {
-        display: flex;
-      }
+      nav.active{display:flex;}
 
-      .cta,
-      .search-box {
-        display: none;
-      }
+      .layout{grid-template-columns:1fr;}
+      .banner-top{height:200px;}
 
-      #menu-toggle {
-        display: block;
+      .menu-actions{
+        display:none;
       }
     }
 
-    .hero {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #fff;
-      text-align: center;
-      padding: 70px 20px;
-    }
-
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-
-    .btn {
-      display: inline-block;
-      background: #fff;
-      color: var(--primary);
-      padding: 14px 26px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      margin: 10px;
-    }
-
-    .banner-wrapper {
-      display: flex;
-      justify-content: center;
-      margin: 30px 0;
-    }
-
-    .banner-produtos {
-      width: 100%;
-      max-width: 1100px;
-      height: 560px;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .banner-produtos img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    section {
-      padding: 60px 0;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      text-align: center;
-    }
-
-    .card img {
-      width: 100%;
-      border-radius: var(--radius);
-      margin-bottom: 10px;
-    }
-
-    /* NOVO BLOCO */
-    .avaliacao-box input,
-    .avaliacao-box select {
-      padding: 10px;
-      margin: 5px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: #fff;
-    }
-
-    #voltar-topo {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: none;
-      padding: 10px;
-      cursor: pointer;
+    .autor img{
+      width:60px;
+      height:60px;
+      border-radius:50%;
+      object-fit:cover;
+      border:2px solid #fc6e02;
     }
   </style>
 </head>
@@ -225,204 +158,116 @@
 <header class="menu">
   <div class="container menu-content">
 
-    <div class="logo">
-      <img src="img/logo-bem.png" alt="Bem Esportivo">
-    </div>
+    <a href="index.html" class="logo">
+      <img src="img/logo-bem.png">
+      <strong>Bem Esportivo</strong>
+    </a>
 
     <nav id="nav">
       <a href="index.html">Início</a>
-      <a href="equilibrio-real.html">Equilíbrio</a>
-      <a href="ebook.html">E-book</a>
+      <a href="#" onclick="return false;" style="opacity:0.5; cursor:not-allowed;">
+  Noticia
+</a>
       <a href="profissionais.html">Profissionais</a>
       <a href="produtos.html">Produtos</a>
       <a href="beplay.html">Beplay</a>
+      <a href="#" onclick="return false;" style="opacity:0.5; cursor:not-allowed;">
+  Equilibrio
+</a>
+      <a href="coluna-valtinho.html">Coluna do Valtinho</a>
     </nav>
 
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Buscar...">
-    </div>
-
-    <a href="https://wa.me/5511986366965" target="_blank" class="cta">
-      Fale Conosco
-    </a>
-
-    <button id="menu-toggle">☰</button>
-
-  </div>
-</header>
-
-<header class="hero">
-  <div class="container">
-    <h1>Bem Esportivo</h1>
-    <p>Descubra produtos, profissionais e estratégias para melhorar sua performance</p>
-
-    <div>
-      <a href="produtos.html" class="btn">Ver Produtos</a>
-      <a href="profissionais.html" class="btn" style="background:transparent; border:2px solid #fff; color:#fff;">
-        Encontrar Profissionais
+    <!-- NOVO -->
+    <div class="menu-actions">
+      <input type="text" placeholder="Buscar..." class="search">
+      <a href="https://wa.me/5511986366965" target="_blank" class="btn-contato">
+        Fale Conosco
       </a>
     </div>
 
+    <button id="menu-toggle" class="menu-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
   </div>
 </header>
 
-<div class="banner-wrapper">
-  <div class="banner-produtos">
-    <img src="img/banner.png">
-  </div>
-</div>
-
 <main>
 
-<!-- NOVA SEÇÃO -->
-<section>
+<section class="banner-top"></section>
+
+<section class="hero">
   <div class="container">
-    <h2>📊 Avaliação Física</h2>
+    <h1>Destaque</h1>
 
-    <div class="card avaliacao-box">
-
-      <input type="text" id="peso" placeholder="Peso (kg)">
-      <input type="text" id="altura" placeholder="Altura (ex: 1.75)">
-      <input type="number" id="idade" placeholder="Idade">
-
-      <select id="atividade">
-        <option value="">Nível de atividade</option>
-        <option value="sedentario">Sedentário</option>
-        <option value="leve">Atividade leve</option>
-        <option value="moderado">Moderado</option>
-        <option value="intenso">Intenso</option>
-      </select>
-
-      <br><br>
-
-      <button onclick="calcular()" class="btn">Calcular</button>
-
-      <div id="resultado"></div>
-
-      <canvas id="grafico"></canvas>
-
+    <div class="destaque">
+      <h3>🔥 Corinthians vence clássico</h3>
+      <p class="meta">Por Bem Esportivo</p>
+      <p>Vitória importante anima torcida.</p>
+      <a href="noticia1.html" class="btn">Ler notícia</a>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="container">
-    <h2>🏆 Produtos em Destaque</h2>
 
-    <div class="grid">
+  <div class="sidebar">
 
-      <div class="card">
-        <img src="img/chuteira.jpg">
-        <h3>Chuteira Society</h3>
-        <p>Leve e ideal para performance.</p>
-        <a href="https://mercadolivre.com/sec/1fEaBox" target="_blank" class="btn">Comprar</a>
+    <h3>🗞️ Coluna do Valtinho</h3>
+    <p class="meta">Atualização da semana</p>
+
+    <div class="valtinho">
+
+      <div class="autor">
+        <img src="img/valtinho.jpg" alt="Valtinho">
+        <div>
+          <strong>Valtinho</strong>
+          <p class="meta">Colunista</p>
+        </div>
       </div>
 
-      <div class="card">
-        <img src="img/elastico.jpg">
-        <h3>Elásticos de Resistência</h3>
-        <p>Treine em qualquer lugar.</p>
-        <a href="https://mercadolivre.com/sec/2bR9Tt8" target="_blank" class="btn">Comprar</a>
-      </div>
+      <p>
+        O futebol atual exige inteligência tática acima de tudo.
+      </p>
 
-      <div class="card">
-        <img src="img/tenis.jpg">
-        <h3>Tênis de Corrida</h3>
-        <p>Conforto e performance.</p>
-        <a href="https://mercadolivre.com/sec/27t6Xk1" target="_blank" class="btn">Comprar</a>
-      </div>
+      <a href="coluna-valtinho.html" class="btn">Ler coluna completa</a>
 
     </div>
+
+  </div>
+
+  <div class="container layout">
+
+    <div>
+      <h2>🏆 Produtos em Destaque</h2>
+
+      <div class="grid">
+        <div class="card">
+          <img src="img/chuteira.jpg">
+          <h3>Chuteira Profissional</h3>
+          <a href="#" class="btn">Comprar</a>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
 </main>
 
 <footer>
-  <p>&copy; 2025 Bem Esportivo</p>
+  <p>© 2026 Bem Esportivo</p>
 </footer>
 
-<button id="voltar-topo">↑</button>
-
 <script>
-let chart;
-
-function calcular() {
-  const peso = parseFloat(document.getElementById("peso").value);
-  const altura = parseFloat(document.getElementById("altura").value.replace(",", "."));
-  const idade = document.getElementById("idade").value;
-  const atividade = document.getElementById("atividade").value;
-
-  if (!peso || !altura || !idade || !atividade) {
-    alert("Preencha todos os campos corretamente");
-    return;
-  }
-
-  const imc = (peso / (altura * altura)).toFixed(1);
-
-  let classificacao = "";
-  let dica = "";
-
-  if (imc < 18.5) {
-    classificacao = "Abaixo do peso";
-    dica = "Aumente ingestão calórica e foque em treino de força.";
-  } else if (imc < 25) {
-    classificacao = "Peso ideal";
-    dica = "Mantenha uma rotina equilibrada.";
-  } else if (imc < 30) {
-    classificacao = "Sobrepeso";
-    dica = "Inclua exercícios aeróbicos.";
-  } else {
-    classificacao = "Obesidade";
-    dica = "Procure orientação profissional.";
-  }
-
-  document.getElementById("resultado").innerHTML =
-    `IMC: ${imc} - ${classificacao} <br> 💡 ${dica}`;
-
-  const ctx = document.getElementById("grafico");
-
-  if (chart) chart.destroy();
-
-  chart = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: ["Seu IMC"],
-      datasets: [{
-        data: [imc]
-      }]
-    }
-  });
-}
-
-/* SEU JS ORIGINAL */
 const toggle = document.getElementById("menu-toggle");
 const nav = document.getElementById("nav");
 
 toggle.addEventListener("click", () => {
   nav.classList.toggle("active");
-});
-
-const botao = document.getElementById("voltar-topo");
-
-window.addEventListener("scroll", () => {
-  botao.style.display = window.scrollY > 200 ? "block" : "none";
-});
-
-botao.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
-const searchInput = document.getElementById("searchInput");
-
-searchInput.addEventListener("keyup", () => {
-  const filtro = searchInput.value.toLowerCase();
-  const cards = document.querySelectorAll(".card");
-
-  cards.forEach(card => {
-    const titulo = card.querySelector("h3").textContent.toLowerCase();
-    card.style.display = titulo.includes(filtro) ? "block" : "none";
-  });
+  toggle.classList.toggle("active");
 });
 </script>
 
