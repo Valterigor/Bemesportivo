@@ -1,4 +1,4 @@
-<!DOCTYPE html>   
+<!DOCTYPE html>     
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -16,7 +16,6 @@
     body{background:var(--light);color:var(--dark);padding-top:80px;}
     .container{max-width:1100px;margin:auto;padding:20px;}
 
-    /* MENU */
     .menu{position:fixed;width:100%;top:0;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.1);z-index:1000;}
     .menu-content{display:flex;justify-content:space-between;align-items:center;}
 
@@ -27,12 +26,7 @@
     nav a{text-decoration:none;color:#000;font-weight:600;}
     nav a:hover{color:var(--primary);}
 
-    /* NOVO BLOCO MENU DIREITA */
-    .menu-actions{
-      display:flex;
-      align-items:center;
-      gap:15px;
-    }
+    .menu-actions{display:flex;align-items:center;gap:15px;}
 
     .search{
       padding:8px 15px;
@@ -43,10 +37,7 @@
       transition:0.3s;
     }
 
-    .search:focus{
-      width:200px;
-      border-color:var(--primary);
-    }
+    .search:focus{width:200px;border-color:var(--primary);}
 
     .btn-contato{
       background:var(--primary);
@@ -58,89 +49,89 @@
       transition:0.3s;
     }
 
-    .btn-contato:hover{
-      background:#e65c00;
-      transform:scale(1.05);
-    }
+    .btn-contato:hover{background:#e65c00;transform:scale(1.05);}
 
-    /* BOTÃO MODERNO */
     .menu-btn {
       width:40px;height:40px;border:none;background:transparent;
       display:none;flex-direction:column;justify-content:center;gap:6px;cursor:pointer;
     }
 
     .menu-btn span {
-      height:3px;width:100%;background:#1c1c1c;border-radius:3px;transition:0.3s;
+      height:3px;width:100%;background:#1c1c1c;border-radius:3px;
     }
 
-    .menu-btn.active span:nth-child(1){
-      transform:rotate(45deg) translate(5px,5px);
-    }
-    .menu-btn.active span:nth-child(2){
-      opacity:0;
-    }
-    .menu-btn.active span:nth-child(3){
-      transform:rotate(-45deg) translate(6px,-6px);
-    }
-
-    /* BANNER */
+    /* 🔥 BANNER AJUSTADO (SEM CORTE) */
     .banner-top{
-      background: url('img/imgbanner.jpg.png') center/contain no-repeat;
-      background-color:#000;
-      height:300px;
+      background: url('img/imgbanner.jpg.png') center/cover no-repeat;
+      height:420px;
     }
 
-    /* HERO */
     .hero{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:60px 20px;}
-    .destaque{background:#fff;color:#000;padding:20px;border-radius:12px;margin-top:20px;}
+
+    .destaque-img{
+      position:relative;
+      border-radius:12px;
+      overflow:hidden;
+      margin-top:20px;
+    }
+
+    .destaque-img img{
+      width:100%;
+      height:380px;
+      object-fit:cover;
+    }
+
+    .destaque-texto{
+      position:absolute;
+      bottom:0;
+      left:0;
+      width:100%;
+      padding:25px;
+      background:linear-gradient(transparent, rgba(0,0,0,0.85));
+      color:#fff;
+    }
 
     .meta{font-size:12px;color:gray;}
     .btn{display:inline-block;background:var(--primary);color:#fff;padding:10px 20px;border-radius:20px;text-decoration:none;margin-top:10px;}
 
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
-    .card{background:#fff;padding:15px;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,0.05);}
-    .card img{width:100%;border-radius:10px;margin-bottom:10px;}
 
-    .layout{display:grid;grid-template-columns:2fr 1fr;gap:20px;}
-
-    .sidebar{background:#fff;padding:15px;border-radius:12px;}
-
-    .valtinho{
+    .card{
       background:#fff;
-      padding:20px;
-      border-left:5px solid var(--primary);
+      padding:15px;
       border-radius:12px;
       box-shadow:0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .card img{width:100%;border-radius:10px;margin-bottom:10px;}
+
+    .layout{
+      display:grid;
+      grid-template-columns:2fr 1.2fr; /* 🔥 coluna maior */
+      gap:20px;
+    }
+
+    .sidebar{
+      background:#fff;
+      padding:20px;
+      border-radius:12px;
+    }
+
+    /* 🔥 VALTINHO MAIS DESTACADO */
+    .valtinho{
+      background:#fff;
+      padding:25px;
+      border-left:5px solid var(--primary);
+      border-radius:12px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.08);
       margin-top:20px;
     }
 
-    footer{text-align:center;padding:30px;background:#fff;margin-top:40px;}
-
-    /* MOBILE */
-    @media(max-width:768px){
-
-      .menu-btn{display:flex;}
-
-      nav{
-        position:absolute;
-        top:70px;
-        right:0;
-        background:#fff;
-        flex-direction:column;
-        width:220px;
-        padding:20px;
-        display:none;
-        box-shadow:0 5px 15px rgba(0,0,0,0.1);
-      }
-
-      nav.active{display:flex;}
-
-      .layout{grid-template-columns:1fr;}
-      .banner-top{height:200px;}
-
-      .menu-actions{
-        display:none;
-      }
+    .autor{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:12px;
     }
 
     .autor img{
@@ -148,8 +139,20 @@
       height:60px;
       border-radius:50%;
       object-fit:cover;
-      border:2px solid #fc6e02;
+      border:2px solid var(--primary);
     }
+
+    footer{text-align:center;padding:30px;background:#fff;margin-top:40px;}
+
+    @media(max-width:768px){
+      .menu-btn{display:flex;}
+      nav{position:absolute;top:70px;right:0;background:#fff;flex-direction:column;width:220px;padding:20px;display:none;}
+      nav.active{display:flex;}
+      .layout{grid-template-columns:1fr;}
+      .banner-top{height:250px;}
+      .menu-actions{display:none;}
+    }
+
   </style>
 </head>
 
@@ -165,24 +168,17 @@
 
     <nav id="nav">
       <a href="index.html">Início</a>
-      <a href="#" onclick="return false;" style="opacity:0.5; cursor:not-allowed;">
-  Noticia
-</a>
+      <a href="#" onclick="return false;" style="opacity:0.5; cursor:not-allowed;">Noticia</a>
       <a href="profissionais.html">Profissionais</a>
       <a href="produtos.html">Produtos</a>
       <a href="beplay.html">Beplay</a>
-      <a href="#" onclick="return false;" style="opacity:0.5; cursor:not-allowed;">
-  Equilibrio
-</a>
+      <a href="#" onclick="return false;" style="opacity:0.5; cursor:not-allowed;">Equilibrio</a>
       <a href="coluna-valtinho.html">Fala aí, Valtinho!</a>
     </nav>
 
-    <!-- NOVO -->
     <div class="menu-actions">
       <input type="text" placeholder="Buscar..." class="search">
-      <a href="https://wa.me/5511986366965" target="_blank" class="btn-contato">
-        Fale Conosco
-      </a>
+      <a href="https://wa.me/5511986366965" target="_blank" class="btn-contato">Fale Conosco</a>
     </div>
 
     <button id="menu-toggle" class="menu-btn">
@@ -202,12 +198,15 @@
   <div class="container">
     <h1>Destaque</h1>
 
-    <div class="destaque">
-      <h3>🔥 Corinthians x Palmeiras</h3>
-      <p class="meta">Por Bem Esportivo</p>
-      <p>Empate em classico polêmico, com 2 expulsões.</p>
-      <a href="noticia1.html" class="btn">Ler notícia</a>
+    <div class="destaque-img">
+      <img src="img/corinthians x palmeiras.jpg">
+      <div class="destaque-texto">
+        <h2>🔥 Corinthians x Palmeiras</h2>
+        <p>Empate quente e cheio de polêmicas</p>
+        <a href="noticia1.html" class="btn">Ler notícia</a>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -216,12 +215,11 @@
   <div class="sidebar">
 
     <h3>🗞️ Fala aí, Valtinho!</h3>
-    <p class="meta">Atualização da semana</p>
 
     <div class="valtinho">
 
       <div class="autor">
-        <img src="img/valtinho.jpg" alt="Valtinho">
+        <img src="img/valtinho.jpg">
         <div>
           <strong>Valtinho</strong>
           <p class="meta">Colunista</p>
@@ -229,7 +227,7 @@
       </div>
 
       <p>
-        O futebol atual exige inteligência tática acima de tudo.
+        O futebol moderno é decidido nos detalhes. Organização e leitura fazem a diferença.
       </p>
 
       <a href="coluna-valtinho.html" class="btn">Ler coluna completa</a>
@@ -250,12 +248,14 @@
           <a href="#" class="btn">Comprar</a>
         </div>
 
-     <div class="card">
-        <img src="img/garrafa.jpg" alt="Garrafa" loading="lazy">
-        <h3>🥉 Garrafa</h3>
-        <p>Hidratação com estilo.</p>
-        <a href="https://mercadolivre.com/sec/12MKoWH" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
+        <div class="card">
+          <img src="img/garrafa.jpg">
+          <h3>🥉 Garrafa</h3>
+          <p>Hidratação com estilo.</p>
+          <a href="#" class="btn">Comprar</a>
+        </div>
       </div>
+    </div>
 
   </div>
 </section>

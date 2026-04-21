@@ -1,0 +1,25 @@
+noticias.json
+[
+  {
+    "id": 1,
+    "titulo": "Corinthians e Palmeiras empatam em clássico",
+    "resumo": "Jogo intenso termina sem gols.",
+    "imagem": "img/noticia1.jpg",
+    "categoria": "Futebol",
+    "conteudo": "Corinthians e Palmeiras ficaram no empate em um clássico muito disputado...",
+    "data": "11/04/2026",
+    "destaque": true,
+    "trending": true
+  },
+  {
+    "id": 2,
+    "titulo": "Palmeiras pressiona no final",
+    "resumo": "Equipe domina posse mas não marca.",
+    "imagem": "img/noticia2.jpg",
+    "categoria": "Futebol",
+    "conteudo": "O Palmeiras teve grande posse de bola...",
+    "data": "10/04/2026",
+    "destaque": false,
+    "trending": true
+  }
+]
