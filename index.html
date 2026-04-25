@@ -1,365 +1,400 @@
 <!DOCTYPE html>     
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Bem Esportivo | Notícias Esportivas</title>
+<title>Bem Esportivo | Notícias Esportivas</title>
 
-  <link rel="icon" href="img/logo-bem.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="img/logobemoficial.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <style>
+<style>
 
-    /* =========================
-       RESET E CONFIGURAÇÕES GERAIS
-    ========================= */
-    :root {
-      --primary:#fc6e02;
-      --secondary:#9a5700;
-      --dark:#1c1c1c;
-      --light:#f8f9fa;
-    }
+/* =========================
+RESET E CONFIGURAÇÕES GERAIS
+========================= */
+:root{
+--primary:#fc6e02;
+--secondary:#9a5700;
+--dark:#1c1c1c;
+--light:#f8f9fa;
+}
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Inter',sans-serif;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
 
-    body{
-      background:var(--light);
-      color:var(--dark);
-      padding-top:80px;
-    }
+body{
+background:var(--light);
+color:var(--dark);
+padding-top:80px;
+overflow-x:hidden;
+}
 
-    .container{
-      max-width:1100px;
-      margin:auto;
-      padding:20px;
-    }
-
-
-    /* =========================
-       HEADER / MENU
-    ========================= */
-    .menu{
-      position:fixed;
-      width:100%;
-      top:0;
-      background:#fff;
-      box-shadow:0 2px 10px rgba(0,0,0,0.1);
-      z-index:1000;
-    }
-
-    .menu-content{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
-
-    .logo{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      text-decoration:none;
-      color:#000;
-    }
-
-    .logo img{
-      height:40px;
-    }
-
-    nav{
-      display:flex;
-      gap:20px;
-    }
-
-    nav a{
-      text-decoration:none;
-      color:#000;
-      font-weight:600;
-    }
-
-    nav a:hover{
-      color:var(--primary);
-    }
+.container{
+max-width:1100px;
+margin:auto;
+padding:20px;
+}
 
 
-    /* =========================
-       MENU DIREITA (BUSCA + BOTÃO)
-    ========================= */
-    .menu-actions{
-      display:flex;
-      align-items:center;
-      gap:15px;
-    }
+/* =========================
+HEADER / MENU
+========================= */
+.menu{
+position:fixed;
+width:100%;
+top:0;
+background:#fff;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+z-index:1000;
+}
 
-    .search{
-      padding:8px 15px;
-      border-radius:20px;
-      border:1px solid #ccc;
-      outline:none;
-      width:160px;
-      transition:0.3s;
-    }
+.menu-content{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
 
-    .search:focus{
-      width:200px;
-      border-color:var(--primary);
-    }
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+text-decoration:none;
+color:#000;
+}
 
-    .btn-contato{
-      background:var(--primary);
-      color:#fff;
-      padding:8px 18px;
-      border-radius:20px;
-      text-decoration:none;
-      font-weight:600;
-      transition:0.3s;
-    }
+.logo img{
+height:40px;
+}
 
-    .btn-contato:hover{
-      background:#e65c00;
-      transform:scale(1.05);
-    }
+nav{
+display:flex;
+gap:20px;
+}
 
+nav a{
+text-decoration:none;
+color:#000;
+font-weight:600;
+}
 
-    /* =========================
-       BOTÃO MENU MOBILE
-    ========================= */
-    .menu-btn{
-      width:40px;
-      height:40px;
-      border:none;
-      background:transparent;
-      display:none;
-      flex-direction:column;
-      justify-content:center;
-      gap:6px;
-      cursor:pointer;
-    }
-
-    .menu-btn span{
-      height:3px;
-      width:100%;
-      background:#1c1c1c;
-      border-radius:3px;
-    }
+nav a:hover{
+color:var(--primary);
+}
 
 
-    /* =========================
-       BANNER PRINCIPAL
-    ========================= */
-    .banner-top{
-      background: url('img/imgbanner.jpg.png') center/cover no-repeat;
-      height: 400px;px;
-    }
+/* =========================
+MENU DIREITA
+========================= */
+.menu-actions{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.search{
+padding:8px 15px;
+border-radius:20px;
+border:1px solid #ccc;
+outline:none;
+width:160px;
+transition:.3s;
+}
+
+.search:focus{
+width:200px;
+border-color:var(--primary);
+}
+
+.btn-contato{
+background:var(--primary);
+color:#fff;
+padding:8px 18px;
+border-radius:20px;
+text-decoration:none;
+font-weight:600;
+transition:.3s;
+}
+
+.btn-contato:hover{
+background:#e65c00;
+transform:scale(1.05);
+}
 
 
-    /* =========================
-       HERO / DESTAQUE
-    ========================= */
-    .hero{
-      background:linear-gradient(135deg,var(--primary),var(--secondary));
-      color:#fff;
-      padding:60px 20px;
-    }
+/* =========================
+MENU MOBILE
+========================= */
+.menu-btn{
+width:40px;
+height:40px;
+border:none;
+background:transparent;
+display:none;
+flex-direction:column;
+justify-content:center;
+gap:6px;
+cursor:pointer;
+}
 
-    .destaque-img{
-      position:relative;
-      border-radius:12px;
-      overflow:hidden;
-      margin-top:20px;
-    }
-
-    .destaque-img img{
-      width:100%;
-      height:380px;
-      object-fit:cover;
-    }
-
-    .destaque-texto{
-      position:absolute;
-      bottom:0;
-      left:0;
-      width:100%;
-      padding:25px;
-      background:linear-gradient(transparent, rgba(0,0,0,0.85));
-      color:#fff;
-    }
+.menu-btn span{
+height:3px;
+width:100%;
+background:#1c1c1c;
+border-radius:3px;
+}
 
 
-    /* =========================
-       BOTÕES E TEXTO PADRÃO
-    ========================= */
-    .meta{
-      font-size:12px;
-      color:gray;
-    }
+/* =========================
+BANNER CORRIGIDO (SEM CORTAR)
+========================= */
+.banner-top{
+width:100%;
+background:#000 url('img/imgbanner.jpg.png') center center no-repeat;
 
-    .btn{
-      display:inline-block;
-      background:var(--primary);
-      color:#fff;
-      padding:10px 20px;
-      border-radius:20px;
-      text-decoration:none;
-      margin-top:10px;
-    }
+/* ESSENCIAL: não corta imagem */
+background-size:contain;
 
+/* proporção do banner */
+aspect-ratio: 1920 / 520;
 
-    /* =========================
-       GRID E CARDS (PRODUTOS)
-    ========================= */
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:20px;
-    }
+/* fallback */
+min-height:280px;
+height:auto;
 
-    .card{
-      background:#fff;
-      padding:15px;
-      border-radius:12px;
-      box-shadow:0 5px 15px rgba(0,0,0,0.05);
-    }
+/* evita bugs de zoom */
+display:block;
+overflow:hidden;
+}
 
-    .card img{
-      width:100%;
-      border-radius:10px;
-      margin-bottom:10px;
-    }
+/* fallback se aspect-ratio não existir */
+@supports not (aspect-ratio: 1920 / 520){
+.banner-top{
+height:520px;
+}
+}
 
 
-    /* =========================
-       LAYOUT PRINCIPAL (CONTEÚDO + SIDEBAR)
-    ========================= */
-    .layout{
-      display:grid;
-      grid-template-columns:2fr 1.2fr;
-      gap:20px;
-    }
+/* =========================
+HERO
+========================= */
+.hero{
+background:linear-gradient(135deg,var(--primary),var(--secondary));
+color:#fff;
+padding:60px 20px;
+}
+
+.destaque-img{
+position:relative;
+border-radius:12px;
+overflow:hidden;
+margin-top:20px;
+}
+
+.destaque-img img{
+width:100%;
+height:380px;
+object-fit:cover;
+}
+
+.destaque-texto{
+position:absolute;
+bottom:0;
+left:0;
+width:100%;
+padding:25px;
+background:linear-gradient(transparent, rgba(0,0,0,.85));
+color:#fff;
+}
 
 
-    /* =========================
-       SIDEBAR (COLUNA)
-    ========================= */
-    .sidebar{
-      background:#fff;
-      padding:20px;
-      border-radius:12px;
-    }
+/* =========================
+BOTÕES
+========================= */
+.meta{
+font-size:12px;
+color:gray;
+}
+
+.btn{
+display:inline-block;
+background:var(--primary);
+color:#fff;
+padding:10px 20px;
+border-radius:20px;
+text-decoration:none;
+margin-top:10px;
+}
 
 
-    /* =========================
-       COLUNA DO VALTINHO
-    ========================= */
-    .valtinho{
-      background:#fff;
-      padding:25px;
-      border-left:5px solid var(--primary);
-      border-radius:12px;
-      box-shadow:0 8px 20px rgba(0,0,0,0.08);
-      margin-top:20px;
-    }
+/* =========================
+GRID
+========================= */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
 
-    .autor{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-bottom:12px;
-    }
+.card{
+background:#fff;
+padding:15px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,.05);
+}
 
-    .autor img{
-      width:60px;
-      height:60px;
-      border-radius:50%;
-      object-fit:cover;
-      border:2px solid var(--primary);
-    }
+.card img{
+width:100%;
+border-radius:10px;
+margin-bottom:10px;
+}
 
 
-    /* =========================
-       RODAPÉ
-    ========================= */
-    footer{
-      text-align:center;
-      padding:30px;
-      background:#fff;
-      margin-top:40px;
-    }
+/* =========================
+LAYOUT
+========================= */
+.layout{
+display:grid;
+grid-template-columns:2fr 1.2fr;
+gap:20px;
+}
 
 
-    /* =========================
-       RESPONSIVO (MOBILE)
-    ========================= */
-    @media(max-width:768px){
+/* =========================
+SIDEBAR
+========================= */
+.sidebar{
+background:#fff;
+padding:20px;
+border-radius:12px;
+}
 
-      .menu-btn{display:flex;}
 
-      nav{
-        position:absolute;
-        top:70px;
-        right:0;
-        background:#fff;
-        flex-direction:column;
-        width:220px;
-        padding:20px;
-        display:none;
-      }
+/* =========================
+COLUNA VALTINHO
+========================= */
+.valtinho{
+background:#fff;
+padding:25px;
+border-left:5px solid var(--primary);
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+margin-top:20px;
+}
 
-      nav.active{display:flex;}
+.autor{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:12px;
+}
 
-      .layout{
-        grid-template-columns:1fr;
-      }
+.autor img{
+width:60px;
+height:60px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid var(--primary);
+}
 
-      .banner-top{
-        height:250px;
-      }
 
-      .menu-actions{
-        display:none;
-      }
-    }
+/* =========================
+RODAPÉ
+========================= */
+footer{
+text-align:center;
+padding:30px;
+background:#fff;
+margin-top:40px;
+}
 
-  </style>
+
+/* =========================
+RESPONSIVO
+========================= */
+@media(max-width:768px){
+
+.menu-btn{
+display:flex;
+}
+
+nav{
+position:absolute;
+top:70px;
+right:0;
+background:#fff;
+flex-direction:column;
+width:220px;
+padding:20px;
+display:none;
+}
+
+nav.active{
+display:flex;
+}
+
+.layout{
+grid-template-columns:1fr;
+}
+
+/* mobile sem cortar */
+.banner-top{
+background-size:contain;
+aspect-ratio:16/7;
+min-height:220px;
+}
+
+.menu-actions{
+display:none;
+}
+
+.destaque-img img{
+height:300px;
+}
+
+}
+
+</style>
 </head>
 
 <body>
 
 <header class="menu">
-  <div class="container menu-content">
+<div class="container menu-content">
 
-    <a href="index.html" class="logo">
-      <img src="img/logo-bem.png">
-      <strong>Bem Esportivo</strong>
-    </a>
+<a href="index.html" class="logo">
+<img src="img/logobemoficial.png">
+<strong>Bem Esportivo</strong>
+</a>
 
-    <nav id="nav">
-      <a href="index.html">Início</a>
-      <a href="#" onclick="return false;" style="opacity:0.5; cursor:not-allowed;">Noticia</a>
-      <a href="profissionais.html">Profissionais</a>
-      <a href="produtos.html">Produtos</a>
-      <a href="beplay.html">Beplay</a>
-      <a href="#" onclick="return false;" style="opacity:0.5; cursor:not-allowed;">Equilibrio</a>
-      <a href="coluna-valtinho.html">Fala aí, Valtinho!</a>
-    </nav>
+<nav id="nav">
+<a href="index.html">Início</a>
+<a href="profissionais.html">Profissionais</a>
+<a href="produtos.html">Produtos</a>
+<a href="beplay.html">Beplay</a>
 
-    <div class="menu-actions">
-      <input type="text" placeholder="Buscar..." class="search">
-      <a href="https://wa.me/5511986366965" target="_blank" class="btn-contato">Fale Conosco</a>
-    </div>
+<a href="coluna-valtinho.html">Fala aí, Valtinho!</a>
+</nav>
 
-    <button id="menu-toggle" class="menu-btn">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+<div class="menu-actions">
+<input type="text" placeholder="Buscar..." class="search">
+<a href="https://wa.me/5511986366965" target="_blank" class="btn-contato">
+Fale Conosco
+</a>
+</div>
 
-  </div>
+<button id="menu-toggle" class="menu-btn">
+<span></span>
+<span></span>
+<span></span>
+</button>
+
+</div>
 </header>
 
 <main>
@@ -367,84 +402,92 @@
 <section class="banner-top"></section>
 
 <section class="hero">
-  <div class="container">
-    <h1>Destaque</h1>
+<div class="container">
 
-    <div class="destaque-img">
-      <img src="img/corinthians x palmeiras.jpg">
-      <div class="destaque-texto">
-        <h2>🔥 Corinthians x Palmeiras</h2>
-        <p>Empate quente e cheio de polêmicas</p>
-        <a href="noticia1.html" class="btn">Ir para destaque</a>
-      </div>
-    </div>
+<h1>Destaque</h1>
 
-  </div>
+<div class="destaque-img">
+<img src="img/corinthians x palmeiras.jpg">
+
+<div class="destaque-texto">
+<h2>🔥 Corinthians x Palmeiras</h2>
+<p>Empate quente e cheio de polêmicas</p>
+<a href="noticia1.html" class="btn">
+Ir para destaque
+</a>
+</div>
+
+</div>
+</div>
 </section>
 
 <section>
 
-  <div class="sidebar">
+<div class="sidebar">
 
-    <h3>🗞️ Fala aí, Valtinho!</h3>
+<h3>🗞️ Fala aí, Valtinho!</h3>
 
-    <div class="valtinho">
+<div class="valtinho">
 
-      <div class="autor">
-        <img src="img/valter.jpg.png">
-        <div>
-          <strong>Valtinho</strong>
-          <p class="meta">Colunista</p>
-        </div>
-      </div>
+<div class="autor">
+<img src="img/valteroficial.png">
+<div>
+<strong>Valtinho</strong>
+<p class="meta">Colunista</p>
+</div>
+</div>
 
-      <p>
-        O futebol moderno é decidido nos detalhes. Organização e leitura fazem a diferença.
-      </p>
+<p>
+O futebol moderno é decidido nos detalhes.
+Organização e leitura fazem a diferença.
+</p>
 
-      <a href="coluna-valtinho.html" class="btn">Ler coluna completa</a>
+<a href="coluna-valtinho.html" class="btn">
+Ler coluna completa
+</a>
 
-    </div>
+</div>
+</div>
 
-  </div>
+<div class="container layout">
 
-  <div class="container layout">
+<div>
+<h2>🏆 Produtos em Destaque</h2>
 
-    <div>
-      <h2>🏆 Produtos em Destaque</h2>
+<div class="grid">
 
-      <div class="grid">
-        <div class="card">
-          <img src="img/chuteira.jpg">
-          <h3>Chuteira Profissional</h3>
-          <a href="#" class="btn">Comprar</a>
-        </div>
+<div class="card">
+<img src="img/chuteira.jpg">
+<h3>Chuteira Profissional</h3>
+<a href="#" class="btn">Comprar</a>
+</div>
 
-        <div class="card">
-          <img src="img/garrafa.jpg">
-          <h3>🥉 Garrafa</h3>
-          <p>Hidratação com estilo.</p>
-          <a href="#" class="btn">Comprar</a>
-        </div>
-      </div>
-    </div>
+<div class="card">
+<img src="img/garrafa.jpg">
+<h3>🥉 Garrafa</h3>
+<p>Hidratação com estilo.</p>
+<a href="#" class="btn">Comprar</a>
+</div>
 
-  </div>
+</div>
+</div>
+
+</div>
 </section>
 
 </main>
 
 <footer>
-  <p>© 2026 Bem Esportivo</p>
+<p>© 2026 Bem Esportivo</p>
 </footer>
 
 <script>
-const toggle = document.getElementById("menu-toggle");
-const nav = document.getElementById("nav");
+const toggle=document.getElementById("menu-toggle");
+const nav=document.getElementById("nav");
 
-toggle.addEventListener("click", () => {
-  nav.classList.toggle("active");
-  toggle.classList.toggle("active");
+toggle.addEventListener("click",()=>{
+nav.classList.toggle("active");
+toggle.classList.toggle("active");
 });
 </script>
 

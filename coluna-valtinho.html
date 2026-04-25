@@ -1,207 +1,802 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Fala Aí, Valtinho | Bem Esportivo</title>
 
-  <title>Coluna do Valtinho | Bem Esportivo</title>
+<link rel="icon" href="img/logobemoficial.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-  <link rel="icon" href="img/logo-bem.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--primary:#ff6a00;
+--secondary:#b55700;
+--dark:#101010;
+--light:#f5f5f5;
+}
 
-  <style>
-    body{font-family:'Inter',sans-serif;background:#f8f9fa;margin:0;padding-top:80px;}
-    .container{max-width:900px;margin:auto;padding:20px;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
 
-    /* MENU */
-    .menu{
-      position:fixed;
-      width:100%;
-      top:0;
-      background:#fff;
-      box-shadow:0 2px 10px rgba(0,0,0,0.1);
-      z-index:1000;
-    }
+html{
+scroll-behavior:smooth;
+}
 
-    .menu-content{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      max-width:1100px;
-      margin:auto;
-      padding:15px 20px;
-    }
+body{
+background:#f4f4f4;
+color:#111;
+padding-top:78px;
+overflow-x:hidden;
+}
 
-    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#000;}
-    .logo img{height:40px;}
+a{text-decoration:none}
+img{display:block;max-width:100%}
 
-    .btn-home{
-      background:#fc6e02;
-      color:#fff;
-      padding:8px 16px;
-      border-radius:20px;
-      text-decoration:none;
-      font-weight:600;
-    }
+.container{
+max-width:1250px;
+margin:auto;
+padding:0 20px;
+}
 
-    .hero{
-      background:linear-gradient(135deg,#fc6e02,#9a5700);
-      color:#fff;
-      padding:60px 20px;
-      text-align:center;
-    }
+/* HEADER */
 
-    .sobre{
-      background:#fff;
-      display:flex;
-      gap:20px;
-      padding:20px;
-      border-radius:12px;
-      margin-top:-40px;
-      margin-bottom:30px;
-      box-shadow:0 5px 20px rgba(0,0,0,0.08);
-      align-items:center;
-    }
+.menu{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+background:#fff;
+border-bottom:1px solid #ececec;
+z-index:999;
+}
 
-    .sobre img{
-      width:100px;
-      height:100px;
-      border-radius:50%;
-      object-fit:cover;
-    }
+.menu-content{
+height:78px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:30px;
+max-width:1280px;
+margin:auto;
+padding:0 20px;
+}
 
-    .post{
-      background:#fff;
-      padding:20px;
-      border-radius:12px;
-      margin-bottom:20px;
-      box-shadow:0 5px 15px rgba(0,0,0,0.05);
-    }
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+color:#111;
+font-weight:800;
+}
 
-    .meta{font-size:12px;color:gray;}
+.logo img{
+height:42px;
+}
 
-    .btn{
-      display:inline-block;
-      margin-top:10px;
-      background:#fc6e02;
-      color:#fff;
-      padding:10px 20px;
-      border-radius:20px;
-      text-decoration:none;
-      cursor:pointer;
-    }
+nav{
+display:flex;
+gap:22px;
+flex-wrap:wrap;
+}
 
-    /* TEXTO OCULTO */
-    .texto-completo{
-      display:none;
-      margin-top:15px;
-      line-height:1.6;
-    }
+nav a{
+color:#111;
+font-weight:700;
+font-size:15px;
+}
 
-    @media(max-width:768px){
-      .sobre{flex-direction:column;text-align:center;}
-    }
-  </style>
+nav a:hover{
+color:var(--primary);
+}
+
+.menu-actions{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.search-wrap{
+position:relative;
+}
+
+.search{
+width:260px;
+padding:11px 45px 11px 18px;
+border-radius:40px;
+border:1px solid #ddd;
+outline:none;
+}
+
+.search:focus{
+border-color:var(--primary);
+}
+
+.search-icon{
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+pointer-events:none;
+}
+
+.btn-contato{
+background:var(--primary);
+color:#fff;
+padding:11px 20px;
+border-radius:40px;
+font-weight:800;
+}
+
+/* HERO */
+
+.hero{
+background:
+radial-gradient(circle at top right,rgba(255,106,0,.18),transparent 45%),
+linear-gradient(135deg,#101010,#1b1b1b 70%,#2a1708);
+padding:95px 20px 80px;
+color:#fff;
+position:relative;
+overflow:hidden;
+}
+
+.hero:before{
+content:"";
+position:absolute;
+inset:0;
+background:
+repeating-linear-gradient(
+90deg,
+transparent,
+transparent 40px,
+rgba(255,255,255,.015) 40px,
+rgba(255,255,255,.015) 41px
+);
+}
+
+.hero-grid{
+max-width:1200px;
+margin:auto;
+position:relative;
+z-index:2;
+}
+
+.hero-label{
+display:inline-block;
+padding:10px 18px;
+border-radius:30px;
+background:rgba(255,106,0,.15);
+border:1px solid rgba(255,106,0,.35);
+font-weight:800;
+letter-spacing:1px;
+color:#ffb27a;
+margin-bottom:25px;
+}
+
+.hero-divider{
+width:120px;
+height:5px;
+background:var(--primary);
+border-radius:30px;
+margin-bottom:30px;
+}
+
+.hero h1{
+font-size:72px;
+line-height:1;
+font-weight:900;
+margin-bottom:22px;
+}
+
+.hero p{
+font-size:24px;
+max-width:760px;
+line-height:1.5;
+color:#ddd;
+margin-bottom:30px;
+}
+
+/* FILTROS DO TOPO */
+
+.hero-stats{
+display:flex;
+gap:14px;
+flex-wrap:wrap;
+}
+
+.filter-btn{
+padding:13px 20px;
+border-radius:35px;
+background:#ffffff10;
+border:1px solid rgba(255,255,255,.08);
+font-weight:700;
+cursor:pointer;
+transition:.25s;
+color:#fff;
+}
+
+.filter-btn:hover{
+transform:translateY(-2px);
+background:#ffffff18;
+}
+
+.filter-btn.active{
+background:var(--primary);
+border-color:var(--primary);
+box-shadow:0 0 0 4px rgba(255,106,0,.18);
+}
+
+/* LAYOUT */
+
+.page{
+margin-top:35px;
+}
+
+.layout{
+display:grid;
+grid-template-columns:2.1fr 1fr;
+gap:30px;
+}
+
+.section-title{
+font-size:38px;
+font-weight:900;
+margin-bottom:24px;
+}
+
+/* DESTAQUE */
+
+.feature{
+background:
+linear-gradient(135deg,#111,#1e1e1e 70%,#2d1707);
+color:#fff;
+padding:55px;
+border-radius:30px;
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+margin-bottom:30px;
+}
+
+.kicker{
+display:inline-block;
+padding:10px 18px;
+border-radius:30px;
+background:rgba(255,106,0,.15);
+border:1px solid rgba(255,106,0,.35);
+color:#ffba82;
+font-weight:900;
+margin-bottom:25px;
+}
+
+.feature h2{
+font-size:52px;
+line-height:1.05;
+margin-bottom:18px;
+}
+
+.feature p{
+font-size:22px;
+color:#ddd;
+}
+
+/* POSTS */
+
+.post{
+background:#fff;
+padding:30px;
+border-radius:24px;
+margin-bottom:24px;
+box-shadow:0 8px 25px rgba(0,0,0,.05);
+transition:.3s;
+}
+
+.post:hover{
+transform:translateY(-4px);
+}
+
+.author-line{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:18px;
+}
+
+.author-line img{
+width:58px;
+height:58px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.post h3{
+font-size:34px;
+margin-bottom:12px;
+}
+
+.meta{
+font-size:14px;
+color:#777;
+font-weight:600;
+}
+
+.excerpt{
+font-size:18px;
+margin:15px 0;
+}
+
+.btn{
+background:var(--primary);
+color:#fff;
+border:none;
+padding:12px 24px;
+border-radius:30px;
+font-weight:800;
+cursor:pointer;
+}
+
+.full-text{
+display:none;
+margin-top:20px;
+padding-top:20px;
+border-top:1px solid #eee;
+}
+
+.full-text p{
+margin-bottom:14px;
+}
+
+/* SIDEBAR */
+
+.sidebar-box{
+background:#fff;
+padding:28px;
+border-radius:24px;
+margin-bottom:25px;
+box-shadow:0 8px 25px rgba(0,0,0,.05);
+}
+
+.sidebar-title{
+font-size:24px;
+font-weight:900;
+margin-bottom:20px;
+}
+
+.author-mini{
+text-align:center;
+}
+
+.author-mini img{
+width:130px;
+height:130px;
+border-radius:50%;
+object-fit:cover;
+margin:auto auto 18px;
+border:4px solid var(--primary);
+}
+
+.topic{
+padding:16px 0;
+border-bottom:1px solid #eee;
+font-weight:700;
+cursor:pointer;
+transition:.25s;
+}
+
+.topic:hover{
+color:var(--primary);
+padding-left:8px;
+}
+
+.topic:last-child{
+border:none;
+}
+
+.highlight{
+background:#111;
+color:#fff;
+padding:40px;
+border-radius:25px;
+}
+
+.highlight h4{
+font-size:34px;
+margin-bottom:15px;
+}
+
+.hidden-search{
+display:none!important;
+}
+
+.search-note{
+margin-bottom:20px;
+font-weight:700;
+color:#666;
+}
+
+footer{
+margin-top:60px;
+background:#fff;
+padding:40px;
+text-align:center;
+font-weight:700;
+}
+
+/* botão limpar filtro */
+.clear-filter{
+margin-top:15px;
+background:#111;
+color:#fff;
+border:none;
+padding:11px 18px;
+border-radius:30px;
+cursor:pointer;
+font-weight:700;
+}
+
+@media(max-width:980px){
+
+nav{
+display:none;
+}
+
+.menu-actions{
+width:100%;
+}
+
+.search{
+width:100%;
+}
+
+.layout{
+grid-template-columns:1fr;
+}
+
+.hero h1{
+font-size:50px;
+}
+
+.hero p{
+font-size:20px;
+}
+
+.feature{
+padding:35px;
+}
+
+.feature h2{
+font-size:36px;
+}
+
+.post h3{
+font-size:28px;
+}
+
+}
+</style>
 </head>
-
 <body>
 
 <header class="menu">
-  <div class="menu-content">
+<div class="menu-content">
 
-    <a href="index.html" class="logo">
-      <img src="img/logo-bem.png">
-      <strong>Bem Esportivo</strong>
-    </a>
+<a href="index.html" class="logo">
+<img src="img/logobemoficial.png">
+<strong>Bem Esportivo</strong>
+</a>
 
-    <a href="index.html" class="btn-home">Início</a>
+<nav>
+<a href="index.html">Início</a>
+<a href="profissionais.html">Profissionais</a>
+<a href="produtos.html">Produtos</a>
+<a href="beplay.html">Beplay</a>
+</nav>
 
-  </div>
+<div class="menu-actions">
+<div class="search-wrap">
+<input id="searchInput"
+class="search"
+type="text"
+placeholder="Buscar temas nesta página...">
+<span class="search-icon">🔎</span>
+</div>
+
+<a href="#" class="btn-contato">
+Contato
+</a>
+
+</div>
+</div>
 </header>
 
+
 <section class="hero">
-  <h1>🎙 Coluna do Valtinho</h1>
-  <p>Opinião, análise e visão real do esporte</p>
+
+<div class="hero-grid">
+
+<div class="hero-label">
+COLUNISTA • ANÁLISE • OPINIÃO
+</div>
+
+<div class="hero-divider"></div>
+
+<h1>Fala Aí, Valtinho</h1>
+
+<p>
+Opinião, leitura tática, futebol, saúde e performance
+em uma coluna editorial feita para pensar o esporte além do placar.
+</p>
+
+<div class="hero-stats">
+<button class="filter-btn" data-filter="futebol">⚽ Futebol</button>
+<button class="filter-btn" data-filter="performance">🏃 Performance</button>
+<button class="filter-btn" id="resetFilters">Todos</button>
+</div>
+
+</div>
 </section>
 
-<div class="container">
 
-  <div class="sobre">
-    <img src="img/valtinho.jpg">
+<div class="container page">
+<div class="layout">
 
-    <div>
-      <h3>Valtinho</h3>
-      <p>
-        Estudante de jornalismo e apaixonado por esporte e performance.
-      </p>
-    </div>
-  </div>
+<main>
 
-  <!-- POST 1 -->
-  <div class="post">
-    <h2>O futebol brasileiro precisa mudar</h2>
-    <p class="meta">Por Valtinho • 11/04/2026</p>
-    <p>O futebol brasileiro vive um momento de transição...</p>
+<h2 class="section-title">
+Destaques do Colunista
+</h2>
 
-    <button class="btn" onclick="toggleTexto('texto1')">
-      Ler texto completo
-    </button>
+<div class="search-note">
+Use a busca ou clique nos temas para filtrar artigos.
+</div>
 
-    <div id="texto1" class="texto-completo">
-      <p>
-        O futebol brasileiro precisa evoluir taticamente.
-        Hoje, vemos equipes que ainda dependem muito do talento individual,
-        enquanto o futebol moderno exige organização coletiva.
-        Antigamente o futebol era decidido pelos talentos individuais mesmo a equipe 
-        não rendendo na partida, porém nos dias de hoje ainda podemos ter partidas decididas
-        em lances individuais, porém com o suporte de uma equipe coeza e bem organizada.
-        O que acham, o futebol mudou?
-      </p>
 
-      
-    </div>
-  </div>
+<section class="feature searchable post-item"
+data-tags="futebol tatica analise">
+<div class="kicker">
+ANÁLISE ESPECIAL
+</div>
 
-  <!-- POST 2 -->
-  <div class="post">
-    <h2>Saúde e esporte: o equilíbrio ideal</h2>
-    <p class="meta">Por Valtinho • 10/04/2026</p>
-    <p>Mais do que performance, o futebol hoje é de números...</p>
+<h2>
+O futebol brasileiro precisa evoluir taticamente
+</h2>
 
-    <button class="btn" onclick="toggleTexto('texto2')">
-      Ler texto completo
-    </button>
+<p>
+Modelos organizados estão vencendo jogos antes mesmo da bola rolar.
+</p>
 
-    <div id="texto2" class="texto-completo">
-      <p>
-        Clubes que investem em análise de desempenho,
-        posicionamento e leitura de jogo estão saindo na frente.
-        <p> O futebol hoje é ainda mais baseado em numeros, são numeros dos fisiologistas,
-        dos analistas, dos estatisticos. 
-        Todos eles buscam entregar aos treinadores o maior numero de informaçoes para 
-        o melhor desempenho dos atletas e da equipe. 
-      Se dá certo na prática fica pra ser analisado, mas todo ferramenta é bem vinda
-    para alcançar uma vitória</p>
-      </p>
+</section>
 
-      <p>
-        O equilíbrio entre corpo e mente é o verdadeiro caminho
-        para resultados duradouros.
-      </p>
-    </div>
-  </div>
+
+
+<article class="post searchable post-item"
+data-tags="futebol analise tatica">
+
+<div class="author-line">
+<img src="img/valteroficial.png">
+<div>
+<strong>Valtinho</strong><br>
+<span class="meta">11/04/2026 • 5 min</span>
+</div>
+</div>
+
+<h3>O futebol brasileiro precisa mudar</h3>
+
+<p class="excerpt">
+Transição, organização e leitura coletiva decidirão o próximo ciclo.
+</p>
+
+<button class="btn" onclick="toggleTexto('t1')">
+Ler análise completa
+</button>
+
+<div id="t1" class="full-text">
+<p>O futebol moderno exige mecanismos coletivos.</p>
+<p>Talento decide, mas estrutura sustenta desempenho.</p>
+<p>Equipes bem treinadas controlam espaços e ritmos.</p>
+</div>
+
+</article>
+
+
+
+<article class="post searchable post-item"
+data-tags="performance saude analise">
+
+<div class="author-line">
+<img src="img/valteroficial.png">
+<div>
+<strong>Valtinho</strong><br>
+<span class="meta">10/04/2026 • 4 min</span>
+</div>
+</div>
+
+<h3>Saúde e performance no esporte moderno</h3>
+
+<p class="excerpt">
+Preparação física, dados e prevenção mudaram o jogo.
+</p>
+
+<button class="btn" onclick="toggleTexto('t2')">
+Ler análise completa
+</button>
+
+<div id="t2" class="full-text">
+<p>Performance é integração entre corpo, mente e carga.</p>
+<p>Dados hoje influenciam decisões técnicas.</p>
+</div>
+
+</article>
+
+
+
+<article class="post searchable post-item"
+data-tags="tatica analise futebol">
+
+<div class="author-line">
+<img src="img/valteroficial.png">
+<div>
+<strong>Valtinho</strong><br>
+<span class="meta">09/04/2026 • 6 min</span>
+</div>
+</div>
+
+<h3>Tática, pressão alta e leitura de jogo</h3>
+
+<p class="excerpt">
+Como o futebol atual é decidido sem a bola.
+</p>
+
+<button class="btn" onclick="toggleTexto('t3')">
+Ler análise completa
+</button>
+
+<div id="t3" class="full-text">
+<p>Pressionar melhor é jogar melhor.</p>
+<p>Compactação define competitividade.</p>
+</div>
+
+</article>
+
+</main>
+
+
+<aside>
+
+<div class="sidebar-box author-mini">
+<img src="img/valteroficial.png">
+<h3>Sobre Valtinho</h3>
+<p>
+Jornalismo esportivo, análise tática e performance.
+</p>
+</div>
+
+<div class="sidebar-box">
+<div class="sidebar-title">
+Temas populares
+</div>
+
+<div class="topic" onclick="filterPosts('futebol')">⚽ Futebol Brasileiro</div>
+<div class="topic" onclick="filterPosts('performance')">🏃 Performance</div>
+
+
+<button class="clear-filter"
+onclick="resetAllFilters()">
+Mostrar todos
+</button>
 
 </div>
 
-<script>
-function toggleTexto(id){
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === "block" ? "none" : "block";
-}
-</script>
+<div class="highlight">
+<h4>“Opinião sem análise é só barulho.”</h4>
+<p>— Valtinho</p>
+</div>
+
+</aside>
+
+</div>
+</div>
+
 
 <footer>
-  <p>© 2026 Bem Esportivo</p>
+© 2026 Bem Esportivo
 </footer>
+
+
+<script>
+
+function toggleTexto(id){
+const el=document.getElementById(id);
+el.style.display=
+el.style.display==='block'
+?'none'
+:'block';
+}
+
+const posts=document.querySelectorAll('.post-item');
+const filterButtons=document.querySelectorAll('.filter-btn');
+const search=document.getElementById('searchInput');
+
+let activeFilter='';
+
+function applyFilters(){
+
+const term=search.value.toLowerCase().trim();
+
+posts.forEach(post=>{
+
+const text=post.innerText.toLowerCase();
+const tags=post.dataset.tags;
+
+const matchesSearch=
+term==='' || text.includes(term);
+
+const matchesFilter=
+activeFilter==='' || tags.includes(activeFilter);
+
+if(matchesSearch && matchesFilter){
+post.classList.remove('hidden-search');
+}else{
+post.classList.add('hidden-search');
+}
+
+});
+
+}
+
+function filterPosts(tag){
+
+activeFilter=tag;
+
+filterButtons.forEach(btn=>{
+btn.classList.remove('active');
+
+if(btn.dataset.filter===tag){
+btn.classList.add('active');
+}
+});
+
+applyFilters();
+
+window.scrollTo({
+top:520,
+behavior:"smooth"
+});
+
+}
+
+function resetAllFilters(){
+
+activeFilter='';
+
+filterButtons.forEach(btn=>{
+btn.classList.remove('active');
+});
+
+search.value='';
+
+applyFilters();
+
+}
+
+filterButtons.forEach(btn=>{
+btn.addEventListener('click',function(){
+
+if(this.id==="resetFilters"){
+resetAllFilters();
+return;
+}
+
+filterPosts(this.dataset.filter);
+
+});
+});
+
+search.addEventListener('keyup',applyFilters);
+
+</script>
+
 </body>
 </html>
