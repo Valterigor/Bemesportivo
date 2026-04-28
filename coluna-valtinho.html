@@ -43,15 +43,15 @@ margin:auto;
 padding:0 20px;
 }
 
-/* HEADER */
-
+/* HEADER AJUSTADO PADRÃO HOME */
 .menu{
 position:fixed;
 top:0;
 left:0;
 width:100%;
-background:#fff;
-border-bottom:1px solid #ececec;
+background:#000;
+border-bottom:1px solid rgba(255,106,0,.18);
+box-shadow:0 4px 18px rgba(0,0,0,.35);
 z-index:999;
 }
 
@@ -70,8 +70,8 @@ padding:0 20px;
 display:flex;
 align-items:center;
 gap:12px;
-color:#111;
-font-weight:800;
+color:var(--primary);
+font-weight:900;
 }
 
 .logo img{
@@ -85,13 +85,30 @@ flex-wrap:wrap;
 }
 
 nav a{
-color:#111;
-font-weight:700;
+color:var(--primary);
+font-weight:800;
 font-size:15px;
+transition:.3s;
+position:relative;
+}
+
+nav a:after{
+content:"";
+position:absolute;
+left:0;
+bottom:-8px;
+width:0;
+height:2px;
+background:var(--primary);
+transition:.3s;
+}
+
+nav a:hover:after{
+width:100%;
 }
 
 nav a:hover{
-color:var(--primary);
+color:#ff9b4a;
 }
 
 .menu-actions{
@@ -108,12 +125,20 @@ position:relative;
 width:260px;
 padding:11px 45px 11px 18px;
 border-radius:40px;
-border:1px solid #ddd;
+border:1px solid rgba(255,106,0,.4);
+background:#111;
+color:#fff;
 outline:none;
+transition:.3s;
+}
+
+.search::placeholder{
+color:#aaa;
 }
 
 .search:focus{
 border-color:var(--primary);
+box-shadow:0 0 0 4px rgba(255,106,0,.15);
 }
 
 .search-icon{
@@ -122,18 +147,24 @@ right:15px;
 top:50%;
 transform:translateY(-50%);
 pointer-events:none;
+color:var(--primary);
 }
 
 .btn-contato{
 background:var(--primary);
 color:#fff;
-padding:11px 20px;
+padding:11px 22px;
 border-radius:40px;
-font-weight:800;
+font-weight:900;
+transition:.3s;
+}
+
+.btn-contato:hover{
+background:#ff7f1f;
+transform:translateY(-2px);
 }
 
 /* HERO */
-
 .hero{
 background:
 radial-gradient(circle at top right,rgba(255,106,0,.18),transparent 45%),
@@ -200,8 +231,6 @@ color:#ddd;
 margin-bottom:30px;
 }
 
-/* FILTROS DO TOPO */
-
 .hero-stats{
 display:flex;
 gap:14px;
@@ -230,8 +259,6 @@ border-color:var(--primary);
 box-shadow:0 0 0 4px rgba(255,106,0,.18);
 }
 
-/* LAYOUT */
-
 .page{
 margin-top:35px;
 }
@@ -247,8 +274,6 @@ font-size:38px;
 font-weight:900;
 margin-bottom:24px;
 }
-
-/* DESTAQUE */
 
 .feature{
 background:
@@ -281,8 +306,6 @@ margin-bottom:18px;
 font-size:22px;
 color:#ddd;
 }
-
-/* POSTS */
 
 .post{
 background:#fff;
@@ -347,8 +370,6 @@ border-top:1px solid #eee;
 .full-text p{
 margin-bottom:14px;
 }
-
-/* SIDEBAR */
 
 .sidebar-box{
 background:#fff;
@@ -424,7 +445,6 @@ text-align:center;
 font-weight:700;
 }
 
-/* botão limpar filtro */
 .clear-filter{
 margin-top:15px;
 background:#111;
@@ -436,44 +456,38 @@ cursor:pointer;
 font-weight:700;
 }
 
-@media(max-width:980px){
-
-nav{
+#backToTop{
+position:fixed;
+right:25px;
+bottom:25px;
+width:54px;
+height:54px;
+border:none;
+border-radius:50%;
+background:var(--primary);
+color:#fff;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
 display:none;
+box-shadow:0 8px 20px rgba(0,0,0,.25);
+z-index:9999;
 }
 
-.menu-actions{
-width:100%;
+#backToTop.show{
+display:block;
 }
 
-.search{
-width:100%;
-}
-
-.layout{
-grid-template-columns:1fr;
-}
-
-.hero h1{
-font-size:50px;
-}
-
-.hero p{
-font-size:20px;
-}
-
-.feature{
-padding:35px;
-}
-
-.feature h2{
-font-size:36px;
-}
-
-.post h3{
-font-size:28px;
-}
-
+@media(max-width:980px){
+nav{display:none}
+.menu-actions{width:100%}
+.search{width:100%}
+.layout{grid-template-columns:1fr}
+.hero h1{font-size:50px}
+.hero p{font-size:20px}
+.feature{padding:35px}
+.feature h2{font-size:36px}
+.post h3{font-size:28px}
 }
 </style>
 </head>
@@ -496,32 +510,20 @@ font-size:28px;
 
 <div class="menu-actions">
 <div class="search-wrap">
-<input id="searchInput"
-class="search"
-type="text"
-placeholder="Buscar temas nesta página...">
+<input id="searchInput" class="search" type="text" placeholder="Buscar temas nesta página...">
 <span class="search-icon">🔎</span>
 </div>
 
-<a href="#" class="btn-contato">
-Contato
-</a>
+<a href="#" class="btn-contato">Contato</a>
 
 </div>
 </div>
 </header>
 
-
 <section class="hero">
-
 <div class="hero-grid">
-
-<div class="hero-label">
-COLUNISTA • ANÁLISE • OPINIÃO
-</div>
-
+<div class="hero-label">COLUNISTA • ANÁLISE • OPINIÃO</div>
 <div class="hero-divider"></div>
-
 <h1>Fala Aí, Valtinho</h1>
 
 <p>
@@ -534,46 +536,23 @@ em uma coluna editorial feita para pensar o esporte além do placar.
 <button class="filter-btn" data-filter="performance">🏃 Performance</button>
 <button class="filter-btn" id="resetFilters">Todos</button>
 </div>
-
 </div>
 </section>
-
 
 <div class="container page">
 <div class="layout">
-
 <main>
 
-<h2 class="section-title">
-Destaques do Colunista
-</h2>
+<h2 class="section-title">Destaques do Colunista</h2>
+<div class="search-note">Use a busca ou clique nos temas para filtrar artigos.</div>
 
-<div class="search-note">
-Use a busca ou clique nos temas para filtrar artigos.
-</div>
-
-
-<section class="feature searchable post-item"
-data-tags="futebol tatica analise">
-<div class="kicker">
-ANÁLISE ESPECIAL
-</div>
-
-<h2>
-O futebol brasileiro precisa evoluir taticamente
-</h2>
-
-<p>
-Modelos organizados estão vencendo jogos antes mesmo da bola rolar.
-</p>
-
+<section class="feature searchable post-item" data-tags="futebol tatica analise">
+<div class="kicker">ANÁLISE ESPECIAL</div>
+<h2>O futebol brasileiro precisa evoluir taticamente</h2>
+<p>Modelos organizados estão vencendo jogos antes mesmo da bola rolar.</p>
 </section>
 
-
-
-<article class="post searchable post-item"
-data-tags="futebol analise tatica">
-
+<article class="post searchable post-item" data-tags="futebol analise tatica">
 <div class="author-line">
 <img src="img/valteroficial.png">
 <div>
@@ -583,28 +562,16 @@ data-tags="futebol analise tatica">
 </div>
 
 <h3>O futebol brasileiro precisa mudar</h3>
-
-<p class="excerpt">
-Transição, organização e leitura coletiva decidirão o próximo ciclo.
-</p>
-
-<button class="btn" onclick="toggleTexto('t1')">
-Ler análise completa
-</button>
-
+<p class="excerpt">Transição, organização e leitura coletiva decidirão o próximo ciclo.</p>
+<button class="btn" onclick="toggleTexto('t1')">Ler análise completa</button>
 <div id="t1" class="full-text">
 <p>O futebol moderno exige mecanismos coletivos.</p>
 <p>Talento decide, mas estrutura sustenta desempenho.</p>
 <p>Equipes bem treinadas controlam espaços e ritmos.</p>
 </div>
-
 </article>
 
-
-
-<article class="post searchable post-item"
-data-tags="performance saude analise">
-
+<article class="post searchable post-item" data-tags="performance saude analise">
 <div class="author-line">
 <img src="img/valteroficial.png">
 <div>
@@ -614,27 +581,15 @@ data-tags="performance saude analise">
 </div>
 
 <h3>Saúde e performance no esporte moderno</h3>
-
-<p class="excerpt">
-Preparação física, dados e prevenção mudaram o jogo.
-</p>
-
-<button class="btn" onclick="toggleTexto('t2')">
-Ler análise completa
-</button>
-
+<p class="excerpt">Preparação física, dados e prevenção mudaram o jogo.</p>
+<button class="btn" onclick="toggleTexto('t2')">Ler análise completa</button>
 <div id="t2" class="full-text">
 <p>Performance é integração entre corpo, mente e carga.</p>
 <p>Dados hoje influenciam decisões técnicas.</p>
 </div>
-
 </article>
 
-
-
-<article class="post searchable post-item"
-data-tags="tatica analise futebol">
-
+<article class="post searchable post-item" data-tags="tatica analise futebol">
 <div class="author-line">
 <img src="img/valteroficial.png">
 <div>
@@ -644,159 +599,114 @@ data-tags="tatica analise futebol">
 </div>
 
 <h3>Tática, pressão alta e leitura de jogo</h3>
-
-<p class="excerpt">
-Como o futebol atual é decidido sem a bola.
-</p>
-
-<button class="btn" onclick="toggleTexto('t3')">
-Ler análise completa
-</button>
-
+<p class="excerpt">Como o futebol atual é decidido sem a bola.</p>
+<button class="btn" onclick="toggleTexto('t3')">Ler análise completa</button>
 <div id="t3" class="full-text">
 <p>Pressionar melhor é jogar melhor.</p>
 <p>Compactação define competitividade.</p>
 </div>
-
 </article>
 
 </main>
 
-
 <aside>
-
 <div class="sidebar-box author-mini">
 <img src="img/valteroficial.png">
 <h3>Sobre Valtinho</h3>
-<p>
-Jornalismo esportivo, análise tática e performance.
-</p>
+<p>Jornalismo esportivo, análise tática e performance.</p>
 </div>
 
 <div class="sidebar-box">
-<div class="sidebar-title">
-Temas populares
-</div>
-
+<div class="sidebar-title">Temas populares</div>
 <div class="topic" onclick="filterPosts('futebol')">⚽ Futebol Brasileiro</div>
 <div class="topic" onclick="filterPosts('performance')">🏃 Performance</div>
-
-
-<button class="clear-filter"
-onclick="resetAllFilters()">
-Mostrar todos
-</button>
-
+<button class="clear-filter" onclick="resetAllFilters()">Mostrar todos</button>
 </div>
 
 <div class="highlight">
 <h4>“Opinião sem análise é só barulho.”</h4>
 <p>— Valtinho</p>
 </div>
-
 </aside>
 
 </div>
 </div>
 
+<footer>© 2026 Bem Esportivo</footer>
 
-<footer>
-© 2026 Bem Esportivo
-</footer>
-
+<button id="backToTop">↑</button>
 
 <script>
-
 function toggleTexto(id){
 const el=document.getElementById(id);
-el.style.display=
-el.style.display==='block'
-?'none'
-:'block';
+el.style.display=el.style.display==='block'?'none':'block';
 }
 
 const posts=document.querySelectorAll('.post-item');
 const filterButtons=document.querySelectorAll('.filter-btn');
 const search=document.getElementById('searchInput');
-
 let activeFilter='';
 
 function applyFilters(){
-
 const term=search.value.toLowerCase().trim();
-
 posts.forEach(post=>{
-
 const text=post.innerText.toLowerCase();
 const tags=post.dataset.tags;
-
-const matchesSearch=
-term==='' || text.includes(term);
-
-const matchesFilter=
-activeFilter==='' || tags.includes(activeFilter);
-
+const matchesSearch=term===''||text.includes(term);
+const matchesFilter=activeFilter===''||tags.includes(activeFilter);
 if(matchesSearch && matchesFilter){
 post.classList.remove('hidden-search');
 }else{
 post.classList.add('hidden-search');
 }
-
 });
-
 }
 
 function filterPosts(tag){
-
 activeFilter=tag;
-
 filterButtons.forEach(btn=>{
 btn.classList.remove('active');
-
 if(btn.dataset.filter===tag){
 btn.classList.add('active');
 }
 });
-
 applyFilters();
-
-window.scrollTo({
-top:520,
-behavior:"smooth"
-});
-
+window.scrollTo({top:520,behavior:'smooth'});
 }
 
 function resetAllFilters(){
-
 activeFilter='';
-
-filterButtons.forEach(btn=>{
-btn.classList.remove('active');
-});
-
+filterButtons.forEach(btn=>btn.classList.remove('active'));
 search.value='';
-
 applyFilters();
-
 }
 
 filterButtons.forEach(btn=>{
 btn.addEventListener('click',function(){
-
-if(this.id==="resetFilters"){
+if(this.id==='resetFilters'){
 resetAllFilters();
 return;
 }
-
 filterPosts(this.dataset.filter);
-
 });
 });
 
 search.addEventListener('keyup',applyFilters);
 
+const topBtn=document.getElementById('backToTop');
+window.addEventListener('scroll',()=>{
+if(window.scrollY>450){
+topBtn.classList.add('show');
+}else{
+topBtn.classList.remove('show');
+}
+});
+
+topBtn.addEventListener('click',()=>{
+window.scrollTo({top:0,behavior:'smooth'});
+});
 </script>
 
 </body>
 </html>
+```

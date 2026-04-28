@@ -1,293 +1,418 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beplay | Bem Esportivo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beplay | Bem Esportivo</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --primary: #fc6e02;
-      --secondary: #9a5700;
-      --dark: #1c1c1c;
-      --light: #f8f9fa;
-      --radius: 14px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
-      background: var(--light);
-      color: var(--dark);
-      padding-top: 90px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 24px;
-    }
-
-    /* MENU */
-    .menu {
-      position: fixed;
-      width: 100%;
-      top: 0;
-      background: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      z-index: 1000;
-    }
-
-    .menu-content {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    nav {
-      display: flex;
-      gap: 20px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #1c1c1c;
-      font-weight: 600;
-    }
-
-    .search-box input {
-      padding: 8px 12px;
-      border-radius: 20px;
-      border: 1px solid #ccc;
-    }
-
-    /* HERO */
-    .hero {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #fff;
-      text-align: center;
-      padding: 50px 20px;
-    }
-
-    /* GRID */
-    .videos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      padding: 30px 0;
-    }
-
-    .video-card {
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      transition: 0.3s;
-    }
-
-    .video-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .video-thumb {
-      width: 100%;
-      height: 180px;
-      border-radius: var(--radius);
-      background-size: cover;
-      background-position: center;
-    }
-
-    .video-card h3 {
-      text-align: center;
-      margin: 10px 0;
-    }
-
-    .btn-play {
-      display: block;
-      text-align: center;
-      background: var(--primary);
-      color: #fff;
-      padding: 10px;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-
-    /* MODAL */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal.show {
-      display: flex;
-    }
-
-    iframe {
-      width: 90%;
-      height: 500px;
-    }
-
-    /* BOTÕES */
-    #voltar-topo {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: none;
-      padding: 12px;
-      border-radius: 50%;
-      background: var(--primary);
-      color: #fff;
-      border: none;
-    }
-
-    .btn-home {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      display: none;
-      background: linear-gradient(135deg, #fc6e02, #9a5700);
-      color: #fff;
-      padding: 14px;
-      border-radius: 50%;
-      text-decoration: none;
-    }
-
-    .logo {
-  font-size: 22px;
-  font-weight: bold;
-  margin-right: 20px;
+<style>
+:root{
+--primary:#fc6e02;
+--secondary:#9a5700;
+--dark:#1c1c1c;
+--light:#f8f9fa;
+--radius:14px;
 }
 
-  </style>
-</head>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
 
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:var(--light);
+color:var(--dark);
+padding-top:90px;
+overflow-x:hidden;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:24px;
+}
+
+/* MENU NOVO PADRÃO */
+.menu{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+background:#000;
+border-bottom:1px solid rgba(252,110,2,.22);
+box-shadow:0 4px 18px rgba(0,0,0,.35);
+z-index:1000;
+}
+
+.menu-content{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:30px;
+min-height:78px;
+}
+
+.logo{
+font-size:24px;
+font-weight:900;
+color:var(--primary);
+letter-spacing:.5px;
+}
+
+nav{
+display:flex;
+gap:24px;
+}
+
+nav a{
+text-decoration:none;
+color:var(--primary);
+font-weight:800;
+position:relative;
+transition:.3s;
+}
+
+nav a:after{
+content:"";
+position:absolute;
+left:0;
+bottom:-8px;
+width:0;
+height:2px;
+background:var(--primary);
+transition:.3s;
+}
+
+nav a:hover:after{
+width:100%;
+}
+
+nav a:hover{
+color:#ff9c4f;
+}
+
+.search-box{
+position:relative;
+}
+
+.search-box input{
+width:220px;
+padding:11px 18px;
+border-radius:40px;
+border:1px solid rgba(252,110,2,.4);
+background:#111;
+color:#fff;
+outline:none;
+transition:.3s;
+}
+
+.search-box input::placeholder{
+color:#aaa;
+}
+
+.search-box input:focus{
+width:260px;
+border-color:var(--primary);
+box-shadow:0 0 0 4px rgba(252,110,2,.15);
+}
+
+/* HERO */
+.hero{
+background:
+radial-gradient(circle at top right, rgba(252,110,2,.18), transparent 45%),
+linear-gradient(135deg,#111,#1a1a1a 70%,#2b1708);
+color:#fff;
+text-align:center;
+padding:70px 20px;
+}
+
+.hero h1{
+font-size:58px;
+font-weight:900;
+margin-bottom:14px;
+}
+
+.hero p{
+font-size:22px;
+color:#ddd;
+}
+
+/* GRID */
+.videos-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:24px;
+padding:40px 0;
+}
+
+.video-card{
+background:#fff;
+border-radius:var(--radius);
+padding:15px;
+box-shadow:0 10px 25px rgba(0,0,0,.05);
+transition:.35s;
+}
+
+.video-card:hover{
+transform:translateY(-6px);
+}
+
+.video-thumb{
+width:100%;
+height:180px;
+border-radius:var(--radius);
+background-size:cover;
+background-position:center;
+position:relative;
+overflow:hidden;
+}
+
+.video-thumb:after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(transparent,rgba(0,0,0,.4));
+}
+
+.video-card h3{
+text-align:center;
+margin:14px 0;
+font-size:21px;
+}
+
+.btn-play{
+display:block;
+text-align:center;
+background:var(--primary);
+color:#fff;
+padding:12px;
+border-radius:30px;
+font-weight:800;
+cursor:pointer;
+transition:.3s;
+}
+
+.btn-play:hover{
+transform:translateY(-2px);
+background:#e45f00;
+}
+
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.88);
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:9999;
+}
+
+.modal.show{
+display:flex;
+}
+
+iframe{
+width:90%;
+max-width:1000px;
+height:520px;
+border:none;
+border-radius:18px;
+}
+
+/* BOTÕES FLUTUANTES */
+#voltar-topo{
+position:fixed;
+bottom:25px;
+right:25px;
+display:none;
+width:56px;
+height:56px;
+border:none;
+border-radius:50%;
+background:var(--primary);
+color:#fff;
+font-size:24px;
+font-weight:900;
+box-shadow:0 8px 20px rgba(0,0,0,.25);
+cursor:pointer;
+z-index:999;
+}
+
+.btn-home{
+position:fixed;
+bottom:25px;
+left:25px;
+display:none;
+width:56px;
+height:56px;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#fc6e02,#9a5700);
+color:#fff;
+border-radius:50%;
+text-decoration:none;
+font-size:24px;
+box-shadow:0 8px 20px rgba(0,0,0,.25);
+z-index:999;
+}
+
+footer{
+text-align:center;
+padding:30px;
+background:#111;
+color:#fff;
+margin-top:30px;
+}
+
+@media(max-width:768px){
+.menu-content{
+flex-wrap:wrap;
+justify-content:center;
+padding:14px 24px;
+}
+
+nav{
+gap:16px;
+}
+
+.search-box input,
+.search-box input:focus{
+width:100%;
+}
+
+.hero h1{
+font-size:42px;
+}
+
+.hero p{
+font-size:18px;
+}
+
+iframe{
+height:320px;
+}
+}
+</style>
+</head>
 <body>
 
 <header class="menu">
-  <div class="container menu-content">
-    <div class="logo">Beplay</div>
-   
+<div class="container menu-content">
+<div class="logo">BEplay</div>
 
-    <nav>
-      <a href="index.html">Início</a>
-          </nav>
+<nav>
+<a href="index.html">Início</a>
+<a href="profissionais.html">Profissionais</a>
+<a href="produtos.html">Produtos</a>
+<a href="coluna-valtinho.html">Fala Aí, Valtinho</a>
+</nav>
 
-    <!-- BUSCA -->
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Buscar vídeos...">
-    </div>
-  </div>
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Buscar vídeos...">
+</div>
+</div>
 </header>
 
 <header class="hero">
-  <h1>🎥 BEplay</h1>
-  <p>Conteúdos exclusivos de esporte</p>
+<h1>🎥 BEplay</h1>
+<p>Conteúdos exclusivos de esporte</p>
 </header>
 
 <main class="container">
+<section class="videos-grid">
 
-  <section class="videos-grid">
+<div class="video-card" data-video="https://www.youtube.com/embed/gBkon6LC2OU">
+<div class="video-thumb"></div>
+<h3>Treino Técnico e Tático</h3>
+<div class="btn-play">Assistir</div>
+</div>
 
-    <div class="video-card" data-video="https://www.youtube.com/embed/gBkon6LC2OU">
-      <div class="video-thumb"></div>
-      <h3>Treino Técnico e Tático</h3>
-      <div class="btn-play">Assistir</div>
-    </div>
+<div class="video-card" data-video="https://www.youtube.com/embed/Qi1lRW18kvM">
+<div class="video-thumb"></div>
+<h3>Duda e o Futebol</h3>
+<div class="btn-play">Assistir</div>
+</div>
 
-    <div class="video-card" data-video="https://www.youtube.com/embed/Qi1lRW18kvM">
-      <div class="video-thumb"></div>
-      <h3>Duda e o Futebol</h3>
-      <div class="btn-play">Assistir</div>
-    </div>
+<div class="video-card" data-video="https://www.youtube.com/embed/dYiX4fvxGG8">
+<div class="video-thumb"></div>
+<h3>Futebol e Areia</h3>
+<div class="btn-play">Assistir</div>
+</div>
 
-    <div class="video-card" data-video="https://www.youtube.com/embed/dYiX4fvxGG8">
-      <div class="video-thumb"></div>
-      <h3>Futebol e Areia</h3>
-      <div class="btn-play">Assistir</div>
-    </div>
-
-  </section>
-
+</section>
 </main>
 
-<footer style="text-align:center; padding:20px; background:#111; color:#fff;">
-  © 2025 Bem Esportivo
+<footer>
+<p>© 2026 Bem Esportivo</p>
 </footer>
 
-<!-- BOTÕES -->
 <button id="voltar-topo">↑</button>
 <a href="index.html" class="btn-home">🏠</a>
 
-<!-- MODAL -->
 <div id="videoModal" class="modal">
-  <iframe src=""></iframe>
+<iframe src=""></iframe>
 </div>
 
 <script>
-/* THUMBNAIL */
-document.querySelectorAll(".video-card").forEach(card => {
-  const id = card.dataset.video.split("/embed/")[1];
-  card.querySelector(".video-thumb").style.backgroundImage =
-    `url(https://img.youtube.com/vi/${id}/hqdefault.jpg)`;
+document.querySelectorAll('.video-card').forEach(card=>{
+const id=card.dataset.video.split('/embed/')[1];
+card.querySelector('.video-thumb').style.backgroundImage=
+`url(https://img.youtube.com/vi/${id}/hqdefault.jpg)`;
 });
 
-/* MODAL */
-const modal = document.getElementById("videoModal");
-const iframe = modal.querySelector("iframe");
+const modal=document.getElementById('videoModal');
+const iframe=modal.querySelector('iframe');
 
-document.querySelectorAll(".btn-play").forEach(btn => {
-  btn.onclick = e => {
-    const card = e.target.closest(".video-card");
-    modal.classList.add("show");
-    iframe.src = card.dataset.video + "?autoplay=1";
-  };
+document.querySelectorAll('.btn-play').forEach(btn=>{
+btn.onclick=e=>{
+const card=e.target.closest('.video-card');
+modal.classList.add('show');
+iframe.src=card.dataset.video+'?autoplay=1';
+};
 });
 
-modal.onclick = () => {
-  modal.classList.remove("show");
-  iframe.src = "";
+modal.onclick=()=>{
+modal.classList.remove('show');
+iframe.src='';
 };
 
-/* BUSCA */
-const input = document.getElementById("searchInput");
+const input=document.getElementById('searchInput');
 
-input.addEventListener("keyup", () => {
-  const filtro = input.value.toLowerCase();
-  const cards = document.querySelectorAll(".video-card");
+input.addEventListener('keyup',()=>{
+const filtro=input.value.toLowerCase();
+const cards=document.querySelectorAll('.video-card');
 
-  cards.forEach(card => {
-    const titulo = card.querySelector("h3").textContent.toLowerCase();
-    card.style.display = titulo.includes(filtro) ? "block" : "none";
-  });
+cards.forEach(card=>{
+const titulo=card.querySelector('h3').textContent.toLowerCase();
+card.style.display=titulo.includes(filtro)?'block':'none';
+});
 });
 
-/* BOTÕES */
-const topo = document.getElementById("voltar-topo");
-const home = document.querySelector(".btn-home");
+const topo=document.getElementById('voltar-topo');
+const home=document.querySelector('.btn-home');
 
-window.addEventListener("scroll", () => {
-  const show = window.scrollY > 200;
-  topo.style.display = show ? "block" : "none";
-  home.style.display = show ? "block" : "none";
+window.addEventListener('scroll',()=>{
+const show=window.scrollY>200;
+topo.style.display=show?'block':'none';
+home.style.display=show?'flex':'none';
 });
 
-topo.onclick = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+topo.onclick=()=>{
+window.scrollTo({top:0,behavior:'smooth'});
 };
 </script>
-<footer>
-  <p>© 2026 Bem Esportivo</p>
-</footer>
+
 </body>
 </html>
+```
+

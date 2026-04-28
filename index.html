@@ -1,23 +1,17 @@
-<!DOCTYPE html>     
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Bem Esportivo | Notícias Esportivas</title>
-
 <link rel="icon" href="img/logobemoficial.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* =========================
-RESET E CONFIGURAÇÕES GERAIS
-========================= */
 :root{
 --primary:#fc6e02;
 --secondary:#9a5700;
---dark:#1c1c1c;
+--dark:#111111;
 --light:#f8f9fa;
 }
 
@@ -26,6 +20,10 @@ margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:'Inter',sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
 }
 
 body{
@@ -41,17 +39,19 @@ margin:auto;
 padding:20px;
 }
 
+a{text-decoration:none}
 
 /* =========================
-HEADER / MENU
+MENU ALTERADO
 ========================= */
 .menu{
 position:fixed;
 width:100%;
 top:0;
-background:#fff;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
+background:#000;
+box-shadow:0 2px 10px rgba(0,0,0,.35);
 z-index:1000;
+border-bottom:1px solid rgba(252,110,2,.25);
 }
 
 .menu-content{
@@ -64,8 +64,8 @@ align-items:center;
 display:flex;
 align-items:center;
 gap:10px;
-text-decoration:none;
-color:#000;
+color:var(--primary);
+font-weight:800;
 }
 
 .logo img{
@@ -78,15 +78,14 @@ gap:20px;
 }
 
 nav a{
-text-decoration:none;
-color:#000;
-font-weight:600;
+color:var(--primary);
+font-weight:700;
+transition:.3s;
 }
 
 nav a:hover{
-color:var(--primary);
+color:#fff;
 }
-
 
 /* =========================
 MENU DIREITA
@@ -97,38 +96,55 @@ align-items:center;
 gap:15px;
 }
 
+.search-wrap{
+position:relative;
+}
+
 .search{
-padding:8px 15px;
-border-radius:20px;
-border:1px solid #ccc;
+padding:10px 42px 10px 16px;
+border-radius:30px;
+border:1px solid rgba(252,110,2,.4);
 outline:none;
-width:160px;
-transition:.3s;
+width:190px;
+transition:.35s;
+background:#111;
+color:#fff;
+}
+
+.search::placeholder{
+color:#aaa;
 }
 
 .search:focus{
-width:200px;
+width:230px;
 border-color:var(--primary);
+}
+
+.search-icon{
+position:absolute;
+right:14px;
+top:50%;
+transform:translateY(-50%);
+color:var(--primary);
+font-size:14px;
+pointer-events:none;
 }
 
 .btn-contato{
 background:var(--primary);
 color:#fff;
-padding:8px 18px;
-border-radius:20px;
-text-decoration:none;
-font-weight:600;
+padding:9px 18px;
+border-radius:30px;
+font-weight:700;
 transition:.3s;
 }
 
 .btn-contato:hover{
-background:#e65c00;
-transform:scale(1.05);
+transform:translateY(-2px);
 }
 
-
 /* =========================
-MENU MOBILE
+MOBILE
 ========================= */
 .menu-btn{
 width:40px;
@@ -145,61 +161,63 @@ cursor:pointer;
 .menu-btn span{
 height:3px;
 width:100%;
-background:#1c1c1c;
+background:var(--primary);
 border-radius:3px;
 }
 
-
 /* =========================
-BANNER CORRIGIDO (SEM CORTAR)
+BANNER ORIGINAL MANTIDO
 ========================= */
 .banner-top{
 width:100%;
 background:#000 url('img/imgbanner.jpg.png') center center no-repeat;
-
-/* ESSENCIAL: não corta imagem */
 background-size:contain;
-
-/* proporção do banner */
-aspect-ratio: 1920 / 520;
-
-/* fallback */
+aspect-ratio:1920/520;
 min-height:280px;
-height:auto;
-
-/* evita bugs de zoom */
-display:block;
-overflow:hidden;
 }
-
-/* fallback se aspect-ratio não existir */
-@supports not (aspect-ratio: 1920 / 520){
-.banner-top{
-height:520px;
-}
-}
-
 
 /* =========================
-HERO
+DESTAQUE ALTERADO FUNDO BRANCO
 ========================= */
 .hero{
-background:linear-gradient(135deg,var(--primary),var(--secondary));
-color:#fff;
-padding:60px 20px;
+background:#ffffff;
+padding:70px 20px;
+}
+
+.hero h1{
+font-size:42px;
+margin-bottom:15px;
 }
 
 .destaque-img{
 position:relative;
-border-radius:12px;
+border-radius:18px;
 overflow:hidden;
 margin-top:20px;
+box-shadow:0 12px 40px rgba(0,0,0,.10);
 }
 
 .destaque-img img{
 width:100%;
-height:380px;
+height:460px;
 object-fit:cover;
+display:block;
+transform:scale(1.01);
+}
+
+/* degradê preto solicitado */
+.destaque-img:before{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(
+180deg,
+rgba(0,0,0,.05) 10%,
+rgba(0,0,0,.35) 55%,
+rgba(0,0,0,.88) 100%
+);
+z-index:1;
 }
 
 .destaque-texto{
@@ -207,30 +225,49 @@ position:absolute;
 bottom:0;
 left:0;
 width:100%;
-padding:25px;
-background:linear-gradient(transparent, rgba(0,0,0,.85));
+padding:35px;
 color:#fff;
+z-index:2;
 }
 
+.destaque-texto h2{
+font-size:40px;
+margin-bottom:10px;
+}
 
-/* =========================
-BOTÕES
-========================= */
-.meta{
-font-size:12px;
-color:gray;
+.destaque-texto p{
+font-size:20px;
+margin-bottom:16px;
 }
 
 .btn{
 display:inline-block;
 background:var(--primary);
 color:#fff;
-padding:10px 20px;
-border-radius:20px;
-text-decoration:none;
-margin-top:10px;
+padding:11px 22px;
+border-radius:25px;
+margin-top:8px;
+font-weight:700;
 }
 
+/* =========================
+RESULTADO BUSCA
+========================= */
+.search-results{
+display:none;
+background:#fff;
+margin:20px auto 0;
+padding:18px 22px;
+border-radius:14px;
+box-shadow:0 8px 25px rgba(0,0,0,.07);
+font-weight:600;
+}
+
+mark{
+background:#fff2e7;
+padding:2px 4px;
+border-radius:4px;
+}
 
 /* =========================
 GRID
@@ -246,6 +283,11 @@ background:#fff;
 padding:15px;
 border-radius:12px;
 box-shadow:0 5px 15px rgba(0,0,0,.05);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-4px)
 }
 
 .card img{
@@ -254,30 +296,18 @@ border-radius:10px;
 margin-bottom:10px;
 }
 
-
-/* =========================
-LAYOUT
-========================= */
 .layout{
 display:grid;
 grid-template-columns:2fr 1.2fr;
 gap:20px;
 }
 
-
-/* =========================
-SIDEBAR
-========================= */
 .sidebar{
 background:#fff;
 padding:20px;
 border-radius:12px;
 }
 
-
-/* =========================
-COLUNA VALTINHO
-========================= */
 .valtinho{
 background:#fff;
 padding:25px;
@@ -302,10 +332,15 @@ object-fit:cover;
 border:2px solid var(--primary);
 }
 
+.meta{
+font-size:12px;
+color:gray;
+}
 
-/* =========================
-RODAPÉ
-========================= */
+.hidden-search{
+display:none!important;
+}
+
 footer{
 text-align:center;
 padding:30px;
@@ -313,23 +348,39 @@ background:#fff;
 margin-top:40px;
 }
 
-
-/* =========================
-RESPONSIVO
-========================= */
-@media(max-width:768px){
-
-.menu-btn{
-display:flex;
+/* voltar topo */
+#topBtn{
+position:fixed;
+right:28px;
+bottom:28px;
+width:54px;
+height:54px;
+border:none;
+border-radius:50%;
+background:#000;
+color:var(--primary);
+font-size:24px;
+font-weight:900;
+cursor:pointer;
+display:none;
+box-shadow:0 10px 25px rgba(0,0,0,.3);
+z-index:999;
 }
+
+#topBtn:hover{
+transform:translateY(-3px);
+}
+
+@media(max-width:768px){
+.menu-btn{display:flex;}
 
 nav{
 position:absolute;
 top:70px;
 right:0;
-background:#fff;
+background:#000;
 flex-direction:column;
-width:220px;
+width:230px;
 padding:20px;
 display:none;
 }
@@ -338,30 +389,29 @@ nav.active{
 display:flex;
 }
 
-.layout{
-grid-template-columns:1fr;
-}
-
-/* mobile sem cortar */
-.banner-top{
-background-size:contain;
-aspect-ratio:16/7;
-min-height:220px;
-}
-
 .menu-actions{
 display:none;
 }
 
+.layout{
+grid-template-columns:1fr;
+}
+
+.banner-top{
+aspect-ratio:16/7;
+min-height:220px;
+}
+
 .destaque-img img{
-height:300px;
+height:320px;
 }
 
+.destaque-texto h2{
+font-size:28px;
 }
-
+}
 </style>
 </head>
-
 <body>
 
 <header class="menu">
@@ -377,12 +427,15 @@ height:300px;
 <a href="profissionais.html">Profissionais</a>
 <a href="produtos.html">Produtos</a>
 <a href="beplay.html">Beplay</a>
-
 <a href="coluna-valtinho.html">Fala aí, Valtinho!</a>
 </nav>
 
 <div class="menu-actions">
-<input type="text" placeholder="Buscar..." class="search">
+<div class="search-wrap">
+<input id="searchInput" type="text" placeholder="Buscar na página..." class="search">
+<span class="search-icon">🔎</span>
+</div>
+
 <a href="https://wa.me/5511986366965" target="_blank" class="btn-contato">
 Fale Conosco
 </a>
@@ -406,29 +459,26 @@ Fale Conosco
 
 <h1>Destaque</h1>
 
-<div class="destaque-img">
-<img src="img/corinthians x palmeiras.jpg">
+<div class="destaque-img searchable">
+<img src="img/corinthians x palmeiras.jpg" alt="Destaque Corinthians Palmeiras">
 
 <div class="destaque-texto">
 <h2>🔥 Corinthians x Palmeiras</h2>
 <p>Empate quente e cheio de polêmicas</p>
-<a href="noticia1.html" class="btn">
-Ir para destaque
-</a>
+<a href="noticia1.html" class="btn">Ir para destaque</a>
+</div>
 </div>
 
-</div>
+<div id="searchResults" class="search-results"></div>
+
 </div>
 </section>
 
 <section>
-
 <div class="sidebar">
-
 <h3>🗞️ Fala aí, Valtinho!</h3>
 
-<div class="valtinho">
-
+<div class="valtinho searchable">
 <div class="autor">
 <img src="img/valteroficial.png">
 <div>
@@ -450,81 +500,137 @@ Ler coluna completa
 </div>
 
 <div class="container layout">
-
 <div>
 <h2>🏆 Produtos em Destaque</h2>
 
 <div class="grid">
 
-<div class="card">
+<div class="card searchable">
 <img src="img/chuteira.jpg">
 <h3>Chuteira Profissional</h3>
 <a href="#" class="btn">Comprar</a>
 </div>
 
-<div class="card">
+<div class="card searchable">
 <img src="img/garrafa.jpg">
 <h3>🥉 Garrafa</h3>
 <p>Hidratação com estilo.</p>
 <a href="#" class="btn">Comprar</a>
 </div>
 
-<div class="card">
-        <img src="img/produto2.jpg" alt="Bola Profissional">
-        <h3>🥈 Bola Profissional</h3>
-        <p>Alta durabilidade para jogos intensos.</p>
-        <a href="https://mercadolivre.com/sec/33DoDKw" target="_blank" class="btn">Comprar</a>
-      </div>
-
-      <div class="card">
-        <img src="img/caneleira.jpg" alt="Caneleira">
-        <h3>🥉 Caneleira</h3>
-        <p>Proteção total nos jogos.</p>
-        <a href="https://mercadolivre.com/sec/1Fhtngw" target="_blank" class="btn">Comprar</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ESPORTE -->
-<section>
-  <div class="container">
-    <h2>🏃 Prática Esportiva</h2>
-
-    <div class="grid">
-
-      <div class="card">
-        <img src="img/tenis.jpg" alt="Tênis corrida" loading="lazy">
-        <h3>🥇 Tênis</h3>
-        <p>Conforto e performance.</p>
-        <a href="https://mercadolivre.com/sec/27t6Xk1" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
-      </div>
-
-      <div class="card">
-        <img src="img/smartband.jpg" alt="Smartband" loading="lazy">
-        <h3>🥈 Smartband</h3>
-        <p>Monitore sua evolução.</p>
-        <a href="https://mercadolivre.com/sec/16G6sNL" target="_blank" rel="noopener noreferrer" class="btn">Comprar</a>
-      </div>
-
+<div class="card searchable">
+<img src="img/produto2.jpg">
+<h3>🥈 Bola Profissional</h3>
+<p>Alta durabilidade para jogos intensos.</p>
+<a href="https://mercadolivre.com/sec/33DoDKw" target="_blank" class="btn">Comprar</a>
 </div>
 
+<div class="card searchable">
+<img src="img/caneleira.jpg">
+<h3>🥉 Caneleira</h3>
+<p>Proteção total nos jogos.</p>
+<a href="https://mercadolivre.com/sec/1Fhtngw" target="_blank" class="btn">Comprar</a>
+</div>
+
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+<h2>🏃 Prática Esportiva</h2>
+
+<div class="grid">
+
+<div class="card searchable">
+<img src="img/tenis.jpg">
+<h3>🥇 Tênis</h3>
+<p>Conforto e performance.</p>
+<a href="https://mercadolivre.com/sec/27t6Xk1" target="_blank" class="btn">Comprar</a>
+</div>
+
+<div class="card searchable">
+<img src="img/smartband.jpg">
+<h3>🥈 Smartband</h3>
+<p>Monitore sua evolução.</p>
+<a href="https://mercadolivre.com/sec/16G6sNL" target="_blank" class="btn">Comprar</a>
+</div>
+
+</div>
 </div>
 </section>
 
 </main>
+
+<button id="topBtn">↑</button>
 
 <footer>
 <p>© 2026 Bem Esportivo</p>
 </footer>
 
 <script>
-const toggle=document.getElementById("menu-toggle");
-const nav=document.getElementById("nav");
+/* menu mobile */
+const toggle=document.getElementById('menu-toggle');
+const nav=document.getElementById('nav');
 
-toggle.addEventListener("click",()=>{
-nav.classList.toggle("active");
-toggle.classList.toggle("active");
+toggle.addEventListener('click',()=>{
+nav.classList.toggle('active');
+});
+
+/* =========================
+BUSCA AGORA FUNCIONANDO
+Pesquisa conteúdos da página
+========================= */
+const searchInput=document.getElementById('searchInput');
+const searchable=document.querySelectorAll('.searchable');
+const searchResults=document.getElementById('searchResults');
+
+searchInput.addEventListener('keyup',function(){
+let term=this.value.toLowerCase().trim();
+let found=0;
+
+searchable.forEach(item=>{
+let txt=item.innerText.toLowerCase();
+
+if(term===''){
+item.classList.remove('hidden-search');
+searchResults.style.display='none';
+return;
+}
+
+if(txt.includes(term)){
+item.classList.remove('hidden-search');
+found++;
+}else{
+item.classList.add('hidden-search');
+}
+});
+
+searchResults.style.display='block';
+
+if(found>0){
+searchResults.innerHTML='Resultados para <mark>'+term+'</mark>: '+found+' conteúdo(s) encontrado(s).';
+}else{
+searchResults.innerHTML='Nenhum resultado para <mark>'+term+'</mark>';
+}
+});
+
+/* voltar ao topo */
+const topBtn=document.getElementById('topBtn');
+
+window.addEventListener('scroll',()=>{
+if(window.scrollY>500){
+topBtn.style.display='block';
+}else{
+topBtn.style.display='none';
+}
+});
+
+topBtn.addEventListener('click',()=>{
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
 });
 </script>
 
