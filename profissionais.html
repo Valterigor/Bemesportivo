@@ -1,315 +1,741 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Profissionais | Bem Esportivo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Profissionais | Bem Esportivo</title>
+<meta name="description" content="Encontre profissionais de esporte, saúde e performance perto de você.">
+<link rel="icon" href="img/logobemoficial.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-  <meta name="description" content="Encontre profissionais de esporte, saúde e lazer perto de você." />
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --primary: #fc6e02;
-      --secondary: #9a5700;
-      --dark: #1c1c1c;
-      --light: #f8f9fa;
-      --radius: 14px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
-      background: var(--light);
-      color: var(--dark);
-      padding-top: 80px; /* espaço para menu fixo */
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 24px;
-    }
-
-    /* MENU PADRÃO */
-    .menu {
-      position: fixed;
-      width: 100%;
-      top: 0;
-      background: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      z-index: 1000;
-    }
-
-    .menu-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .logo {
-      position: absolute;
-      left: 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: #000;
-    }
-
-    .logo img {
-      height: 40px;
-    }
-
-    .menu-center {
-      font-weight: 700;
-      font-size: 18px;
-    }
-
-    /* HERO */
-    .hero {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #fff;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 100%;
-      max-width: 400px;
-      padding: 12px;
-      border-radius: 30px;
-      border: none;
-      outline: none;
-    }
-
-    section {
-      padding: 50px 0;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: #fff;
-      padding: 20px;
-      border-radius: var(--radius);
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      transition: 0.3s;
-      cursor: pointer;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: var(--radius);
-      margin-bottom: 10px;
-    }
-
-    .card h3 {
-      color: var(--primary);
-    }
-
-    .detalhes {
-      margin-top: 40px;
-      text-align: center;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 15px;
-      background: var(--primary);
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 30px;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #fff;
-      margin-top: 40px;
-    }
-
-    .menu-center{
-  font-weight:700;
-  font-size:18px;
-  text-decoration:none;
-  color:#000;
+<style>
+:root{
+--primary:#fc6e02;
+--secondary:#9a5700;
+--dark:#111;
+--light:#f7f8fb;
+--radius:22px;
 }
 
-.menu-center:hover{
-  color:var(--primary);
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
 }
-  </style>
+
+html{scroll-behavior:smooth}
+
+body{
+background:var(--light);
+color:#111;
+padding-top:80px;
+overflow-x:hidden;
+}
+
+a{text-decoration:none}
+img{display:block;max-width:100%}
+
+.container{
+max-width:1240px;
+margin:auto;
+padding:0 20px;
+}
+
+/* MENU PADRÃO INDEX */
+.menu{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+background:#000;
+border-bottom:1px solid rgba(252,110,2,.25);
+box-shadow:0 2px 14px rgba(0,0,0,.35);
+z-index:999;
+}
+
+.menu-content{
+height:80px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:30px;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+color:var(--primary);
+font-weight:900;
+}
+
+.logo img{
+height:42px;
+}
+
+nav{
+display:flex;
+gap:22px;
+}
+
+nav a{
+color:var(--primary);
+font-weight:800;
+transition:.3s;
+}
+
+nav a:hover{
+color:#fff;
+}
+
+.menu-actions{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.search-wrap{
+position:relative;
+}
+
+.top-search{
+background:#111;
+color:#fff;
+border:1px solid rgba(252,110,2,.35);
+padding:11px 44px 11px 18px;
+border-radius:40px;
+width:230px;
+outline:none;
+}
+
+.top-search:focus{
+border-color:var(--primary);
+}
+
+.search-icon{
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+color:var(--primary);
+}
+
+.btn-contato{
+background:var(--primary);
+color:#fff;
+padding:11px 18px;
+border-radius:40px;
+font-weight:800;
+}
+
+.menu-btn{
+display:none;
+background:none;
+border:none;
+flex-direction:column;
+gap:5px;
+cursor:pointer;
+}
+
+.menu-btn span{
+width:30px;
+height:3px;
+background:var(--primary);
+border-radius:30px;
+}
+
+/* HERO */
+.hero{
+background:
+radial-gradient(circle at top right,rgba(252,110,2,.18),transparent 35%),
+linear-gradient(135deg,#0d0d0d,#1b1b1b 70%,#2a1708);
+color:#fff;
+padding:90px 0 80px;
+}
+
+.hero-grid{
+display:grid;
+grid-template-columns:1.2fr .8fr;
+gap:50px;
+align-items:center;
+}
+
+.hero-badge{
+display:inline-block;
+padding:10px 18px;
+border-radius:40px;
+background:rgba(252,110,2,.12);
+border:1px solid rgba(252,110,2,.35);
+font-weight:800;
+margin-bottom:24px;
+}
+
+.hero h1{
+font-size:64px;
+line-height:1.03;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:22px;
+line-height:1.6;
+color:#ddd;
+margin-bottom:30px;
+}
+
+.metrics{
+display:flex;
+flex-wrap:wrap;
+gap:14px;
+margin-bottom:30px;
+}
+
+.metrics span{
+padding:12px 18px;
+border-radius:30px;
+background:#ffffff10;
+border:1px solid rgba(255,255,255,.06);
+font-weight:700;
+}
+
+.hero-search{
+background:#fff;
+padding:28px;
+border-radius:30px;
+box-shadow:0 20px 50px rgba(0,0,0,.2);
+}
+
+.hero-search h3{
+font-size:28px;
+margin-bottom:20px;
+color:#111;
+}
+
+.search-main{
+width:100%;
+padding:16px 20px;
+border-radius:18px;
+border:1px solid #ddd;
+font-size:16px;
+margin-bottom:18px;
+}
+
+.filter-chips{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+.chip{
+padding:11px 18px;
+border:none;
+border-radius:40px;
+background:#fff2e8;
+font-weight:800;
+cursor:pointer;
+}
+
+.chip.active,
+.chip:hover{
+background:var(--primary);
+color:#fff;
+}
+
+/* SECTION */
+.section{
+padding:70px 0;
+}
+
+.section-head{
+text-align:center;
+margin-bottom:45px;
+}
+
+.section-head h2{
+font-size:48px;
+margin-bottom:12px;
+}
+
+.section-head p{
+font-size:19px;
+color:#666;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+gap:28px;
+}
+
+.card{
+background:#fff;
+border-radius:28px;
+overflow:hidden;
+box-shadow:0 12px 30px rgba(0,0,0,.06);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-7px);
+}
+
+.card-cover{
+position:relative;
+height:250px;
+overflow:hidden;
+}
+
+.card-cover img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.card-cover:after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(transparent,rgba(0,0,0,.55));
+}
+
+.verify{
+position:absolute;
+top:18px;
+left:18px;
+background:#fff;
+padding:8px 14px;
+border-radius:30px;
+font-size:13px;
+font-weight:800;
+z-index:2;
+}
+
+.rating{
+position:absolute;
+bottom:18px;
+right:18px;
+background:#000;
+color:#fff;
+padding:8px 12px;
+border-radius:30px;
+z-index:2;
+font-weight:700;
+}
+
+.card-body{
+padding:24px;
+}
+
+.category{
+color:var(--primary);
+font-weight:800;
+margin-bottom:10px;
+}
+
+.card h3{
+font-size:28px;
+margin-bottom:10px;
+}
+
+.spec{
+color:#666;
+line-height:1.6;
+margin-bottom:18px;
+}
+
+.tags{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:20px;
+}
+
+.tags span{
+background:#f4f4f4;
+padding:8px 12px;
+border-radius:30px;
+font-size:13px;
+font-weight:700;
+}
+
+.actions{
+display:flex;
+gap:12px;
+}
+
+.btn{
+flex:1;
+border:none;
+padding:13px 18px;
+border-radius:40px;
+font-weight:800;
+cursor:pointer;
+}
+
+.btn-primary{
+background:var(--primary);
+color:#fff;
+}
+
+.btn-dark{
+background:#111;
+color:#fff;
+}
+
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:9999;
+}
+
+.modal.show{display:flex}
+
+.modal-box{
+max-width:700px;
+width:100%;
+background:#fff;
+padding:40px;
+border-radius:30px;
+text-align:center;
+}
+
+.modal-box img{
+width:140px;
+height:140px;
+object-fit:cover;
+border-radius:50%;
+margin:0 auto 20px;
+border:4px solid var(--primary);
+}
+
+.modal-box h3{
+font-size:38px;
+margin-bottom:12px;
+}
+
+.modal-box p{
+font-size:18px;
+line-height:1.7;
+margin-bottom:18px;
+}
+
+.modal-actions{
+display:flex;
+gap:14px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.close-modal{
+margin-top:25px;
+background:#eee;
+padding:12px 18px;
+border:none;
+border-radius:40px;
+font-weight:800;
+}
+
+footer{
+background:#fff;
+padding:40px;
+text-align:center;
+font-weight:700;
+margin-top:50px;
+}
+
+#topBtn{
+position:fixed;
+right:28px;
+bottom:28px;
+width:55px;
+height:55px;
+border:none;
+border-radius:50%;
+background:#000;
+color:var(--primary);
+font-size:24px;
+display:none;
+cursor:pointer;
+}
+
+@media(max-width:980px){
+.hero-grid,
+.grid{
+grid-template-columns:1fr;
+}
+
+.hero h1{
+font-size:48px;
+}
+
+nav{
+display:none;
+position:absolute;
+top:80px;
+right:0;
+width:250px;
+background:#000;
+padding:25px;
+flex-direction:column;
+}
+
+nav.active{display:flex}
+
+.menu-btn{display:flex}
+.menu-actions{display:none}
+}
+</style>
 </head>
-
 <body>
 
-<!-- MENU NOVO -->
 <header class="menu">
-  <div class="container menu-content">
+<div class="container menu-content">
 
-    <a href="index.html" class="logo">
-      <img src="img/logo-bem.png" alt="Bem Esportivo">
-    </a>
-
-   <a href="index.html" class="menu-center">
-  Início
+<a href="index.html" class="logo">
+<img src="img/logobemoficial.png">
+<strong>Bem Esportivo</strong>
 </a>
 
-  </div>
+<nav id="nav">
+<a href="index.html">Início</a>
+<a href="profissionais.html">Profissionais</a>
+<a href="produtos.html">Produtos</a>
+<a href="beplay.html">Beplay</a>
+<a href="coluna-valtinho.html">Fala aí Valtinho</a>
+</nav>
+
+<div class="menu-actions">
+<div class="search-wrap">
+<input class="top-search" placeholder="Buscar profissionais...">
+<span class="search-icon">🔎</span>
+</div>
+<a href="https://wa.me/5511986366965" class="btn-contato">Fale Conosco</a>
+</div>
+
+<button id="menu-toggle" class="menu-btn">
+<span></span><span></span><span></span>
+</button>
+
+</div>
 </header>
 
-<header class="hero">
-  <div class="container">
-    <h1>Encontre Profissionais</h1>
-    <p>Saúde, esporte e lazer em um só lugar</p>
-    <input type="text" id="busca" placeholder="Buscar profissional..." />
-  </div>
-</header>
+<section class="hero">
+<div class="container hero-grid">
 
-<section>
-  <div class="container">
-    <h2>Profissionais disponíveis</h2>
-    <div class="grid" id="lista"></div>
-    <div class="detalhes" id="detalhes"></div>
-  </div>
+<div>
+<div class="hero-badge">
+PROFISSIONAIS • ESPORTE • SAÚDE
+</div>
+
+<h1>
+Conecte-se com especialistas para evoluir no esporte
+</h1>
+
+<p>
+Treinadores, psicólogos, fotógrafos, personal e especialistas verificados em uma vitrine profissional moderna.
+</p>
+
+<div class="metrics">
+<span>120+ profissionais</span>
+<span>14 especialidades</span>
+<span>4.9 média avaliações</span>
+</div>
+</div>
+
+<div class="hero-search">
+<h3>Encontre um profissional</h3>
+<input id="busca" class="search-main" placeholder="Buscar por nome ou especialidade...">
+
+<div class="filter-chips">
+<button class="chip active" onclick="filtrarCategoria('todos')">Todos</button>
+<button class="chip" onclick="filtrarCategoria('personal')">Personal</button>
+<button class="chip" onclick="filtrarCategoria('psicologia')">Psicologia</button>
+<button class="chip" onclick="filtrarCategoria('fotografia')">Fotografia</button>
+</div>
+</div>
+
+</div>
 </section>
 
+<section class="section">
+<div class="container">
+
+<div class="section-head">
+<h2>Profissionais em destaque</h2>
+<p>Perfis verificados com atendimento especializado.</p>
+</div>
+
+<div id="lista" class="grid"></div>
+
+</div>
+</section>
+
+<div class="modal" id="modal">
+<div class="modal-box" id="modalBox"></div>
+</div>
+
+<button id="topBtn">↑</button>
+
 <footer>
-  <p>&copy; 2025 Bem Esportivo</p>
+© 2026 Bem Esportivo
 </footer>
 
 <script>
-const profissionais = [
-  {
-    nome: "Válter Igor",
-    tipo: "Fotógrafo",
-    especialidade: "Fotografia esportiva",
-    foto: "img/profissionais/valter.jpg",
-    whatsapp: "5511999999999"
-  },
-  {
-    nome: "Bruno Rezende",
-    tipo: "Personal Trainer",
-    especialidade: "Treinamento funcional",
-    foto: "img/profissionais/bruno.jpg",
-    whatsapp: "5511988888888"
-  },
-  {
-    nome: "Luciano",
-    tipo: "Personal Soccer",
-    especialidade: "Treino de futebol",
-    foto: "img/profissionais/luciano.jpg",
-    whatsapp: "5511977777777"
-  },
-  {
-    nome: "Grasiele",
-    tipo: "Psicóloga",
-    especialidade: "Psicoterapia",
-    foto: "img/profissionais/grasiele.jpg",
-    whatsapp: "5511966666666"
-  }
+const toggle=document.getElementById('menu-toggle');
+const nav=document.getElementById('nav');
+toggle.addEventListener('click',()=>nav.classList.toggle('active'));
+
+const profissionais=[
+{
+nome:'Válter Igor',
+categoria:'fotografia',
+tipo:'Fotógrafo Esportivo',
+especialidade:'Cobertura esportiva e branding para atletas.',
+foto:'img/profissionais/valter.jpg',
+nota:'4.9',
+modo:'Presencial',
+whatsapp:'5511999999999'
+},
+{
+nome:'Bruno Rezende',
+categoria:'personal',
+tipo:'Personal Trainer',
+especialidade:'Treinamento funcional e performance.',
+foto:'img/profissionais/bruno.jpg',
+nota:'4.8',
+modo:'Online + Presencial',
+whatsapp:'5511988888888'
+},
+{
+nome:'Luciano',
+categoria:'personal',
+tipo:'Personal Soccer',
+especialidade:'Treinamento técnico e desenvolvimento.',
+foto:'img/profissionais/luciano.jpg',
+nota:'5.0',
+modo:'Presencial',
+whatsapp:'5511977777777'
+},
+{
+nome:'Grasiele',
+categoria:'psicologia',
+tipo:'Psicóloga Esportiva',
+especialidade:'Performance mental e psicoterapia.',
+foto:'img/profissionais/grasiele.jpg',
+nota:'4.9',
+modo:'Online',
+whatsapp:'5511966666666'
+}
 ];
 
-const lista = document.getElementById("lista");
-const busca = document.getElementById("busca");
-const detalhes = document.getElementById("detalhes");
+const lista=document.getElementById('lista');
+const busca=document.getElementById('busca');
+let categoria='todos';
 
-function render(listaFiltrada) {
-  lista.innerHTML = "";
+function render(items){
+lista.innerHTML='';
 
-  listaFiltrada.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <img src="${p.foto}" />
-      <h3>${p.nome}</h3>
-      <p>${p.tipo}</p>
-    `;
-
-    card.onclick = () => mostrarDetalhes(p);
-
-    lista.appendChild(card);
-  });
+items.forEach(p=>{
+const card=document.createElement('div');
+card.className='card';
+card.innerHTML=`
+<div class='card-cover'>
+<span class='verify'>✔ Verificado</span>
+<span class='rating'>⭐ ${p.nota}</span>
+<img src='${p.foto}'>
+</div>
+<div class='card-body'>
+<div class='category'>${p.tipo}</div>
+<h3>${p.nome}</h3>
+<p class='spec'>${p.especialidade}</p>
+<div class='tags'>
+<span>${p.modo}</span>
+<span>Cupom BEM5</span>
+</div>
+<div class='actions'>
+<button class='btn btn-primary' onclick='perfil(${JSON.stringify(p)})'>Ver perfil</button>
+<button class='btn btn-dark' onclick='whats(${JSON.stringify(p)})'>Agendar</button>
+</div>
+</div>`;
+lista.appendChild(card)
+})
 }
 
-function mostrarDetalhes(p) {
-  detalhes.innerHTML = `
-    <h2>${p.nome}</h2>
-    <p><strong>${p.tipo}</strong></p>
-    <p>${p.especialidade}</p>
+function aplicar(){
+let termo=busca.value.toLowerCase();
+let filtrados=profissionais.filter(p=>{
+let okBusca=
+p.nome.toLowerCase().includes(termo)||
+p.tipo.toLowerCase().includes(termo);
 
-    <button class="btn" onclick='copiarCupom(${JSON.stringify(p)})'>
-      Ganhar 5% OFF (BEM5)
-    </button>
-  `;
-}
+let okCat=
+categoria==='todos'||p.categoria===categoria;
 
-function copiarCupom(p) {
-  navigator.clipboard.writeText("BEM5");
-  alert("Cupom copiado!");
-
-  detalhes.innerHTML += `
-    <br><br>
-    <a class="btn" 
-       href="https://wa.me/${p.whatsapp}?text=Olá,%20quero%20usar%20o%20cupom%20BEM5" 
-       target="_blank">
-       Falar no WhatsApp
-    </a>
-  `;
-}
-
-busca.addEventListener("input", () => {
-  const termo = busca.value.toLowerCase();
-
-  const filtrados = profissionais.filter(p =>
-    p.nome.toLowerCase().includes(termo) ||
-    p.tipo.toLowerCase().includes(termo)
-  );
-
-  render(filtrados);
+return okBusca && okCat;
 });
+render(filtrados)
+}
+
+function filtrarCategoria(cat){
+categoria=cat;
+document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+event.target.classList.add('active');
+aplicar();
+}
+
+busca.addEventListener('keyup',aplicar);
+
+const modal=document.getElementById('modal');
+const modalBox=document.getElementById('modalBox');
+
+function perfil(p){
+modal.classList.add('show');
+modalBox.innerHTML=`
+<img src='${p.foto}'>
+<h3>${p.nome}</h3>
+<p><strong>${p.tipo}</strong></p>
+<p>${p.especialidade}</p>
+<p>Use cupom <strong>BEM5</strong> para 5% OFF.</p>
+<div class='modal-actions'>
+<button class='btn btn-primary' onclick='copiarCupom()'>Copiar cupom</button>
+<a class='btn btn-dark' href='https://wa.me/${p.whatsapp}?text=Olá quero usar o cupom BEM5' target='_blank'>WhatsApp</a>
+</div>
+<button class='close-modal' onclick='fechar()'>Fechar</button>`
+}
+
+function copiarCupom(){
+navigator.clipboard.writeText('BEM5');
+alert('Cupom copiado!')
+}
+
+function whats(p){
+window.open(`https://wa.me/${p.whatsapp}`,'_blank')
+}
+
+function fechar(){
+modal.classList.remove('show')
+}
+
+modal.onclick=e=>{
+if(e.target===modal)fechar();
+}
 
 render(profissionais);
+
+const topBtn=document.getElementById('topBtn');
+window.addEventListener('scroll',()=>{
+topBtn.style.display=window.scrollY>400?'block':'none';
+});
+
+topBtn.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
 </script>
-<footer>
-  <p>© 2026 Bem Esportivo</p>
-</footer>
+
 </body>
 </html>
