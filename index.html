@@ -3,9 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
+     crossorigin="anonymous"></script>
+
 <title>Bem Esportivo | Notícias Esportivas</title>
 <link rel="icon" href="img/logobemoficial.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+
 
 <style>
 :root{
@@ -409,6 +416,76 @@ height:320px;
 .destaque-texto h2{
 font-size:28px;
 }
+
+.debate-card img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:2000;
+}
+
+.modal-content{
+background:#fff;
+padding:20px;
+border-radius:12px;
+max-width:700px;
+width:90%;
+max-height:90%;
+overflow-y:auto;
+}
+
+.modal-content img{
+width:100%;
+border-radius:10px;
+margin-bottom:15px;
+}
+
+.close{
+background:red;
+color:#fff;
+border:none;
+padding:6px 10px;
+cursor:pointer;
+float:right;
+}
+
+.ver-mais{
+color:var(--primary);
+cursor:pointer;
+margin-top:10px;
+font-weight:bold;
+}
+
+.post-destaque{
+border:2px solid var(--primary);
+transform:scale(1.03);
+position:relative;
+}
+
+.badge-destaque{
+position:absolute;
+top:10px;
+left:10px;
+background:var(--primary);
+color:#fff;
+padding:5px 10px;
+font-size:12px;
+border-radius:20px;
+}
+
 }
 </style>
 </head>
@@ -496,7 +573,44 @@ Organização e leitura fazem a diferença.
 Ler coluna completa
 </a>
 
+</section>
+
+
+
+<!-- =========================
+DEBATE DA ARQUIBANCADA
+========================= -->
+<section class="container">
+
+<h2 style="margin-top:40px;">🎙️ Debate da Arquibancada</h2>
+
+<div class="grid">
+
+<div class="card debate-card" id="debate-0" onclick="abrirPost(0)">
+<img src="img/corinthians x palmeiras.jpg">
+<h3>🔥 Craque ou mídia?</h3>
+<p>Tem jogador que vive de marketing. Mas entrega?</p>
 </div>
+
+<div class="card debate-card" id="debate-1" onclick="abrirPost(1)">
+<img src="img/corinthians x palmeiras.jpg">
+<h3>⚽ Técnico é culpado?</h3>
+<p>A culpa é dele ou dos jogadores?</p>
+</div>
+
+<div class="card debate-card" id="debate-2" onclick="abrirPost(2)">
+<img src="img/corinthians x palmeiras.jpg">
+<h3>🏆 Futebol raiz morreu?</h3>
+<p>Ainda existe paixão ou virou negócio?</p>
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modalDebate">
+<div class="modal-content" id="conteudoModal"></div>
+</div>
+
 </div>
 
 <div class="container layout">
@@ -632,6 +746,125 @@ top:0,
 behavior:'smooth'
 });
 });
+
+/*  */
+
+
+const debatePosts = [
+{
+title:"Craque ou mídia?",
+text:"Hoje o futebol também é entretenimento. Muitos vivem mais da imagem do que do desempenho.",
+img:"img/corinthians x palmeiras.jpg",
+comments:[]
+},
+{
+title:"Técnico é culpado?",
+text:"O técnico tem responsabilidade, mas não entra em campo.",
+img:"img/corinthians x palmeiras.jpg",
+comments:[]
+},
+{
+title:"Futebol raiz morreu?",
+text:"O futebol virou negócio, mas a paixão ainda existe.",
+img:"img/corinthians x palmeiras.jpg",
+comments:[]
+}
+];
+
+let postAtual = 0;
+let mostrarTodos = false;
+
+function abrirPost(i){
+postAtual = i;
+mostrarTodos = false;
+renderDebate();
+document.getElementById("modalDebate").style.display="flex";
+}
+
+function fecharModal(){
+document.getElementById("modalDebate").style.display="none";
+}
+
+function renderDebate(){
+let p = debatePosts[postAtual];
+
+let lista = mostrarTodos ? p.comments : p.comments.slice(0,2);
+
+let htmlComentarios = lista.map(c =>
+`<div><b>${c.nome} (${c.time}):</b> ${c.texto}</div>`
+).join("");
+
+let verMais = p.comments.length>2 && !mostrarTodos
+? `<div class="ver-mais" onclick="verMaisDebate()">Ver mais</div>` : "";
+
+conteudoModal.innerHTML = `
+<button class="close" onclick="fecharModal()">X</button>
+<img src="${p.img}">
+<h2>${p.title}</h2>
+<p>${p.text}</p>
+
+<h3>Deixe seu comentário</h3>
+
+<form onsubmit="return comentarDebate(event)">
+<input id="nomeDebate" placeholder="Seu nome" required>
+<input id="timeDebate" placeholder="Seu time" required>
+<textarea id="textoDebate" placeholder="Sua opinião" required></textarea>
+<button class="btn">Comentar</button>
+</form>
+
+<div>${htmlComentarios}</div>
+${verMais}
+`;
+}
+
+function verMaisDebate(){
+mostrarTodos = true;
+renderDebate();
+}
+
+function comentarDebate(e){
+e.preventDefault();
+
+debatePosts[postAtual].comments.push({
+nome: nomeDebate.value,
+time: timeDebate.value,
+texto: textoDebate.value
+});
+
+renderDebate();
+destacarMaisComentado();
+return false;
+}
+
+function destacarMaisComentado(){
+
+let max = 0;
+let index = 0;
+
+debatePosts.forEach((p,i)=>{
+if(p.comments.length > max){
+max = p.comments.length;
+index = i;
+}
+});
+
+document.querySelectorAll('.debate-card').forEach(card=>{
+card.classList.remove('post-destaque');
+let badge = card.querySelector('.badge-destaque');
+if(badge) badge.remove();
+});
+
+if(max > 0){
+let card = document.getElementById('debate-'+index);
+card.classList.add('post-destaque');
+
+let badge = document.createElement('div');
+badge.className = 'badge-destaque';
+badge.innerText = '🔥 MAIS COMENTADO';
+
+card.appendChild(badge);
+}
+}
 </script>
 
 </body>
