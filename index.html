@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
-     crossorigin="anonymous"></script>
-
 <title>Bem Esportivo | Notícias Esportivas</title>
+
 <link rel="icon" href="img/logobemoficial.png">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757"
+     crossorigin="anonymous"></script>
+     
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-
+<script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
+crossorigin="anonymous">
+</script>
 
 <style>
+
 :root{
 --primary:#fc6e02;
 --secondary:#9a5700;
@@ -40,21 +46,49 @@ padding-top:80px;
 overflow-x:hidden;
 }
 
+img{
+max-width:100%;
+display:block;
+}
+
+a{
+text-decoration:none;
+}
+
 .container{
 max-width:1100px;
 margin:auto;
 padding:20px;
 }
 
-a{text-decoration:none}
+.mt-40{
+margin-top:40px;
+}
+
+.text-margin{
+margin-top:10px;
+}
+
+.comments-box{
+margin-top:20px;
+}
+
+.comment-item{
+margin-top:10px;
+padding:10px;
+background:#f4f4f4;
+border-radius:8px;
+}
 
 /* =========================
-MENU ALTERADO
+MENU
 ========================= */
+
 .menu{
 position:fixed;
-width:100%;
 top:0;
+left:0;
+width:100%;
 background:#000;
 box-shadow:0 2px 10px rgba(0,0,0,.35);
 z-index:1000;
@@ -65,6 +99,7 @@ border-bottom:1px solid rgba(252,110,2,.25);
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:20px;
 }
 
 .logo{
@@ -73,6 +108,7 @@ align-items:center;
 gap:10px;
 color:var(--primary);
 font-weight:800;
+font-size:20px;
 }
 
 .logo img{
@@ -97,6 +133,7 @@ color:#fff;
 /* =========================
 MENU DIREITA
 ========================= */
+
 .menu-actions{
 display:flex;
 align-items:center;
@@ -151,8 +188,9 @@ transform:translateY(-2px);
 }
 
 /* =========================
-MOBILE
+MENU MOBILE
 ========================= */
+
 .menu-btn{
 width:40px;
 height:40px;
@@ -173,21 +211,23 @@ border-radius:3px;
 }
 
 /* =========================
-BANNER ORIGINAL MANTIDO
+BANNER
 ========================= */
+
 .banner-top{
 width:100%;
 background:#000 url('img/imgbanner.jpg.png') center center no-repeat;
-background-size:contain;
+background-size:cover;
 aspect-ratio:1920/520;
 min-height:280px;
 }
 
 /* =========================
-DESTAQUE ALTERADO FUNDO BRANCO
+HERO
 ========================= */
+
 .hero{
-background:#ffffff;
+background:#fff;
 padding:70px 20px;
 }
 
@@ -208,17 +248,13 @@ box-shadow:0 12px 40px rgba(0,0,0,.10);
 width:100%;
 height:460px;
 object-fit:cover;
-display:block;
-transform:scale(1.01);
 }
 
-/* degradê preto solicitado */
-.destaque-img:before{
+.destaque-img::before{
 content:"";
 position:absolute;
 inset:0;
-background:
-linear-gradient(
+background:linear-gradient(
 180deg,
 rgba(0,0,0,.05) 10%,
 rgba(0,0,0,.35) 55%,
@@ -247,6 +283,10 @@ font-size:20px;
 margin-bottom:16px;
 }
 
+/* =========================
+BOTÕES
+========================= */
+
 .btn{
 display:inline-block;
 background:var(--primary);
@@ -255,11 +295,20 @@ padding:11px 22px;
 border-radius:25px;
 margin-top:8px;
 font-weight:700;
+border:none;
+cursor:pointer;
+transition:.3s;
+}
+
+.btn:hover{
+opacity:.9;
+transform:translateY(-2px);
 }
 
 /* =========================
-RESULTADO BUSCA
+BUSCA
 ========================= */
+
 .search-results{
 display:none;
 background:#fff;
@@ -279,6 +328,7 @@ border-radius:4px;
 /* =========================
 GRID
 ========================= */
+
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -294,11 +344,13 @@ transition:.3s;
 }
 
 .card:hover{
-transform:translateY(-4px)
+transform:translateY(-4px);
 }
 
 .card img{
 width:100%;
+height:220px;
+object-fit:cover;
 border-radius:10px;
 margin-bottom:10px;
 }
@@ -307,12 +359,14 @@ margin-bottom:10px;
 display:grid;
 grid-template-columns:2fr 1.2fr;
 gap:20px;
+padding:40px 20px;
 }
 
 .sidebar{
 background:#fff;
 padding:20px;
 border-radius:12px;
+margin:20px;
 }
 
 .valtinho{
@@ -345,8 +399,103 @@ color:gray;
 }
 
 .hidden-search{
-display:none!important;
+display:none !important;
 }
+
+/* =========================
+MODAL
+========================= */
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:2000;
+padding:20px;
+}
+
+.modal-content{
+background:#fff;
+padding:20px;
+border-radius:12px;
+max-width:700px;
+width:100%;
+max-height:90vh;
+overflow-y:auto;
+position:relative;
+}
+
+.modal-content img{
+width:100%;
+border-radius:10px;
+margin-bottom:15px;
+}
+
+.close{
+background:red;
+color:#fff;
+border:none;
+padding:8px 12px;
+cursor:pointer;
+border-radius:6px;
+position:absolute;
+top:15px;
+right:15px;
+}
+
+.modal-content form{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-top:15px;
+}
+
+.modal-content input,
+.modal-content textarea{
+padding:12px;
+border:1px solid #ddd;
+border-radius:8px;
+outline:none;
+}
+
+.modal-content textarea{
+resize:none;
+height:120px;
+}
+
+.ver-mais{
+color:var(--primary);
+cursor:pointer;
+margin-top:15px;
+font-weight:bold;
+}
+
+.post-destaque{
+border:2px solid var(--primary);
+transform:scale(1.03);
+position:relative;
+}
+
+.badge-destaque{
+position:absolute;
+top:10px;
+left:10px;
+background:var(--primary);
+color:#fff;
+padding:5px 10px;
+font-size:12px;
+border-radius:20px;
+}
+
+/* =========================
+FOOTER
+========================= */
 
 footer{
 text-align:center;
@@ -355,7 +504,10 @@ background:#fff;
 margin-top:40px;
 }
 
-/* voltar topo */
+/* =========================
+BOTÃO TOPO
+========================= */
+
 #topBtn{
 position:fixed;
 right:28px;
@@ -372,14 +524,22 @@ cursor:pointer;
 display:none;
 box-shadow:0 10px 25px rgba(0,0,0,.3);
 z-index:999;
+transition:.3s;
 }
 
 #topBtn:hover{
 transform:translateY(-3px);
 }
 
+/* =========================
+RESPONSIVO
+========================= */
+
 @media(max-width:768px){
-.menu-btn{display:flex;}
+
+.menu-btn{
+display:flex;
+}
 
 nav{
 position:absolute;
@@ -413,118 +573,92 @@ min-height:220px;
 height:320px;
 }
 
+.destaque-texto{
+padding:20px;
+}
+
 .destaque-texto h2{
 font-size:28px;
 }
 
-.debate-card img{
-width:100%;
+.hero h1{
+font-size:32px;
+}
+
+.card img{
 height:180px;
-object-fit:cover;
-border-radius:10px;
-}
-
-.modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.9);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:2000;
-}
-
-.modal-content{
-background:#fff;
-padding:20px;
-border-radius:12px;
-max-width:700px;
-width:90%;
-max-height:90%;
-overflow-y:auto;
-}
-
-.modal-content img{
-width:100%;
-border-radius:10px;
-margin-bottom:15px;
-}
-
-.close{
-background:red;
-color:#fff;
-border:none;
-padding:6px 10px;
-cursor:pointer;
-float:right;
-}
-
-.ver-mais{
-color:var(--primary);
-cursor:pointer;
-margin-top:10px;
-font-weight:bold;
-}
-
-.post-destaque{
-border:2px solid var(--primary);
-transform:scale(1.03);
-position:relative;
-}
-
-.badge-destaque{
-position:absolute;
-top:10px;
-left:10px;
-background:var(--primary);
-color:#fff;
-padding:5px 10px;
-font-size:12px;
-border-radius:20px;
 }
 
 }
+
 </style>
+
 </head>
+
 <body>
 
 <header class="menu">
+
 <div class="container menu-content">
 
 <a href="index.html" class="logo">
-<img src="img/logobemoficial.png">
+
+<img
+src="img/logobemoficial.png"
+alt="Logo Bem Esportivo"
+title="Bem Esportivo"
+>
+
 <strong>Bem Esportivo</strong>
+
 </a>
 
 <nav id="nav">
+
 <a href="index.html">Início</a>
 <a href="profissionais.html">Profissionais</a>
 <a href="produtos.html">Produtos</a>
 <a href="beplay.html">Beplay</a>
 <a href="coluna-valtinho.html">Fala aí, Valtinho!</a>
+
 </nav>
 
 <div class="menu-actions">
+
 <div class="search-wrap">
-<input id="searchInput" type="text" placeholder="Buscar na página..." class="search">
+
+<input
+id="searchInput"
+type="text"
+placeholder="Buscar na página..."
+class="search"
+>
+
 <span class="search-icon">🔎</span>
+
 </div>
 
-<a href="https://wa.me/5511986366965" target="_blank" class="btn-contato">
+<a
+href="https://wa.me/5511986366965"
+target="_blank"
+rel="noopener noreferrer"
+class="btn-contato"
+>
 Fale Conosco
 </a>
+
 </div>
 
 <button id="menu-toggle" class="menu-btn">
+
 <span></span>
 <span></span>
 <span></span>
+
 </button>
 
 </div>
+
 </header>
 
 <main>
@@ -532,36 +666,67 @@ Fale Conosco
 <section class="banner-top"></section>
 
 <section class="hero">
+
 <div class="container">
 
 <h1>Destaque</h1>
 
 <div class="destaque-img searchable">
-<img src="img/corinthians x palmeiras.jpg" alt="Destaque Corinthians Palmeiras">
+
+<img
+src="img/corinthians x palmeiras.jpg"
+alt="Partida entre Corinthians e Palmeiras"
+title="Corinthians x Palmeiras"
+>
 
 <div class="destaque-texto">
+
 <h2>🔥 Corinthians x Palmeiras</h2>
-<p>Empate quente e cheio de polêmicas</p>
-<a href="noticia1.html" class="btn">Ir para destaque</a>
+
+<p>
+Empate quente e cheio de polêmicas
+</p>
+
+<a href="noticia1.html" class="btn">
+Ir para destaque
+</a>
+
 </div>
+
 </div>
 
 <div id="searchResults" class="search-results"></div>
 
 </div>
+
 </section>
 
-<section>
-<div class="sidebar">
+<section class="sidebar">
+
+<div class="container">
+
 <h3>🗞️ Fala aí, Valtinho!</h3>
 
 <div class="valtinho searchable">
+
 <div class="autor">
-<img src="img/valteroficial.png">
+
+<img
+src="img/valteroficial.png"
+alt="Foto do colunista Valtinho"
+title="Valtinho"
+>
+
 <div>
+
 <strong>Valtinho</strong>
-<p class="meta">Colunista</p>
+
+<p class="meta">
+Colunista
+</p>
+
 </div>
+
 </div>
 
 <p>
@@ -573,142 +738,262 @@ Organização e leitura fazem a diferença.
 Ler coluna completa
 </a>
 
+</div>
+
+</div>
+
 </section>
 
-
-
-<!-- =========================
-DEBATE DA ARQUIBANCADA
-========================= -->
 <section class="container">
 
-<h2 style="margin-top:40px;">🎙️ Debate da Arquibancada</h2>
+<h2 class="mt-40">
+🎙️ Debate da Arquibancada
+</h2>
 
 <div class="grid">
 
 <div class="card debate-card" id="debate-0" onclick="abrirPost(0)">
-<img src="img/corinthians x palmeiras.jpg">
+
 <h3>🔥 Craque ou mídia?</h3>
-<p>Tem jogador que vive de marketing. Mas entrega?</p>
+
+<p>
+Tem jogador que vive de marketing. Mas entrega?
+</p>
+
 </div>
 
 <div class="card debate-card" id="debate-1" onclick="abrirPost(1)">
-<img src="img/corinthians x palmeiras.jpg">
+
 <h3>⚽ Técnico é culpado?</h3>
-<p>A culpa é dele ou dos jogadores?</p>
+
+<p>
+A culpa é dele ou dos jogadores?
+</p>
+
 </div>
 
 <div class="card debate-card" id="debate-2" onclick="abrirPost(2)">
-<img src="img/corinthians x palmeiras.jpg">
+
 <h3>🏆 Futebol raiz morreu?</h3>
-<p>Ainda existe paixão ou virou negócio?</p>
-</div>
+
+<p>
+Ainda existe paixão ou virou negócio?
+</p>
 
 </div>
 
-<!-- MODAL -->
+</div>
+
 <div class="modal" id="modalDebate">
 <div class="modal-content" id="conteudoModal"></div>
 </div>
 
-</div>
+</section>
 
-<div class="container layout">
+<section class="container layout">
+
 <div>
+
 <h2>🏆 Produtos em Destaque</h2>
 
 <div class="grid">
 
 <div class="card searchable">
-<img src="img/chuteira.jpg">
+
+<img
+src="img/chuteira.jpg"
+alt="Chuteira profissional"
+title="Chuteira profissional"
+>
+
 <h3>Chuteira Profissional</h3>
-<a href="#" class="btn">Comprar</a>
+
+<a href="#" class="btn">
+Comprar
+</a>
+
 </div>
 
 <div class="card searchable">
-<img src="img/garrafa.jpg">
+
+<img
+src="img/garrafa.jpg"
+alt="Garrafa esportiva"
+title="Garrafa esportiva"
+>
+
 <h3>🥉 Garrafa</h3>
-<p>Hidratação com estilo.</p>
-<a href="#" class="btn">Comprar</a>
+
+<p>
+Hidratação com estilo.
+</p>
+
+<a href="#" class="btn">
+Comprar
+</a>
+
 </div>
 
 <div class="card searchable">
-<img src="img/produto2.jpg">
+
+<img
+src="img/produto2.jpg"
+alt="Bola profissional"
+title="Bola profissional"
+>
+
 <h3>🥈 Bola Profissional</h3>
-<p>Alta durabilidade para jogos intensos.</p>
-<a href="https://mercadolivre.com/sec/33DoDKw" target="_blank" class="btn">Comprar</a>
+
+<p>
+Alta durabilidade para jogos intensos.
+</p>
+
+<a
+href="https://mercadolivre.com/sec/33DoDKw"
+target="_blank"
+rel="noopener noreferrer"
+class="btn"
+>
+Comprar
+</a>
+
 </div>
 
 <div class="card searchable">
-<img src="img/caneleira.jpg">
+
+<img
+src="img/caneleira.jpg"
+alt="Caneleira esportiva"
+title="Caneleira esportiva"
+>
+
 <h3>🥉 Caneleira</h3>
-<p>Proteção total nos jogos.</p>
-<a href="https://mercadolivre.com/sec/1Fhtngw" target="_blank" class="btn">Comprar</a>
+
+<p>
+Proteção total nos jogos.
+</p>
+
+<a
+href="https://mercadolivre.com/sec/1Fhtngw"
+target="_blank"
+rel="noopener noreferrer"
+class="btn"
+>
+Comprar
+</a>
+
 </div>
 
 </div>
+
 </div>
+
 </section>
 
 <section>
+
 <div class="container">
+
 <h2>🏃 Prática Esportiva</h2>
 
 <div class="grid">
 
 <div class="card searchable">
-<img src="img/tenis.jpg">
+
+<img
+src="img/tenis.jpg"
+alt="Tênis esportivo"
+title="Tênis esportivo"
+>
+
 <h3>🥇 Tênis</h3>
-<p>Conforto e performance.</p>
-<a href="https://mercadolivre.com/sec/27t6Xk1" target="_blank" class="btn">Comprar</a>
+
+<p>
+Conforto e performance.
+</p>
+
+<a
+href="https://mercadolivre.com/sec/27t6Xk1"
+target="_blank"
+rel="noopener noreferrer"
+class="btn"
+>
+Comprar
+</a>
+
 </div>
 
 <div class="card searchable">
-<img src="img/smartband.jpg">
+
+<img
+src="img/smartband.jpg"
+alt="Smartband esportiva"
+title="Smartband esportiva"
+>
+
 <h3>🥈 Smartband</h3>
-<p>Monitore sua evolução.</p>
-<a href="https://mercadolivre.com/sec/16G6sNL" target="_blank" class="btn">Comprar</a>
+
+<p>
+Monitore sua evolução.
+</p>
+
+<a
+href="https://mercadolivre.com/sec/16G6sNL"
+target="_blank"
+rel="noopener noreferrer"
+class="btn"
+>
+Comprar
+</a>
+
 </div>
 
 </div>
+
 </div>
+
 </section>
 
 </main>
 
-<button id="topBtn">↑</button>
+<button id="topBtn">
+↑
+</button>
 
 <footer>
 <p>© 2026 Bem Esportivo</p>
 </footer>
 
 <script>
-/* menu mobile */
-const toggle=document.getElementById('menu-toggle');
-const nav=document.getElementById('nav');
 
-toggle.addEventListener('click',()=>{
+/* MENU MOBILE */
+
+const toggle = document.getElementById('menu-toggle');
+const nav = document.getElementById('nav');
+
+toggle.addEventListener('click', () => {
 nav.classList.toggle('active');
 });
 
-/* =========================
-BUSCA AGORA FUNCIONANDO
-Pesquisa conteúdos da página
-========================= */
-const searchInput=document.getElementById('searchInput');
-const searchable=document.querySelectorAll('.searchable');
-const searchResults=document.getElementById('searchResults');
+/* BUSCA */
 
-searchInput.addEventListener('keyup',function(){
-let term=this.value.toLowerCase().trim();
-let found=0;
+const searchInput = document.getElementById('searchInput');
+const searchable = document.querySelectorAll('.searchable');
+const searchResults = document.getElementById('searchResults');
 
-searchable.forEach(item=>{
-let txt=item.innerText.toLowerCase();
+searchInput.addEventListener('keyup', function(){
 
-if(term===''){
+const term = this.value.toLowerCase().trim();
+
+let found = 0;
+
+searchable.forEach(item => {
+
+const txt = item.innerText.toLowerCase();
+
+if(term === ''){
 item.classList.remove('hidden-search');
-searchResults.style.display='none';
+searchResults.style.display = 'none';
 return;
 }
 
@@ -718,55 +1003,77 @@ found++;
 }else{
 item.classList.add('hidden-search');
 }
+
 });
 
-searchResults.style.display='block';
+if(term !== ''){
 
-if(found>0){
-searchResults.innerHTML='Resultados para <mark>'+term+'</mark>: '+found+' conteúdo(s) encontrado(s).';
+searchResults.style.display = 'block';
+
+if(found > 0){
+
+searchResults.innerHTML =
+'Resultados para <mark>' +
+term +
+'</mark>: ' +
+found +
+' conteúdo(s) encontrado(s).';
+
 }else{
-searchResults.innerHTML='Nenhum resultado para <mark>'+term+'</mark>';
+
+searchResults.innerHTML =
+'Nenhum resultado para <mark>' +
+term +
+'</mark>';
+
 }
+
+}
+
 });
 
-/* voltar ao topo */
-const topBtn=document.getElementById('topBtn');
+/* BOTÃO TOPO */
 
-window.addEventListener('scroll',()=>{
-if(window.scrollY>500){
-topBtn.style.display='block';
+const topBtn = document.getElementById('topBtn');
+
+window.addEventListener('scroll', () => {
+
+if(window.scrollY > 500){
+topBtn.style.display = 'block';
 }else{
-topBtn.style.display='none';
+topBtn.style.display = 'none';
 }
+
 });
 
-topBtn.addEventListener('click',()=>{
+topBtn.addEventListener('click', () => {
+
 window.scrollTo({
 top:0,
 behavior:'smooth'
 });
+
 });
 
-/*  */
-
+/* DEBATE */
 
 const debatePosts = [
 {
 title:"Craque ou mídia?",
 text:"Hoje o futebol também é entretenimento. Muitos vivem mais da imagem do que do desempenho.",
-img:"img/corinthians x palmeiras.jpg",
+img:"img/craque.jpg",
 comments:[]
 },
 {
 title:"Técnico é culpado?",
 text:"O técnico tem responsabilidade, mas não entra em campo.",
-img:"img/corinthians x palmeiras.jpg",
+img:"img/tecnico.jpg",
 comments:[]
 },
 {
 title:"Futebol raiz morreu?",
 text:"O futebol virou negócio, mas a paixão ainda existe.",
-img:"img/corinthians x palmeiras.jpg",
+img:"img/futebolraiz.jpg",
 comments:[]
 }
 ];
@@ -774,66 +1081,128 @@ comments:[]
 let postAtual = 0;
 let mostrarTodos = false;
 
+const conteudoModal = document.getElementById('conteudoModal');
+
 function abrirPost(i){
+
 postAtual = i;
 mostrarTodos = false;
+
 renderDebate();
-document.getElementById("modalDebate").style.display="flex";
+
+document.getElementById('modalDebate').style.display = 'flex';
+
 }
 
 function fecharModal(){
-document.getElementById("modalDebate").style.display="none";
+
+document.getElementById('modalDebate').style.display = 'none';
+
 }
 
 function renderDebate(){
-let p = debatePosts[postAtual];
 
-let lista = mostrarTodos ? p.comments : p.comments.slice(0,2);
+const p = debatePosts[postAtual];
 
-let htmlComentarios = lista.map(c =>
-`<div><b>${c.nome} (${c.time}):</b> ${c.texto}</div>`
-).join("");
+const lista = mostrarTodos
+? p.comments
+: p.comments.slice(0,2);
 
-let verMais = p.comments.length>2 && !mostrarTodos
-? `<div class="ver-mais" onclick="verMaisDebate()">Ver mais</div>` : "";
+const htmlComentarios = lista.map(c => `
+
+<div class="comment-item">
+
+<b>${c.nome} (${c.time}):</b>
+
+<p>${c.texto}</p>
+
+</div>
+
+`).join('');
+
+const verMais =
+p.comments.length > 2 && !mostrarTodos
+? '<div class="ver-mais" onclick="verMaisDebate()">Ver mais</div>'
+: '';
 
 conteudoModal.innerHTML = `
-<button class="close" onclick="fecharModal()">X</button>
-<img src="${p.img}">
-<h2>${p.title}</h2>
-<p>${p.text}</p>
 
-<h3>Deixe seu comentário</h3>
+<button class="close" onclick="fecharModal()">X</button>
+
+<img src="${p.img}" alt="${p.title}" title="${p.title}">
+
+<h2>${p.title}</h2>
+
+<p class="text-margin">
+${p.text}
+</p>
+
+<h3 class="comments-box">
+Deixe seu comentário
+</h3>
 
 <form onsubmit="return comentarDebate(event)">
-<input id="nomeDebate" placeholder="Seu nome" required>
-<input id="timeDebate" placeholder="Seu time" required>
-<textarea id="textoDebate" placeholder="Sua opinião" required></textarea>
-<button class="btn">Comentar</button>
+
+<input
+id="nomeDebate"
+placeholder="Seu nome"
+required
+>
+
+<input
+id="timeDebate"
+placeholder="Seu time"
+required
+>
+
+<textarea
+id="textoDebate"
+placeholder="Sua opinião"
+required
+></textarea>
+
+<button class="btn">
+Comentar
+</button>
+
 </form>
 
-<div>${htmlComentarios}</div>
+<div class="comments-box">
+${htmlComentarios}
+</div>
+
 ${verMais}
+
 `;
+
 }
 
 function verMaisDebate(){
+
 mostrarTodos = true;
 renderDebate();
+
 }
 
 function comentarDebate(e){
+
 e.preventDefault();
 
+const nome = document.getElementById('nomeDebate').value;
+const time = document.getElementById('timeDebate').value;
+const texto = document.getElementById('textoDebate').value;
+
 debatePosts[postAtual].comments.push({
-nome: nomeDebate.value,
-time: timeDebate.value,
-texto: textoDebate.value
+nome:nome,
+time:time,
+texto:texto
 });
 
 renderDebate();
 destacarMaisComentado();
+
 return false;
+
 }
 
 function destacarMaisComentado(){
@@ -841,30 +1210,56 @@ function destacarMaisComentado(){
 let max = 0;
 let index = 0;
 
-debatePosts.forEach((p,i)=>{
+debatePosts.forEach((p,i) => {
+
 if(p.comments.length > max){
 max = p.comments.length;
 index = i;
 }
+
 });
 
-document.querySelectorAll('.debate-card').forEach(card=>{
+document.querySelectorAll('.debate-card').forEach(card => {
+
 card.classList.remove('post-destaque');
-let badge = card.querySelector('.badge-destaque');
-if(badge) badge.remove();
+
+const badge = card.querySelector('.badge-destaque');
+
+if(badge){
+badge.remove();
+}
+
 });
 
 if(max > 0){
-let card = document.getElementById('debate-'+index);
+
+const card = document.getElementById('debate-' + index);
+
 card.classList.add('post-destaque');
 
-let badge = document.createElement('div');
+const badge = document.createElement('div');
+
 badge.className = 'badge-destaque';
 badge.innerText = '🔥 MAIS COMENTADO';
 
 card.appendChild(badge);
+
 }
+
 }
+
+/* FECHAR MODAL */
+
+window.addEventListener('click', function(e){
+
+const modal = document.getElementById('modalDebate');
+
+if(e.target === modal){
+fecharModal();
+}
+
+});
+
 </script>
 
 </body>
