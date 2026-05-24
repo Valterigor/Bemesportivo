@@ -335,6 +335,26 @@ grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:20px;
 }
 
+.rss-news{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+}
+
+#rssNews .card{
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+min-height:180px;
+}
+
+.rss-error{
+color:#c62828;
+background:#ffebee;
+padding:18px;
+border-radius:12px;
+}
+
 .card{
 background:#fff;
 padding:15px;
@@ -786,6 +806,16 @@ Ainda existe paixão ou virou negócio?
 
 <div class="modal" id="modalDebate">
 <div class="modal-content" id="conteudoModal"></div>
+</div>
+
+</section>
+
+<section class="container">
+
+<h2>📰 Notícias Getv</h2>
+
+<div id="rssNews" class="grid rss-news">
+  <p>Carregando notícias do Getv...</p>
 </div>
 
 </section>
@@ -1247,6 +1277,55 @@ card.appendChild(badge);
 }
 
 }
+
+async function loadGetvRss(){
+  const rssFeedUrl = 'https://www.getv.com.br/rss';
+  const rssContainer = document.getElementById('rssNews');
+
+  try {
+    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssFeedUrl);
+    const response = await fetch(proxyUrl);
+
+    if(!response.ok){
+      throw new Error('Falha ao buscar o RSS: ' + response.status);
+    }
+
+    const text = await response.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, 'application/xml');
+
+    const items = Array.from(xml.querySelectorAll('item')).slice(0, 5);
+
+    if(items.length === 0){
+      throw new Error('Nenhuma notícia encontrada no feed.');
+    }
+
+    rssContainer.innerHTML = items.map(item => {
+      const title = item.querySelector('title')?.textContent || 'Sem título';
+      const link = item.querySelector('link')?.textContent || '#';
+      const pubDate = item.querySelector('pubDate')?.textContent || '';
+      const description = item.querySelector('description')?.textContent || '';
+
+      return `
+        <article class="card rss-card">
+          <div>
+            <h3>${title}</h3>
+            <p>${description.replace(/<[^>]+>/g, '').slice(0, 140)}${description.length > 140 ? '...' : ''}</p>
+          </div>
+          <div>
+            <small>${pubDate}</small>
+            <a href="${link}" target="_blank" rel="noopener noreferrer" class="btn">Ler notícia</a>
+          </div>
+        </article>
+      `;
+    }).join('');
+  } catch(error){
+    console.error(error);
+    rssContainer.innerHTML = '<div class="rss-error">Não foi possível carregar as notícias do Getv. Verifique o feed ou atualize a página.</div>';
+  }
+}
+
+window.addEventListener('DOMContentLoaded', loadGetvRss);
 
 /* FECHAR MODAL */
 
