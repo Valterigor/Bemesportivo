@@ -355,6 +355,111 @@ padding:18px;
 border-radius:12px;
 }
 
+.seriea-section{
+margin-top:40px;
+}
+
+.seriea-cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+}
+
+.match-card{
+background:#fff;
+padding:20px;
+border-radius:18px;
+box-shadow:0 12px 30px rgba(0,0,0,.08);
+display:grid;
+gap:18px;
+}
+
+.match-card:hover{
+transform:translateY(-3px);
+}
+
+.match-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
+
+.match-status{
+font-size:12px;
+font-weight:700;
+letter-spacing:.5px;
+padding:6px 12px;
+border-radius:999px;
+background:#000;
+color:#fff;
+text-transform:uppercase;
+}
+
+.match-teams{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+align-items:center;
+}
+
+.team{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.team-logo{
+width:52px;
+height:52px;
+border-radius:50%;
+background:#f4f4f4;
+overflow:hidden;
+display:grid;
+place-items:center;
+}
+
+.team-logo img{
+width:100%;
+height:100%;
+object-fit:contain;
+}
+
+.team-name{
+font-weight:700;
+font-size:15px;
+}
+
+.match-score{
+font-size:34px;
+font-weight:800;
+text-align:center;
+}
+
+.match-meta{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:13px;
+color:gray;
+}
+
+.match-link{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+background:var(--primary);
+color:#fff;
+padding:10px 16px;
+border-radius:999px;
+font-weight:700;
+transition:.3s;
+}
+
+.match-link:hover{
+opacity:.95;
+}
+
 .card{
 background:#fff;
 padding:15px;
@@ -812,10 +917,20 @@ Ainda existe paixão ou virou negócio?
 
 <section class="container">
 
-<h2>📰 Notícias Getv</h2>
+<h2>📰 Notícias de Futebol do Globo Esporte</h2>
 
 <div id="rssNews" class="grid rss-news">
-  <p>Carregando notícias do Getv...</p>
+  <p>Carregando notícias do Globo Esporte...</p>
+</div>
+
+</section>
+
+<section class="container seriea-section">
+
+<h2>⚽ Brasileirão Série A — Jogos da rodada</h2>
+
+<div id="serieAMatches" class="seriea-cards">
+  <p>Carregando os jogos da Série A...</p>
 </div>
 
 </section>
@@ -1235,6 +1350,123 @@ return false;
 
 }
 
+function formatMatchDate(raw){
+  const date = new Date(raw);
+  if(Number.isNaN(date.getTime())) return raw;
+  return date.toLocaleDateString('pt-BR', {
+    weekday:'short',
+    day:'2-digit',
+    month:'2-digit'
+  });
+}
+
+function getMatchStatus(match){
+  const liveLabel = match.transmissao?.label?.toLowerCase();
+  const broadcastId = match.transmissao?.broadcast?.id;
+  if(broadcastId === 'LIVE' || liveLabel?.includes('ao vivo')){
+    return 'AO VIVO';
+  }
+  if(broadcastId === 'ENCERRADA' || (match.jogo_ja_comecou && match.placar_oficial_mandante != null)){
+    return 'ENCERRADO';
+  }
+  if(match.jogo_ja_comecou){
+    return 'EM JOGO';
+  }
+  return 'AGENDADO';
+}
+
+function getScoreText(match){
+  if(match.placar_oficial_mandante != null && match.placar_oficial_visitante != null){
+    return `${match.placar_oficial_mandante} x ${match.placar_oficial_visitante}`;
+  }
+  return match.hora_realizacao || 'A definir';
+}
+
+function extractListaJogos(html){
+  const regex = /const\s+listaJogos\s*=\s*(\[[\s\S]*?\])\s*;/;
+  const match = html.match(regex);
+  if(!match){
+    return null;
+  }
+  return match[1];
+}
+
+function isSameDay(dateA, dateB){
+  return dateA.getFullYear() === dateB.getFullYear() &&
+         dateA.getMonth() === dateB.getMonth() &&
+         dateA.getDate() === dateB.getDate();
+}
+
+async function loadBrasileiraoLive(){
+  const container = document.getElementById('serieAMatches');
+  const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
+  const targetUrl = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
+  try {
+    const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+    if(!response.ok){
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const html = await response.text();
+    const rawJson = extractListaJogos(html);
+    if(!rawJson){
+      throw new Error('Dados de jogos não encontrados.');
+    }
+    const lista = JSON.parse(rawJson);
+    const now = new Date();
+    const todayMatches = lista.filter(match => {
+      const date = new Date(match.data_realizacao);
+      return isSameDay(date, now);
+    });
+    const liveMatches = todayMatches.filter(match => getMatchStatus(match) === 'AO VIVO' || getMatchStatus(match) === 'EM JOGO');
+    const displayMatches = liveMatches.length ? liveMatches : todayMatches.length ? todayMatches : lista.slice(0, 6);
+
+    container.innerHTML = displayMatches.map(match => {
+      const status = getMatchStatus(match);
+      const score = getScoreText(match);
+      const mandante = match.equipes.mandante;
+      const visitante = match.equipes.visitante;
+      const venue = match.sede?.nome_popular || '';
+      const link = match.transmissao?.url || '#';
+
+      return `
+        <div class="match-card">
+          <div class="match-header">
+            <div>
+              <div class="match-status">${status}</div>
+            </div>
+            <div class="match-meta">
+              <span>${formatMatchDate(match.data_realizacao)}</span>
+              <span>${venue}</span>
+            </div>
+          </div>
+          <div class="match-teams">
+            <div class="team">
+              <div class="team-logo"><img src="${mandante.escudo}" alt="${mandante.nome_popular}"></div>
+              <div class="team-name">${mandante.nome_popular}</div>
+            </div>
+            <div class="match-score">${score}</div>
+            <div class="team" style="justify-content:flex-end;">
+              <div class="team-name">${visitante.nome_popular}</div>
+              <div class="team-logo"><img src="${visitante.escudo}" alt="${visitante.nome_popular}"></div>
+            </div>
+          </div>
+          <div class="match-meta">
+            <span>${match.hora_realizacao || ''}</span>
+            <a href="${link}" target="_blank" rel="noopener noreferrer" class="match-link">Ver no GE</a>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch(error){
+    container.innerHTML = `<div class="rss-error">Não foi possível carregar os jogos da Série A. Tente novamente mais tarde.</div>`;
+    console.error('Erro ao carregar Brasileirão:', error);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  loadBrasileiraoLive();
+});
+
 function destacarMaisComentado(){
 
 let max = 0;
@@ -1278,54 +1510,69 @@ card.appendChild(badge);
 
 }
 
-async function loadGetvRss(){
-  const rssFeedUrl = 'https://www.getv.com.br/rss';
+async function loadGeRss(){
+  const feedPageUrl = 'http://ge.globo.com/index/feed/pagina-2.ghtml';
+  const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(feedPageUrl);
   const rssContainer = document.getElementById('rssNews');
 
   try {
-    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssFeedUrl);
     const response = await fetch(proxyUrl);
 
     if(!response.ok){
-      throw new Error('Falha ao buscar o RSS: ' + response.status);
+      throw new Error('Falha ao buscar o feed: ' + response.status);
     }
 
-    const text = await response.text();
+    const htmlText = await response.text();
     const parser = new DOMParser();
-    const xml = parser.parseFromString(text, 'application/xml');
+    const doc = parser.parseFromString(htmlText, 'text/html');
 
-    const items = Array.from(xml.querySelectorAll('item')).slice(0, 5);
+    const allLinks = Array.from(doc.querySelectorAll('.feed-post-body-title a, .feed-post-link'))
+      .filter(link => link.href && link.textContent.trim());
 
-    if(items.length === 0){
-      throw new Error('Nenhuma notícia encontrada no feed.');
+    const uniqueLinks = [];
+    const seen = new Set();
+
+    for (const link of allLinks) {
+      if (!seen.has(link.href)) {
+        seen.add(link.href);
+        uniqueLinks.push(link);
+      }
     }
 
-    rssContainer.innerHTML = items.map(item => {
-      const title = item.querySelector('title')?.textContent || 'Sem título';
-      const link = item.querySelector('link')?.textContent || '#';
-      const pubDate = item.querySelector('pubDate')?.textContent || '';
-      const description = item.querySelector('description')?.textContent || '';
+    const footballLinks = uniqueLinks.filter(link => /ge\.globo\.com\/futebol\//.test(link.href));
+    const feedLinks = (footballLinks.length ? footballLinks : uniqueLinks).slice(0, 5);
+
+    if(feedLinks.length === 0){
+      throw new Error('Nenhuma notícia de futebol encontrada no feed do GE.');
+    }
+
+    rssContainer.innerHTML = feedLinks.map(link => {
+      const title = link.textContent.trim();
+      const href = link.href;
+      const item = link.closest('.feed-post-body') || link.closest('.feed-post');
+      const section = item?.querySelector('.feed-post-header-chapeu')?.textContent.trim() || '';
+      const metadata = item?.querySelector('.feed-post-metadata')?.textContent.replace(/\s+/g, ' ').trim() || '';
 
       return `
         <article class="card rss-card">
           <div>
             <h3>${title}</h3>
-            <p>${description.replace(/<[^>]+>/g, '').slice(0, 140)}${description.length > 140 ? '...' : ''}</p>
+            ${section ? `<p>${section}</p>` : ''}
           </div>
           <div>
-            <small>${pubDate}</small>
-            <a href="${link}" target="_blank" rel="noopener noreferrer" class="btn">Ler notícia</a>
+            ${metadata ? `<small>${metadata}</small>` : ''}
+            <a href="${href}" target="_blank" rel="noopener noreferrer" class="btn">Ler notícia</a>
           </div>
         </article>
       `;
     }).join('');
   } catch(error){
     console.error(error);
-    rssContainer.innerHTML = '<div class="rss-error">Não foi possível carregar as notícias do Getv. Verifique o feed ou atualize a página.</div>';
+    rssContainer.innerHTML = '<div class="rss-error">Não foi possível carregar as notícias do Globo Esporte. Verifique a conexão ou tente novamente mais tarde.</div>';
   }
 }
 
-window.addEventListener('DOMContentLoaded', loadGetvRss);
+window.addEventListener('DOMContentLoaded', loadGeRss);
 
 /* FECHAR MODAL */
 
