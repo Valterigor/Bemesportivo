@@ -588,6 +588,124 @@ font-weight:700;
 grid-column:1/-1;
 }
 
+.standings-card{
+margin-top:22px;
+background:#fff;
+border-radius:8px;
+box-shadow:0 16px 34px rgba(0,0,0,.22);
+overflow:hidden;
+}
+
+.standings-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:16px;
+padding:18px;
+border-bottom:1px solid #ededed;
+}
+
+.standings-top h3{
+font-size:22px;
+line-height:1.2;
+}
+
+.standings-updated{
+font-size:12px;
+font-weight:700;
+color:#777;
+text-align:right;
+}
+
+.standings-table-wrap{
+overflow-x:auto;
+}
+
+.standings-table{
+width:100%;
+border-collapse:collapse;
+min-width:760px;
+font-size:13px;
+}
+
+.standings-table th,
+.standings-table td{
+padding:11px 10px;
+border-bottom:1px solid #f0f0f0;
+text-align:center;
+white-space:nowrap;
+}
+
+.standings-table th{
+background:#111;
+color:#fff;
+font-size:11px;
+letter-spacing:.06em;
+text-transform:uppercase;
+}
+
+.standings-table tr:hover td{
+background:#fff8f1;
+}
+
+.standings-table .team-cell{
+display:flex;
+align-items:center;
+gap:9px;
+min-width:190px;
+text-align:left;
+font-weight:800;
+}
+
+.standings-position{
+width:4px;
+padding:0;
+}
+
+.standings-position-bar{
+display:block;
+width:4px;
+height:28px;
+border-radius:999px;
+background:#ddd;
+}
+
+.standings-team-logo{
+width:26px;
+height:26px;
+object-fit:contain;
+}
+
+.standings-points{
+font-weight:900;
+font-size:15px;
+}
+
+.standings-form{
+display:flex;
+justify-content:center;
+gap:4px;
+}
+
+.form-dot{
+width:9px;
+height:9px;
+border-radius:50%;
+background:#b8b8b8;
+}
+
+.form-dot.v{
+background:#18a058;
+}
+
+.form-dot.e{
+background:#d6a400;
+}
+
+.form-dot.d{
+background:#d71920;
+}
+
 .card{
 background:#fff;
 padding:15px;
@@ -906,6 +1024,29 @@ padding:10px 6px;
 font-size:22px;
 }
 
+.standings-top{
+display:block;
+}
+
+.standings-updated{
+margin-top:6px;
+text-align:left;
+}
+
+.standings-table{
+min-width:680px;
+font-size:12px;
+}
+
+.standings-table th,
+.standings-table td{
+padding:9px 8px;
+}
+
+.standings-table .team-cell{
+min-width:160px;
+}
+
 }
 
 </style>
@@ -1129,6 +1270,40 @@ Ainda existe paixão ou virou negócio?
 
 <div id="serieAMatches" class="seriea-cards">
   <p>Carregando os jogos da Série A...</p>
+</div>
+
+<div class="standings-card">
+  <div class="standings-top">
+    <h3>Classificação</h3>
+    <div id="serieAStandingsUpdated" class="standings-updated">Atualizando tabela...</div>
+  </div>
+
+  <div class="standings-table-wrap">
+    <table class="standings-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Pos</th>
+          <th>Clube</th>
+          <th>Pts</th>
+          <th>J</th>
+          <th>V</th>
+          <th>E</th>
+          <th>D</th>
+          <th>GP</th>
+          <th>GC</th>
+          <th>SG</th>
+          <th>%</th>
+          <th>Últimos</th>
+        </tr>
+      </thead>
+      <tbody id="serieAStandings">
+        <tr>
+          <td colspan="13">Carregando classificação...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 </section>
@@ -1425,10 +1600,73 @@ function extractListaJogos(html){
   return match[1];
 }
 
+function extractClassificacao(html){
+  const regex = /const\s+classificacao\s*=\s*(\{[\s\S]*?\})\s*;/;
+  const match = html.match(regex);
+  if(!match){
+    return null;
+  }
+  return match[1];
+}
+
 function isSameDay(dateA, dateB){
   return dateA.getFullYear() === dateB.getFullYear() &&
          dateA.getMonth() === dateB.getMonth() &&
          dateA.getDate() === dateB.getDate();
+}
+
+function renderFormDots(results){
+  if(!Array.isArray(results) || results.length === 0){
+    return '';
+  }
+
+  return results.map(result => {
+    const value = String(result).toLowerCase();
+    return `<span class="form-dot ${value}" title="${value.toUpperCase()}"></span>`;
+  }).join('');
+}
+
+function renderBrasileiraoStandings(rawJson){
+  const body = document.getElementById('serieAStandings');
+  const updated = document.getElementById('serieAStandingsUpdated');
+  const data = JSON.parse(rawJson);
+  const teams = data.classificacao || [];
+
+  if(teams.length === 0){
+    throw new Error('Classificação vazia.');
+  }
+
+  body.innerHTML = teams.map(team => `
+    <tr>
+      <td class="standings-position">
+        <span class="standings-position-bar" style="background:${team.faixa_classificacao_cor || '#ddd'}"></span>
+      </td>
+      <td>${team.ordem}</td>
+      <td>
+        <div class="team-cell">
+          <img class="standings-team-logo" src="${team.escudo}" alt="${team.nome_popular}">
+          <span>${team.nome_popular}</span>
+        </div>
+      </td>
+      <td class="standings-points">${team.pontos}</td>
+      <td>${team.jogos}</td>
+      <td>${team.vitorias}</td>
+      <td>${team.empates}</td>
+      <td>${team.derrotas}</td>
+      <td>${team.gols_pro}</td>
+      <td>${team.gols_contra}</td>
+      <td>${team.saldo_gols}</td>
+      <td>${team.aproveitamento}</td>
+      <td>
+        <div class="standings-form">${renderFormDots(team.ultimos_jogos)}</div>
+      </td>
+    </tr>
+  `).join('');
+
+  updated.textContent = 'Atualizado automaticamente: ' + new Date().toLocaleTimeString('pt-BR', {
+    hour:'2-digit',
+    minute:'2-digit'
+  });
 }
 
 async function loadBrasileiraoLive(){
@@ -1496,10 +1734,39 @@ async function loadBrasileiraoLive(){
   }
 }
 
+async function loadBrasileiraoStandings(){
+  const body = document.getElementById('serieAStandings');
+  const updated = document.getElementById('serieAStandingsUpdated');
+  const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
+  const targetUrl = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
+
+  try {
+    const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+    if(!response.ok){
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const html = await response.text();
+    const rawJson = extractClassificacao(html);
+
+    if(!rawJson){
+      throw new Error('Dados de classificação não encontrados.');
+    }
+
+    renderBrasileiraoStandings(rawJson);
+  } catch(error){
+    body.innerHTML = '<tr><td colspan="13">Não foi possível carregar a classificação. Tente novamente mais tarde.</td></tr>';
+    updated.textContent = 'Tabela indisponível no momento';
+    console.error('Erro ao carregar classificação:', error);
+  }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   loadBrasileiraoLive();
+  loadBrasileiraoStandings();
   loadGeRss();
   setInterval(loadBrasileiraoLive, 60000); // atualiza placares a cada 60 segundos
+  setInterval(loadBrasileiraoStandings, 300000); // atualiza classificação a cada 5 minutos
   setInterval(loadGeRss, 180000); // atualiza notícias a cada 3 minutos
 });
 
