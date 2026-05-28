@@ -42,7 +42,7 @@ scroll-behavior:smooth;
 body{
 background:var(--light);
 color:var(--dark);
-padding-top:80px;
+padding-top:70px;
 overflow-x:hidden;
 }
 
@@ -90,44 +90,75 @@ top:0;
 left:0;
 width:100%;
 background:#000;
-box-shadow:0 2px 10px rgba(0,0,0,.35);
+box-shadow:0 4px 20px rgba(0,0,0,.5);
 z-index:1000;
-border-bottom:1px solid rgba(252,110,2,.25);
+border-bottom:2px solid var(--primary);
+padding:0 30px;
 }
 
 .menu-content{
 display:flex;
 justify-content:space-between;
 align-items:center;
-gap:20px;
+max-width:1400px;
+margin:0 auto;
+height:70px;
+gap:40px;
 }
 
 .logo{
 display:flex;
 align-items:center;
 gap:10px;
-color:var(--primary);
-font-weight:800;
-font-size:20px;
+text-decoration:none;
+flex-shrink:0;
 }
 
 .logo img{
-height:40px;
+height:50px;
+width:auto;
 }
 
-nav{
+.nav-menu{
 display:flex;
-gap:20px;
+gap:30px;
+flex:1;
+justify-content:center;
 }
 
-nav a{
+.nav-menu a{
 color:var(--primary);
 font-weight:700;
+font-size:15px;
+text-decoration:none;
 transition:.3s;
+position:relative;
+text-transform:uppercase;
+letter-spacing:.5px;
 }
 
-nav a:hover{
+.nav-menu a::after{
+content:"";
+position:absolute;
+bottom:-5px;
+left:0;
+width:0;
+height:2px;
+background:var(--primary);
+transition:width .3s;
+}
+
+.nav-menu a:hover::after{
+width:100%;
+}
+
+.nav-menu a:hover{
 color:#fff;
+}
+
+.nav-menu a.active{
+color:#fff;
+font-weight:900;
 }
 
 /* =========================
@@ -140,51 +171,24 @@ align-items:center;
 gap:15px;
 }
 
-.search-wrap{
-position:relative;
-}
-
-.search{
-padding:10px 42px 10px 16px;
-border-radius:30px;
-border:1px solid rgba(252,110,2,.4);
-outline:none;
-width:190px;
-transition:.35s;
-background:#111;
-color:#fff;
-}
-
-.search::placeholder{
-color:#aaa;
-}
-
-.search:focus{
-width:230px;
-border-color:var(--primary);
-}
-
-.search-icon{
-position:absolute;
-right:14px;
-top:50%;
-transform:translateY(-50%);
-color:var(--primary);
-font-size:14px;
-pointer-events:none;
-}
-
 .btn-contato{
 background:var(--primary);
-color:#fff;
-padding:9px 18px;
+color:#000;
+padding:10px 24px;
 border-radius:30px;
 font-weight:700;
+text-decoration:none;
 transition:.3s;
+display:inline-block;
+text-transform:uppercase;
+font-size:13px;
+letter-spacing:.5px;
 }
 
 .btn-contato:hover{
+background:#fff;
 transform:translateY(-2px);
+box-shadow:0 6px 15px rgba(252,110,2,.4);
 }
 
 /* =========================
@@ -208,6 +212,79 @@ height:3px;
 width:100%;
 background:var(--primary);
 border-radius:3px;
+transition:.3s;
+}
+
+@media(max-width:1024px){
+.menu-content{
+gap:20px;
+padding:0 20px;
+}
+
+.nav-menu{
+gap:20px;
+}
+
+.nav-menu a{
+font-size:14px;
+}
+}
+
+@media(max-width:768px){
+.menu{
+padding:0 15px;
+}
+
+.menu-content{
+height:60px;
+gap:10px;
+}
+
+.logo img{
+height:40px;
+}
+
+.nav-menu{
+position:absolute;
+top:60px;
+left:0;
+right:0;
+background:#000;
+flex-direction:column;
+gap:0;
+width:100%;
+padding:20px 0;
+display:none;
+border-top:2px solid var(--primary);
+}
+
+.nav-menu.active{
+display:flex;
+}
+
+.nav-menu a{
+padding:15px 20px;
+border-bottom:1px solid rgba(252,110,2,.2);
+text-align:left;
+}
+
+.nav-menu a::after{
+display:none;
+}
+
+.menu-actions{
+gap:10px;
+}
+
+.btn-contato{
+padding:8px 16px;
+font-size:12px;
+}
+
+.menu-btn{
+display:flex;
+order:3;
+}
 }
 
 /* =========================
@@ -216,10 +293,61 @@ BANNER
 
 .banner-top{
 width:100%;
-background:#000 url('img/imgbanner.jpg.png') center center no-repeat;
-background-size:cover;
+background:#000;
+background-attachment:fixed;
 aspect-ratio:1920/520;
-min-height:280px;
+min-height:300px;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+overflow:hidden;
+box-shadow:0 10px 40px rgba(0,0,0,.5);
+}
+
+.banner-top::before{
+content:"";
+position:absolute;
+inset:0;
+background:radial-gradient(circle at 50% 50%,rgba(100,100,100,.3),transparent 70%);
+z-index:1;
+}
+
+.banner-top::after{
+content:"";
+position:absolute;
+inset:0;
+background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.05"/></pattern></defs><rect width="1200" height="600" fill="url(%23grid)"/></svg>');
+opacity:.1;
+z-index:1;
+}
+
+.banner-content{
+position:relative;
+z-index:2;
+text-align:center;
+color:#fff;
+max-width:800px;
+padding:40px 20px;
+}
+
+.banner-top h1{
+font-size:48px;
+font-weight:900;
+margin:0;
+margin-bottom:15px;
+color:var(--primary);
+text-transform:uppercase;
+letter-spacing:2px;
+text-shadow:0 4px 20px rgba(0,0,0,.5);
+}
+
+.banner-top p{
+font-size:18px;
+color:#ddd;
+margin:0;
+font-weight:300;
+letter-spacing:.5px;
 }
 
 /* =========================
@@ -1172,72 +1300,38 @@ min-width:160px;
 <body>
 
 <header class="menu">
-
-<div class="container menu-content">
-
+<div class="menu-content">
 <a href="index.html" class="logo">
-
-<img
-src="img/logobemoficial.png"
-alt="Logo Bem Esportivo"
-title="Bem Esportivo"
->
-
-<strong>Bem Esportivo</strong>
-
+<img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
 </a>
 
-<nav id="nav">
-
+<nav id="nav" class="nav-menu">
 <a href="index.html">Início</a>
 <a href="profissionais.html">Profissionais</a>
 <a href="produtos.html">Produtos</a>
 <a href="beplay.html">Beplay</a>
-<a href="coluna-valtinho.html">Fala aí, Valtinho!</a>
-
+<a href="coluna-valtinho.html">Fala aí Valtinho</a>
 </nav>
 
 <div class="menu-actions">
-
-<div class="search-wrap">
-
-<input
-id="searchInput"
-type="text"
-placeholder="Buscar na página..."
-class="search"
->
-
-<span class="search-icon">🔎</span>
-
-</div>
-
-<a
-href="https://wa.me/5511986366965"
-target="_blank"
-rel="noopener noreferrer"
-class="btn-contato"
->
-Fale Conosco
-</a>
-
+<a href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer" class="btn-contato">Entre em contato</a>
 </div>
 
 <button id="menu-toggle" class="menu-btn">
-
 <span></span>
 <span></span>
 <span></span>
-
 </button>
-
-</div>
-
 </header>
 
 <main>
 
-<section class="banner-top"></section>
+<section class="banner-top">
+<div class="banner-content">
+<h1>Bem Esportivo</h1>
+<p>Seu portal de informações sobre futebol em tempo real</p>
+</div>
+</section>
 
 <section class="hero">
 
@@ -1448,6 +1542,23 @@ const nav = document.getElementById('nav');
 toggle.addEventListener('click', () => {
 nav.classList.toggle('active');
 });
+
+/* Destacar página ativa no menu */
+function setActiveNavLink() {
+const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+const navLinks = document.querySelectorAll('.nav-menu a');
+
+navLinks.forEach(link => {
+const href = link.getAttribute('href');
+if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+link.classList.add('active');
+} else {
+link.classList.remove('active');
+}
+});
+}
+
+setActiveNavLink();
 
 /* BUSCA */
 
