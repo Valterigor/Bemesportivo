@@ -303,10 +303,17 @@ border-radius:22px;
 overflow:hidden;
 box-shadow:0 10px 30px rgba(0,0,0,.07);
 transition:.35s;
+cursor:pointer;
 }
 
 .video-card:hover{
 transform:translateY(-8px);
+box-shadow:0 18px 42px rgba(0,0,0,.16);
+}
+
+.video-card:focus-visible{
+outline:3px solid var(--primary);
+outline-offset:4px;
 }
 
 .video-thumb{
@@ -314,6 +321,7 @@ height:230px;
 background-size:cover;
 background-position:center;
 position:relative;
+overflow:hidden;
 }
 
 .video-thumb:before{
@@ -331,6 +339,23 @@ color:#fff;
 left:50%;
 top:50%;
 transform:translate(-50%,-50%);
+}
+
+.video-thumb:before{
+display:none;
+}
+
+.video-thumb:after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.52));
+opacity:.82;
+transition:.35s;
+}
+
+.video-card:hover .video-thumb:after{
+opacity:.35;
 }
 
 .video-body{
@@ -359,13 +384,20 @@ margin-bottom:18px;
 }
 
 .btn-play{
-display:inline-block;
+display:inline-flex;
+align-items:center;
+justify-content:center;
 background:var(--primary);
 color:#fff;
 padding:12px 22px;
-border-radius:30px;
+border-radius:12px;
 font-weight:800;
 cursor:pointer;
+transition:.3s;
+}
+
+.video-card:hover .btn-play{
+background:#111;
 }
 
 
@@ -674,20 +706,32 @@ const id=card.dataset.video.split('/embed/')[1];
 
 card.querySelector('.video-thumb').style.backgroundImage=
 `url(https://img.youtube.com/vi/${id}/hqdefault.jpg)`;
+
+card.setAttribute('tabindex','0');
+card.setAttribute('role','button');
+card.setAttribute('aria-label',`Assistir ${card.querySelector('h3').textContent}`);
 });
 
 
 const modal=document.getElementById('videoModal');
 const iframe=modal.querySelector('iframe');
 
-document.querySelectorAll('.btn-play').forEach(btn=>{
-
-btn.onclick=e=>{
-const card=e.target.closest('.video-card');
+function openVideo(card){
 modal.classList.add('show');
 iframe.src=card.dataset.video+'?autoplay=1';
+}
+
+document.querySelectorAll('.video-card').forEach(card=>{
+card.onclick=()=>{
+openVideo(card);
 };
 
+card.onkeydown=e=>{
+if(e.key === 'Enter' || e.key === ' '){
+e.preventDefault();
+openVideo(card);
+}
+};
 });
 
 modal.onclick=()=>{
