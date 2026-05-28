@@ -365,16 +365,40 @@ padding:0;
 display:block;
 width:100%;
 height:170px;
-background:#ececec;
+border:none;
+background:
+linear-gradient(135deg,rgba(17,17,17,.92),rgba(40,40,40,.86)),
+radial-gradient(circle at top right,rgba(252,110,2,.36),transparent 36%);
 overflow:hidden;
+padding:18px;
+color:#fff;
+cursor:pointer;
+text-align:left;
 }
 
-.rss-thumb img{
-width:100%;
+.rss-cover{
+display:flex;
 height:100%;
-object-fit:cover;
-border-radius:0;
-margin:0;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.rss-cover-source{
+align-self:flex-start;
+background:var(--primary);
+border-radius:999px;
+color:#fff;
+font-size:11px;
+font-weight:800;
+letter-spacing:.06em;
+padding:7px 10px;
+text-transform:uppercase;
+}
+
+.rss-cover-title{
+font-size:22px;
+font-weight:900;
+line-height:1.1;
 }
 
 .rss-body{
@@ -395,6 +419,57 @@ line-height:1.28;
 display:block;
 margin-bottom:12px;
 color:#777;
+}
+
+.rss-actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.btn-secondary{
+border:1px solid #ddd;
+color:#111;
+background:#fff;
+}
+
+.news-modal-content{
+max-width:780px;
+}
+
+.news-source{
+display:inline-flex;
+align-items:center;
+gap:8px;
+margin-bottom:14px;
+font-size:12px;
+font-weight:800;
+letter-spacing:.06em;
+text-transform:uppercase;
+color:var(--primary);
+}
+
+.news-summary{
+font-size:17px;
+line-height:1.75;
+margin-top:14px;
+color:#333;
+}
+
+.news-credit{
+margin-top:18px;
+padding:14px;
+border-left:4px solid var(--primary);
+background:#fff8f1;
+font-size:14px;
+line-height:1.55;
+}
+
+.news-actions{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin-top:18px;
 }
 
 .rss-error{
@@ -1297,6 +1372,10 @@ Ainda existe paixão ou virou negócio?
   <p>Carregando notícias do Globo Esporte...</p>
 </div>
 
+<div class="modal" id="modalNews">
+<div class="modal-content news-modal-content" id="conteudoNews"></div>
+</div>
+
 </section>
 
 <section class="container seriea-section">
@@ -1710,40 +1789,6 @@ function renderBrasileiraoStandings(rawJson){
   });
 }
 
-function normalizeImageUrl(url){
-  if(!url){
-    return '';
-  }
-
-  const cleanUrl = url.split(' ')[0];
-
-  if(cleanUrl.startsWith('//')){
-    return 'https:' + cleanUrl;
-  }
-
-  if(cleanUrl.startsWith('/')){
-    return 'https://ge.globo.com' + cleanUrl;
-  }
-
-  return cleanUrl;
-}
-
-function getFeedImage(post){
-  const image = post?.querySelector('img');
-  const source = post?.querySelector('source[srcset]');
-  const candidates = [
-    image?.getAttribute('src') ||
-    '',
-    image?.getAttribute('data-src') || '',
-    image?.getAttribute('data-lazy-src') || '',
-    image?.getAttribute('data-original') || '',
-    source?.getAttribute('srcset') || ''
-  ];
-  const rawUrl = candidates.find(url => url && !url.startsWith('data:')) || '';
-
-  return normalizeImageUrl(rawUrl);
-}
-
 async function loadBrasileiraoLive(){
   const container = document.getElementById('serieAMatches');
   const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
@@ -1888,6 +1933,131 @@ card.appendChild(badge);
 
 }
 
+let geNewsSummaries = [];
+
+function escapeHtml(value){
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function sanitizeUrl(url){
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.protocol === 'https:' || parsedUrl.protocol === 'http:' ? parsedUrl.href : '#';
+  } catch(error){
+    return '#';
+  }
+}
+
+function cleanText(value){
+  return String(value || '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function limitText(value, maxLength){
+  const text = cleanText(value);
+  if(text.length <= maxLength){
+    return text;
+  }
+
+  return text.slice(0, maxLength).replace(/\s+\S*$/, '') + '...';
+}
+
+function getMetaContent(doc, selectors){
+  for(const selector of selectors){
+    const content = doc.querySelector(selector)?.getAttribute('content');
+    if(content){
+      return cleanText(content);
+    }
+  }
+
+  return '';
+}
+
+function extractArticleContext(html){
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  return {
+    description: getMetaContent(doc, [
+      'meta[property="og:description"]',
+      'meta[name="description"]',
+      'meta[name="twitter:description"]'
+    ]),
+    author: getMetaContent(doc, [
+      'meta[name="author"]',
+      'meta[property="article:author"]'
+    ])
+  };
+}
+
+async function fetchArticleContext(url){
+  if(!url || url === '#'){
+    return {};
+  }
+
+  const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(url);
+
+  try {
+    const response = await fetch(proxyUrl);
+    if(!response.ok){
+      throw new Error('Falha ao carregar matéria: ' + response.status);
+    }
+
+    const html = await response.text();
+    return extractArticleContext(html);
+  } catch(error){
+    console.warn('Resumo detalhado indisponível:', error);
+    return {};
+  }
+}
+
+function buildOriginalNewsSummary(title, section, metadata, description){
+  const context = section || 'Futebol';
+  const sourceDetail = description
+    ? `A chamada pública da fonte informa: ${limitText(description, 240)}`
+    : 'A fonte ainda não trouxe uma chamada detalhada disponível para resumo automático.';
+  const timeInfo = metadata ? `Atualização do feed: ${metadata}.` : 'Atualização do giro esportivo mais recente.';
+
+  return `O assunto em destaque é: ${title}. ${sourceDetail} Para quem acompanha ${context.toLowerCase()}, o ponto principal é entender o impacto dessa atualização no momento do futebol. ${timeInfo} Este texto é um resumo automático do Bem Esportivo, sem reprodução integral da matéria original.`;
+}
+
+function openNewsSummary(index){
+  const news = geNewsSummaries[index];
+  if(!news){
+    return;
+  }
+
+  const modal = document.getElementById('modalNews');
+  const content = document.getElementById('conteudoNews');
+
+  content.innerHTML = `
+    <button class="close" onclick="closeNewsSummary()">X</button>
+    <span class="news-source">Bem Esportivo | Resumo</span>
+    <h2>${news.title}</h2>
+    ${news.section ? `<p class="meta">${news.section}</p>` : ''}
+    <p class="news-summary">${news.summary}</p>
+    <div class="news-credit">
+      <strong>Crédito e fonte:</strong> com informações do ge${news.author ? ` / ${news.author}` : ''}. O conteúdo acima é um resumo automático próprio do Bem Esportivo, baseado em dados públicos da chamada da notícia. A matéria original, com apuração completa, autoria e eventuais imagens da fonte, está disponível no link oficial.
+    </div>
+    <div class="news-actions">
+      <a href="${news.href}" target="_blank" rel="noopener noreferrer" class="btn">Ver fonte oficial</a>
+      <button type="button" class="btn btn-secondary" onclick="closeNewsSummary()">Fechar</button>
+    </div>
+  `;
+
+  modal.style.display = 'flex';
+}
+
+function closeNewsSummary(){
+  document.getElementById('modalNews').style.display = 'none';
+}
+
 async function loadGeRss(){
   const feedPageUrl = 'http://ge.globo.com/index/feed/pagina-2.ghtml';
   const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(feedPageUrl);
@@ -1924,30 +2094,43 @@ async function loadGeRss(){
       throw new Error('Nenhuma notícia de futebol encontrada no feed do GE.');
     }
 
-    rssContainer.innerHTML = feedLinks.map(link => {
-      const title = link.textContent.trim();
-      const href = link.href;
+    geNewsSummaries = await Promise.all(feedLinks.map(async link => {
+      const rawTitle = link.textContent.trim();
+      const href = sanitizeUrl(link.href);
       const post = link.closest('.feed-post') || link.closest('.feed-post-body');
       const item = link.closest('.feed-post-body') || post;
-      const section = item?.querySelector('.feed-post-header-chapeu')?.textContent.trim() || '';
-      const metadata = item?.querySelector('.feed-post-metadata')?.textContent.replace(/\s+/g, ' ').trim() || '';
-      const imageUrl = getFeedImage(post);
+      const rawSection = item?.querySelector('.feed-post-header-chapeu')?.textContent.trim() || '';
+      const rawMetadata = item?.querySelector('.feed-post-metadata')?.textContent.replace(/\s+/g, ' ').trim() || '';
+      
+      // Extrair imagem da notícia
+      let imageUrl = '';
+      const img = item?.querySelector('img');
+      if(img && img.src) {
+        imageUrl = img.src;
+      }
 
+      return {
+        title: escapeHtml(rawTitle),
+        href,
+        section: escapeHtml(rawSection),
+        metadata: escapeHtml(rawMetadata),
+        image: imageUrl
+      };
+    }));
+
+    rssContainer.innerHTML = geNewsSummaries.map((news) => {
+      const imageHtml = news.image ? `<img src="${news.image}" alt="${news.title}" class="rss-image">` : '';
       return `
         <article class="card rss-card">
-          ${imageUrl ? `
-            <a href="${href}" target="_blank" rel="noopener noreferrer" class="rss-thumb">
-              <img src="${imageUrl}" alt="${title}" loading="lazy">
-            </a>
-          ` : ''}
+          ${imageHtml}
           <div class="rss-body">
             <div>
-            <h3>${title}</h3>
-            ${section ? `<p>${section}</p>` : ''}
+              <h3>${news.title}</h3>
+              ${news.section ? `<p class="rss-section">${news.section}</p>` : ''}
             </div>
             <div>
-            ${metadata ? `<small>${metadata}</small>` : ''}
-            <a href="${href}" target="_blank" rel="noopener noreferrer" class="btn">Ler notícia</a>
+              ${news.metadata ? `<small>${news.metadata}</small>` : ''}
+              <a href="${news.href}" target="_blank" rel="noopener noreferrer" class="btn">Ler notícia</a>
             </div>
           </div>
         </article>
@@ -1964,9 +2147,14 @@ async function loadGeRss(){
 window.addEventListener('click', function(e){
 
 const modal = document.getElementById('modalDebate');
+const newsModal = document.getElementById('modalNews');
 
 if(e.target === modal){
 fecharModal();
+}
+
+if(e.target === newsModal){
+closeNewsSummary();
 }
 
 });
