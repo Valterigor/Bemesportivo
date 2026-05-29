@@ -489,26 +489,6 @@ font-size:18px;
 margin-bottom:16px;
 }
 
-.price-row{
-display:flex;
-align-items:baseline;
-gap:8px;
-flex-wrap:wrap;
-margin-bottom:12px;
-font-size:16px;
-}
-
-.price-current{
-font-weight:900;
-color:#111;
-}
-
-.price-old{
-color:#8a8a8a;
-text-decoration:line-through;
-}
-
-.price-discount,
 .coupon{
 font-weight:900;
 color:#0a8a3a;
@@ -619,19 +599,6 @@ line-height:1.15;
 color:#555;
 line-height:1.65;
 font-size:16px;
-}
-
-.modal-meta{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-font-weight:900;
-}
-
-.modal-meta span{
-background:#f4f4f4;
-border-radius:999px;
-padding:8px 12px;
 }
 
 .fechar{
@@ -792,11 +759,6 @@ font-size:24px;
 <div class="card-body">
 <h3>Chuteira Society</h3>
 <p>Futebol</p>
-<div class="price-row">
-<span class="price-current">R$ 129,90 no Pix</span>
-<span class="price-old">R$ 159,90</span>
-<span class="price-discount">19% off</span>
-</div>
 <div class="rating">★★★★☆ <span class="rating-score">4.9</span></div>
 <div class="coupon">Cupom BEMESPORTIVO</div>
 <div class="card-actions">
@@ -815,11 +777,6 @@ font-size:24px;
 <div class="card-body">
 <h3>Bola Profissional</h3>
 <p>Futebol</p>
-<div class="price-row">
-<span class="price-current">R$ 89,90 no Pix</span>
-<span class="price-old">R$ 119,90</span>
-<span class="price-discount">25% off</span>
-</div>
 <div class="rating">★★★★☆ <span class="rating-score">4.8</span></div>
 <div class="coupon">Cupom BEMESPORTIVO</div>
 <div class="card-actions">
@@ -838,11 +795,6 @@ font-size:24px;
 <div class="card-body">
 <h3>Tênis Running</h3>
 <p>Corrida</p>
-<div class="price-row">
-<span class="price-current">R$ 299,90 no Pix</span>
-<span class="price-old">R$ 399,90</span>
-<span class="price-discount">25% off</span>
-</div>
 <div class="rating">★★★★☆ <span class="rating-score">4.9</span></div>
 <div class="coupon">Cupom BEMESPORTIVO</div>
 <div class="card-actions">
@@ -861,11 +813,6 @@ font-size:24px;
 <div class="card-body">
 <h3>Smartband</h3>
 <p>Treino</p>
-<div class="price-row">
-<span class="price-current">R$ 79,90 no Pix</span>
-<span class="price-old">R$ 109,90</span>
-<span class="price-discount">27% off</span>
-</div>
 <div class="rating">★★★★☆ <span class="rating-score">4.7</span></div>
 <div class="coupon">Cupom BEMESPORTIVO</div>
 <div class="card-actions">
@@ -899,10 +846,6 @@ font-size:24px;
 <small id="modalCategory"></small>
 <h3 id="modalTitle"></h3>
 <p id="modalSummary"></p>
-<div class="modal-meta">
-<span id="modalPrice"></span>
-<span id="modalDiscount"></span>
-</div>
 <a id="modalBuy" href="#" class="btn buy" target="_blank" rel="noopener noreferrer">Comprar produto</a>
 </div>
 </div>
@@ -970,8 +913,6 @@ const imgModal=document.getElementById('imgModal');
 const modalCategory=document.getElementById('modalCategory');
 const modalTitle=document.getElementById('modalTitle');
 const modalSummary=document.getElementById('modalSummary');
-const modalPrice=document.getElementById('modalPrice');
-const modalDiscount=document.getElementById('modalDiscount');
 const modalBuy=document.getElementById('modalBuy');
 
 function openProductDetails(card){
@@ -979,8 +920,6 @@ const image=card.querySelector('.card-media img');
 const title=card.querySelector('h3')?.textContent.trim() || 'Produto';
 const category=card.querySelector('.card-body p')?.textContent.trim() || 'Produto esportivo';
 const summary=card.dataset.summary || 'Produto selecionado pela curadoria do Bem Esportivo.';
-const price=card.querySelector('.price-current')?.textContent.trim() || '';
-const discount=card.querySelector('.price-discount')?.textContent.trim() || '';
 const buyLink=card.querySelector('.buy')?.href || '#';
 
 imgModal.src=image?.src || '';
@@ -988,8 +927,6 @@ imgModal.alt=title;
 modalCategory.textContent=category;
 modalTitle.textContent=title;
 modalSummary.textContent=summary;
-modalPrice.textContent=price;
-modalDiscount.textContent=discount;
 modalBuy.href=buyLink;
 modal.style.display='flex';
 }
