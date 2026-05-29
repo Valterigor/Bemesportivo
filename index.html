@@ -8,17 +8,7 @@
 <title>Bem Esportivo | Notícias Esportivas</title>
 
 <link rel="icon" href="img/logobemoficial.png">
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757"
-     crossorigin="anonymous"></script>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-<script async
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
-crossorigin="anonymous">
-</script>
-
 <style>
 
 :root{
@@ -774,16 +764,41 @@ word-break:normal;
 }
 
 .match-score{
-min-width:88px;
-padding:12px 10px;
-border-radius:8px;
-background:#111;
-color:#fff;
-font-size:28px;
+min-width:96px;
+padding:8px;
+border-radius:999px;
+background:#f4f4f4;
+color:#111;
+font-size:13px;
 line-height:1;
 font-weight:800;
 text-align:center;
-box-shadow:0 10px 24px rgba(0,0,0,.16);
+border:1px solid #e7e7e7;
+box-shadow:inset 0 1px 0 #fff,0 8px 18px rgba(0,0,0,.08);
+display:inline-grid;
+grid-template-columns:1fr auto 1fr;
+align-items:center;
+gap:6px;
+justify-self:center;
+}
+
+.score-number{
+display:grid;
+place-items:center;
+min-width:30px;
+height:30px;
+border-radius:50%;
+background:#fff;
+font-size:16px;
+box-shadow:0 1px 0 rgba(0,0,0,.08);
+}
+
+.score-separator{
+color:#8b8b8b;
+font-size:10px;
+font-weight:900;
+letter-spacing:.08em;
+text-transform:uppercase;
 }
 
 .match-meta{
@@ -1244,7 +1259,7 @@ width:100%;
 }
 
 .match-teams{
-grid-template-columns:minmax(0,1fr) 76px minmax(0,1fr);
+grid-template-columns:minmax(0,1fr) 86px minmax(0,1fr);
 gap:8px;
 }
 
@@ -1263,9 +1278,15 @@ font-size:12px;
 }
 
 .match-score{
-min-width:76px;
-padding:10px 6px;
-font-size:22px;
+min-width:86px;
+padding:7px;
+font-size:12px;
+}
+
+.score-number{
+min-width:26px;
+height:26px;
+font-size:14px;
 }
 
 .standings-top{
@@ -1295,6 +1316,8 @@ min-width:160px;
 
 </style>
 
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
+     crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -1800,6 +1823,7 @@ return false;
 
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const GE_FOOTBALL_FEED_URL = 'https://ge.globo.com/futebol/';
+const DEFAULT_NEWS_IMAGES = ['img/corinthians x palmeiras.jpg', 'img/brasil-paraguai.jpg', 'img/kaiojorge.jpg'];
 
 const FALLBACK_MATCHES = [
   {
@@ -1856,14 +1880,14 @@ const FALLBACK_NEWS = [
     href: GE_FOOTBALL_FEED_URL,
     section: 'Futebol',
     metadata: 'Fonte oficial',
-    image: ''
+    image: DEFAULT_NEWS_IMAGES[0]
   },
   {
     title: 'Tabela e jogos do Brasileirão Série A',
     href: GE_BRASILEIRAO_URL,
     section: 'Brasileirão',
     metadata: 'Atualização externa indisponível',
-    image: ''
+    image: DEFAULT_NEWS_IMAGES[1]
   }
 ];
 
@@ -1982,6 +2006,25 @@ function getScoreText(match){
   return 'x';
 }
 
+function renderScore(match){
+  const homeScore = match.placar_oficial_mandante;
+  const awayScore = match.placar_oficial_visitante;
+
+  if(homeScore != null && awayScore != null){
+    return `
+      <span class="score-number">${homeScore}</span>
+      <span class="score-separator">-</span>
+      <span class="score-number">${awayScore}</span>
+    `;
+  }
+
+  return `
+    <span class="score-number">--</span>
+    <span class="score-separator">VS</span>
+    <span class="score-number">--</span>
+  `;
+}
+
 function extractListaJogos(html){
   return extractJsAssignment(html, 'listaJogos');
 }
@@ -2076,7 +2119,7 @@ async function loadBrasileiraoLive(){
     container.innerHTML = displayMatches.map(match => {
       const status = getMatchStatus(match);
       const statusClass = status.toLowerCase().replace(/\s+/g, '-');
-      const score = getScoreText(match);
+      const score = renderScore(match);
       const mandante = match.equipes.mandante;
       const visitante = match.equipes.visitante;
       const venue = match.sede?.nome_popular || '';
@@ -2096,7 +2139,7 @@ async function loadBrasileiraoLive(){
               <div class="team-logo"><img src="${mandante.escudo}" alt="${mandante.nome_popular}"></div>
               <div class="team-name">${mandante.nome_popular}</div>
             </div>
-            <div class="match-score">${score}</div>
+            <div class="match-score" aria-label="Placar">${score}</div>
             <div class="team team-away">
               <div class="team-name">${visitante.nome_popular}</div>
               <div class="team-logo"><img src="${visitante.escudo}" alt="${visitante.nome_popular}"></div>
@@ -2161,7 +2204,7 @@ function renderBrasileiraoMatches(lista, sourceLabel = ''){
   container.innerHTML = sourceHtml + displayMatches.map(match => {
     const status = getMatchStatus(match);
     const statusClass = status.toLowerCase().replace(/\s+/g, '-');
-    const score = getScoreText(match);
+    const score = renderScore(match);
     const mandante = match.equipes.mandante;
     const visitante = match.equipes.visitante;
     const venue = match.sede?.nome_popular || '';
@@ -2181,7 +2224,7 @@ function renderBrasileiraoMatches(lista, sourceLabel = ''){
             <div class="team-logo"><img src="${mandante.escudo}" alt="${mandante.nome_popular}"></div>
             <div class="team-name">${mandante.nome_popular}</div>
           </div>
-          <div class="match-score">${score}</div>
+          <div class="match-score" aria-label="Placar">${score}</div>
           <div class="team team-away">
             <div class="team-name">${visitante.nome_popular}</div>
             <div class="team-logo"><img src="${visitante.escudo}" alt="${visitante.nome_popular}"></div>
@@ -2294,12 +2337,35 @@ function escapeHtml(value){
 }
 
 function sanitizeUrl(url){
+  const value = String(url || '').trim();
+  if(/^(img|videos)\//.test(value) || value.startsWith('./') || value.startsWith('/')){
+    return value;
+  }
+
   try {
-    const parsedUrl = new URL(url);
+    const parsedUrl = new URL(value);
     return parsedUrl.protocol === 'https:' || parsedUrl.protocol === 'http:' ? parsedUrl.href : '#';
   } catch(error){
     return '#';
   }
+}
+
+function getImageFromElement(element){
+  const img = element?.querySelector?.('img');
+  if(!img){
+    return '';
+  }
+
+  return img.getAttribute('src') ||
+         img.getAttribute('data-src') ||
+         img.getAttribute('data-lazy') ||
+         img.getAttribute('data-original') ||
+         img.getAttribute('data-url') ||
+         '';
+}
+
+function getFallbackNewsImage(index){
+  return DEFAULT_NEWS_IMAGES[index % DEFAULT_NEWS_IMAGES.length];
 }
 
 function cleanText(value){
@@ -2532,10 +2598,14 @@ async function loadGeRss(){
     const doc = parser.parseFromString(htmlText, 'text/html');
 
     const allLinks = Array.from(doc.querySelectorAll('a'))
-      .map(link => ({
-        title: cleanText(link.textContent),
-        href: sanitizeUrl(link.href)
-      }))
+      .map(link => {
+        const card = link.closest('article, .feed-post, .feed-post-body, .bastian-feed-item, li, div');
+        return {
+          title: cleanText(link.textContent),
+          href: sanitizeUrl(link.href || link.getAttribute('href')),
+          image: sanitizeUrl(getImageFromElement(card) || getImageFromElement(link.parentElement))
+        };
+      })
       .filter(link => link.title.length > 25 && /ge\.globo\.com\/futebol\//.test(link.href));
 
     const uniqueLinks = [];
@@ -2547,7 +2617,8 @@ async function loadGeRss(){
         uniqueLinks.push({
           ...link,
           section: 'Futebol',
-          metadata: 'ge'
+          metadata: 'ge',
+          image: link.image && link.image !== '#' ? link.image : getFallbackNewsImage(uniqueLinks.length)
         });
       }
     }
@@ -2581,19 +2652,5 @@ closeNewsSummary();
 });
 
 </script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757"
-     crossorigin="anonymous"></script>
-<!-- ESPORTIVO -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-5270723987412757"
-     data-ad-slot="2678654321"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 </body>
 </html>
