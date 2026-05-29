@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta name="google-adsense-account" content="ca-pub-5105345296041597">
 <title>Produtos | Bem Esportivo</title>
 <meta name="description" content="Produtos esportivos mais vendidos para futebol, treino e performance.">
 <link rel="icon" href="img/logo-bem.png">
@@ -380,93 +382,157 @@ margin-bottom:35px;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:26px;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
 }
 
 .card{
-background:#fff;
-border-radius:24px;
+background:transparent;
+border-radius:0;
 overflow:hidden;
-box-shadow:0 14px 35px rgba(0,0,0,.06);
-transition:.35s;
 position:relative;
+box-shadow:none;
+transition:.25s;
 }
 
 .card:hover{
-transform:translateY(-8px);
+transform:translateY(-3px);
 }
 
 .card-media{
 position:relative;
-background:#f4f4f4;
+background:#f2f2f2;
+aspect-ratio:1/1;
+overflow:hidden;
 }
 
 .card-media img{
 width:100%;
-height:260px;
+height:100%;
 object-fit:contain;
-padding:18px;
+padding:28px;
 cursor:pointer;
+mix-blend-mode:multiply;
 }
 
 .tag{
 position:absolute;
-top:14px;
-left:14px;
-background:#000;
+left:0;
+bottom:-38px;
+background:transparent;
 color:var(--primary);
-padding:8px 12px;
-border-radius:20px;
-font-size:12px;
+padding:0;
+border-radius:0;
+font-size:14px;
 font-weight:800;
+z-index:2;
 }
 
 .favorite{
 position:absolute;
-right:14px;
-top:14px;
+right:18px;
+top:18px;
 background:#fff;
-width:42px;
-height:42px;
+width:44px;
+height:44px;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-box-shadow:0 5px 15px rgba(0,0,0,.12);
+box-shadow:0 8px 22px rgba(0,0,0,.08);
+font-size:28px;
+line-height:1;
+color:#111;
 }
 
 .card-body{
-padding:22px;
+padding:16px 0 0;
 }
 
 .rating{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:22px;
+line-height:1;
+margin-top:12px;
+color:#000;
+letter-spacing:1px;
+}
+
+.rating-score{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:34px;
+height:26px;
+border:1px solid #cfcfcf;
+border-radius:3px;
+padding:0 6px;
 font-size:14px;
-margin-bottom:10px;
+letter-spacing:0;
+color:#6f6f6f;
+background:#fff;
 }
 
 .card h3{
-font-size:24px;
-margin-bottom:10px;
+font-size:17px;
+line-height:1.25;
+margin:0 0 6px;
+font-weight:800;
 }
 
 .card p{
-color:#666;
-line-height:1.6;
+color:#767676;
+line-height:1.35;
+font-size:18px;
+margin-bottom:16px;
+}
+
+.price-row{
+display:flex;
+align-items:baseline;
+gap:8px;
+flex-wrap:wrap;
+margin-bottom:12px;
+font-size:16px;
+}
+
+.price-current{
+font-weight:900;
+color:#111;
+}
+
+.price-old{
+color:#8a8a8a;
+text-decoration:line-through;
+}
+
+.price-discount,
+.coupon{
+font-weight:900;
+color:#0a8a3a;
+}
+
+.coupon{
+font-size:16px;
+margin-top:14px;
 }
 
 .card-actions{
-margin-top:18px;
+margin-top:16px;
 display:flex;
 gap:10px;
+align-items:center;
 }
 
 .btn{
 flex:1;
 text-align:center;
-padding:12px 18px;
-border-radius:30px;
+padding:12px 14px;
+border-radius:6px;
 font-weight:800;
+font-size:14px;
 }
 
 .buy{
@@ -493,15 +559,79 @@ font-weight:700;
 display:none;
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.88);
+background:rgba(0,0,0,.78);
 z-index:9999;
+align-items:center;
+justify-content:center;
+padding:22px;
+}
+
+.modal-content{
+width:min(920px,100%);
+max-height:88vh;
+overflow:auto;
+background:#fff;
+border-radius:12px;
+display:grid;
+grid-template-columns:minmax(0,1fr) minmax(280px,.9fr);
+gap:24px;
+padding:22px;
+box-shadow:0 28px 80px rgba(0,0,0,.35);
+}
+
+.modal-media{
+background:#f2f2f2;
+border-radius:8px;
+display:grid;
+place-items:center;
+min-height:360px;
 }
 
 .modal img{
-max-width:85%;
-max-height:82vh;
-margin:6vh auto;
-border-radius:18px;
+width:100%;
+max-height:420px;
+object-fit:contain;
+padding:24px;
+mix-blend-mode:multiply;
+border-radius:0;
+margin:0;
+}
+
+.modal-info{
+display:flex;
+flex-direction:column;
+gap:14px;
+justify-content:center;
+}
+
+.modal-info small{
+color:var(--primary);
+font-weight:900;
+text-transform:uppercase;
+}
+
+.modal-info h3{
+font-size:28px;
+line-height:1.15;
+}
+
+.modal-info p{
+color:#555;
+line-height:1.65;
+font-size:16px;
+}
+
+.modal-meta{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+font-weight:900;
+}
+
+.modal-meta span{
+background:#f4f4f4;
+border-radius:999px;
+padding:8px 12px;
 }
 
 .fechar{
@@ -573,11 +703,25 @@ font-size:18px;
 }
 
 .card-media img{
-height:220px;
+height:100%;
+padding:22px;
 }
 
 .section-title{
 font-size:30px;
+}
+
+.modal-content{
+grid-template-columns:1fr;
+padding:16px;
+}
+
+.modal-media{
+min-height:260px;
+}
+
+.modal-info h3{
+font-size:24px;
 }
 }
 </style>
@@ -639,70 +783,94 @@ font-size:30px;
 
 <div class="grid" id="productsGrid">
 
-<div class="card product" data-category="futebol">
+<div class="card product" data-category="futebol" data-summary="Chuteira society com solado baixo e travas pequenas, indicada para grama sintética. Pela foto, o cabedal parece leve e fácil de limpar, com perfil esportivo para quem busca tração, estabilidade e resposta rápida em partidas casuais ou treinos.">
 <div class="card-media">
 <span class="tag">Mais vendido</span>
 <div class="favorite">♡</div>
-<img src="img/chuteira.jpg">
+<img src="img/chuteira.jpg" alt="Chuteira Society">
 </div>
 <div class="card-body">
-<div class="rating">★★★★★ (4.9)</div>
 <h3>Chuteira Society</h3>
-<p>Leveza, tração e conforto para alta performance.</p>
+<p>Futebol</p>
+<div class="price-row">
+<span class="price-current">R$ 129,90 no Pix</span>
+<span class="price-old">R$ 159,90</span>
+<span class="price-discount">19% off</span>
+</div>
+<div class="rating">★★★★☆ <span class="rating-score">4.9</span></div>
+<div class="coupon">Cupom BEMESPORTIVO</div>
 <div class="card-actions">
 <a href="https://mercadolivre.com/sec/1fEaBox" class="btn buy" target="_blank">Comprar</a>
-<a href="#" class="btn details">Detalhes</a>
+<button type="button" class="btn details">Detalhes</button>
 </div>
 </div>
 </div>
 
-<div class="card product" data-category="futebol">
+<div class="card product" data-category="futebol" data-summary="Bola de futebol com acabamento costurado e visual clássico de jogo. Pela imagem, é uma opção versátil para treinos, partidas recreativas e uso frequente, com foco em controle, durabilidade e boa visibilidade em campo.">
 <div class="card-media">
 <span class="tag">Profissional</span>
 <div class="favorite">♡</div>
-<img src="img/produto2.jpg">
+<img src="img/produto2.jpg" alt="Bola Profissional">
 </div>
 <div class="card-body">
-<div class="rating">★★★★★ (4.8)</div>
 <h3>Bola Profissional</h3>
-<p>Durabilidade e controle para partidas intensas.</p>
+<p>Futebol</p>
+<div class="price-row">
+<span class="price-current">R$ 89,90 no Pix</span>
+<span class="price-old">R$ 119,90</span>
+<span class="price-discount">25% off</span>
+</div>
+<div class="rating">★★★★☆ <span class="rating-score">4.8</span></div>
+<div class="coupon">Cupom BEMESPORTIVO</div>
 <div class="card-actions">
 <a href="https://mercadolivre.com/sec/33DoDKw" class="btn buy" target="_blank">Comprar</a>
-<a href="#" class="btn details">Detalhes</a>
+<button type="button" class="btn details">Detalhes</button>
 </div>
 </div>
 </div>
 
-<div class="card product" data-category="treino">
+<div class="card product" data-category="treino" data-summary="Tênis de corrida com perfil de amortecimento e cabedal respirável. Pela foto, o design favorece conforto em caminhada, academia e corridas leves, com entressola mais alta para absorção de impacto e uso diário.">
 <div class="card-media">
 <span class="tag">Performance</span>
 <div class="favorite">♡</div>
-<img src="img/tenis.jpg">
+<img src="img/tenis.jpg" alt="Tênis Running">
 </div>
 <div class="card-body">
-<div class="rating">★★★★★ (4.9)</div>
 <h3>Tênis Running</h3>
-<p>Conforto, resposta e amortecimento.</p>
+<p>Corrida</p>
+<div class="price-row">
+<span class="price-current">R$ 299,90 no Pix</span>
+<span class="price-old">R$ 399,90</span>
+<span class="price-discount">25% off</span>
+</div>
+<div class="rating">★★★★☆ <span class="rating-score">4.9</span></div>
+<div class="coupon">Cupom BEMESPORTIVO</div>
 <div class="card-actions">
 <a href="https://mercadolivre.com/sec/27t6Xk1" class="btn buy" target="_blank">Comprar</a>
-<a href="#" class="btn details">Detalhes</a>
+<button type="button" class="btn details">Detalhes</button>
 </div>
 </div>
 </div>
 
-<div class="card product" data-category="treino">
+<div class="card product" data-category="treino" data-summary="Smartband compacta para acompanhar métricas básicas de treino e rotina. Pela foto, é um acessório leve para usar no pulso durante exercícios, ideal para monitorar evolução, atividade diária e recuperação com praticidade.">
 <div class="card-media">
 <span class="tag">Smart</span>
 <div class="favorite">♡</div>
-<img src="img/smartband.jpg">
+<img src="img/smartband.jpg" alt="Smartband">
 </div>
 <div class="card-body">
-<div class="rating">★★★★☆ (4.7)</div>
 <h3>Smartband</h3>
-<p>Monitore evolução e recuperação.</p>
+<p>Treino</p>
+<div class="price-row">
+<span class="price-current">R$ 79,90 no Pix</span>
+<span class="price-old">R$ 109,90</span>
+<span class="price-discount">27% off</span>
+</div>
+<div class="rating">★★★★☆ <span class="rating-score">4.7</span></div>
+<div class="coupon">Cupom BEMESPORTIVO</div>
 <div class="card-actions">
 <a href="https://mercadolivre.com/sec/16G6sNL" class="btn buy" target="_blank">Comprar</a>
-<a href="#" class="btn details">Detalhes</a>
+<button type="button" class="btn details">Detalhes</button>
 </div>
 </div>
 </div>
@@ -723,16 +891,32 @@ font-size:30px;
 
 <div id="modal" class="modal">
 <span class="fechar">×</span>
-<img id="imgModal">
+<div class="modal-content">
+<div class="modal-media">
+<img id="imgModal" alt="">
+</div>
+<div class="modal-info">
+<small id="modalCategory"></small>
+<h3 id="modalTitle"></h3>
+<p id="modalSummary"></p>
+<div class="modal-meta">
+<span id="modalPrice"></span>
+<span id="modalDiscount"></span>
+</div>
+<a id="modalBuy" href="#" class="btn buy" target="_blank" rel="noopener noreferrer">Comprar produto</a>
+</div>
+</div>
 </div>
 
 <script>
-const toggle=document.getElementById('menuToggle');
+const toggle=document.getElementById('menu-toggle');
 const nav=document.getElementById('nav');
 
+if(toggle && nav){
 toggle.addEventListener('click',()=>{
 nav.classList.toggle('active');
 });
+}
 /* Destacar página ativa no menu */
 function setActiveNavLink() {
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
@@ -770,23 +954,56 @@ card.classList.add('hidden');
 });
 
 const search=document.getElementById('searchInput');
+if(search){
 search.addEventListener('keyup',function(){
 let term=this.value.toLowerCase();
 
 cards.forEach(card=>{
 let text=card.innerText.toLowerCase();
-card.style.display=text.includes(term)?'block':'none';
+card.style.display=text.includes(term)?'':'none';
 })
 })
+}
 
 const modal=document.getElementById('modal');
 const imgModal=document.getElementById('imgModal');
+const modalCategory=document.getElementById('modalCategory');
+const modalTitle=document.getElementById('modalTitle');
+const modalSummary=document.getElementById('modalSummary');
+const modalPrice=document.getElementById('modalPrice');
+const modalDiscount=document.getElementById('modalDiscount');
+const modalBuy=document.getElementById('modalBuy');
+
+function openProductDetails(card){
+const image=card.querySelector('.card-media img');
+const title=card.querySelector('h3')?.textContent.trim() || 'Produto';
+const category=card.querySelector('.card-body p')?.textContent.trim() || 'Produto esportivo';
+const summary=card.dataset.summary || 'Produto selecionado pela curadoria do Bem Esportivo.';
+const price=card.querySelector('.price-current')?.textContent.trim() || '';
+const discount=card.querySelector('.price-discount')?.textContent.trim() || '';
+const buyLink=card.querySelector('.buy')?.href || '#';
+
+imgModal.src=image?.src || '';
+imgModal.alt=title;
+modalCategory.textContent=category;
+modalTitle.textContent=title;
+modalSummary.textContent=summary;
+modalPrice.textContent=price;
+modalDiscount.textContent=discount;
+modalBuy.href=buyLink;
+modal.style.display='flex';
+}
 
 document.querySelectorAll('.card img').forEach(img=>{
 img.onclick=()=>{
-modal.style.display='block';
-imgModal.src=img.src;
+openProductDetails(img.closest('.product'));
 }
+});
+
+document.querySelectorAll('.details').forEach(button=>{
+button.addEventListener('click',()=>{
+openProductDetails(button.closest('.product'));
+});
 });
 
 document.querySelector('.fechar').onclick=()=>{
