@@ -1539,9 +1539,11 @@ Ainda existe paixão ou virou negócio?
 const toggle = document.getElementById('menu-toggle');
 const nav = document.getElementById('nav');
 
-toggle.addEventListener('click', () => {
-nav.classList.toggle('active');
-});
+if(toggle && nav){
+  toggle.addEventListener('click', () => {
+    nav.classList.toggle('active');
+  });
+}
 
 /* Destacar página ativa no menu */
 function setActiveNavLink() {
@@ -1566,6 +1568,7 @@ const searchInput = document.getElementById('searchInput');
 const searchable = document.querySelectorAll('.searchable');
 const searchResults = document.getElementById('searchResults');
 
+if(searchInput && searchResults){
 searchInput.addEventListener('keyup', function(){
 
 const term = this.value.toLowerCase().trim();
@@ -1616,6 +1619,7 @@ term +
 }
 
 });
+}
 
 /* BOTÃO TOPO */
 
@@ -1623,14 +1627,17 @@ const topBtn = document.getElementById('topBtn');
 
 window.addEventListener('scroll', () => {
 
-if(window.scrollY > 500){
-topBtn.style.display = 'block';
-}else{
-topBtn.style.display = 'none';
+if(topBtn){
+  if(window.scrollY > 500){
+  topBtn.style.display = 'block';
+  }else{
+  topBtn.style.display = 'none';
+  }
 }
 
 });
 
+if(topBtn){
 topBtn.addEventListener('click', () => {
 
 window.scrollTo({
@@ -1639,6 +1646,7 @@ behavior:'smooth'
 });
 
 });
+}
 
 /* DEBATE */
 
@@ -1790,6 +1798,158 @@ return false;
 
 }
 
+const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
+const GE_FOOTBALL_FEED_URL = 'https://ge.globo.com/futebol/';
+
+const FALLBACK_MATCHES = [
+  {
+    data_realizacao: '2026-05-30T16:00:00-03:00',
+    hora_realizacao: '16:00',
+    placar_oficial_mandante: null,
+    placar_oficial_visitante: null,
+    jogo_ja_comecou: false,
+    transmissao: { label: 'Agendado', broadcast: { id: 'AGENDADO' }, url: GE_BRASILEIRAO_URL },
+    sede: { nome_popular: 'A definir' },
+    equipes: {
+      mandante: { nome_popular: 'Flamengo', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2018/04/09/flamengo.svg' },
+      visitante: { nome_popular: 'Palmeiras', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2018/04/09/palmeiras.svg' }
+    }
+  },
+  {
+    data_realizacao: '2026-05-30T18:30:00-03:00',
+    hora_realizacao: '18:30',
+    placar_oficial_mandante: null,
+    placar_oficial_visitante: null,
+    jogo_ja_comecou: false,
+    transmissao: { label: 'Agendado', broadcast: { id: 'AGENDADO' }, url: GE_BRASILEIRAO_URL },
+    sede: { nome_popular: 'A definir' },
+    equipes: {
+      mandante: { nome_popular: 'Cruzeiro', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2018/04/09/cruzeiro.svg' },
+      visitante: { nome_popular: 'Botafogo', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2019/02/04/botafogo-svg.svg' }
+    }
+  },
+  {
+    data_realizacao: '2026-05-31T16:00:00-03:00',
+    hora_realizacao: '16:00',
+    placar_oficial_mandante: null,
+    placar_oficial_visitante: null,
+    jogo_ja_comecou: false,
+    transmissao: { label: 'Agendado', broadcast: { id: 'AGENDADO' }, url: GE_BRASILEIRAO_URL },
+    sede: { nome_popular: 'A definir' },
+    equipes: {
+      mandante: { nome_popular: 'Santos', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2018/04/09/santos.svg' },
+      visitante: { nome_popular: 'Internacional', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2018/04/09/internacional.svg' }
+    }
+  }
+];
+
+const FALLBACK_STANDINGS = [
+  { ordem: 1, nome_popular: 'Flamengo', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2018/04/09/flamengo.svg', pontos: '-', jogos: '-', vitorias: '-', empates: '-', derrotas: '-', gols_pro: '-', gols_contra: '-', saldo_gols: '-', aproveitamento: '-', ultimos_jogos: [] },
+  { ordem: 2, nome_popular: 'Palmeiras', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2018/04/09/palmeiras.svg', pontos: '-', jogos: '-', vitorias: '-', empates: '-', derrotas: '-', gols_pro: '-', gols_contra: '-', saldo_gols: '-', aproveitamento: '-', ultimos_jogos: [] },
+  { ordem: 3, nome_popular: 'Cruzeiro', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2018/04/09/cruzeiro.svg', pontos: '-', jogos: '-', vitorias: '-', empates: '-', derrotas: '-', gols_pro: '-', gols_contra: '-', saldo_gols: '-', aproveitamento: '-', ultimos_jogos: [] },
+  { ordem: 4, nome_popular: 'Botafogo', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2019/02/04/botafogo-svg.svg', pontos: '-', jogos: '-', vitorias: '-', empates: '-', derrotas: '-', gols_pro: '-', gols_contra: '-', saldo_gols: '-', aproveitamento: '-', ultimos_jogos: [] }
+];
+
+const FALLBACK_NEWS = [
+  {
+    title: 'Últimas notícias de futebol no ge',
+    href: GE_FOOTBALL_FEED_URL,
+    section: 'Futebol',
+    metadata: 'Fonte oficial',
+    image: ''
+  },
+  {
+    title: 'Tabela e jogos do Brasileirão Série A',
+    href: GE_BRASILEIRAO_URL,
+    section: 'Brasileirão',
+    metadata: 'Atualização externa indisponível',
+    image: ''
+  }
+];
+
+const CORS_PROXY_BUILDERS = [
+  url => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(url),
+  url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+  url => 'https://corsproxy.io/?' + encodeURIComponent(url)
+];
+
+async function fetchExternalText(url){
+  let lastError;
+
+  for(const buildProxyUrl of CORS_PROXY_BUILDERS){
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4500);
+
+    try {
+      const response = await fetch(buildProxyUrl(url), { signal: controller.signal });
+      if(!response.ok){
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const text = await response.text();
+      if(text.trim()){
+        return text;
+      }
+    } catch(error){
+      lastError = error;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
+  throw lastError || new Error('Fonte externa indisponível.');
+}
+
+function extractJsAssignment(html, variableName){
+  const marker = new RegExp(`(?:const|let|var)\\s+${variableName}\\s*=\\s*`);
+  const match = marker.exec(html);
+  if(!match){
+    return null;
+  }
+
+  const start = match.index + match[0].length;
+  const firstChar = html[start];
+  const closingChar = firstChar === '[' ? ']' : firstChar === '{' ? '}' : '';
+  if(!closingChar){
+    return null;
+  }
+
+  let depth = 0;
+  let inString = '';
+  let escaped = false;
+
+  for(let index = start; index < html.length; index++){
+    const char = html[index];
+
+    if(inString){
+      if(escaped){
+        escaped = false;
+      } else if(char === '\\'){
+        escaped = true;
+      } else if(char === inString){
+        inString = '';
+      }
+      continue;
+    }
+
+    if(char === '"' || char === "'" || char === '`'){
+      inString = char;
+      continue;
+    }
+
+    if(char === firstChar){
+      depth++;
+    } else if(char === closingChar){
+      depth--;
+      if(depth === 0){
+        return html.slice(start, index + 1);
+      }
+    }
+  }
+
+  return null;
+}
+
 function formatMatchDate(raw){
   const date = new Date(raw);
   if(Number.isNaN(date.getTime())) return raw;
@@ -1819,25 +1979,15 @@ function getScoreText(match){
   if(match.placar_oficial_mandante != null && match.placar_oficial_visitante != null){
     return `${match.placar_oficial_mandante} x ${match.placar_oficial_visitante}`;
   }
-  return '0 x 0';
+  return 'x';
 }
 
 function extractListaJogos(html){
-  const regex = /const\s+listaJogos\s*=\s*(\[[\s\S]*?\])\s*;/;
-  const match = html.match(regex);
-  if(!match){
-    return null;
-  }
-  return match[1];
+  return extractJsAssignment(html, 'listaJogos');
 }
 
 function extractClassificacao(html){
-  const regex = /const\s+classificacao\s*=\s*(\{[\s\S]*?\})\s*;/;
-  const match = html.match(regex);
-  if(!match){
-    return null;
-  }
-  return match[1];
+  return extractJsAssignment(html, 'classificacao');
 }
 
 function isSameDay(dateA, dateB){
@@ -1857,11 +2007,11 @@ function renderFormDots(results){
   }).join('');
 }
 
-function renderBrasileiraoStandings(rawJson){
+function renderBrasileiraoStandings(data, sourceLabel = 'Atualizado automaticamente'){
   const body = document.getElementById('serieAStandings');
   const updated = document.getElementById('serieAStandingsUpdated');
-  const data = JSON.parse(rawJson);
-  const teams = data.classificacao || [];
+  const tableData = typeof data === 'string' ? JSON.parse(data) : data;
+  const teams = Array.isArray(tableData) ? tableData : tableData.classificacao || [];
 
   if(teams.length === 0){
     throw new Error('Classificação vazia.');
@@ -1894,7 +2044,7 @@ function renderBrasileiraoStandings(rawJson){
     </tr>
   `).join('');
 
-  updated.textContent = 'Atualizado automaticamente: ' + new Date().toLocaleTimeString('pt-BR', {
+  updated.textContent = sourceLabel + ': ' + new Date().toLocaleTimeString('pt-BR', {
     hour:'2-digit',
     minute:'2-digit'
   });
@@ -1988,6 +2138,94 @@ async function loadBrasileiraoStandings(){
   } catch(error){
     body.innerHTML = '<tr><td colspan="13">Não foi possível carregar a classificação. Tente novamente mais tarde.</td></tr>';
     updated.textContent = 'Tabela indisponível no momento';
+    console.error('Erro ao carregar classificação:', error);
+  }
+}
+
+function renderBrasileiraoMatches(lista, sourceLabel = ''){
+  const container = document.getElementById('serieAMatches');
+
+  if(!Array.isArray(lista) || lista.length === 0){
+    throw new Error('Lista de jogos vazia.');
+  }
+
+  const now = new Date();
+  const todayMatches = lista.filter(match => {
+    const date = new Date(match.data_realizacao);
+    return isSameDay(date, now);
+  });
+  const liveMatches = todayMatches.filter(match => getMatchStatus(match) === 'AO VIVO' || getMatchStatus(match) === 'EM JOGO');
+  const displayMatches = liveMatches.length ? liveMatches : todayMatches.length ? todayMatches : lista.slice(0, 6);
+  const sourceHtml = sourceLabel ? `<div class="rss-error">${sourceLabel}</div>` : '';
+
+  container.innerHTML = sourceHtml + displayMatches.map(match => {
+    const status = getMatchStatus(match);
+    const statusClass = status.toLowerCase().replace(/\s+/g, '-');
+    const score = getScoreText(match);
+    const mandante = match.equipes.mandante;
+    const visitante = match.equipes.visitante;
+    const venue = match.sede?.nome_popular || '';
+    const link = match.transmissao?.url || GE_BRASILEIRAO_URL;
+
+    return `
+      <div class="match-card">
+        <div class="match-header">
+          <div class="match-status ${statusClass}">${status}</div>
+          <div class="match-meta">
+            <span>${formatMatchDate(match.data_realizacao)}</span>
+            <span>${match.hora_realizacao || 'Horário a definir'}</span>
+          </div>
+        </div>
+        <div class="match-teams">
+          <div class="team team-home">
+            <div class="team-logo"><img src="${mandante.escudo}" alt="${mandante.nome_popular}"></div>
+            <div class="team-name">${mandante.nome_popular}</div>
+          </div>
+          <div class="match-score">${score}</div>
+          <div class="team team-away">
+            <div class="team-name">${visitante.nome_popular}</div>
+            <div class="team-logo"><img src="${visitante.escudo}" alt="${visitante.nome_popular}"></div>
+          </div>
+        </div>
+        <div class="match-meta match-footer">
+          <span>${venue || 'Local a definir'}</span>
+          <a href="${link}" target="_blank" rel="noopener noreferrer" class="match-link">Ver no GE</a>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function loadBrasileiraoLive(){
+  renderBrasileiraoMatches(FALLBACK_MATCHES, 'Buscando atualização ao vivo. Enquanto isso, veja os links oficiais da rodada.');
+
+  try {
+    const html = await fetchExternalText(GE_BRASILEIRAO_URL);
+    const rawJson = extractListaJogos(html);
+    if(!rawJson){
+      throw new Error('Dados de jogos não encontrados.');
+    }
+
+    renderBrasileiraoMatches(JSON.parse(rawJson));
+  } catch(error){
+    renderBrasileiraoMatches(FALLBACK_MATCHES, 'Atualização ao vivo indisponível agora. Acesse o GE pelo botão para conferir a rodada oficial.');
+    console.error('Erro ao carregar Brasileirão:', error);
+  }
+}
+
+async function loadBrasileiraoStandings(){
+  renderBrasileiraoStandings(FALLBACK_STANDINGS, 'Buscando tabela ao vivo');
+
+  try {
+    const html = await fetchExternalText(GE_BRASILEIRAO_URL);
+    const rawJson = extractClassificacao(html);
+    if(!rawJson){
+      throw new Error('Dados de classificação não encontrados.');
+    }
+
+    renderBrasileiraoStandings(rawJson);
+  } catch(error){
+    renderBrasileiraoStandings(FALLBACK_STANDINGS, 'Tabela ao vivo indisponível');
     console.error('Erro ao carregar classificação:', error);
   }
 }
@@ -2250,6 +2488,78 @@ async function loadGeRss(){
   } catch(error){
     console.error(error);
     rssContainer.innerHTML = '<div class="rss-error">Não foi possível carregar as notícias do Globo Esporte. Verifique a conexão ou tente novamente mais tarde.</div>';
+  }
+}
+
+function renderNewsCards(newsItems, sourceLabel = ''){
+  const rssContainer = document.getElementById('rssNews');
+  geNewsSummaries = newsItems.map(news => ({
+    title: escapeHtml(news.title),
+    href: sanitizeUrl(news.href),
+    section: escapeHtml(news.section),
+    metadata: escapeHtml(news.metadata),
+    image: sanitizeUrl(news.image || '')
+  }));
+
+  const sourceHtml = sourceLabel ? `<div class="rss-error">${sourceLabel}</div>` : '';
+  rssContainer.innerHTML = sourceHtml + geNewsSummaries.map((news) => {
+    const imageHtml = news.image && news.image !== '#' ? `<img src="${news.image}" alt="${news.title}" class="rss-image">` : '';
+    return `
+      <article class="card rss-card">
+        ${imageHtml}
+        <div class="rss-body">
+          <div>
+            <h3>${news.title}</h3>
+            ${news.section ? `<p class="rss-section">${news.section}</p>` : ''}
+          </div>
+          <div>
+            ${news.metadata ? `<small>${news.metadata}</small>` : ''}
+            <a href="${news.href}" target="_blank" rel="noopener noreferrer" class="btn">Ler notícia</a>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+async function loadGeRss(){
+  const rssContainer = document.getElementById('rssNews');
+  renderNewsCards(FALLBACK_NEWS, 'Buscando notícias atualizadas. Enquanto isso, os links oficiais continuam disponíveis.');
+
+  try {
+    const htmlText = await fetchExternalText(GE_FOOTBALL_FEED_URL);
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlText, 'text/html');
+
+    const allLinks = Array.from(doc.querySelectorAll('a'))
+      .map(link => ({
+        title: cleanText(link.textContent),
+        href: sanitizeUrl(link.href)
+      }))
+      .filter(link => link.title.length > 25 && /ge\.globo\.com\/futebol\//.test(link.href));
+
+    const uniqueLinks = [];
+    const seen = new Set();
+
+    for(const link of allLinks){
+      if(!seen.has(link.href)){
+        seen.add(link.href);
+        uniqueLinks.push({
+          ...link,
+          section: 'Futebol',
+          metadata: 'ge'
+        });
+      }
+    }
+
+    if(uniqueLinks.length === 0){
+      throw new Error('Nenhuma notícia encontrada na página do GE.');
+    }
+
+    renderNewsCards(uniqueLinks.slice(0, 5));
+  } catch(error){
+    renderNewsCards(FALLBACK_NEWS, 'Atualização automática indisponível agora. Os links oficiais continuam disponíveis.');
+    console.error('Erro ao carregar notícias:', error);
   }
 }
 
