@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 
@@ -1334,6 +1334,7 @@ min-width:160px;
 <a href="index.html">Início</a>
 <a href="profissionais.html">Profissionais</a>
 <a href="produtos.html">Produtos</a>
+<a href="escalacao.html">Escalação</a>
 <a href="beplay.html">Beplay</a>
 <a href="coluna-valtinho.html">Fala aí Valtinho</a>
 </nav>
@@ -1354,7 +1355,7 @@ min-width:160px;
 <section class="banner-top">
 <div class="banner-content">
 <h1>Bem Esportivo</h1>
-<p>Seu portal de informações sobre futebol em tempo real</p>
+<p>Seu portal de notícias sobre esportes</p>
 </div>
 </section>
 
@@ -1825,7 +1826,7 @@ return false;
 
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const GE_FOOTBALL_FEED_URL = 'https://ge.globo.com/futebol/';
-const DEFAULT_NEWS_IMAGES = ['img/corinthians x palmeiras.jpg', 'img/brasil-paraguai.jpg', 'img/kaiojorge.jpg'];
+const DEFAULT_NEWS_IMAGES = ['img/noticia-padrao.png'];
 
 const FALLBACK_MATCHES = [
   {
@@ -1889,7 +1890,7 @@ const FALLBACK_NEWS = [
     href: GE_BRASILEIRAO_URL,
     section: 'Brasileirão',
     metadata: 'Atualização externa indisponível',
-    image: DEFAULT_NEWS_IMAGES[1]
+    image: DEFAULT_NEWS_IMAGES[0]
   }
 ];
 
@@ -2519,19 +2520,12 @@ async function loadGeRss(){
       const rawSection = item?.querySelector('.feed-post-header-chapeu')?.textContent.trim() || '';
       const rawMetadata = item?.querySelector('.feed-post-metadata')?.textContent.replace(/\s+/g, ' ').trim() || '';
       
-      // Extrair imagem da notícia
-      let imageUrl = '';
-      const img = item?.querySelector('img');
-      if(img && img.src) {
-        imageUrl = img.src;
-      }
-
       return {
         title: escapeHtml(rawTitle),
         href,
         section: escapeHtml(rawSection),
         metadata: escapeHtml(rawMetadata),
-        image: imageUrl
+        image: getFallbackNewsImage()
       };
     }));
 
@@ -2566,7 +2560,7 @@ function renderNewsCards(newsItems, sourceLabel = ''){
     href: sanitizeUrl(news.href),
     section: escapeHtml(news.section),
     metadata: escapeHtml(news.metadata),
-    image: sanitizeUrl(news.image || '')
+    image: getFallbackNewsImage()
   }));
 
   const sourceHtml = sourceLabel ? `<div class="rss-error">${sourceLabel}</div>` : '';
@@ -2620,7 +2614,7 @@ async function loadGeRss(){
           ...link,
           section: 'Futebol',
           metadata: 'ge',
-          image: link.image && link.image !== '#' ? link.image : getFallbackNewsImage(uniqueLinks.length)
+          image: getFallbackNewsImage()
         });
       }
     }
