@@ -363,65 +363,63 @@ background:rgba(252,110,2,.24);
 }
 
 .lineup-card{
-width:112px;
-min-height:132px;
-border-radius:14px;
-background:linear-gradient(160deg,#f7d67a,#b78625 45%,#f3cd73);
-border:1px solid rgba(255,255,255,.55);
-box-shadow:0 16px 28px rgba(0,0,0,.34),inset 0 0 0 1px rgba(255,255,255,.42);
-padding:8px;
-display:flex;
-flex-direction:column;
-justify-content:space-between;
+width:120px;
+min-height:112px;
+background:transparent;
+box-shadow:none;
+padding:0;
+display:grid;
+justify-items:center;
+align-content:start;
+gap:7px;
 text-align:center;
 cursor:grab;
-color:#1f1608;
+color:#0d2762;
 position:relative;
 }
 
-.lineup-card::before{
-content:"";
-position:absolute;
-inset:7px;
-border:1px solid rgba(93,54,6,.26);
-border-radius:11px;
-pointer-events:none;
-}
-
 .lineup-rating{
-display:flex;
-justify-content:space-between;
-align-items:center;
-font-size:16px;
-font-weight:900;
+display:none;
 }
 
 .lineup-avatar{
-width:48px;
-height:48px;
+width:62px;
+height:62px;
 border-radius:50%;
-background:linear-gradient(145deg,#111,#333);
+background:linear-gradient(145deg,#20242c,#404653);
 color:#fff;
 display:grid;
 place-items:center;
-margin:0 auto 5px;
 font-weight:900;
 font-size:15px;
-border:2px solid rgba(255,255,255,.72);
+border:3px solid #f6a800;
+box-shadow:0 12px 22px rgba(0,0,0,.35);
+overflow:hidden;
+}
+
+.lineup-avatar img,
+.player-avatar img{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
 .lineup-name{
-font-size:12px;
+min-width:96px;
+max-width:132px;
+background:#fff;
+border:1px solid rgba(11,36,84,.08);
+box-shadow:0 8px 16px rgba(0,0,0,.20);
+padding:6px 8px;
+font-size:10px;
 font-weight:900;
 line-height:1.08;
 text-transform:uppercase;
+color:#102e67;
 }
 
 .lineup-club{
-font-size:10px;
-font-weight:800;
-opacity:.78;
-margin-top:4px;
+display:none;
 }
 
 .remove-player{
@@ -527,6 +525,8 @@ display:grid;
 place-items:center;
 font-weight:900;
 font-size:13px;
+overflow:hidden;
+border:2px solid #f6a800;
 }
 
 .player-name{
@@ -859,11 +859,10 @@ width:68px;
 min-height:82px;
 }
 .slot-target{width:56px;height:56px;border-radius:13px;font-size:9px}
-.lineup-card{width:64px;min-height:80px;border-radius:11px;padding:5px}
-.lineup-card::before{inset:4px;border-radius:8px}
+.lineup-card{width:76px;min-height:82px;gap:4px}
 .remove-player{width:20px;height:20px;top:-7px;right:-7px;font-size:12px}
-.lineup-avatar{width:27px;height:27px;font-size:9px;margin-bottom:3px}
-.lineup-name{font-size:7.6px;line-height:1.05}
+.lineup-avatar{width:38px;height:38px;font-size:9px;border-width:2px}
+.lineup-name{min-width:64px;max-width:82px;padding:4px 5px;font-size:7.2px;line-height:1.05}
 .lineup-club{display:none}
 .lineup-rating{font-size:9px}
 .player-list{max-height:none}
@@ -879,16 +878,16 @@ min-height:82px;
 
 <header class="menu">
 <div class="menu-content">
-<a href="index.html" class="logo">
+<a class='logo' href='/'>
 <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
 </a>
 <nav id="nav">
-<a href="index.html">Início</a>
-<a href="profissionais.html">Profissionais</a>
-<a href="produtos.html">Produtos</a>
-<a href="escalacao.html" class="active">Escalação</a>
-<a href="beplay.html">Beplay</a>
-<a href="coluna-valtinho.html">Fala aí Valtinho</a>
+<a href='/'>Início</a>
+<a href='/profissionais'>Profissionais</a>
+<a href='/produtos'>Produtos</a>
+<a class='active' href='/escalacao'>Escalação</a>
+<a href='/beplay'>Beplay</a>
+<a href='/coluna-valtinho'>Fala aí Valtinho</a>
 </nav>
 <a href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer" class="btn-contato">Fale Conosco</a>
 <button id="menu-toggle" class="menu-btn" aria-label="Abrir menu">
@@ -984,32 +983,32 @@ min-height:82px;
 
 <script>
 const players = [
-{id:'alisson',name:'Alisson',club:'Liverpool',pos:'GOL',group:'Goleiros'},
-{id:'ederson',name:'Ederson',club:'Fenerbahçe',pos:'GOL',group:'Goleiros'},
-{id:'weverton',name:'Weverton',club:'Grêmio',pos:'GOL',group:'Goleiros'},
-{id:'alex-sandro',name:'Alex Sandro',club:'Flamengo',pos:'DEF',group:'Defensores'},
-{id:'bremer',name:'Bremer',club:'Juventus',pos:'DEF',group:'Defensores'},
-{id:'danilo',name:'Danilo',club:'Flamengo',pos:'DEF',group:'Defensores'},
-{id:'douglas-santos',name:'Douglas Santos',club:'Zenit',pos:'DEF',group:'Defensores'},
-{id:'gabriel-magalhaes',name:'Gabriel Magalhães',club:'Arsenal',pos:'DEF',group:'Defensores'},
-{id:'ibanez',name:'Ibañez',club:'Al-Ahli',pos:'DEF',group:'Defensores'},
-{id:'leo-pereira',name:'Léo Pereira',club:'Flamengo',pos:'DEF',group:'Defensores'},
-{id:'marquinhos',name:'Marquinhos',club:'PSG',pos:'DEF',group:'Defensores'},
-{id:'wesley',name:'Wesley',club:'Roma',pos:'DEF',group:'Defensores'},
-{id:'bruno-guimaraes',name:'Bruno Guimarães',club:'Newcastle',pos:'MEI',group:'Meio-campistas'},
-{id:'casemiro',name:'Casemiro',club:'Manchester United',pos:'MEI',group:'Meio-campistas'},
-{id:'danilo-santos',name:'Danilo Santos',club:'Botafogo',pos:'MEI',group:'Meio-campistas'},
-{id:'fabinho',name:'Fabinho',club:'Al-Ittihad',pos:'MEI',group:'Meio-campistas'},
-{id:'lucas-paqueta',name:'Lucas Paquetá',club:'Flamengo',pos:'MEI',group:'Meio-campistas'},
-{id:'endrick',name:'Endrick',club:'Lyon',pos:'ATA',group:'Atacantes'},
-{id:'gabriel-martinelli',name:'Gabriel Martinelli',club:'Arsenal',pos:'ATA',group:'Atacantes'},
-{id:'igor-thiago',name:'Igor Thiago',club:'Brentford',pos:'ATA',group:'Atacantes'},
-{id:'luiz-henrique',name:'Luiz Henrique',club:'Zenit',pos:'ATA',group:'Atacantes'},
-{id:'matheus-cunha',name:'Matheus Cunha',club:'Manchester United',pos:'ATA',group:'Atacantes'},
-{id:'neymar',name:'Neymar',club:'Santos',pos:'ATA',group:'Atacantes'},
-{id:'raphinha',name:'Raphinha',club:'Barcelona',pos:'ATA',group:'Atacantes'},
-{id:'rayan',name:'Rayan',club:'Bournemouth',pos:'ATA',group:'Atacantes'},
-{id:'vini-jr',name:'Vini Jr.',club:'Real Madrid',pos:'ATA',group:'Atacantes'}
+{id:'alisson',name:'Alisson',club:'Liverpool',pos:'GOL',group:'Goleiros',wiki:'Alisson Becker'},
+{id:'ederson',name:'Ederson',club:'Fenerbahçe',pos:'GOL',group:'Goleiros',wiki:'Ederson (footballer, born 1993)'},
+{id:'weverton',name:'Weverton',club:'Grêmio',pos:'GOL',group:'Goleiros',wiki:'Weverton (footballer, born 1987)'},
+{id:'alex-sandro',name:'Alex Sandro',club:'Flamengo',pos:'DEF',group:'Defensores',wiki:'Alex Sandro'},
+{id:'bremer',name:'Bremer',club:'Juventus',pos:'DEF',group:'Defensores',wiki:'Bremer (footballer)'},
+{id:'danilo',name:'Danilo',club:'Flamengo',pos:'DEF',group:'Defensores',wiki:'Danilo (footballer, born July 1991)'},
+{id:'douglas-santos',name:'Douglas Santos',club:'Zenit',pos:'DEF',group:'Defensores',wiki:'Douglas Santos'},
+{id:'gabriel-magalhaes',name:'Gabriel Magalhães',club:'Arsenal',pos:'DEF',group:'Defensores',wiki:'Gabriel Magalhães'},
+{id:'ibanez',name:'Ibañez',club:'Al-Ahli',pos:'DEF',group:'Defensores',wiki:'Roger Ibañez'},
+{id:'leo-pereira',name:'Léo Pereira',club:'Flamengo',pos:'DEF',group:'Defensores',wiki:'Léo Pereira'},
+{id:'marquinhos',name:'Marquinhos',club:'PSG',pos:'DEF',group:'Defensores',wiki:'Marquinhos'},
+{id:'wesley',name:'Wesley',club:'Roma',pos:'DEF',group:'Defensores',wiki:'Wesley (footballer, born 2003)'},
+{id:'bruno-guimaraes',name:'Bruno Guimarães',club:'Newcastle',pos:'MEI',group:'Meio-campistas',wiki:'Bruno Guimarães'},
+{id:'casemiro',name:'Casemiro',club:'Manchester United',pos:'MEI',group:'Meio-campistas',wiki:'Casemiro'},
+{id:'danilo-santos',name:'Danilo Santos',club:'Botafogo',pos:'MEI',group:'Meio-campistas',wiki:'Danilo Barbosa'},
+{id:'fabinho',name:'Fabinho',club:'Al-Ittihad',pos:'MEI',group:'Meio-campistas',wiki:'Fabinho (footballer, born 1993)'},
+{id:'lucas-paqueta',name:'Lucas Paquetá',club:'Flamengo',pos:'MEI',group:'Meio-campistas',wiki:'Lucas Paquetá'},
+{id:'endrick',name:'Endrick',club:'Lyon',pos:'ATA',group:'Atacantes',wiki:'Endrick'},
+{id:'gabriel-martinelli',name:'Gabriel Martinelli',club:'Arsenal',pos:'ATA',group:'Atacantes',wiki:'Gabriel Martinelli'},
+{id:'igor-thiago',name:'Igor Thiago',club:'Brentford',pos:'ATA',group:'Atacantes',wiki:'Igor Thiago'},
+{id:'luiz-henrique',name:'Luiz Henrique',club:'Zenit',pos:'ATA',group:'Atacantes',wiki:'Luiz Henrique (footballer, born 2001)'},
+{id:'matheus-cunha',name:'Matheus Cunha',club:'Manchester United',pos:'ATA',group:'Atacantes',wiki:'Matheus Cunha'},
+{id:'neymar',name:'Neymar',club:'Santos',pos:'ATA',group:'Atacantes',wiki:'Neymar'},
+{id:'raphinha',name:'Raphinha',club:'Barcelona',pos:'ATA',group:'Atacantes',wiki:'Raphinha'},
+{id:'rayan',name:'Rayan',club:'Bournemouth',pos:'ATA',group:'Atacantes',wiki:'Rayan (footballer, born 2006)'},
+{id:'vini-jr',name:'Vini Jr.',club:'Real Madrid',pos:'ATA',group:'Atacantes',wiki:'Vinícius Júnior'}
 ];
 
 const formations = {
@@ -1077,6 +1076,7 @@ let lineup = {};
 let selectedPlayerId = '';
 let draggedPlayerId = '';
 let activeMobileSlotId = '';
+const playerPhotoCache = new Map();
 
 if(toggle && nav){
   toggle.addEventListener('click', () => nav.classList.toggle('active'));
@@ -1084,6 +1084,40 @@ if(toggle && nav){
 
 function initials(name){
   return name.split(' ').map(part => part[0]).join('').slice(0,2).toUpperCase();
+}
+
+function getPlayerPhoto(player){
+  return playerPhotoCache.get(player.id) || player.photo || '';
+}
+
+function renderPlayerAvatar(player, className = 'player-avatar'){
+  const photo = getPlayerPhoto(player);
+  const alt = `Foto de ${player.name}`;
+  return `<div class="${className}">${photo ? `<img src="${photo}" alt="${alt}" loading="lazy" referrerpolicy="no-referrer">` : initials(player.name)}</div>`;
+}
+
+async function hydratePlayerPhotos(){
+  const titles = players.map(player => player.wiki || player.name).join('|');
+  const url = 'https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&prop=pageimages&pithumbsize=320&titles=' + encodeURIComponent(titles);
+
+  try{
+    const response = await fetch(url);
+    const data = await response.json();
+    const pages = Object.values(data.query?.pages || {});
+
+    players.forEach(player => {
+      const title = (player.wiki || player.name).replace(/_/g,' ');
+      const page = pages.find(item => item.title && item.title.replace(/_/g,' ') === title);
+      const thumb = page?.thumbnail?.source || page?.original?.source || '';
+      if(thumb){
+        playerPhotoCache.set(player.id, thumb);
+      }
+    });
+
+    renderAll();
+  } catch(error){
+    console.warn('Fotos dos jogadores indisponiveis agora.', error);
+  }
 }
 
 function formationLabel(formation = currentFormation){
@@ -1244,7 +1278,7 @@ function renderSlotContent(slot){
       <button class="remove-player" type="button" data-slot="${slot.id}" aria-label="Remover ${player.name}">x</button>
       <div class="lineup-rating"><span>BE</span><span>${player.pos}</span></div>
       <div>
-        <div class="lineup-avatar">${initials(player.name)}</div>
+        ${renderPlayerAvatar(player, 'lineup-avatar')}
         <div class="lineup-name">${player.name}</div>
         <div class="lineup-club">${player.club}</div>
       </div>
@@ -1269,7 +1303,7 @@ function renderPlayers(){
       <div class="group-title">${group}</div>
       ${groupPlayers.map(player => `
         <div class="player-card ${isUsed(player.id) ? 'used' : ''} ${selectedPlayerId === player.id ? 'selected' : ''}" draggable="${!isUsed(player.id)}" data-player="${player.id}">
-          <div class="player-avatar">${initials(player.name)}</div>
+          ${renderPlayerAvatar(player)}
           <div>
             <div class="player-name">${player.name}</div>
             <div class="player-club">${player.club}</div>
@@ -1345,7 +1379,7 @@ function renderMobilePlayerPicker(){
 
     return `
       <button class="mobile-picker-player" type="button" data-player="${player.id}" ${usedInAnotherSlot ? 'disabled' : ''}>
-        <div class="player-avatar">${initials(player.name)}</div>
+        ${renderPlayerAvatar(player)}
         <div>
           <div class="player-name">${player.name}</div>
           <div class="player-club">${player.club}</div>
@@ -1479,11 +1513,78 @@ function drawRoundRect(ctx,x,y,w,h,r){
 
 function loadImage(src){
   return new Promise(resolve => {
+    if(!src){
+      resolve(null);
+      return;
+    }
     const image = new Image();
+    image.crossOrigin = 'anonymous';
     image.onload = () => resolve(image);
     image.onerror = () => resolve(null);
     image.src = src;
   });
+}
+
+function drawCircleImage(ctx,image,x,y,r,fallbackText){
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x,y,r,0,Math.PI * 2);
+  ctx.clip();
+
+  if(image){
+    const size = Math.min(image.width,image.height);
+    const sx = (image.width - size) / 2;
+    const sy = (image.height - size) / 2;
+    ctx.drawImage(image,sx,sy,size,size,x-r,y-r,r*2,r*2);
+  } else {
+    const fallback = ctx.createLinearGradient(x-r,y-r,x+r,y+r);
+    fallback.addColorStop(0,'#20242c');
+    fallback.addColorStop(1,'#565d6b');
+    ctx.fillStyle = fallback;
+    ctx.fillRect(x-r,y-r,r*2,r*2);
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = `900 ${Math.round(r * .46)}px Inter, Arial`;
+    ctx.fillText(fallbackText,x,y);
+  }
+
+  ctx.restore();
+}
+
+function fitCanvasText(ctx,text,maxWidth,fontSize,fontWeight = 900,fontFamily = 'Inter, Arial'){
+  let size = fontSize;
+  do{
+    ctx.font = `${fontWeight} ${size}px ${fontFamily}`;
+    if(ctx.measureText(text).width <= maxWidth || size <= 14){
+      return size;
+    }
+    size -= 1;
+  } while(size > 14);
+  return size;
+}
+
+function drawPerspectiveLine(ctx,project,u1,v1,u2,v2){
+  const a = project(u1,v1);
+  const b = project(u2,v2);
+  ctx.beginPath();
+  ctx.moveTo(a.x,a.y);
+  ctx.lineTo(b.x,b.y);
+  ctx.stroke();
+}
+
+function drawPerspectiveRect(ctx,project,u1,v1,u2,v2){
+  const a = project(u1,v1);
+  const b = project(u2,v1);
+  const c = project(u2,v2);
+  const d = project(u1,v2);
+  ctx.beginPath();
+  ctx.moveTo(a.x,a.y);
+  ctx.lineTo(b.x,b.y);
+  ctx.lineTo(c.x,c.y);
+  ctx.lineTo(d.x,d.y);
+  ctx.closePath();
+  ctx.stroke();
 }
 
 async function makeLineupImage(){
@@ -1563,134 +1664,178 @@ async function makeLineupImage(){
 async function makeLineupStoryImage(){
   const canvas = document.createElement('canvas');
   canvas.width = 1080;
-  canvas.height = 1920;
+  canvas.height = 1350;
   const ctx = canvas.getContext('2d');
 
-  const gradient = ctx.createLinearGradient(0,0,0,1920);
-  gradient.addColorStop(0,'#41b900');
-  gradient.addColorStop(1,'#269700');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0,0,1080,1920);
+  ctx.fillStyle = '#101010';
+  ctx.fillRect(0,0,1080,1350);
 
-  ctx.fillStyle = '#38b800';
-  drawRoundRect(ctx,12,8,1056,1904,16);
-  ctx.fill();
+  ctx.fillStyle = '#f5f5f2';
+  ctx.fillRect(0,210,1080,1140);
+  ctx.fillStyle = '#111';
+  ctx.fillRect(0,0,1080,210);
 
   ctx.save();
-  drawRoundRect(ctx,12,8,1056,1904,16);
-  ctx.clip();
-  for(let i = 0; i < 11; i++){
-    ctx.fillStyle = i % 2 === 0 ? 'rgba(255,255,255,.035)' : 'rgba(0,0,0,.025)';
-    ctx.fillRect(12, 8 + i * 1904 / 11, 1056, 1904 / 11);
+  ctx.globalAlpha = .055;
+  ctx.strokeStyle = '#0b0b0b';
+  ctx.lineWidth = 9;
+  for(let y = 260; y < 1260; y += 150){
+    ctx.strokeRect(72,y,210,76);
+    ctx.strokeRect(798,y+50,210,76);
   }
   ctx.restore();
 
-  const field = {x:54,y:88,w:972,h:1712};
-  ctx.strokeStyle = 'rgba(210,255,180,.55)';
-  ctx.lineWidth = 6;
-  ctx.strokeRect(field.x,field.y,field.w,field.h);
-  ctx.beginPath();
-  ctx.moveTo(field.x,field.y + field.h / 2);
-  ctx.lineTo(field.x + field.w,field.y + field.h / 2);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(field.x + field.w / 2,field.y + field.h / 2,140,0,Math.PI*2);
-  ctx.stroke();
-  ctx.strokeRect(field.x + 270,field.y,432,170);
-  ctx.strokeRect(field.x + 270,field.y + field.h - 170,432,170);
-  ctx.strokeRect(field.x + 370,field.y,232,74);
-  ctx.strokeRect(field.x + 370,field.y + field.h - 74,232,74);
-  ctx.beginPath();
-  ctx.arc(field.x,field.y,34,0,Math.PI / 2);
-  ctx.arc(field.x + field.w,field.y,34,Math.PI / 2,Math.PI);
-  ctx.arc(field.x + field.w,field.y + field.h,34,Math.PI,Math.PI * 1.5);
-  ctx.arc(field.x,field.y + field.h,34,Math.PI * 1.5,Math.PI * 2);
-  ctx.stroke();
-
-  ctx.textAlign = 'center';
-  ctx.fillStyle = 'rgba(255,255,255,.68)';
-  ctx.font = '900 32px Inter, Arial';
-  ctx.fillText('Bem Esportivo',540,58);
-  ctx.fillText('Bem Esportivo',540,1860);
   ctx.save();
-  ctx.globalAlpha = .13;
-  ctx.fillStyle = '#fff';
-  ctx.font = '900 180px Inter, Arial';
-  ctx.fillText('BE',540,996);
+  ctx.globalAlpha = .16;
+  ctx.fillStyle = '#d9d9d9';
+  drawRoundRect(ctx,-115,240,520,980,120);
+  ctx.fill();
+  drawRoundRect(ctx,760,220,445,1000,120);
+  ctx.fill();
   ctx.restore();
-
-  formations[currentFormation].forEach(slot => {
-    const player = getPlayer(lineup[slot.id]);
-    const x = field.x + slot.y / 100 * field.w;
-    const y = field.y + (100 - slot.x) / 100 * field.h;
-
-    ctx.shadowColor = 'rgba(0,0,0,.28)';
-    ctx.shadowBlur = 10;
-    ctx.shadowOffsetY = 8;
-    ctx.beginPath();
-    ctx.arc(x,y,58,0,Math.PI * 2);
-    ctx.fillStyle = '#f2a900';
-    ctx.fill();
-    ctx.shadowColor = 'transparent';
-    ctx.lineWidth = 9;
-    ctx.strokeStyle = '#f6d15a';
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(x,y,47,0,Math.PI * 2);
-    ctx.fillStyle = player ? '#2d2f34' : 'rgba(255,255,255,.22)';
-    ctx.fill();
-
-    ctx.fillStyle = '#fff';
-    ctx.font = '900 24px Inter, Arial';
-    ctx.fillText(player ? initials(player.name) : slot.label,x,y+8);
-
-    ctx.fillStyle = '#009739';
-    ctx.fillRect(x + 36,y + 24,42,42);
-    ctx.fillStyle = '#fedd00';
-    ctx.beginPath();
-    ctx.moveTo(x + 57,y + 30);
-    ctx.lineTo(x + 72,y + 45);
-    ctx.lineTo(x + 57,y + 60);
-    ctx.lineTo(x + 42,y + 45);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillStyle = '#1d4ed8';
-    ctx.beginPath();
-    ctx.arc(x + 57,y + 45,9,0,Math.PI * 2);
-    ctx.fill();
-
-    const name = player ? player.name : slot.label;
-    ctx.shadowColor = 'rgba(0,0,0,.45)';
-    ctx.shadowBlur = 5;
-    ctx.fillStyle = '#fff';
-    ctx.font = '900 29px Inter, Arial';
-    const parts = name.split(' ');
-    if(name.length > 12 && parts.length > 1){
-      ctx.fillText(parts.slice(0,-1).join(' '),x,y+88);
-      ctx.fillText(parts[parts.length - 1],x,y+120);
-    } else {
-      ctx.fillText(name,x,y+98);
-    }
-    ctx.shadowColor = 'transparent';
-  });
 
   const logo = await loadImage('img/Bem Esportivo Logo Laranja@33x.png');
   if(logo){
-    const logoHeight = 52;
-    const logoWidth = Math.min(190, logo.width * (logoHeight / logo.height));
-    ctx.drawImage(logo, 34, 1824, logoWidth, logoHeight);
-  } else {
-    ctx.fillStyle = '#fff';
-    ctx.textAlign = 'left';
-    ctx.font = '900 28px Inter, Arial';
-    ctx.fillText('BE',34,1860);
+    const logoHeight = 56;
+    const logoWidth = Math.min(150, logo.width * (logoHeight / logo.height));
+    ctx.drawImage(logo,58,58,logoWidth,logoHeight);
   }
 
   ctx.textAlign = 'center';
-  ctx.fillStyle = 'rgba(255,255,255,.9)';
+  ctx.fillStyle = '#fff';
+  ctx.font = '900 70px Inter, Arial';
+  ctx.fillText('BEM ESPORTIVO',540,84);
+  ctx.font = '900 29px Inter, Arial';
+  ctx.fillText(`MINHA ESCALACAO - ${formationLabel()}`,540,135);
+  ctx.fillStyle = '#fc6e02';
+  ctx.font = '900 22px Inter, Arial';
+  ctx.fillText('MONTE, SALVE E COMPARTILHE SUA SELECAO',540,171);
+
+  const topY = 338;
+  const fieldHeight = 770;
+  const topWidth = 610;
+  const bottomWidth = 1010;
+  const centerX = 540;
+
+  const project = (u,v) => {
+    const width = topWidth + (bottomWidth - topWidth) * v;
+    return {
+      x: centerX + (u - .5) * width,
+      y: topY + v * fieldHeight
+    };
+  };
+
+  ctx.save();
+  const tl = project(0,0);
+  const tr = project(1,0);
+  const br = project(1,1);
+  const bl = project(0,1);
+  ctx.beginPath();
+  ctx.moveTo(tl.x,tl.y);
+  ctx.lineTo(tr.x,tr.y);
+  ctx.lineTo(br.x,br.y);
+  ctx.lineTo(bl.x,bl.y);
+  ctx.closePath();
+  ctx.clip();
+
+  for(let i = 0; i < 10; i++){
+    const v1 = i / 10;
+    const v2 = (i + 1) / 10;
+    const a = project(0,v1);
+    const b = project(1,v1);
+    const c = project(1,v2);
+    const d = project(0,v2);
+    ctx.beginPath();
+    ctx.moveTo(a.x,a.y);
+    ctx.lineTo(b.x,b.y);
+    ctx.lineTo(c.x,c.y);
+    ctx.lineTo(d.x,d.y);
+    ctx.closePath();
+    ctx.fillStyle = i % 2 ? '#00963b' : '#008a34';
+    ctx.fill();
+  }
+
+  for(let i = 0; i < 6; i++){
+    const a = project(i / 6,0);
+    const b = project((i + 1) / 6,1);
+    ctx.beginPath();
+    ctx.moveTo(a.x,a.y);
+    ctx.lineTo(project((i + 1) / 6,0).x,project((i + 1) / 6,0).y);
+    ctx.lineTo(b.x,b.y);
+    ctx.lineTo(project(i / 6,1).x,project(i / 6,1).y);
+    ctx.closePath();
+    ctx.fillStyle = i % 2 ? 'rgba(255,255,255,.035)' : 'rgba(0,0,0,.035)';
+    ctx.fill();
+  }
+
+  ctx.strokeStyle = 'rgba(255,255,255,.24)';
+  ctx.lineWidth = 3;
+  drawPerspectiveRect(ctx,project,.05,.02,.95,.98);
+  drawPerspectiveLine(ctx,project,.06,.5,.94,.5);
+  drawPerspectiveRect(ctx,project,.31,.02,.69,.18);
+  drawPerspectiveRect(ctx,project,.26,.82,.74,.98);
+  ctx.beginPath();
+  const mid = project(.5,.5);
+  ctx.ellipse(mid.x,mid.y,108,62,0,0,Math.PI * 2);
+  ctx.stroke();
+  ctx.restore();
+
+  const selectedPlayers = formations[currentFormation]
+    .map(slot => getPlayer(lineup[slot.id]))
+    .filter(Boolean);
+  await Promise.all(selectedPlayers.map(player => loadImage(getPlayerPhoto(player)).then(image => {
+    player.loadedPhoto = image;
+  })));
+
+  formations[currentFormation].forEach(slot => {
+    const player = getPlayer(lineup[slot.id]);
+    const point = project(slot.y / 100,(100 - slot.x) / 100);
+    const x = point.x;
+    const y = point.y;
+
+    ctx.shadowColor = 'rgba(0,0,0,.28)';
+    ctx.shadowBlur = 16;
+    ctx.shadowOffsetY = 10;
+    ctx.beginPath();
+    ctx.arc(x,y,57,0,Math.PI * 2);
+    ctx.fillStyle = '#f6a800';
+    ctx.fill();
+    ctx.shadowColor = 'transparent';
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#ffe05f';
+    ctx.stroke();
+
+    drawCircleImage(ctx,player?.loadedPhoto,x,y,49,player ? initials(player.name) : slot.label);
+
+    const name = player ? player.name : slot.label;
+    const labelWidth = Math.min(230,Math.max(138,name.length * 14));
+    ctx.shadowColor = 'rgba(0,0,0,.24)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetY = 6;
+    drawRoundRect(ctx,x - labelWidth / 2,y + 58,labelWidth,40,2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.shadowColor = 'transparent';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#102e67';
+    fitCanvasText(ctx,name.toUpperCase(),labelWidth - 18,22);
+    ctx.fillText(name.toUpperCase(),x,y + 78);
+  });
+
+  ctx.textBaseline = 'alphabetic';
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#fff';
   ctx.font = '900 28px Inter, Arial';
-  ctx.fillText(formationLabel(),540,1828);
+  ctx.fillText('TEC.: VOCE',40,1244);
+  ctx.fillStyle = '#fc6e02';
+  ctx.font = '900 24px Inter, Arial';
+  ctx.fillText('BEM ESPORTIVO',40,1288);
+
+  ctx.textAlign = 'right';
+  ctx.fillStyle = 'rgba(255,255,255,.72)';
+  ctx.font = '800 18px Inter, Arial';
+  ctx.fillText('bemesportivo.com.br',1040,1288);
 
   return canvas;
 }
@@ -1781,6 +1926,7 @@ document.getElementById('shareBtn').addEventListener('click', () => {
 
 restoreLineupState();
 renderAll();
+hydratePlayerPhotos();
 </script>
 </body>
 </html>
