@@ -696,6 +696,58 @@ radial-gradient(circle at top right,rgba(252,110,2,.28),transparent 34%);
 box-shadow:0 18px 45px rgba(0,0,0,.16);
 }
 
+.brasileirao-legacy{
+display:none!important;
+}
+
+.worldcup-section{
+margin-top:40px;
+padding:28px 20px;
+border-radius:8px;
+background:
+linear-gradient(135deg,rgba(8,55,80,.96),rgba(12,92,62,.94)),
+radial-gradient(circle at top right,rgba(252,110,2,.34),transparent 34%);
+box-shadow:0 18px 45px rgba(0,0,0,.16);
+}
+
+.worldcup-table-card{
+margin-top:22px;
+background:#fff;
+border-radius:8px;
+box-shadow:0 16px 34px rgba(0,0,0,.22);
+overflow:hidden;
+}
+
+.worldcup-table .team-cell{
+min-width:220px;
+}
+
+.worldcup-table .match-status{
+display:inline-flex;
+justify-content:center;
+min-width:82px;
+}
+
+.match-status.hoje{
+background:#0d7d48;
+}
+
+.worldcup-source{
+color:#d9f2ec;
+font-size:12px;
+font-weight:700;
+line-height:1.45;
+margin-top:-8px;
+margin-bottom:18px;
+}
+
+.worldcup-source a{
+color:#fff;
+font-weight:900;
+text-decoration:underline;
+text-underline-offset:3px;
+}
+
 .seriea-heading{
 display:flex;
 justify-content:space-between;
@@ -1330,7 +1382,8 @@ height:200px;
 object-fit:cover;
 }
 
-.seriea-section{
+.seriea-section,
+.worldcup-section{
 padding:22px 16px;
 }
 
@@ -1623,7 +1676,53 @@ Ainda existe paixão ou virou negócio?
 
 </section>
 
-<section class="container seriea-section">
+<section class="container worldcup-section">
+
+<div class="seriea-heading">
+  <div>
+    <span class="seriea-kicker">Copa do Mundo 2026</span>
+    <h2>Jogos e tempo real</h2>
+  </div>
+  <p>Acompanhe os próximos jogos da Copa, status ao vivo e atualização automática da rodada.</p>
+</div>
+
+<p class="worldcup-source">
+Calendário baseado na tabela oficial da FIFA. A seção atualiza o status automaticamente e mantém link para a fonte oficial.
+</p>
+
+<div id="worldCupMatches" class="seriea-cards">
+  <p>Carregando jogos da Copa do Mundo 2026...</p>
+</div>
+
+<div class="worldcup-table-card">
+  <div class="standings-top">
+    <h3>Tabela de jogos</h3>
+    <div id="worldCupUpdated" class="standings-updated">Atualizando jogos...</div>
+  </div>
+
+  <div class="standings-table-wrap">
+    <table class="standings-table worldcup-table">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Grupo</th>
+          <th>Jogo</th>
+          <th>Estádio</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="worldCupTable">
+        <tr>
+          <td colspan="5">Carregando tabela da Copa...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</section>
+
+<section class="container seriea-section brasileirao-legacy" aria-hidden="true">
 
 <div class="seriea-heading">
   <div>
@@ -1952,6 +2051,34 @@ return false;
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const GE_FOOTBALL_FEED_URL = 'https://ge.globo.com/futebol/';
 const DEFAULT_NEWS_IMAGES = ['img/noticia-padrao.png'];
+const FIFA_WORLD_CUP_URL = 'https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums';
+
+const WORLD_CUP_MATCHES = [
+  {date:'2026-06-11',group:'A',home:'México',away:'África do Sul',venue:'Estádio Cidade do México'},
+  {date:'2026-06-11',group:'A',home:'Coreia do Sul',away:'Rep. Tcheca / Dinamarca / Macedônia do Norte / Irlanda',venue:'Estádio Guadalajara'},
+  {date:'2026-06-12',group:'B',home:'Canadá',away:'Bósnia e Herzegovina / Itália / Irlanda do Norte / País de Gales',venue:'Toronto Stadium'},
+  {date:'2026-06-12',group:'D',home:'Estados Unidos',away:'Paraguai',venue:'Los Angeles Stadium'},
+  {date:'2026-06-13',group:'C',home:'Haiti',away:'Escócia',venue:'Boston Stadium'},
+  {date:'2026-06-13',group:'D',home:'Austrália',away:'Kosovo / Romênia / Eslováquia / Turquia',venue:'BC Place Vancouver'},
+  {date:'2026-06-13',group:'C',home:'Brasil',away:'Marrocos',venue:'New York New Jersey Stadium'},
+  {date:'2026-06-13',group:'B',home:'Catar',away:'Suíça',venue:'San Francisco Bay Area Stadium'},
+  {date:'2026-06-14',group:'E',home:'Costa do Marfim',away:'Equador',venue:'Philadelphia Stadium'},
+  {date:'2026-06-14',group:'E',home:'Alemanha',away:'Curaçao',venue:'Houston Stadium'},
+  {date:'2026-06-14',group:'F',home:'Países Baixos',away:'Japão',venue:'Dallas Stadium'},
+  {date:'2026-06-14',group:'F',home:'Albânia / Polônia / Suécia / Ucrânia',away:'Tunísia',venue:'Estádio Monterrey'},
+  {date:'2026-06-15',group:'H',home:'Arábia Saudita',away:'Uruguai',venue:'Miami Stadium'},
+  {date:'2026-06-15',group:'H',home:'Espanha',away:'Cabo Verde',venue:'Atlanta Stadium'},
+  {date:'2026-06-15',group:'G',home:'Irã',away:'Nova Zelândia',venue:'Los Angeles Stadium'},
+  {date:'2026-06-15',group:'G',home:'Bélgica',away:'Egito',venue:'Seattle Stadium'},
+  {date:'2026-06-16',group:'I',home:'França',away:'Senegal',venue:'New York New Jersey Stadium'},
+  {date:'2026-06-16',group:'I',home:'Bolívia / Iraque / Suriname',away:'Noruega',venue:'Boston Stadium'},
+  {date:'2026-06-16',group:'J',home:'Argentina',away:'Argélia',venue:'Kansas City Stadium'},
+  {date:'2026-06-16',group:'J',home:'Áustria',away:'Jordânia',venue:'San Francisco Bay Area Stadium'},
+  {date:'2026-06-17',group:'L',home:'Gana',away:'Panamá',venue:'Toronto Stadium'},
+  {date:'2026-06-17',group:'L',home:'Inglaterra',away:'Croácia',venue:'Dallas Stadium'},
+  {date:'2026-06-17',group:'K',home:'Portugal',away:'Congo DR / Jamaica / Nova Caledônia',venue:'Houston Stadium'},
+  {date:'2026-06-17',group:'K',home:'Uzbequistão',away:'Colômbia',venue:'Estádio Cidade do México'}
+];
 
 const FALLBACK_MATCHES = [
   {
@@ -2401,12 +2528,178 @@ async function loadBrasileiraoStandings(){
   }
 }
 
+function normalizeWorldCupTeam(value){
+  return cleanText(value)
+    .replace(/\s+v\s+/i, ' x ')
+    .replace(/\s+vs\.?\s+/i, ' x ');
+}
+
+function parseWorldCupDate(value){
+  const text = cleanText(value);
+  const dateMatch = text.match(/(\d{1,2})\s+(June|July)\s+2026/i);
+  if(!dateMatch){
+    return '';
+  }
+
+  const month = dateMatch[2].toLowerCase() === 'july' ? '07' : '06';
+  return `2026-${month}-${String(dateMatch[1]).padStart(2,'0')}`;
+}
+
+function extractWorldCupMatchesFromFifaHtml(html){
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const text = cleanText(doc.body?.innerText || doc.documentElement?.textContent || '');
+  const matches = [];
+  const regex = /Match\s+(\d+)\s*[–-]\s*([^–-]+?)\s+v\s+([^–-]+?)\s*[–-]\s*([^–-]+?)\s*[–-]\s*(\d{1,2}\s+(?:June|July)\s+2026)/gi;
+  let item;
+
+  while((item = regex.exec(text)) && matches.length < 48){
+    matches.push({
+      matchNumber: Number(item[1]),
+      date: parseWorldCupDate(item[5]),
+      group: 'Fase de grupos',
+      home: normalizeWorldCupTeam(item[2]),
+      away: normalizeWorldCupTeam(item[3]),
+      venue: cleanText(item[4]),
+      source: 'FIFA'
+    });
+  }
+
+  return matches.filter(match => match.date && match.home && match.away);
+}
+
+function getWorldCupStatus(match){
+  if(match.homeScore != null && match.awayScore != null){
+    return 'ENCERRADO';
+  }
+
+  const today = new Date();
+  const matchDate = new Date(`${match.date}T12:00:00-03:00`);
+  if(isSameDay(matchDate, today)){
+    return 'HOJE';
+  }
+
+  return matchDate > today ? 'AGENDADO' : 'ENCERRADO';
+}
+
+function renderWorldCupScore(match){
+  if(match.homeScore != null && match.awayScore != null){
+    return `
+      <span class="score-number">${match.homeScore}</span>
+      <span class="score-separator">-</span>
+      <span class="score-number">${match.awayScore}</span>
+    `;
+  }
+
+  return `
+    <span class="score-number">--</span>
+    <span class="score-separator">VS</span>
+    <span class="score-number">--</span>
+  `;
+}
+
+function getUpcomingWorldCupMatches(matches){
+  const today = new Date();
+  const upcoming = matches.filter(match => {
+    const matchDate = new Date(`${match.date}T23:59:59-03:00`);
+    return matchDate >= today;
+  });
+
+  return (upcoming.length ? upcoming : matches).slice(0, 6);
+}
+
+function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
+  const container = document.getElementById('worldCupMatches');
+  const table = document.getElementById('worldCupTable');
+  const updated = document.getElementById('worldCupUpdated');
+
+  if(!container || !table || !updated){
+    return;
+  }
+
+  const normalizedMatches = Array.isArray(matches) && matches.length ? matches : WORLD_CUP_MATCHES;
+  const featuredMatches = getUpcomingWorldCupMatches(normalizedMatches);
+  container.innerHTML = featuredMatches.map(match => {
+    const status = getWorldCupStatus(match);
+    const statusClass = status.toLowerCase().replace(/\s+/g, '-');
+    const groupLabel = match.group === 'Fase de grupos' ? match.group : `Grupo ${match.group}`;
+
+    return `
+      <div class="match-card">
+        <div class="match-header">
+          <div class="match-status ${statusClass}">${status}</div>
+          <div class="match-meta">
+            <span>${formatMatchDate(`${match.date}T12:00:00-03:00`)}</span>
+            <span>${groupLabel}</span>
+          </div>
+        </div>
+        <div class="match-teams">
+          <div class="team team-home">
+            <div class="team-logo">${match.home.slice(0,2).toUpperCase()}</div>
+            <div class="team-name">${match.home}</div>
+          </div>
+          <div class="match-score" aria-label="Placar">${renderWorldCupScore(match)}</div>
+          <div class="team team-away">
+            <div class="team-name">${match.away}</div>
+            <div class="team-logo">${match.away.slice(0,2).toUpperCase()}</div>
+          </div>
+        </div>
+        <div class="match-meta match-footer">
+          <span>${match.venue}</span>
+          <a href="${FIFA_WORLD_CUP_URL}" target="_blank" rel="noopener noreferrer" class="match-link">Ver na FIFA</a>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  table.innerHTML = normalizedMatches.map(match => {
+    const status = getWorldCupStatus(match);
+    const statusClass = status.toLowerCase().replace(/\s+/g, '-');
+    const groupLabel = match.group === 'Fase de grupos' ? match.group : `Grupo ${match.group}`;
+
+    return `
+      <tr>
+        <td>${formatMatchDate(`${match.date}T12:00:00-03:00`)}</td>
+        <td>${groupLabel}</td>
+        <td>
+          <div class="team-cell">
+            <span>${match.home}</span>
+            <strong> x </strong>
+            <span>${match.away}</span>
+          </div>
+        </td>
+        <td>${match.venue}</td>
+        <td><span class="match-status ${statusClass}">${status}</span></td>
+      </tr>
+    `;
+  }).join('');
+
+  updated.textContent = sourceLabel + ': ' + new Date().toLocaleTimeString('pt-BR', {
+    hour:'2-digit',
+    minute:'2-digit'
+  });
+}
+
+async function loadWorldCupLive(){
+  renderWorldCupMatches(WORLD_CUP_MATCHES, 'Buscando atualização da FIFA');
+
+  try{
+    const html = await fetchExternalText(FIFA_WORLD_CUP_URL);
+    const fifaMatches = extractWorldCupMatchesFromFifaHtml(html);
+    if(fifaMatches.length === 0){
+      throw new Error('Tabela da FIFA não encontrada no HTML.');
+    }
+
+    renderWorldCupMatches(fifaMatches, 'FIFA');
+  } catch(error){
+    renderWorldCupMatches(WORLD_CUP_MATCHES, 'FIFA indisponível; usando tabela salva');
+    console.error('Erro ao carregar Copa do Mundo:', error);
+  }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
-  loadBrasileiraoLive();
-  loadBrasileiraoStandings();
+  loadWorldCupLive();
   loadGeRss();
-  setInterval(loadBrasileiraoLive, 60000); // atualiza placares a cada 60 segundos
-  setInterval(loadBrasileiraoStandings, 300000); // atualiza classificação a cada 5 minutos
+  setInterval(loadWorldCupLive, 60000); // atualiza jogos da Copa a cada 60 segundos
   setInterval(loadGeRss, 180000); // atualiza notícias a cada 3 minutos
 });
 
