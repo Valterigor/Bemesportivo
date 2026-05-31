@@ -553,6 +553,93 @@ color:#111;
 background:#fff;
 }
 
+.lineup-callout{
+margin-top:34px;
+background:
+linear-gradient(135deg,rgba(17,17,17,.98),rgba(37,37,37,.95)),
+radial-gradient(circle at 82% 18%,rgba(252,110,2,.35),transparent 34%);
+border-radius:8px;
+overflow:hidden;
+box-shadow:0 18px 45px rgba(0,0,0,.16);
+display:grid;
+grid-template-columns:minmax(0,1fr) 360px;
+align-items:stretch;
+min-height:280px;
+}
+
+.lineup-callout-content{
+padding:34px;
+color:#fff;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:flex-start;
+}
+
+.lineup-kicker{
+display:inline-flex;
+align-items:center;
+gap:8px;
+margin-bottom:12px;
+color:var(--primary);
+font-size:12px;
+font-weight:900;
+letter-spacing:.08em;
+text-transform:uppercase;
+}
+
+.lineup-callout h2{
+font-size:34px;
+line-height:1.08;
+margin-bottom:12px;
+max-width:560px;
+}
+
+.lineup-callout p{
+max-width:560px;
+color:#e2e2e2;
+font-size:16px;
+line-height:1.65;
+margin-bottom:18px;
+}
+
+.lineup-actions{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+align-items:center;
+}
+
+.btn-lineup{
+background:var(--primary);
+color:#111;
+box-shadow:0 10px 22px rgba(252,110,2,.24);
+}
+
+.lineup-note{
+font-size:12px;
+font-weight:800;
+color:#cfcfcf;
+}
+
+.lineup-preview{
+position:relative;
+background:linear-gradient(90deg,#16c8dc,#fff8e8);
+min-height:280px;
+display:grid;
+place-items:center;
+padding:14px;
+overflow:hidden;
+}
+
+.lineup-promo-img{
+width:100%;
+height:auto;
+max-height:280px;
+object-fit:contain;
+filter:drop-shadow(0 14px 24px rgba(0,0,0,.18));
+}
+
 .news-modal-content{
 max-width:780px;
 }
@@ -1217,6 +1304,27 @@ font-size:28px;
 font-size:32px;
 }
 
+.lineup-callout{
+grid-template-columns:1fr;
+margin-top:26px;
+}
+
+.lineup-callout-content{
+padding:26px 20px;
+}
+
+.lineup-callout h2{
+font-size:28px;
+}
+
+.lineup-preview{
+min-height:250px;
+}
+
+.lineup-promo-img{
+max-height:none;
+}
+
 .card img{
 height:200px;
 object-fit:cover;
@@ -1390,6 +1498,23 @@ Ir para destaque
 </div>
 
 <div id="searchResults" class="search-results"></div>
+
+<article class="lineup-callout searchable">
+<div class="lineup-callout-content">
+<span class="lineup-kicker">Nova interação</span>
+<h2>Monte sua escalação da Seleção</h2>
+<p>
+Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta para salvar ou compartilhar nas redes.
+</p>
+<div class="lineup-actions">
+<a href="escalacao.html" class="btn btn-lineup">Montar minha escalação</a>
+<span class="lineup-note">Com fotos dos jogadores e prévia da imagem final</span>
+</div>
+</div>
+<div class="lineup-preview" aria-hidden="true">
+<img class="lineup-promo-img" src="img/escalacao-chamada.png" alt="">
+</div>
+</article>
 
 </div>
 
