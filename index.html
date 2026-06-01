@@ -859,6 +859,8 @@ font-size:10px;
 margin-top:2px;
 }
 
+.worldcup-table-team .worldcup-flag img{object-fit:contain}
+
 .seriea-heading{
 display:flex;
 justify-content:space-between;
@@ -2850,14 +2852,18 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   // helper to build flag URL using WORLD_CUP_FLAG_CODES mapping
   function flagForTeam(name, size = '64x48'){
     if(!name) return '';
+    // handle composite names like "A / B / C" — prefer first explicit country
+    let candidate = String(name).split('/')[0].split(' ou ')[0].split(' e ')[0].trim();
+    candidate = candidate.replace(/\(.+\)/,'').trim();
     // try exact match
-    if(WORLD_CUP_FLAG_CODES[name]){
-      return `https://flagcdn.com/${size}/${WORLD_CUP_FLAG_CODES[name]}.png`;
+    if(WORLD_CUP_FLAG_CODES[candidate]){
+      return `https://flagcdn.com/${size}/${WORLD_CUP_FLAG_CODES[candidate]}.png`;
     }
     // try normalized matching
-    const norm = normalizeStr(name);
+    const norm = normalizeStr(candidate);
     for(const key in WORLD_CUP_FLAG_CODES){
-      if(normalizeStr(key) === norm || norm.includes(normalizeStr(key)) || normalizeStr(key).includes(norm)){
+      const kn = normalizeStr(key);
+      if(kn === norm || norm.includes(kn) || kn.includes(norm)){
         return `https://flagcdn.com/${size}/${WORLD_CUP_FLAG_CODES[key]}.png`;
       }
     }
@@ -2884,7 +2890,7 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
         </div>
         <div class="match-teams worldcup-teams">
           <div class="team team-home worldcup-team">
-            <div class="worldcup-flag">${homeFlag ? `<img src="${homeFlag}" alt="${match.home}">` : initials(match.home)}</div>
+            <div class="worldcup-flag">${homeFlag ? `<img src="${homeFlag}" alt="${match.home}" loading="lazy">` : initials(match.home)}</div>
             <div>
               <div class="worldcup-team-main">${match.home}</div>
               <div class="worldcup-team-detail">${match.home_detail || ''}</div>
@@ -2896,7 +2902,7 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
               <div class="worldcup-team-main">${match.away}</div>
               <div class="worldcup-team-detail">${match.away_detail || ''}</div>
             </div>
-            <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${match.away}">` : initials(match.away)}</div>
+            <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${match.away}" loading="lazy">` : initials(match.away)}</div>
           </div>
         </div>
         <div class="match-meta match-footer">
