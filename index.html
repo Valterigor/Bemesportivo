@@ -353,6 +353,132 @@ letter-spacing:.5px;
 }
 
 /* =========================
+CAROUSEL BANNERS
+========================= */
+
+.banner-carousel{
+position:relative;
+width:100%;
+overflow:hidden;
+}
+
+.carousel-container{
+position:relative;
+width:100%;
+display:flex;
+transition:transform 0.6s ease-in-out;
+}
+
+.carousel-slide{
+min-width:100%;
+flex:0 0 100%;
+}
+
+.banner-copa{
+background:linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #1a472a 100%);
+position:relative;
+}
+
+.banner-copa::before{
+content:"";
+position:absolute;
+inset:0;
+background:radial-gradient(circle at 70% 30%, rgba(252, 110, 2, 0.1), transparent 50%);
+z-index:1;
+}
+
+.btn-banner{
+display:inline-block;
+margin-top:20px;
+padding:12px 30px;
+background:var(--primary);
+color:#fff;
+text-decoration:none;
+border-radius:8px;
+font-weight:600;
+transition:all 0.3s ease;
+border:2px solid var(--primary);
+cursor:pointer;
+}
+
+.btn-banner:hover{
+background:transparent;
+color:var(--primary);
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(252, 110, 2, 0.3);
+}
+
+/* Carousel Controls */
+.carousel-btn{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+z-index:10;
+width:50px;
+height:50px;
+border:none;
+background:rgba(255, 255, 255, 0.9);
+color:#000;
+border-radius:50%;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:all 0.3s ease;
+}
+
+.carousel-btn:hover{
+background:#fff;
+box-shadow:0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-prev{
+left:20px;
+}
+
+.carousel-next{
+right:20px;
+}
+
+.carousel-btn svg{
+width:24px;
+height:24px;
+stroke-width:3;
+}
+
+/* Carousel Indicators */
+.carousel-indicators{
+position:absolute;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+z-index:10;
+display:flex;
+gap:12px;
+}
+
+.indicator{
+width:12px;
+height:12px;
+border:none;
+border-radius:50%;
+background:rgba(255, 255, 255, 0.5);
+cursor:pointer;
+transition:all 0.3s ease;
+padding:0;
+}
+
+.indicator.active{
+background:#fff;
+width:30px;
+border-radius:6px;
+}
+
+.indicator:hover{
+background:rgba(255, 255, 255, 0.8);
+}
+
+/* =========================
 HERO
 ========================= */
 
@@ -1673,6 +1799,66 @@ min-width:160px;
   .worldcup-flag{ border-radius:6px; padding:4px; box-shadow:none; }
   .worldcup-table-team .worldcup-flag{ border-radius:4px; padding:2px; }
   .worldcup-flag img, .worldcup-table-team .worldcup-flag img{ object-position:center; }
+  
+  /* Carousel responsive */
+  .carousel-btn{
+    width:40px;
+    height:40px;
+  }
+  
+  .carousel-prev{
+    left:10px;
+  }
+  
+  .carousel-next{
+    right:10px;
+  }
+  
+  .carousel-btn svg{
+    width:20px;
+    height:20px;
+  }
+  
+  .banner-top h1{
+    font-size:28px;
+  }
+  
+  .banner-top p{
+    font-size:14px;
+  }
+  
+  .btn-banner{
+    padding:10px 24px;
+    font-size:14px;
+  }
+  
+  .carousel-indicators{
+    bottom:15px;
+    gap:8px;
+  }
+  
+  .indicator{
+    width:10px;
+    height:10px;
+  }
+  
+  .indicator.active{
+    width:24px;
+  }
+}
+
+@media (max-width: 768px){
+  .banner-top h1{
+    font-size:36px;
+  }
+  
+  .banner-top p{
+    font-size:16px;
+  }
+  
+  .btn-banner{
+    padding:11px 26px;
+  }
 }
 
 </style>
@@ -1728,10 +1914,46 @@ min-width:160px;
 
 <main>
 
-<section class="banner-top">
+<section class="banner-carousel">
+<div class="carousel-container">
+<!-- Banner 1: Bem Esportivo -->
+<div class="carousel-slide" data-slide="0">
+<div class="banner-top">
 <div class="banner-content">
 <h1>Bem Esportivo</h1>
 <p>Seu portal de notícias sobre esportes</p>
+</div>
+</div>
+</div>
+
+<!-- Banner 2: Copa do Mundo 2026 -->
+<div class="carousel-slide" data-slide="1">
+<div class="banner-top banner-copa">
+<div class="banner-content">
+<h1>🏆 Copa 2026</h1>
+<p>Acompanhe a maior competição de futebol do mundo em tempo real</p>
+<a href="#worldcup" class="btn-banner">Ver Jogos</a>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Carousel Controls -->
+<button class="carousel-btn carousel-prev" aria-label="Banner anterior">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+</button>
+<button class="carousel-btn carousel-next" aria-label="Próximo banner">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</button>
+
+<!-- Carousel Indicators -->
+<div class="carousel-indicators">
+<button class="indicator active" data-slide="0" aria-label="Banner 1"></button>
+<button class="indicator" data-slide="1" aria-label="Banner 2"></button>
 </div>
 </section>
 
@@ -1998,6 +2220,104 @@ Calendário baseado na tabela oficial da FIFA. A seção atualiza o status autom
 </footer>
 
 <script>
+
+/* ===== CAROUSEL BANNERS ===== */
+
+class BannerCarousel {
+  constructor() {
+    this.container = document.querySelector('.carousel-container');
+    this.slides = document.querySelectorAll('.carousel-slide');
+    this.indicators = document.querySelectorAll('.indicator');
+    this.prevBtn = document.querySelector('.carousel-prev');
+    this.nextBtn = document.querySelector('.carousel-next');
+    
+    if (!this.container || this.slides.length === 0) return;
+    
+    this.currentSlide = 0;
+    this.autoPlayInterval = null;
+    this.autoPlayDelay = 5000; // 5 segundos
+    
+    this.init();
+  }
+  
+  init() {
+    // Event listeners para botões
+    if (this.prevBtn) {
+      this.prevBtn.addEventListener('click', () => this.prevSlide());
+    }
+    if (this.nextBtn) {
+      this.nextBtn.addEventListener('click', () => this.nextSlide());
+    }
+    
+    // Event listeners para indicadores
+    this.indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => this.goToSlide(index));
+    });
+    
+    // Auto-play
+    this.startAutoPlay();
+    
+    // Pausar ao passar mouse, retomar ao sair
+    this.container.addEventListener('mouseenter', () => this.stopAutoPlay());
+    this.container.addEventListener('mouseleave', () => this.startAutoPlay());
+  }
+  
+  updateCarousel() {
+    const offset = this.currentSlide * -100;
+    this.container.style.transform = `translateX(${offset}%)`;
+    
+    // Atualizar indicadores
+    this.indicators.forEach((indicator, index) => {
+      indicator.classList.toggle('active', index === this.currentSlide);
+    });
+  }
+  
+  nextSlide() {
+    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+    this.updateCarousel();
+    this.resetAutoPlay();
+  }
+  
+  prevSlide() {
+    this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+    this.updateCarousel();
+    this.resetAutoPlay();
+  }
+  
+  goToSlide(index) {
+    this.currentSlide = index;
+    this.updateCarousel();
+    this.resetAutoPlay();
+  }
+  
+  startAutoPlay() {
+    this.autoPlayInterval = setInterval(() => {
+      this.nextSlide();
+    }, this.autoPlayDelay);
+  }
+  
+  stopAutoPlay() {
+    if (this.autoPlayInterval) {
+      clearInterval(this.autoPlayInterval);
+    }
+  }
+  
+  resetAutoPlay() {
+    this.stopAutoPlay();
+    this.startAutoPlay();
+  }
+}
+
+// Inicializar carousel quando DOM estiver pronto
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    new BannerCarousel();
+  });
+} else {
+  new BannerCarousel();
+}
+
+/* ===== FIM CAROUSEL ===== */
 
 /* MENU MOBILE */
 
