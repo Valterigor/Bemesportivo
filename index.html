@@ -2969,7 +2969,7 @@ function destacarMaisComentado(){
         </div>
         <div class="match-teams worldcup-teams">
           <div class="team team-home worldcup-team">
-            <div class="worldcup-flag"><img src="${homeFlag}" alt="Bandeira ${match.home}" onerror="this.src='img/placeholder-flag.png'"></div>
+            <div class="worldcup-flag"><img src="${homeFlag}" alt="Bandeira ${match.home}" onerror="this.parentNode.innerHTML='${initials(match.home)}'"></div>
             <div>
               <div class="worldcup-team-main">${match.home}</div>
               <div class="worldcup-team-detail">${homeDetail}</div>
@@ -2981,7 +2981,7 @@ function destacarMaisComentado(){
               <div class="worldcup-team-main">${match.away}</div>
               <div class="worldcup-team-detail">${awayDetail}</div>
             </div>
-            <div class="worldcup-flag"><img src="${awayFlag}" alt="Bandeira ${match.away}" onerror="this.src='img/placeholder-flag.png'"></div>
+            <div class="worldcup-flag"><img src="${awayFlag}" alt="Bandeira ${match.away}" onerror="this.parentNode.innerHTML='${initials(match.away)}'"></div>
           </div>
         </div>
         <div class="match-meta match-footer">
