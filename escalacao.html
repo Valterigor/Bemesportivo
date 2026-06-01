@@ -1069,6 +1069,9 @@ const removeSlotBtn = document.getElementById('removeSlotBtn');
 const previewModal = document.getElementById('previewModal');
 const previewImage = document.getElementById('previewImage');
 const STORAGE_KEY = 'bem-esportivo-lineup-v1';
+const PHOTO_CACHE_KEY = 'bem-esportivo-player-photos-v2';
+const WIKIPEDIA_PHOTO_BATCH_SIZE = 6;
+const PHOTO_REFRESH_INTERVAL = 24 * 60 * 60 * 1000;
 let previewUrl = '';
 
 let currentFormation = '442';
@@ -1077,6 +1080,8 @@ let selectedPlayerId = '';
 let draggedPlayerId = '';
 let activeMobileSlotId = '';
 const playerPhotoCache = new Map();
+let playerPhotoCacheUpdatedAt = 0;
+const photoRefreshQueue = new Set();
 
 if(toggle && nav){
   toggle.addEventListener('click', () => nav.classList.toggle('active'));
@@ -1093,7 +1098,7 @@ function getPlayerPhoto(player){
 function renderPlayerAvatar(player, className = 'player-avatar'){
   const photo = getPlayerPhoto(player);
   const alt = `Foto de ${player.name}`;
-  return `<div class="${className}">${photo ? `<img src="${photo}" alt="${alt}" loading="lazy" referrerpolicy="no-referrer">` : initials(player.name)}</div>`;
+  return `<div class="${className}">${photo ? `<img src="${photo}" alt="${alt}" loading="lazy" referrerpolicy="no-referrer" onerror="handlePlayerPhotoError('${player.id}')">` : initials(player.name)}</div>`;
 }
 
 async function fetchJsonWithFallback(url){
@@ -1120,26 +1125,176 @@ async function fetchJsonWithFallback(url){
   }
 }
 
-async function hydratePlayerPhotos(){
-  const titles = players.map(player => player.wiki || player.name).join('|');
-  const url = 'https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&prop=pageimages&pithumbsize=320&titles=' + encodeURIComponent(titles);
+function normalizeWikiTitle(title){
+  return String(title || '').replace(/_/g,' ').trim().toLowerCase();
+}
+
+function chunkArray(items, size){
+  const chunks = [];
+  for(let index = 0; index < items.length; index += size){
+    chunks.push(items.slice(index,index + size));
+  }
+  return chunks;
+}
+
+function loadStoredPlayerPhotos(){
+  try{
+    const stored = JSON.parse(localStorage.getItem(PHOTO_CACHE_KEY) || '{}');
+    const photos = stored?.photos || stored || {};
+    const validIds = new Set(players.map(player => player.id));
+    playerPhotoCacheUpdatedAt = Number(stored?.updatedAt || 0);
+    Object.entries(photos).forEach(([id, photo]) => {
+      if(validIds.has(id) && typeof photo === 'string' && /^https?:\/\//i.test(photo)){
+        playerPhotoCache.set(id, photo);
+      }
+    });
+  } catch(error){
+    console.warn('Cache de fotos indisponivel.', error);
+  }
+}
+
+function saveStoredPlayerPhotos(){
+  try{
+    const photos = {};
+    playerPhotoCache.forEach((photo, id) => {
+      photos[id] = photo;
+    });
+    playerPhotoCacheUpdatedAt = Date.now();
+    localStorage.setItem(PHOTO_CACHE_KEY, JSON.stringify({
+      updatedAt: playerPhotoCacheUpdatedAt,
+      photos
+    }));
+  } catch(error){
+    console.warn('Nao foi possivel salvar o cache de fotos.', error);
+  }
+}
+
+function shouldRefreshPlayerPhotos(){
+  return Date.now() - playerPhotoCacheUpdatedAt > PHOTO_REFRESH_INTERVAL ||
+    players.some(player => !getPlayerPhoto(player));
+}
+
+function applyWikipediaPhotoData(batch, data){
+  const query = data?.query || {};
+  const pages = Object.values(query.pages || {});
+  const pagesByTitle = new Map();
+  const titleAliases = new Map();
+  let updated = false;
+
+  pages.forEach(page => {
+    if(page?.title){
+      pagesByTitle.set(normalizeWikiTitle(page.title), page);
+    }
+  });
+
+  (query.normalized || []).forEach(item => {
+    titleAliases.set(normalizeWikiTitle(item.from), normalizeWikiTitle(item.to));
+  });
+
+  (query.redirects || []).forEach(item => {
+    const from = normalizeWikiTitle(item.from);
+    const to = normalizeWikiTitle(item.to);
+    titleAliases.set(from, to);
+    if(titleAliases.has(to)){
+      titleAliases.set(from, titleAliases.get(to));
+    }
+  });
+
+  batch.forEach(player => {
+    const requestedTitle = normalizeWikiTitle(player.wiki || player.name);
+    const resolvedTitle = titleAliases.get(requestedTitle) || requestedTitle;
+    const page = pagesByTitle.get(resolvedTitle) || pagesByTitle.get(requestedTitle);
+    const thumb = page?.thumbnail?.source || page?.original?.source || '';
+
+    if(thumb && playerPhotoCache.get(player.id) !== thumb){
+      playerPhotoCache.set(player.id, thumb);
+      updated = true;
+    }
+  });
+
+  return updated;
+}
+
+async function fetchSinglePlayerPhoto(player){
+  const title = encodeURIComponent(player.wiki || player.name);
+  const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${title}`;
 
   try{
     const data = await fetchJsonWithFallback(url);
-    const pages = Object.values(data?.query?.pages || {});
-
-    players.forEach(player => {
-      const title = (player.wiki || player.name).replace(/_/g,' ');
-      const page = pages.find(item => item.title && item.title.replace(/_/g,' ') === title);
-      const thumb = page?.thumbnail?.source || page?.original?.source || '';
-      if(thumb){
-        playerPhotoCache.set(player.id, thumb);
-      }
-    });
-
-    renderAll();
+    return data?.thumbnail?.source || data?.originalimage?.source || '';
   } catch(error){
-    console.warn('Fotos dos jogadores indisponiveis agora.', error);
+    console.warn(`Foto individual indisponivel para ${player.name}.`, error);
+    return '';
+  }
+}
+
+async function refreshMissingPlayerPhoto(player){
+  if(photoRefreshQueue.has(player.id)){
+    return;
+  }
+
+  photoRefreshQueue.add(player.id);
+  const photo = await fetchSinglePlayerPhoto(player);
+  photoRefreshQueue.delete(player.id);
+
+  if(photo){
+    playerPhotoCache.set(player.id, photo);
+    saveStoredPlayerPhotos();
+    renderAll();
+  }
+}
+
+function handlePlayerPhotoError(playerId){
+  const player = getPlayer(playerId);
+  if(!player){
+    return;
+  }
+
+  playerPhotoCache.delete(playerId);
+  saveStoredPlayerPhotos();
+  renderAll();
+  refreshMissingPlayerPhoto(player);
+}
+
+async function hydratePlayerPhotos(){
+  if(!shouldRefreshPlayerPhotos()){
+    return;
+  }
+
+  const batches = chunkArray(players, WIKIPEDIA_PHOTO_BATCH_SIZE);
+  let hasUpdates = false;
+
+  for(const batch of batches){
+    const titles = batch.map(player => player.wiki || player.name).join('|');
+    const url = 'https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&redirects=1&prop=pageimages&pithumbsize=320&titles=' + encodeURIComponent(titles);
+
+    try{
+      const data = await fetchJsonWithFallback(url);
+      if(applyWikipediaPhotoData(batch, data)){
+        hasUpdates = true;
+        saveStoredPlayerPhotos();
+        renderAll();
+      }
+    } catch(error){
+      console.warn('Fotos dos jogadores indisponiveis neste lote.', error);
+    }
+  }
+
+  const missingPlayers = players.filter(player => !getPlayerPhoto(player));
+  for(const player of missingPlayers){
+    const photo = await fetchSinglePlayerPhoto(player);
+    if(photo){
+      playerPhotoCache.set(player.id, photo);
+      hasUpdates = true;
+      saveStoredPlayerPhotos();
+      renderAll();
+    }
+  }
+
+  if(hasUpdates){
+    saveStoredPlayerPhotos();
+  } else if(!players.some(player => !getPlayerPhoto(player))){
+    saveStoredPlayerPhotos();
   }
 }
 
@@ -1948,6 +2103,7 @@ document.getElementById('shareBtn').addEventListener('click', () => {
 });
 
 restoreLineupState();
+loadStoredPlayerPhotos();
 renderAll();
 hydratePlayerPhotos();
 </script>
