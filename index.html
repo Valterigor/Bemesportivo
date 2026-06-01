@@ -719,7 +719,21 @@ overflow:hidden;
 }
 
 .worldcup-table .team-cell{
-min-width:220px;
+  min-width:220px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.worldcup-table .team-cell > strong{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;
+  height:24px;
+  line-height:24px;
+  font-weight:800;
+  color:#111;
 }
 
 .worldcup-table .match-status{
