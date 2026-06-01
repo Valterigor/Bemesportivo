@@ -1096,14 +1096,37 @@ function renderPlayerAvatar(player, className = 'player-avatar'){
   return `<div class="${className}">${photo ? `<img src="${photo}" alt="${alt}" loading="lazy" referrerpolicy="no-referrer">` : initials(player.name)}</div>`;
 }
 
+async function fetchJsonWithFallback(url){
+  try{
+    const response = await fetch(url, {mode:'cors'});
+    if(!response.ok){
+      throw new Error(`HTTP ${response.status}`);
+    }
+    return await response.json();
+  } catch(error){
+    console.warn('Falha no fetch direto:', error);
+  }
+
+  try{
+    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+    const response = await fetch(proxyUrl);
+    if(!response.ok){
+      throw new Error(`Proxy HTTP ${response.status}`);
+    }
+    return await response.json();
+  } catch(error){
+    console.warn('Falha no fetch via proxy:', error);
+    return null;
+  }
+}
+
 async function hydratePlayerPhotos(){
   const titles = players.map(player => player.wiki || player.name).join('|');
   const url = 'https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&prop=pageimages&pithumbsize=320&titles=' + encodeURIComponent(titles);
 
   try{
-    const response = await fetch(url);
-    const data = await response.json();
-    const pages = Object.values(data.query?.pages || {});
+    const data = await fetchJsonWithFallback(url);
+    const pages = Object.values(data?.query?.pages || {});
 
     players.forEach(player => {
       const title = (player.wiki || player.name).replace(/_/g,' ');
