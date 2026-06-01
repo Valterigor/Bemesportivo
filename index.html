@@ -748,6 +748,102 @@ text-decoration:underline;
 text-underline-offset:3px;
 }
 
+.worldcup-match-card{
+min-height:auto;
+}
+
+.worldcup-teams{
+grid-template-columns:minmax(0,1fr) 82px minmax(0,1fr);
+gap:14px;
+align-items:center;
+padding:14px 0 16px;
+}
+
+.worldcup-team{
+display:grid;
+grid-template-columns:56px 1fr;
+gap:12px;
+align-items:center;
+min-width:0;
+}
+
+.worldcup-team-away{
+grid-template-columns:minmax(0,1fr) 48px;
+text-align:right;
+}
+
+.worldcup-flag{
+width:56px;
+height:56px;
+border-radius:8px;
+background:#f8f8f8;
+overflow:hidden;
+display:grid;
+place-items:center;
+border:1px solid #ececec;
+box-shadow:inset 0 0 0 6px #fff,0 8px 18px rgba(0,0,0,.08);
+font-size:12px;
+font-weight:900;
+color:#555;
+}
+
+.worldcup-flag img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+.worldcup-team-main{
+display:block;
+font-size:15px;
+font-weight:900;
+line-height:1.2;
+color:#111;
+white-space:normal;
+word-break:break-word;
+overflow-wrap:break-word;
+}
+
+.worldcup-team-detail{
+display:block;
+margin-top:4px;
+font-size:11px;
+font-weight:700;
+line-height:1.25;
+color:#6b7280;
+white-space:normal;
+overflow-wrap:break-word;
+}
+
+.worldcup-score{
+min-width:82px;
+padding:7px;
+}
+
+.worldcup-table-team{
+display:flex;
+align-items:center;
+gap:8px;
+min-width:250px;
+}
+
+.worldcup-table-team .worldcup-flag{
+flex:0 0 30px;
+width:30px;
+height:30px;
+box-shadow:inset 0 0 0 4px #fff,0 4px 10px rgba(0,0,0,.06);
+}
+
+.worldcup-table-team .worldcup-team-main{
+font-size:13px;
+}
+
+.worldcup-table-team .worldcup-team-detail{
+font-size:10px;
+margin-top:2px;
+}
+
 .seriea-heading{
 display:flex;
 justify-content:space-between;
@@ -1426,6 +1522,28 @@ grid-template-columns:minmax(0,1fr) 86px minmax(0,1fr);
 gap:8px;
 }
 
+.worldcup-teams{
+grid-template-columns:1fr;
+gap:12px;
+}
+
+.worldcup-team-away{
+grid-template-columns:48px minmax(0,1fr);
+text-align:left;
+}
+
+.worldcup-team-away .worldcup-team-copy{
+order:2;
+}
+
+.worldcup-team-away .worldcup-flag{
+order:1;
+}
+
+.worldcup-score{
+justify-self:start;
+}
+
 .team{
 gap:7px;
 }
@@ -2080,6 +2198,72 @@ const WORLD_CUP_MATCHES = [
   {date:'2026-06-17',group:'K',home:'Uzbequistão',away:'Colômbia',venue:'Estádio Cidade do México'}
 ];
 
+const WORLD_CUP_FLAG_CODES = {
+  'África do Sul':'za',
+  'Albânia':'al',
+  'Alemanha':'de',
+  'Argélia':'dz',
+  'Argentina':'ar',
+  'Arábia Saudita':'sa',
+  'Austrália':'au',
+  'Áustria':'at',
+  'Bélgica':'be',
+  'Bolívia':'bo',
+  'Bósnia e Herzegovina':'ba',
+  'Brasil':'br',
+  'Cabo Verde':'cv',
+  'Canadá':'ca',
+  'Catar':'qa',
+  'Colômbia':'co',
+  'Congo DR':'cd',
+  'Coreia do Sul':'kr',
+  'Costa do Marfim':'ci',
+  'Croácia':'hr',
+  'Curaçao':'cw',
+  'Dinamarca':'dk',
+  'Egito':'eg',
+  'Equador':'ec',
+  'Escócia':'gb-sct',
+  'Eslováquia':'sk',
+  'Espanha':'es',
+  'Estados Unidos':'us',
+  'França':'fr',
+  'Gana':'gh',
+  'Haiti':'ht',
+  'Inglaterra':'gb-eng',
+  'Irã':'ir',
+  'Iraque':'iq',
+  'Irlanda':'ie',
+  'Irlanda do Norte':'gb-nir',
+  'Itália':'it',
+  'Jamaica':'jm',
+  'Japão':'jp',
+  'Jordânia':'jo',
+  'Kosovo':'xk',
+  'Marrocos':'ma',
+  'México':'mx',
+  'Noruega':'no',
+  'Nova Caledônia':'nc',
+  'Nova Zelândia':'nz',
+  'País de Gales':'gb-wls',
+  'Países Baixos':'nl',
+  'Panamá':'pa',
+  'Paraguai':'py',
+  'Polônia':'pl',
+  'Portugal':'pt',
+  'Rep. Tcheca':'cz',
+  'Romênia':'ro',
+  'Senegal':'sn',
+  'Suécia':'se',
+  'Suíça':'ch',
+  'Suriname':'sr',
+  'Tunísia':'tn',
+  'Turquia':'tr',
+  'Ucrânia':'ua',
+  'Uruguai':'uy',
+  'Uzbequistão':'uz'
+};
+
 const FALLBACK_MATCHES = [
   {
     data_realizacao: '2026-05-30T16:00:00-03:00',
@@ -2607,6 +2791,36 @@ function getUpcomingWorldCupMatches(matches){
   return (upcoming.length ? upcoming : matches).slice(0, 6);
 }
 
+// Mapeamento simples de nomes para códigos ISO (expanda conforme necessário)
+const COUNTRY_CODES = {
+  'brazil':'br','brasil':'br','argentina':'ar','france':'fr','england':'gb','spain':'es','portugal':'pt','germany':'de','netherlands':'nl','belgium':'be','united states':'us','usa':'us','mexico':'mx','canada':'ca','colombia':'co','uruguay':'uy','chile':'cl','ecuador':'ec','peru':'pe','paraguay':'py','bolivia':'bo','venezuela':'ve','morocco':'ma','tunisia':'tn','algeria':'dz','senegal':'sn','egypt':'eg','nigeria':'ng','ghana':'gh','cameroon':'cm','south korea':'kr','korea republic':'kr','japan':'jp','australia':'au','iran':'ir','saudi arabia':'sa','qatar':'qa','new zealand':'nz','china':'cn','switzerland':'ch','austria':'at','czech republic':'cz','serbia':'rs','croatia':'hr','poland':'pl','sweden':'se','denmark':'dk','norway':'no','scotland':'gb','wales':'gb','hungary':'hu','south africa':'za'
+};
+
+function normalizeStr(s){
+  return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+}
+
+function getCountryCodeByName(name){
+  const key = normalizeStr(name);
+  if(COUNTRY_CODES[key]) return COUNTRY_CODES[key];
+  const first = key.split(/\s+/)[0];
+  if(COUNTRY_CODES[first]) return COUNTRY_CODES[first];
+  for(const k in COUNTRY_CODES){
+    if(key.includes(k)) return COUNTRY_CODES[k];
+  }
+  return '';
+}
+
+function getFlagUrl(name, size='48x36'){
+  const code = getCountryCodeByName(name);
+  if(!code) return '';
+  return `https://flagcdn.com/${size}/${code}.png`;
+}
+
+function initials(name){
+  return String(name||'').split(' ').map(p => p[0] || '').join('').slice(0,2).toUpperCase();
+}
+
 function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   const container = document.getElementById('worldCupMatches');
   const table = document.getElementById('worldCupTable');
@@ -2618,13 +2832,26 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
 
   const normalizedMatches = Array.isArray(matches) && matches.length ? matches : WORLD_CUP_MATCHES;
   const featuredMatches = getUpcomingWorldCupMatches(normalizedMatches);
+  // helper to build flag URL using FlagCDN (country code mapping fallback)
+  function flagUrlFor(name){
+    const map = {
+      'Brasil':'br','United States':'us','EUA':'us','England':'gb-eng','Scotland':'gb-sct','Wales':'gb-wls','Northern Ireland':'gb-nir',
+      'Argentina':'ar','France':'fr','Spain':'es','Portugal':'pt','Germany':'de','Italy':'it','Mexico':'mx','Canada':'ca'
+    };
+    const key = Object.keys(map).find(k => name.toLowerCase().includes(k.toLowerCase()));
+    const code = key ? map[key] : name.slice(0,2).toLowerCase();
+    return `https://flagcdn.com/w80/${code}.png`;
+  }
   container.innerHTML = featuredMatches.map(match => {
     const status = getWorldCupStatus(match);
     const statusClass = status.toLowerCase().replace(/\s+/g, '-');
     const groupLabel = match.group === 'Fase de grupos' ? match.group : `Grupo ${match.group}`;
 
+    const homeFlag = getFlagUrl(match.home, '56x42');
+    const awayFlag = getFlagUrl(match.away, '56x42');
+
     return `
-      <div class="match-card">
+      <div class="match-card worldcup-match-card">
         <div class="match-header">
           <div class="match-status ${statusClass}">${status}</div>
           <div class="match-meta">
@@ -2632,15 +2859,21 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
             <span>${groupLabel}</span>
           </div>
         </div>
-        <div class="match-teams">
-          <div class="team team-home">
-            <div class="team-logo">${match.home.slice(0,2).toUpperCase()}</div>
-            <div class="team-name">${match.home}</div>
+        <div class="match-teams worldcup-teams">
+          <div class="team team-home worldcup-team">
+            <div class="worldcup-flag">${homeFlag ? `<img src="${homeFlag}" alt="${match.home}">` : initials(match.home)}</div>
+            <div>
+              <div class="worldcup-team-main">${match.home}</div>
+              <div class="worldcup-team-detail">${match.home_detail || ''}</div>
+            </div>
           </div>
           <div class="match-score" aria-label="Placar">${renderWorldCupScore(match)}</div>
-          <div class="team team-away">
-            <div class="team-name">${match.away}</div>
-            <div class="team-logo">${match.away.slice(0,2).toUpperCase()}</div>
+          <div class="team team-away worldcup-team worldcup-team-away">
+            <div>
+              <div class="worldcup-team-main">${match.away}</div>
+              <div class="worldcup-team-detail">${match.away_detail || ''}</div>
+            </div>
+            <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${match.away}">` : initials(match.away)}</div>
           </div>
         </div>
         <div class="match-meta match-footer">
@@ -2656,15 +2889,30 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
     const statusClass = status.toLowerCase().replace(/\s+/g, '-');
     const groupLabel = match.group === 'Fase de grupos' ? match.group : `Grupo ${match.group}`;
 
+    const homeFlag = getFlagUrl(match.home, '30x20');
+    const awayFlag = getFlagUrl(match.away, '30x20');
+
     return `
       <tr>
         <td>${formatMatchDate(`${match.date}T12:00:00-03:00`)}</td>
         <td>${groupLabel}</td>
         <td>
           <div class="team-cell">
-            <span>${match.home}</span>
+            <div class="worldcup-table-team">
+              <div class="worldcup-flag">${homeFlag ? `<img src="${homeFlag}" alt="${match.home}">` : initials(match.home)}</div>
+              <div>
+                <div class="worldcup-team-main">${match.home}</div>
+                <div class="worldcup-team-detail"></div>
+              </div>
+            </div>
             <strong> x </strong>
-            <span>${match.away}</span>
+            <div class="worldcup-table-team">
+              <div>
+                <div class="worldcup-team-main">${match.away}</div>
+                <div class="worldcup-team-detail"></div>
+              </div>
+              <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${match.away}">` : initials(match.away)}</div>
+            </div>
           </div>
         </td>
         <td>${match.venue}</td>
@@ -2705,32 +2953,43 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function destacarMaisComentado(){
 
-let max = 0;
-let index = 0;
+    const homeFlag = flagUrlFor(match.home);
+    const awayFlag = flagUrlFor(match.away);
+    const homeDetail = match.home.includes('Repesc') ? 'Repescagem' : '';
+    const awayDetail = match.away.includes('Repesc') ? 'Repescagem' : '';
 
-debatePosts.forEach((p,i) => {
-
-if(p.comments.length > max){
-max = p.comments.length;
-index = i;
-}
-
-});
-
-document.querySelectorAll('.debate-card').forEach(card => {
-
-card.classList.remove('post-destaque');
-
-const badge = card.querySelector('.badge-destaque');
-
-if(badge){
-badge.remove();
-}
-
-});
-
-if(max > 0){
-
+    return `
+      <div class="match-card">
+        <div class="match-header">
+          <div class="match-status ${statusClass}">${status}</div>
+          <div class="match-meta">
+            <span>${formatMatchDate(`${match.date}T12:00:00-03:00`)}</span>
+            <span>${groupLabel}</span>
+          </div>
+        </div>
+        <div class="match-teams worldcup-teams">
+          <div class="team team-home worldcup-team">
+            <div class="worldcup-flag"><img src="${homeFlag}" alt="Bandeira ${match.home}" onerror="this.src='img/placeholder-flag.png'"></div>
+            <div>
+              <div class="worldcup-team-main">${match.home}</div>
+              <div class="worldcup-team-detail">${homeDetail}</div>
+            </div>
+          </div>
+          <div class="match-score worldcup-score" aria-label="Placar">${renderWorldCupScore(match)}</div>
+          <div class="team team-away worldcup-team worldcup-team-away">
+            <div>
+              <div class="worldcup-team-main">${match.away}</div>
+              <div class="worldcup-team-detail">${awayDetail}</div>
+            </div>
+            <div class="worldcup-flag"><img src="${awayFlag}" alt="Bandeira ${match.away}" onerror="this.src='img/placeholder-flag.png'"></div>
+          </div>
+        </div>
+        <div class="match-meta match-footer">
+          <span>${match.venue}</span>
+          <a href="${FIFA_WORLD_CUP_URL}" target="_blank" rel="noopener noreferrer" class="match-link">Ver na FIFA</a>
+        </div>
+      </div>
+    `;
 const card = document.getElementById('debate-' + index);
 
 card.classList.add('post-destaque');
