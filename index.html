@@ -766,14 +766,14 @@ padding:12px 0;
 
 .worldcup-team{
 display:grid;
-grid-template-columns:56px 1fr;
+grid-template-columns:64px 1fr;
 gap:12px;
 align-items:center;
 min-width:0;
 }
 
 .worldcup-team-away{
-grid-template-columns:minmax(0,1fr) 48px;
+grid-template-columns:minmax(0,1fr) 64px;
 text-align:right;
 }
 
@@ -844,22 +844,25 @@ min-width:250px;
 }
 
 .worldcup-table-team .worldcup-flag{
-flex:0 0 30px;
-width:30px;
-height:30px;
-box-shadow:inset 0 0 0 4px #fff,0 4px 10px rgba(0,0,0,.06);
+  flex:0 0 32px;
+  width:32px;
+  height:24px;
+  box-shadow:inset 0 0 0 4px #fff,0 4px 10px rgba(0,0,0,.06);
+  overflow:hidden;
+  border-radius:6px;
 }
 
-.worldcup-table-team .worldcup-team-main{
-font-size:13px;
+.worldcup-table-team .worldcup-flag img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
 }
 
 .worldcup-table-team .worldcup-team-detail{
-font-size:10px;
-margin-top:2px;
+  font-size:10px;
+  margin-top:2px;
 }
-
-.worldcup-table-team .worldcup-flag img{object-fit:contain}
 
 .seriea-heading{
 display:flex;
@@ -1545,7 +1548,7 @@ gap:12px;
 }
 
 .worldcup-team-away{
-grid-template-columns:48px minmax(0,1fr);
+grid-template-columns:64px minmax(0,1fr);
 text-align:left;
 }
 
@@ -2853,7 +2856,7 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   function flagForTeam(name, size = '64x48'){
     if(!name) return '';
     // handle composite names like "A / B / C" — prefer first explicit country
-    let candidate = String(name).split('/')[0].split(' ou ')[0].split(' e ')[0].trim();
+    let candidate = String(name).split('/')[0].trim();
     candidate = candidate.replace(/\(.+\)/,'').trim();
     // try exact match
     if(WORLD_CUP_FLAG_CODES[candidate]){
@@ -2868,7 +2871,7 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
       }
     }
     // fallback to generic helper
-    const code = getCountryCodeByName(name);
+    const code = getCountryCodeByName(candidate);
     return code ? `https://flagcdn.com/${size}/${code}.png` : '';
   }
   container.innerHTML = featuredMatches.map(match => {
@@ -2918,8 +2921,8 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
     const statusClass = status.toLowerCase().replace(/\s+/g, '-');
     const groupLabel = match.group === 'Fase de grupos' ? match.group : `Grupo ${match.group}`;
 
-    const homeFlag = flagForTeam(match.home, '30x20');
-    const awayFlag = flagForTeam(match.away, '30x20');
+    const homeFlag = flagForTeam(match.home, '32x24');
+    const awayFlag = flagForTeam(match.away, '32x24');
 
     return `
       <tr>
