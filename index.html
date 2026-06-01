@@ -1654,6 +1654,13 @@ min-width:160px;
   .worldcup-team-main{ font-size:14px; }
 }
 
+/* Mobile framing adjustments to improve flag fit */
+@media (max-width: 480px){
+  .worldcup-flag{ border-radius:6px; padding:4px; box-shadow:none; }
+  .worldcup-table-team .worldcup-flag{ border-radius:4px; padding:2px; }
+  .worldcup-flag img, .worldcup-table-team .worldcup-flag img{ object-position:center; }
+}
+
 </style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
