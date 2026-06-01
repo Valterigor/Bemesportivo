@@ -1638,6 +1638,22 @@ min-width:160px;
 
 }
 
+/* Responsive adjustments for flags and spacing */
+@media (max-width: 900px){
+  .worldcup-flag{ width:56px; height:42px; }
+  .worldcup-table-team .worldcup-flag{ width:28px; height:20px; flex:0 0 28px; }
+  .worldcup-table .team-cell > strong{ transform: translateX(-4px); width:24px; }
+  .worldcup-team-main{ font-size:15px; }
+}
+
+@media (max-width: 480px){
+  .worldcup-flag{ width:48px; height:36px; }
+  .worldcup-table-team .worldcup-flag{ width:24px; height:16px; flex:0 0 24px; }
+  .worldcup-table .team-cell{ gap:8px; }
+  .worldcup-table .team-cell > strong{ transform: translateX(-2px); width:22px; }
+  .worldcup-team-main{ font-size:14px; }
+}
+
 </style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
@@ -2977,7 +2993,7 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
                 <div class="worldcup-team-detail">${getCompositeTeamDetail(match.home)}</div>
               </div>
             </div>
-            <strong> x </strong>
+            <strong aria-hidden="true">x</strong>
             <div class="worldcup-table-team">
               <div>
                 <div class="worldcup-team-main" title="${match.away}">${awayDisplay}</div>
