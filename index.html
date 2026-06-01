@@ -2874,6 +2874,17 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
     const code = getCountryCodeByName(candidate);
     return code ? `https://flagcdn.com/${size}/${code}.png` : '';
   }
+
+  function getPrimaryWorldCupTeam(name){
+    if(!name) return '';
+    const parts = String(name).split('/').map(part => part.trim()).filter(Boolean);
+    return parts[0] || String(name).trim();
+  }
+
+  function getCompositeTeamDetail(name){
+    if(!name || String(name).indexOf('/') === -1) return '';
+    return 'Time a definir';
+  }
   container.innerHTML = featuredMatches.map(match => {
     const status = getWorldCupStatus(match);
     const statusClass = status.toLowerCase().replace(/\s+/g, '-');
@@ -2881,6 +2892,10 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
 
     const homeFlag = flagForTeam(match.home, '64x48');
     const awayFlag = flagForTeam(match.away, '64x48');
+    const homeDisplay = getPrimaryWorldCupTeam(match.home);
+    const awayDisplay = getPrimaryWorldCupTeam(match.away);
+    const homeDetail = match.home_detail || getCompositeTeamDetail(match.home);
+    const awayDetail = match.away_detail || getCompositeTeamDetail(match.away);
 
     return `
       <div class="match-card worldcup-match-card">
@@ -2893,19 +2908,19 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
         </div>
         <div class="match-teams worldcup-teams">
           <div class="team team-home worldcup-team">
-            <div class="worldcup-flag">${homeFlag ? `<img src="${homeFlag}" alt="${match.home}" loading="lazy">` : initials(match.home)}</div>
+            <div class="worldcup-flag">${homeFlag ? `<img src="${homeFlag}" alt="${homeDisplay}" loading="lazy">` : initials(homeDisplay)}</div>
             <div>
-              <div class="worldcup-team-main">${match.home}</div>
-              <div class="worldcup-team-detail">${match.home_detail || ''}</div>
+              <div class="worldcup-team-main" title="${match.home}">${homeDisplay}</div>
+              <div class="worldcup-team-detail">${homeDetail}</div>
             </div>
           </div>
           <div class="match-score" aria-label="Placar">${renderWorldCupScore(match)}</div>
           <div class="team team-away worldcup-team worldcup-team-away">
             <div>
-              <div class="worldcup-team-main">${match.away}</div>
-              <div class="worldcup-team-detail">${match.away_detail || ''}</div>
+              <div class="worldcup-team-main" title="${match.away}">${awayDisplay}</div>
+              <div class="worldcup-team-detail">${awayDetail}</div>
             </div>
-            <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${match.away}" loading="lazy">` : initials(match.away)}</div>
+            <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${awayDisplay}" loading="lazy">` : initials(awayDisplay)}</div>
           </div>
         </div>
         <div class="match-meta match-footer">
@@ -2923,6 +2938,8 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
 
     const homeFlag = flagForTeam(match.home, '32x24');
     const awayFlag = flagForTeam(match.away, '32x24');
+    const homeDisplay = getPrimaryWorldCupTeam(match.home);
+    const awayDisplay = getPrimaryWorldCupTeam(match.away);
 
     return `
       <tr>
@@ -2931,19 +2948,19 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
         <td>
           <div class="team-cell">
             <div class="worldcup-table-team">
-              <div class="worldcup-flag">${homeFlag ? `<img src="${homeFlag}" alt="${match.home}">` : initials(match.home)}</div>
+              <div class="worldcup-flag">${homeFlag ? `<img src="${homeFlag}" alt="${homeDisplay}">` : initials(homeDisplay)}</div>
               <div>
-                <div class="worldcup-team-main">${match.home}</div>
-                <div class="worldcup-team-detail"></div>
+                <div class="worldcup-team-main" title="${match.home}">${homeDisplay}</div>
+                <div class="worldcup-team-detail">${getCompositeTeamDetail(match.home)}</div>
               </div>
             </div>
             <strong> x </strong>
             <div class="worldcup-table-team">
               <div>
-                <div class="worldcup-team-main">${match.away}</div>
-                <div class="worldcup-team-detail"></div>
+                <div class="worldcup-team-main" title="${match.away}">${awayDisplay}</div>
+                <div class="worldcup-team-detail">${getCompositeTeamDetail(match.away)}</div>
               </div>
-              <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${match.away}">` : initials(match.away)}</div>
+              <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${awayDisplay}">` : initials(awayDisplay)}</div>
             </div>
           </div>
         </td>
