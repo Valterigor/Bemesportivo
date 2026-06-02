@@ -3712,6 +3712,46 @@ function savePalpites(palpites){
   localStorage.setItem('bemPalpitometro', JSON.stringify(palpites));
 }
 
+function getPalpiteHistory(){
+  try{
+    const history = JSON.parse(localStorage.getItem('bemPalpitometroHistory') || '[]');
+    return Array.isArray(history) ? history : [];
+  } catch(error){
+    return [];
+  }
+}
+
+function savePalpiteHistory(history){
+  localStorage.setItem('bemPalpitometroHistory', JSON.stringify(history));
+}
+
+function getPalpiteEntries(){
+  const history = getPalpiteHistory();
+  if(history.length){
+    return history;
+  }
+
+  return Object.entries(getSavedPalpites()).map(([matchId, item]) => ({
+    ...item,
+    matchId: item.matchId || matchId
+  }));
+}
+
+function getLatestPalpitesByMatch(){
+  const latest = {};
+  getPalpiteEntries().forEach(item => {
+    if(!item.matchId) return;
+    const current = latest[item.matchId];
+    const itemDate = new Date(item.updatedAt || item.savedAt || item.createdAt || 0);
+    const currentDate = new Date(current?.updatedAt || current?.savedAt || current?.createdAt || 0);
+    if(!current || itemDate >= currentDate){
+      latest[item.matchId] = item;
+    }
+  });
+
+  return latest;
+}
+
 function getPalpiteUser(){
   try{
     const user = JSON.parse(localStorage.getItem('bemPalpitometroUser') || '{}');
@@ -3919,8 +3959,9 @@ function savePalpite(matchId){
   const now = new Date().toISOString();
   const predictedWinner = getPredictedWinner(card.dataset.home, card.dataset.away, homeScore, awayScore);
 
-  palpites[matchId] = {
+  const palpiteRecord = {
     schemaVersion: 1,
+    entryId: `palpite-${Date.now()}-${Math.random().toString(16).slice(2)}`,
     matchId,
     userId: user.userId || generatePalpiteUserId(),
     home: card.dataset.home,
@@ -3943,11 +3984,25 @@ function savePalpite(matchId){
     revision: (previous?.revision || 0) + 1
   };
 
+  const history = getPalpiteHistory();
+  if(history.length === 0){
+    Object.entries(palpites).forEach(([savedMatchId, item]) => {
+      history.push({
+        ...item,
+        matchId: item.matchId || savedMatchId,
+        entryId: item.entryId || `palpite-migrado-${savedMatchId}`
+      });
+    });
+  }
+  history.push(palpiteRecord);
+  savePalpiteHistory(history);
+
+  palpites[matchId] = palpiteRecord;
   savePalpites(palpites);
   renderPalpitometroSummary();
 
   const preview = card.querySelector('[data-palpite-preview]');
-  const protocol = getPalpiteProtocol(palpites[matchId]);
+  const protocol = getPalpiteProtocol(palpiteRecord);
   preview.classList.add('saved');
   preview.innerHTML = `Palpite registrado: ${getPalpiteLabel(card.dataset.home, card.dataset.away, homeScore, awayScore)}. Decisivo: ${player}. <span class="palpite-protocol">Protocolo ${protocol}</span>`;
 
@@ -3961,11 +4016,12 @@ function clearPalpite(matchId){
   const palpites = getSavedPalpites();
   delete palpites[matchId];
   savePalpites(palpites);
+  savePalpiteHistory(getPalpiteHistory().filter(item => item.matchId !== matchId));
   renderPalpitometro();
 }
 
 function getPalpitesDataset(){
-  return Object.values(getSavedPalpites()).map(item => ({
+  return getPalpiteEntries().map(item => ({
     schemaVersion: item.schemaVersion || 1,
     protocol: getPalpiteProtocol(item),
     matchId: item.matchId || '',
@@ -4056,10 +4112,7 @@ function renderPalpitometroSummary(){
 
   if(!title || !meter || !text || !summary) return;
 
-  const palpites = Object.entries(getSavedPalpites()).map(([matchId, item]) => ({
-    ...item,
-    matchId: item.matchId || matchId
-  }));
+  const palpites = getPalpiteEntries();
   const user = getPalpiteUser();
   renderPalpiteUser();
 
@@ -4146,7 +4199,7 @@ function renderPalpitometro(){
   if(!container) return;
 
   const matches = getPalpitometroMatches();
-  const palpites = getSavedPalpites();
+  const palpites = getLatestPalpitesByMatch();
 
   if(matches.length === 0){
     container.innerHTML = '<div class="rss-error">Nenhum jogo do Brasil foi encontrado na tabela carregada.</div>';
