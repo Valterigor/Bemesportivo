@@ -4,20 +4,20 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Bem Esportivo - Portal de notícias esportivas com cobertura de futebol, Copa do Mundo, Série A Brasileira, escalações e análises de profissionais. Acompanhe as melhores notícias do esporte em tempo real.">
-<meta name="keywords" content="esportes, futebol, notícias, Copa do Mundo, Série A, Brasileirão, escalação, análise de jogos, notícias esportivas">
+<meta name="description" content="Bem Esportivo - conteúdo esportivo com futebol, Copa do Mundo, Série A Brasileira, escalações, colunas e análises de profissionais.">
+<meta name="keywords" content="esportes, futebol, Copa do Mundo, Série A, Brasileirão, escalação, análise de jogos, conteúdo esportivo">
 <meta name="author" content="Bem Esportivo">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="Bem Esportivo | Notícias Esportivas">
-<meta property="og:description" content="Acompanhe as melhores notícias do esporte: futebol, Copa do Mundo, Série A Brasileira, escalações e análises em tempo real.">
+<meta property="og:title" content="Bem Esportivo | Conteúdo Esportivo">
+<meta property="og:description" content="Acompanhe futebol, Copa do Mundo, Série A Brasileira, escalações, colunas e análises esportivas.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bemesportivo.com.br/img/logobemoficial.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Bem Esportivo | Notícias Esportivas">
-<meta name="twitter:description" content="Acompanhe as melhores notícias do esporte em tempo real">
+<meta name="twitter:title" content="Bem Esportivo | Conteúdo Esportivo">
+<meta name="twitter:description" content="Futebol, escalações, colunas e análises esportivas">
 <meta name="theme-color" content="#fc6e02">
 <meta name="google-adsense-account" content="ca-pub-5105345296041597">
-<title>Bem Esportivo | Notícias Esportivas</title>
+<title>Bem Esportivo | Conteúdo Esportivo</title>
 
 <link rel="icon" href="img/logobemoficial.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -602,96 +602,6 @@ border-radius:12px;
 margin-bottom:15px;
 }
 
-.rss-news{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:20px;
-}
-
-#rssNews .card{
-display:flex;
-flex-direction:column;
-justify-content:space-between;
-min-height:180px;
-}
-
-.rss-card{
-overflow:hidden;
-padding:0;
-}
-
-.rss-thumb{
-display:block;
-width:100%;
-height:170px;
-border:none;
-background:
-linear-gradient(135deg,rgba(17,17,17,.92),rgba(40,40,40,.86)),
-radial-gradient(circle at top right,rgba(252,110,2,.36),transparent 36%);
-overflow:hidden;
-padding:18px;
-color:#fff;
-cursor:pointer;
-text-align:left;
-}
-
-.rss-cover{
-display:flex;
-height:100%;
-flex-direction:column;
-justify-content:space-between;
-}
-
-.rss-cover-source{
-align-self:flex-start;
-background:var(--primary);
-border-radius:999px;
-color:#fff;
-font-size:11px;
-font-weight:800;
-letter-spacing:.06em;
-padding:7px 10px;
-text-transform:uppercase;
-}
-
-.rss-cover-title{
-font-size:22px;
-font-weight:900;
-line-height:1.1;
-}
-
-.rss-body{
-display:flex;
-flex:1;
-flex-direction:column;
-justify-content:space-between;
-gap:14px;
-padding:16px;
-}
-
-.rss-body h3{
-font-size:18px;
-line-height:1.28;
-}
-
-.rss-body small{
-display:block;
-margin-bottom:12px;
-color:#777;
-}
-
-.rss-actions{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.btn-secondary{
-border:1px solid #ddd;
-color:#111;
-background:#fff;
-}
-
 .lineup-callout{
 margin-top:34px;
 background:
@@ -779,50 +689,249 @@ object-fit:contain;
 filter:drop-shadow(0 14px 24px rgba(0,0,0,.18));
 }
 
-.news-modal-content{
-max-width:780px;
-}
-
-.news-source{
-display:inline-flex;
-align-items:center;
-gap:8px;
-margin-bottom:14px;
-font-size:12px;
-font-weight:800;
-letter-spacing:.06em;
-text-transform:uppercase;
-color:var(--primary);
-}
-
-.news-summary{
-font-size:17px;
-line-height:1.75;
-margin-top:14px;
-color:#333;
-}
-
-.news-credit{
-margin-top:18px;
-padding:14px;
-border-left:4px solid var(--primary);
-background:#fff8f1;
-font-size:14px;
-line-height:1.55;
-}
-
-.news-actions{
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-margin-top:18px;
-}
-
 .rss-error{
 color:#c62828;
 background:#ffebee;
 padding:18px;
 border-radius:12px;
+}
+
+.palpitometro-section{
+margin-top:40px;
+padding:28px 20px;
+border-radius:8px;
+background:
+linear-gradient(135deg,rgba(12,82,42,.98),rgba(9,33,60,.96)),
+radial-gradient(circle at 85% 15%,rgba(255,210,48,.32),transparent 36%);
+box-shadow:0 18px 45px rgba(0,0,0,.16);
+color:#fff;
+}
+
+.palpitometro-grid{
+display:grid;
+grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);
+gap:18px;
+align-items:start;
+}
+
+.palpite-cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:16px;
+}
+
+.palpite-card{
+background:#fff;
+color:#111;
+border-radius:8px;
+padding:18px;
+box-shadow:0 14px 30px rgba(0,0,0,.18);
+display:flex;
+flex-direction:column;
+gap:14px;
+min-height:320px;
+}
+
+.palpite-card-top{
+display:flex;
+justify-content:space-between;
+gap:12px;
+align-items:flex-start;
+}
+
+.palpite-kicker{
+font-size:11px;
+font-weight:900;
+letter-spacing:.08em;
+text-transform:uppercase;
+color:#0d7d48;
+}
+
+.palpite-date{
+font-size:12px;
+font-weight:800;
+color:#6b7280;
+text-align:right;
+}
+
+.palpite-match{
+display:grid;
+grid-template-columns:1fr auto 1fr;
+gap:10px;
+align-items:center;
+}
+
+.palpite-team{
+display:grid;
+gap:8px;
+justify-items:center;
+text-align:center;
+font-weight:900;
+min-width:0;
+}
+
+.palpite-team .worldcup-flag{
+width:58px;
+height:44px;
+}
+
+.palpite-versus{
+font-weight:900;
+color:#6b7280;
+}
+
+.score-inputs{
+display:grid;
+grid-template-columns:1fr auto 1fr;
+gap:10px;
+align-items:center;
+}
+
+.score-box{
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.score-box label,
+.palpite-field label{
+font-size:11px;
+font-weight:900;
+letter-spacing:.05em;
+text-transform:uppercase;
+color:#6b7280;
+}
+
+.score-box input{
+width:100%;
+height:44px;
+border:1px solid #d9dde3;
+border-radius:8px;
+font-size:24px;
+font-weight:900;
+text-align:center;
+color:#111;
+}
+
+.score-divider{
+padding-top:18px;
+font-weight:900;
+color:#9ca3af;
+}
+
+.palpite-field{
+display:grid;
+gap:6px;
+}
+
+.palpite-field input,
+.palpite-field select{
+width:100%;
+height:42px;
+border:1px solid #d9dde3;
+border-radius:8px;
+padding:0 12px;
+font-weight:700;
+background:#fff;
+color:#111;
+}
+
+.confidence-row{
+display:grid;
+grid-template-columns:1fr 52px;
+gap:10px;
+align-items:center;
+}
+
+.confidence-row input{
+accent-color:#0d7d48;
+}
+
+.confidence-value{
+font-weight:900;
+text-align:right;
+color:#0d7d48;
+}
+
+.palpite-result{
+min-height:42px;
+padding:10px 12px;
+border-radius:8px;
+background:#f2f7f4;
+font-size:13px;
+font-weight:800;
+color:#0f5132;
+}
+
+.palpite-actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:auto;
+}
+
+.palpite-save{
+border:none;
+cursor:pointer;
+}
+
+.palpite-clear{
+border:1px solid #d9dde3;
+background:#fff;
+color:#111;
+cursor:pointer;
+}
+
+.palpitometro-panel{
+background:rgba(255,255,255,.1);
+border:1px solid rgba(255,255,255,.18);
+border-radius:8px;
+padding:18px;
+position:sticky;
+top:90px;
+}
+
+.palpitometro-meter{
+margin:16px 0;
+height:14px;
+border-radius:999px;
+background:rgba(255,255,255,.18);
+overflow:hidden;
+}
+
+.palpitometro-meter span{
+display:block;
+height:100%;
+width:0;
+background:linear-gradient(90deg,#ffcf33,#18c878);
+border-radius:999px;
+transition:width .3s ease;
+}
+
+.palpite-summary{
+display:grid;
+gap:10px;
+margin-top:14px;
+}
+
+.palpite-summary-item{
+padding:12px;
+border-radius:8px;
+background:rgba(255,255,255,.1);
+font-size:13px;
+line-height:1.4;
+}
+
+.palpite-summary-item strong{
+display:block;
+font-size:14px;
+margin-bottom:4px;
+}
+
+.palpite-empty{
+color:#d9f2ec;
+font-size:13px;
+line-height:1.5;
 }
 
 .seriea-section{
@@ -1665,7 +1774,8 @@ object-fit:cover;
 }
 
 .seriea-section,
-.worldcup-section{
+.worldcup-section,
+.palpitometro-section{
 padding:22px 16px;
 }
 
@@ -1684,6 +1794,26 @@ font-size:13px;
 
 .seriea-cards{
 grid-template-columns:1fr;
+}
+
+.palpitometro-grid{
+grid-template-columns:1fr;
+}
+
+.palpitometro-panel{
+position:static;
+}
+
+.palpite-cards{
+grid-template-columns:1fr;
+}
+
+.palpite-match{
+gap:8px;
+}
+
+.score-inputs{
+gap:8px;
 }
 
 .match-card{
@@ -1791,6 +1921,11 @@ min-width:160px;
 
 @media (max-width: 480px){
   .worldcup-flag{ width:48px; height:36px; }
+  .palpite-team .worldcup-flag{ width:48px; height:36px; }
+  .palpite-card{ padding:14px; }
+  .palpite-card-top{ display:block; }
+  .palpite-date{ margin-top:6px; text-align:left; }
+  .score-box input{ height:40px; font-size:20px; }
   .worldcup-table-team .worldcup-flag{ width:24px; height:16px; flex:0 0 24px; }
   .worldcup-table .team-cell{ gap:8px; }
   .worldcup-table .team-cell > strong{ transform: translateX(-2px); width:22px; }
@@ -1872,11 +2007,11 @@ min-width:160px;
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "NewsMediaOrganization",
+  "@type": "SportsOrganization",
   "name": "Bem Esportivo",
   "url": "https://bemesportivo.com.br",
   "logo": "https://bemesportivo.com.br/img/logobemoficial.png",
-  "description": "Portal de notícias esportivas com cobertura de futebol, Copa do Mundo, Série A Brasileira e análises de profissionais.",
+  "description": "Conteúdo esportivo com futebol, Copa do Mundo, Série A Brasileira, escalações, colunas e análises de profissionais.",
   "sameAs": ["https://www.facebook.com/bemesportivo", "https://www.instagram.com/bemesportivo"],
   "contactPoint": {
     "@type": "ContactPoint",
@@ -1900,6 +2035,7 @@ min-width:160px;
 <a href="profissionais.html">Profissionais</a>
 <a href="produtos.html">Produtos</a>
 <a href="escalacao.html">Escalação</a>
+<a href="#palpitometro">Palpitômetro</a>
 <a href="beplay.html">Beplay</a>
 <a href="coluna-valtinho.html">Fala aí Valtinho</a>
 </nav>
@@ -1924,7 +2060,7 @@ min-width:160px;
 <div class="banner-top">
 <div class="banner-content">
 <h1>Bem Esportivo</h1>
-<p>Seu portal de notícias sobre esportes</p>
+<p>Conteúdo esportivo, escalações e opinião com identidade própria</p>
 </div>
 </div>
 </div>
@@ -2102,16 +2238,32 @@ Ainda existe paixão ou virou negócio?
 
 </section>
 
-<section class="container">
+<section class="container palpitometro-section" id="palpitometro">
 
-<h2>📰 Notícias de Futebol do Globo Esporte</h2>
-
-<div id="rssNews" class="grid rss-news">
-  <p>Carregando notícias do Globo Esporte...</p>
+<div class="seriea-heading">
+  <div>
+    <span class="seriea-kicker">Palpitômetro da Seleção</span>
+    <h2>Dê seu placar para os jogos do Brasil</h2>
+  </div>
+  <p>Monte seu palpite, escolha o jogador decisivo e salve suas apostas de coração para acompanhar antes da bola rolar.</p>
 </div>
 
-<div class="modal" id="modalNews">
-<div class="modal-content news-modal-content" id="conteudoNews"></div>
+<div class="palpitometro-grid">
+  <div id="palpiteCards" class="palpite-cards">
+    <p>Carregando jogos da Seleção...</p>
+  </div>
+
+  <aside class="palpitometro-panel">
+    <span class="seriea-kicker">Meu termômetro</span>
+    <h3 id="palpitometroTitle">Nenhum palpite salvo</h3>
+    <div class="palpitometro-meter" aria-hidden="true">
+      <span id="palpitometroMeter"></span>
+    </div>
+    <p id="palpitometroText" class="palpite-empty">
+      Salve um placar para ver o nível de confiança dos seus palpites da Seleção.
+    </p>
+    <div id="palpiteSummary" class="palpite-summary"></div>
+  </aside>
 </div>
 
 </section>
@@ -2587,8 +2739,6 @@ return false;
 }
 
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
-const GE_FOOTBALL_FEED_URL = 'https://ge.globo.com/futebol/';
-const DEFAULT_NEWS_IMAGES = ['img/noticia-padrao.png'];
 const FIFA_WORLD_CUP_URL = 'https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums';
 
 const WORLD_CUP_MATCHES = [
@@ -2616,6 +2766,17 @@ const WORLD_CUP_MATCHES = [
   {date:'2026-06-17',group:'L',home:'Inglaterra',away:'Croácia',venue:'Dallas Stadium'},
   {date:'2026-06-17',group:'K',home:'Portugal',away:'Congo DR / Jamaica / Nova Caledônia',venue:'Houston Stadium'},
   {date:'2026-06-17',group:'K',home:'Uzbequistão',away:'Colômbia',venue:'Estádio Cidade do México'}
+];
+
+const PALPITOMETRO_PLAYERS = [
+  'Vini Jr',
+  'Rodrygo',
+  'Endrick',
+  'Raphinha',
+  'Neymar',
+  'Bruno Guimarães',
+  'Alisson',
+  'Outro nome'
 ];
 
 const WORLD_CUP_FLAG_CODES = {
@@ -2731,23 +2892,6 @@ const FALLBACK_STANDINGS = [
   { ordem: 2, nome_popular: 'Palmeiras', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2018/04/09/palmeiras.svg', pontos: '-', jogos: '-', vitorias: '-', empates: '-', derrotas: '-', gols_pro: '-', gols_contra: '-', saldo_gols: '-', aproveitamento: '-', ultimos_jogos: [] },
   { ordem: 3, nome_popular: 'Cruzeiro', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2018/04/09/cruzeiro.svg', pontos: '-', jogos: '-', vitorias: '-', empates: '-', derrotas: '-', gols_pro: '-', gols_contra: '-', saldo_gols: '-', aproveitamento: '-', ultimos_jogos: [] },
   { ordem: 4, nome_popular: 'Botafogo', escudo: 'https://s.glbimg.com/es/sde/f/equipes/2019/02/04/botafogo-svg.svg', pontos: '-', jogos: '-', vitorias: '-', empates: '-', derrotas: '-', gols_pro: '-', gols_contra: '-', saldo_gols: '-', aproveitamento: '-', ultimos_jogos: [] }
-];
-
-const FALLBACK_NEWS = [
-  {
-    title: 'Últimas notícias de futebol no ge',
-    href: GE_FOOTBALL_FEED_URL,
-    section: 'Futebol',
-    metadata: 'Fonte oficial',
-    image: DEFAULT_NEWS_IMAGES[0]
-  },
-  {
-    title: 'Tabela e jogos do Brasileirão Série A',
-    href: GE_BRASILEIRAO_URL,
-    section: 'Brasileirão',
-    metadata: 'Atualização externa indisponível',
-    image: DEFAULT_NEWS_IMAGES[0]
-  }
 ];
 
 const CORS_PROXY_BUILDERS = [
@@ -3241,6 +3385,283 @@ function initials(name){
   return String(name||'').split(' ').map(p => p[0] || '').join('').slice(0,2).toUpperCase();
 }
 
+function getPrimaryWorldCupTeam(name){
+  if(!name) return '';
+  const parts = String(name).split('/').map(part => part.trim()).filter(Boolean);
+  return parts[0] || String(name).trim();
+}
+
+function getCompositeTeamDetail(name){
+  if(!name || String(name).indexOf('/') === -1) return '';
+  return 'Time a definir';
+}
+
+function getWorldCupFlagUrl(name, size = '64x48'){
+  if(!name) return '';
+  let candidate = String(name).split('/')[0].trim();
+  candidate = candidate.replace(/\(.+\)/,'').trim();
+
+  if(WORLD_CUP_FLAG_CODES[candidate]){
+    return `https://flagcdn.com/${size}/${WORLD_CUP_FLAG_CODES[candidate]}.png`;
+  }
+
+  const norm = normalizeStr(candidate);
+  for(const key in WORLD_CUP_FLAG_CODES){
+    const kn = normalizeStr(key);
+    if(kn === norm || norm.includes(kn) || kn.includes(norm)){
+      return `https://flagcdn.com/${size}/${WORLD_CUP_FLAG_CODES[key]}.png`;
+    }
+  }
+
+  const code = getCountryCodeByName(candidate);
+  return code ? `https://flagcdn.com/${size}/${code}.png` : '';
+}
+
+function getPalpitometroMatches(){
+  return WORLD_CUP_MATCHES
+    .filter(match => normalizeStr(match.home).includes('brasil') || normalizeStr(match.away).includes('brasil'))
+    .map((match, index) => ({
+      ...match,
+      id: `${match.date}-${normalizeStr(match.home)}-${normalizeStr(match.away)}-${index}`.replace(/[^a-z0-9-]+/g, '-')
+    }));
+}
+
+function getSavedPalpites(){
+  try{
+    return JSON.parse(localStorage.getItem('bemPalpitometro') || '{}');
+  } catch(error){
+    return {};
+  }
+}
+
+function savePalpites(palpites){
+  localStorage.setItem('bemPalpitometro', JSON.stringify(palpites));
+}
+
+function clampScore(value){
+  const number = Number(value);
+  if(Number.isNaN(number)) return 0;
+  return Math.max(0, Math.min(15, Math.round(number)));
+}
+
+function getPalpiteLabel(home, away, homeScore, awayScore){
+  if(homeScore === awayScore){
+    return `Empate em ${homeScore} x ${awayScore}`;
+  }
+
+  const winner = homeScore > awayScore ? home : away;
+  return `Vitória de ${winner}: ${homeScore} x ${awayScore}`;
+}
+
+function getPalpiteMood(palpite){
+  const diff = Math.abs(palpite.homeScore - palpite.awayScore);
+  const confidence = Number(palpite.confidence || 50);
+
+  if(diff >= 3 && confidence >= 75){
+    return 'Palpite ousado';
+  }
+
+  if(confidence >= 80){
+    return 'Confiança alta';
+  }
+
+  if(diff === 0){
+    return 'Jogo travado';
+  }
+
+  return 'Palpite equilibrado';
+}
+
+function updatePalpitePreview(matchId){
+  const card = document.querySelector(`[data-palpite-id="${matchId}"]`);
+  if(!card) return;
+
+  const home = card.dataset.home;
+  const away = card.dataset.away;
+  const homeScore = clampScore(card.querySelector('[data-score="home"]').value);
+  const awayScore = clampScore(card.querySelector('[data-score="away"]').value);
+  const confidence = Number(card.querySelector('[data-confidence]').value || 50);
+  const preview = card.querySelector('[data-palpite-preview]');
+  const confidenceValue = card.querySelector('[data-confidence-value]');
+
+  confidenceValue.textContent = `${confidence}%`;
+  preview.textContent = `${getPalpiteLabel(home, away, homeScore, awayScore)} com ${confidence}% de confiança.`;
+}
+
+function savePalpite(matchId){
+  const card = document.querySelector(`[data-palpite-id="${matchId}"]`);
+  if(!card) return;
+
+  const palpites = getSavedPalpites();
+  const homeScore = clampScore(card.querySelector('[data-score="home"]').value);
+  const awayScore = clampScore(card.querySelector('[data-score="away"]').value);
+  const confidence = Number(card.querySelector('[data-confidence]').value || 50);
+  const player = card.querySelector('[data-player]').value;
+
+  palpites[matchId] = {
+    home: card.dataset.home,
+    away: card.dataset.away,
+    date: card.dataset.date,
+    group: card.dataset.group,
+    venue: card.dataset.venue,
+    homeScore,
+    awayScore,
+    confidence,
+    player,
+    savedAt: new Date().toISOString()
+  };
+
+  savePalpites(palpites);
+  renderPalpitometroSummary();
+
+  const preview = card.querySelector('[data-palpite-preview]');
+  preview.textContent = `Salvo: ${getPalpiteLabel(card.dataset.home, card.dataset.away, homeScore, awayScore)}. Decisivo: ${player}.`;
+}
+
+function clearPalpite(matchId){
+  const palpites = getSavedPalpites();
+  delete palpites[matchId];
+  savePalpites(palpites);
+  renderPalpitometro();
+}
+
+function renderPalpitometroSummary(){
+  const title = document.getElementById('palpitometroTitle');
+  const meter = document.getElementById('palpitometroMeter');
+  const text = document.getElementById('palpitometroText');
+  const summary = document.getElementById('palpiteSummary');
+
+  if(!title || !meter || !text || !summary) return;
+
+  const palpites = Object.values(getSavedPalpites());
+
+  if(palpites.length === 0){
+    title.textContent = 'Nenhum palpite salvo';
+    meter.style.width = '0';
+    text.textContent = 'Salve um placar para ver o nível de confiança dos seus palpites da Seleção.';
+    summary.innerHTML = '';
+    return;
+  }
+
+  const averageConfidence = Math.round(palpites.reduce((total, item) => total + Number(item.confidence || 0), 0) / palpites.length);
+  const brazilWins = palpites.filter(item => {
+    const brasilHome = normalizeStr(item.home).includes('brasil');
+    if(item.homeScore === item.awayScore) return false;
+    return brasilHome ? item.homeScore > item.awayScore : item.awayScore > item.homeScore;
+  }).length;
+
+  title.textContent = `${palpites.length} palpite${palpites.length > 1 ? 's' : ''} salvo${palpites.length > 1 ? 's' : ''}`;
+  meter.style.width = `${averageConfidence}%`;
+  text.textContent = `Confiança média de ${averageConfidence}%. Você colocou o Brasil vencendo ${brazilWins} jogo${brazilWins === 1 ? '' : 's'}.`;
+
+  summary.innerHTML = palpites.map(item => `
+    <div class="palpite-summary-item">
+      <strong>${item.home} ${item.homeScore} x ${item.awayScore} ${item.away}</strong>
+      ${formatMatchDate(`${item.date}T12:00:00-03:00`)} | ${getPalpiteMood(item)} | Decisivo: ${item.player}
+    </div>
+  `).join('');
+}
+
+function renderPalpitometro(){
+  const container = document.getElementById('palpiteCards');
+  if(!container) return;
+
+  const matches = getPalpitometroMatches();
+  const palpites = getSavedPalpites();
+
+  if(matches.length === 0){
+    container.innerHTML = '<div class="rss-error">Nenhum jogo do Brasil foi encontrado na tabela carregada.</div>';
+    renderPalpitometroSummary();
+    return;
+  }
+
+  container.innerHTML = matches.map(match => {
+    const saved = palpites[match.id] || {};
+    const homeDisplay = getPrimaryWorldCupTeam(match.home);
+    const awayDisplay = getPrimaryWorldCupTeam(match.away);
+    const homeFlag = getWorldCupFlagUrl(match.home, '64x48');
+    const awayFlag = getWorldCupFlagUrl(match.away, '64x48');
+    const homeScore = saved.homeScore ?? 2;
+    const awayScore = saved.awayScore ?? 1;
+    const confidence = saved.confidence ?? 65;
+    const player = saved.player || PALPITOMETRO_PLAYERS[0];
+
+    return `
+      <article class="palpite-card searchable" data-palpite-id="${match.id}" data-home="${homeDisplay}" data-away="${awayDisplay}" data-date="${match.date}" data-group="${match.group}" data-venue="${match.venue}">
+        <div class="palpite-card-top">
+          <div>
+            <div class="palpite-kicker">Grupo ${match.group}</div>
+            <h3>${homeDisplay} x ${awayDisplay}</h3>
+          </div>
+          <div class="palpite-date">${formatMatchDate(`${match.date}T12:00:00-03:00`)}</div>
+        </div>
+
+        <div class="palpite-match">
+          <div class="palpite-team">
+            <div class="worldcup-flag">${homeFlag ? `<img src="${homeFlag}" alt="${homeDisplay}" loading="lazy">` : initials(homeDisplay)}</div>
+            <span>${homeDisplay}</span>
+          </div>
+          <div class="palpite-versus">VS</div>
+          <div class="palpite-team">
+            <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${awayDisplay}" loading="lazy">` : initials(awayDisplay)}</div>
+            <span>${awayDisplay}</span>
+          </div>
+        </div>
+
+        <div class="score-inputs">
+          <div class="score-box">
+            <label>${homeDisplay}</label>
+            <input type="number" min="0" max="15" value="${homeScore}" data-score="home" aria-label="Gols de ${homeDisplay}">
+          </div>
+          <div class="score-divider">x</div>
+          <div class="score-box">
+            <label>${awayDisplay}</label>
+            <input type="number" min="0" max="15" value="${awayScore}" data-score="away" aria-label="Gols de ${awayDisplay}">
+          </div>
+        </div>
+
+        <div class="palpite-field">
+          <label>Jogador decisivo</label>
+          <select data-player>
+            ${PALPITOMETRO_PLAYERS.map(name => `<option value="${name}" ${name === player ? 'selected' : ''}>${name}</option>`).join('')}
+          </select>
+        </div>
+
+        <div class="palpite-field">
+          <label>Confiança no palpite</label>
+          <div class="confidence-row">
+            <input type="range" min="10" max="100" step="5" value="${confidence}" data-confidence aria-label="Confiança no palpite">
+            <span class="confidence-value" data-confidence-value>${confidence}%</span>
+          </div>
+        </div>
+
+        <div class="palpite-result" data-palpite-preview>
+          ${saved.savedAt ? `Salvo: ${getPalpiteLabel(homeDisplay, awayDisplay, homeScore, awayScore)}. Decisivo: ${player}.` : `${getPalpiteLabel(homeDisplay, awayDisplay, homeScore, awayScore)} com ${confidence}% de confiança.`}
+        </div>
+
+        <div class="palpite-actions">
+          <button type="button" class="btn palpite-save" data-save-palpite="${match.id}">Salvar palpite</button>
+          <button type="button" class="btn palpite-clear" data-clear-palpite="${match.id}">Limpar</button>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  container.querySelectorAll('[data-score], [data-confidence]').forEach(input => {
+    input.addEventListener('input', () => updatePalpitePreview(input.closest('[data-palpite-id]').dataset.palpiteId));
+  });
+
+  container.querySelectorAll('[data-save-palpite]').forEach(button => {
+    button.addEventListener('click', () => savePalpite(button.dataset.savePalpite));
+  });
+
+  container.querySelectorAll('[data-clear-palpite]').forEach(button => {
+    button.addEventListener('click', () => clearPalpite(button.dataset.clearPalpite));
+  });
+
+  renderPalpitometroSummary();
+}
+
 function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   const container = document.getElementById('worldCupMatches');
   const table = document.getElementById('worldCupTable');
@@ -3275,16 +3696,6 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
     return code ? `https://flagcdn.com/${size}/${code}.png` : '';
   }
 
-  function getPrimaryWorldCupTeam(name){
-    if(!name) return '';
-    const parts = String(name).split('/').map(part => part.trim()).filter(Boolean);
-    return parts[0] || String(name).trim();
-  }
-
-  function getCompositeTeamDetail(name){
-    if(!name || String(name).indexOf('/') === -1) return '';
-    return 'Time a definir';
-  }
   container.innerHTML = featuredMatches.map(match => {
     const status = getWorldCupStatus(match);
     const statusClass = status.toLowerCase().replace(/\s+/g, '-');
@@ -3394,10 +3805,9 @@ async function loadWorldCupLive(){
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  renderPalpitometro();
   loadWorldCupLive();
-  loadGeRss();
   setInterval(loadWorldCupLive, 60000); // atualiza jogos da Copa a cada 60 segundos
-  setInterval(loadGeRss, 180000); // atualiza notícias a cada 3 minutos
 });
 
 function destacarMaisComentado(){
@@ -3430,306 +3840,10 @@ function destacarMaisComentado(){
   }
 }
 
-let geNewsSummaries = [];
-
-function escapeHtml(value){
-  return String(value || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-function sanitizeUrl(url){
-  const value = String(url || '').trim();
-  if(/^(img|videos)\//.test(value) || value.startsWith('./') || value.startsWith('/')){
-    return value;
-  }
-
-  try {
-    const parsedUrl = new URL(value);
-    return parsedUrl.protocol === 'https:' || parsedUrl.protocol === 'http:' ? parsedUrl.href : '#';
-  } catch(error){
-    return '#';
-  }
-}
-
-function getImageFromElement(element){
-  const img = element?.querySelector?.('img');
-  if(!img){
-    return '';
-  }
-
-  return img.getAttribute('src') ||
-         img.getAttribute('data-src') ||
-         img.getAttribute('data-lazy') ||
-         img.getAttribute('data-original') ||
-         img.getAttribute('data-url') ||
-         '';
-}
-
-function getFallbackNewsImage(index){
-  return DEFAULT_NEWS_IMAGES[index % DEFAULT_NEWS_IMAGES.length];
-}
-
 function cleanText(value){
   return String(value || '')
     .replace(/\s+/g, ' ')
     .trim();
-}
-
-function limitText(value, maxLength){
-  const text = cleanText(value);
-  if(text.length <= maxLength){
-    return text;
-  }
-
-  return text.slice(0, maxLength).replace(/\s+\S*$/, '') + '...';
-}
-
-function getMetaContent(doc, selectors){
-  for(const selector of selectors){
-    const content = doc.querySelector(selector)?.getAttribute('content');
-    if(content){
-      return cleanText(content);
-    }
-  }
-
-  return '';
-}
-
-function extractArticleContext(html){
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-
-  return {
-    description: getMetaContent(doc, [
-      'meta[property="og:description"]',
-      'meta[name="description"]',
-      'meta[name="twitter:description"]'
-    ]),
-    author: getMetaContent(doc, [
-      'meta[name="author"]',
-      'meta[property="article:author"]'
-    ])
-  };
-}
-
-async function fetchArticleContext(url){
-  if(!url || url === '#'){
-    return {};
-  }
-
-  const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(url);
-
-  try {
-    const response = await fetch(proxyUrl);
-    if(!response.ok){
-      throw new Error('Falha ao carregar matéria: ' + response.status);
-    }
-
-    const html = await response.text();
-    return extractArticleContext(html);
-  } catch(error){
-    console.warn('Resumo detalhado indisponível:', error);
-    return {};
-  }
-}
-
-function buildOriginalNewsSummary(title, section, metadata, description){
-  const context = section || 'Futebol';
-  const sourceDetail = description
-    ? `A chamada pública da fonte informa: ${limitText(description, 240)}`
-    : 'A fonte ainda não trouxe uma chamada detalhada disponível para resumo automático.';
-  const timeInfo = metadata ? `Atualização do feed: ${metadata}.` : 'Atualização do giro esportivo mais recente.';
-
-  return `O assunto em destaque é: ${title}. ${sourceDetail} Para quem acompanha ${context.toLowerCase()}, o ponto principal é entender o impacto dessa atualização no momento do futebol. ${timeInfo} Este texto é um resumo automático do Bem Esportivo, sem reprodução integral da matéria original.`;
-}
-
-function openNewsSummary(index){
-  const news = geNewsSummaries[index];
-  if(!news){
-    return;
-  }
-
-  const modal = document.getElementById('modalNews');
-  const content = document.getElementById('conteudoNews');
-
-  content.innerHTML = `
-    <button class="close" onclick="closeNewsSummary()">X</button>
-    <span class="news-source">Bem Esportivo | Resumo</span>
-    <h2>${news.title}</h2>
-    ${news.section ? `<p class="meta">${news.section}</p>` : ''}
-    <p class="news-summary">${news.summary}</p>
-    <div class="news-credit">
-      <strong>Crédito e fonte:</strong> com informações do ge${news.author ? ` / ${news.author}` : ''}. O conteúdo acima é um resumo automático próprio do Bem Esportivo, baseado em dados públicos da chamada da notícia. A matéria original, com apuração completa, autoria e eventuais imagens da fonte, está disponível no link oficial.
-    </div>
-    <div class="news-actions">
-      <a href="${news.href}" target="_blank" rel="noopener noreferrer" class="btn">Ver fonte oficial</a>
-      <button type="button" class="btn btn-secondary" onclick="closeNewsSummary()">Fechar</button>
-    </div>
-  `;
-
-  modal.style.display = 'flex';
-}
-
-function closeNewsSummary(){
-  document.getElementById('modalNews').style.display = 'none';
-}
-
-async function loadGeRss(){
-  const feedPageUrl = 'http://ge.globo.com/index/feed/pagina-2.ghtml';
-  const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(feedPageUrl);
-  const rssContainer = document.getElementById('rssNews');
-
-  try {
-    const response = await fetch(proxyUrl);
-
-    if(!response.ok){
-      throw new Error('Falha ao buscar o feed: ' + response.status);
-    }
-
-    const htmlText = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlText, 'text/html');
-
-    const allLinks = Array.from(doc.querySelectorAll('.feed-post-body-title a, .feed-post-link'))
-      .filter(link => link.href && link.textContent.trim());
-
-    const uniqueLinks = [];
-    const seen = new Set();
-
-    for (const link of allLinks) {
-      if (!seen.has(link.href)) {
-        seen.add(link.href);
-        uniqueLinks.push(link);
-      }
-    }
-
-    const footballLinks = uniqueLinks.filter(link => /ge\.globo\.com\/futebol\//.test(link.href));
-    const feedLinks = (footballLinks.length ? footballLinks : uniqueLinks).slice(0, 5);
-
-    if(feedLinks.length === 0){
-      throw new Error('Nenhuma notícia de futebol encontrada no feed do GE.');
-    }
-
-    geNewsSummaries = await Promise.all(feedLinks.map(async link => {
-      const rawTitle = link.textContent.trim();
-      const href = sanitizeUrl(link.href);
-      const post = link.closest('.feed-post') || link.closest('.feed-post-body');
-      const item = link.closest('.feed-post-body') || post;
-      const rawSection = item?.querySelector('.feed-post-header-chapeu')?.textContent.trim() || '';
-      const rawMetadata = item?.querySelector('.feed-post-metadata')?.textContent.replace(/\s+/g, ' ').trim() || '';
-      
-      return {
-        title: escapeHtml(rawTitle),
-        href,
-        section: escapeHtml(rawSection),
-        metadata: escapeHtml(rawMetadata),
-        image: getFallbackNewsImage()
-      };
-    }));
-
-    rssContainer.innerHTML = geNewsSummaries.map((news) => {
-      const imageHtml = news.image ? `<img src="${news.image}" alt="${news.title}" class="rss-image">` : '';
-      return `
-        <article class="card rss-card">
-          ${imageHtml}
-          <div class="rss-body">
-            <div>
-              <h3>${news.title}</h3>
-              ${news.section ? `<p class="rss-section">${news.section}</p>` : ''}
-            </div>
-            <div>
-              ${news.metadata ? `<small>${news.metadata}</small>` : ''}
-              <a href="${news.href}" target="_blank" rel="noopener noreferrer" class="btn">Ler notícia</a>
-            </div>
-          </div>
-        </article>
-      `;
-    }).join('');
-  } catch(error){
-    console.error(error);
-    rssContainer.innerHTML = '<div class="rss-error">Não foi possível carregar as notícias do Globo Esporte. Verifique a conexão ou tente novamente mais tarde.</div>';
-  }
-}
-
-function renderNewsCards(newsItems, sourceLabel = ''){
-  const rssContainer = document.getElementById('rssNews');
-  geNewsSummaries = newsItems.map(news => ({
-    title: escapeHtml(news.title),
-    href: sanitizeUrl(news.href),
-    section: escapeHtml(news.section),
-    metadata: escapeHtml(news.metadata),
-    image: getFallbackNewsImage()
-  }));
-
-  const sourceHtml = sourceLabel ? `<div class="rss-error">${sourceLabel}</div>` : '';
-  rssContainer.innerHTML = sourceHtml + geNewsSummaries.map((news) => {
-    const imageHtml = news.image && news.image !== '#' ? `<img src="${news.image}" alt="${news.title}" class="rss-image">` : '';
-    return `
-      <article class="card rss-card">
-        ${imageHtml}
-        <div class="rss-body">
-          <div>
-            <h3>${news.title}</h3>
-            ${news.section ? `<p class="rss-section">${news.section}</p>` : ''}
-          </div>
-          <div>
-            ${news.metadata ? `<small>${news.metadata}</small>` : ''}
-            <a href="${news.href}" target="_blank" rel="noopener noreferrer" class="btn">Ler notícia</a>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join('');
-}
-
-async function loadGeRss(){
-  const rssContainer = document.getElementById('rssNews');
-  renderNewsCards(FALLBACK_NEWS, 'Buscando notícias atualizadas. Enquanto isso, os links oficiais continuam disponíveis.');
-
-  try {
-    const htmlText = await fetchExternalText(GE_FOOTBALL_FEED_URL);
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlText, 'text/html');
-
-    const allLinks = Array.from(doc.querySelectorAll('a'))
-      .map(link => {
-        const card = link.closest('article, .feed-post, .feed-post-body, .bastian-feed-item, li, div');
-        return {
-          title: cleanText(link.textContent),
-          href: sanitizeUrl(link.href || link.getAttribute('href')),
-          image: sanitizeUrl(getImageFromElement(card) || getImageFromElement(link.parentElement))
-        };
-      })
-      .filter(link => link.title.length > 25 && /ge\.globo\.com\/futebol\//.test(link.href));
-
-    const uniqueLinks = [];
-    const seen = new Set();
-
-    for(const link of allLinks){
-      if(!seen.has(link.href)){
-        seen.add(link.href);
-        uniqueLinks.push({
-          ...link,
-          section: 'Futebol',
-          metadata: 'ge',
-          image: getFallbackNewsImage()
-        });
-      }
-    }
-
-    if(uniqueLinks.length === 0){
-      throw new Error('Nenhuma notícia encontrada na página do GE.');
-    }
-
-    renderNewsCards(uniqueLinks.slice(0, 5));
-  } catch(error){
-    renderNewsCards(FALLBACK_NEWS, 'Atualização automática indisponível agora. Os links oficiais continuam disponíveis.');
-    console.error('Erro ao carregar notícias:', error);
-  }
 }
 
 /* FECHAR MODAL */
@@ -3737,14 +3851,9 @@ async function loadGeRss(){
 window.addEventListener('click', function(e){
 
 const modal = document.getElementById('modalDebate');
-const newsModal = document.getElementById('modalNews');
 
 if(e.target === modal){
 fecharModal();
-}
-
-if(e.target === newsModal){
-closeNewsSummary();
 }
 
 });
