@@ -712,19 +712,73 @@ border-radius:12px;
 
 .palpitometro-section{
 margin-top:40px;
-padding:28px 20px;
+padding:32px 22px;
 border-radius:8px;
 background:
-linear-gradient(135deg,rgba(12,82,42,.98),rgba(9,33,60,.96)),
-radial-gradient(circle at 85% 15%,rgba(255,210,48,.32),transparent 36%);
-box-shadow:0 18px 45px rgba(0,0,0,.16);
+radial-gradient(circle at 12% 12%,rgba(255,207,51,.24),transparent 30%),
+linear-gradient(135deg,rgba(11,19,18,.98),rgba(12,75,46,.96) 55%,rgba(5,22,28,.98));
+box-shadow:0 22px 54px rgba(0,0,0,.24);
 color:#fff;
+overflow:hidden;
+position:relative;
+}
+
+.palpitometro-section::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(90deg,rgba(255,255,255,.06),transparent 18%,transparent 82%,rgba(255,207,51,.08));
+pointer-events:none;
+}
+
+.palpitometro-section > *{
+position:relative;
+z-index:1;
+}
+
+.palpite-livebar{
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:12px;
+margin:4px 0 22px;
+}
+
+.palpite-livebar-card{
+padding:14px;
+border-radius:8px;
+background:rgba(255,255,255,.1);
+border:1px solid rgba(255,255,255,.16);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.palpite-livebar-card span{
+display:block;
+font-size:11px;
+font-weight:900;
+letter-spacing:.08em;
+text-transform:uppercase;
+color:#ffcf33;
+margin-bottom:5px;
+}
+
+.palpite-livebar-card strong{
+display:block;
+font-size:20px;
+line-height:1.15;
+}
+
+.palpite-livebar-card small{
+display:block;
+margin-top:5px;
+font-size:12px;
+line-height:1.35;
+color:#d9f2ec;
 }
 
 .palpitometro-grid{
 display:grid;
 grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);
-gap:18px;
+gap:20px;
 align-items:start;
 }
 
@@ -735,15 +789,42 @@ gap:16px;
 }
 
 .palpite-card{
-background:#fff;
+background:linear-gradient(180deg,#fff,#f7fbf8);
 color:#111;
 border-radius:8px;
 padding:18px;
-box-shadow:0 14px 30px rgba(0,0,0,.18);
+box-shadow:0 16px 36px rgba(0,0,0,.22);
 display:flex;
 flex-direction:column;
 gap:14px;
 min-height:320px;
+border:1px solid rgba(255,207,51,.18);
+position:relative;
+overflow:hidden;
+transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.palpite-card::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:4px;
+background:linear-gradient(90deg,#0d7d48,#ffcf33);
+}
+
+.palpite-card:hover{
+transform:translateY(-4px);
+box-shadow:0 22px 44px rgba(0,0,0,.28);
+}
+
+.palpite-card.is-featured{
+border-color:rgba(255,207,51,.75);
+}
+
+.palpite-card.is-saved{
+border-color:rgba(13,125,72,.34);
 }
 
 .palpite-card-top{
@@ -766,6 +847,21 @@ font-size:12px;
 font-weight:800;
 color:#6b7280;
 text-align:right;
+}
+
+.palpite-badge{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-height:24px;
+padding:5px 9px;
+border-radius:999px;
+background:#fff5cf;
+color:#8a5b00;
+font-size:11px;
+font-weight:900;
+text-transform:uppercase;
+white-space:nowrap;
 }
 
 .palpite-match{
@@ -792,6 +888,48 @@ height:44px;
 .palpite-versus{
 font-weight:900;
 color:#6b7280;
+}
+
+.palpite-matchup-meta{
+display:flex;
+justify-content:center;
+gap:8px;
+flex-wrap:wrap;
+font-size:12px;
+font-weight:800;
+color:#4b5563;
+text-align:center;
+}
+
+.palpite-quick-row{
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:8px;
+}
+
+.palpite-quick{
+border:1px solid #d9dde3;
+border-radius:8px;
+background:#fff;
+color:#111;
+font-size:12px;
+font-weight:900;
+padding:9px 8px;
+cursor:pointer;
+transition:all .2s ease;
+}
+
+.palpite-quick:hover,
+.palpite-quick:focus-visible,
+.palpite-quick.active{
+border-color:#0d7d48;
+background:#effaf4;
+color:#0d7d48;
+outline:none;
+}
+
+.palpite-quick.active{
+box-shadow:0 0 0 3px rgba(13,125,72,.12);
 }
 
 .score-inputs{
@@ -825,6 +963,14 @@ font-size:24px;
 font-weight:900;
 text-align:center;
 color:#111;
+}
+
+.score-box input:focus,
+.palpite-field input:focus,
+.palpite-field select:focus{
+border-color:#0d7d48;
+box-shadow:0 0 0 3px rgba(13,125,72,.14);
+outline:none;
 }
 
 .score-divider{
@@ -882,6 +1028,12 @@ background:#ecfdf3;
 border:1px solid #b8e6c9;
 }
 
+.palpite-result strong{
+display:block;
+margin-bottom:3px;
+font-size:14px;
+}
+
 .palpite-protocol{
 display:block;
 margin-top:5px;
@@ -900,6 +1052,7 @@ margin-top:auto;
 .palpite-save{
 border:none;
 cursor:pointer;
+box-shadow:0 8px 18px rgba(252,110,2,.22);
 }
 
 .palpite-clear{
@@ -910,12 +1063,14 @@ cursor:pointer;
 }
 
 .palpitometro-panel{
-background:rgba(255,255,255,.1);
+background:rgba(5,18,16,.56);
 border:1px solid rgba(255,255,255,.18);
 border-radius:8px;
 padding:18px;
 position:sticky;
 top:90px;
+box-shadow:0 16px 36px rgba(0,0,0,.22);
+backdrop-filter:blur(12px);
 }
 
 .palpitometro-meter{
@@ -2033,6 +2188,19 @@ object-fit:cover;
 padding:22px 16px;
 }
 
+.palpite-livebar{
+grid-template-columns:1fr;
+gap:10px;
+}
+
+.palpite-livebar-card{
+padding:12px;
+}
+
+.palpite-livebar-card strong{
+font-size:18px;
+}
+
 .seriea-heading{
 display:block;
 }
@@ -2177,8 +2345,21 @@ min-width:160px;
   .worldcup-flag{ width:48px; height:36px; }
   .palpite-team .worldcup-flag{ width:48px; height:36px; }
   .palpite-card{ padding:14px; }
-  .palpite-card-top{ display:block; }
-  .palpite-date{ margin-top:6px; text-align:left; }
+.palpite-card-top{ display:block; }
+.palpite-date{ margin-top:6px; text-align:left; }
+.palpite-badge{ margin-top:6px; }
+.palpite-quick-row{ grid-template-columns:1fr; }
+.palpite-actions .btn{ width:100%; text-align:center; }
+.palpite-ranking-row{
+grid-template-columns:28px 1fr;
+align-items:start;
+}
+.palpite-ranking-tools{
+grid-column:2;
+justify-items:start;
+grid-template-columns:auto auto;
+align-items:center;
+}
   .score-box input{ height:40px; font-size:20px; }
   .worldcup-table-team .worldcup-flag{ width:24px; height:16px; flex:0 0 24px; }
   .worldcup-table .team-cell{ gap:8px; }
@@ -2546,6 +2727,24 @@ Ainda existe paixão ou virou negócio?
     <h2>Dê seu placar para os jogos do Brasil</h2>
   </div>
   <p>Escolha o placar, indique o jogador decisivo e registre seu palpite para acompanhar sua leitura do jogo antes da bola rolar.</p>
+</div>
+
+<div class="palpite-livebar" aria-label="Resumo do Palpitômetro">
+  <div class="palpite-livebar-card">
+    <span>Partida em destaque</span>
+    <strong id="palpiteRoundGame">Brasil em campo</strong>
+    <small id="palpiteRoundLabel">Escolha um placar para começar.</small>
+  </div>
+  <div class="palpite-livebar-card">
+    <span>Volume da torcida</span>
+    <strong id="palpiteRoundCount">0 palpites</strong>
+    <small id="palpiteRoundCountLabel">O ranking aparece assim que a torcida participa.</small>
+  </div>
+  <div class="palpite-livebar-card">
+    <span>Tendência</span>
+    <strong id="palpiteRoundTrend">Aguardando</strong>
+    <small id="palpiteRoundTrendLabel">Vitórias, empates e surpresas ficam visíveis aqui.</small>
+  </div>
 </div>
 
 <div class="palpitometro-grid">
@@ -3826,6 +4025,53 @@ function getLatestPalpitesByMatch(){
   return latest;
 }
 
+function renderPalpiteLivebar(matches, latestPalpites){
+  const game = document.getElementById('palpiteRoundGame');
+  const label = document.getElementById('palpiteRoundLabel');
+  const count = document.getElementById('palpiteRoundCount');
+  const countLabel = document.getElementById('palpiteRoundCountLabel');
+  const trend = document.getElementById('palpiteRoundTrend');
+  const trendLabel = document.getElementById('palpiteRoundTrendLabel');
+
+  if(!game || !label || !count || !countLabel || !trend || !trendLabel) return;
+
+  const entries = Object.values(latestPalpites || {});
+  const featured = matches.find(match => !latestPalpites[match.id]) || matches[0];
+  const total = getPalpiteEntries().length;
+
+  if(featured){
+    game.textContent = `${getPrimaryWorldCupTeam(featured.home)} x ${getPrimaryWorldCupTeam(featured.away)}`;
+    label.textContent = `${formatMatchDate(`${featured.date}T12:00:00-03:00`)} | Grupo ${featured.group} | ${featured.venue}`;
+  } else {
+    game.textContent = 'Brasil em campo';
+    label.textContent = 'Os jogos aparecem assim que a tabela carrega.';
+  }
+
+  count.textContent = `${total} palpite${total === 1 ? '' : 's'}`;
+  countLabel.textContent = total
+    ? 'Cada atualização entra no histórico e movimenta o ranking.'
+    : 'Registre o primeiro placar para abrir o ranking.';
+
+  const brazilWins = entries.filter(item => item.brazilPrediction === 'Vitória do Brasil').length;
+  const draws = entries.filter(item => item.brazilPrediction === 'Empate').length;
+  const brazilLosses = entries.filter(item => item.brazilPrediction === 'Derrota do Brasil').length;
+
+  if(entries.length === 0){
+    trend.textContent = 'Aguardando';
+    trendLabel.textContent = 'Vitórias, empates e surpresas ficam visíveis aqui.';
+    return;
+  }
+
+  const leader = [
+    { label:'Brasil vence', value:brazilWins },
+    { label:'Empate', value:draws },
+    { label:'Rival surpreende', value:brazilLosses }
+  ].sort((a, b) => b.value - a.value)[0];
+
+  trend.textContent = leader.label;
+  trendLabel.textContent = `${brazilWins} vitória${brazilWins === 1 ? '' : 's'} do Brasil, ${draws} empate${draws === 1 ? '' : 's'} e ${brazilLosses} zebra${brazilLosses === 1 ? '' : 's'} nos palpites atuais.`;
+}
+
 function getPalpiteUser(){
   try{
     const user = JSON.parse(localStorage.getItem('bemPalpitometroUser') || '{}');
@@ -4028,12 +4274,44 @@ function updatePalpitePreview(matchId){
   const homeScore = clampScore(card.querySelector('[data-score="home"]').value);
   const awayScore = clampScore(card.querySelector('[data-score="away"]').value);
   const confidence = Number(card.querySelector('[data-confidence]').value || 50);
+  const player = card.querySelector('[data-player]')?.value || 'A definir';
   const preview = card.querySelector('[data-palpite-preview]');
   const confidenceValue = card.querySelector('[data-confidence-value]');
 
   confidenceValue.textContent = `${confidence}%`;
   preview.classList.remove('saved');
-  preview.textContent = `${getPalpiteLabel(home, away, homeScore, awayScore)} com ${confidence}% de confiança.`;
+  preview.innerHTML = `<strong>${getPalpiteLabel(home, away, homeScore, awayScore)}</strong>${confidence}% de confiança. Decisivo: ${escapeHtml(player)}.`;
+}
+
+function applyQuickPalpite(matchId, mode){
+  const card = document.querySelector(`[data-palpite-id="${matchId}"]`);
+  if(!card) return;
+
+  const homeInput = card.querySelector('[data-score="home"]');
+  const awayInput = card.querySelector('[data-score="away"]');
+  const confidenceInput = card.querySelector('[data-confidence]');
+  const homeIsBrazil = normalizeStr(card.dataset.home).includes('brasil');
+
+  if(mode === 'draw'){
+    homeInput.value = 1;
+    awayInput.value = 1;
+  } else if(mode === 'brazil'){
+    homeInput.value = homeIsBrazil ? 2 : 0;
+    awayInput.value = homeIsBrazil ? 0 : 2;
+  } else {
+    homeInput.value = homeIsBrazil ? 1 : 2;
+    awayInput.value = homeIsBrazil ? 2 : 1;
+  }
+
+  if(confidenceInput){
+    confidenceInput.value = mode === 'draw' ? 60 : 75;
+  }
+
+  card.querySelectorAll('[data-quick-palpite]').forEach(button => {
+    button.classList.toggle('active', button.dataset.quickPalpite === mode);
+  });
+
+  updatePalpitePreview(matchId);
 }
 
 function savePalpite(matchId){
@@ -4102,11 +4380,13 @@ function savePalpite(matchId){
   palpites[matchId] = palpiteRecord;
   savePalpites(palpites);
   renderPalpitometroSummary();
+  renderPalpiteLivebar(getPalpitometroMatches(), getLatestPalpitesByMatch());
 
   const preview = card.querySelector('[data-palpite-preview]');
   const protocol = getPalpiteProtocol(palpiteRecord);
   preview.classList.add('saved');
-  preview.innerHTML = `Palpite registrado: ${getPalpiteLabel(card.dataset.home, card.dataset.away, homeScore, awayScore)}. Decisivo: ${player}. <span class="palpite-protocol">Protocolo ${protocol}</span>`;
+  preview.innerHTML = `<strong>Palpite registrado</strong>${getPalpiteLabel(card.dataset.home, card.dataset.away, homeScore, awayScore)}. Decisivo: ${escapeHtml(player)}. <span class="palpite-protocol">Protocolo ${protocol}</span>`;
+  card.classList.add('is-saved');
 
   const saveButton = card.querySelector('[data-save-palpite]');
   if(saveButton){
@@ -4305,6 +4585,8 @@ function renderPalpitometro(){
 
   const matches = getPalpitometroMatches();
   const palpites = getLatestPalpitesByMatch();
+  const featuredMatch = matches.find(match => !palpites[match.id]) || matches[0];
+  renderPalpiteLivebar(matches, palpites);
 
   if(matches.length === 0){
     container.innerHTML = '<div class="rss-error">Nenhum jogo do Brasil foi encontrado na tabela carregada.</div>';
@@ -4324,15 +4606,19 @@ function renderPalpitometro(){
     const player = saved.player || PALPITOMETRO_PLAYERS[0];
     const isSaved = Boolean(saved.updatedAt || saved.savedAt);
     const protocol = isSaved ? getPalpiteProtocol(saved.matchId ? saved : {...saved, matchId: match.id}) : '';
+    const isFeatured = featuredMatch?.id === match.id;
 
     return `
-      <article class="palpite-card searchable" data-palpite-id="${match.id}" data-home="${homeDisplay}" data-away="${awayDisplay}" data-date="${match.date}" data-group="${match.group}" data-venue="${match.venue}">
+      <article class="palpite-card searchable ${isFeatured ? 'is-featured' : ''} ${isSaved ? 'is-saved' : ''}" data-palpite-id="${match.id}" data-home="${homeDisplay}" data-away="${awayDisplay}" data-date="${match.date}" data-group="${match.group}" data-venue="${match.venue}">
         <div class="palpite-card-top">
           <div>
             <div class="palpite-kicker">Grupo ${match.group}</div>
             <h3>${homeDisplay} x ${awayDisplay}</h3>
           </div>
-          <div class="palpite-date">${formatMatchDate(`${match.date}T12:00:00-03:00`)}</div>
+          <div>
+            <div class="palpite-date">${formatMatchDate(`${match.date}T12:00:00-03:00`)}</div>
+            <span class="palpite-badge">${isSaved ? 'Registrado' : isFeatured ? 'Destaque' : 'Aberto'}</span>
+          </div>
         </div>
 
         <div class="palpite-match">
@@ -4345,6 +4631,17 @@ function renderPalpitometro(){
             <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${awayDisplay}" loading="lazy">` : initials(awayDisplay)}</div>
             <span>${awayDisplay}</span>
           </div>
+        </div>
+
+        <div class="palpite-matchup-meta">
+          <span>${match.venue}</span>
+          <span>Grupo ${match.group}</span>
+        </div>
+
+        <div class="palpite-quick-row" aria-label="Atalhos de palpite">
+          <button type="button" class="palpite-quick" data-quick-palpite="brazil" data-quick-match="${match.id}">Brasil vence</button>
+          <button type="button" class="palpite-quick" data-quick-palpite="draw" data-quick-match="${match.id}">Empate</button>
+          <button type="button" class="palpite-quick" data-quick-palpite="rival" data-quick-match="${match.id}">Rival vence</button>
         </div>
 
         <div class="score-inputs">
@@ -4375,7 +4672,7 @@ function renderPalpitometro(){
         </div>
 
         <div class="palpite-result ${isSaved ? 'saved' : ''}" data-palpite-preview>
-          ${isSaved ? `Palpite registrado: ${getPalpiteLabel(homeDisplay, awayDisplay, homeScore, awayScore)}. Decisivo: ${player}. <span class="palpite-protocol">Protocolo ${protocol}</span>` : `${getPalpiteLabel(homeDisplay, awayDisplay, homeScore, awayScore)} com ${confidence}% de confiança.`}
+          ${isSaved ? `<strong>Palpite registrado</strong>${getPalpiteLabel(homeDisplay, awayDisplay, homeScore, awayScore)}. Decisivo: ${escapeHtml(player)}. <span class="palpite-protocol">Protocolo ${protocol}</span>` : `<strong>${getPalpiteLabel(homeDisplay, awayDisplay, homeScore, awayScore)}</strong>${confidence}% de confiança. Decisivo: ${escapeHtml(player)}.`}
         </div>
 
         <div class="palpite-actions">
@@ -4386,8 +4683,13 @@ function renderPalpitometro(){
     `;
   }).join('');
 
-  container.querySelectorAll('[data-score], [data-confidence]').forEach(input => {
+  container.querySelectorAll('[data-score], [data-confidence], [data-player]').forEach(input => {
     input.addEventListener('input', () => updatePalpitePreview(input.closest('[data-palpite-id]').dataset.palpiteId));
+    input.addEventListener('change', () => updatePalpitePreview(input.closest('[data-palpite-id]').dataset.palpiteId));
+  });
+
+  container.querySelectorAll('[data-quick-palpite]').forEach(button => {
+    button.addEventListener('click', () => applyQuickPalpite(button.dataset.quickMatch, button.dataset.quickPalpite));
   });
 
   container.querySelectorAll('[data-save-palpite]').forEach(button => {
