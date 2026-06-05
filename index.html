@@ -311,12 +311,26 @@ overflow:hidden;
 box-shadow:0 10px 40px rgba(0,0,0,.5);
 }
 
+.banner-art{
+background-image:var(--banner-image);
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:scroll;
+aspect-ratio:1536/341;
+min-height:220px;
+}
+
 .banner-top::before{
 content:"";
 position:absolute;
 inset:0;
 background:radial-gradient(circle at 50% 50%,rgba(100,100,100,.3),transparent 70%);
 z-index:1;
+}
+
+.banner-art::before{
+background:linear-gradient(90deg, rgba(0,0,0,.18), transparent 22%, transparent 78%, rgba(0,0,0,.2));
 }
 
 .banner-top::after{
@@ -1099,6 +1113,20 @@ font-weight:900;
 .palpite-ranking-row strong{
 display:block;
 font-size:13px;
+}
+
+.palpite-ranking-user{
+display:block;
+font-size:12px;
+font-weight:900;
+color:#ffcf33;
+margin-bottom:3px;
+}
+
+.palpite-ranking-detail{
+display:block;
+color:#d9f2ec;
+margin-top:3px;
 }
 
 .palpite-ranking-score{
@@ -2212,6 +2240,20 @@ min-width:160px;
 }
 
 @media (max-width: 768px){
+  .banner-top{
+    min-height:240px;
+  }
+
+  .banner-art{
+    min-height:150px;
+    background-size:contain;
+    background-color:#000;
+  }
+
+  .banner-content{
+    padding:32px 46px;
+  }
+
   .banner-top h1{
     font-size:36px;
   }
@@ -2222,6 +2264,20 @@ min-width:160px;
   
   .btn-banner{
     padding:11px 26px;
+  }
+}
+
+@media (max-width: 480px){
+  .banner-top{
+    min-height:210px;
+  }
+
+  .banner-art{
+    min-height:120px;
+  }
+
+  .banner-content{
+    padding:28px 44px;
   }
 }
 
@@ -2301,6 +2357,21 @@ min-width:160px;
 </div>
 </div>
 </div>
+
+<!-- Banner 3: Rumo ao Hexa -->
+<div class="carousel-slide" data-slide="2">
+<div class="banner-top banner-art" style="--banner-image:url('img/carrossel-rumo-hexa.png')" role="img" aria-label="Rumo ao Hexa - Bem Esportivo"></div>
+</div>
+
+<!-- Banner 4: 5 + 1 = Hexa -->
+<div class="carousel-slide" data-slide="3">
+<div class="banner-top banner-art banner-copa" style="--banner-image:url('img/carrossel-5-1-hexa.png')" role="img" aria-label="5 + 1 igual Hexa - Bem Esportivo"></div>
+</div>
+
+<!-- Banner 5: Papo de Hexaia -->
+<div class="carousel-slide" data-slide="4">
+<div class="banner-top banner-art" style="--banner-image:url('img/carrossel-papo-hexaia.png')" role="img" aria-label="Papo de Hexaia - Bem Esportivo"></div>
+</div>
 </div>
 
 <!-- Carousel Controls -->
@@ -2319,6 +2390,9 @@ min-width:160px;
 <div class="carousel-indicators">
 <button class="indicator active" data-slide="0" aria-label="Banner 1"></button>
 <button class="indicator" data-slide="1" aria-label="Banner 2"></button>
+<button class="indicator" data-slide="2" aria-label="Banner 3"></button>
+<button class="indicator" data-slide="3" aria-label="Banner 4"></button>
+<button class="indicator" data-slide="4" aria-label="Banner 5"></button>
 </div>
 </section>
 
@@ -3777,6 +3851,23 @@ function getUserInitials(name){
   return parts.slice(0,2).map(part => part[0]).join('').toUpperCase();
 }
 
+function escapeHtml(value){
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getPalpiteUserLabel(palpite){
+  return palpite.userName || palpite.userTeam || palpite.userCity || 'Palpiteiro sem identificação';
+}
+
+function getPalpiteUserMeta(palpite){
+  return [palpite.userTeam, palpite.userCity].filter(Boolean).join(' | ');
+}
+
 function renderPalpiteUser(){
   const user = getPalpiteUser();
   const badge = document.getElementById('palpiteProfileBadge');
@@ -3801,10 +3892,10 @@ function renderPalpiteUser(){
   const details = [user.team, user.city].filter(Boolean).join(' | ') || 'Palpiteiro Bem Esportivo';
   badge.innerHTML = `
     <div class="palpite-profile-badge">
-      <div class="palpite-avatar">${getUserInitials(user.name)}</div>
+      <div class="palpite-avatar">${escapeHtml(getUserInitials(user.name))}</div>
       <div>
-        <strong>${user.name}</strong>
-        <span>${details}</span>
+        <strong>${escapeHtml(user.name)}</strong>
+        <span>${escapeHtml(details)}</span>
       </div>
     </div>
   `;
@@ -3951,6 +4042,17 @@ function savePalpite(matchId){
 
   const palpites = getSavedPalpites();
   const user = getPalpiteUser();
+  if(!user.name){
+    const userCard = document.getElementById('palpiteUserCard');
+    const nameInput = document.getElementById('palpiteUserName');
+    const panelText = document.getElementById('palpitometroText');
+    if(userCard) userCard.hidden = false;
+    if(panelText) panelText.textContent = 'Identifique seu palpite para entrar no ranking com nome, placar e jogador decisivo.';
+    if(userCard) userCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if(nameInput) nameInput.focus({ preventScroll: true });
+    return;
+  }
+
   const homeScore = clampScore(card.querySelector('[data-score="home"]').value);
   const awayScore = clampScore(card.querySelector('[data-score="away"]').value);
   const confidence = Number(card.querySelector('[data-confidence]').value || 50);
@@ -4177,8 +4279,11 @@ function renderPalpitometroSummary(){
         <div class="palpite-ranking-row">
           <span class="palpite-ranking-pos">${index + 1}</span>
           <div>
-            <strong>${item.home} ${item.homeScore} x ${item.awayScore} ${item.away}</strong>
-            ${getPalpiteMood(item)} | ${getPalpiteAccuracyLabel(item)} | Decisivo: ${item.player || 'A definir'}
+            <span class="palpite-ranking-user">${escapeHtml(getPalpiteUserLabel(item))}</span>
+            <strong>${escapeHtml(item.home)} ${escapeHtml(item.homeScore)} x ${escapeHtml(item.awayScore)} ${escapeHtml(item.away)}</strong>
+            <span class="palpite-ranking-detail">
+              ${escapeHtml(getPalpiteUserMeta(item) || 'Torcedor participante')} | ${escapeHtml(getPalpiteMood(item))} | ${escapeHtml(getPalpiteAccuracyLabel(item))} | Decisivo: ${escapeHtml(item.player || 'A definir')}
+            </span>
           </div>
           <div class="palpite-ranking-tools">
             <span class="palpite-ranking-score">${Number(item.confidence || 0)}%</span>
