@@ -614,6 +614,45 @@ border-radius:12px;
 margin-bottom:15px;
 }
 
+.reportagens-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+margin-top:22px;
+}
+
+.reportagem-card{
+background:#fff;
+border:1px solid #eee;
+border-radius:8px;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.reportagem-card img{
+display:block;
+width:100%;
+height:auto;
+max-height:360px;
+object-fit:contain;
+background:#050505;
+}
+
+.reportagem-card-content{
+padding:18px;
+}
+
+.reportagem-card h3{
+font-size:22px;
+margin-bottom:8px;
+color:#111;
+}
+
+.reportagem-card p{
+color:#555;
+margin-bottom:10px;
+}
+
 .lineup-callout{
 margin-top:34px;
 background:
@@ -2451,6 +2490,7 @@ align-items:center;
 }
 
 </style>
+<link rel="stylesheet" href="site-common.css">
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
      crossorigin="anonymous"></script>
@@ -2486,6 +2526,7 @@ align-items:center;
 <a href="profissionais.html">Profissionais</a>
 <a href="produtos.html">Produtos</a>
 <a href="escalacao.html">Escalação</a>
+<a href="Reportagens.html">Reportagens</a>
 <a href="#palpitometro">Palpitômetro</a>
 <a href="beplay.html">Beplay</a>
 <a href="coluna-valtinho.html">Fala aí Valtinho</a>
@@ -2616,6 +2657,29 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 
 </div>
 
+</section>
+
+<section class="container">
+<h2 class="mt-40">Reportagens</h2>
+<div class="reportagens-grid">
+<article class="reportagem-card searchable">
+<img src="img/IMG_0957.jpg" alt="Treino técnico na Academia de Futebol Portela">
+<div class="reportagem-card-content">
+<h3>Dedicação e Talento Mirim em Campo</h3>
+<p>Futebol de base, disciplina e histórias de jovens atletas em formação.</p>
+<a href="Reportagens.html" class="btn">Ler reportagem</a>
+</div>
+</article>
+
+<article class="reportagem-card searchable">
+<img src="img/duda.jpg" alt="Duda em trajetória no futebol">
+<div class="reportagem-card-content">
+<h3>Duda e o Futebol</h3>
+<p>Uma trajetória de sonho, apoio e dedicação dentro do esporte.</p>
+<a href="Reportagens.html" class="btn">Ler reportagem</a>
+</div>
+</article>
+</div>
 </section>
 
 <section class="sidebar">
@@ -2879,8 +2943,20 @@ Calendário baseado na tabela oficial da FIFA. A seção atualiza o status autom
 ↑
 </button>
 
-<footer>
-<p>© 2026 Bem Esportivo</p>
+<footer class="site-footer">
+<div class="site-footer-inner">
+<div class="site-footer-brand">
+<strong>Bem Esportivo</strong>
+<p>Conteúdo esportivo, futebol, opinião, projetos e serviços ligados ao esporte.</p>
+</div>
+<nav aria-label="Links institucionais">
+<a href="sobre.html">Sobre</a>
+<a href="contato.html">Contato</a>
+<a href="politica-de-privacidade.html">Privacidade</a>
+<a href="termos.html">Termos</a>
+</nav>
+<small>© 2026 Bem Esportivo</small>
+</div>
 </footer>
 
 <script>

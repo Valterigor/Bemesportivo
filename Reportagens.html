@@ -1,290 +1,259 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-
-  <!-- OBRIGATÓRIO PARA MOBILE -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Reportagens especiais do Bem Esportivo com histórias inspiradoras, futebol de base, projetos sociais e personagens do esporte brasileiro.">
+<meta name="robots" content="index, follow">
 <meta name="google-adsense-account" content="ca-pub-5105345296041597">
-<title>Reportagens - Bem Esportivo</title>
-  <meta name="description" content="Reportagens especiais do Bem Esportivo. Histórias inspiradoras do esporte brasileiro.">
+<title>Reportagens | Bem Esportivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site-common.css">
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  <!-- Fontes -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+body {
+  background: #080808;
+  color: #f5f5f5;
+  font-family: "Inter", sans-serif;
+  line-height: 1.7;
+}
 
-  <!-- CSS BASE + MOBILE -->
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+header {
+  align-items: center;
+  background: #000;
+  border-bottom: 2px solid #fa8a01;
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f8f8f8;
-      color: #111;
-      line-height: 1.7;
-    }
+header img {
+  max-height: 58px;
+}
 
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
-      margin: 20px 0;
-    }
+#menu-toggle {
+  background: transparent;
+  border: 0;
+  color: #fa8a01;
+  cursor: pointer;
+  display: none;
+  font-size: 28px;
+}
 
-    h1, h2, h3 {
-      font-family: 'Rubik', sans-serif;
-      margin-bottom: 12px;
-    }
+nav {
+  display: flex;
+  gap: 20px;
+}
 
-    main {
-      max-width: 720px;
-      margin: auto;
-      padding: 16px;
-    }
+nav a {
+  color: #fa8a01;
+  font-weight: 700;
+  text-decoration: none;
+}
 
-    /* HEADER */
-    header {
-      position: sticky;
-      top: 0;
-      background: #000;
-      color: #fff;
-      padding: 14px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-    }
+nav a:hover,
+nav a.active {
+  color: #fff;
+}
 
-    header img {
-      max-height: 45px;
-    }
+.page-hero {
+  background: linear-gradient(135deg, #151515, #050505);
+  padding: 64px 20px 42px;
+  text-align: center;
+}
 
-    #menu-toggle {
-      background: none;
-      border: none;
-      font-size: 26px;
-      color: #fa8a01;
-      cursor: pointer;
-    }
+.page-hero h1 {
+  color: #fa8a01;
+  font-family: "Rubik", sans-serif;
+  font-size: clamp(34px, 5vw, 56px);
+  margin-bottom: 12px;
+}
 
-    nav {
-      position: absolute;
-      top: 70px;
-      right: 16px;
-      background: #111;
-      display: none;
-      flex-direction: column;
-      padding: 14px;
-      border-radius: 10px;
-    }
+.page-hero p {
+  color: #d6d6d6;
+  margin: 0 auto;
+  max-width: 760px;
+}
 
-    nav a {
-      color: #fa8a01;
-      text-decoration: none;
-      padding: 8px 0;
-      font-weight: 600;
-    }
+main {
+  margin: 0 auto;
+  max-width: 980px;
+  padding: 42px 20px 10px;
+}
 
-    nav.show {
-      display: flex;
-    }
+.report-card {
+  background: #121212;
+  border: 1px solid rgba(250, 138, 1, .22);
+  border-radius: 8px;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
 
-    /* REPORTAGEM */
-    article {
-      margin-bottom: 60px;
-    }
+.report-cover,
+.report-image {
+  background: #050505;
+  display: block;
+  height: auto;
+  object-fit: contain;
+  width: 100%;
+}
 
-    .meta {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 20px;
-    }
+.report-cover {
+  max-height: min(70vh, 620px);
+}
 
-    .resumo {
-      font-weight: 500;
-      margin-bottom: 16px;
-    }
+.report-image {
+  border-radius: 8px;
+  margin-top: 18px;
+  max-height: min(68vh, 560px);
+}
 
-    .completo {
-      display: none;
-    }
+.report-body {
+  padding: 26px;
+}
 
-    .completo.ativo {
-      display: block;
-    }
+.report-body h2 {
+  color: #fa8a01;
+  font-family: "Rubik", sans-serif;
+  font-size: clamp(24px, 4vw, 34px);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
 
-    .leia-mais {
-      margin-top: 16px;
-      padding: 10px 22px;
-      border-radius: 25px;
-      border: none;
-      background: #fa8a01;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.meta {
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
 
-    /* VIDEO RESPONSIVO */
-    .video-container {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      height: 0;
-      margin: 20px 0;
-    }
+.report-body p {
+  color: #e7e7e7;
+  margin-bottom: 14px;
+}
 
-    .video-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-    }
+.video-container {
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 8px;
+  margin-top: 18px;
+  overflow: hidden;
+}
 
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 30px 16px;
-      background: #000;
-      color: #aaa;
-    }
+.video-container iframe {
+  border: 0;
+  height: 100%;
+  width: 100%;
+}
 
-    /* BOTÃO TOPO */
-    #voltar-topo {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #fa8a01;
-      border: none;
-      border-radius: 50%;
-      padding: 12px 16px;
-      display: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  </style>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
-     crossorigin="anonymous"></script>
+@media (max-width: 760px) {
+  #menu-toggle {
+    display: block;
+  }
+
+  nav {
+    background: #111;
+    border: 1px solid rgba(250, 138, 1, .25);
+    border-radius: 8px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    position: absolute;
+    right: 16px;
+    top: 78px;
+  }
+
+  nav.show {
+    display: flex;
+  }
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597" crossorigin="anonymous"></script>
 </head>
-
 <body>
 
 <header>
-  <img src="img/logo-bemesportivo.png" alt="Logo Bem Esportivo">
-
-  <button id="menu-toggle" aria-label="Abrir menu">☰</button>
-
-  <nav id="menu">
-    <a href="/">Início</a>
-    <a href="/reportagens">Reportagens</a>
-    <a href="/academias">Academias</a>
-    <a href="/ebook">E-book</a>
-    <a href="/comunidade">Comunidade</a>
-  </nav>
+<a href="index.html"><img src="img/logo-bemesportivo.png" alt="Logo Bem Esportivo"></a>
+<button id="menu-toggle" aria-label="Abrir menu">☰</button>
+<nav id="menu">
+<a href="index.html">Início</a>
+<a href="Reportagens.html" class="active">Reportagens</a>
+<a href="academias.html">Academias</a>
+<a href="comunidade.html">Comunidade</a>
+<a href="contato.html">Contato</a>
+</nav>
 </header>
 
+<section class="page-hero">
+<h1>Reportagens</h1>
+<p>Histórias especiais do esporte: futebol de base, projetos sociais, personagens, treinos e trajetórias que merecem ser contadas com cuidado.</p>
+</section>
+
 <main>
+<article class="report-card">
+<img class="report-cover" src="img/IMG_0957.jpg" alt="Treino técnico na Academia de Futebol Portela">
+<div class="report-body">
+<h2>Dedicação e Talento Mirim em Campo</h2>
+<p class="meta"><strong>Por Redação Bem Esportivo</strong> | Freguesia do Ó, São Paulo | 09 de junho</p>
+<p>A bola rolou com intensidade na Academia de Futebol Portela, revelando jovens talentos em formação sob a orientação do professor Bruno.</p>
+<p>Os destaques do treino foram João Pedro, de 9 anos, e Lorenzo, de 10 anos, que demonstraram disciplina, técnica e personalidade em campo. A atividade contou com circuitos físicos, exercícios técnicos e situações reais de jogo, preparando os atletas para desafios futuros.</p>
+<p>O goleiro Enzo também participou ativamente, simulando situações defensivas e contribuindo para o desenvolvimento coletivo do grupo.</p>
+<img class="report-image" src="img/IMG_0905.jpg" alt="Professor Bruno orientando alunos durante treino">
+<div class="video-container">
+<iframe src="https://www.youtube.com/embed/gBkon6LC2OU" title="Treino técnico e tático - Academia de Futebol Portela" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+</div>
+</article>
 
-  <article>
-    <h1>Dedicação e Talento Mirim em Campo</h1>
-
-    <p class="meta">
-      <strong>Por Redação Bem Esportivo</strong><br>
-      📍 Freguesia do Ó, São Paulo | 📅 09 de junho
-    </p>
-
-    <img src="img/IMG_0957.jpg" alt="Treino técnico na Academia de Futebol Portela">
-
-    <p class="resumo">
-      A bola rolou com intensidade na Academia de Futebol Portela, revelando jovens talentos em formação sob a orientação do professor Bruno.
-    </p>
-
-    <div class="completo">
-      <p>
-        Os destaques do treino foram João Pedro, de 9 anos, e Lorenzo, de 10 anos, que demonstraram disciplina, técnica e muita personalidade em campo.
-      </p>
-
-      <p>
-        O treino contou com circuitos físicos, exercícios técnicos e situações reais de jogo, preparando os atletas para desafios futuros.
-      </p>
-
-      <img src="img/IMG_0905.jpg" alt="Professor Bruno orientando os alunos">
-
-      <p>
-        O goleiro Enzo também participou ativamente, simulando situações defensivas e contribuindo para o desenvolvimento coletivo.
-      </p>
-
-      <div class="video-container">
-        <iframe 
-          src="https://www.youtube.com/embed/gBkon6LC2OU"
-          title="Treino técnico e tático - Academia de Futebol Portela"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </div>
-
-    <button class="leia-mais">Leia mais</button>
-  </article>
-
+<article class="report-card">
+<img class="report-cover" src="img/duda.jpg" alt="Duda em trajetória no futebol">
+<div class="report-body">
+<h2>Duda e o Futebol</h2>
+<p class="meta"><strong>Por Redação Bem Esportivo</strong> | Histórias do esporte</p>
+<p>Duda tinha um sonho: ser jogadora de futebol. Sua trajetória mostra como dedicação, apoio familiar e oportunidades certas podem transformar o esporte em caminho de crescimento, pertencimento e futuro.</p>
+<p>A história inspira jovens atletas que buscam espaço, confiança e continuidade dentro do futebol.</p>
+<div class="video-container">
+<iframe src="https://www.youtube.com/embed/Qi1lRW18kvM" title="Duda e o Futebol" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+</div>
+</article>
 </main>
 
-<main>
-    <section>
-      <h2>Reportagens Especiais</h2>
-
-      <article>
-  <h3>Duda e o Futebol</h3>
-  <p>Conheça a Duda que tinha um sonho em ser jogadora de futebol e hoje viaja o mundo para realizar seu sonho.</p>
-  <img src="img/duda.jpg" alt="Duda" width="300" />
-  <iframe width="300" height="170" src="https://www.youtube.com/embed/Qi1lRW18kvM" 
-    title="Duda e o Futebol" frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen>
-  </iframe>
-</article>
-            </section>
-
-<footer>
-  <p>&copy; 2025 Bem Esportivo</p>
+<footer class="site-footer">
+<div class="site-footer-inner">
+<div class="site-footer-brand">
+<strong>Bem Esportivo</strong>
+<p>Conteúdo esportivo, futebol, opinião, projetos e serviços ligados ao esporte.</p>
+</div>
+<nav aria-label="Links institucionais">
+<a href="sobre.html">Sobre</a>
+<a href="contato.html">Contato</a>
+<a href="politica-de-privacidade.html">Privacidade</a>
+<a href="termos.html">Termos</a>
+</nav>
+<small>&copy; 2026 Bem Esportivo</small>
+</div>
 </footer>
 
-<button id="voltar-topo">↑</button>
-
 <script>
-  // MENU MOBILE
-  const menuToggle = document.getElementById('menu-toggle');
-  const nav = document.getElementById('menu');
+const menuToggle = document.getElementById("menu-toggle");
+const menu = document.getElementById("menu");
 
-  menuToggle.addEventListener('click', () => {
-    nav.classList.toggle('show');
+if (menuToggle && menu) {
+  menuToggle.addEventListener("click", () => {
+    menu.classList.toggle("show");
   });
-
-  // LEIA MAIS
-  document.querySelectorAll('.leia-mais').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const completo = btn.previousElementSibling;
-      completo.classList.toggle('ativo');
-      btn.textContent = completo.classList.contains('ativo') ? 'Leia menos' : 'Leia mais';
-    });
-  });
-
-  // VOLTAR AO TOPO
-  const topo = document.getElementById('voltar-topo');
-  window.addEventListener('scroll', () => {
-    topo.style.display = window.scrollY > 300 ? 'block' : 'none';
-  });
-
-  topo.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+}
 </script>
-
 </body>
 </html>

@@ -871,6 +871,7 @@ min-height:82px;
 .mobile-picker.open{display:flex}
 }
 </style>
+<link rel="stylesheet" href="site-common.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
      crossorigin="anonymous"></script>
 </head>
@@ -878,15 +879,16 @@ min-height:82px;
 
 <header class="menu">
 <div class="menu-content">
-<a class='logo' href='/'>
+<a class='logo' href='index.html'>
 <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
 </a>
 <nav id="nav">
 <a href='/'>Início</a>
-<a href='/profissionais'>Profissionais</a>
-<a href='/produtos'>Produtos</a>
+<a href='profissionais.html'>Profissionais</a>
+<a href='produtos.html'>Produtos</a>
+<a href='Reportagens.html'>Reportagens</a>
 <a class='active' href='/escalacao'>Escalação</a>
-<a href='/beplay'>Beplay</a>
+<a href='beplay.html'>Beplay</a>
 <a href='/coluna-valtinho'>Fala aí Valtinho</a>
 </nav>
 <a href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer" class="btn-contato">Fale Conosco</a>
@@ -946,6 +948,22 @@ min-height:82px;
 <div class="player-list" id="playerList"></div>
 </aside>
 </main>
+
+<footer class="site-footer">
+<div class="site-footer-inner">
+<div class="site-footer-brand">
+<strong>Bem Esportivo</strong>
+<p>Conteúdo esportivo, futebol, opinião, projetos e serviços ligados ao esporte.</p>
+</div>
+<nav aria-label="Links institucionais">
+<a href="sobre.html">Sobre</a>
+<a href="contato.html">Contato</a>
+<a href="politica-de-privacidade.html">Privacidade</a>
+<a href="termos.html">Termos</a>
+</nav>
+<small>&copy; 2026 Bem Esportivo</small>
+</div>
+</footer>
 
 <div class="toast" id="toast"></div>
 <div class="mobile-picker" id="mobilePicker" aria-hidden="true">
@@ -2080,7 +2098,7 @@ previewModal.addEventListener('click', event => {
 });
 document.getElementById('previewSaveBtn').addEventListener('click', () => {
   downloadLineup().then(() => {
-    showToast('Escalacao salva em imagem.');
+    showToast('Escalação salva em imagem.');
   });
 });
 document.getElementById('previewShareBtn').addEventListener('click', () => {
