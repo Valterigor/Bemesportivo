@@ -237,13 +237,20 @@ font-size:14px;
 }
 
 @media(max-width:768px){
+body{
+padding-top:0;
+}
+
 .menu{
 padding:0 15px;
+position:sticky;
 }
 
 .menu-content{
-height:60px;
+min-height:60px;
+height:auto;
 gap:10px;
+flex-wrap:wrap;
 }
 
 .logo img{
@@ -251,10 +258,8 @@ height:40px;
 }
 
 .nav-menu{
-position:absolute;
-top:60px;
-left:0;
-right:0;
+position:static;
+flex:0 0 100%;
 background:#000;
 flex-direction:column;
 gap:0;
@@ -2305,18 +2310,17 @@ RESPONSIVO
 display:flex;
 }
 
-nav{
-position:absolute;
-top:70px;
-right:0;
+.menu nav{
+position:static;
+flex:0 0 100%;
 background:#000;
 flex-direction:column;
-width:230px;
-padding:20px;
+width:100%;
+padding:0 0 16px;
 display:none;
 }
 
-nav.active{
+.menu nav.active{
 display:flex;
 }
 
