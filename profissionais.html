@@ -6,7 +6,7 @@
 
 <meta name="google-adsense-account" content="ca-pub-5105345296041597">
 <title>Profissionais | Bem Esportivo</title>
-<meta name="description" content="Encontre profissionais de esporte, saúde e performance perto de você.">
+<meta name="description" content="Conheça os profissionais cadastrados no Bem Esportivo para fotografia esportiva, treinamento físico, futebol e psicologia esportiva.">
 <link rel="icon" href="img/logobemoficial.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
@@ -15,8 +15,11 @@
 --primary:#fc6e02;
 --secondary:#9a5700;
 --dark:#111;
---light:#f7f8fb;
---radius:22px;
+--light:#f5f7fb;
+--surface:#fff;
+--muted:#667085;
+--line:#e6e8ef;
+--radius:18px;
 }
 
 *{
@@ -243,39 +246,55 @@ order:3;
 /* HERO */
 .hero{
 background:
-radial-gradient(circle at top right,rgba(252,110,2,.18),transparent 35%),
-linear-gradient(135deg,#0d0d0d,#1b1b1b 70%,#2a1708);
+radial-gradient(circle at top right,rgba(252,110,2,.22),transparent 34%),
+radial-gradient(circle at bottom left,rgba(15,138,95,.18),transparent 32%),
+linear-gradient(135deg,#101114,#191b20 62%,#251508);
 color:#fff;
-padding:90px 0 80px;
+padding:82px 0 76px;
 }
 
 .hero-grid{
 display:grid;
-grid-template-columns:1.2fr .8fr;
-gap:50px;
+grid-template-columns:minmax(0,1.1fr) minmax(340px,.82fr);
+gap:44px;
 align-items:center;
 }
 
 .hero-badge{
-display:inline-block;
-padding:10px 18px;
-border-radius:40px;
-background:rgba(252,110,2,.12);
-border:1px solid rgba(252,110,2,.35);
-font-weight:800;
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:10px 16px;
+border-radius:999px;
+background:rgba(252,110,2,.13);
+border:1px solid rgba(252,110,2,.36);
+font-weight:900;
+font-size:13px;
+letter-spacing:0;
 margin-bottom:24px;
 }
 
+.hero-badge::before{
+content:"";
+width:9px;
+height:9px;
+border-radius:50%;
+background:var(--primary);
+box-shadow:0 0 0 5px rgba(252,110,2,.14);
+}
+
 .hero h1{
-font-size:64px;
-line-height:1.03;
-margin-bottom:20px;
+font-size:clamp(42px,5.4vw,66px);
+line-height:1.02;
+letter-spacing:0;
+margin-bottom:18px;
 }
 
 .hero p{
-font-size:22px;
-line-height:1.6;
-color:#ddd;
+max-width:760px;
+font-size:clamp(18px,2vw,22px);
+line-height:1.65;
+color:#e5e7eb;
 margin-bottom:30px;
 }
 
@@ -287,22 +306,24 @@ margin-bottom:30px;
 }
 
 .metrics span{
-padding:12px 18px;
-border-radius:30px;
-background:#ffffff10;
-border:1px solid rgba(255,255,255,.06);
-font-weight:700;
+padding:12px 16px;
+border-radius:999px;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.12);
+font-weight:800;
+font-size:14px;
 }
 
 .hero-search{
-background:#fff;
+background:rgba(255,255,255,.96);
 padding:28px;
-border-radius:30px;
-box-shadow:0 20px 50px rgba(0,0,0,.2);
+border-radius:16px;
+box-shadow:0 22px 55px rgba(0,0,0,.22);
+border:1px solid rgba(255,255,255,.35);
 }
 
 .hero-search h3{
-font-size:28px;
+font-size:26px;
 margin-bottom:20px;
 color:#111;
 }
@@ -310,8 +331,8 @@ color:#111;
 .search-main{
 width:100%;
 padding:16px 20px;
-border-radius:18px;
-border:1px solid #ddd;
+border-radius:10px;
+border:1px solid #d7dae2;
 font-size:16px;
 margin-bottom:18px;
 }
@@ -323,10 +344,10 @@ gap:12px;
 }
 
 .chip{
-padding:11px 18px;
-border:none;
-border-radius:40px;
-background:#fff2e8;
+padding:11px 16px;
+border:1px solid #ffe0c5;
+border-radius:999px;
+background:#fff7f0;
 font-weight:800;
 cursor:pointer;
 }
@@ -339,7 +360,7 @@ color:#fff;
 
 /* SECTION */
 .section{
-padding:70px 0;
+padding:72px 0;
 }
 
 .section-head{
@@ -348,43 +369,49 @@ margin-bottom:45px;
 }
 
 .section-head h2{
-font-size:48px;
+font-size:clamp(32px,4vw,48px);
+letter-spacing:0;
 margin-bottom:12px;
 }
 
 .section-head p{
-font-size:19px;
-color:#666;
+font-size:18px;
+color:var(--muted);
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
-gap:28px;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:22px;
 }
 
 .card{
-background:#fff;
-border-radius:28px;
+background:var(--surface);
+border:1px solid var(--line);
+border-radius:16px;
 overflow:hidden;
-box-shadow:0 12px 30px rgba(0,0,0,.06);
-transition:.3s;
+box-shadow:0 14px 34px rgba(18,24,35,.07);
+transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
 }
 
 .card:hover{
-transform:translateY(-7px);
+transform:translateY(-5px);
+box-shadow:0 18px 42px rgba(18,24,35,.11);
+border-color:#ffd1aa;
 }
 
 .card-cover{
 position:relative;
-height:250px;
+height:260px;
 overflow:hidden;
+background:#eceff5;
 }
 
 .card-cover img{
 width:100%;
 height:100%;
 object-fit:cover;
+object-position:var(--photo-position,center center);
 }
 
 .card-cover:after{
@@ -398,45 +425,50 @@ background:linear-gradient(transparent,rgba(0,0,0,.55));
 position:absolute;
 top:18px;
 left:18px;
-background:#fff;
-padding:8px 14px;
-border-radius:30px;
+background:rgba(255,255,255,.94);
+padding:8px 12px;
+border-radius:999px;
 font-size:13px;
 font-weight:800;
 z-index:2;
 }
 
-.rating{
+.mode-pill{
 position:absolute;
 bottom:18px;
 right:18px;
 background:#000;
 color:#fff;
 padding:8px 12px;
-border-radius:30px;
+border-radius:999px;
 z-index:2;
 font-weight:700;
+font-size:13px;
 }
 
 .card-body{
-padding:24px;
+padding:22px;
 }
 
 .category{
 color:var(--primary);
 font-weight:800;
 margin-bottom:10px;
+font-size:13px;
+text-transform:uppercase;
+letter-spacing:.4px;
 }
 
 .card h3{
-font-size:28px;
+font-size:25px;
 margin-bottom:10px;
 }
 
 .spec{
-color:#666;
+color:var(--muted);
 line-height:1.6;
 margin-bottom:18px;
+min-height:76px;
 }
 
 .tags{
@@ -447,11 +479,12 @@ margin-bottom:20px;
 }
 
 .tags span{
-background:#f4f4f4;
+background:#f4f6f9;
 padding:8px 12px;
-border-radius:30px;
+border-radius:999px;
 font-size:13px;
 font-weight:700;
+color:#333b48;
 }
 
 .actions{
@@ -463,9 +496,11 @@ gap:12px;
 flex:1;
 border:none;
 padding:13px 18px;
-border-radius:40px;
+border-radius:10px;
 font-weight:800;
 cursor:pointer;
+text-align:center;
+font-size:14px;
 }
 
 .btn-primary{
@@ -497,21 +532,22 @@ max-width:700px;
 width:100%;
 background:#fff;
 padding:40px;
-border-radius:30px;
+border-radius:16px;
 text-align:center;
 }
 
 .modal-box img{
-width:140px;
-height:140px;
+width:156px;
+height:156px;
 object-fit:cover;
+object-position:var(--photo-position,center center);
 border-radius:50%;
 margin:0 auto 20px;
 border:4px solid var(--primary);
 }
 
 .modal-box h3{
-font-size:38px;
+font-size:36px;
 margin-bottom:12px;
 }
 
@@ -533,7 +569,7 @@ margin-top:25px;
 background:#eee;
 padding:12px 18px;
 border:none;
-border-radius:40px;
+border-radius:10px;
 font-weight:800;
 }
 
@@ -586,6 +622,24 @@ nav.active{display:flex}
 .menu-btn{display:flex}
 .menu-actions{display:none}
 }
+
+@media(max-width:1180px) and (min-width:769px){
+.grid{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+}
+
+@media(max-width:640px){
+body{padding-top:60px}
+.hero{padding:54px 0 48px}
+.hero-search{padding:20px}
+.metrics{gap:10px}
+.metrics span{width:100%;text-align:center}
+.section{padding:48px 0}
+.card-cover{height:280px}
+.actions{flex-direction:column}
+.modal-box{padding:26px}
+}
 </style>
 <link rel="stylesheet" href="site-common.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
@@ -601,7 +655,7 @@ nav.active{display:flex}
 
 <nav id="nav">
 <a href="index.html">Início</a>
-<a href="profissionais.html">Profissionais</a>
+<a href="profissionais.html" class="active">Profissionais</a>
 <a href="produtos.html">Produtos</a>
 <a href="escalacao.html">Escalação</a>
 <a href="Reportagens.html">Reportagens</a>
@@ -626,33 +680,33 @@ nav.active{display:flex}
 
 <div>
 <div class="hero-badge">
-PROFISSIONAIS • ESPORTE • SAÚDE
+VITRINE DE PROFISSIONAIS
 </div>
 
 <h1>
-Conecte-se com especialistas para evoluir no esporte
+Conheça os profissionais cadastrados no Bem Esportivo
 </h1>
 
 <p>
-Treinadores, psicólogos, fotógrafos, personal e especialistas verificados em uma vitrine profissional moderna.
+Uma seleção enxuta e atualizada com profissionais ligados ao esporte, treinamento, fotografia e performance mental.
 </p>
 
 <div class="metrics">
-<span>120+ profissionais</span>
-<span>14 especialidades</span>
-<span>4.9 média avaliações</span>
+<span>4 profissionais cadastrados</span>
+<span>3 áreas de atendimento</span>
+<span>Contato direto por WhatsApp</span>
 </div>
 </div>
 
 <div class="hero-search">
-<h3>Encontre um profissional</h3>
+<h3>Filtre os profissionais</h3>
 <input id="busca" class="search-main" placeholder="Buscar por nome ou especialidade...">
 
 <div class="filter-chips">
-<button class="chip active" onclick="filtrarCategoria('todos')">Todos</button>
-<button class="chip" onclick="filtrarCategoria('personal')">Personal</button>
-<button class="chip" onclick="filtrarCategoria('psicologia')">Psicologia</button>
-<button class="chip" onclick="filtrarCategoria('fotografia')">Fotografia</button>
+<button class="chip active" onclick="filtrarCategoria('todos', this)">Todos</button>
+<button class="chip" onclick="filtrarCategoria('personal', this)">Personal</button>
+<button class="chip" onclick="filtrarCategoria('psicologia', this)">Psicologia</button>
+<button class="chip" onclick="filtrarCategoria('fotografia', this)">Fotografia</button>
 </div>
 </div>
 
@@ -663,8 +717,8 @@ Treinadores, psicólogos, fotógrafos, personal e especialistas verificados em u
 <div class="container">
 
 <div class="section-head">
-<h2>Profissionais em destaque</h2>
-<p>Perfis verificados com atendimento especializado.</p>
+<h2>Profissionais cadastrados</h2>
+<p>Perfis disponíveis para contato, com especialidade, formato de atendimento e canal direto.</p>
 </div>
 
 <div id="lista" class="grid"></div>
@@ -706,9 +760,9 @@ categoria:'fotografia',
 tipo:'Fotógrafo Esportivo',
 especialidade:'Cobertura esportiva e branding para atletas.',
 foto:'img/profissionais/valter.jpg',
-nota:'4.9',
 modo:'Presencial',
-whatsapp:'5511986366965'
+whatsapp:'5511986366965',
+posicao:'center 34%'
 },
 {
 nome:'Bruno Rezende',
@@ -716,9 +770,9 @@ categoria:'personal',
 tipo:'Personal Trainer',
 especialidade:'Treinamento funcional e performance.',
 foto:'img/profissionais/bruno.jpg',
-nota:'4.8',
 modo:'Online + Presencial',
-whatsapp:'5511986366965'
+whatsapp:'5511986366965',
+posicao:'center 28%'
 },
 {
 nome:'Luciano',
@@ -726,9 +780,9 @@ categoria:'personal',
 tipo:'Personal Soccer',
 especialidade:'Treinamento técnico e desenvolvimento.',
 foto:'img/profissionais/luciano.jpg',
-nota:'5.0',
 modo:'Presencial',
-whatsapp:'5511986366965'
+whatsapp:'5511986366965',
+posicao:'center 22%'
 },
 {
 nome:'Grasiele',
@@ -736,9 +790,9 @@ categoria:'psicologia',
 tipo:'Psicóloga Esportiva',
 especialidade:'Performance mental e psicoterapia.',
 foto:'img/profissionais/grasiele.jpg',
-nota:'4.9',
 modo:'Online',
-whatsapp:'5511986366965'
+whatsapp:'5511986366965',
+posicao:'center 35%'
 }
 ];
 
@@ -753,10 +807,10 @@ items.forEach(p=>{
 const card=document.createElement('div');
 card.className='card';
 card.innerHTML=`
-<div class='card-cover'>
-<span class='verify'>✔ Verificado</span>
-<span class='rating'>⭐ ${p.nota}</span>
-<img src='${p.foto}'>
+<div class='card-cover' style='--photo-position:${p.posicao}'>
+<span class='verify'>Perfil cadastrado</span>
+<span class='mode-pill'>${p.modo}</span>
+<img src='${p.foto}' alt='Foto de ${p.nome}' loading='lazy'>
 </div>
 <div class='card-body'>
 <div class='category'>${p.tipo}</div>
@@ -764,7 +818,7 @@ card.innerHTML=`
 <p class='spec'>${p.especialidade}</p>
 <div class='tags'>
 <span>${p.modo}</span>
-<span>Cupom BEM5</span>
+<span>Contato via WhatsApp</span>
 </div>
 <div class='actions'>
 <button class='btn btn-primary' onclick='perfil(${JSON.stringify(p)})'>Ver perfil</button>
@@ -790,10 +844,10 @@ return okBusca && okCat;
 render(filtrados)
 }
 
-function filtrarCategoria(cat){
+function filtrarCategoria(cat,botao){
 categoria=cat;
 document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-event.target.classList.add('active');
+botao.classList.add('active');
 aplicar();
 }
 
@@ -804,26 +858,22 @@ const modalBox=document.getElementById('modalBox');
 
 function perfil(p){
 modal.classList.add('show');
+const mensagem='Olá, vi seu perfil no Bem Esportivo e gostaria de mais informações.';
 modalBox.innerHTML=`
-<img src='${p.foto}'>
+<img src='${p.foto}' alt='Foto de ${p.nome}' style='--photo-position:${p.posicao}'>
 <h3>${p.nome}</h3>
 <p><strong>${p.tipo}</strong></p>
 <p>${p.especialidade}</p>
-<p>Use cupom <strong>BEM5</strong> para 5% OFF.</p>
+<p>Atendimento: <strong>${p.modo}</strong>.</p>
 <div class='modal-actions'>
-<button class='btn btn-primary' onclick='copiarCupom()'>Copiar cupom</button>
-<a class='btn btn-dark' href='https://wa.me/${p.whatsapp}?text=Olá quero usar o cupom BEM5' target='_blank'>WhatsApp</a>
+<a class='btn btn-primary' href='https://wa.me/${p.whatsapp}?text=${encodeURIComponent(mensagem)}' target='_blank' rel='noopener noreferrer'>Falar no WhatsApp</a>
 </div>
 <button class='close-modal' onclick='fechar()'>Fechar</button>`
 }
 
-function copiarCupom(){
-navigator.clipboard.writeText('BEM5');
-alert('Cupom copiado!')
-}
-
 function whats(p){
-window.open(`https://wa.me/${p.whatsapp}`,'_blank')
+const mensagem='Olá, vi seu perfil no Bem Esportivo e gostaria de mais informações.';
+window.open(`https://wa.me/${p.whatsapp}?text=${encodeURIComponent(mensagem)}`,'_blank','noopener,noreferrer')
 }
 
 function fechar(){
