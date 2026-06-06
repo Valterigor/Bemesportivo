@@ -670,10 +670,16 @@ display:grid;
 grid-template-columns:108px minmax(0,1fr);
 gap:12px;
 align-items:center;
+width:100%;
 padding:12px;
 background:rgba(255,255,255,.055);
 border:1px solid rgba(255,255,255,.08);
 border-radius:8px;
+color:#fff;
+text-align:left;
+cursor:pointer;
+font:inherit;
+appearance:none;
 transition:transform .2s ease,border-color .2s ease,background .2s ease;
 }
 
@@ -704,6 +710,71 @@ display:block;
 font-size:12px;
 line-height:1.4;
 color:#d2d6de;
+}
+
+.post-lightbox{
+position:fixed;
+inset:0;
+z-index:9999;
+display:none;
+align-items:center;
+justify-content:center;
+padding:22px;
+background:rgba(0,0,0,.82);
+}
+
+.post-lightbox.show{
+display:flex;
+}
+
+.post-lightbox-card{
+position:relative;
+width:min(980px,100%);
+max-height:92vh;
+overflow:auto;
+background:#0d0f13;
+border:1px solid rgba(252,110,2,.35);
+border-radius:8px;
+box-shadow:0 22px 60px rgba(0,0,0,.45);
+color:#fff;
+}
+
+.post-lightbox-close{
+position:absolute;
+top:10px;
+right:10px;
+z-index:2;
+width:42px;
+height:42px;
+border:1px solid rgba(255,255,255,.2);
+border-radius:50%;
+background:rgba(0,0,0,.72);
+color:#fff;
+font-size:28px;
+line-height:1;
+cursor:pointer;
+}
+
+.post-lightbox-img{
+width:100%;
+max-height:72vh;
+object-fit:contain;
+background:#050505;
+}
+
+.post-lightbox-body{
+padding:20px 22px 24px;
+}
+
+.post-lightbox-body h3{
+font-size:28px;
+line-height:1.15;
+margin-bottom:8px;
+}
+
+.post-lightbox-body p{
+color:#e7eaf0;
+line-height:1.65;
 }
 
 .reportagem-card{
@@ -2360,6 +2431,18 @@ grid-template-columns:96px minmax(0,1fr);
 height:96px;
 }
 
+.post-lightbox{
+padding:12px;
+}
+
+.post-lightbox-card{
+max-height:94vh;
+}
+
+.post-lightbox-body h3{
+font-size:22px;
+}
+
 .palpitometro-panel{
 position:static;
 }
@@ -2791,42 +2874,53 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 <p>Conteúdos rápidos para inspirar movimento, saúde, treino e alimentação.</p>
 
 <div class="home-side-posts">
-<article class="home-side-post searchable">
+<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-corrida-transforma.png" data-title="Correr transforma" data-text="Condicionamento, disposição e saúde mental em cada passo.">
 <img src="img/posts/post-corrida-transforma.png" alt="Post Correr transforma" loading="lazy">
 <div>
 <strong>Correr transforma</strong>
 <span>Condicionamento, disposição e saúde mental em cada passo.</span>
 </div>
-</article>
+</button>
 
-<article class="home-side-post searchable">
+<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-pratica-esportes.png" data-title="Prática de esportes" data-text="Mais saúde, energia e conexão para viver melhor.">
 <img src="img/posts/post-pratica-esportes.png" alt="Post Prática de esportes" loading="lazy">
 <div>
 <strong>Prática de esportes</strong>
 <span>Mais saúde, energia e conexão para viver melhor.</span>
 </div>
-</article>
+</button>
 
-<article class="home-side-post searchable">
+<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-academia-transforma.png" data-title="Academia transforma" data-text="Força, resistência e disciplina para evoluir com constância.">
 <img src="img/posts/post-academia-transforma.png" alt="Post Academia transforma" loading="lazy">
 <div>
 <strong>Academia transforma</strong>
 <span>Força, resistência e disciplina para evoluir com constância.</span>
 </div>
-</article>
+</button>
 
-<article class="home-side-post searchable">
+<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-boa-alimentacao.png" data-title="Boa alimentação" data-text="Energia, recuperação e performance começam no prato.">
 <img src="img/posts/post-boa-alimentacao.png" alt="Post Boa alimentação" loading="lazy">
 <div>
 <strong>Boa alimentação</strong>
 <span>Energia, recuperação e performance começam no prato.</span>
 </div>
-</article>
+</button>
 </div>
 </div>
 </aside>
 </div>
 </section>
+
+<div class="post-lightbox" id="postLightbox" role="dialog" aria-modal="true" aria-labelledby="postLightboxTitle">
+<div class="post-lightbox-card">
+<button class="post-lightbox-close" type="button" onclick="fecharPostLateral()" aria-label="Fechar post">×</button>
+<img class="post-lightbox-img" id="postLightboxImg" src="" alt="">
+<div class="post-lightbox-body">
+<h3 id="postLightboxTitle"></h3>
+<p id="postLightboxText"></p>
+</div>
+</div>
+</div>
 
 <section class="sidebar">
 
@@ -3106,6 +3200,38 @@ Calendário baseado na tabela oficial da FIFA. A seção atualiza o status autom
 </footer>
 
 <script>
+
+function abrirPostLateral(botao){
+const modal=document.getElementById('postLightbox');
+const imagem=document.getElementById('postLightboxImg');
+const titulo=document.getElementById('postLightboxTitle');
+const texto=document.getElementById('postLightboxText');
+if(!modal||!imagem||!titulo||!texto) return;
+imagem.src=botao.dataset.image;
+imagem.alt=botao.dataset.title;
+titulo.textContent=botao.dataset.title;
+texto.textContent=botao.dataset.text;
+modal.classList.add('show');
+document.body.style.overflow='hidden';
+}
+
+function fecharPostLateral(){
+const modal=document.getElementById('postLightbox');
+const imagem=document.getElementById('postLightboxImg');
+if(!modal) return;
+modal.classList.remove('show');
+document.body.style.overflow='';
+if(imagem) imagem.src='';
+}
+
+document.addEventListener('keydown',event=>{
+if(event.key==='Escape') fecharPostLateral();
+});
+
+document.addEventListener('click',event=>{
+const modal=document.getElementById('postLightbox');
+if(modal&&event.target===modal) fecharPostLateral();
+});
 
 /* ===== CAROUSEL BANNERS ===== */
 

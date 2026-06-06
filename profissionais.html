@@ -434,10 +434,16 @@ display:grid;
 grid-template-columns:108px minmax(0,1fr);
 gap:12px;
 align-items:center;
+width:100%;
 padding:12px;
 background:rgba(255,255,255,.055);
 border:1px solid rgba(255,255,255,.08);
 border-radius:12px;
+color:#fff;
+text-align:left;
+cursor:pointer;
+font:inherit;
+appearance:none;
 transition:transform .2s ease,border-color .2s ease,background .2s ease;
 }
 
@@ -469,6 +475,72 @@ display:block;
 color:#cfd4dc;
 font-size:12px;
 line-height:1.4;
+}
+
+.post-lightbox{
+position:fixed;
+inset:0;
+z-index:10000;
+display:none;
+align-items:center;
+justify-content:center;
+padding:22px;
+background:rgba(0,0,0,.82);
+}
+
+.post-lightbox.show{
+display:flex;
+}
+
+.post-lightbox-card{
+position:relative;
+width:min(980px,100%);
+max-height:92vh;
+overflow:auto;
+background:#0f1115;
+border:1px solid rgba(252,110,2,.35);
+border-radius:16px;
+box-shadow:0 22px 60px rgba(0,0,0,.45);
+color:#fff;
+}
+
+.post-lightbox-close{
+position:absolute;
+top:10px;
+right:10px;
+z-index:2;
+width:42px;
+height:42px;
+border:1px solid rgba(255,255,255,.2);
+border-radius:50%;
+background:rgba(0,0,0,.72);
+color:#fff;
+font-size:28px;
+line-height:1;
+cursor:pointer;
+}
+
+.post-lightbox-img{
+width:100%;
+max-height:72vh;
+object-fit:contain;
+background:#050505;
+}
+
+.post-lightbox-body{
+padding:20px 22px 24px;
+}
+
+.post-lightbox-body h3{
+font-size:28px;
+line-height:1.15;
+letter-spacing:0;
+margin-bottom:8px;
+}
+
+.post-lightbox-body p{
+color:#e7eaf0;
+line-height:1.65;
 }
 
 .card{
@@ -742,6 +814,9 @@ body{padding-top:60px}
 .modal-box{padding:26px}
 .side-post{grid-template-columns:88px minmax(0,1fr)}
 .post-thumb{height:88px}
+.post-lightbox{padding:12px}
+.post-lightbox-card{max-height:94vh;border-radius:12px}
+.post-lightbox-body h3{font-size:22px}
 }
 </style>
 <link rel="stylesheet" href="site-common.css">
@@ -835,37 +910,37 @@ Uma seleção enxuta e atualizada com profissionais ligados ao esporte, treiname
 <p>Conteúdos rápidos para inspirar movimento, saúde e rotina esportiva.</p>
 
 <div class="side-posts">
-<article class="side-post">
+<button class="side-post" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-corrida-transforma.png" data-title="Correr transforma mais do que o corpo" data-text="Condicionamento, energia, sono e saúde mental em uma rotina simples.">
 <img class="post-thumb" src="img/posts/post-corrida-transforma.png" alt="Post Correr transforma" loading="lazy">
 <div>
 <strong>Correr transforma mais do que o corpo</strong>
 <span>Condicionamento, energia, sono e saúde mental em uma rotina simples.</span>
 </div>
-</article>
+</button>
 
-<article class="side-post">
+<button class="side-post" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-pratica-esportes.png" data-title="Mais saúde, mais energia, mais vida" data-text="O esporte fortalece o corpo, cria conexões e melhora a disposição.">
 <img class="post-thumb" src="img/posts/post-pratica-esportes.png" alt="Post Prática de esportes" loading="lazy">
 <div>
 <strong>Mais saúde, mais energia, mais vida</strong>
 <span>O esporte fortalece o corpo, cria conexões e melhora a disposição.</span>
 </div>
-</article>
+</button>
 
-<article class="side-post">
+<button class="side-post" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-academia-transforma.png" data-title="Disciplina hoje, conquistas amanhã" data-text="Força, resistência e constância para transformar o treino em hábito.">
 <img class="post-thumb" src="img/posts/post-academia-transforma.png" alt="Post Academia transforma" loading="lazy">
 <div>
 <strong>Disciplina hoje, conquistas amanhã</strong>
 <span>Força, resistência e constância para transformar o treino em hábito.</span>
 </div>
-</article>
+</button>
 
-<article class="side-post">
+<button class="side-post" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-boa-alimentacao.png" data-title="Alimentação também é performance" data-text="Mais energia, recuperação e qualidade de vida com escolhas melhores.">
 <img class="post-thumb" src="img/posts/post-boa-alimentacao.png" alt="Post Boa alimentação" loading="lazy">
 <div>
 <strong>Alimentação também é performance</strong>
 <span>Mais energia, recuperação e qualidade de vida com escolhas melhores.</span>
 </div>
-</article>
+</button>
 </div>
 </div>
 </aside>
@@ -876,6 +951,17 @@ Uma seleção enxuta e atualizada com profissionais ligados ao esporte, treiname
 
 <div class="modal" id="modal">
 <div class="modal-box" id="modalBox"></div>
+</div>
+
+<div class="post-lightbox" id="postLightbox" role="dialog" aria-modal="true" aria-labelledby="postLightboxTitle">
+<div class="post-lightbox-card">
+<button class="post-lightbox-close" type="button" onclick="fecharPostLateral()" aria-label="Fechar post">×</button>
+<img class="post-lightbox-img" id="postLightboxImg" src="" alt="">
+<div class="post-lightbox-body">
+<h3 id="postLightboxTitle"></h3>
+<p id="postLightboxText"></p>
+</div>
+</div>
 </div>
 
 <button id="topBtn">↑</button>
@@ -900,6 +986,41 @@ Uma seleção enxuta e atualizada com profissionais ligados ao esporte, treiname
 const toggle=document.getElementById('menu-toggle');
 const nav=document.getElementById('nav');
 toggle.addEventListener('click',()=>nav.classList.toggle('active'));
+
+function abrirPostLateral(botao){
+const lightbox=document.getElementById('postLightbox');
+const imagem=document.getElementById('postLightboxImg');
+const titulo=document.getElementById('postLightboxTitle');
+const texto=document.getElementById('postLightboxText');
+if(!lightbox||!imagem||!titulo||!texto) return;
+imagem.src=botao.dataset.image;
+imagem.alt=botao.dataset.title;
+titulo.textContent=botao.dataset.title;
+texto.textContent=botao.dataset.text;
+lightbox.classList.add('show');
+document.body.style.overflow='hidden';
+}
+
+function fecharPostLateral(){
+const lightbox=document.getElementById('postLightbox');
+const imagem=document.getElementById('postLightboxImg');
+if(!lightbox) return;
+lightbox.classList.remove('show');
+document.body.style.overflow='';
+if(imagem) imagem.src='';
+}
+
+document.addEventListener('keydown',event=>{
+if(event.key==='Escape'){
+fecharPostLateral();
+fechar();
+}
+});
+
+document.addEventListener('click',event=>{
+const lightbox=document.getElementById('postLightbox');
+if(lightbox&&event.target===lightbox) fecharPostLateral();
+});
 
 const profissionais=[
 {
