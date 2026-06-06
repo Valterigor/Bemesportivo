@@ -1,257 +1,508 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
-<meta name="google-adsense-account" content="ca-pub-5105345296041597">
-<title>E-book Marketing Digital | Bem Esportivo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-adsense-account" content="ca-pub-5105345296041597">
+  <meta name="description" content="E-book Marketing Digital: um plano prático para começar a vender na internet em 7 dias, mesmo partindo do zero.">
+  <title>E-book Marketing Digital | Bem Esportivo</title>
 
-  <meta name="description" content="Aprenda marketing digital e comece a faturar em 7 dias mesmo começando do zero." />
-
-  <!-- Fonte -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site-common.css">
 
   <style>
     :root {
-      --primary: #fc6e02;
-      --secondary: #9a5700;
-      --dark: #1c1c1c;
-      --light: #f8f9fa;
-      --radius: 14px;
+      --orange: #fc6e02;
+      --orange-dark: #a44900;
+      --ink: #171717;
+      --muted: #5f6673;
+      --line: #e6e8ee;
+      --paper: #ffffff;
+      --soft: #f6f7fb;
+      --green: #0f8a5f;
+      --shadow: 0 20px 55px rgba(20, 24, 34, 0.12);
     }
 
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
     }
 
     body {
-      background: var(--light);
-      color: var(--dark);
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--soft);
     }
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 24px;
+    img {
+      max-width: 100%;
+      display: block;
     }
 
-    /* HERO */
-    .hero {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #fff;
-      padding: 60px 20px;
+    a {
+      color: inherit;
     }
 
-    .hero-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .ebook-container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .ebook-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .ebook-nav {
+      min-height: 74px;
+      display: flex;
       align-items: center;
-      gap: 30px;
+      justify-content: space-between;
+      gap: 24px;
     }
 
-    .hero h1 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      margin-bottom: 20px;
-    }
-
-    .hero img {
-      width: 100%;
-      border-radius: var(--radius);
-    }
-
-    .btn {
-      display: inline-block;
-      background: #fff;
-      color: var(--primary);
-      padding: 14px 26px;
-      border-radius: 30px;
-      font-weight: bold;
+    .ebook-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
       text-decoration: none;
+      font-weight: 800;
+      letter-spacing: 0;
     }
 
-    section {
-      padding: 60px 0;
+    .ebook-brand img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
+    .ebook-menu {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
-    /* LISTA */
-    ul {
-      list-style: none;
-      max-width: 600px;
-      margin: auto;
+    .ebook-menu a {
+      text-decoration: none;
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #2f3642;
+      padding: 10px 12px;
+      border-radius: 8px;
     }
 
-    ul li {
-      margin-bottom: 10px;
-      padding-left: 25px;
+    .ebook-menu a:hover,
+    .ebook-menu a[aria-current="page"] {
+      color: var(--orange-dark);
+      background: #fff2e8;
+    }
+
+    .ebook-hero {
+      background: linear-gradient(135deg, #fff8f0 0%, #ffffff 46%, #eef8f4 100%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .ebook-hero-grid {
+      min-height: 620px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.03fr) minmax(320px, 0.8fr);
+      align-items: center;
+      gap: 56px;
+      padding: 56px 0;
+    }
+
+    .ebook-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      color: var(--orange-dark);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .ebook-kicker::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--green);
+    }
+
+    .ebook-hero h1 {
+      margin: 0;
+      color: #151515;
+      font-size: clamp(2.35rem, 5vw, 4.9rem);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .ebook-hero p {
+      max-width: 680px;
+      margin: 22px 0 0;
+      color: #3d4552;
+      font-size: clamp(1.03rem, 1.7vw, 1.23rem);
+      line-height: 1.7;
+    }
+
+    .ebook-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .ebook-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 22px;
+      border-radius: 8px;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 14px 28px rgba(252, 110, 2, 0.24);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .ebook-button:hover {
+      transform: translateY(-2px);
+      background: var(--orange-dark);
+      box-shadow: 0 18px 34px rgba(164, 73, 0, 0.25);
+    }
+
+    .ebook-note {
+      color: var(--muted);
+      font-size: 0.94rem;
+      font-weight: 700;
+    }
+
+    .ebook-cover-wrap {
       position: relative;
+      display: grid;
+      place-items: center;
+      padding: 22px;
     }
 
-    ul li::before {
-      content: "✔";
+    .ebook-cover-wrap::before {
+      content: "";
       position: absolute;
-      left: 0;
-      color: var(--primary);
+      inset: 9% 0 6% 8%;
+      background: #171717;
+      border-radius: 8px;
+      transform: rotate(3deg);
+      opacity: 0.08;
     }
 
-    /* BOX */
-    .box {
-      background: #fff;
-      padding: 30px;
-      border-radius: var(--radius);
-      text-align: center;
-      max-width: 700px;
-      margin: auto;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
+    .ebook-cover {
+      position: relative;
+      width: min(420px, 100%);
+      max-height: 540px;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
       background: #fff;
     }
 
-    @media (max-width: 768px) {
-      .hero-content {
+    .ebook-section {
+      padding: 64px 0;
+    }
+
+    .ebook-section-title {
+      max-width: 720px;
+      margin: 0 auto 30px;
+      text-align: center;
+    }
+
+    .ebook-section-title h2 {
+      margin: 0;
+      font-size: clamp(1.75rem, 3vw, 2.45rem);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .ebook-section-title p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .ebook-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .ebook-card,
+    .ebook-box {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(24, 31, 44, 0.06);
+    }
+
+    .ebook-card {
+      padding: 22px;
+    }
+
+    .ebook-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #20242c;
+      font-size: 1.02rem;
+    }
+
+    .ebook-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+
+    .ebook-box {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: clamp(28px, 4vw, 44px);
+      text-align: center;
+    }
+
+    .ebook-box h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .ebook-box p {
+      margin: 14px auto 24px;
+      max-width: 620px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .ebook-safe {
+      background: #10261f;
+      color: #fff;
+    }
+
+    .ebook-safe .ebook-section-title h2,
+    .ebook-safe .ebook-section-title p {
+      color: #fff;
+    }
+
+    .ebook-safe .ebook-box {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.16);
+      box-shadow: none;
+    }
+
+    .ebook-safe .ebook-box p {
+      color: #d7efe6;
+    }
+
+    @media (max-width: 900px) {
+      .ebook-hero-grid {
+        min-height: auto;
         grid-template-columns: 1fr;
+        gap: 34px;
+        padding: 42px 0 52px;
+      }
+
+      .ebook-hero-copy {
         text-align: center;
+      }
+
+      .ebook-kicker,
+      .ebook-actions {
+        justify-content: center;
+      }
+
+      .ebook-hero p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .ebook-cover {
+        width: min(360px, 86vw);
+      }
+
+      .ebook-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .ebook-container {
+        width: min(100% - 22px, 1120px);
+      }
+
+      .ebook-nav {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px 0;
+      }
+
+      .ebook-menu {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 4px;
+      }
+
+      .ebook-menu a {
+        padding: 9px 10px;
+        font-size: 0.9rem;
+      }
+
+      .ebook-hero-grid {
+        padding-top: 30px;
+      }
+
+      .ebook-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .ebook-button {
+        width: 100%;
+      }
+
+      .ebook-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ebook-section {
+        padding: 46px 0;
       }
     }
   </style>
-<link rel="stylesheet" href="site-common.css">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
-     crossorigin="anonymous"></script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597" crossorigin="anonymous"></script>
 </head>
 
 <body>
-
-<!-- HERO -->
-
-<header class="menu">
-  <div class="container menu-content">
-
-    <div class="logo">
-      <a href="index.html">
+  <header class="ebook-header">
+    <div class="ebook-container ebook-nav">
+      <a class="ebook-brand" href="index.html" aria-label="Bem Esportivo">
         <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
+        <span>Bem Esportivo</span>
       </a>
-      <strong>Bem Esportivo</strong>
+
+      <nav class="ebook-menu" aria-label="Menu principal">
+        <a href="index.html">Início</a>
+        <a href="Reportagens.html">Reportagens</a>
+        <a href="profissionais.html">Profissionais</a>
+        <a href="produtos.html">Produtos</a>
+        <a href="ebook.html" aria-current="page">E-book</a>
+        <a href="contato.html">Contato</a>
+      </nav>
     </div>
+  </header>
 
-    <nav>
-      <a href="index.html">Início</a>
-            <a href="beplay.html">Beplay</a>
-    </nav>
+  <main>
+    <section class="ebook-hero">
+      <div class="ebook-container ebook-hero-grid">
+        <div class="ebook-hero-copy">
+          <p class="ebook-kicker">E-book prático para começar do zero</p>
+          <h1>Marketing Digital em 7 Dias</h1>
+          <p>Aprenda a organizar sua presença online, criar uma rotina simples de divulgação e dar os primeiros passos para vender pela internet com clareza.</p>
 
-  </div>
-</header>
-<header class="hero">
-  <div class="container hero-content">
+          <div class="ebook-actions">
+            <a class="ebook-button" href="https://go.hotmart.com/V100243971W?redirectionUrl=https://valterigorcruz.hotmart.host/marketing-digital-empreendedor-de-sucesso-em-7-dias-26d2737e-8999-4c27-8243-125f81f6be3b" target="_blank" rel="noopener noreferrer">Quero meu e-book</a>
+            <span class="ebook-note">Acesso pela Hotmart</span>
+          </div>
+        </div>
 
-    <div>
-      <h1>Marketing Digital em 7 Dias</h1>
-      <p>
-        Aprenda a faturar todos os dias na internet — mesmo começando do zero.
-      </p>
+        <div class="ebook-cover-wrap" aria-label="Capa do e-book">
+          <img class="ebook-cover" src="img/ebook.png" alt="Capa do e-book Marketing Digital em 7 Dias" loading="eager">
+        </div>
+      </div>
+    </section>
 
-      <a href="https://go.hotmart.com/V100243971W?redirectionUrl=https://valterigorcruz.hotmart.host/marketing-digital-empreendedor-de-sucesso-em-7-dias-26d2737e-8999-4c27-8243-125f81f6be3b"
-         target="_blank" rel="noopener noreferrer"
-         rel="noopener noreferrer"
-         class="btn">
-        Quero meu E-book
-      </a>
+    <section class="ebook-section">
+      <div class="ebook-container">
+        <div class="ebook-section-title">
+          <h2>O que você vai aprender</h2>
+          <p>Um guia direto para transformar intenção em ação, com foco em posicionamento, rotina e primeiras vendas.</p>
+        </div>
+
+        <div class="ebook-grid">
+          <article class="ebook-card">
+            <strong>Posicionamento</strong>
+            <p>Como organizar sua mensagem e se apresentar melhor nas redes sociais.</p>
+          </article>
+
+          <article class="ebook-card">
+            <strong>Ferramentas</strong>
+            <p>Recursos simples para criar conteúdo, divulgar ofertas e acompanhar resultados.</p>
+          </article>
+
+          <article class="ebook-card">
+            <strong>Plano de 7 dias</strong>
+            <p>Uma sequência prática de tarefas para sair da teoria e começar a executar.</p>
+          </article>
+
+          <article class="ebook-card">
+            <strong>Nicho esportivo</strong>
+            <p>Ideias de aplicação para quem trabalha com esporte, produtos, aulas ou serviços.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ebook-section ebook-safe">
+      <div class="ebook-container">
+        <div class="ebook-section-title">
+          <h2>Compra segura</h2>
+          <p>A compra é processada pela Hotmart, uma plataforma reconhecida para produtos digitais.</p>
+        </div>
+
+        <div class="ebook-box">
+          <h2>Comece com tranquilidade</h2>
+          <p>Após a confirmação da compra, o acesso ao conteúdo é disponibilizado pela plataforma. Consulte as condições de garantia e suporte diretamente na página de checkout.</p>
+          <a class="ebook-button" href="https://go.hotmart.com/V100243971W?redirectionUrl=https://valterigorcruz.hotmart.host/marketing-digital-empreendedor-de-sucesso-em-7-dias-26d2737e-8999-4c27-8243-125f81f6be3b" target="_blank" rel="noopener noreferrer">Garantir acesso agora</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="ebook-section">
+      <div class="ebook-container">
+        <div class="ebook-box">
+          <h2>Dê o primeiro passo hoje</h2>
+          <p>Use o e-book como um roteiro simples para organizar ideias, criar presença digital e construir uma rotina de ação.</p>
+          <a class="ebook-button" href="https://go.hotmart.com/V100243971W" target="_blank" rel="noopener noreferrer">Quero começar agora</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="site-footer-brand">
+        <strong>Bem Esportivo</strong>
+        <p>Conteúdo esportivo, futebol, opinião, projetos e serviços ligados ao esporte.</p>
+      </div>
+      <nav aria-label="Links institucionais">
+        <a href="sobre.html">Sobre</a>
+        <a href="contato.html">Contato</a>
+        <a href="politica-de-privacidade.html">Privacidade</a>
+        <a href="termos.html">Termos</a>
+      </nav>
+      <small>&copy; 2026 Bem Esportivo</small>
     </div>
-
-    <div>
-      <img src="img/ebook.png" alt="Capa do ebook marketing digital" loading="lazy">
-    </div>
-
-  </div>
-</header>
-
-
-
-<main>
-
-<!-- BENEFÍCIOS -->
-<section>
-  <div class="container">
-    <h2>📌 O que você vai aprender</h2>
-
-    <ul>
-      <li>Como se posicionar nas redes sociais</li>
-      <li>Ferramentas práticas que geram vendas</li>
-      <li>Plano de ação para 7 dias</li>
-      <li>Estratégias para o nicho esportivo</li>
-    </ul>
-  </div>
-</section>
-
-<!-- GARANTIA -->
-<section>
-  <div class="container">
-    <div class="box">
-      <h2>🛡️ Compra Segura</h2>
-      <p>
-        Teste por 7 dias. Se não gostar, você recebe seu dinheiro de volta.
-      </p>
-
-      <a href="https://go.hotmart.com/V100243971W?redirectionUrl=https://valterigorcruz.hotmart.host/marketing-digital-empreendedor-de-sucesso-em-7-dias-26d2737e-8999-4c27-8243-125f81f6be3b"
-         target="_blank" rel="noopener noreferrer"
-         rel="noopener noreferrer"
-         class="btn">
-        Garantir acesso agora
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- CTA FINAL -->
-<section>
-  <div class="container">
-    <div class="box">
-      <h2>🚀 Comece hoje</h2>
-      <p>
-        Você pode continuar parado ou começar a faturar ainda essa semana.
-      </p>
-
-      <a href="https://go.hotmart.com/V100243971W"
-        target="_blank" rel="noopener noreferrer"
-         rel="noopener noreferrer"
-         class="btn">
-        Quero começar agora
-      </a>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<footer class="site-footer">
-  <div class="site-footer-inner">
-    <div class="site-footer-brand">
-      <strong>Bem Esportivo</strong>
-      <p>Conteúdo esportivo, futebol, opinião, projetos e serviços ligados ao esporte.</p>
-    </div>
-    <nav aria-label="Links institucionais">
-      <a href="sobre.html">Sobre</a>
-      <a href="contato.html">Contato</a>
-      <a href="politica-de-privacidade.html">Privacidade</a>
-      <a href="termos.html">Termos</a>
-    </nav>
-    <small>&copy; 2026 Bem Esportivo</small>
-  </div>
-</footer>
-
+  </footer>
 </body>
 </html>
