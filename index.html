@@ -621,6 +621,91 @@ gap:20px;
 margin-top:22px;
 }
 
+.home-editorial-layout{
+display:grid;
+grid-template-columns:minmax(0,1fr) 340px;
+gap:24px;
+align-items:start;
+margin-top:22px;
+}
+
+.home-editorial-layout .reportagens-grid{
+margin-top:0;
+}
+
+.home-posts-sidebar{
+position:sticky;
+top:92px;
+}
+
+.home-posts-panel{
+background:#0d0f13;
+border:1px solid rgba(252,110,2,.24);
+border-radius:8px;
+padding:18px;
+box-shadow:0 16px 36px rgba(0,0,0,.16);
+color:#fff;
+}
+
+.home-posts-panel h3{
+font-size:22px;
+line-height:1.15;
+margin-bottom:8px;
+}
+
+.home-posts-panel>p{
+font-size:14px;
+line-height:1.55;
+color:#d2d6de;
+margin-bottom:16px;
+}
+
+.home-side-posts{
+display:grid;
+gap:12px;
+}
+
+.home-side-post{
+display:grid;
+grid-template-columns:108px minmax(0,1fr);
+gap:12px;
+align-items:center;
+padding:12px;
+background:rgba(255,255,255,.055);
+border:1px solid rgba(255,255,255,.08);
+border-radius:8px;
+transition:transform .2s ease,border-color .2s ease,background .2s ease;
+}
+
+.home-side-post:hover{
+transform:translateY(-2px);
+border-color:rgba(252,110,2,.48);
+background:rgba(255,255,255,.08);
+}
+
+.home-side-post img{
+width:100%;
+height:108px;
+object-fit:cover;
+border-radius:8px;
+background:#050505;
+border:1px solid rgba(252,110,2,.24);
+}
+
+.home-side-post strong{
+display:block;
+font-size:15px;
+line-height:1.25;
+margin-bottom:5px;
+}
+
+.home-side-post span{
+display:block;
+font-size:12px;
+line-height:1.4;
+color:#d2d6de;
+}
+
 .reportagem-card{
 background:#fff;
 border:1px solid #eee;
@@ -2259,6 +2344,22 @@ grid-template-columns:1fr;
 grid-template-columns:1fr;
 }
 
+.home-editorial-layout{
+grid-template-columns:1fr;
+}
+
+.home-posts-sidebar{
+position:static;
+}
+
+.home-side-post{
+grid-template-columns:96px minmax(0,1fr);
+}
+
+.home-side-post img{
+height:96px;
+}
+
 .palpitometro-panel{
 position:static;
 }
@@ -2661,6 +2762,8 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 
 <section class="container">
 <h2 class="mt-40">Reportagens</h2>
+<div class="home-editorial-layout">
+<div class="home-reportagens-main">
 <div class="reportagens-grid">
 <article class="reportagem-card searchable">
 <img src="img/IMG_0957.jpg" alt="Treino técnico na Academia de Futebol Portela">
@@ -2679,6 +2782,49 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 <a href="Reportagens.html" class="btn">Ler reportagem</a>
 </div>
 </article>
+</div>
+</div>
+
+<aside class="home-posts-sidebar" aria-label="Posts Bem Esportivo">
+<div class="home-posts-panel">
+<h3>Posts Bem Esportivo</h3>
+<p>Conteúdos rápidos para inspirar movimento, saúde, treino e alimentação.</p>
+
+<div class="home-side-posts">
+<article class="home-side-post searchable">
+<img src="img/posts/post-corrida-transforma.png" alt="Post Correr transforma" loading="lazy">
+<div>
+<strong>Correr transforma</strong>
+<span>Condicionamento, disposição e saúde mental em cada passo.</span>
+</div>
+</article>
+
+<article class="home-side-post searchable">
+<img src="img/posts/post-pratica-esportes.png" alt="Post Prática de esportes" loading="lazy">
+<div>
+<strong>Prática de esportes</strong>
+<span>Mais saúde, energia e conexão para viver melhor.</span>
+</div>
+</article>
+
+<article class="home-side-post searchable">
+<img src="img/posts/post-academia-transforma.png" alt="Post Academia transforma" loading="lazy">
+<div>
+<strong>Academia transforma</strong>
+<span>Força, resistência e disciplina para evoluir com constância.</span>
+</div>
+</article>
+
+<article class="home-side-post searchable">
+<img src="img/posts/post-boa-alimentacao.png" alt="Post Boa alimentação" loading="lazy">
+<div>
+<strong>Boa alimentação</strong>
+<span>Energia, recuperação e performance começam no prato.</span>
+</div>
+</article>
+</div>
+</div>
+</aside>
 </div>
 </section>
 
