@@ -385,6 +385,92 @@ grid-template-columns:repeat(4,minmax(0,1fr));
 gap:22px;
 }
 
+.professionals-layout{
+display:grid;
+grid-template-columns:minmax(0,1fr) 340px;
+gap:26px;
+align-items:start;
+}
+
+.professionals-main .grid{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.posts-sidebar{
+position:sticky;
+top:96px;
+}
+
+.posts-panel{
+background:#0f1115;
+border:1px solid rgba(252,110,2,.22);
+border-radius:16px;
+padding:18px;
+box-shadow:0 18px 42px rgba(18,24,35,.12);
+color:#fff;
+}
+
+.posts-panel h3{
+font-size:22px;
+line-height:1.15;
+letter-spacing:0;
+margin-bottom:8px;
+}
+
+.posts-panel>p{
+color:#cfd4dc;
+font-size:14px;
+line-height:1.55;
+margin-bottom:16px;
+}
+
+.side-posts{
+display:grid;
+gap:12px;
+}
+
+.side-post{
+display:grid;
+grid-template-columns:108px minmax(0,1fr);
+gap:12px;
+align-items:center;
+padding:12px;
+background:rgba(255,255,255,.055);
+border:1px solid rgba(255,255,255,.08);
+border-radius:12px;
+transition:transform .2s ease,border-color .2s ease,background .2s ease;
+}
+
+.side-post:hover{
+transform:translateY(-2px);
+border-color:rgba(252,110,2,.45);
+background:rgba(255,255,255,.08);
+}
+
+.post-thumb{
+width:100%;
+height:108px;
+border-radius:10px;
+object-fit:cover;
+object-position:center;
+background:#050505;
+border:1px solid rgba(252,110,2,.25);
+}
+
+.side-post strong{
+display:block;
+font-size:15px;
+line-height:1.25;
+margin-bottom:5px;
+}
+
+.side-post span{
+display:block;
+color:#cfd4dc;
+font-size:12px;
+line-height:1.4;
+}
+
 .card{
 background:var(--surface);
 border:1px solid var(--line);
@@ -602,6 +688,15 @@ cursor:pointer;
 grid-template-columns:1fr;
 }
 
+.professionals-layout,
+.professionals-main .grid{
+grid-template-columns:1fr;
+}
+
+.posts-sidebar{
+position:static;
+}
+
 .hero h1{
 font-size:48px;
 }
@@ -624,8 +719,14 @@ nav.active{display:flex}
 }
 
 @media(max-width:1180px) and (min-width:769px){
-.grid{
+.grid,
+.professionals-main .grid{
 grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.professionals-layout{
+grid-template-columns:minmax(0,1fr) 310px;
+gap:20px;
 }
 }
 
@@ -639,6 +740,8 @@ body{padding-top:60px}
 .card-cover{height:280px}
 .actions{flex-direction:column}
 .modal-box{padding:26px}
+.side-post{grid-template-columns:88px minmax(0,1fr)}
+.post-thumb{height:88px}
 }
 </style>
 <link rel="stylesheet" href="site-common.css">
@@ -721,7 +824,52 @@ Uma seleção enxuta e atualizada com profissionais ligados ao esporte, treiname
 <p>Perfis disponíveis para contato, com especialidade, formato de atendimento e canal direto.</p>
 </div>
 
+<div class="professionals-layout">
+<div class="professionals-main">
 <div id="lista" class="grid"></div>
+</div>
+
+<aside class="posts-sidebar" aria-label="Posts Bem Esportivo">
+<div class="posts-panel">
+<h3>Posts para o seu dia</h3>
+<p>Conteúdos rápidos para inspirar movimento, saúde e rotina esportiva.</p>
+
+<div class="side-posts">
+<article class="side-post">
+<img class="post-thumb" src="img/posts/post-corrida-transforma.png" alt="Post Correr transforma" loading="lazy">
+<div>
+<strong>Correr transforma mais do que o corpo</strong>
+<span>Condicionamento, energia, sono e saúde mental em uma rotina simples.</span>
+</div>
+</article>
+
+<article class="side-post">
+<img class="post-thumb" src="img/posts/post-pratica-esportes.png" alt="Post Prática de esportes" loading="lazy">
+<div>
+<strong>Mais saúde, mais energia, mais vida</strong>
+<span>O esporte fortalece o corpo, cria conexões e melhora a disposição.</span>
+</div>
+</article>
+
+<article class="side-post">
+<img class="post-thumb" src="img/posts/post-academia-transforma.png" alt="Post Academia transforma" loading="lazy">
+<div>
+<strong>Disciplina hoje, conquistas amanhã</strong>
+<span>Força, resistência e constância para transformar o treino em hábito.</span>
+</div>
+</article>
+
+<article class="side-post">
+<img class="post-thumb" src="img/posts/post-boa-alimentacao.png" alt="Post Boa alimentação" loading="lazy">
+<div>
+<strong>Alimentação também é performance</strong>
+<span>Mais energia, recuperação e qualidade de vida com escolhas melhores.</span>
+</div>
+</article>
+</div>
+</div>
+</aside>
+</div>
 
 </div>
 </section>
