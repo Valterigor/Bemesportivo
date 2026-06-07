@@ -524,6 +524,7 @@ box-shadow:0 12px 40px rgba(0,0,0,.10);
 width:100%;
 height:460px;
 object-fit:cover;
+display:block;
 }
 
 .destaque-img::before{
@@ -556,6 +557,7 @@ margin-bottom:10px;
 
 .destaque-texto p{
 font-size:20px;
+line-height:1.45;
 margin-bottom:16px;
 }
 
@@ -2455,6 +2457,10 @@ padding:20px;
 font-size:28px;
 }
 
+.destaque-texto p{
+font-size:17px;
+}
+
 .hero h1{
 font-size:32px;
 }
@@ -2673,6 +2679,57 @@ min-width:160px;
 }
 
 @media (max-width: 480px){
+  .hero{
+    padding:34px 14px;
+  }
+
+  .hero h1{
+    font-size:28px;
+  }
+
+  .destaque-img{
+    border-radius:14px;
+    margin-top:16px;
+    background:#080808;
+  }
+
+  .destaque-img img{
+    height:220px;
+    object-position:center top;
+  }
+
+  .destaque-img::before{
+    inset:0 0 auto 0;
+    height:220px;
+    background:linear-gradient(180deg, rgba(0,0,0,.02) 15%, rgba(0,0,0,.34) 100%);
+  }
+
+  .destaque-texto{
+    position:relative;
+    padding:18px;
+    background:#080808;
+  }
+
+  .destaque-fonte{
+    font-size:11px;
+    line-height:1.2;
+  }
+
+  .destaque-texto h2{
+    font-size:24px;
+    line-height:1.15;
+  }
+
+  .destaque-texto p{
+    font-size:15px;
+    line-height:1.45;
+  }
+
+  .destaque-texto .btn{
+    width:100%;
+    text-align:center;
+  }
+
   .worldcup-flag{ width:48px; height:36px; }
   .palpite-team .worldcup-flag{ width:48px; height:36px; }
   .palpite-card{ padding:14px; }
