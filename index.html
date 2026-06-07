@@ -782,6 +782,96 @@ color:#e7eaf0;
 line-height:1.65;
 }
 
+.post-comments{
+margin-top:22px;
+padding-top:18px;
+border-top:1px solid rgba(255,255,255,.12);
+}
+
+.post-comments h4{
+font-size:18px;
+line-height:1.2;
+margin-bottom:12px;
+}
+
+.post-comment-form{
+display:grid;
+gap:10px;
+margin-bottom:16px;
+}
+
+.post-comment-form input,
+.post-comment-form textarea{
+width:100%;
+border:1px solid rgba(255,255,255,.16);
+border-radius:8px;
+background:rgba(255,255,255,.08);
+color:#fff;
+font:inherit;
+padding:12px 14px;
+outline:none;
+}
+
+.post-comment-form textarea{
+min-height:92px;
+resize:vertical;
+}
+
+.post-comment-form input::placeholder,
+.post-comment-form textarea::placeholder{
+color:#aeb5c2;
+}
+
+.post-comment-form input:focus,
+.post-comment-form textarea:focus{
+border-color:rgba(252,110,2,.76);
+box-shadow:0 0 0 3px rgba(252,110,2,.14);
+}
+
+.post-comment-form button{
+justify-self:start;
+border:none;
+border-radius:8px;
+background:var(--primary);
+color:#111;
+cursor:pointer;
+font-weight:900;
+padding:12px 18px;
+}
+
+.post-comments-list{
+display:grid;
+gap:10px;
+}
+
+.post-comment{
+padding:12px 14px;
+background:rgba(255,255,255,.07);
+border:1px solid rgba(255,255,255,.1);
+border-radius:8px;
+}
+
+.post-comment strong{
+display:block;
+font-size:14px;
+margin-bottom:4px;
+}
+
+.post-comment p{
+color:#eef1f5;
+font-size:14px;
+line-height:1.55;
+margin:0;
+}
+
+.post-comment time,
+.post-comments-empty{
+display:block;
+margin-top:6px;
+color:#aeb5c2;
+font-size:12px;
+}
+
 .reportagem-card{
 background:#fff;
 border:1px solid #eee;
@@ -2878,7 +2968,7 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 <p>Conteúdos rápidos para inspirar movimento, saúde, treino e alimentação.</p>
 
 <div class="home-side-posts">
-<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-corrida-transforma.png" data-title="Correr transforma" data-text="Condicionamento, disposição e saúde mental em cada passo.">
+<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-post-id="corrida-transforma" data-image="img/posts/post-corrida-transforma.png" data-title="Correr transforma" data-text="Condicionamento, disposição e saúde mental em cada passo.">
 <img src="img/posts/post-corrida-transforma.png" alt="Post Correr transforma" loading="lazy">
 <div>
 <strong>Correr transforma</strong>
@@ -2886,7 +2976,7 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 </div>
 </button>
 
-<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-pratica-esportes.png" data-title="Prática de esportes" data-text="Mais saúde, energia e conexão para viver melhor.">
+<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-post-id="pratica-esportes" data-image="img/posts/post-pratica-esportes.png" data-title="Prática de esportes" data-text="Mais saúde, energia e conexão para viver melhor.">
 <img src="img/posts/post-pratica-esportes.png" alt="Post Prática de esportes" loading="lazy">
 <div>
 <strong>Prática de esportes</strong>
@@ -2894,7 +2984,7 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 </div>
 </button>
 
-<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-academia-transforma.png" data-title="Academia transforma" data-text="Força, resistência e disciplina para evoluir com constância.">
+<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-post-id="academia-transforma" data-image="img/posts/post-academia-transforma.png" data-title="Academia transforma" data-text="Força, resistência e disciplina para evoluir com constância.">
 <img src="img/posts/post-academia-transforma.png" alt="Post Academia transforma" loading="lazy">
 <div>
 <strong>Academia transforma</strong>
@@ -2902,7 +2992,7 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 </div>
 </button>
 
-<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-image="img/posts/post-boa-alimentacao.png" data-title="Boa alimentação" data-text="Energia, recuperação e performance começam no prato.">
+<button class="home-side-post searchable" type="button" onclick="abrirPostLateral(this)" data-post-id="boa-alimentacao" data-image="img/posts/post-boa-alimentacao.png" data-title="Boa alimentação" data-text="Energia, recuperação e performance começam no prato.">
 <img src="img/posts/post-boa-alimentacao.png" alt="Post Boa alimentação" loading="lazy">
 <div>
 <strong>Boa alimentação</strong>
@@ -2922,6 +3012,15 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 <div class="post-lightbox-body">
 <h3 id="postLightboxTitle"></h3>
 <p id="postLightboxText"></p>
+<section class="post-comments" aria-label="Comentários do post">
+<h4 id="postCommentsTitle">Comentários</h4>
+<form class="post-comment-form" id="postCommentForm">
+<input id="postCommentName" maxlength="40" placeholder="Seu nome ou apelido">
+<textarea id="postCommentText" maxlength="500" placeholder="Escreva seu comentário..." required></textarea>
+<button type="submit">Publicar comentário</button>
+</form>
+<div class="post-comments-list" id="postCommentsList"></div>
+</section>
 </div>
 </div>
 </div>
@@ -3205,16 +3304,65 @@ Calendário baseado na tabela oficial da FIFA. A seção atualiza o status autom
 
 <script>
 
+let postAtualId='';
+
+function chaveComentarios(postId){
+return `bemEsportivoComentarios:${postId}`;
+}
+
+function escaparHtml(valor){
+return String(valor)
+.replace(/&/g,'&amp;')
+.replace(/</g,'&lt;')
+.replace(/>/g,'&gt;')
+.replace(/"/g,'&quot;')
+.replace(/'/g,'&#039;');
+}
+
+function obterComentarios(postId){
+try{
+return JSON.parse(localStorage.getItem(chaveComentarios(postId)))||[];
+}catch(e){
+return [];
+}
+}
+
+function salvarComentarios(postId,comentarios){
+localStorage.setItem(chaveComentarios(postId),JSON.stringify(comentarios.slice(-50)));
+}
+
+function renderizarComentarios(postId){
+const lista=document.getElementById('postCommentsList');
+const titulo=document.getElementById('postCommentsTitle');
+if(!lista||!titulo) return;
+const comentarios=obterComentarios(postId);
+titulo.textContent=`Comentários (${comentarios.length})`;
+if(!comentarios.length){
+lista.innerHTML='<span class="post-comments-empty">Seja o primeiro a comentar este post.</span>';
+return;
+}
+lista.innerHTML=comentarios.map(comentario=>`
+<article class="post-comment">
+<strong>${escaparHtml(comentario.nome||'Visitante')}</strong>
+<p>${escaparHtml(comentario.texto)}</p>
+<time>${escaparHtml(comentario.data)}</time>
+</article>
+`).join('');
+}
+
 function abrirPostLateral(botao){
 const modal=document.getElementById('postLightbox');
 const imagem=document.getElementById('postLightboxImg');
 const titulo=document.getElementById('postLightboxTitle');
 const texto=document.getElementById('postLightboxText');
 if(!modal||!imagem||!titulo||!texto) return;
+postAtualId=botao.dataset.postId||botao.dataset.title||'post';
 imagem.src=botao.dataset.image;
 imagem.alt=botao.dataset.title;
 titulo.textContent=botao.dataset.title;
 texto.textContent=botao.dataset.text;
+document.getElementById('postCommentForm')?.reset();
+renderizarComentarios(postAtualId);
 modal.classList.add('show');
 document.body.style.overflow='hidden';
 }
@@ -3236,6 +3384,26 @@ document.addEventListener('click',event=>{
 const modal=document.getElementById('postLightbox');
 if(modal&&event.target===modal) fecharPostLateral();
 });
+
+const postCommentForm=document.getElementById('postCommentForm');
+if(postCommentForm){
+postCommentForm.addEventListener('submit',event=>{
+event.preventDefault();
+if(!postAtualId) return;
+const nome=document.getElementById('postCommentName')?.value.trim()||'Visitante';
+const texto=document.getElementById('postCommentText')?.value.trim();
+if(!texto) return;
+const comentarios=obterComentarios(postAtualId);
+comentarios.push({
+nome:nome.slice(0,40),
+texto:texto.slice(0,500),
+data:new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})
+});
+salvarComentarios(postAtualId,comentarios);
+postCommentForm.reset();
+renderizarComentarios(postAtualId);
+});
+}
 
 /* ===== CAROUSEL BANNERS ===== */
 
