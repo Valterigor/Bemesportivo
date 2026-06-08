@@ -2409,10 +2409,451 @@ transform:translateY(-3px);
 }
 
 /* =========================
+JOGO DE PENALTIS
+========================= */
+
+.penalty-game-section{
+margin-top:42px;
+}
+
+.penalty-game{
+position:relative;
+overflow:hidden;
+border-radius:18px;
+background:
+linear-gradient(180deg, rgba(8,8,8,.18), rgba(8,8,8,.72)),
+radial-gradient(circle at 50% 22%, rgba(255,255,255,.25), transparent 30%),
+linear-gradient(135deg, #0b6f35 0%, #128244 45%, #0a5f2e 100%);
+box-shadow:0 18px 48px rgba(0,0,0,.16);
+color:#fff;
+}
+
+.penalty-game-header{
+display:flex;
+justify-content:space-between;
+gap:18px;
+align-items:flex-start;
+padding:24px 24px 0;
+position:relative;
+z-index:4;
+}
+
+.penalty-game-header h2{
+font-size:30px;
+margin:4px 0 8px;
+}
+
+.penalty-game-header p{
+max-width:620px;
+color:rgba(255,255,255,.86);
+line-height:1.45;
+}
+
+.penalty-badge{
+display:inline-flex;
+align-items:center;
+padding:7px 12px;
+border-radius:999px;
+background:rgba(0,0,0,.45);
+border:1px solid rgba(255,255,255,.18);
+font-size:12px;
+font-weight:900;
+letter-spacing:.04em;
+text-transform:uppercase;
+}
+
+.penalty-scoreboard{
+display:grid;
+grid-template-columns:repeat(2, minmax(76px, 1fr));
+gap:8px;
+min-width:180px;
+}
+
+.penalty-scorebox{
+background:rgba(0,0,0,.52);
+border:1px solid rgba(255,255,255,.14);
+border-radius:12px;
+padding:10px;
+text-align:center;
+}
+
+.penalty-scorebox span{
+display:block;
+font-size:11px;
+color:rgba(255,255,255,.72);
+font-weight:800;
+text-transform:uppercase;
+}
+
+.penalty-scorebox strong{
+display:block;
+font-size:24px;
+margin-top:3px;
+}
+
+.penalty-arena{
+position:relative;
+min-height:520px;
+display:grid;
+grid-template-columns:150px 1fr 150px;
+gap:18px;
+align-items:end;
+padding:22px 24px 26px;
+}
+
+.penalty-field{
+position:absolute;
+inset:98px 0 0;
+background:
+linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px) 0 0/80px 100%,
+repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 40px, rgba(0,0,0,.04) 40px 80px);
+}
+
+.penalty-box{
+position:absolute;
+left:50%;
+top:112px;
+width:min(520px, 78%);
+height:255px;
+transform:translateX(-50%);
+border:4px solid rgba(255,255,255,.75);
+border-bottom:0;
+border-radius:0 0 10px 10px;
+}
+
+.penalty-goal{
+position:absolute;
+left:50%;
+top:98px;
+width:min(420px, 68%);
+height:145px;
+transform:translateX(-50%);
+border:8px solid rgba(255,255,255,.94);
+border-bottom:0;
+background:
+linear-gradient(90deg, rgba(255,255,255,.18) 1px, transparent 1px) 0 0/28px 28px,
+linear-gradient(0deg, rgba(255,255,255,.18) 1px, transparent 1px) 0 0/28px 28px,
+rgba(0,0,0,.16);
+box-shadow:0 12px 25px rgba(0,0,0,.22);
+}
+
+.penalty-keeper{
+position:absolute;
+left:50%;
+top:164px;
+width:76px;
+height:105px;
+transform:translateX(-50%);
+transition:transform .45s ease, top .45s ease;
+z-index:3;
+}
+
+.penalty-keeper::before{
+content:"";
+position:absolute;
+left:50%;
+top:0;
+width:34px;
+height:34px;
+border-radius:50%;
+background:#ffd0a4;
+transform:translateX(-50%);
+}
+
+.penalty-keeper::after{
+content:"";
+position:absolute;
+left:50%;
+top:34px;
+width:58px;
+height:66px;
+border-radius:18px 18px 12px 12px;
+background:linear-gradient(180deg, #ff7a00, #111);
+transform:translateX(-50%);
+box-shadow:
+-46px 6px 0 -31px #ff7a00,
+46px 6px 0 -31px #ff7a00,
+-18px 64px 0 -10px #111,
+18px 64px 0 -10px #111;
+}
+
+.penalty-keeper[data-dive="left"]{transform:translateX(-175px) rotate(-18deg);top:176px}
+.penalty-keeper[data-dive="right"]{transform:translateX(98px) rotate(18deg);top:176px}
+.penalty-keeper[data-dive="up"]{transform:translateX(-50%) translateY(-42px)}
+.penalty-keeper[data-dive="down"]{transform:translateX(-50%) translateY(34px)}
+
+.penalty-ball{
+position:absolute;
+left:50%;
+bottom:82px;
+width:42px;
+height:42px;
+border-radius:50%;
+background:
+radial-gradient(circle at 34% 28%, #fff 0 18%, transparent 19%),
+radial-gradient(circle at 65% 68%, #151515 0 18%, transparent 19%),
+radial-gradient(circle at 50% 50%, #f8f8f8, #d7d7d7);
+box-shadow:0 14px 22px rgba(0,0,0,.28);
+transform:translateX(-50%);
+transition:transform .55s cubic-bezier(.18,.8,.22,1), bottom .55s cubic-bezier(.18,.8,.22,1);
+z-index:5;
+}
+
+.penalty-ball[data-shot="left"]{transform:translateX(-230px) translateY(-225px) scale(.72)}
+.penalty-ball[data-shot="right"]{transform:translateX(188px) translateY(-225px) scale(.72)}
+.penalty-ball[data-shot="up"]{transform:translateX(-50%) translateY(-295px) scale(.68)}
+.penalty-ball[data-shot="down"]{transform:translateX(-50%) translateY(-165px) scale(.82)}
+
+.penalty-mark{
+position:absolute;
+left:50%;
+bottom:58px;
+width:82px;
+height:18px;
+border-radius:50%;
+background:rgba(255,255,255,.28);
+transform:translateX(-50%);
+}
+
+.penalty-joystick,
+.penalty-actions{
+position:relative;
+z-index:6;
+align-self:end;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:10px;
+padding:14px;
+border-radius:16px;
+background:rgba(0,0,0,.42);
+border:1px solid rgba(255,255,255,.14);
+backdrop-filter:blur(8px);
+}
+
+.penalty-joystick strong,
+.penalty-actions strong{
+font-size:12px;
+text-transform:uppercase;
+letter-spacing:.04em;
+color:rgba(255,255,255,.78);
+}
+
+.penalty-pad{
+display:grid;
+grid-template-columns:46px 46px 46px;
+grid-template-rows:46px 46px 46px;
+gap:8px;
+}
+
+.penalty-control,
+.penalty-shot,
+.penalty-reset{
+border:0;
+cursor:pointer;
+font-family:inherit;
+font-weight:900;
+transition:transform .16s ease, background .16s ease, box-shadow .16s ease;
+}
+
+.penalty-control{
+border-radius:14px;
+background:#fff;
+color:#111;
+font-size:24px;
+box-shadow:0 8px 0 rgba(0,0,0,.22);
+}
+
+.penalty-control:hover,
+.penalty-control.is-selected{
+background:var(--primary);
+color:#fff;
+transform:translateY(-2px);
+}
+
+.penalty-control[data-direction="up"]{grid-column:2;grid-row:1}
+.penalty-control[data-direction="left"]{grid-column:1;grid-row:2}
+.penalty-control[data-direction="right"]{grid-column:3;grid-row:2}
+.penalty-control[data-direction="down"]{grid-column:2;grid-row:3}
+
+.penalty-pad-center{
+grid-column:2;
+grid-row:2;
+border-radius:50%;
+background:rgba(255,255,255,.18);
+border:1px solid rgba(255,255,255,.22);
+}
+
+.penalty-actions{
+min-width:136px;
+}
+
+.penalty-shot{
+width:82px;
+height:82px;
+border-radius:50%;
+background:#fff;
+color:#111;
+font-size:15px;
+box-shadow:0 8px 0 rgba(0,0,0,.25);
+}
+
+.penalty-shot[data-shot-type="power"]{
+border-radius:18px;
+background:var(--primary);
+color:#fff;
+}
+
+.penalty-shot:hover,
+.penalty-reset:hover{
+transform:translateY(-2px);
+}
+
+.penalty-status{
+position:relative;
+z-index:4;
+align-self:end;
+text-align:center;
+padding-bottom:16px;
+}
+
+.penalty-status h3{
+font-size:34px;
+margin-bottom:8px;
+}
+
+.penalty-status p{
+max-width:430px;
+margin:0 auto;
+color:rgba(255,255,255,.86);
+line-height:1.45;
+}
+
+.penalty-rounds{
+display:flex;
+justify-content:center;
+gap:8px;
+margin-top:14px;
+}
+
+.penalty-round{
+width:16px;
+height:16px;
+border-radius:50%;
+background:rgba(255,255,255,.34);
+border:1px solid rgba(255,255,255,.35);
+}
+
+.penalty-round.is-goal{background:#22c55e}
+.penalty-round.is-save{background:#ef4444}
+
+.penalty-reset{
+margin-top:16px;
+padding:11px 18px;
+border-radius:999px;
+background:#fff;
+color:#111;
+}
+
+.penalty-rank{
+position:relative;
+z-index:4;
+padding:0 24px 24px;
+display:flex;
+justify-content:center;
+}
+
+.penalty-rank-card{
+width:min(520px, 100%);
+background:rgba(0,0,0,.42);
+border:1px solid rgba(255,255,255,.14);
+border-radius:14px;
+padding:14px;
+text-align:center;
+}
+
+.penalty-rank-card span{
+display:block;
+font-size:12px;
+font-weight:900;
+letter-spacing:.04em;
+text-transform:uppercase;
+color:rgba(255,255,255,.72);
+}
+
+.penalty-rank-card strong{
+display:block;
+font-size:20px;
+margin-top:4px;
+}
+
+/* =========================
 RESPONSIVO
 ========================= */
 
 @media(max-width:768px){
+
+.penalty-game-header{
+flex-direction:column;
+padding:20px 18px 0;
+}
+
+.penalty-game-header h2{
+font-size:26px;
+}
+
+.penalty-scoreboard{
+width:100%;
+grid-template-columns:repeat(2, 1fr);
+}
+
+.penalty-arena{
+grid-template-columns:1fr 1fr;
+grid-template-areas:
+"status status"
+"joy actions";
+min-height:610px;
+padding:18px;
+align-items:end;
+}
+
+.penalty-status{
+grid-area:status;
+align-self:start;
+padding-top:250px;
+padding-bottom:0;
+}
+
+.penalty-joystick{grid-area:joy}
+.penalty-actions{grid-area:actions}
+
+.penalty-goal{
+top:112px;
+width:78%;
+height:122px;
+}
+
+.penalty-box{
+top:126px;
+height:210px;
+}
+
+.penalty-keeper{
+top:170px;
+}
+
+.penalty-ball{
+bottom:176px;
+}
+
+.penalty-mark{
+bottom:152px;
+}
+
+.penalty-ball[data-shot="left"]{transform:translateX(-170px) translateY(-200px) scale(.72)}
+.penalty-ball[data-shot="right"]{transform:translateX(128px) translateY(-200px) scale(.72)}
+.penalty-ball[data-shot="up"]{transform:translateX(-50%) translateY(-250px) scale(.68)}
+.penalty-ball[data-shot="down"]{transform:translateX(-50%) translateY(-150px) scale(.82)}
 
 .menu-btn{
 display:flex;
@@ -2679,6 +3120,106 @@ min-width:160px;
 }
 
 @media (max-width: 480px){
+  .penalty-game-section{
+    margin-top:28px;
+  }
+
+  .penalty-game{
+    border-radius:14px;
+  }
+
+  .penalty-game-header{
+    padding:18px 14px 0;
+  }
+
+  .penalty-game-header h2{
+    font-size:24px;
+  }
+
+  .penalty-game-header p{
+    font-size:14px;
+  }
+
+  .penalty-arena{
+    min-height:645px;
+    gap:10px;
+    padding:14px;
+  }
+
+  .penalty-field{
+    inset:122px 0 0;
+  }
+
+  .penalty-goal{
+    top:126px;
+    width:84%;
+    height:112px;
+    border-width:6px;
+  }
+
+  .penalty-box{
+    top:136px;
+    width:90%;
+    height:202px;
+    border-width:3px;
+  }
+
+  .penalty-keeper{
+    width:64px;
+    height:92px;
+    top:174px;
+  }
+
+  .penalty-keeper::before{
+    width:30px;
+    height:30px;
+  }
+
+  .penalty-keeper::after{
+    top:30px;
+    width:50px;
+    height:58px;
+  }
+
+  .penalty-status{
+    padding-top:248px;
+  }
+
+  .penalty-status h3{
+    font-size:25px;
+  }
+
+  .penalty-status p{
+    font-size:14px;
+  }
+
+  .penalty-pad{
+    grid-template-columns:40px 40px 40px;
+    grid-template-rows:40px 40px 40px;
+    gap:7px;
+  }
+
+  .penalty-control{
+    font-size:22px;
+    border-radius:12px;
+  }
+
+  .penalty-joystick,
+  .penalty-actions{
+    padding:10px;
+    border-radius:14px;
+  }
+
+  .penalty-shot{
+    width:70px;
+    height:70px;
+    font-size:13px;
+  }
+
+  .penalty-rank{
+    padding:0 14px 18px;
+  }
+
   .hero{
     padding:34px 14px;
   }
@@ -3187,6 +3728,68 @@ Ainda existe paixão ou virou negócio?
 <div class="modal-content" id="conteudoModal"></div>
 </div>
 
+</section>
+
+<section class="container penalty-game-section" id="desafio-penaltis">
+<div class="penalty-game searchable" aria-labelledby="penaltyTitle">
+<div class="penalty-game-header">
+<div>
+<span class="penalty-badge">Mini game Bem Esportivo</span>
+<h2 id="penaltyTitle">Desafio dos Pênaltis</h2>
+<p>Escolha o canto no controle, depois finalize com chute colocado ou chute forte. Você tem 5 cobranças para mostrar frieza na marca do pênalti.</p>
+</div>
+<div class="penalty-scoreboard" aria-label="Placar do desafio">
+<div class="penalty-scorebox">
+<span>Gols</span>
+<strong id="penaltyGoals">0</strong>
+</div>
+<div class="penalty-scorebox">
+<span>Cobrança</span>
+<strong id="penaltyRound">1/5</strong>
+</div>
+</div>
+</div>
+
+<div class="penalty-arena">
+<div class="penalty-field" aria-hidden="true"></div>
+<div class="penalty-box" aria-hidden="true"></div>
+<div class="penalty-goal" aria-hidden="true"></div>
+<div class="penalty-keeper" id="penaltyKeeper" aria-hidden="true"></div>
+<div class="penalty-mark" aria-hidden="true"></div>
+<div class="penalty-ball" id="penaltyBall" aria-hidden="true"></div>
+
+<div class="penalty-joystick" aria-label="Controle de direção do chute">
+<strong>Direção</strong>
+<div class="penalty-pad">
+<button class="penalty-control" type="button" data-direction="up" aria-label="Chutar para cima">↑</button>
+<button class="penalty-control" type="button" data-direction="left" aria-label="Chutar para esquerda">←</button>
+<span class="penalty-pad-center" aria-hidden="true"></span>
+<button class="penalty-control" type="button" data-direction="right" aria-label="Chutar para direita">→</button>
+<button class="penalty-control" type="button" data-direction="down" aria-label="Chutar para baixo">↓</button>
+</div>
+</div>
+
+<div class="penalty-status" aria-live="polite">
+<h3 id="penaltyResult">Escolha o canto</h3>
+<p id="penaltyMessage">Use as setas do controle e depois aperte bolinha ou quadrado para bater.</p>
+<div class="penalty-rounds" id="penaltyRounds" aria-label="Resultado das cobranças"></div>
+<button class="penalty-reset" type="button" id="penaltyReset">Reiniciar desafio</button>
+</div>
+
+<div class="penalty-actions" aria-label="Botões de finalização">
+<strong>Chute</strong>
+<button class="penalty-shot" type="button" data-shot-type="placed" aria-label="Bolinha, chute colocado">○<br>Colocado</button>
+<button class="penalty-shot" type="button" data-shot-type="power" aria-label="Quadrado, chute forte">□<br>Forte</button>
+</div>
+</div>
+
+<div class="penalty-rank">
+<div class="penalty-rank-card">
+<span>Melhor resultado salvo neste aparelho</span>
+<strong id="penaltyBest">Nenhum desafio concluído ainda</strong>
+</div>
+</div>
+</div>
 </section>
 
 <section class="container palpitometro-section" id="palpitometro">
@@ -5428,7 +6031,208 @@ async function loadWorldCupLive(){
   }
 }
 
+const PENALTY_STORAGE_KEY = 'bemEsportivoPenaltyBest';
+
+function initPenaltyGame(){
+  const game = document.getElementById('desafio-penaltis');
+  if(!game) return;
+
+  const controls = Array.from(game.querySelectorAll('.penalty-control'));
+  const shots = Array.from(game.querySelectorAll('.penalty-shot'));
+  const ball = document.getElementById('penaltyBall');
+  const keeper = document.getElementById('penaltyKeeper');
+  const goalsEl = document.getElementById('penaltyGoals');
+  const roundEl = document.getElementById('penaltyRound');
+  const resultEl = document.getElementById('penaltyResult');
+  const messageEl = document.getElementById('penaltyMessage');
+  const roundsEl = document.getElementById('penaltyRounds');
+  const resetBtn = document.getElementById('penaltyReset');
+  const bestEl = document.getElementById('penaltyBest');
+
+  const labels = {
+    up: 'alto',
+    down: 'baixo',
+    left: 'esquerda',
+    right: 'direita'
+  };
+
+  let selectedDirection = 'left';
+  let goals = 0;
+  let attempts = 0;
+  let locked = false;
+  let results = [];
+
+  function getSavedBest(){
+    try{
+      return Number(localStorage.getItem(PENALTY_STORAGE_KEY) || 0);
+    }catch(error){
+      return 0;
+    }
+  }
+
+  function saveBest(score){
+    try{
+      localStorage.setItem(PENALTY_STORAGE_KEY, String(score));
+    }catch(error){
+      return false;
+    }
+    return true;
+  }
+
+  function getLevel(score){
+    if(score >= 5) return 'Craque';
+    if(score === 4) return 'Artilheiro';
+    if(score === 3) return 'Bom jogador';
+    if(score === 2) return 'Reserva';
+    return 'Precisa treinar';
+  }
+
+  function renderBest(){
+    const best = getSavedBest();
+    bestEl.textContent = best > 0 ? `${best}/5 - ${getLevel(best)}` : 'Nenhum desafio concluído ainda';
+  }
+
+  function renderRounds(){
+    roundsEl.innerHTML = Array.from({length:5}).map((_, index) => {
+      const status = results[index];
+      const className = status === 'goal' ? ' is-goal' : status === 'save' ? ' is-save' : '';
+      return `<span class="penalty-round${className}" aria-label="Cobrança ${index + 1}"></span>`;
+    }).join('');
+  }
+
+  function selectDirection(direction){
+    selectedDirection = direction;
+    controls.forEach(control => {
+      control.classList.toggle('is-selected', control.dataset.direction === direction);
+    });
+    if(!locked && attempts < 5){
+      resultEl.textContent = `Canto ${labels[direction]} escolhido`;
+      messageEl.textContent = 'Agora escolha bolinha para um chute colocado ou quadrado para um chute forte.';
+    }
+  }
+
+  function updateScore(){
+    goalsEl.textContent = goals;
+    roundEl.textContent = attempts >= 5 ? '5/5' : `${attempts + 1}/5`;
+    renderRounds();
+  }
+
+  function keeperChoice(){
+    const directions = ['up', 'down', 'left', 'right'];
+    const memoryBias = results.length >= 2 && selectedDirection === 'left' ? 0.16 : 0;
+    if(Math.random() < .28 + memoryBias) return selectedDirection;
+    return directions[Math.floor(Math.random() * directions.length)];
+  }
+
+  function shoot(type){
+    if(locked || attempts >= 5) return;
+    locked = true;
+
+    const keeperDirection = keeperChoice();
+    const powerBonus = type === 'power' ? .16 : .06;
+    const placedBonus = type === 'placed' ? .10 : 0;
+    const sameCorner = keeperDirection === selectedDirection;
+    const saveChance = sameCorner ? .72 - powerBonus - placedBonus : .12;
+    const isGoal = Math.random() > saveChance;
+    const shotLabel = type === 'power' ? 'chute forte' : 'chute colocado';
+
+    ball.dataset.shot = selectedDirection;
+    keeper.dataset.dive = keeperDirection;
+
+    window.setTimeout(() => {
+      attempts += 1;
+      if(isGoal){
+        goals += 1;
+        results.push('goal');
+        resultEl.textContent = 'GOL!';
+        messageEl.textContent = `Você bateu ${labels[selectedDirection]} com ${shotLabel}. O goleiro foi para ${labels[keeperDirection]}.`;
+      }else{
+        results.push('save');
+        resultEl.textContent = 'Defendeu!';
+        messageEl.textContent = `O goleiro leu o canto ${labels[keeperDirection]} e pegou o ${shotLabel}.`;
+      }
+
+      updateScore();
+
+      if(attempts >= 5){
+        const level = getLevel(goals);
+        const best = getSavedBest();
+        if(goals > best){
+          saveBest(goals);
+          renderBest();
+        }
+        resultEl.textContent = `${goals}/5 - ${level}`;
+        messageEl.textContent = goals >= 4 ? 'Grande campanha. Resultado digno de compartilhar com a torcida.' : 'Desafio encerrado. Reinicie para tentar bater sua melhor marca.';
+      }
+
+      window.setTimeout(() => {
+        ball.removeAttribute('data-shot');
+        keeper.removeAttribute('data-dive');
+        locked = false;
+      }, 720);
+    }, 560);
+  }
+
+  function resetGame(){
+    goals = 0;
+    attempts = 0;
+    locked = false;
+    results = [];
+    ball.removeAttribute('data-shot');
+    keeper.removeAttribute('data-dive');
+    resultEl.textContent = 'Escolha o canto';
+    messageEl.textContent = 'Use as setas do controle e depois aperte bolinha ou quadrado para bater.';
+    updateScore();
+    selectDirection('left');
+    renderBest();
+  }
+
+  controls.forEach(control => {
+    control.addEventListener('click', () => selectDirection(control.dataset.direction));
+  });
+
+  shots.forEach(button => {
+    button.addEventListener('click', () => shoot(button.dataset.shotType));
+  });
+
+  resetBtn.addEventListener('click', resetGame);
+
+  window.addEventListener('keydown', event => {
+    const activeTag = document.activeElement?.tagName;
+    const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag);
+    const rect = game.getBoundingClientRect();
+    const gameVisible = rect.top < window.innerHeight && rect.bottom > 0;
+    if(typing || !gameVisible) return;
+
+    const keyMap = {
+      ArrowUp: 'up',
+      ArrowDown: 'down',
+      ArrowLeft: 'left',
+      ArrowRight: 'right'
+    };
+
+    if(keyMap[event.key]){
+      event.preventDefault();
+      selectDirection(keyMap[event.key]);
+      return;
+    }
+
+    if(event.key.toLowerCase() === 'z'){
+      event.preventDefault();
+      shoot('placed');
+    }
+
+    if(event.key.toLowerCase() === 'x'){
+      event.preventDefault();
+      shoot('power');
+    }
+  });
+
+  resetGame();
+}
+
 window.addEventListener('DOMContentLoaded', () => {
+  initPenaltyGame();
   setupPalpiteUserForm();
   setupPalpiteExportButtons();
   renderPalpitometro();
