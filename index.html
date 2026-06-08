@@ -2421,11 +2421,11 @@ position:relative;
 overflow:hidden;
 border-radius:18px;
 background:
-linear-gradient(180deg, rgba(8,8,8,.18), rgba(8,8,8,.72)),
-radial-gradient(circle at 50% 22%, rgba(255,255,255,.25), transparent 30%),
-linear-gradient(135deg, #0b6f35 0%, #128244 45%, #0a5f2e 100%);
+linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,.08) 48%, rgba(0,0,0,.26) 100%),
+url("img/penalty-stadium-bg.png") center/cover no-repeat;
 box-shadow:0 18px 48px rgba(0,0,0,.16);
 color:#fff;
+min-height:720px;
 }
 
 .penalty-game-header{
@@ -2433,29 +2433,54 @@ display:flex;
 justify-content:space-between;
 gap:18px;
 align-items:flex-start;
-padding:24px 24px 0;
+padding:22px 24px 0;
 position:relative;
-z-index:4;
+z-index:8;
 }
 
 .penalty-game-header h2{
-font-size:30px;
-margin:4px 0 8px;
+font-size:17px;
+margin:0 0 10px;
+color:#2e8cff;
+text-transform:uppercase;
+letter-spacing:.04em;
 }
 
 .penalty-game-header p{
-max-width:620px;
-color:rgba(255,255,255,.86);
+max-width:180px;
+color:#fff;
 line-height:1.45;
+font-size:14px;
+font-weight:800;
 }
 
 .penalty-badge{
-display:inline-flex;
-align-items:center;
-padding:7px 12px;
-border-radius:999px;
-background:rgba(0,0,0,.45);
-border:1px solid rgba(255,255,255,.18);
+display:none;
+}
+
+.penalty-objective{
+width:205px;
+padding:15px;
+border-radius:8px;
+background:rgba(0,0,0,.72);
+border:1px solid rgba(255,255,255,.22);
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+
+.penalty-hud{
+position:absolute;
+top:18px;
+left:50%;
+transform:translateX(-50%);
+width:min(520px, 56vw);
+text-align:center;
+}
+
+.penalty-hud-title{
+display:inline-block;
+padding:7px 42px 8px;
+background:rgba(0,0,0,.78);
+clip-path:polygon(8% 0, 92% 0, 100% 100%, 0 100%);
 font-size:12px;
 font-weight:900;
 letter-spacing:.04em;
@@ -2464,85 +2489,86 @@ text-transform:uppercase;
 
 .penalty-scoreboard{
 display:grid;
-grid-template-columns:repeat(2, minmax(76px, 1fr));
-gap:8px;
-min-width:180px;
+grid-template-columns:1fr 92px 1fr;
+gap:0;
+align-items:stretch;
+margin-top:-1px;
+min-width:0;
 }
 
 .penalty-scorebox{
-background:rgba(0,0,0,.52);
+background:rgba(0,0,0,.78);
 border:1px solid rgba(255,255,255,.14);
-border-radius:12px;
-padding:10px;
+border-radius:0;
+padding:9px 12px 10px;
 text-align:center;
+min-height:54px;
 }
 
 .penalty-scorebox span{
 display:block;
-font-size:11px;
-color:rgba(255,255,255,.72);
+font-size:14px;
+color:#fff;
 font-weight:800;
 text-transform:uppercase;
 }
 
 .penalty-scorebox strong{
 display:block;
-font-size:24px;
+font-size:13px;
 margin-top:3px;
+}
+
+.penalty-scorebox.is-player{
+background:linear-gradient(180deg, rgba(0,52,150,.95), rgba(0,17,60,.9));
+clip-path:polygon(0 0, 96% 0, 100% 100%, 8% 100%);
+}
+
+.penalty-scorebox.is-keeper{
+background:linear-gradient(180deg, rgba(175,0,0,.95), rgba(66,0,0,.9));
+clip-path:polygon(4% 0, 100% 0, 92% 100%, 0 100%);
+}
+
+.penalty-score-main{
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,0,0,.88);
+font-size:34px;
+font-weight:900;
+letter-spacing:.04em;
+border-top:1px solid rgba(255,255,255,.18);
+border-bottom:1px solid rgba(255,255,255,.18);
 }
 
 .penalty-arena{
 position:relative;
-min-height:520px;
+min-height:628px;
 display:grid;
 grid-template-columns:150px 1fr 150px;
 gap:18px;
 align-items:end;
-padding:22px 24px 26px;
+padding:240px 24px 28px;
 }
 
 .penalty-field{
-position:absolute;
-inset:98px 0 0;
-background:
-linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px) 0 0/80px 100%,
-repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 40px, rgba(0,0,0,.04) 40px 80px);
+display:none;
 }
 
 .penalty-box{
-position:absolute;
-left:50%;
-top:112px;
-width:min(520px, 78%);
-height:255px;
-transform:translateX(-50%);
-border:4px solid rgba(255,255,255,.75);
-border-bottom:0;
-border-radius:0 0 10px 10px;
+display:none;
 }
 
 .penalty-goal{
-position:absolute;
-left:50%;
-top:98px;
-width:min(420px, 68%);
-height:145px;
-transform:translateX(-50%);
-border:8px solid rgba(255,255,255,.94);
-border-bottom:0;
-background:
-linear-gradient(90deg, rgba(255,255,255,.18) 1px, transparent 1px) 0 0/28px 28px,
-linear-gradient(0deg, rgba(255,255,255,.18) 1px, transparent 1px) 0 0/28px 28px,
-rgba(0,0,0,.16);
-box-shadow:0 12px 25px rgba(0,0,0,.22);
+display:none;
 }
 
 .penalty-keeper{
 position:absolute;
 left:50%;
-top:164px;
-width:76px;
-height:105px;
+top:250px;
+width:78px;
+height:112px;
 transform:translateX(-50%);
 transition:transform .45s ease, top .45s ease;
 z-index:3;
@@ -2577,42 +2603,35 @@ box-shadow:
 18px 64px 0 -10px #111;
 }
 
-.penalty-keeper[data-dive="left"]{transform:translateX(-175px) rotate(-18deg);top:176px}
-.penalty-keeper[data-dive="right"]{transform:translateX(98px) rotate(18deg);top:176px}
+.penalty-keeper[data-dive="left"]{transform:translateX(-200px) rotate(-18deg);top:252px}
+.penalty-keeper[data-dive="right"]{transform:translateX(122px) rotate(18deg);top:252px}
 .penalty-keeper[data-dive="up"]{transform:translateX(-50%) translateY(-42px)}
 .penalty-keeper[data-dive="down"]{transform:translateX(-50%) translateY(34px)}
 
 .penalty-ball{
 position:absolute;
 left:50%;
-bottom:82px;
-width:42px;
-height:42px;
+bottom:172px;
+width:56px;
+height:56px;
 border-radius:50%;
 background:
 radial-gradient(circle at 34% 28%, #fff 0 18%, transparent 19%),
 radial-gradient(circle at 65% 68%, #151515 0 18%, transparent 19%),
 radial-gradient(circle at 50% 50%, #f8f8f8, #d7d7d7);
-box-shadow:0 14px 22px rgba(0,0,0,.28);
+box-shadow:0 18px 26px rgba(0,0,0,.42);
 transform:translateX(-50%);
 transition:transform .55s cubic-bezier(.18,.8,.22,1), bottom .55s cubic-bezier(.18,.8,.22,1);
 z-index:5;
 }
 
-.penalty-ball[data-shot="left"]{transform:translateX(-230px) translateY(-225px) scale(.72)}
-.penalty-ball[data-shot="right"]{transform:translateX(188px) translateY(-225px) scale(.72)}
-.penalty-ball[data-shot="up"]{transform:translateX(-50%) translateY(-295px) scale(.68)}
-.penalty-ball[data-shot="down"]{transform:translateX(-50%) translateY(-165px) scale(.82)}
+.penalty-ball[data-shot="left"]{transform:translateX(-255px) translateY(-232px) scale(.66)}
+.penalty-ball[data-shot="right"]{transform:translateX(205px) translateY(-232px) scale(.66)}
+.penalty-ball[data-shot="up"]{transform:translateX(-50%) translateY(-292px) scale(.62)}
+.penalty-ball[data-shot="down"]{transform:translateX(-50%) translateY(-180px) scale(.78)}
 
 .penalty-mark{
-position:absolute;
-left:50%;
-bottom:58px;
-width:82px;
-height:18px;
-border-radius:50%;
-background:rgba(255,255,255,.28);
-transform:translateX(-50%);
+display:none;
 }
 
 .penalty-joystick,
@@ -2623,27 +2642,28 @@ align-self:end;
 display:flex;
 flex-direction:column;
 align-items:center;
-gap:10px;
-padding:14px;
-border-radius:16px;
-background:rgba(0,0,0,.42);
-border:1px solid rgba(255,255,255,.14);
+gap:12px;
+padding:18px;
+border-radius:10px;
+background:rgba(0,0,0,.72);
+border:1px solid rgba(255,255,255,.18);
 backdrop-filter:blur(8px);
+box-shadow:0 12px 28px rgba(0,0,0,.28);
 }
 
 .penalty-joystick strong,
 .penalty-actions strong{
-font-size:12px;
+font-size:16px;
 text-transform:uppercase;
 letter-spacing:.04em;
-color:rgba(255,255,255,.78);
+color:#2e8cff;
 }
 
 .penalty-pad{
 display:grid;
-grid-template-columns:46px 46px 46px;
-grid-template-rows:46px 46px 46px;
-gap:8px;
+grid-template-columns:56px 56px 56px;
+grid-template-rows:56px 56px 56px;
+gap:0;
 }
 
 .penalty-control,
@@ -2657,18 +2677,18 @@ transition:transform .16s ease, background .16s ease, box-shadow .16s ease;
 }
 
 .penalty-control{
-border-radius:14px;
-background:#fff;
-color:#111;
-font-size:24px;
-box-shadow:0 8px 0 rgba(0,0,0,.22);
+border-radius:8px;
+background:linear-gradient(180deg, #4d4d55, #1c1c22);
+color:#fff;
+font-size:30px;
+box-shadow:0 4px 0 rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.10);
 }
 
 .penalty-control:hover,
 .penalty-control.is-selected{
 background:var(--primary);
 color:#fff;
-transform:translateY(-2px);
+transform:translateY(-2px) scale(1.03);
 }
 
 .penalty-control[data-direction="up"]{grid-column:2;grid-row:1}
@@ -2680,28 +2700,68 @@ transform:translateY(-2px);
 grid-column:2;
 grid-row:2;
 border-radius:50%;
-background:rgba(255,255,255,.18);
-border:1px solid rgba(255,255,255,.22);
+background:linear-gradient(180deg, #33343a, #19191e);
+border:1px solid rgba(255,255,255,.15);
 }
 
 .penalty-actions{
-min-width:136px;
+min-width:210px;
+align-items:stretch;
+gap:14px;
 }
 
 .penalty-shot{
-width:82px;
-height:82px;
-border-radius:50%;
-background:#fff;
-color:#111;
+width:100%;
+height:72px;
+border-radius:12px;
+background:rgba(0,0,0,.72);
+color:#fff;
 font-size:15px;
-box-shadow:0 8px 0 rgba(0,0,0,.25);
+text-align:left;
+padding-left:78px;
+position:relative;
+box-shadow:0 8px 18px rgba(0,0,0,.28);
+text-transform:uppercase;
 }
 
 .penalty-shot[data-shot-type="power"]{
-border-radius:18px;
-background:var(--primary);
+background:rgba(0,0,0,.72);
 color:#fff;
+}
+
+.penalty-shot::before{
+content:"";
+position:absolute;
+left:18px;
+top:50%;
+width:34px;
+height:34px;
+transform:translateY(-50%);
+border:7px solid #ff3b4f;
+border-radius:50%;
+}
+
+.penalty-shot[data-shot-type="power"]::before{
+border-color:#c45cff;
+border-radius:7px;
+}
+
+.penalty-shot span,
+.penalty-shot small{
+display:block;
+line-height:1.15;
+}
+
+.penalty-shot span{
+font-size:16px;
+font-weight:900;
+}
+
+.penalty-shot small{
+font-size:13px;
+font-weight:800;
+color:rgba(255,255,255,.86);
+margin-top:4px;
 }
 
 .penalty-shot:hover,
@@ -2714,11 +2774,22 @@ position:relative;
 z-index:4;
 align-self:end;
 text-align:center;
-padding-bottom:16px;
+padding-bottom:8px;
+align-self:center;
+margin-top:auto;
 }
 
 .penalty-status h3{
-font-size:34px;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:220px;
+min-height:54px;
+padding:0 22px;
+border-radius:8px;
+background:rgba(0,0,0,.72);
+border:1px solid rgba(255,255,255,.18);
+font-size:28px;
 margin-bottom:8px;
 }
 
@@ -2751,8 +2822,9 @@ border:1px solid rgba(255,255,255,.35);
 margin-top:16px;
 padding:11px 18px;
 border-radius:999px;
-background:#fff;
-color:#111;
+background:rgba(0,0,0,.72);
+color:#fff;
+border:1px solid rgba(255,255,255,.18);
 }
 
 .penalty-rank{
@@ -2798,13 +2870,38 @@ flex-direction:column;
 padding:20px 18px 0;
 }
 
+.penalty-game{
+min-height:700px;
+background-position:center top;
+}
+
+.penalty-hud{
+position:relative;
+top:auto;
+left:auto;
+transform:none;
+width:100%;
+order:1;
+}
+
+.penalty-objective{
+order:2;
+width:100%;
+max-width:100%;
+padding:12px 14px;
+}
+
 .penalty-game-header h2{
-font-size:26px;
+font-size:15px;
 }
 
 .penalty-scoreboard{
 width:100%;
-grid-template-columns:repeat(2, 1fr);
+grid-template-columns:1fr 82px 1fr;
+}
+
+.penalty-score-main{
+font-size:28px;
 }
 
 .penalty-arena{
@@ -2813,14 +2910,14 @@ grid-template-areas:
 "status status"
 "joy actions";
 min-height:610px;
-padding:18px;
+padding:190px 18px 18px;
 align-items:end;
 }
 
 .penalty-status{
 grid-area:status;
 align-self:start;
-padding-top:250px;
+padding-top:0;
 padding-bottom:0;
 }
 
@@ -2839,11 +2936,11 @@ height:210px;
 }
 
 .penalty-keeper{
-top:170px;
+top:224px;
 }
 
 .penalty-ball{
-bottom:176px;
+bottom:184px;
 }
 
 .penalty-mark{
@@ -3126,6 +3223,8 @@ min-width:160px;
 
   .penalty-game{
     border-radius:14px;
+    min-height:680px;
+    background-position:center top;
   }
 
   .penalty-game-header{
@@ -3133,17 +3232,40 @@ min-width:160px;
   }
 
   .penalty-game-header h2{
-    font-size:24px;
+    font-size:14px;
   }
 
   .penalty-game-header p{
     font-size:14px;
+    max-width:none;
+  }
+
+  .penalty-hud-title{
+    padding:6px 22px 7px;
+    font-size:11px;
+  }
+
+  .penalty-scoreboard{
+    grid-template-columns:1fr 72px 1fr;
+  }
+
+  .penalty-scorebox{
+    min-height:48px;
+    padding:8px;
+  }
+
+  .penalty-scorebox span{
+    font-size:11px;
+  }
+
+  .penalty-score-main{
+    font-size:24px;
   }
 
   .penalty-arena{
-    min-height:645px;
+    min-height:570px;
     gap:10px;
-    padding:14px;
+    padding:184px 14px 14px;
   }
 
   .penalty-field{
@@ -3167,7 +3289,7 @@ min-width:160px;
   .penalty-keeper{
     width:64px;
     height:92px;
-    top:174px;
+    top:220px;
   }
 
   .penalty-keeper::before{
@@ -3182,7 +3304,7 @@ min-width:160px;
   }
 
   .penalty-status{
-    padding-top:248px;
+    padding-top:0;
   }
 
   .penalty-status h3{
@@ -3733,19 +3855,28 @@ Ainda existe paixão ou virou negócio?
 <section class="container penalty-game-section" id="desafio-penaltis">
 <div class="penalty-game searchable" aria-labelledby="penaltyTitle">
 <div class="penalty-game-header">
-<div>
+<div class="penalty-objective">
 <span class="penalty-badge">Mini game Bem Esportivo</span>
-<h2 id="penaltyTitle">Desafio dos Pênaltis</h2>
-<p>Escolha o canto no controle, depois finalize com chute colocado ou chute forte. Você tem 5 cobranças para mostrar frieza na marca do pênalti.</p>
+<h2>Objetivo</h2>
+<p>Faça o gol! Escolha o canto e vença o goleiro.</p>
 </div>
-<div class="penalty-scoreboard" aria-label="Placar do desafio">
-<div class="penalty-scorebox">
-<span>Gols</span>
-<strong id="penaltyGoals">0</strong>
-</div>
-<div class="penalty-scorebox">
-<span>Cobrança</span>
+
+<div class="penalty-hud" aria-label="Placar do desafio">
+<div class="penalty-hud-title" id="penaltyTitle">Cobrança de pênalti</div>
+<div class="penalty-scoreboard">
+<div class="penalty-scorebox is-player">
+<span>Você</span>
 <strong id="penaltyRound">1/5</strong>
+</div>
+<div class="penalty-score-main">
+<strong id="penaltyGoals">0</strong>
+<span>-</span>
+<strong id="penaltyKeeperScore">0</strong>
+</div>
+<div class="penalty-scorebox is-keeper">
+<span>Goleiro</span>
+<strong id="penaltyKeeperRounds">0/5</strong>
+</div>
 </div>
 </div>
 </div>
@@ -3759,7 +3890,7 @@ Ainda existe paixão ou virou negócio?
 <div class="penalty-ball" id="penaltyBall" aria-hidden="true"></div>
 
 <div class="penalty-joystick" aria-label="Controle de direção do chute">
-<strong>Direção</strong>
+<strong>Controle</strong>
 <div class="penalty-pad">
 <button class="penalty-control" type="button" data-direction="up" aria-label="Chutar para cima">↑</button>
 <button class="penalty-control" type="button" data-direction="left" aria-label="Chutar para esquerda">←</button>
@@ -3778,8 +3909,8 @@ Ainda existe paixão ou virou negócio?
 
 <div class="penalty-actions" aria-label="Botões de finalização">
 <strong>Chute</strong>
-<button class="penalty-shot" type="button" data-shot-type="placed" aria-label="Bolinha, chute colocado">○<br>Colocado</button>
-<button class="penalty-shot" type="button" data-shot-type="power" aria-label="Quadrado, chute forte">□<br>Forte</button>
+<button class="penalty-shot" type="button" data-shot-type="placed" aria-label="Bolinha, chute colocado"><span>Bolinha</span><small>Chute colocado</small></button>
+<button class="penalty-shot" type="button" data-shot-type="power" aria-label="Quadrado, chute forte"><span>Quadrado</span><small>Chute forte</small></button>
 </div>
 </div>
 
@@ -6042,7 +6173,9 @@ function initPenaltyGame(){
   const ball = document.getElementById('penaltyBall');
   const keeper = document.getElementById('penaltyKeeper');
   const goalsEl = document.getElementById('penaltyGoals');
+  const keeperScoreEl = document.getElementById('penaltyKeeperScore');
   const roundEl = document.getElementById('penaltyRound');
+  const keeperRoundsEl = document.getElementById('penaltyKeeperRounds');
   const resultEl = document.getElementById('penaltyResult');
   const messageEl = document.getElementById('penaltyMessage');
   const roundsEl = document.getElementById('penaltyRounds');
@@ -6113,7 +6246,9 @@ function initPenaltyGame(){
 
   function updateScore(){
     goalsEl.textContent = goals;
+    keeperScoreEl.textContent = attempts - goals;
     roundEl.textContent = attempts >= 5 ? '5/5' : `${attempts + 1}/5`;
+    keeperRoundsEl.textContent = `${attempts}/5`;
     renderRounds();
   }
 
