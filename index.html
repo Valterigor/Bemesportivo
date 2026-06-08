@@ -2428,6 +2428,58 @@ color:#fff;
 min-height:720px;
 }
 
+.penalty-orientation-tip{
+display:none;
+position:absolute;
+top:92px;
+left:14px;
+right:14px;
+z-index:12;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+padding:12px;
+border-radius:12px;
+background:rgba(0,0,0,.78);
+border:1px solid rgba(255,255,255,.18);
+box-shadow:0 14px 30px rgba(0,0,0,.28);
+backdrop-filter:blur(8px);
+}
+
+.penalty-orientation-tip p{
+margin:0;
+font-size:13px;
+line-height:1.35;
+font-weight:800;
+color:#fff;
+}
+
+.penalty-orientation-tip span{
+display:block;
+color:#2e8cff;
+font-size:11px;
+text-transform:uppercase;
+letter-spacing:.04em;
+margin-bottom:3px;
+}
+
+.penalty-orientation-tip button{
+border:0;
+border-radius:999px;
+background:var(--primary);
+color:#fff;
+font-family:inherit;
+font-weight:900;
+padding:10px 13px;
+white-space:nowrap;
+cursor:pointer;
+}
+
+.penalty-orientation-tip button:disabled{
+opacity:.72;
+cursor:wait;
+}
+
 .penalty-game-header{
 display:flex;
 justify-content:space-between;
@@ -2865,6 +2917,10 @@ RESPONSIVO
 
 @media(max-width:768px){
 
+.penalty-orientation-tip{
+display:flex;
+}
+
 .penalty-game-header{
 flex-direction:column;
 padding:20px 18px 0;
@@ -3227,6 +3283,16 @@ min-width:160px;
     background-position:center top;
   }
 
+  .penalty-orientation-tip{
+    top:116px;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .penalty-orientation-tip button{
+    width:100%;
+  }
+
   .penalty-game-header{
     padding:18px 14px 0;
   }
@@ -3490,6 +3556,21 @@ align-items:center;
   
   .btn-banner{
     padding:11px 26px;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape){
+  .penalty-orientation-tip{
+    display:none;
+  }
+
+  .penalty-game{
+    min-height:620px;
+  }
+
+  .penalty-arena{
+    min-height:500px;
+    padding-top:165px;
   }
 }
 
@@ -3854,6 +3935,11 @@ Ainda existe paixão ou virou negócio?
 
 <section class="container penalty-game-section" id="desafio-penaltis">
 <div class="penalty-game searchable" aria-labelledby="penaltyTitle">
+<div class="penalty-orientation-tip" id="penaltyOrientationTip">
+<p><span>Melhor experiência no celular</span>Vire a tela para jogar em modo paisagem, como em um videogame.</p>
+<button type="button" id="penaltyLandscapeBtn">Virar tela</button>
+</div>
+
 <div class="penalty-game-header">
 <div class="penalty-objective">
 <span class="penalty-badge">Mini game Bem Esportivo</span>
@@ -6181,6 +6267,8 @@ function initPenaltyGame(){
   const roundsEl = document.getElementById('penaltyRounds');
   const resetBtn = document.getElementById('penaltyReset');
   const bestEl = document.getElementById('penaltyBest');
+  const orientationTip = document.getElementById('penaltyOrientationTip');
+  const landscapeBtn = document.getElementById('penaltyLandscapeBtn');
 
   const labels = {
     up: 'alto',
@@ -6322,6 +6410,47 @@ function initPenaltyGame(){
     renderBest();
   }
 
+  async function requestLandscapeMode(){
+    if(!landscapeBtn) return;
+
+    const originalText = landscapeBtn.textContent;
+    landscapeBtn.disabled = true;
+    landscapeBtn.textContent = 'Abrindo...';
+
+    try{
+      if(game.requestFullscreen && !document.fullscreenElement){
+        await game.requestFullscreen();
+      }
+
+      if(screen.orientation?.lock){
+        await screen.orientation.lock('landscape');
+      }
+
+      landscapeBtn.textContent = 'Pronto';
+      if(orientationTip){
+        const copy = orientationTip.querySelector('p');
+        if(copy){
+          copy.innerHTML = '<span>Modo paisagem</span>Se a tela não virou automaticamente, gire o celular manualmente.';
+        }
+      }
+    }catch(error){
+      landscapeBtn.textContent = 'Gire o celular';
+      if(orientationTip){
+        const copy = orientationTip.querySelector('p');
+        if(copy){
+          copy.innerHTML = '<span>Modo paisagem</span>Seu navegador não permitiu virar sozinho. Gire o celular manualmente para jogar melhor.';
+        }
+      }
+    }finally{
+      window.setTimeout(() => {
+        landscapeBtn.disabled = false;
+        if(landscapeBtn.textContent === 'Abrindo...'){
+          landscapeBtn.textContent = originalText;
+        }
+      }, 900);
+    }
+  }
+
   controls.forEach(control => {
     control.addEventListener('click', () => selectDirection(control.dataset.direction));
   });
@@ -6331,6 +6460,10 @@ function initPenaltyGame(){
   });
 
   resetBtn.addEventListener('click', resetGame);
+
+  if(landscapeBtn){
+    landscapeBtn.addEventListener('click', requestLandscapeMode);
+  }
 
   window.addEventListener('keydown', event => {
     const activeTag = document.activeElement?.tagName;
