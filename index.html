@@ -4020,6 +4020,228 @@ align-items:center;
   }
 }
 
+/* Ajustes finais de experiencia mobile: a cena escala pelo viewport e o conteudo fica dentro da tela. */
+@media (max-width: 768px){
+  .banner-top{
+    min-height:clamp(220px, 58vw, 280px);
+    aspect-ratio:auto;
+  }
+
+  .banner-content{
+    width:100%;
+    max-width:560px;
+    padding:clamp(22px, 7vw, 34px) clamp(18px, 6vw, 34px);
+  }
+
+  .banner-top h1{
+    font-size:clamp(28px, 8vw, 38px);
+    line-height:1.08;
+    letter-spacing:0;
+  }
+
+  .banner-top p{
+    font-size:clamp(14px, 4vw, 17px);
+    line-height:1.45;
+    letter-spacing:0;
+  }
+
+  .btn-banner{
+    max-width:100%;
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+  }
+
+  .penalty-game-section{
+    width:100%;
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .penalty-game{
+    min-height:auto;
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .penalty-orientation-tip{
+    position:relative;
+    inset:auto;
+    margin:12px 12px 0;
+    order:1;
+  }
+
+  .penalty-game-header{
+    order:2;
+    padding:12px;
+    gap:10px;
+  }
+
+  .penalty-objective{
+    display:none;
+  }
+
+  .penalty-hud{
+    order:0;
+  }
+
+  .penalty-arena{
+    order:3;
+    min-height:clamp(500px, calc(100svh - 210px), 620px);
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    grid-template-areas:
+      "status status"
+      "joy actions";
+    gap:10px;
+    padding:clamp(142px, 34vw, 188px) 12px 12px;
+  }
+
+  .penalty-status{
+    max-width:100%;
+  }
+
+  .penalty-status h3{
+    min-width:0;
+    width:min(100%, 340px);
+    min-height:44px;
+    padding:8px 14px;
+    font-size:clamp(20px, 6vw, 25px);
+  }
+
+  .penalty-status p{
+    max-width:min(100%, 360px);
+  }
+
+  .penalty-joystick,
+  .penalty-actions{
+    width:100%;
+    max-width:170px;
+    justify-self:center;
+    padding:10px;
+    gap:8px;
+  }
+
+  .penalty-joystick strong,
+  .penalty-actions strong{
+    font-size:12px;
+  }
+
+  .penalty-actions{
+    min-width:0;
+  }
+
+  .penalty-shot{
+    width:100%;
+    min-width:0;
+    height:58px;
+    padding:8px;
+  }
+
+  .penalty-shot span{
+    font-size:13px;
+  }
+
+  .penalty-shot small{
+    font-size:10px;
+  }
+
+  .penalty-pad{
+    grid-template-columns:38px 38px 38px;
+    grid-template-rows:38px 38px 38px;
+    gap:7px;
+  }
+
+  .penalty-control{
+    font-size:21px;
+  }
+
+  .penalty-goal{
+    top:clamp(98px, 28vw, 132px);
+    width:min(88%, 380px);
+    height:clamp(112px, 32vw, 154px);
+  }
+
+  .penalty-keeper{
+    top:clamp(182px, 50vw, 222px);
+    width:clamp(82px, 23vw, 104px);
+    height:clamp(110px, 31vw, 138px);
+  }
+
+  .penalty-ball{
+    width:clamp(42px, 12vw, 54px);
+    height:clamp(42px, 12vw, 54px);
+    bottom:clamp(156px, 34vw, 188px);
+  }
+
+  .penalty-rank{
+    padding:0 12px 12px;
+  }
+
+  .penalty-rank-card{
+    padding:14px;
+  }
+}
+
+@media (max-width: 380px){
+  .penalty-game-section{
+    padding-left:8px;
+    padding-right:8px;
+  }
+
+  .penalty-arena{
+    min-height:clamp(480px, calc(100svh - 190px), 590px);
+    padding-left:8px;
+    padding-right:8px;
+    gap:8px;
+  }
+
+  .penalty-joystick,
+  .penalty-actions{
+    max-width:150px;
+  }
+
+  .penalty-pad{
+    grid-template-columns:34px 34px 34px;
+    grid-template-rows:34px 34px 34px;
+    gap:6px;
+  }
+
+  .penalty-shot{
+    height:54px;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape){
+  .penalty-game{
+    min-height:auto;
+  }
+
+  .penalty-game-header{
+    padding:10px 12px 0;
+  }
+
+  .penalty-arena{
+    min-height:clamp(360px, calc(100svh - 96px), 500px);
+    padding-top:clamp(116px, 26svh, 152px);
+  }
+
+  .penalty-goal{
+    top:clamp(72px, 18svh, 104px);
+    height:clamp(92px, 26svh, 132px);
+  }
+
+  .penalty-keeper{
+    top:clamp(142px, 38svh, 186px);
+  }
+
+  .penalty-ball{
+    bottom:clamp(96px, 24svh, 146px);
+  }
+}
+
 </style>
 <link rel="stylesheet" href="site-common.css">
 
