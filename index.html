@@ -6792,11 +6792,8 @@ function initPenaltyGame(){
     locked = true;
 
     const keeperDirection = keeperChoice();
-    const powerBonus = type === 'power' ? .16 : .06;
-    const placedBonus = type === 'placed' ? .10 : 0;
     const sameCorner = keeperDirection === selectedDirection;
-    const saveChance = sameCorner ? .72 - powerBonus - placedBonus : .12;
-    const isGoal = Math.random() > saveChance;
+    const isGoal = !sameCorner;
     const shotLabel = type === 'power' ? 'chute forte' : 'chute colocado';
 
     ball.dataset.shot = `${isGoal ? 'goal' : 'save'}-${selectedDirection}`;
@@ -6824,11 +6821,11 @@ function initPenaltyGame(){
         goals += 1;
         results.push('goal');
         resultEl.textContent = 'GOL!';
-        messageEl.textContent = `Você bateu ${labels[selectedDirection]} com ${shotLabel}. O goleiro foi para ${labels[keeperDirection]}.`;
+        messageEl.textContent = `Você bateu ${labels[selectedDirection]} com ${shotLabel}. O goleiro saltou para ${labels[keeperDirection]} e não alcançou.`;
       }else{
         results.push('save');
         resultEl.textContent = 'Defendeu!';
-        messageEl.textContent = `Defesa clara: o goleiro fechou o canto ${labels[keeperDirection]} e parou o ${shotLabel}.`;
+        messageEl.textContent = `Defesa clara: o goleiro leu o canto ${labels[selectedDirection]} e parou o ${shotLabel}.`;
       }
 
       updateScore();
