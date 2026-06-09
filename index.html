@@ -2621,30 +2621,24 @@ height:190px;
 transform:translateX(-50%);
 pointer-events:none;
 z-index:5;
-opacity:.18;
-background:
-linear-gradient(90deg, rgba(255,255,255,.72) 1px, transparent 1px) 0 0/22px 22px,
-linear-gradient(0deg, rgba(255,255,255,.64) 1px, transparent 1px) 0 0/22px 22px;
-filter:drop-shadow(0 8px 12px rgba(0,0,0,.22));
+opacity:0;
+background:radial-gradient(ellipse at 50% 58%, rgba(255,255,255,.42) 0 8%, rgba(255,255,255,.18) 18%, transparent 48%);
+filter:drop-shadow(0 8px 12px rgba(0,0,0,.18));
 transform-origin:50% 20%;
 }
 
 .penalty-goal.is-shaking{
 animation:penaltyNetShake .92s ease;
-opacity:.82;
-background:
-linear-gradient(90deg, rgba(255,255,255,.96) 1px, transparent 1px) 0 0/22px 22px,
-linear-gradient(0deg, rgba(255,255,255,.88) 1px, transparent 1px) 0 0/22px 22px;
+opacity:.58;
 }
 
 @keyframes penaltyNetShake{
-0%{transform:translateX(-50%) scale(1);filter:drop-shadow(0 8px 12px rgba(0,0,0,.22))}
-16%{transform:translateX(-50%) scale(1.09,.90) skewX(-4deg);filter:drop-shadow(-12px 12px 14px rgba(0,0,0,.30))}
-32%{transform:translateX(-50%) scale(.93,1.10) skewX(4deg);filter:drop-shadow(12px 12px 14px rgba(0,0,0,.30))}
-50%{transform:translateX(-50%) scale(1.05,.95) skewX(-2deg)}
-68%{transform:translateX(-50%) scale(.97,1.04) skewX(2deg)}
-84%{transform:translateX(-50%) scale(1.02,.98)}
-100%{transform:translateX(-50%) scale(1);filter:drop-shadow(0 8px 12px rgba(0,0,0,.22))}
+0%{transform:translateX(-50%) scale(1);opacity:0}
+12%{transform:translateX(-50%) scale(1.13,.88) skewX(-3deg);opacity:.62}
+28%{transform:translateX(-50%) scale(.92,1.12) skewX(3deg);opacity:.46}
+48%{transform:translateX(-50%) scale(1.06,.95) skewX(-1.5deg);opacity:.36}
+68%{transform:translateX(-50%) scale(.98,1.04) skewX(1.5deg);opacity:.22}
+100%{transform:translateX(-50%) scale(1);opacity:0}
 }
 
 .penalty-keeper{
@@ -2670,6 +2664,10 @@ content:none;
 
 .penalty-keeper[data-dive]{
 transition:transform .48s ease, top .48s ease, width .48s ease, height .48s ease, background-image .12s ease;
+}
+
+.penalty-keeper[data-miss]{
+transition:transform .48s ease, top .48s ease;
 }
 
 .penalty-keeper[data-dive="left"]{
@@ -2702,6 +2700,26 @@ height:150px;
 top:286px;
 background-image:url("img/penalty-keeper-down.png");
 transform:translateX(-50%);
+}
+
+.penalty-keeper[data-miss="left"]{
+transform:translateX(-188px) rotate(-10deg);
+top:236px;
+}
+
+.penalty-keeper[data-miss="right"]{
+transform:translateX(74px) rotate(10deg);
+top:236px;
+}
+
+.penalty-keeper[data-miss="up"]{
+transform:translateX(-50%) translateY(-34px) scale(1.04);
+top:250px;
+}
+
+.penalty-keeper[data-miss="down"]{
+transform:translateX(-50%) translateY(24px) scale(.96);
+top:250px;
 }
 
 .penalty-ball{
@@ -3444,7 +3462,6 @@ min-width:160px;
     width:84%;
     height:112px;
     border-width:6px;
-    background-size:18px 18px, 18px 18px;
   }
 
   .penalty-box{
@@ -3494,6 +3511,26 @@ min-width:160px;
     height:106px;
     top:270px;
     transform:translateX(-50%);
+  }
+
+  .penalty-keeper[data-miss="left"]{
+    transform:translateX(-132px) rotate(-9deg);
+    top:216px;
+  }
+
+  .penalty-keeper[data-miss="right"]{
+    transform:translateX(42px) rotate(9deg);
+    top:216px;
+  }
+
+  .penalty-keeper[data-miss="up"]{
+    transform:translateX(-50%) translateY(-28px) scale(1.03);
+    top:220px;
+  }
+
+  .penalty-keeper[data-miss="down"]{
+    transform:translateX(-50%) translateY(18px) scale(.96);
+    top:220px;
   }
 
   .penalty-status{
@@ -6552,7 +6589,13 @@ function initPenaltyGame(){
     const shotLabel = type === 'power' ? 'chute forte' : 'chute colocado';
 
     ball.dataset.shot = `${isGoal ? 'goal' : 'save'}-${selectedDirection}`;
-    keeper.dataset.dive = keeperDirection;
+    keeper.removeAttribute('data-dive');
+    keeper.removeAttribute('data-miss');
+    if(isGoal){
+      keeper.dataset.miss = keeperDirection;
+    }else{
+      keeper.dataset.dive = keeperDirection;
+    }
     if(net){
       net.classList.remove('is-shaking');
       if(isGoal){
@@ -6593,6 +6636,7 @@ function initPenaltyGame(){
       window.setTimeout(() => {
         ball.removeAttribute('data-shot');
         keeper.removeAttribute('data-dive');
+        keeper.removeAttribute('data-miss');
         if(net){
           net.classList.remove('is-shaking');
         }
@@ -6608,6 +6652,7 @@ function initPenaltyGame(){
     results = [];
     ball.removeAttribute('data-shot');
     keeper.removeAttribute('data-dive');
+    keeper.removeAttribute('data-miss');
     if(net){
       net.classList.remove('is-shaking');
     }
