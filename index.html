@@ -2902,11 +2902,11 @@ content:none;
 
 @keyframes ballGoalDown{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none}
-30%{transform:translateX(-50%) translateY(-62px) scale(.84) rotate(-170deg);filter:blur(.04px)}
-68%{transform:translateX(-50%) translateY(-152px) scale(.52) rotate(-340deg);filter:blur(.12px)}
-82%{transform:translateX(-50%) translateY(-164px) scale(.48) rotate(-390deg);filter:blur(.16px) brightness(1.08)}
-90%{transform:translateX(-50%) translateY(-146px) scale(.44) rotate(-410deg);filter:blur(.12px) brightness(.92)}
-100%{transform:translateX(-50%) translateY(-154px) scale(.46) rotate(-430deg);filter:blur(.10px) brightness(.88)}
+30%{transform:translateX(-50%) translateY(-30px) scale(.92) rotate(-150deg);filter:blur(.03px)}
+58%{transform:translateX(-50%) translateY(-58px) scale(.74) rotate(-300deg);filter:blur(.08px)}
+78%{transform:translateX(-50%) translateY(-82px) scale(.62) rotate(-390deg);filter:blur(.10px) brightness(1.06)}
+90%{transform:translateX(-50%) translateY(-76px) scale(.58) rotate(-430deg);filter:blur(.08px) brightness(.94)}
+100%{transform:translateX(-50%) translateY(-86px) scale(.60) rotate(-470deg);filter:blur(.08px) brightness(.9)}
 }
 
 @keyframes ballSaveLeft{
@@ -3365,9 +3365,9 @@ bottom:152px;
 
 @keyframes ballGoalDownTablet{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0)}
-36%{transform:translateX(-50%) translateY(-48px) scale(.86) rotate(-150deg)}
-74%{transform:translateX(-50%) translateY(-132px) scale(.52) rotate(-310deg);filter:blur(.10px)}
-100%{transform:translateX(-50%) translateY(-122px) scale(.48) rotate(-350deg);filter:blur(.08px)}
+36%{transform:translateX(-50%) translateY(-28px) scale(.92) rotate(-140deg)}
+72%{transform:translateX(-50%) translateY(-72px) scale(.64) rotate(-300deg);filter:blur(.08px)}
+100%{transform:translateX(-50%) translateY(-78px) scale(.60) rotate(-360deg);filter:blur(.08px)}
 }
 
 @keyframes ballSaveLeftTablet{
@@ -7189,7 +7189,9 @@ function initPenaltyGame(){
         goals += 1;
         results.push('goal');
         resultEl.textContent = 'GOL!';
-        messageEl.textContent = `Você bateu ${labels[selectedDirection]} com ${shotLabel}. O goleiro saltou para ${labels[keeperDirection]} e não alcançou.`;
+        messageEl.textContent = selectedDirection === 'down' && keeperDirection === 'up'
+          ? `Você bateu baixo com ${shotLabel}. O goleiro subiu e a bola passou por baixo.`
+          : `Você bateu ${labels[selectedDirection]} com ${shotLabel}. O goleiro saltou para ${labels[keeperDirection]} e não alcançou.`;
       }else{
         results.push('save');
         resultEl.textContent = 'Defendeu!';
