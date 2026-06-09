@@ -2612,7 +2612,35 @@ display:none;
 }
 
 .penalty-goal{
-display:none;
+display:block;
+position:absolute;
+left:50%;
+top:156px;
+width:min(560px, 48%);
+height:190px;
+transform:translateX(-50%);
+pointer-events:none;
+z-index:2;
+opacity:.22;
+background:
+linear-gradient(90deg, rgba(255,255,255,.58) 1px, transparent 1px) 0 0/24px 24px,
+linear-gradient(0deg, rgba(255,255,255,.50) 1px, transparent 1px) 0 0/24px 24px;
+filter:drop-shadow(0 8px 12px rgba(0,0,0,.22));
+transform-origin:50% 20%;
+}
+
+.penalty-goal.is-shaking{
+animation:penaltyNetShake .7s ease;
+opacity:.46;
+}
+
+@keyframes penaltyNetShake{
+0%{transform:translateX(-50%) scale(1);filter:drop-shadow(0 8px 12px rgba(0,0,0,.22))}
+18%{transform:translateX(-50%) scale(1.035,.96) skewX(-2deg);filter:drop-shadow(-8px 10px 12px rgba(0,0,0,.26))}
+36%{transform:translateX(-50%) scale(.98,1.04) skewX(2deg);filter:drop-shadow(8px 10px 12px rgba(0,0,0,.26))}
+54%{transform:translateX(-50%) scale(1.02,.98) skewX(-1deg)}
+72%{transform:translateX(-50%) scale(.99,1.01) skewX(1deg)}
+100%{transform:translateX(-50%) scale(1);filter:drop-shadow(0 8px 12px rgba(0,0,0,.22))}
 }
 
 .penalty-keeper{
@@ -2691,10 +2719,16 @@ z-index:5;
 content:none;
 }
 
-.penalty-ball[data-shot="left"]{transform:translateX(-255px) translateY(-232px) scale(.66) rotate(-420deg);filter:blur(.2px)}
-.penalty-ball[data-shot="right"]{transform:translateX(205px) translateY(-232px) scale(.66) rotate(420deg);filter:blur(.2px)}
-.penalty-ball[data-shot="up"]{transform:translateX(-50%) translateY(-292px) scale(.62) rotate(380deg);filter:blur(.25px)}
-.penalty-ball[data-shot="down"]{transform:translateX(-50%) translateY(-180px) scale(.78) rotate(-300deg);filter:blur(.15px)}
+.penalty-ball[data-shot^="goal"]{z-index:2;box-shadow:0 10px 18px rgba(0,0,0,.32)}
+.penalty-ball[data-shot^="save"]{z-index:6;box-shadow:0 12px 28px rgba(255,255,255,.30), 0 18px 26px rgba(0,0,0,.45)}
+.penalty-ball[data-shot="goal-left"]{transform:translateX(-190px) translateY(-252px) scale(.48) rotate(-520deg);filter:blur(.2px)}
+.penalty-ball[data-shot="goal-right"]{transform:translateX(145px) translateY(-252px) scale(.48) rotate(520deg);filter:blur(.2px)}
+.penalty-ball[data-shot="goal-up"]{transform:translateX(-50%) translateY(-300px) scale(.44) rotate(460deg);filter:blur(.25px)}
+.penalty-ball[data-shot="goal-down"]{transform:translateX(-50%) translateY(-218px) scale(.54) rotate(-390deg);filter:blur(.15px)}
+.penalty-ball[data-shot="save-left"]{transform:translateX(-210px) translateY(-202px) scale(.76) rotate(-310deg);filter:drop-shadow(0 0 12px rgba(255,255,255,.55))}
+.penalty-ball[data-shot="save-right"]{transform:translateX(165px) translateY(-202px) scale(.76) rotate(310deg);filter:drop-shadow(0 0 12px rgba(255,255,255,.55))}
+.penalty-ball[data-shot="save-up"]{transform:translateX(-50%) translateY(-252px) scale(.72) rotate(280deg);filter:drop-shadow(0 0 12px rgba(255,255,255,.55))}
+.penalty-ball[data-shot="save-down"]{transform:translateX(-50%) translateY(-142px) scale(.88) rotate(-240deg);filter:drop-shadow(0 0 12px rgba(255,255,255,.55))}
 
 .penalty-mark{
 display:none;
@@ -3063,10 +3097,14 @@ bottom:184px;
 bottom:152px;
 }
 
-.penalty-ball[data-shot="left"]{transform:translateX(-170px) translateY(-200px) scale(.72)}
-.penalty-ball[data-shot="right"]{transform:translateX(128px) translateY(-200px) scale(.72)}
-.penalty-ball[data-shot="up"]{transform:translateX(-50%) translateY(-250px) scale(.68)}
-.penalty-ball[data-shot="down"]{transform:translateX(-50%) translateY(-150px) scale(.82)}
+.penalty-ball[data-shot="goal-left"]{transform:translateX(-132px) translateY(-205px) scale(.52) rotate(-470deg)}
+.penalty-ball[data-shot="goal-right"]{transform:translateX(90px) translateY(-205px) scale(.52) rotate(470deg)}
+.penalty-ball[data-shot="goal-up"]{transform:translateX(-50%) translateY(-242px) scale(.48) rotate(420deg)}
+.penalty-ball[data-shot="goal-down"]{transform:translateX(-50%) translateY(-170px) scale(.58) rotate(-340deg)}
+.penalty-ball[data-shot="save-left"]{transform:translateX(-142px) translateY(-168px) scale(.74) rotate(-280deg)}
+.penalty-ball[data-shot="save-right"]{transform:translateX(100px) translateY(-168px) scale(.74) rotate(280deg)}
+.penalty-ball[data-shot="save-up"]{transform:translateX(-50%) translateY(-214px) scale(.70) rotate(260deg)}
+.penalty-ball[data-shot="save-down"]{transform:translateX(-50%) translateY(-118px) scale(.86) rotate(-220deg)}
 
 .menu-btn{
 display:flex;
@@ -3403,6 +3441,7 @@ min-width:160px;
     width:84%;
     height:112px;
     border-width:6px;
+    background-size:18px 18px, 18px 18px;
   }
 
   .penalty-box{
@@ -6346,6 +6385,7 @@ function initPenaltyGame(){
   const shots = Array.from(game.querySelectorAll('.penalty-shot'));
   const ball = document.getElementById('penaltyBall');
   const keeper = document.getElementById('penaltyKeeper');
+  const net = game.querySelector('.penalty-goal');
   const goalsEl = document.getElementById('penaltyGoals');
   const keeperScoreEl = document.getElementById('penaltyKeeperScore');
   const roundEl = document.getElementById('penaltyRound');
@@ -6495,8 +6535,11 @@ function initPenaltyGame(){
     const isGoal = Math.random() > saveChance;
     const shotLabel = type === 'power' ? 'chute forte' : 'chute colocado';
 
-    ball.dataset.shot = selectedDirection;
+    ball.dataset.shot = `${isGoal ? 'goal' : 'save'}-${selectedDirection}`;
     keeper.dataset.dive = keeperDirection;
+    if(net){
+      net.classList.remove('is-shaking');
+    }
 
     window.setTimeout(() => {
       attempts += 1;
@@ -6505,10 +6548,13 @@ function initPenaltyGame(){
         results.push('goal');
         resultEl.textContent = 'GOL!';
         messageEl.textContent = `Você bateu ${labels[selectedDirection]} com ${shotLabel}. O goleiro foi para ${labels[keeperDirection]}.`;
+        if(net){
+          net.classList.add('is-shaking');
+        }
       }else{
         results.push('save');
         resultEl.textContent = 'Defendeu!';
-        messageEl.textContent = `O goleiro leu o canto ${labels[keeperDirection]} e pegou o ${shotLabel}.`;
+        messageEl.textContent = `Defesa clara: o goleiro fechou o canto ${labels[keeperDirection]} e parou o ${shotLabel}.`;
       }
 
       updateScore();
@@ -6529,6 +6575,9 @@ function initPenaltyGame(){
       window.setTimeout(() => {
         ball.removeAttribute('data-shot');
         keeper.removeAttribute('data-dive');
+        if(net){
+          net.classList.remove('is-shaking');
+        }
         locked = false;
       }, 720);
     }, 560);
@@ -6541,6 +6590,9 @@ function initPenaltyGame(){
     results = [];
     ball.removeAttribute('data-shot');
     keeper.removeAttribute('data-dive');
+    if(net){
+      net.classList.remove('is-shaking');
+    }
     resultEl.textContent = 'Escolha o canto';
     messageEl.textContent = 'Use as setas do controle e depois aperte bolinha ou quadrado para bater.';
     updateScore();
