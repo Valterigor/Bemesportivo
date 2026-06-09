@@ -896,6 +896,16 @@ border:1px solid #eee;
 border-radius:8px;
 overflow:hidden;
 box-shadow:0 10px 30px rgba(0,0,0,.08);
+cursor:pointer;
+transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.reportagem-card:hover,
+.reportagem-card:focus-visible{
+transform:translateY(-3px);
+box-shadow:0 16px 38px rgba(0,0,0,.12);
+border-color:rgba(252,110,2,.42);
+outline:none;
 }
 
 .reportagem-card img{
@@ -999,6 +1009,16 @@ display:grid;
 place-items:center;
 padding:14px;
 overflow:hidden;
+text-decoration:none;
+cursor:pointer;
+transition:filter .2s ease, transform .2s ease;
+}
+
+.lineup-preview:hover,
+.lineup-preview:focus-visible{
+filter:saturate(1.08) contrast(1.03);
+transform:translateY(-2px);
+outline:none;
 }
 
 .lineup-promo-img{
@@ -3132,6 +3152,7 @@ border:1px solid rgba(255,255,255,.14);
 border-radius:14px;
 padding:14px;
 text-align:center;
+box-shadow:0 14px 30px rgba(0,0,0,.22);
 }
 
 .penalty-rank-card span{
@@ -3149,9 +3170,32 @@ font-size:20px;
 margin-top:4px;
 }
 
+.penalty-player-name{
+width:100%;
+margin-top:10px;
+border:1px solid rgba(255,255,255,.16);
+border-radius:10px;
+background:rgba(0,0,0,.42);
+color:#fff;
+font:inherit;
+font-size:13px;
+font-weight:800;
+padding:10px 12px;
+outline:none;
+}
+
+.penalty-player-name::placeholder{
+color:rgba(255,255,255,.58);
+}
+
+.penalty-player-name:focus{
+border-color:var(--primary);
+box-shadow:0 0 0 3px rgba(252,110,2,.18);
+}
+
 .penalty-ranking-list{
 display:grid;
-grid-template-columns:repeat(3, 1fr);
+grid-template-columns:repeat(5, 1fr);
 gap:8px;
 margin:12px 0 0;
 padding:0;
@@ -3165,6 +3209,11 @@ background:rgba(255,255,255,.08);
 font-size:12px;
 font-weight:900;
 color:#fff;
+line-height:1.35;
+min-height:52px;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .penalty-share{
@@ -3835,6 +3884,10 @@ min-width:160px;
     padding:0 14px 18px;
   }
 
+  .penalty-ranking-list{
+    grid-template-columns:repeat(2, minmax(0,1fr));
+  }
+
   .penalty-share{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -4405,9 +4458,9 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 <span class="lineup-note">Com fotos dos jogadores e prévia da imagem final</span>
 </div>
 </div>
-<div class="lineup-preview" aria-hidden="true">
-<img class="lineup-promo-img" src="img/escalacao-chamada.png" alt="">
-</div>
+<a class="lineup-preview" href="escalacao.html" aria-label="Montar sua escalação da Seleção">
+<img class="lineup-promo-img" src="img/escalacao-chamada.png" alt="Escala o Brasil">
+</a>
 </article>
 
 </div>
@@ -4419,21 +4472,21 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 <div class="home-editorial-layout">
 <div class="home-reportagens-main">
 <div class="reportagens-grid">
-<article class="reportagem-card searchable">
+<article class="reportagem-card searchable" data-report-link="Reportagens.html#dedicacao-talento-mirim" tabindex="0" role="link" aria-label="Ler reportagem Dedicação e Talento Mirim em Campo">
 <img src="img/IMG_0957.jpg" alt="Treino técnico na Academia de Futebol Portela">
 <div class="reportagem-card-content">
 <h3>Dedicação e Talento Mirim em Campo</h3>
 <p>Futebol de base, disciplina e histórias de jovens atletas em formação.</p>
-<a href="Reportagens.html" class="btn">Ler reportagem</a>
+<a href="Reportagens.html#dedicacao-talento-mirim" class="btn">Ler reportagem</a>
 </div>
 </article>
 
-<article class="reportagem-card searchable">
+<article class="reportagem-card searchable" data-report-link="Reportagens.html#duda-e-o-futebol" tabindex="0" role="link" aria-label="Ler reportagem Duda e o Futebol">
 <img src="img/duda.jpg" alt="Duda em trajetória no futebol">
 <div class="reportagem-card-content">
 <h3>Duda e o Futebol</h3>
 <p>Uma trajetória de sonho, apoio e dedicação dentro do esporte.</p>
-<a href="Reportagens.html" class="btn">Ler reportagem</a>
+<a href="Reportagens.html#duda-e-o-futebol" class="btn">Ler reportagem</a>
 </div>
 </article>
 </div>
@@ -4660,8 +4713,9 @@ Ainda existe paixão ou virou negócio?
 
 <div class="penalty-rank">
 <div class="penalty-rank-card">
-<span>Melhor resultado salvo neste aparelho</span>
+<span>Recordes do desafio</span>
 <strong id="penaltyBest">Nenhum desafio concluído ainda</strong>
+<input class="penalty-player-name" id="penaltyPlayerName" maxlength="24" placeholder="Seu nome no ranking" autocomplete="nickname">
 <ol class="penalty-ranking-list" id="penaltyRankingList" aria-label="Ranking local do desafio"></ol>
 </div>
 <div class="penalty-share" aria-label="Compartilhar resultado">
@@ -4962,6 +5016,18 @@ postCommentForm.reset();
 renderizarComentarios(postAtualId);
 });
 }
+
+document.querySelectorAll('[data-report-link]').forEach(card=>{
+card.addEventListener('click',event=>{
+if(event.target.closest('a')) return;
+window.location.href=card.dataset.reportLink;
+});
+card.addEventListener('keydown',event=>{
+if(event.key!=='Enter'&&event.key!==' ') return;
+event.preventDefault();
+window.location.href=card.dataset.reportLink;
+});
+});
 
 /* ===== CAROUSEL BANNERS ===== */
 
@@ -6913,6 +6979,7 @@ async function loadWorldCupLive(){
 
 const PENALTY_STORAGE_KEY = 'bemEsportivoPenaltyBest';
 const PENALTY_HISTORY_KEY = 'bemEsportivoPenaltyHistory';
+const PENALTY_PLAYER_KEY = 'bemEsportivoPenaltyPlayer';
 
 function initPenaltyGame(){
   const game = document.getElementById('desafio-penaltis');
@@ -6933,6 +7000,7 @@ function initPenaltyGame(){
   const resetBtn = document.getElementById('penaltyReset');
   const bestEl = document.getElementById('penaltyBest');
   const rankingListEl = document.getElementById('penaltyRankingList');
+  const playerNameInput = document.getElementById('penaltyPlayerName');
   const orientationTip = document.getElementById('penaltyOrientationTip');
   const landscapeBtn = document.getElementById('penaltyLandscapeBtn');
   const shareBtn = document.getElementById('penaltyShareBtn');
@@ -6978,16 +7046,39 @@ function initPenaltyGame(){
     }
   }
 
+  function getPlayerName(){
+    const typedName = playerNameInput?.value.trim();
+    if(typedName){
+      try{
+        localStorage.setItem(PENALTY_PLAYER_KEY, typedName.slice(0, 24));
+      }catch(error){}
+      return typedName.slice(0, 24);
+    }
+
+    try{
+      const savedName = localStorage.getItem(PENALTY_PLAYER_KEY);
+      if(savedName) return savedName.slice(0, 24);
+    }catch(error){}
+
+    try{
+      const palpiteUser = JSON.parse(localStorage.getItem('bemPalpitometroUser') || '{}');
+      if(palpiteUser.name) return String(palpiteUser.name).slice(0, 24);
+    }catch(error){}
+
+    return 'Jogador BE';
+  }
+
   function saveHistory(score){
     const history = getHistory();
     history.unshift({
       score,
       level:getLevel(score),
+      name:getPlayerName(),
       date:new Date().toISOString()
     });
 
     try{
-      localStorage.setItem(PENALTY_HISTORY_KEY, JSON.stringify(history.slice(0, 10)));
+      localStorage.setItem(PENALTY_HISTORY_KEY, JSON.stringify(history.slice(0, 25)));
     }catch(error){
       return false;
     }
@@ -6996,8 +7087,9 @@ function initPenaltyGame(){
 
   function getShareText(score = goals){
     const level = getLevel(score);
+    const name = getPlayerName();
     const pageUrl = location.protocol === 'file:' ? 'https://bemesportivo.com/#desafio-penaltis' : `${location.origin}${location.pathname}#desafio-penaltis`;
-    return `Eu fiz ${score}/5 no Desafio dos Pênaltis do Bem Esportivo e fiquei como ${level}. Jogue também: ${pageUrl}`;
+    return `${name} fez ${score}/5 no Desafio dos Pênaltis do Bem Esportivo e ficou como ${level}. Jogue também: ${pageUrl}`;
   }
 
   function getLevel(score){
@@ -7017,12 +7109,15 @@ function initPenaltyGame(){
     if(rankingListEl){
       const topScores = history
         .slice()
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 3);
+        .sort((a, b) => {
+          if(b.score !== a.score) return b.score - a.score;
+          return new Date(b.date || 0) - new Date(a.date || 0);
+        })
+        .slice(0, 5);
 
       rankingListEl.innerHTML = topScores.length
-        ? topScores.map((item, index) => `<li>${index + 1}º ${item.score}/5<br>${item.level}</li>`).join('')
-        : '<li>1º --</li><li>2º --</li><li>3º --</li>';
+        ? topScores.map((item, index) => `<li>${index + 1}º<br>${escapeHtml(item.name || 'Jogador BE')}<br>${item.score}/5 - ${item.level}</li>`).join('')
+        : '<li>1º<br>--</li><li>2º<br>--</li><li>3º<br>--</li><li>4º<br>--</li><li>5º<br>--</li>';
     }
   }
 
@@ -7246,6 +7341,24 @@ function initPenaltyGame(){
 
   if(copyBtn){
     copyBtn.addEventListener('click', copyShareText);
+  }
+
+  if(playerNameInput){
+    try{
+      playerNameInput.value = localStorage.getItem(PENALTY_PLAYER_KEY) || '';
+    }catch(error){}
+
+    playerNameInput.addEventListener('change', () => {
+      const name = playerNameInput.value.trim().slice(0, 24);
+      playerNameInput.value = name;
+      try{
+        if(name){
+          localStorage.setItem(PENALTY_PLAYER_KEY, name);
+        }else{
+          localStorage.removeItem(PENALTY_PLAYER_KEY);
+        }
+      }catch(error){}
+    });
   }
 
   window.addEventListener('keydown', event => {

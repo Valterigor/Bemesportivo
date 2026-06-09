@@ -97,6 +97,7 @@ main {
   border-radius: 8px;
   margin-bottom: 30px;
   overflow: hidden;
+  scroll-margin-top: 92px;
 }
 
 .report-cover,
@@ -155,6 +156,83 @@ main {
   width: 100%;
 }
 
+.report-comments {
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(250, 138, 1, .18);
+  border-radius: 8px;
+  margin-top: 22px;
+  padding: 18px;
+}
+
+.report-comments h3 {
+  color: #fa8a01;
+  font-family: "Rubik", sans-serif;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.report-comment-form {
+  display: grid;
+  gap: 10px;
+}
+
+.report-comment-form input,
+.report-comment-form textarea {
+  background: #050505;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 8px;
+  color: #fff;
+  font: inherit;
+  padding: 12px;
+  width: 100%;
+}
+
+.report-comment-form textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.report-comment-form button {
+  background: #fa8a01;
+  border: 0;
+  border-radius: 8px;
+  color: #111;
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 44px;
+  padding: 0 18px;
+  justify-self: start;
+}
+
+.report-comments-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.report-comment {
+  background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.report-comment strong {
+  color: #fff;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.report-comment p {
+  margin-bottom: 6px;
+}
+
+.report-comment time,
+.report-comments-empty {
+  color: #aaa;
+  font-size: 12px;
+}
+
 @media (max-width: 760px) {
   #menu-toggle {
     display: block;
@@ -198,7 +276,7 @@ main {
 </section>
 
 <main>
-<article class="report-card">
+<article class="report-card" id="dedicacao-talento-mirim">
 <img class="report-cover" src="img/IMG_0957.jpg" alt="Treino técnico na Academia de Futebol Portela">
 <div class="report-body">
 <h2>Dedicação e Talento Mirim em Campo</h2>
@@ -210,10 +288,19 @@ main {
 <div class="video-container">
 <iframe src="https://www.youtube.com/embed/gBkon6LC2OU" title="Treino técnico e tático - Academia de Futebol Portela" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
+<section class="report-comments" data-report-comments="dedicacao-talento-mirim">
+<h3>Comentários da reportagem</h3>
+<form class="report-comment-form">
+<input name="nome" maxlength="40" placeholder="Seu nome ou apelido">
+<textarea name="texto" maxlength="500" placeholder="Escreva seu comentário..." required></textarea>
+<button type="submit">Publicar comentário</button>
+</form>
+<div class="report-comments-list"></div>
+</section>
 </div>
 </article>
 
-<article class="report-card">
+<article class="report-card" id="duda-e-o-futebol">
 <img class="report-cover" src="img/duda.jpg" alt="Duda em trajetória no futebol">
 <div class="report-body">
 <h2>Duda e o Futebol</h2>
@@ -223,6 +310,15 @@ main {
 <div class="video-container">
 <iframe src="https://www.youtube.com/embed/Qi1lRW18kvM" title="Duda e o Futebol" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
+<section class="report-comments" data-report-comments="duda-e-o-futebol">
+<h3>Comentários da reportagem</h3>
+<form class="report-comment-form">
+<input name="nome" maxlength="40" placeholder="Seu nome ou apelido">
+<textarea name="texto" maxlength="500" placeholder="Escreva seu comentário..." required></textarea>
+<button type="submit">Publicar comentário</button>
+</form>
+<div class="report-comments-list"></div>
+</section>
 </div>
 </article>
 </main>
@@ -252,6 +348,76 @@ if (menuToggle && menu) {
     menu.classList.toggle("show");
   });
 }
+
+function escapeReportHtml(value) {
+  return String(value || "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[char]));
+}
+
+function getReportComments(reportId) {
+  try {
+    const comments = JSON.parse(localStorage.getItem(`bemEsportivoReportComments:${reportId}`) || "[]");
+    return Array.isArray(comments) ? comments : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveReportComments(reportId, comments) {
+  localStorage.setItem(`bemEsportivoReportComments:${reportId}`, JSON.stringify(comments.slice(-50)));
+}
+
+function renderReportComments(section) {
+  const reportId = section.dataset.reportComments;
+  const list = section.querySelector(".report-comments-list");
+  const comments = getReportComments(reportId);
+  if (!list) return;
+
+  list.innerHTML = comments.length
+    ? comments.map(comment => `
+      <article class="report-comment">
+        <strong>${escapeReportHtml(comment.nome || "Visitante")}</strong>
+        <p>${escapeReportHtml(comment.texto)}</p>
+        <time>${escapeReportHtml(comment.data)}</time>
+      </article>
+    `).join("")
+    : '<span class="report-comments-empty">Seja o primeiro a comentar esta reportagem.</span>';
+}
+
+document.querySelectorAll("[data-report-comments]").forEach(section => {
+  const form = section.querySelector(".report-comment-form");
+  renderReportComments(section);
+
+  form?.addEventListener("submit", event => {
+    event.preventDefault();
+    const reportId = section.dataset.reportComments;
+    const formData = new FormData(form);
+    const texto = String(formData.get("texto") || "").trim();
+    if (!texto) return;
+
+    const comments = getReportComments(reportId);
+    comments.push({
+      nome: String(formData.get("nome") || "Visitante").trim().slice(0, 40) || "Visitante",
+      texto: texto.slice(0, 500),
+      data: new Date().toLocaleString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      })
+    });
+
+    saveReportComments(reportId, comments);
+    form.reset();
+    renderReportComments(section);
+  });
+});
 </script>
 </body>
 </html>
