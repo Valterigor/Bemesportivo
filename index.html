@@ -2893,11 +2893,11 @@ content:none;
 
 @keyframes ballGoalUp{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none}
-30%{transform:translateX(-50%) translateY(-104px) scale(.72) rotate(200deg);filter:blur(.06px)}
-66%{transform:translateX(-50%) translateY(-224px) scale(.42) rotate(420deg);filter:blur(.2px)}
-82%{transform:translateX(-50%) translateY(-240px) scale(.38) rotate(500deg);filter:blur(.24px) brightness(1.08)}
-90%{transform:translateX(-50%) translateY(-220px) scale(.35) rotate(520deg);filter:blur(.18px) brightness(.92)}
-100%{transform:translateX(-50%) translateY(-230px) scale(.37) rotate(540deg);filter:blur(.16px) brightness(.88)}
+30%{transform:translateX(-50%) translateY(-94px) scale(.74) rotate(200deg);filter:blur(.06px)}
+66%{transform:translateX(-50%) translateY(-188px) scale(.48) rotate(420deg);filter:blur(.16px)}
+82%{transform:translateX(-50%) translateY(-198px) scale(.44) rotate(500deg);filter:blur(.18px) brightness(1.08)}
+90%{transform:translateX(-50%) translateY(-184px) scale(.40) rotate(520deg);filter:blur(.14px) brightness(.92)}
+100%{transform:translateX(-50%) translateY(-192px) scale(.42) rotate(540deg);filter:blur(.12px) brightness(.88)}
 }
 
 @keyframes ballGoalDown{
@@ -3358,9 +3358,9 @@ bottom:152px;
 
 @keyframes ballGoalUpTablet{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0)}
-34%{transform:translateX(-50%) translateY(-82px) scale(.74) rotate(180deg)}
-74%{transform:translateX(-50%) translateY(-198px) scale(.42) rotate(390deg);filter:blur(.16px)}
-100%{transform:translateX(-50%) translateY(-184px) scale(.40) rotate(430deg);filter:blur(.12px)}
+34%{transform:translateX(-50%) translateY(-70px) scale(.76) rotate(180deg)}
+74%{transform:translateX(-50%) translateY(-156px) scale(.48) rotate(390deg);filter:blur(.14px)}
+100%{transform:translateX(-50%) translateY(-150px) scale(.46) rotate(430deg);filter:blur(.10px)}
 }
 
 @keyframes ballGoalDownTablet{
@@ -7179,7 +7179,7 @@ function initPenaltyGame(){
       if(isGoal){
         window.setTimeout(() => {
           net.classList.add('is-shaking');
-        }, 520);
+        }, selectedDirection === 'up' ? 610 : 520);
       }
     }
 
