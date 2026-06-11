@@ -4914,7 +4914,7 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 
 </section>
 
-<section class="container">
+<section class="container" id="reportagens-home">
 <h2 class="mt-40">Reportagens</h2>
 <div class="home-editorial-layout">
 <div class="home-reportagens-main">
@@ -5260,7 +5260,7 @@ Ainda existe paixão ou virou negócio?
 </div>
 
 <p class="worldcup-source">
-Calendário baseado na tabela oficial da FIFA. A seção atualiza o status automaticamente e mantém link para a fonte oficial.
+Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN e atualização automática enquanto a página estiver aberta.
 </p>
 
 <div id="worldCupMatches" class="seriea-cards">
@@ -5848,6 +5848,10 @@ return false;
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const FIFA_WORLD_CUP_URL = 'https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums';
 const ESPN_WORLD_CUP_SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
+const WORLD_CUP_REFRESH_MS = 30000;
+let worldCupRefreshTimer = null;
+let worldCupRefreshInFlight = false;
+let latestWorldCupMatches = null;
 
 const WORLD_CUP_MATCHES = [
   {date:'2026-06-11',time:'16:00',group:'A',home:'México',away:'África do Sul',homeScore:2,awayScore:0,status:'ENCERRADO',venue:'Estádio Cidade do México'},
@@ -7571,8 +7575,15 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   });
 }
 
-async function loadWorldCupLive(){
-  renderWorldCupMatches(WORLD_CUP_MATCHES, 'Buscando placares ao vivo');
+async function loadWorldCupLive(options = {}){
+  const { showLoading = false } = options;
+  if(worldCupRefreshInFlight) return latestWorldCupMatches || WORLD_CUP_MATCHES;
+
+  worldCupRefreshInFlight = true;
+
+  if(showLoading || !latestWorldCupMatches){
+    renderWorldCupMatches(latestWorldCupMatches || WORLD_CUP_MATCHES, 'Buscando placares ao vivo');
+  }
 
   try{
     const espnMatches = await fetchEspnWorldCupMatches();
@@ -7580,11 +7591,53 @@ async function loadWorldCupLive(){
       throw new Error('Placar ESPN vazio.');
     }
 
-    renderWorldCupMatches(mergeWorldCupMatches(WORLD_CUP_MATCHES, espnMatches), 'ESPN ao vivo + tabela salva');
+    latestWorldCupMatches = mergeWorldCupMatches(WORLD_CUP_MATCHES, espnMatches);
+    renderWorldCupMatches(latestWorldCupMatches, 'ESPN ao vivo + tabela salva');
   } catch(error){
-    renderWorldCupMatches(WORLD_CUP_MATCHES, 'Placar ao vivo indisponível; usando tabela salva');
+    latestWorldCupMatches = latestWorldCupMatches || WORLD_CUP_MATCHES;
+    renderWorldCupMatches(latestWorldCupMatches, 'Placar ao vivo indisponível; mantendo ultima tabela salva');
     console.error('Erro ao carregar Copa do Mundo:', error);
+  } finally{
+    worldCupRefreshInFlight = false;
   }
+
+  return latestWorldCupMatches || WORLD_CUP_MATCHES;
+}
+
+function scheduleWorldCupLiveRefresh(delay = WORLD_CUP_REFRESH_MS){
+  window.clearTimeout(worldCupRefreshTimer);
+  worldCupRefreshTimer = window.setTimeout(async () => {
+    await loadWorldCupLive();
+    scheduleWorldCupLiveRefresh();
+  }, delay);
+}
+
+function startWorldCupLiveAutoRefresh(){
+  loadWorldCupLive({ showLoading: true }).finally(() => {
+    scheduleWorldCupLiveRefresh();
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if(!document.hidden){
+      loadWorldCupLive();
+      scheduleWorldCupLiveRefresh();
+    }
+  });
+
+  window.addEventListener('online', () => {
+    loadWorldCupLive();
+    scheduleWorldCupLiveRefresh(5000);
+  });
+}
+
+function arrangeHomeContentHierarchy(){
+  const reportagens = document.getElementById('reportagens-home');
+  const worldCup = document.getElementById('worldcup');
+  const palpitometro = document.getElementById('palpitometro');
+  if(!reportagens || !worldCup || !palpitometro) return;
+
+  reportagens.before(worldCup);
+  worldCup.after(palpitometro);
 }
 
 const PENALTY_STORAGE_KEY = 'bemEsportivoPenaltyBest';
@@ -9268,12 +9321,12 @@ function initPenaltyGame(){
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  arrangeHomeContentHierarchy();
   initPenaltyGame();
   setupPalpiteUserForm();
   setupPalpiteExportButtons();
   renderPalpitometro();
-  loadWorldCupLive();
-  setInterval(loadWorldCupLive, 30000); // atualiza placares da Copa a cada 30 segundos
+  startWorldCupLiveAutoRefresh();
 });
 
 function destacarMaisComentado(){
