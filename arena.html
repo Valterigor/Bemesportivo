@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Arena Bem Esportivo: enquetes, quiz diario e comentarios em tempo real para a torcida participar.">
+<meta name="theme-color" content="#fc6e02">
+<title>Arena Bem Esportivo</title>
+<link rel="icon" href="img/logobemoficial.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site-common.css">
+<link rel="stylesheet" href="arena.css">
+</head>
+<body>
+<header class="arena-topbar">
+  <div class="arena-topbar-inner">
+    <a class="arena-brand" href="index.html" aria-label="Bem Esportivo">
+      <img src="img/logobemoficial.png" alt="Bem Esportivo">
+      <strong>Bem <span>Arena</span></strong>
+    </a>
+    <nav class="arena-desktop-nav" aria-label="Navegacao principal">
+      <a href="index.html">Inicio</a>
+      <a href="Reportagens.html">Noticias</a>
+      <a class="is-active" href="arena.html">Arena</a>
+      <a href="profissionais.html">Profissionais</a>
+      <a href="beplay.html">Mais</a>
+    </nav>
+  </div>
+</header>
+
+<main class="arena-shell">
+  <section class="arena-hero">
+    <span class="arena-kicker">Agente Arena Bem Esportivo</span>
+    <h1>A torcida entra no jogo todos os dias</h1>
+    <p>Vote, responda, comente e acompanhe o placar da comunidade em tempo real.</p>
+    <div class="arena-live-strip" aria-label="Resumo em tempo real">
+      <span><strong id="arenaLiveVotes">0</strong> votos</span>
+      <span><strong id="arenaLiveAnswers">0</strong> respostas</span>
+      <span><strong id="arenaLiveComments">0</strong> comentarios</span>
+      <span class="arena-live-status" id="arenaLiveStatus">Conectando...</span>
+    </div>
+  </section>
+
+  <section class="arena-grid" aria-label="Interacoes da Arena">
+    <article class="arena-card" id="arenaPoll"></article>
+    <article class="arena-card" id="arenaQuiz"></article>
+    <article class="arena-card is-wide" id="arenaHotTopic"></article>
+    <article class="arena-card is-wide arena-community" id="arenaCommunity">
+      <div class="arena-card-head">
+        <span>Arquibancada</span>
+        <strong>Ao vivo</strong>
+      </div>
+      <h2>Comentarios da torcida</h2>
+      <form class="arena-comment-form" id="arenaCommentForm">
+        <input id="arenaCommentName" name="name" maxlength="40" placeholder="Seu nome" autocomplete="name">
+        <textarea id="arenaCommentText" name="text" maxlength="500" placeholder="Escreva seu comentario..." required></textarea>
+        <button type="submit">Publicar comentario</button>
+      </form>
+      <div class="arena-comments-list" id="arenaCommentsList" aria-live="polite">
+        <span class="arena-empty">Carregando comentarios...</span>
+      </div>
+    </article>
+  </section>
+
+  <section class="arena-note">
+    <strong>Status do MVP:</strong>
+    respostas e comentarios agora ficam salvos no banco local <code>data/arena-db.json</code> e atualizam a pagina em tempo real.
+  </section>
+</main>
+
+<div class="arena-more-menu" id="arenaMoreMenu" aria-label="Mais opcoes">
+  <a href="beplay.html">Beplay</a>
+  <a href="escalacao.html">Escalacao</a>
+  <a href="produtos.html">Produtos</a>
+  <a href="contato.html">Contato</a>
+</div>
+
+<nav class="arena-bottom-nav" aria-label="Navegacao inferior">
+  <a href="index.html">Inicio</a>
+  <a href="Reportagens.html">Noticias</a>
+  <a class="is-active" href="arena.html">Arena</a>
+  <a href="profissionais.html">Profissionais</a>
+  <button type="button" id="arenaMoreToggle" aria-expanded="false" aria-controls="arenaMoreMenu">Mais</button>
+</nav>
+
+<script src="arena-data.js"></script>
+<script src="ai-agent-data.js"></script>
+<script src="ai-agent-service.js"></script>
+<script src="arena.js"></script>
+</body>
+</html>

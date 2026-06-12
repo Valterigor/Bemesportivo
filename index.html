@@ -4732,6 +4732,96 @@ line-height:1.25;
 color:#6b7280;
 }
 
+.home-ai-arena{
+width:min(1100px, calc(100% - 32px));
+margin:18px auto 0;
+padding:22px;
+border-radius:8px;
+background:#111;
+color:#fff;
+box-shadow:0 18px 38px rgba(0,0,0,.18);
+}
+
+.home-ai-head{
+display:flex;
+align-items:end;
+justify-content:space-between;
+gap:18px;
+margin-bottom:16px;
+}
+
+.home-ai-head span{
+color:var(--primary);
+font-size:12px;
+font-weight:900;
+letter-spacing:.08em;
+text-transform:uppercase;
+}
+
+.home-ai-head h2{
+margin:0;
+font-size:32px;
+line-height:1;
+color:#fff;
+}
+
+.home-ai-head p{
+max-width:440px;
+margin:0;
+color:#d4d4d4;
+font-size:14px;
+line-height:1.45;
+}
+
+.home-ai-grid{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:10px;
+}
+
+.home-ai-card{
+display:grid;
+gap:8px;
+min-height:142px;
+align-content:start;
+padding:14px;
+border:1px solid rgba(255,255,255,.12);
+border-radius:8px;
+background:#1c1c1c;
+color:#fff;
+text-decoration:none;
+}
+
+.home-ai-card.is-featured{
+background:linear-gradient(135deg,var(--primary),#ffb15d);
+color:#111;
+}
+
+.home-ai-card span{
+font-size:12px;
+font-weight:900;
+text-transform:uppercase;
+}
+
+.home-ai-card strong{
+font-size:18px;
+line-height:1.15;
+}
+
+.home-ai-card small{
+color:inherit;
+font-weight:700;
+line-height:1.35;
+opacity:.78;
+}
+
+.home-ai-summary{
+margin:14px 0 0;
+color:#e8e8e8;
+font-size:14px;
+line-height:1.45;
+}
+
 @media (max-width: 820px){
   body{
     background:#f5f6f8;
@@ -4880,6 +4970,26 @@ color:#6b7280;
     min-width:142px;
     min-height:68px;
     scroll-snap-align:start;
+  }
+
+  .home-ai-arena{
+    width:min(100% - 22px, 720px);
+    margin:12px auto 0;
+    padding:16px;
+  }
+
+  .home-ai-head{
+    align-items:flex-start;
+    display:grid;
+    gap:8px;
+  }
+
+  .home-ai-grid{
+    grid-template-columns:1fr;
+  }
+
+  .home-ai-card{
+    min-height:0;
   }
 
   .hero > .container,
@@ -5092,6 +5202,7 @@ color:#6b7280;
 <a href='/produtos'>Produtos</a>
 <a href='/escalacao'>Escalação</a>
 <a href='/reportagens'>Reportagens</a>
+<a href='/arena'>Arena</a>
 <a href="#palpitometro">Palpitômetro</a>
 <a href='/beplay'>Beplay</a>
 <a href='/coluna-valtinho'>Fala aí Valtinho</a>
@@ -5110,10 +5221,10 @@ color:#6b7280;
 
 <nav class="mobile-app-nav" aria-label="Navegação rápida mobile">
 <a href="#topo" data-mobile-nav="topo">Início</a>
-<a href="/escalacao" data-mobile-nav="escala">Escalação</a>
-<a href="#worldcup" data-mobile-nav="worldcup">Jogos</a>
-<a href="#palpitometro" data-mobile-nav="palpitometro">Palpites</a>
-<a href="#reportagens-home" data-mobile-nav="reportagens-home">Reportagens</a>
+<a href="/reportagens" data-mobile-nav="reportagens-home">Notícias</a>
+<a href="/arena" data-mobile-nav="arena">Arena</a>
+<a href="/profissionais" data-mobile-nav="profissionais">Profissionais</a>
+<a href="/beplay" data-mobile-nav="mais">Mais</a>
 </nav>
 
 <main>
@@ -5186,6 +5297,8 @@ color:#6b7280;
 <a href="/profissionais"><strong>Profissionais</strong><span>Valorize quem vive esporte</span></a>
 <a href="#reportagens-home"><strong>Reportagens</strong><span>Histórias e debate</span></a>
 </section>
+
+<section class="home-ai-arena" id="homeAiArena" aria-label="Arena hoje"></section>
 
 <section class="hero">
 
@@ -8832,5 +8945,9 @@ fecharModal();
 });
 
 </script>
+<script src="arena-data.js"></script>
+<script src="ai-agent-data.js"></script>
+<script src="ai-agent-service.js"></script>
+<script src="home-ai-arena.js"></script>
 </body>
 </html>
