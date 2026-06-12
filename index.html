@@ -577,6 +577,131 @@ text-transform:uppercase;
 letter-spacing:.04em;
 }
 
+.destaque-live-panel{
+display:grid;
+gap:12px;
+max-width:620px;
+margin:16px 0 10px;
+padding:16px;
+border:1px solid rgba(255,255,255,.18);
+border-radius:8px;
+background:rgba(0,0,0,.62);
+backdrop-filter:blur(8px);
+box-shadow:0 12px 30px rgba(0,0,0,.28);
+}
+
+.destaque-live-top{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.destaque-live-status{
+display:inline-flex;
+align-items:center;
+gap:8px;
+padding:7px 10px;
+border-radius:999px;
+background:rgba(252,110,2,.18);
+border:1px solid rgba(252,110,2,.45);
+color:#fff;
+font-size:12px;
+font-weight:900;
+letter-spacing:.05em;
+text-transform:uppercase;
+}
+
+.destaque-live-status::before{
+content:"";
+width:8px;
+height:8px;
+border-radius:50%;
+background:#fc6e02;
+box-shadow:0 0 0 4px rgba(252,110,2,.18);
+}
+
+.destaque-live-clock{
+font-size:13px;
+font-weight:800;
+color:#f4f4f4;
+}
+
+.destaque-live-score{
+display:grid;
+grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+align-items:center;
+gap:12px;
+}
+
+.destaque-live-team{
+display:grid;
+gap:3px;
+min-width:0;
+}
+
+.destaque-live-team:last-child{
+text-align:right;
+}
+
+.destaque-live-team span{
+font-size:12px;
+font-weight:900;
+letter-spacing:.06em;
+text-transform:uppercase;
+color:#d9d9d9;
+}
+
+.destaque-live-team strong{
+font-size:22px;
+line-height:1.1;
+color:#fff;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.destaque-live-numbers{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:34px;
+font-weight:900;
+line-height:1;
+color:#fff;
+}
+
+.destaque-live-numbers span{
+min-width:34px;
+text-align:center;
+}
+
+.destaque-live-plays{
+display:grid;
+gap:7px;
+margin:0;
+padding:0;
+list-style:none;
+font-size:13px;
+line-height:1.4;
+color:#efefef;
+}
+
+.destaque-live-plays li{
+display:grid;
+grid-template-columns:auto minmax(0,1fr);
+gap:8px;
+padding-top:7px;
+border-top:1px solid rgba(255,255,255,.12);
+}
+
+.destaque-live-plays time{
+font-weight:900;
+color:#ffb071;
+white-space:nowrap;
+}
+
 /* =========================
 BOTÕES
 ========================= */
@@ -3994,6 +4119,26 @@ min-width:160px;
     line-height:1.45;
   }
 
+  .destaque-live-panel{
+    padding:12px;
+  }
+
+  .destaque-live-score{
+    gap:8px;
+  }
+
+  .destaque-live-team strong{
+    font-size:18px;
+  }
+
+  .destaque-live-numbers{
+    font-size:28px;
+  }
+
+  .destaque-live-plays{
+    font-size:12px;
+  }
+
   .destaque-texto .btn{
     width:100%;
     text-align:center;
@@ -4991,7 +5136,7 @@ color:#6b7280;
 <div class="banner-content">
 <h1>🏆 Copa 2026</h1>
 <p>Acompanhe a maior competição de futebol do mundo em tempo real</p>
-<a class='btn-banner' href='/#worldcup'>Acompanhe tudo com a gente</a>
+<a class='btn-banner' href='#worldcup'>Acompanhe tudo com a gente</a>
 </div>
 </div>
 </div>
@@ -5062,11 +5207,36 @@ title="Brasil x Marrocos - Destaque da Copa"
 
 <h2>Brasil x Marrocos</h2>
 
-<p>
-Acompanhe a Copa pelo nosso site: jogos, calendário, status das partidas e informações atualizadas em um só lugar.
+<p id="brazilLiveSummary">
+Ao vivo amanhã: cronômetro, placar e lances principais direto da atualização da ESPN.
 </p>
 
-<a class='btn' href='/#worldcup'>
+<div class="destaque-live-panel" id="brazilLiveSpotlight" aria-live="polite">
+<div class="destaque-live-top">
+<span class="destaque-live-status" id="brazilLiveStatus">Pré-jogo</span>
+<span class="destaque-live-clock" id="brazilLiveClock">13/06 - 19:00</span>
+</div>
+<div class="destaque-live-score" aria-label="Placar Brasil contra Marrocos">
+<div class="destaque-live-team">
+<span>Seleção Brasileira</span>
+<strong>Brasil</strong>
+</div>
+<div class="destaque-live-numbers">
+<span id="brazilLiveHomeScore">--</span>
+<small>x</small>
+<span id="brazilLiveAwayScore">--</span>
+</div>
+<div class="destaque-live-team">
+<span>Adversário</span>
+<strong>Marrocos</strong>
+</div>
+</div>
+<ul class="destaque-live-plays" id="brazilLivePlays">
+<li><time>Info</time><span>Os lances aparecem aqui quando a transmissão ao vivo liberar os dados da partida.</span></li>
+</ul>
+</div>
+
+<a class='btn' href='#worldcup'>
 Ver jogos e informações
 </a>
 
@@ -6026,7 +6196,9 @@ return false;
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const FIFA_WORLD_CUP_URL = 'https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums';
 const ESPN_WORLD_CUP_SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
+const ESPN_WORLD_CUP_SUMMARY_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary';
 const WORLD_CUP_REFRESH_MS = 30000;
+const WORLD_CUP_STORAGE_KEY = 'bemEsportivoWorldCupMatches';
 let worldCupRefreshTimer = null;
 let worldCupRefreshInFlight = false;
 let latestWorldCupMatches = null;
@@ -6677,6 +6849,26 @@ function buildEspnWorldCupUrl(date){
   return `${ESPN_WORLD_CUP_SCOREBOARD_URL}?dates=${dateKey}&limit=100`;
 }
 
+function getWorldCupScoreboardDates(){
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+  const todayKey = getDateInSaoPaulo(today);
+  const tomorrowKey = getDateInSaoPaulo(tomorrow);
+  const dateKeys = new Set([todayKey, tomorrowKey]);
+
+  WORLD_CUP_MATCHES.forEach(match => {
+    if(match.date && match.date <= tomorrowKey){
+      dateKeys.add(match.date);
+    }
+  });
+
+  return Array.from(dateKeys)
+    .sort()
+    .map(dateKey => new Date(`${dateKey}T12:00:00-03:00`));
+}
+
 function normalizeEspnWorldCupEvent(event){
   const competition = event.competitions?.[0];
   const competitors = competition?.competitors || [];
@@ -6706,19 +6898,17 @@ function normalizeEspnWorldCupEvent(event){
     liveClock:isLive ? displayClock : '',
     period:isLive ? period : '',
     venue:competition?.venue?.fullName || event.venue?.fullName || '',
-    source:'ESPN'
+    source:'ESPN',
+    espnEventId:event.id || competition?.id || ''
   };
 }
 
 async function fetchEspnWorldCupMatches(){
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
+  const scoreboardDates = getWorldCupScoreboardDates();
 
-  const payloads = await Promise.allSettled([
-    fetchExternalJson(buildEspnWorldCupUrl(today)),
-    fetchExternalJson(buildEspnWorldCupUrl(tomorrow))
-  ]);
+  const payloads = await Promise.allSettled(
+    scoreboardDates.map(date => fetchExternalJson(buildEspnWorldCupUrl(date)))
+  );
 
   return payloads
     .filter(result => result.status === 'fulfilled')
@@ -6817,6 +7007,29 @@ function mergeWorldCupMatches(savedMatches, liveMatches){
   });
 
   return dedupeWorldCupMatches(merged).sort((a,b) => getWorldCupDateTime(a) - getWorldCupDateTime(b));
+}
+
+function getSavedWorldCupMatches(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(WORLD_CUP_STORAGE_KEY) || '[]');
+    if(!Array.isArray(saved) || saved.length === 0){
+      return null;
+    }
+
+    return mergeWorldCupMatches(WORLD_CUP_MATCHES, saved);
+  }catch(error){
+    return null;
+  }
+}
+
+function saveWorldCupMatches(matches){
+  try{
+    const normalized = dedupeWorldCupMatches(Array.isArray(matches) ? matches : []);
+    localStorage.setItem(WORLD_CUP_STORAGE_KEY, JSON.stringify(normalized));
+    return true;
+  }catch(error){
+    return false;
+  }
 }
 
 function extractWorldCupMatchesFromFifaHtml(html){
@@ -7853,14 +8066,136 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   });
 }
 
+function getBrazilMoroccoMatch(matches = latestWorldCupMatches || WORLD_CUP_MATCHES){
+  return (Array.isArray(matches) ? matches : []).find(match => {
+    if(match.date !== '2026-06-13') return false;
+    const teams = [getWorldCupTeamKey(match.home), getWorldCupTeamKey(match.away)];
+    return teams.includes('brasil') && teams.includes('marrocos');
+  });
+}
+
+function getBrazilMoroccoScore(match){
+  const sides = [
+    { key:getWorldCupTeamKey(match?.home), score:match?.homeScore },
+    { key:getWorldCupTeamKey(match?.away), score:match?.awayScore }
+  ];
+  const brazil = sides.find(side => side.key === 'brasil');
+  const morocco = sides.find(side => side.key === 'marrocos');
+
+  return {
+    brazil:brazil?.score ?? null,
+    morocco:morocco?.score ?? null
+  };
+}
+
+function getBrazilMoroccoSummaryUrl(eventId){
+  return `${ESPN_WORLD_CUP_SUMMARY_URL}?event=${encodeURIComponent(eventId)}`;
+}
+
+function extractBrazilMoroccoPlays(summary){
+  const rawPlays = [
+    ...(Array.isArray(summary?.commentary) ? summary.commentary : []),
+    ...(Array.isArray(summary?.plays) ? summary.plays : [])
+  ];
+
+  return rawPlays
+    .map(item => {
+      const minute = item.displayTime || item.time?.displayValue || item.clock?.displayValue || item.clock || item.minute || '';
+      const text = item.text || item.shortText || item.description || item.headline || item.type?.text || '';
+      return {
+        minute: cleanText(minute || 'Lance'),
+        text: cleanText(text)
+      };
+    })
+    .filter(item => item.text)
+    .slice(0, 5);
+}
+
+async function fetchBrazilMoroccoLiveDetails(match){
+  if(!match?.espnEventId){
+    return [];
+  }
+
+  try{
+    const summary = await fetchExternalJson(getBrazilMoroccoSummaryUrl(match.espnEventId));
+    return extractBrazilMoroccoPlays(summary);
+  }catch(error){
+    console.error('Erro ao carregar lances Brasil x Marrocos:', error);
+    return [];
+  }
+}
+
+function renderBrazilMoroccoSpotlight(match, plays = []){
+  const statusEl = document.getElementById('brazilLiveStatus');
+  const clockEl = document.getElementById('brazilLiveClock');
+  const brazilScoreEl = document.getElementById('brazilLiveHomeScore');
+  const moroccoScoreEl = document.getElementById('brazilLiveAwayScore');
+  const playsEl = document.getElementById('brazilLivePlays');
+  const summaryEl = document.getElementById('brazilLiveSummary');
+
+  if(!statusEl || !clockEl || !brazilScoreEl || !moroccoScoreEl || !playsEl) return;
+
+  const fallbackMatch = WORLD_CUP_MATCHES.find(item => item.date === '2026-06-13' && getWorldCupTeamKey(item.home) === 'brasil');
+  const currentMatch = match || fallbackMatch;
+  const status = currentMatch ? getWorldCupStatus(currentMatch) : 'PRÉ-JOGO';
+  const score = getBrazilMoroccoScore(currentMatch);
+  const hasScore = score.brazil != null && score.morocco != null;
+  const liveClock = currentMatch?.liveClock
+    ? `${currentMatch.liveClock}${currentMatch.period ? ` - ${String(currentMatch.period)}T` : ''}`
+    : currentMatch ? `${formatWorldCupDate(currentMatch)} - ${formatWorldCupTime(currentMatch)}` : '13/06 - 19:00';
+
+  statusEl.textContent = status;
+  clockEl.textContent = liveClock;
+  brazilScoreEl.textContent = hasScore ? score.brazil : '--';
+  moroccoScoreEl.textContent = hasScore ? score.morocco : '--';
+
+  if(summaryEl){
+    summaryEl.textContent = status === 'AO VIVO'
+      ? 'Tempo real ligado: acompanhe cronômetro, placar e lances principais de Brasil x Marrocos.'
+      : status === 'ENCERRADO'
+        ? 'Jogo encerrado: placar final e principais lances ficam registrados aqui.'
+        : 'Ao vivo amanhã: cronômetro, placar e lances principais direto da atualização da ESPN.';
+  }
+
+  const fallbackText = status === 'AO VIVO'
+    ? 'Aguardando novos lances da transmissão.'
+    : status === 'ENCERRADO'
+      ? 'A partida foi encerrada. Os lances aparecem quando a ESPN disponibilizar o resumo.'
+      : 'Os lances aparecem aqui quando a transmissão ao vivo liberar os dados da partida.';
+
+  playsEl.innerHTML = plays.length
+    ? plays.map(play => `<li><time>${escapeHtml(play.minute)}</time><span>${escapeHtml(play.text)}</span></li>`).join('')
+    : `<li><time>Info</time><span>${fallbackText}</span></li>`;
+}
+
+async function updateBrazilMoroccoSpotlight(matches = latestWorldCupMatches || WORLD_CUP_MATCHES){
+  const match = getBrazilMoroccoMatch(matches);
+  renderBrazilMoroccoSpotlight(match);
+
+  if(!match?.espnEventId) return;
+
+  const status = getWorldCupStatus(match);
+  if(status !== 'AO VIVO' && status !== 'ENCERRADO'){
+    return;
+  }
+
+  const plays = await fetchBrazilMoroccoLiveDetails(match);
+  renderBrazilMoroccoSpotlight(match, plays);
+}
+
 async function loadWorldCupLive(options = {}){
   const { showLoading = false } = options;
+  if(!latestWorldCupMatches){
+    latestWorldCupMatches = getSavedWorldCupMatches() || WORLD_CUP_MATCHES;
+  }
+
   if(worldCupRefreshInFlight) return latestWorldCupMatches || WORLD_CUP_MATCHES;
 
   worldCupRefreshInFlight = true;
 
   if(showLoading || !latestWorldCupMatches){
     renderWorldCupMatches(latestWorldCupMatches || WORLD_CUP_MATCHES, 'Buscando placares ao vivo');
+    updateBrazilMoroccoSpotlight(latestWorldCupMatches || WORLD_CUP_MATCHES);
   }
 
   try{
@@ -7869,11 +8204,14 @@ async function loadWorldCupLive(options = {}){
       throw new Error('Placar ESPN vazio.');
     }
 
-    latestWorldCupMatches = mergeWorldCupMatches(WORLD_CUP_MATCHES, espnMatches);
+    latestWorldCupMatches = mergeWorldCupMatches(latestWorldCupMatches || WORLD_CUP_MATCHES, espnMatches);
+    saveWorldCupMatches(latestWorldCupMatches);
     renderWorldCupMatches(latestWorldCupMatches, 'ESPN ao vivo + tabela salva');
+    updateBrazilMoroccoSpotlight(latestWorldCupMatches);
   } catch(error){
     latestWorldCupMatches = latestWorldCupMatches || WORLD_CUP_MATCHES;
     renderWorldCupMatches(latestWorldCupMatches, 'Placar ao vivo indisponível; mantendo ultima tabela salva');
+    updateBrazilMoroccoSpotlight(latestWorldCupMatches);
     console.error('Erro ao carregar Copa do Mundo:', error);
   } finally{
     worldCupRefreshInFlight = false;
