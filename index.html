@@ -1840,6 +1840,28 @@ padding:6px 8px;
 .worldcup-score .score-number{font-size:20px;font-weight:900;color:#111}
 .worldcup-score .score-separator{color:#6b7280;font-weight:700}
 
+.worldcup-table-score{
+white-space:nowrap;
+text-align:center;
+font-weight:900;
+color:#111827;
+}
+
+.worldcup-table-score .score-number{
+display:inline-block;
+min-width:18px;
+font-size:15px;
+font-weight:900;
+color:#111827;
+}
+
+.worldcup-table-score .score-separator{
+display:inline-block;
+margin:0 3px;
+color:#6b7280;
+font-weight:800;
+}
+
 .match-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:13px;color:#6b7280}
 
 .worldcup-table-team{
@@ -1971,6 +1993,30 @@ background:#2b2b2b;
 
 .match-status.agendado{
 background:var(--primary);
+}
+
+.match-live-clock{
+display:inline-flex;
+align-items:center;
+gap:6px;
+margin-top:7px;
+padding:6px 9px;
+border-radius:999px;
+background:rgba(215,25,32,.10);
+color:#b91c1c;
+font-size:12px;
+font-weight:900;
+letter-spacing:.02em;
+white-space:nowrap;
+}
+
+.match-live-clock::before{
+content:"";
+width:7px;
+height:7px;
+border-radius:50%;
+background:#d71920;
+box-shadow:0 0 0 4px rgba(215,25,32,.12);
 }
 
 .match-teams{
@@ -2152,6 +2198,10 @@ width:100%;
 border-collapse:collapse;
 min-width:760px;
 font-size:13px;
+}
+
+.worldcup-table{
+min-width:860px;
 }
 
 .standings-table th,
@@ -2441,26 +2491,11 @@ position:relative;
 overflow:hidden;
 border-radius:18px;
 background:
-linear-gradient(135deg, rgba(3,9,18,.96), rgba(8,23,40,.92) 50%, rgba(2,7,14,.98));
+linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,.08) 48%, rgba(0,0,0,.26) 100%),
+url("img/penalty-stadium-bg.png") center/cover no-repeat;
 box-shadow:0 18px 48px rgba(0,0,0,.16);
 color:#fff;
 min-height:720px;
-}
-
-.penalty-game.is-ready{
-display:grid;
-grid-template-columns:minmax(0, 1fr) 300px;
-grid-template-areas:
-"header side"
-"arena side";
-background:
-linear-gradient(135deg, rgba(3,9,18,.96), rgba(8,23,40,.92) 50%, rgba(2,7,14,.98));
-}
-
-.penalty-game.is-css-fallback.is-ready{
-background:
-linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,.08) 48%, rgba(0,0,0,.26) 100%),
-url("img/penalty-stadium-bg.png") center/cover no-repeat;
 }
 
 .penalty-game::after{
@@ -2481,65 +2516,6 @@ transition:opacity .2s ease, transform .2s ease;
 .penalty-game.is-shooting::after{
 opacity:.18;
 transform:translateX(-50%) scale(.72);
-}
-
-.penalty-start{
-position:relative;
-z-index:8;
-max-width:680px;
-margin:92px auto 26px;
-padding:28px;
-border-radius:14px;
-background:rgba(0,0,0,.72);
-border:1px solid rgba(255,255,255,.16);
-box-shadow:0 18px 42px rgba(0,0,0,.28);
-text-align:center;
-backdrop-filter:blur(8px);
-}
-
-.penalty-start span{
-display:inline-flex;
-margin-bottom:10px;
-color:#2e8cff;
-font-size:12px;
-font-weight:900;
-letter-spacing:.08em;
-text-transform:uppercase;
-}
-
-.penalty-start h3{
-font-size:30px;
-line-height:1.12;
-margin-bottom:10px;
-}
-
-.penalty-start p{
-max-width:520px;
-margin:0 auto 18px;
-color:rgba(255,255,255,.84);
-line-height:1.55;
-}
-
-.penalty-start button{
-border:0;
-border-radius:999px;
-background:var(--primary);
-color:#111;
-font-family:inherit;
-font-weight:900;
-padding:14px 24px;
-min-height:48px;
-cursor:pointer;
-box-shadow:0 12px 28px rgba(252,110,2,.28);
-}
-
-.penalty-start button:disabled{
-opacity:.74;
-cursor:wait;
-}
-
-.penalty-game.is-ready .penalty-start{
-display:none;
 }
 
 .penalty-orientation-tip{
@@ -2602,10 +2578,6 @@ align-items:flex-start;
 padding:22px 24px 0;
 position:relative;
 z-index:8;
-}
-
-.penalty-game.is-ready .penalty-game-header{
-grid-area:header;
 }
 
 .penalty-game-header h2{
@@ -2721,33 +2693,6 @@ align-items:end;
 padding:240px 24px 28px;
 }
 
-.penalty-game.is-ready .penalty-arena{
-grid-area:arena;
-}
-
-.penalty-three-canvas{
-position:absolute;
-inset:0;
-width:100%;
-height:100%;
-z-index:1;
-display:none;
-touch-action:none;
-}
-
-.penalty-game.is-three-ready .penalty-three-canvas{
-display:block;
-}
-
-.penalty-game.is-three-ready .penalty-field,
-.penalty-game.is-three-ready .penalty-box,
-.penalty-game.is-three-ready .penalty-goal,
-.penalty-game.is-three-ready .penalty-keeper,
-.penalty-game.is-three-ready .penalty-ball,
-.penalty-game.is-three-ready .penalty-mark{
-display:none;
-}
-
 .penalty-field{
 display:none;
 }
@@ -2767,13 +2712,10 @@ transform:translateX(-50%);
 pointer-events:none;
 z-index:4;
 opacity:0;
+background:url("img/penalty-goal-real.png") center/contain no-repeat;
 filter:contrast(1.08) saturate(1.05) drop-shadow(0 10px 14px rgba(0,0,0,.20));
 transform-origin:50% 20%;
 mix-blend-mode:screen;
-}
-
-.penalty-game.is-css-fallback.is-ready .penalty-goal{
-background:url("img/penalty-goal-real.png") center/contain no-repeat;
 }
 
 .penalty-goal.is-shaking{
@@ -2799,11 +2741,8 @@ height:156px;
 transform:translateX(-50%);
 transition:transform .45s ease, top .45s ease;
 z-index:3;
-filter:drop-shadow(0 16px 18px rgba(0,0,0,.42));
-}
-
-.penalty-game.is-css-fallback.is-ready .penalty-keeper{
 background:url("img/penalty-keeper-real.png") center bottom/contain no-repeat;
+filter:drop-shadow(0 16px 18px rgba(0,0,0,.42));
 }
 
 .penalty-keeper::before{
@@ -2961,15 +2900,12 @@ bottom:172px;
 width:56px;
 height:56px;
 border-radius:50%;
+background:url("img/penalty-ball-real.png") center/cover no-repeat;
 box-shadow:0 18px 26px rgba(0,0,0,.42);
 transform:translateX(-50%);
 transition:filter .25s ease, opacity .25s ease;
 z-index:5;
 will-change:transform, filter, opacity;
-}
-
-.penalty-game.is-css-fallback.is-ready .penalty-ball{
-background:url("img/penalty-ball-real.png") center/cover no-repeat;
 }
 
 .penalty-ball::after{
@@ -3260,19 +3196,6 @@ max-width:720px;
 margin:0 auto;
 }
 
-.penalty-game.is-ready .penalty-rank{
-grid-area:side;
-grid-template-columns:1fr;
-align-content:start;
-align-self:stretch;
-gap:10px;
-max-width:none;
-margin:0;
-padding:12px;
-background:linear-gradient(180deg, rgba(4,10,18,.96), rgba(6,12,20,.88));
-border-left:1px solid rgba(255,255,255,.10);
-}
-
 .penalty-rank-card{
 background:rgba(0,0,0,.42);
 border:1px solid rgba(255,255,255,.14);
@@ -3280,11 +3203,6 @@ border-radius:14px;
 padding:14px;
 text-align:center;
 box-shadow:0 14px 30px rgba(0,0,0,.22);
-}
-
-.penalty-game.is-ready .penalty-rank-card{
-background:rgba(8,14,24,.82);
-text-align:left;
 }
 
 .penalty-rank-card span{
@@ -3334,10 +3252,6 @@ padding:0;
 list-style:none;
 }
 
-.penalty-game.is-ready .penalty-ranking-list{
-grid-template-columns:1fr;
-}
-
 .penalty-ranking-list li{
 padding:8px;
 border-radius:10px;
@@ -3352,73 +3266,10 @@ align-items:center;
 justify-content:center;
 }
 
-.penalty-game.is-ready .penalty-ranking-list li{
-justify-content:space-between;
-text-align:left;
-min-height:44px;
-}
-
-.penalty-ranking-list li span{
-color:#8b93a3;
-font-weight:900;
-}
-
-.penalty-ranking-list li b{
-flex:1;
-min-width:0;
-padding:0 8px;
-overflow:hidden;
-text-overflow:ellipsis;
-white-space:nowrap;
-}
-
-.penalty-ranking-list li small{
-color:#cdd3df;
-font-weight:800;
-white-space:nowrap;
-}
-
 .penalty-share{
 display:flex;
 gap:8px;
 align-items:stretch;
-}
-
-.penalty-game.is-ready .penalty-share{
-display:grid;
-grid-template-columns:1fr;
-}
-
-.penalty-news{
-display:grid;
-gap:8px;
-}
-
-.penalty-news h4{
-color:#fff;
-font-size:12px;
-letter-spacing:.06em;
-text-transform:uppercase;
-}
-
-.penalty-news a{
-display:grid;
-gap:3px;
-padding:10px;
-border-radius:10px;
-background:rgba(255,255,255,.07);
-border:1px solid rgba(255,255,255,.10);
-color:#fff;
-text-decoration:none;
-font-size:12px;
-line-height:1.35;
-}
-
-.penalty-news a span{
-color:#2e8cff;
-font-size:11px;
-font-weight:900;
-text-transform:uppercase;
 }
 
 .penalty-share button{
@@ -3443,12 +3294,6 @@ RESPONSIVO
 ========================= */
 
 @media(max-width:768px){
-
-.penalty-game.is-ready{
-display:flex;
-grid-template-columns:none;
-grid-template-areas:none;
-}
 
 .penalty-orientation-tip{
 display:flex;
@@ -4338,20 +4183,6 @@ align-items:center;
     gap:10px;
   }
 
-  .penalty-start{
-    order:3;
-    margin:12px;
-    padding:22px 16px;
-  }
-
-  .penalty-start h3{
-    font-size:24px;
-  }
-
-  .penalty-start p{
-    font-size:14px;
-  }
-
   .penalty-objective{
     display:none;
   }
@@ -4452,12 +4283,6 @@ align-items:center;
     padding:0 12px 12px;
   }
 
-  .penalty-game.is-ready .penalty-rank{
-    border-left:0;
-    background:transparent;
-    padding:0 12px 12px;
-  }
-
   .penalty-rank-card{
     padding:14px;
   }
@@ -4520,230 +4345,302 @@ align-items:center;
   }
 }
 
-/* Versao enxuta do mini-game: foco em bola, trave e goleiro. */
-.penalty-game{
-min-height:auto;
+/* Mobile first app shell: Bem Esportivo como hub leve e navegavel no celular */
+.mobile-app-nav{
+display:none;
+}
+
+.hub-chip-row{
+display:none;
+}
+
+.hub-quick-actions{
+width:min(1100px, calc(100% - 32px));
+margin:18px auto 0;
 display:grid;
-grid-template-columns:minmax(0,1fr) 272px;
-grid-template-areas:
-"header side"
-"arena side";
-background:linear-gradient(135deg,#07101d,#0b1726 54%,#060b12);
-border:1px solid rgba(255,255,255,.08);
+grid-template-columns:repeat(5,minmax(0,1fr));
+gap:10px;
 }
 
-.penalty-game-header{
-grid-area:header;
-display:none;
-}
-
-.penalty-objective{
-display:none;
-}
-
-.penalty-hud{
-position:static;
-transform:none;
-width:100%;
-}
-
-.penalty-hud-title{
-clip-path:none;
-border-radius:8px 8px 0 0;
-background:rgba(0,0,0,.72);
-}
-
-.penalty-scoreboard{
-grid-template-columns:1fr 86px 1fr;
-}
-
-.penalty-arena{
-grid-area:arena;
-min-height:0;
-padding:0;
-display:block;
-position:relative;
-}
-
-.penalty-three-canvas{
-position:relative;
-display:block;
-z-index:2;
-width:100%;
-height:auto;
-min-height:360px;
-aspect-ratio:16/9;
-background:linear-gradient(#07142b 0 34%,#176f36 34% 100%);
-border-top:1px solid rgba(255,255,255,.1);
-border-bottom:1px solid rgba(255,255,255,.1);
-touch-action:none;
-}
-
-.penalty-field,
-.penalty-box,
-.penalty-goal,
-.penalty-keeper,
-.penalty-mark,
-.penalty-ball{
-display:none!important;
-}
-
-.penalty-joystick{
-display:none;
-}
-
-.penalty-actions{
-display:none;
-}
-
-.penalty-status{
-display:none;
-}
-
-.penalty-status h3{
-min-width:0;
-width:100%;
-font-size:20px;
-min-height:34px;
-}
-
-.penalty-status p{
-font-size:12px;
-max-width:280px;
-}
-
-.penalty-pad{
-grid-template-columns:36px 36px 36px;
-grid-template-rows:36px 36px 36px;
-}
-
-.penalty-control{
-font-size:20px;
-}
-
-.penalty-shot{
-height:48px;
-padding:7px 10px 7px 54px;
-}
-
-.penalty-shot::before{
-left:14px;
-width:24px;
-height:24px;
-border-width:5px;
-}
-
-.penalty-shot span{
-font-size:13px;
-}
-
-.penalty-shot small{
-font-size:10px;
-}
-
-.penalty-rank{
-grid-area:side;
-grid-template-columns:1fr;
-align-content:start;
+.hub-quick-actions a{
+display:grid;
+gap:5px;
+min-height:74px;
+align-content:center;
 padding:12px;
-margin:0;
-max-width:none;
-background:rgba(3,8,16,.74);
-border-left:1px solid rgba(255,255,255,.08);
+border:1px solid rgba(17,17,17,.08);
+border-radius:8px;
+background:#fff;
+color:#111;
+box-shadow:0 10px 24px rgba(0,0,0,.07);
 }
 
-.penalty-share{
-display:grid;
-grid-template-columns:1fr;
+.hub-quick-actions strong{
+font-size:13px;
+font-weight:900;
+color:#111;
 }
 
-@media(max-width:820px){
-  .penalty-game{
+.hub-quick-actions span{
+font-size:11px;
+font-weight:700;
+line-height:1.25;
+color:#6b7280;
+}
+
+@media (max-width: 820px){
+  body{
+    background:#f5f6f8;
+    padding-bottom:86px;
+  }
+
+  main{
     display:block;
   }
 
-  .penalty-game-header{
-    padding:10px;
+  .menu{
+    position:sticky;
+    top:0;
+    padding:0 12px;
+    border-bottom:1px solid rgba(252,110,2,.42);
+    box-shadow:0 10px 24px rgba(0,0,0,.18);
   }
 
-  .penalty-arena{
-    min-height:auto;
+  .menu-content{
+    min-height:58px;
+    gap:10px;
     padding:0;
   }
 
-  .penalty-three-canvas{
-    min-height:280px;
+  .logo img{
+    height:36px;
+  }
+
+  .menu-btn{
+    width:38px;
+    height:38px;
+    margin-left:auto;
+    border:1px solid rgba(252,110,2,.38);
+    border-radius:8px;
+  }
+
+  .menu-btn span{
+    width:18px;
+    height:2px;
+    margin:0 auto;
+  }
+
+  .nav-menu{
+    margin:0 0 10px;
+    padding:8px;
+    border:1px solid rgba(252,110,2,.22);
+    border-radius:8px;
+    background:#090909;
+  }
+
+  .nav-menu a{
+    min-height:42px;
+    padding:11px 12px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    border-radius:6px;
+    font-size:13px;
+  }
+
+  .nav-menu a:last-child{
+    border-bottom:0;
+  }
+
+  .banner-carousel{
+    background:#000;
+  }
+
+  .banner-top{
+    min-height:230px;
     aspect-ratio:16/10;
+    border-radius:0 0 18px 18px;
+    box-shadow:none;
   }
 
-  .penalty-joystick,
-  .penalty-actions{
+  .banner-content{
+    width:min(100% - 42px, 620px);
+    padding:24px 0 42px;
+    text-align:left;
+  }
+
+  .banner-top h1{
+    font-size:clamp(28px, 10vw, 42px);
+    line-height:1.02;
+  }
+
+  .banner-top p{
+    max-width:320px;
+    font-size:15px;
+    line-height:1.45;
+  }
+
+  .btn-banner,
+  .btn{
+    border-radius:8px;
+  }
+
+  .carousel-btn{
+    width:30px;
+    height:30px;
+    background:rgba(0,0,0,.42);
+  }
+
+  .carousel-btn svg{
+    width:14px;
+    height:14px;
+  }
+
+  .carousel-prev{
+    left:10px;
+  }
+
+  .carousel-next{
+    right:10px;
+  }
+
+  .carousel-indicators{
+    bottom:12px;
+    gap:7px;
+  }
+
+  .indicator{
+    width:7px;
+    height:7px;
+  }
+
+  .indicator.active{
+    width:18px;
+  }
+
+  .hero{
+    padding:22px 0 10px;
+    background:#f5f6f8;
+  }
+
+  .hub-quick-actions{
+    width:100%;
     margin:0;
-    max-width:none;
+    padding:12px 11px 4px;
+    display:flex;
+    gap:9px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
   }
 
-  .penalty-rank{
-    border-left:0;
-    padding:0 10px 10px;
+  .hub-quick-actions a{
+    min-width:142px;
+    min-height:68px;
+    scroll-snap-align:start;
+  }
+
+  .hero > .container,
+  .container{
+    width:min(100% - 22px, 720px);
+    padding-left:0;
+    padding-right:0;
+  }
+
+  .destaque-img,
+  .lineup-callout,
+  .worldcup-section,
+  .palpitometro-section,
+  #reportagens-home,
+  .sidebar,
+  .penalty-game{
+    border-radius:10px;
+  }
+
+  .hero h1,
+  #reportagens-home > h2,
+  .seriea-heading h2{
+    text-align:left;
+  }
+
+  .home-editorial-layout,
+  .palpitometro-grid,
+  .seriea-cards,
+  .lineup-callout{
+    grid-template-columns:1fr;
+  }
+
+  .worldcup-section,
+  .palpitometro-section,
+  #reportagens-home{
+    padding-top:18px;
+    padding-bottom:18px;
+  }
+
+  .worldcup-table-card,
+  .home-posts-panel,
+  .palpitometro-panel,
+  .reportagem-card,
+  .palpite-card,
+  .match-card{
+    border-radius:8px;
+  }
+
+  .standings-table-wrap{
+    margin-left:-2px;
+    margin-right:-2px;
+  }
+
+  .worldcup-table{
+    min-width:860px;
+  }
+
+  .mobile-app-nav{
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:10px;
+    z-index:1200;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:4px;
+    padding:8px;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:16px;
+    background:rgba(5,5,5,.94);
+    box-shadow:0 18px 40px rgba(0,0,0,.34);
+    backdrop-filter:blur(14px);
+  }
+
+  .mobile-app-nav a{
+    display:flex;
+    min-width:0;
+    min-height:48px;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    color:#d8d8d8;
+    font-size:11px;
+    font-weight:800;
+    line-height:1.1;
+    text-align:center;
+    text-decoration:none;
+  }
+
+  .mobile-app-nav a.is-active,
+  .mobile-app-nav a:focus-visible{
+    background:var(--primary);
+    color:#000;
+    outline:0;
+  }
+}
+
+@media (min-width: 821px){
+  .menu{
+    position:fixed;
   }
 }
 
 </style>
 <link rel="stylesheet" href="site-common.css">
-<style id="penalty-clean-ux">
-#desafio-penaltis .penalty-game{
-  display:block!important;
-  max-width:1120px;
-  margin:0 auto;
-  overflow:hidden;
-  border-radius:14px;
-  background:#05080f!important;
-  border:1px solid rgba(255,122,0,.22);
-}
-
-#desafio-penaltis .penalty-game-header,
-#desafio-penaltis .penalty-field,
-#desafio-penaltis .penalty-box,
-#desafio-penaltis .penalty-goal,
-#desafio-penaltis .penalty-keeper,
-#desafio-penaltis .penalty-mark,
-#desafio-penaltis .penalty-ball,
-#desafio-penaltis .penalty-joystick,
-#desafio-penaltis .penalty-actions,
-#desafio-penaltis .penalty-status,
-#desafio-penaltis .penalty-rank,
-#desafio-penaltis .penalty-orientation-tip{
-  display:none!important;
-}
-
-#desafio-penaltis .penalty-arena{
-  display:block!important;
-  min-height:0!important;
-  padding:0!important;
-  position:relative!important;
-}
-
-#desafio-penaltis .penalty-three-canvas{
-  display:block!important;
-  width:100%!important;
-  height:auto!important;
-  min-height:320px!important;
-  aspect-ratio:16/9!important;
-  border:0!important;
-  touch-action:none!important;
-}
-
-@media(max-width:820px){
-  #desafio-penaltis .penalty-game{
-    border-radius:10px;
-  }
-
-  #desafio-penaltis .penalty-three-canvas{
-    min-height:260px!important;
-    aspect-ratio:16/10!important;
-  }
-}
-</style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597"
      crossorigin="anonymous"></script>
@@ -4768,21 +4665,21 @@ grid-template-columns:1fr;
 
 <body>
 
-<header class="menu">
+<header class="menu" id="topo">
 <div class="menu-content">
-<a href="index.html" class="logo">
+<a class='logo' href='/'>
 <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
 </a>
 
 <nav id="nav" class="nav-menu">
-<a href="index.html">Início</a>
-<a href="profissionais.html">Profissionais</a>
-<a href="produtos.html">Produtos</a>
-<a href="escalacao.html">Escalação</a>
-<a href="Reportagens.html">Reportagens</a>
+<a href='/'>Início</a>
+<a href='/profissionais'>Profissionais</a>
+<a href='/produtos'>Produtos</a>
+<a href='/escalacao'>Escalação</a>
+<a href='/reportagens'>Reportagens</a>
 <a href="#palpitometro">Palpitômetro</a>
-<a href="beplay.html">Beplay</a>
-<a href="coluna-valtinho.html">Fala aí Valtinho</a>
+<a href='/beplay'>Beplay</a>
+<a href='/coluna-valtinho'>Fala aí Valtinho</a>
 </nav>
 
 <div class="menu-actions">
@@ -4795,6 +4692,14 @@ grid-template-columns:1fr;
 <span></span>
 </button>
 </header>
+
+<nav class="mobile-app-nav" aria-label="Navegação rápida mobile">
+<a href="#topo" data-mobile-nav="topo">Início</a>
+<a href="/escalacao" data-mobile-nav="escala">Escalação</a>
+<a href="#worldcup" data-mobile-nav="worldcup">Jogos</a>
+<a href="#palpitometro" data-mobile-nav="palpitometro">Palpites</a>
+<a href="#reportagens-home" data-mobile-nav="reportagens-home">Reportagens</a>
+</nav>
 
 <main>
 
@@ -4816,7 +4721,7 @@ grid-template-columns:1fr;
 <div class="banner-content">
 <h1>🏆 Copa 2026</h1>
 <p>Acompanhe a maior competição de futebol do mundo em tempo real</p>
-<a href="index.html#worldcup" class="btn-banner">Acompanhe tudo com a gente</a>
+<a class='btn-banner' href='/#worldcup'>Acompanhe tudo com a gente</a>
 </div>
 </div>
 </div>
@@ -4859,6 +4764,14 @@ grid-template-columns:1fr;
 </div>
 </section>
 
+<section class="hub-quick-actions" aria-label="Atalhos do Bem Esportivo">
+<a href="#worldcup"><strong>Jogos ao vivo</strong><span>Placar, tabela e horários</span></a>
+<a href="#palpitometro"><strong>Palpites</strong><span>Participe da rodada</span></a>
+<a href="/escalacao"><strong>Escalação</strong><span>Monte sua Seleção</span></a>
+<a href="/profissionais"><strong>Profissionais</strong><span>Valorize quem vive esporte</span></a>
+<a href="#reportagens-home"><strong>Reportagens</strong><span>Histórias e debate</span></a>
+</section>
+
 <section class="hero">
 
 <div class="container">
@@ -4883,7 +4796,7 @@ title="Brasil x Marrocos - Destaque da Copa"
 Acompanhe a Copa pelo nosso site: jogos, calendário, status das partidas e informações atualizadas em um só lugar.
 </p>
 
-<a href="index.html#worldcup" class="btn">
+<a class='btn' href='/#worldcup'>
 Ver jogos e informações
 </a>
 
@@ -4901,11 +4814,11 @@ Ver jogos e informações
 Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta para salvar ou compartilhar nas redes.
 </p>
 <div class="lineup-actions">
-<a href="escalacao.html" class="btn btn-lineup">Montar minha escalação</a>
+<a class='btn btn-lineup' href='/escalacao'>Montar minha escalação</a>
 <span class="lineup-note">Com fotos dos jogadores e prévia da imagem final</span>
 </div>
 </div>
-<a class="lineup-preview" href="escalacao.html" aria-label="Montar sua escalação da Seleção">
+<a aria-label='Montar sua escalação da Seleção' class='lineup-preview' href='/escalacao'>
 <img class="lineup-promo-img" src="img/escalacao-chamada.png" alt="Escala o Brasil">
 </a>
 </article>
@@ -4924,7 +4837,7 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 <div class="reportagem-card-content">
 <h3>Dedicação e Talento Mirim em Campo</h3>
 <p>Futebol de base, disciplina e histórias de jovens atletas em formação.</p>
-<a href="Reportagens.html#dedicacao-talento-mirim" class="btn">Ler reportagem</a>
+<a class='btn' href='/reportagens#dedicacao-talento-mirim'>Ler reportagem</a>
 </div>
 </article>
 
@@ -4933,7 +4846,7 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 <div class="reportagem-card-content">
 <h3>Duda e o Futebol</h3>
 <p>Uma trajetória de sonho, apoio e dedicação dentro do esporte.</p>
-<a href="Reportagens.html#duda-e-o-futebol" class="btn">Ler reportagem</a>
+<a class='btn' href='/reportagens#duda-e-o-futebol'>Ler reportagem</a>
 </div>
 </article>
 </div>
@@ -5035,7 +4948,7 @@ O futebol moderno é decidido nos detalhes.
 Organização e leitura fazem a diferença.
 </p>
 
-<a href="coluna-valtinho.html" class="btn">
+<a class='btn' href='/coluna-valtinho'>
 Ler coluna completa
 </a>
 
@@ -5092,7 +5005,7 @@ Ainda existe paixão ou virou negócio?
 </section>
 
 <section class="container penalty-game-section" id="desafio-penaltis">
-<div class="penalty-game searchable is-ready" aria-labelledby="penaltyTitle">
+<div class="penalty-game searchable" aria-labelledby="penaltyTitle">
 <div class="penalty-orientation-tip" id="penaltyOrientationTip">
 <p><span>Melhor experiência no celular</span>Vire a tela para jogar em modo paisagem, como em um videogame.</p>
 <button type="button" id="penaltyLandscapeBtn">Virar tela</button>
@@ -5102,11 +5015,11 @@ Ainda existe paixão ou virou negócio?
 <div class="penalty-objective">
 <span class="penalty-badge">Mini game Bem Esportivo</span>
 <h2>Objetivo</h2>
-<p>Tente fazer o gol: escolha o canto, arraste no campo ou use os botões.</p>
+<p>Faça o gol! Escolha o canto e vença o goleiro.</p>
 </div>
 
 <div class="penalty-hud" aria-label="Placar do desafio">
-<div class="penalty-hud-title" id="penaltyTitle">Tente fazer o gol</div>
+<div class="penalty-hud-title" id="penaltyTitle">Cobrança de pênalti</div>
 <div class="penalty-scoreboard">
 <div class="penalty-scorebox is-player">
 <span>Você</span>
@@ -5126,7 +5039,6 @@ Ainda existe paixão ou virou negócio?
 </div>
 
 <div class="penalty-arena">
-<canvas class="penalty-three-canvas" id="penaltyThreeCanvas" aria-hidden="true"></canvas>
 <div class="penalty-field" aria-hidden="true"></div>
 <div class="penalty-box" aria-hidden="true"></div>
 <div class="penalty-goal" aria-hidden="true"></div>
@@ -5147,15 +5059,15 @@ Ainda existe paixão ou virou negócio?
 
 <div class="penalty-status" aria-live="polite">
 <h3 id="penaltyResult">Escolha o canto</h3>
-<p id="penaltyMessage">Use as setas, toque em Chutar ou arraste no campo para direcionar a bola.</p>
+<p id="penaltyMessage">Use as setas do controle e depois aperte bolinha ou quadrado para bater.</p>
 <div class="penalty-rounds" id="penaltyRounds" aria-label="Resultado das cobranças"></div>
 <button class="penalty-reset" type="button" id="penaltyReset">Reiniciar desafio</button>
 </div>
 
 <div class="penalty-actions" aria-label="Botões de finalização">
 <strong>Chute</strong>
-<button class="penalty-shot" type="button" data-shot-type="placed" aria-label="Chutar colocado"><span>Chutar</span><small>Colocado</small></button>
-<button class="penalty-shot" type="button" data-shot-type="power" aria-label="Chute forte"><span>Forte</span><small>Mais risco</small></button>
+<button class="penalty-shot" type="button" data-shot-type="placed" aria-label="Bolinha, chute colocado"><span>Bolinha</span><small>Chute colocado</small></button>
+<button class="penalty-shot" type="button" data-shot-type="power" aria-label="Quadrado, chute forte"><span>Quadrado</span><small>Chute forte</small></button>
 </div>
 </div>
 
@@ -5167,13 +5079,8 @@ Ainda existe paixão ou virou negócio?
 <ol class="penalty-ranking-list" id="penaltyRankingList" aria-label="Ranking local do desafio"></ol>
 </div>
 <div class="penalty-share" aria-label="Compartilhar resultado">
-<button type="button" id="penaltyShareBtn">Compartilhar no WhatsApp</button>
+<button type="button" id="penaltyShareBtn">Compartilhar</button>
 <button type="button" class="secondary" id="penaltyCopyBtn">Copiar</button>
-</div>
-<div class="penalty-news" aria-label="Notícias relacionadas">
-<h4>Do Bem Esportivo</h4>
-<a href="Reportagens.html#dedicacao-talento-mirim"><span>Reportagem</span>Dedicação e talento mirim em campo</a>
-<a href="escalacao.html"><span>Interativo</span>Monte sua escalação da Seleção</a>
 </div>
 </div>
 </div>
@@ -5260,7 +5167,7 @@ Ainda existe paixão ou virou negócio?
 </div>
 
 <p class="worldcup-source">
-Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN e atualização automática enquanto a página estiver aberta.
+Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Cada visitante recebe atualização automática no site, sem depender do seu computador.
 </p>
 
 <div id="worldCupMatches" class="seriea-cards">
@@ -5281,13 +5188,14 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN e a
           <th>Horário</th>
           <th>Grupo</th>
           <th>Jogo</th>
+          <th>Placar</th>
           <th>Estádio</th>
           <th>Status</th>
         </tr>
       </thead>
       <tbody id="worldCupTable">
         <tr>
-          <td colspan="6">Carregando tabela da Copa...</td>
+          <td colspan="7">Carregando tabela da Copa...</td>
         </tr>
       </tbody>
     </table>
@@ -5359,10 +5267,10 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN e a
 <p>Conteúdo esportivo, futebol, opinião, projetos e serviços ligados ao esporte.</p>
 </div>
 <nav aria-label="Links institucionais">
-<a href="sobre.html">Sobre</a>
-<a href="contato.html">Contato</a>
-<a href="politica-de-privacidade.html">Privacidade</a>
-<a href="termos.html">Termos</a>
+<a href='/sobre'>Sobre</a>
+<a href='/contato'>Contato</a>
+<a href='/politica-de-privacidade'>Privacidade</a>
+<a href='/termos'>Termos</a>
 </nav>
 <small>© 2026 Bem Esportivo</small>
 </div>
@@ -5854,7 +5762,7 @@ let worldCupRefreshInFlight = false;
 let latestWorldCupMatches = null;
 
 const WORLD_CUP_MATCHES = [
-  {date:'2026-06-11',time:'16:00',group:'A',home:'México',away:'África do Sul',homeScore:2,awayScore:0,status:'ENCERRADO',venue:'Estádio Cidade do México'},
+  {date:'2026-06-11',time:'16:00',group:'A',home:'México',away:'África do Sul',venue:'Estádio Cidade do México'},
   {date:'2026-06-11',time:'23:00',group:'A',home:'Coreia do Sul',away:'Rep. Tcheca / Dinamarca / Macedônia do Norte / Irlanda',venue:'Estádio Guadalajara'},
   {date:'2026-06-12',time:'16:00',group:'B',home:'Canadá',away:'Bósnia e Herzegovina / Itália / Irlanda do Norte / País de Gales',venue:'Toronto Stadium'},
   {date:'2026-06-12',time:'22:00',group:'D',home:'Estados Unidos',away:'Paraguai',venue:'Los Angeles Stadium'},
@@ -6058,17 +5966,18 @@ async function fetchExternalText(url){
 }
 
 async function fetchExternalJson(url){
-  const freshUrl = url + (url.includes('?') ? '&' : '?') + '_=' + Date.now();
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 6000);
 
   try{
-    const directResponse = await fetch(freshUrl, { cache:'no-store' });
-    if(directResponse.ok){
-      return await directResponse.json();
+    const response = await fetch(url, { signal: controller.signal });
+    if(!response.ok){
+      throw new Error(`HTTP ${response.status}`);
     }
-  }catch(error){}
-
-  const text = await fetchExternalText(freshUrl);
-  return JSON.parse(text);
+    return await response.json();
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 function extractJsAssignment(html, variableName){
@@ -6438,36 +6347,28 @@ function parseWorldCupDate(value){
 }
 
 function getDateInSaoPaulo(date){
-  const parts = new Intl.DateTimeFormat('en-CA', {
+  return new Intl.DateTimeFormat('en-CA', {
     timeZone:'America/Sao_Paulo',
     year:'numeric',
     month:'2-digit',
     day:'2-digit'
-  }).formatToParts(date).reduce((acc, item) => {
-    acc[item.type] = item.value;
-    return acc;
-  }, {});
-  return `${parts.year}-${parts.month}-${parts.day}`;
+  }).format(date);
 }
 
 function getTimeInSaoPaulo(date){
-  return date.toLocaleTimeString('pt-BR', {
+  return new Intl.DateTimeFormat('pt-BR', {
     timeZone:'America/Sao_Paulo',
     hour:'2-digit',
-    minute:'2-digit'
-  });
+    minute:'2-digit',
+    hour12:false
+  }).format(date);
 }
 
 function getWorldCupDateTime(match){
-  if(match.isoDate){
-    return new Date(match.isoDate);
-  }
-
-  if(match.date && match.time){
-    return new Date(`${match.date}T${match.time}:00-03:00`);
-  }
-
-  return new Date(`${match.date}T12:00:00-03:00`);
+  const time = match.time || '12:00';
+  const isoDate = match.isoDate || `${match.date}T${time}:00-03:00`;
+  const date = new Date(isoDate);
+  return Number.isNaN(date.getTime()) ? new Date(`${match.date}T12:00:00-03:00`) : date;
 }
 
 function formatWorldCupDate(match){
@@ -6476,7 +6377,11 @@ function formatWorldCupDate(match){
 
 function formatWorldCupTime(match){
   const date = getWorldCupDateTime(match);
-  return `${getTimeInSaoPaulo(date)} BRT`;
+  if(Number.isNaN(date.getTime())) return match.time || 'A definir';
+  return date.toLocaleTimeString('pt-BR', {
+    hour:'2-digit',
+    minute:'2-digit'
+  });
 }
 
 function translateWorldCupTeamName(name){
@@ -6485,10 +6390,12 @@ function translateWorldCupTeamName(name){
     'South Africa':'África do Sul',
     'South Korea':'Coreia do Sul',
     'Korea Republic':'Coreia do Sul',
-    'Czechia':'Rep. Tcheca',
-    'United States':'Estados Unidos',
-    'USA':'Estados Unidos',
+    'Czechia':'Tchéquia',
     'Canada':'Canadá',
+    'Bosnia-Herzegovina':'Bósnia e Herzegovina',
+    'Bosnia and Herzegovina':'Bósnia e Herzegovina',
+    'United States':'Estados Unidos',
+    'Paraguay':'Paraguai',
     'Brazil':'Brasil',
     'Morocco':'Marrocos'
   };
@@ -6508,7 +6415,12 @@ function normalizeEspnWorldCupEvent(event){
   const eventDate = new Date(competition?.date || event.date);
   const statusType = competition?.status?.type || event.status?.type || {};
   const isLive = statusType.state === 'in';
-  const isCompleted = Boolean(statusType.completed);
+  const isCompleted = Boolean(statusType.completed) || statusType.state === 'post';
+  const hasOfficialScore = isLive || isCompleted;
+  const homeScore = hasOfficialScore && home?.score !== undefined && home?.score !== '' ? Number(home.score) : null;
+  const awayScore = hasOfficialScore && away?.score !== undefined && away?.score !== '' ? Number(away.score) : null;
+  const displayClock = competition?.status?.displayClock || event.status?.displayClock || '';
+  const period = competition?.status?.period || event.status?.period || '';
 
   return {
     date:getDateInSaoPaulo(eventDate),
@@ -6517,10 +6429,12 @@ function normalizeEspnWorldCupEvent(event){
     group:event.season?.slug === 'group-stage' ? 'Fase de grupos' : 'Copa',
     home:translateWorldCupTeamName(home?.team?.displayName || home?.team?.shortDisplayName || ''),
     away:translateWorldCupTeamName(away?.team?.displayName || away?.team?.shortDisplayName || ''),
-    homeScore:home?.score !== undefined && home?.score !== '' ? Number(home.score) : null,
-    awayScore:away?.score !== undefined && away?.score !== '' ? Number(away.score) : null,
+    homeScore:Number.isFinite(homeScore) ? homeScore : null,
+    awayScore:Number.isFinite(awayScore) ? awayScore : null,
     status:isCompleted ? 'ENCERRADO' : isLive ? 'AO VIVO' : '',
-    statusDetail:competition?.status?.type?.shortDetail || competition?.status?.type?.detail || '',
+    statusDetail:statusType.shortDetail || statusType.detail || '',
+    liveClock:isLive ? displayClock : '',
+    period:isLive ? period : '',
     venue:competition?.venue?.fullName || event.venue?.fullName || '',
     source:'ESPN'
   };
@@ -6530,6 +6444,7 @@ async function fetchEspnWorldCupMatches(){
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
+
   const payloads = await Promise.allSettled([
     fetchExternalJson(buildEspnWorldCupUrl(today)),
     fetchExternalJson(buildEspnWorldCupUrl(tomorrow))
@@ -6544,11 +6459,79 @@ async function fetchEspnWorldCupMatches(){
 
 function isSameWorldCupMatch(a,b){
   if(a.date !== b.date) return false;
-  const aHome = normalizeStr(getPrimaryWorldCupTeam(a.home));
-  const aAway = normalizeStr(getPrimaryWorldCupTeam(a.away));
-  const bHome = normalizeStr(getPrimaryWorldCupTeam(b.home));
-  const bAway = normalizeStr(getPrimaryWorldCupTeam(b.away));
-  return (aHome === bHome && aAway === bAway) || (aHome === bAway && aAway === bHome);
+  const aHome = getWorldCupTeamKey(a.home);
+  const aAway = getWorldCupTeamKey(a.away);
+  const bHome = getWorldCupTeamKey(b.home);
+  const bAway = getWorldCupTeamKey(b.away);
+  const sameTeams = (aHome === bHome && aAway === bAway) || (aHome === bAway && aAway === bHome);
+  if(sameTeams) return true;
+
+  const sameKickoff = a.time && b.time && a.time === b.time;
+  return sameKickoff && (
+    aHome === bHome ||
+    aAway === bAway ||
+    aHome === bAway ||
+    aAway === bHome
+  );
+}
+
+function getWorldCupTeamKey(name){
+  const primary = normalizeStr(getPrimaryWorldCupTeam(name))
+    .replace(/\./g,'')
+    .replace(/^rep\s+/, '')
+    .replace(/^republica\s+/, '')
+    .replace(/\s+/g,' ')
+    .trim();
+
+  const aliases = {
+    'mexico':'mexico',
+    'africa do sul':'africa do sul',
+    'south africa':'africa do sul',
+    'coreia do sul':'coreia do sul',
+    'south korea':'coreia do sul',
+    'korea republic':'coreia do sul',
+    'tcheca':'tchequia',
+    'republica tcheca':'tchequia',
+    'rep tcheca':'tchequia',
+    'tchequia':'tchequia',
+    'czechia':'tchequia',
+    'canada':'canada',
+    'bosnia herzegovina':'bosnia e herzegovina',
+    'bosnia and herzegovina':'bosnia e herzegovina',
+    'bosnia e herzegovina':'bosnia e herzegovina',
+    'estados unidos':'estados unidos',
+    'united states':'estados unidos',
+    'eua':'estados unidos',
+    'paraguai':'paraguai',
+    'paraguay':'paraguai',
+    'brasil':'brasil',
+    'brazil':'brasil',
+    'marrocos':'marrocos',
+    'morocco':'marrocos'
+  };
+
+  return aliases[primary] || primary;
+}
+
+function dedupeWorldCupMatches(matches){
+  return matches.reduce((unique, match) => {
+    const existingIndex = unique.findIndex(item => isSameWorldCupMatch(item, match));
+    if(existingIndex === -1){
+      unique.push(match);
+      return unique;
+    }
+
+    const existing = unique[existingIndex];
+    const matchHasScore = match.homeScore != null && match.awayScore != null;
+    const existingHasScore = existing.homeScore != null && existing.awayScore != null;
+    if(matchHasScore && !existingHasScore){
+      unique[existingIndex] = {...existing, ...match, group:existing.group || match.group, venue:match.venue || existing.venue};
+    }else{
+      unique[existingIndex] = {...match, ...existing, group:existing.group || match.group, venue:existing.venue || match.venue};
+    }
+
+    return unique;
+  }, []);
 }
 
 function mergeWorldCupMatches(savedMatches, liveMatches){
@@ -6563,7 +6546,7 @@ function mergeWorldCupMatches(savedMatches, liveMatches){
     }
   });
 
-  return merged.sort((a,b) => getWorldCupDateTime(a) - getWorldCupDateTime(b));
+  return dedupeWorldCupMatches(merged).sort((a,b) => getWorldCupDateTime(a) - getWorldCupDateTime(b));
 }
 
 function extractWorldCupMatchesFromFifaHtml(html){
@@ -6671,6 +6654,24 @@ function initials(name){
 function getPrimaryWorldCupTeam(name){
   if(!name) return '';
   const parts = String(name).split('/').map(part => part.trim()).filter(Boolean);
+  const known = parts.find(part => {
+    const key = normalizeStr(part)
+      .replace(/\./g,'')
+      .replace(/^rep\s+/, '')
+      .replace(/^republica\s+/, '')
+      .trim();
+    return [
+      'bosnia e herzegovina',
+      'bosnia herzegovina',
+      'bosnia and herzegovina',
+      'paraguai',
+      'paraguay',
+      'tchequia',
+      'tcheca',
+      'czechia'
+    ].includes(key);
+  });
+  if(known) return known;
   return parts[0] || String(name).trim();
 }
 
@@ -7360,7 +7361,7 @@ function renderPalpitometro(){
             <h3>${homeDisplay} x ${awayDisplay}</h3>
           </div>
           <div>
-            <div class="palpite-date">${formatWorldCupDate(match)} ${formatWorldCupTime(match)}</div>
+            <div class="palpite-date">${formatMatchDate(`${match.date}T12:00:00-03:00`)}</div>
             <span class="palpite-badge">${isSaved ? 'Registrado' : isFeatured ? 'Destaque' : 'Aberto'}</span>
           </div>
         </div>
@@ -7456,7 +7457,7 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
     return;
   }
 
-  const normalizedMatches = Array.isArray(matches) && matches.length ? matches : WORLD_CUP_MATCHES;
+  const normalizedMatches = dedupeWorldCupMatches(Array.isArray(matches) && matches.length ? matches : WORLD_CUP_MATCHES);
   const featuredMatches = getUpcomingWorldCupMatches(normalizedMatches);
   // helper to build flag URL using WORLD_CUP_FLAG_CODES mapping
   function flagForTeam(name, size = '64x48'){
@@ -7492,11 +7493,17 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
     const awayDisplay = getPrimaryWorldCupTeam(match.away);
     const homeDetail = match.home_detail || getCompositeTeamDetail(match.home);
     const awayDetail = match.away_detail || getCompositeTeamDetail(match.away);
+    const liveClock = status === 'AO VIVO' && match.liveClock
+      ? `<div class="match-live-clock" aria-label="Tempo de jogo">${escapeHtml(match.liveClock)}${match.period ? ` - ${escapeHtml(String(match.period))}T` : ''}</div>`
+      : '';
 
     return `
       <div class="match-card worldcup-match-card">
         <div class="match-header">
-          <div class="match-status ${statusClass}">${status}</div>
+          <div>
+            <div class="match-status ${statusClass}">${status}</div>
+            ${liveClock}
+          </div>
           <div class="match-meta">
             <span>${formatWorldCupDate(match)}</span>
             <span>${formatWorldCupTime(match)}</span>
@@ -7563,8 +7570,9 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
             </div>
           </div>
         </td>
+        <td class="worldcup-table-score">${renderWorldCupScore(match)}</td>
         <td>${match.venue}</td>
-        <td><span class="match-status ${statusClass}">${status}</span>${match.statusDetail ? `<div class="worldcup-team-detail">${escapeHtml(match.statusDetail)}</div>` : ''}</td>
+        <td><span class="match-status ${statusClass}">${status}</span>${match.liveClock ? `<div class="worldcup-team-detail">Relógio: ${escapeHtml(match.liveClock)}</div>` : match.statusDetail ? `<div class="worldcup-team-detail">${escapeHtml(match.statusDetail)}</div>` : ''}</td>
       </tr>
     `;
   }).join('');
@@ -7630,21 +7638,11 @@ function startWorldCupLiveAutoRefresh(){
   });
 }
 
-function arrangeHomeContentHierarchy(){
-  const reportagens = document.getElementById('reportagens-home');
-  const worldCup = document.getElementById('worldcup');
-  const palpitometro = document.getElementById('palpitometro');
-  if(!reportagens || !worldCup || !palpitometro) return;
-
-  reportagens.before(worldCup);
-  worldCup.after(palpitometro);
-}
-
 const PENALTY_STORAGE_KEY = 'bemEsportivoPenaltyBest';
 const PENALTY_HISTORY_KEY = 'bemEsportivoPenaltyHistory';
 const PENALTY_PLAYER_KEY = 'bemEsportivoPenaltyPlayer';
 
-function initPenaltyGameLegacy(){
+function initPenaltyGame(){
   const game = document.getElementById('desafio-penaltis');
   if(!game) return;
 
@@ -7653,7 +7651,6 @@ function initPenaltyGameLegacy(){
   const ball = document.getElementById('penaltyBall');
   const keeper = document.getElementById('penaltyKeeper');
   const net = game.querySelector('.penalty-goal');
-  const threeCanvas = document.getElementById('penaltyThreeCanvas');
   const goalsEl = document.getElementById('penaltyGoals');
   const keeperScoreEl = document.getElementById('penaltyKeeperScore');
   const roundEl = document.getElementById('penaltyRound');
@@ -7681,12 +7678,8 @@ function initPenaltyGameLegacy(){
   let goals = 0;
   let attempts = 0;
   let locked = false;
-  let gameReady = false;
-  let threeGame = null;
-  let usingThree = false;
   let results = [];
-  let pointerStart = null;
-  let lastShareText = 'Eu estou jogando Tente fazer o gol no Bem Esportivo. Tente bater minha marca!';
+  let lastShareText = 'Eu estou jogando o Desafio dos Pênaltis no Bem Esportivo. Tente bater minha marca!';
 
   function getSavedBest(){
     try{
@@ -7757,7 +7750,7 @@ function initPenaltyGameLegacy(){
     const level = getLevel(score);
     const name = getPlayerName();
     const pageUrl = location.protocol === 'file:' ? 'https://bemesportivo.com/#desafio-penaltis' : `${location.origin}${location.pathname}#desafio-penaltis`;
-    return `${name} fez ${score}/5 no Tente fazer o gol do Bem Esportivo e ficou como ${level}. Jogue também: ${pageUrl}`;
+    return `${name} fez ${score}/5 no Desafio dos Pênaltis do Bem Esportivo e ficou como ${level}. Jogue também: ${pageUrl}`;
   }
 
   function getLevel(score){
@@ -7766,518 +7759,6 @@ function initPenaltyGameLegacy(){
     if(score === 3) return 'Bom jogador';
     if(score === 2) return 'Reserva';
     return 'Precisa treinar';
-  }
-
-  function makePenalty3D(THREE){
-    const renderer = new THREE.WebGLRenderer({
-      canvas:threeCanvas,
-      antialias:false,
-      alpha:true,
-      powerPreference:'high-performance'
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x07111f, 18, 44);
-
-    const camera = new THREE.PerspectiveCamera(44, 1, .1, 80);
-    camera.position.set(0, 5.8, 12.8);
-    camera.lookAt(0, 1.8, -7.5);
-
-    const hemi = new THREE.HemisphereLight(0xffffff, 0x123b18, 1.65);
-    scene.add(hemi);
-    const sun = new THREE.DirectionalLight(0xffffff, 2.1);
-    sun.position.set(-4, 9, 6);
-    scene.add(sun);
-
-    const field = new THREE.Mesh(
-      new THREE.PlaneGeometry(24, 30, 16, 16),
-      new THREE.MeshStandardMaterial({color:0x16853b, roughness:.9})
-    );
-    field.rotation.x = -Math.PI / 2;
-    field.position.z = -4;
-    scene.add(field);
-
-    const lineMaterial = new THREE.LineBasicMaterial({color:0xffffff, transparent:true, opacity:.55});
-    const linePoints = [
-      new THREE.Vector3(-7, .025, 2), new THREE.Vector3(7, .025, 2),
-      new THREE.Vector3(6.2, .025, -6), new THREE.Vector3(-6.2, .025, -6),
-      new THREE.Vector3(-7, .025, 2)
-    ];
-    scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(linePoints), lineMaterial));
-
-    const crowd = new THREE.Group();
-    const crowdGeo = new THREE.BoxGeometry(.16, .42, .16);
-    const crowdMats = [0xf7d14a,0x1fb65a,0x1f6feb,0xf5f7fa,0x111827].map(color => new THREE.MeshStandardMaterial({color, roughness:.75}));
-    for(let i=0;i<150;i++){
-      const person = new THREE.Mesh(crowdGeo, crowdMats[i % crowdMats.length]);
-      person.position.set((Math.random() - .5) * 18, 1.15 + Math.random() * 1.6, -14 - Math.random() * 5);
-      person.userData.phase = Math.random() * Math.PI * 2;
-      crowd.add(person);
-    }
-    scene.add(crowd);
-
-    const goal = new THREE.Group();
-    const postMat = new THREE.MeshStandardMaterial({color:0xf8fafc, roughness:.35});
-    const postGeo = new THREE.BoxGeometry(.11, 2.5, .11);
-    const barGeo = new THREE.BoxGeometry(5.8, .11, .11);
-    const leftPost = new THREE.Mesh(postGeo, postMat);
-    leftPost.position.set(-2.9, 1.25, -10.2);
-    const rightPost = leftPost.clone();
-    rightPost.position.x = 2.9;
-    const crossbar = new THREE.Mesh(barGeo, postMat);
-    crossbar.position.set(0, 2.5, -10.2);
-    goal.add(leftPost, rightPost, crossbar);
-
-    const netMat = new THREE.LineBasicMaterial({color:0xffffff, transparent:true, opacity:.36});
-    const netLines = new THREE.Group();
-    for(let x=-2.7;x<=2.75;x+=.54){
-      netLines.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(x, .1, -10.25), new THREE.Vector3(x, 2.45, -10.55)
-      ]), netMat));
-    }
-    for(let y=.35;y<=2.35;y+=.4){
-      netLines.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(-2.85, y, -10.35), new THREE.Vector3(2.85, y, -10.35)
-      ]), netMat));
-    }
-    goal.add(netLines);
-    scene.add(goal);
-
-    const keeper = new THREE.Group();
-    const keeperMat = new THREE.MeshStandardMaterial({color:0xfacc15, roughness:.55});
-    const darkMat = new THREE.MeshStandardMaterial({color:0x111827, roughness:.55});
-    const body = new THREE.Mesh(new THREE.BoxGeometry(.55, 1.05, .28), keeperMat);
-    body.position.y = 1.08;
-    const head = new THREE.Mesh(new THREE.SphereGeometry(.22, 12, 8), darkMat);
-    head.position.y = 1.78;
-    const armGeo = new THREE.BoxGeometry(.18, .82, .18);
-    const leftArm = new THREE.Mesh(armGeo, keeperMat);
-    leftArm.position.set(-.48, 1.18, 0);
-    leftArm.rotation.z = -.34;
-    const rightArm = leftArm.clone();
-    rightArm.position.x = .48;
-    rightArm.rotation.z = .34;
-    const legGeo = new THREE.BoxGeometry(.18, .78, .18);
-    const leftLeg = new THREE.Mesh(legGeo, darkMat);
-    leftLeg.position.set(-.2, .38, 0);
-    const rightLeg = leftLeg.clone();
-    rightLeg.position.x = .2;
-    keeper.add(body, head, leftArm, rightArm, leftLeg, rightLeg);
-    keeper.position.set(0, 0, -9.1);
-    scene.add(keeper);
-
-    const ball = new THREE.Mesh(
-      new THREE.SphereGeometry(.32, 24, 16),
-      new THREE.MeshStandardMaterial({color:0xf8fafc, roughness:.42})
-    );
-    ball.position.set(0, .34, 3.1);
-    scene.add(ball);
-
-    const curveMat = new THREE.LineBasicMaterial({color:0xffffff, transparent:true, opacity:.55});
-    const curveLine = new THREE.Line(new THREE.BufferGeometry(), curveMat);
-    scene.add(curveLine);
-
-    const clock = new THREE.Clock();
-    let frameId = 0;
-    let shot = null;
-    let netPulse = 0;
-
-    function resize(){
-      const rect = threeCanvas.getBoundingClientRect();
-      const width = Math.max(1, rect.width);
-      const height = Math.max(1, rect.height);
-      if(threeCanvas.width !== Math.round(width * renderer.getPixelRatio()) || threeCanvas.height !== Math.round(height * renderer.getPixelRatio())){
-        renderer.setSize(width, height, false);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-      }
-    }
-
-    function targetFor(direction, goal){
-      const map = {
-        left:new THREE.Vector3(goal ? -1.95 : -2.45, goal ? 1.55 : 1.72, -9.72),
-        right:new THREE.Vector3(goal ? 1.95 : 2.45, goal ? 1.55 : 1.72, -9.72),
-        up:new THREE.Vector3(0, goal ? 2.04 : 2.55, -9.78),
-        down:new THREE.Vector3(0, goal ? .72 : .96, -9.65)
-      };
-      return map[direction] || map.left;
-    }
-
-    function keeperTarget(direction, save){
-      const map = {
-        left:{x:-1.75,y:save ? .45 : .28,rz:.65},
-        right:{x:1.75,y:save ? .45 : .28,rz:-.65},
-        up:{x:0,y:save ? .85 : 1.05,rz:0},
-        down:{x:0,y:save ? -.18 : -.1,rz:Math.random() > .5 ? .35 : -.35}
-      };
-      return map[direction] || map.left;
-    }
-
-    function fire(direction, keeperDirection, isGoal){
-      const start = ball.position.clone();
-      const end = targetFor(direction, isGoal);
-      const mid = start.clone().lerp(end, .48);
-      mid.y += direction === 'up' ? 1.35 : direction === 'down' ? .18 : .78;
-      mid.x += direction === 'left' ? -.55 : direction === 'right' ? .55 : 0;
-      const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-      curveLine.geometry.dispose();
-      curveLine.geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(24));
-      curveLine.material.opacity = .6;
-      shot = {
-        curve,
-        time:0,
-        spin: direction === 'left' ? -.34 : direction === 'right' ? .34 : .18,
-        keeper:keeperTarget(keeperDirection, !isGoal),
-        isGoal
-      };
-      netPulse = 0;
-    }
-
-    function reset(){
-      shot = null;
-      netPulse = 0;
-      ball.position.set(0, .34, 3.1);
-      ball.scale.setScalar(1);
-      keeper.position.set(0, 0, -9.1);
-      keeper.rotation.set(0,0,0);
-      curveLine.material.opacity = 0;
-      netLines.scale.set(1,1,1);
-    }
-
-    function loop(){
-      frameId = requestAnimationFrame(loop);
-      const elapsed = clock.getElapsedTime();
-      const delta = Math.min(clock.getDelta(), .033);
-      crowd.children.forEach((person, index) => {
-        if(index % 3 === 0){
-          person.position.y += Math.sin(elapsed * 4 + person.userData.phase) * .0025;
-        }
-      });
-
-      if(shot){
-        shot.time = Math.min(1, shot.time + delta * 1.45);
-        const p = shot.curve.getPoint(shot.time);
-        ball.position.copy(p);
-        ball.rotation.x += .22;
-        ball.rotation.z += shot.spin;
-        ball.scale.setScalar(1 - shot.time * .35);
-        keeper.position.x += (shot.keeper.x - keeper.position.x) * .14;
-        keeper.position.y += (shot.keeper.y - keeper.position.y) * .12;
-        keeper.rotation.z += (shot.keeper.rz - keeper.rotation.z) * .12;
-        curveLine.material.opacity = Math.max(0, .55 - shot.time * .44);
-        if(shot.isGoal && shot.time > .76){
-          netPulse = Math.min(1, netPulse + delta * 4);
-          const pulse = Math.sin(netPulse * Math.PI) * .08;
-          netLines.scale.set(1 + pulse, 1 + pulse * .35, 1);
-        }
-      }else{
-        keeper.rotation.z *= .92;
-      }
-
-      resize();
-      renderer.render(scene, camera);
-    }
-
-    function start(){
-      resize();
-      clock.start();
-      if(!frameId) loop();
-    }
-
-    function dispose(){
-      if(frameId) cancelAnimationFrame(frameId);
-      renderer.dispose();
-    }
-
-    window.addEventListener('resize', resize);
-    return {start, fire, reset, dispose};
-  }
-
-  function makePenaltyCanvasGame(){
-    const ctx = threeCanvas.getContext('2d', { alpha:true });
-    let frameId = 0;
-    let shot = null;
-    let startedAt = performance.now();
-    let ballState = {x:0, y:0, scale:1};
-    let keeperState = {x:0, y:0, lean:0};
-    let netPulse = 0;
-    const crowd = Array.from({length:120}, (_, index) => ({
-      x:Math.random(),
-      y:Math.random(),
-      c:['#facc15','#16a34a','#2563eb','#f8fafc','#111827'][index % 5],
-      p:Math.random() * Math.PI * 2
-    }));
-
-    function resize(){
-      const rect = threeCanvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      const width = Math.max(1, Math.round(rect.width * dpr));
-      const height = Math.max(1, Math.round(rect.height * dpr));
-      if(threeCanvas.width !== width || threeCanvas.height !== height){
-        threeCanvas.width = width;
-        threeCanvas.height = height;
-      }
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    function metrics(){
-      const rect = threeCanvas.getBoundingClientRect();
-      const w = Math.max(1, rect.width);
-      const h = Math.max(1, rect.height);
-      return {
-        w,
-        h,
-        ballStart:{x:w * .5, y:h * .82},
-        goal:{x:w * .5, y:h * .36, width:w * .54, height:h * .24}
-      };
-    }
-
-    function targetFor(direction, isGoal, m){
-      const goal = m.goal;
-      const top = goal.y - goal.height * .42;
-      const bottom = goal.y + goal.height * .48;
-      const left = goal.x - goal.width * .42;
-      const right = goal.x + goal.width * .42;
-      const map = {
-        left:{x:isGoal ? left : left - 28, y:goal.y},
-        right:{x:isGoal ? right : right + 28, y:goal.y},
-        up:{x:goal.x, y:isGoal ? top + 26 : top - 18},
-        down:{x:goal.x, y:isGoal ? bottom - 10 : bottom + 8}
-      };
-      return map[direction] || map.left;
-    }
-
-    function keeperTarget(direction, save, m){
-      const g = m.goal;
-      const map = {
-        left:{x:g.x - g.width * .24, y:g.y + (save ? 6 : 18), lean:-.58},
-        right:{x:g.x + g.width * .24, y:g.y + (save ? 6 : 18), lean:.58},
-        up:{x:g.x, y:g.y - (save ? 42 : 62), lean:0},
-        down:{x:g.x, y:g.y + (save ? 46 : 58), lean:0}
-      };
-      return map[direction] || map.left;
-    }
-
-    function quadratic(a, b, c, t){
-      const mt = 1 - t;
-      return {
-        x:mt * mt * a.x + 2 * mt * t * b.x + t * t * c.x,
-        y:mt * mt * a.y + 2 * mt * t * b.y + t * t * c.y
-      };
-    }
-
-    function fire(direction, keeperDirection, isGoal){
-      const m = metrics();
-      const start = m.ballStart;
-      const end = targetFor(direction, isGoal, m);
-      const control = {
-        x:(start.x + end.x) / 2 + (direction === 'left' ? -80 : direction === 'right' ? 80 : 0),
-        y:(start.y + end.y) / 2 - (direction === 'up' ? 110 : direction === 'down' ? 24 : 70)
-      };
-      shot = {
-        t:0,
-        direction,
-        isGoal,
-        start,
-        control,
-        end,
-        keeper:keeperTarget(keeperDirection, !isGoal, m)
-      };
-      netPulse = 0;
-    }
-
-    function reset(){
-      const m = metrics();
-      shot = null;
-      netPulse = 0;
-      ballState = {x:m.ballStart.x, y:m.ballStart.y, scale:1};
-      keeperState = {x:m.goal.x, y:m.goal.y + 12, lean:0};
-    }
-
-    function drawField(m){
-      const grass = ctx.createLinearGradient(0, m.h * .18, 0, m.h);
-      grass.addColorStop(0, '#164923');
-      grass.addColorStop(.48, '#17863d');
-      grass.addColorStop(1, '#0f5f2b');
-      ctx.fillStyle = grass;
-      ctx.fillRect(0, 0, m.w, m.h);
-
-      ctx.fillStyle = 'rgba(3,8,16,.48)';
-      ctx.fillRect(0, 0, m.w, m.h * .26);
-      const now = (performance.now() - startedAt) / 1000;
-      crowd.forEach(person => {
-        const x = person.x * m.w;
-        const y = m.h * .04 + person.y * m.h * .22 + Math.sin(now * 5 + person.p) * 2;
-        ctx.fillStyle = person.c;
-        ctx.fillRect(x, y, 4, 7);
-      });
-
-      ctx.strokeStyle = 'rgba(255,255,255,.72)';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(m.w * .1, m.h * .86);
-      ctx.quadraticCurveTo(m.w * .5, m.h * .72, m.w * .9, m.h * .86);
-      ctx.stroke();
-      ctx.strokeRect(m.w * .18, m.h * .5, m.w * .64, m.h * .32);
-    }
-
-    function drawGoal(m){
-      const g = m.goal;
-      const pulse = Math.sin(netPulse * Math.PI) * 7;
-      ctx.strokeStyle = '#f8fafc';
-      ctx.lineWidth = 8;
-      ctx.strokeRect(g.x - g.width / 2, g.y - g.height / 2, g.width, g.height);
-      ctx.fillStyle = 'rgba(255,255,255,.08)';
-      ctx.fillRect(g.x - g.width / 2, g.y - g.height / 2, g.width, g.height);
-      ctx.strokeStyle = 'rgba(255,255,255,.34)';
-      ctx.lineWidth = 1;
-      for(let i=0;i<=8;i++){
-        const x = g.x - g.width / 2 + i * g.width / 8;
-        ctx.beginPath();
-        ctx.moveTo(x, g.y - g.height / 2);
-        ctx.lineTo(x + pulse, g.y + g.height / 2);
-        ctx.stroke();
-      }
-      for(let i=0;i<=5;i++){
-        const y = g.y - g.height / 2 + i * g.height / 5;
-        ctx.beginPath();
-        ctx.moveTo(g.x - g.width / 2, y);
-        ctx.lineTo(g.x + g.width / 2 + pulse, y);
-        ctx.stroke();
-      }
-    }
-
-    function drawKeeper(){
-      ctx.save();
-      ctx.translate(keeperState.x, keeperState.y);
-      ctx.rotate(keeperState.lean);
-      ctx.fillStyle = '#facc15';
-      ctx.fillRect(-20, -58, 40, 68);
-      ctx.fillStyle = '#111827';
-      ctx.beginPath();
-      ctx.arc(0, -76, 16, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = '#facc15';
-      ctx.lineWidth = 11;
-      ctx.beginPath();
-      ctx.moveTo(-20, -42); ctx.lineTo(-58, -18);
-      ctx.moveTo(20, -42); ctx.lineTo(58, -18);
-      ctx.stroke();
-      ctx.strokeStyle = '#111827';
-      ctx.beginPath();
-      ctx.moveTo(-10, 8); ctx.lineTo(-30, 54);
-      ctx.moveTo(10, 8); ctx.lineTo(30, 54);
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    function drawBall(){
-      ctx.save();
-      ctx.translate(ballState.x, ballState.y);
-      ctx.scale(ballState.scale, ballState.scale);
-      ctx.fillStyle = '#f8fafc';
-      ctx.beginPath();
-      ctx.arc(0, 0, 18, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#111827';
-      for(let i=0;i<5;i++){
-        const angle = i * Math.PI * .4;
-        ctx.beginPath();
-        ctx.arc(Math.cos(angle) * 8, Math.sin(angle) * 8, 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.restore();
-    }
-
-    function loop(){
-      frameId = requestAnimationFrame(loop);
-      resize();
-      const m = metrics();
-      if(!shot && (!ballState.x || !keeperState.x)) reset();
-      drawField(m);
-      drawGoal(m);
-
-      if(shot){
-        shot.t = Math.min(1, shot.t + .024);
-        const point = quadratic(shot.start, shot.control, shot.end, shot.t);
-        ballState.x = point.x;
-        ballState.y = point.y;
-        ballState.scale = 1 - shot.t * .38;
-        keeperState.x += (shot.keeper.x - keeperState.x) * .12;
-        keeperState.y += (shot.keeper.y - keeperState.y) * .12;
-        keeperState.lean += (shot.keeper.lean - keeperState.lean) * .11;
-        if(shot.isGoal && shot.t > .75){
-          netPulse = Math.min(1, netPulse + .08);
-        }
-
-        ctx.strokeStyle = 'rgba(255,255,255,.42)';
-        ctx.lineWidth = 5;
-        ctx.beginPath();
-        ctx.moveTo(shot.start.x, shot.start.y);
-        ctx.quadraticCurveTo(shot.control.x, shot.control.y, point.x, point.y);
-        ctx.stroke();
-      }else{
-        keeperState.lean *= .92;
-      }
-
-      drawKeeper();
-      drawBall();
-    }
-
-    function start(){
-      reset();
-      if(!frameId) loop();
-    }
-
-    function dispose(){
-      if(frameId) cancelAnimationFrame(frameId);
-      frameId = 0;
-    }
-
-    return {start, fire, reset, dispose};
-  }
-
-  async function loadPenalty3D(){
-    if(threeGame) return threeGame;
-    if(!threeCanvas) return null;
-
-    threeGame = makePenaltyCanvasGame();
-    usingThree = true;
-    game.classList.add('is-three-ready');
-    threeGame.start();
-
-    return threeGame;
-  }
-
-  function preloadPenaltyAssets(){
-    if(!game.classList.contains('is-css-fallback')){
-      return Promise.resolve();
-    }
-
-    const assets = [
-      'img/penalty-stadium-bg.png',
-      'img/penalty-goal-real.png',
-      'img/penalty-keeper-real.png',
-      'img/penalty-ball-real.png'
-    ];
-
-    return Promise.allSettled(assets.map(src => new Promise(resolve => {
-      const image = new Image();
-      image.onload = resolve;
-      image.onerror = resolve;
-      image.src = src;
-    })));
-  }
-
-  async function activatePenaltyGame(){
-    if(gameReady) return;
-    await loadPenalty3D();
-    await preloadPenaltyAssets();
-    gameReady = true;
-    game.classList.add('is-ready');
-    resultEl.textContent = 'Escolha o canto';
-    messageEl.textContent = 'Use as setas, toque em Chutar ou arraste no campo para direcionar a bola.';
   }
 
   function renderBest(){
@@ -8296,8 +7777,8 @@ function initPenaltyGameLegacy(){
         .slice(0, 5);
 
       rankingListEl.innerHTML = topScores.length
-        ? topScores.map((item, index) => `<li><span>${index + 1}</span><b>${escapeHtml(item.name || 'Jogador BE')}</b><small>${item.score} gol${item.score === 1 ? '' : 's'}</small></li>`).join('')
-        : '<li><span>1</span><b>--</b><small>--</small></li><li><span>2</span><b>--</b><small>--</small></li><li><span>3</span><b>--</b><small>--</small></li><li><span>4</span><b>--</b><small>--</small></li><li><span>5</span><b>--</b><small>--</small></li>';
+        ? topScores.map((item, index) => `<li>${index + 1}º<br>${escapeHtml(item.name || 'Jogador BE')}<br>${item.score}/5 - ${item.level}</li>`).join('')
+        : '<li>1º<br>--</li><li>2º<br>--</li><li>3º<br>--</li><li>4º<br>--</li><li>5º<br>--</li>';
     }
   }
 
@@ -8336,10 +7817,6 @@ function initPenaltyGameLegacy(){
   }
 
   function shoot(type){
-    if(!gameReady){
-      activatePenaltyGame();
-      return;
-    }
     if(locked || attempts >= 5) return;
     locked = true;
 
@@ -8348,19 +7825,13 @@ function initPenaltyGameLegacy(){
     const isGoal = !sameCorner;
     const shotLabel = type === 'power' ? 'chute forte' : 'chute colocado';
 
-    if(usingThree && threeGame){
-      threeGame.fire(selectedDirection, keeperDirection, isGoal);
-    }else{
-      ball.dataset.shot = `${isGoal ? 'goal' : 'save'}-${selectedDirection}`;
-    }
+    ball.dataset.shot = `${isGoal ? 'goal' : 'save'}-${selectedDirection}`;
     keeper.removeAttribute('data-dive');
     keeper.removeAttribute('data-miss');
-    if(!usingThree){
-      if(isGoal){
-        keeper.dataset.miss = keeperDirection;
-      }else{
-        keeper.dataset.dive = keeperDirection;
-      }
+    if(isGoal){
+      keeper.dataset.miss = keeperDirection;
+    }else{
+      keeper.dataset.dive = keeperDirection;
     }
     game.classList.add('is-shooting');
 
@@ -8404,13 +7875,9 @@ function initPenaltyGameLegacy(){
       }
 
       window.setTimeout(() => {
-        if(usingThree && threeGame){
-          threeGame.reset();
-        }else{
-          ball.removeAttribute('data-shot');
-          keeper.removeAttribute('data-dive');
-          keeper.removeAttribute('data-miss');
-        }
+        ball.removeAttribute('data-shot');
+        keeper.removeAttribute('data-dive');
+        keeper.removeAttribute('data-miss');
         game.classList.remove('is-shooting');
         if(net){
           net.classList.remove('is-shaking');
@@ -8428,15 +7895,12 @@ function initPenaltyGameLegacy(){
     ball.removeAttribute('data-shot');
     keeper.removeAttribute('data-dive');
     keeper.removeAttribute('data-miss');
-    if(threeGame){
-      threeGame.reset();
-    }
     game.classList.remove('is-shooting');
     if(net){
       net.classList.remove('is-shaking');
     }
     resultEl.textContent = 'Escolha o canto';
-    messageEl.textContent = 'Use as setas, toque em Chutar ou arraste no campo para direcionar a bola.';
+    messageEl.textContent = 'Use as setas do controle e depois aperte bolinha ou quadrado para bater.';
     updateScore();
     selectDirection('left');
     renderBest();
@@ -8498,12 +7962,24 @@ function initPenaltyGameLegacy(){
 
   async function shareResult(){
     const text = lastShareText || getShareText(goals);
-    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    if(navigator.share){
+      try{
+        await navigator.share({
+          title:'Desafio dos Pênaltis Bem Esportivo',
+          text,
+          url:location.protocol === 'file:' ? 'https://bemesportivo.com/#desafio-penaltis' : `${location.origin}${location.pathname}#desafio-penaltis`
+        });
+        return;
+      }catch(error){
+        if(error?.name === 'AbortError') return;
+      }
+    }
+
+    await copyShareText();
     if(shareBtn){
-      shareBtn.textContent = 'Abrindo WhatsApp';
+      shareBtn.textContent = 'Texto copiado';
       window.setTimeout(() => {
-        shareBtn.textContent = 'Compartilhar no WhatsApp';
+        shareBtn.textContent = 'Compartilhar';
       }, 1400);
     }
   }
@@ -8519,10 +7995,7 @@ function initPenaltyGameLegacy(){
   resetBtn.addEventListener('click', resetGame);
 
   if(landscapeBtn){
-    landscapeBtn.addEventListener('click', async () => {
-      await activatePenaltyGame();
-      requestLandscapeMode();
-    });
+    landscapeBtn.addEventListener('click', requestLandscapeMode);
   }
 
   if(shareBtn){
@@ -8548,33 +8021,6 @@ function initPenaltyGameLegacy(){
           localStorage.removeItem(PENALTY_PLAYER_KEY);
         }
       }catch(error){}
-    });
-  }
-
-  if(threeCanvas){
-    threeCanvas.addEventListener('pointerdown', event => {
-      pointerStart = {x:event.clientX, y:event.clientY};
-      threeCanvas.setPointerCapture?.(event.pointerId);
-    });
-
-    threeCanvas.addEventListener('pointerup', event => {
-      if(!pointerStart) return;
-      const dx = event.clientX - pointerStart.x;
-      const dy = event.clientY - pointerStart.y;
-      pointerStart = null;
-      const absX = Math.abs(dx);
-      const absY = Math.abs(dy);
-      if(Math.max(absX, absY) > 18){
-        const direction = absX > absY
-          ? (dx < 0 ? 'left' : 'right')
-          : (dy < 0 ? 'up' : 'down');
-        selectDirection(direction);
-      }
-      shoot('placed');
-    });
-
-    threeCanvas.addEventListener('pointercancel', () => {
-      pointerStart = null;
     });
   }
 
@@ -8610,714 +8056,56 @@ function initPenaltyGameLegacy(){
   });
 
   resetGame();
-  activatePenaltyGame();
 }
 
-function initPenaltyGame(){
-  const game = document.getElementById('desafio-penaltis');
-  if(!game) return;
+function arrangeHomeContentHierarchy(){
+  const reportagens = document.getElementById('reportagens-home');
+  const worldCup = document.getElementById('worldcup');
+  const palpitometro = document.getElementById('palpitometro');
+  const hero = document.querySelector('.hero');
+  if(!reportagens || !worldCup || !palpitometro || !hero) return;
 
-  const canvas = document.getElementById('penaltyThreeCanvas');
-  const controls = Array.from(game.querySelectorAll('.penalty-control'));
-  const shots = Array.from(game.querySelectorAll('.penalty-shot'));
-  const goalsEl = document.getElementById('penaltyGoals');
-  const keeperScoreEl = document.getElementById('penaltyKeeperScore');
-  const roundEl = document.getElementById('penaltyRound');
-  const keeperRoundsEl = document.getElementById('penaltyKeeperRounds');
-  const resultEl = document.getElementById('penaltyResult');
-  const messageEl = document.getElementById('penaltyMessage');
-  const roundsEl = document.getElementById('penaltyRounds');
-  const resetBtn = document.getElementById('penaltyReset');
-  const bestEl = document.getElementById('penaltyBest');
-  const rankingListEl = document.getElementById('penaltyRankingList');
-  const playerNameInput = document.getElementById('penaltyPlayerName');
-  const shareBtn = document.getElementById('penaltyShareBtn');
-  const copyBtn = document.getElementById('penaltyCopyBtn');
-  if(!canvas || !canvas.getContext){
-    if(resultEl) resultEl.textContent = 'Jogo indisponivel';
-    if(messageEl) messageEl.textContent = 'Seu navegador nao conseguiu abrir o campo do desafio.';
-    return;
-  }
-  const ctx = canvas.getContext('2d');
-  if(!ctx){
-    resultEl.textContent = 'Jogo indisponivel';
-    messageEl.textContent = 'Nao foi possivel iniciar o campo do desafio neste navegador.';
-    return;
-  }
+  hero.after(worldCup);
+  worldCup.after(palpitometro);
+  palpitometro.after(reportagens);
+}
 
-  const labels = {up:'alto', down:'baixo', left:'esquerda', right:'direita'};
-  let selectedDirection = 'left';
-  let goals = 0;
-  let attempts = 0;
-  let locked = false;
-  let results = [];
-  let pointerStart = null;
-  let shot = null;
-  let keeper = {x:0, y:0, lean:0};
-  let ball = {x:0, y:0, r:17};
-  let netPulse = 0;
-  let canvasZones = [];
-  let lastShareText = 'Eu estou jogando Tente fazer o gol no Bem Esportivo. Tente bater minha marca!';
+function setupMobileAppNavigation(){
+  const navLinks = Array.from(document.querySelectorAll('.mobile-app-nav a[href^="#"]'));
+  const sections = navLinks
+    .map(link => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
 
-  game.classList.add('is-ready','is-three-ready');
+  if(!navLinks.length || !sections.length) return;
 
-  function getPlayerName(){
-    const typed = playerNameInput?.value.trim();
-    if(typed){
-      localStorage.setItem(PENALTY_PLAYER_KEY, typed.slice(0,24));
-      return typed.slice(0,24);
-    }
-    return localStorage.getItem(PENALTY_PLAYER_KEY) || 'Jogador BE';
-  }
-
-  function getLevel(score){
-    if(score >= 5) return 'Craque';
-    if(score === 4) return 'Artilheiro';
-    if(score === 3) return 'Bom jogador';
-    if(score === 2) return 'Reserva';
-    return 'Precisa treinar';
-  }
-
-  function getHistory(){
-    try{
-      const data = JSON.parse(localStorage.getItem(PENALTY_HISTORY_KEY) || '[]');
-      return Array.isArray(data) ? data : [];
-    }catch(error){
-      return [];
-    }
-  }
-
-  function saveHistory(score){
-    const history = getHistory();
-    history.unshift({score, level:getLevel(score), name:getPlayerName(), date:new Date().toISOString()});
-    localStorage.setItem(PENALTY_HISTORY_KEY, JSON.stringify(history.slice(0,25)));
-    const best = Number(localStorage.getItem(PENALTY_STORAGE_KEY) || 0);
-    if(score > best) localStorage.setItem(PENALTY_STORAGE_KEY, String(score));
-  }
-
-  function metrics(){
-    const rect = canvas.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    const w = Math.max(320, rect.width || canvas.clientWidth || 640);
-    const h = Math.max(240, rect.height || canvas.clientHeight || 300);
-    const pw = Math.round(w * dpr);
-    const ph = Math.round(h * dpr);
-    if(canvas.width !== pw || canvas.height !== ph){
-      canvas.width = pw;
-      canvas.height = ph;
-    }
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    return {
-      w,h,
-      goal:{x:w*.56, y:h*.42, width:w*.52, height:h*.27},
-      ballStart:{x:w*.56, y:h*.70},
-      scale:Math.max(.72, Math.min(1.08, w / 900))
-    };
-  }
-
-  function resetScene(){
-    const m = metrics();
-    keeper = {x:m.goal.x, y:m.goal.y + m.goal.height*.27, lean:0};
-    ball = {x:m.ballStart.x, y:m.ballStart.y, r:Math.max(24, Math.min(42, m.w*.052))};
-    shot = null;
-    netPulse = 0;
-  }
-
-  function targetFor(direction, isGoal, m){
-    const g = m.goal;
-    const inside = {
-      left:{x:g.x - g.width*.34, y:g.y},
-      right:{x:g.x + g.width*.34, y:g.y},
-      up:{x:g.x, y:g.y - g.height*.30},
-      down:{x:g.x, y:g.y + g.height*.34}
-    };
-    const outside = {
-      left:{x:g.x - g.width*.52, y:g.y},
-      right:{x:g.x + g.width*.52, y:g.y},
-      up:{x:g.x, y:g.y - g.height*.58},
-      down:{x:g.x, y:g.y + g.height*.52}
-    };
-    return (isGoal ? inside : outside)[direction] || inside.left;
-  }
-
-  function keeperTarget(direction, save, m){
-    const g = m.goal;
-    const map = {
-      left:{x:g.x - g.width*.28, y:g.y + (save ? 0 : 22), lean:-.55},
-      right:{x:g.x + g.width*.28, y:g.y + (save ? 0 : 22), lean:.55},
-      up:{x:g.x, y:g.y - (save ? g.height*.23 : g.height*.36), lean:0},
-      down:{x:g.x, y:g.y + (save ? g.height*.34 : g.height*.44), lean:0}
-    };
-    return map[direction] || map.left;
-  }
-
-  function curvePoint(a,b,c,t){
-    const mt = 1 - t;
-    return {
-      x:mt*mt*a.x + 2*mt*t*b.x + t*t*c.x,
-      y:mt*mt*a.y + 2*mt*t*b.y + t*t*c.y
-    };
-  }
-
-  function roundRect(x,y,w,h,r){
-    const radius = Math.min(r, w/2, h/2);
-    ctx.beginPath();
-    ctx.moveTo(x+radius,y);
-    ctx.lineTo(x+w-radius,y);
-    ctx.quadraticCurveTo(x+w,y,x+w,y+radius);
-    ctx.lineTo(x+w,y+h-radius);
-    ctx.quadraticCurveTo(x+w,y+h,x+w-radius,y+h);
-    ctx.lineTo(x+radius,y+h);
-    ctx.quadraticCurveTo(x,y+h,x,y+h-radius);
-    ctx.lineTo(x,y+radius);
-    ctx.quadraticCurveTo(x,y,x+radius,y);
-    ctx.closePath();
-  }
-
-  function drawPanel(x,y,w,h,r){
-    ctx.save();
-    ctx.fillStyle = 'rgba(2,12,28,.82)';
-    ctx.strokeStyle = '#1fb6ff';
-    ctx.lineWidth = 2;
-    ctx.shadowColor = 'rgba(31,182,255,.45)';
-    ctx.shadowBlur = 12;
-    roundRect(x,y,w,h,r);
-    ctx.fill();
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  function drawArrow(x,y,angle,size){
-    ctx.save();
-    ctx.translate(x,y);
-    ctx.rotate(angle);
-    ctx.shadowColor = '#1f8cff';
-    ctx.shadowBlur = 12;
-    ctx.fillStyle = '#f8fbff';
-    ctx.strokeStyle = '#0b7cff';
-    ctx.lineWidth = Math.max(3, size*.12);
-    ctx.beginPath();
-    ctx.moveTo(0,-size*.52);
-    ctx.lineTo(size*.42,-size*.08);
-    ctx.lineTo(size*.16,-size*.08);
-    ctx.lineTo(size*.16,size*.48);
-    ctx.lineTo(-size*.16,size*.48);
-    ctx.lineTo(-size*.16,-size*.08);
-    ctx.lineTo(-size*.42,-size*.08);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  function inZone(zone,x,y){
-    return x >= zone.x && x <= zone.x + zone.w && y >= zone.y && y <= zone.y + zone.h;
-  }
-
-  function drawField(m){
-    const sky = ctx.createLinearGradient(0,0,0,m.h*.44);
-    sky.addColorStop(0,'#06122a');
-    sky.addColorStop(.55,'#0c1d3e');
-    sky.addColorStop(1,'#18345b');
-    ctx.fillStyle = sky;
-    ctx.fillRect(0,0,m.w,m.h*.44);
-
-    const grass = ctx.createLinearGradient(0,m.h*.38,0,m.h);
-    grass.addColorStop(0,'#26a84d');
-    grass.addColorStop(.45,'#18813b');
-    grass.addColorStop(1,'#0d5729');
-    ctx.fillStyle = grass;
-    ctx.fillRect(0,m.h*.38,m.w,m.h*.62);
-
-    ctx.fillStyle = 'rgba(255,255,255,.12)';
-    for(let i=0;i<6;i++){
-      ctx.fillRect(i*m.w/6,m.h*.38,m.w/12,m.h*.62);
-    }
-
-    ctx.fillStyle = 'rgba(255,255,255,.16)';
-    for(let i=0;i<150;i++){
-      const x = (i * 53) % m.w;
-      const y = m.h*.14 + ((i * 29) % Math.max(1,m.h*.22));
-      ctx.fillRect(x,y,2 + (i%3),2 + (i%4));
-    }
-
-    ctx.fillStyle = 'rgba(15,82,190,.88)';
-    ctx.fillRect(0,m.h*.42,m.w,m.h*.085);
-    ctx.fillStyle = 'rgba(255,255,255,.86)';
-    ctx.font = `${Math.round(28*m.scale)}px Arial Black, Arial`;
-    ctx.fillText('GOL!', m.w*.35, m.h*.48);
-    ctx.fillText('GOL!', m.w*.72, m.h*.48);
-
-    ctx.strokeStyle = 'rgba(255,255,255,.8)';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.ellipse(m.ballStart.x,m.ballStart.y + ball.r*.55,ball.r*1.65,ball.r*.52,0,0,Math.PI*2);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(m.w*.03,m.h*.94);
-    ctx.quadraticCurveTo(m.w*.56,m.h*.70,m.w*.97,m.h*.94);
-    ctx.stroke();
-  }
-
-  function drawGoal(m){
-    const g = m.goal;
-    const pulse = Math.sin(netPulse*Math.PI) * 6;
-    const left = g.x-g.width/2;
-    const right = g.x+g.width/2;
-    const top = g.y-g.height/2;
-    const bottom = g.y+g.height/2;
-    ctx.save();
-    ctx.fillStyle = 'rgba(255,255,255,.07)';
-    ctx.fillRect(left, top, g.width, g.height);
-    ctx.strokeStyle = 'rgba(255,255,255,.42)';
-    ctx.lineWidth = 1;
-    for(let i=0;i<=9;i++){
-      const x = left + i*g.width/9;
-      const wave = Math.sin(i*.9 + netPulse*Math.PI) * pulse;
-      ctx.beginPath();
-      ctx.moveTo(x,top);
-      ctx.quadraticCurveTo(x + wave, g.y, x, bottom);
-      ctx.stroke();
-    }
-    for(let i=0;i<=5;i++){
-      const y = top + i*g.height/5;
-      const wave = Math.sin(i*.8 + netPulse*Math.PI) * pulse;
-      ctx.beginPath();
-      ctx.moveTo(left,y);
-      ctx.quadraticCurveTo(g.x, y + wave, right, y);
-      ctx.stroke();
-    }
-    ctx.lineWidth = 8;
-    ctx.strokeStyle = '#fff';
-    ctx.shadowColor = 'rgba(255,255,255,.45)';
-    ctx.shadowBlur = 6;
-    ctx.strokeRect(left, top, g.width, g.height);
-    ctx.shadowBlur = 0;
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = 'rgba(255,255,255,.92)';
-    ctx.beginPath();
-    ctx.moveTo(left, bottom);
-    ctx.lineTo(right, bottom);
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  function drawSceneUi(m){
-    const s = m.scale;
-    canvasZones = [];
-    const panelW = Math.min(230*s, m.w*.32);
-    const panelH = Math.min(250*s, m.h*.66);
-    const x = 10*s;
-    const y = 8*s;
-
-    drawPanel(x,y,panelW,panelH,14*s);
-    ctx.fillStyle = '#fff';
-    ctx.font = `700 ${14*s}px Arial`;
-    ctx.fillText('TENTATIVAS', x+16*s, y+22*s);
-    for(let i=0;i<5;i++){
-      ctx.save();
-      ctx.translate(x + 24*s + i*24*s, y + 44*s);
-      ctx.fillStyle = i < attempts ? (results[i] === 'goal' ? '#39ff4f' : '#ff3b3b') : '#f8fafc';
-      ctx.beginPath();
-      ctx.arc(0,0,9*s,0,Math.PI*2);
-      ctx.fill();
-      ctx.fillStyle = '#111827';
-      ctx.beginPath();
-      ctx.arc(0,0,3*s,0,Math.PI*2);
-      ctx.fill();
-      ctx.restore();
-    }
-    ctx.strokeStyle = 'rgba(255,255,255,.18)';
-    ctx.beginPath();
-    ctx.moveTo(x+12*s,y+64*s);
-    ctx.lineTo(x+panelW-12*s,y+64*s);
-    ctx.stroke();
-    ctx.fillStyle = '#fff';
-    ctx.font = `700 ${13*s}px Arial`;
-    ctx.fillText('PONTOS', x+16*s, y+82*s);
-    ctx.fillStyle = '#ffe84a';
-    ctx.font = `900 ${26*s}px Arial Black, Arial`;
-    ctx.fillText(String(goals).padStart(4,'0'), x+16*s, y+108*s);
-
-    ctx.strokeStyle = 'rgba(255,255,255,.18)';
-    ctx.beginPath();
-    ctx.moveTo(x+12*s,y+124*s);
-    ctx.lineTo(x+panelW-12*s,y+124*s);
-    ctx.stroke();
-
-    ctx.fillStyle = '#eaf7ff';
-    ctx.font = `900 ${17*s}px Arial`;
-    ctx.textAlign = 'center';
-    ctx.fillText('CONTROLES', x+panelW/2, y+148*s);
-
-    const cx = x + panelW*.35;
-    const cy = y + 196*s;
-    const btn = 42*s;
-    const gap = 5*s;
-    const dirs = [
-      ['up', cx, cy-btn-gap, 0],
-      ['left', cx-btn-gap, cy, -Math.PI/2],
-      ['right', cx+btn+gap, cy, Math.PI/2],
-      ['down', cx, cy+btn+gap, Math.PI]
-    ];
-    dirs.forEach(([dir,bx,by,angle]) => {
-      const active = selectedDirection === dir;
-      ctx.save();
-      ctx.fillStyle = active ? 'rgba(25,118,255,.98)' : 'rgba(7,18,36,.92)';
-      ctx.strokeStyle = active ? '#9fe8ff' : '#3fb9ff';
-      ctx.lineWidth = 2;
-      ctx.shadowColor = 'rgba(31,182,255,.5)';
-      ctx.shadowBlur = 8*s;
-      roundRect(bx-btn/2,by-btn/2,btn,btn,8*s);
-      ctx.fill();
-      ctx.stroke();
-      ctx.restore();
-      drawArrow(bx,by,angle,22*s);
-      canvasZones.push({kind:'direction', value:dir, x:bx-btn/2, y:by-btn/2, w:btn, h:btn});
+  const setActive = id => {
+    navLinks.forEach(link => {
+      link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`);
     });
-    ctx.save();
-    ctx.fillStyle = 'rgba(0,0,0,.5)';
-    ctx.strokeStyle = 'rgba(255,255,255,.18)';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(cx,cy,22*s,0,Math.PI*2);
-    ctx.fill();
-    ctx.stroke();
-    ctx.restore();
+  };
 
-    const shotX = x + panelW*.68;
-    const placedY = y + 176*s;
-    const powerY = y + 222*s;
-    ctx.textAlign = 'left';
-    [
-      ['placed', placedY, '#ef2f2f', 'BOLINHA', 'Colocado'],
-      ['power', powerY, '#2563ff', 'QUADRADO', 'Forte']
-    ].forEach(([type, by, color, label, sub]) => {
-      ctx.save();
-      ctx.fillStyle = color;
-      ctx.strokeStyle = '#eaf7ff';
-      ctx.lineWidth = 3*s;
-      ctx.shadowColor = color;
-      ctx.shadowBlur = 10*s;
-      ctx.beginPath();
-      ctx.arc(shotX,by,18*s,0,Math.PI*2);
-      ctx.fill();
-      ctx.stroke();
-      if(type === 'power'){
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 3*s;
-        ctx.strokeRect(shotX-8*s,by-8*s,16*s,16*s);
-      }else{
-        ctx.fillStyle = '#fff';
-        ctx.beginPath();
-        ctx.arc(shotX,by,7*s,0,Math.PI*2);
-        ctx.fill();
+  setActive('topo');
+
+  if('IntersectionObserver' in window){
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if(visible?.target?.id){
+        setActive(visible.target.id);
       }
-      ctx.restore();
-      ctx.fillStyle = '#fff';
-      ctx.font = `900 ${11*s}px Arial`;
-      ctx.fillText(label, shotX+25*s, by-3*s);
-      ctx.font = `700 ${9*s}px Arial`;
-      ctx.fillText(sub, shotX+25*s, by+10*s);
-      canvasZones.push({kind:'shot', value:type, x:shotX-22*s, y:by-22*s, w:panelW-shotX+x, h:44*s});
+    }, { rootMargin:'-35% 0px -52% 0px', threshold:[0.12,0.35,0.6] });
+
+    sections.forEach(section => observer.observe(section));
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const menuNav = document.getElementById('nav');
+      if(menuNav) menuNav.classList.remove('active');
+      setActive(link.getAttribute('href').slice(1));
     });
-
-    ctx.save();
-    ctx.textAlign = 'center';
-    ctx.shadowColor = 'rgba(0,90,255,.85)';
-    ctx.shadowBlur = 14*s;
-    ctx.fillStyle = '#fff';
-    ctx.strokeStyle = '#0a1222';
-    ctx.lineWidth = 5*s;
-    const title = m.w < 520 ? 'PÊNALTI' : 'COBRANÇA DE PÊNALTI';
-    const titleSize = Math.max(22, Math.min(44*s, m.w/18));
-    ctx.font = `900 ${titleSize}px Arial Black, Arial`;
-    ctx.strokeText(title, m.w*.58, 52*s);
-    ctx.fillText(title, m.w*.58, 52*s);
-    ctx.restore();
-
-    ctx.save();
-    ctx.globalAlpha = .92;
-    drawArrow(m.goal.x, m.goal.y - m.goal.height*.43, 0, 34*s);
-    drawArrow(m.goal.x, m.goal.y + m.goal.height*.43, Math.PI, 34*s);
-    drawArrow(m.goal.x - m.goal.width*.28, m.goal.y, -Math.PI/2, 34*s);
-    drawArrow(m.goal.x + m.goal.width*.28, m.goal.y, Math.PI/2, 34*s);
-    ctx.restore();
-
-    const calloutW = Math.min(430*s, m.w*.72);
-    const calloutH = 50*s;
-    const calloutX = (m.w-calloutW)/2;
-    const calloutY = m.h - calloutH - 10*s;
-    drawPanel(calloutX,calloutY,calloutW,calloutH,14*s);
-    ctx.fillStyle = '#ffe84a';
-    ctx.font = `900 ${19*s}px Arial Black, Arial`;
-    ctx.textAlign = 'center';
-    ctx.fillText(attempts >= 5 ? 'DESAFIO CONCLUIDO!' : 'TENTE FAZER O GOL!', m.w/2, calloutY+22*s);
-    ctx.fillStyle = '#fff';
-    ctx.font = `700 ${14*s}px Arial`;
-    ctx.fillText('Use as setas, toque em Chutar ou arraste a bola', m.w/2, calloutY+40*s);
-    ctx.textAlign = 'left';
-  }
-
-  function drawKeeper(){
-    ctx.save();
-    ctx.translate(keeper.x, keeper.y);
-    ctx.rotate(keeper.lean);
-    ctx.fillStyle = '#facc15';
-    ctx.fillRect(-20,-58,40,68);
-    ctx.fillStyle = '#111827';
-    ctx.beginPath();
-    ctx.arc(0,-78,16,0,Math.PI*2);
-    ctx.fill();
-    ctx.strokeStyle = '#facc15';
-    ctx.lineWidth = 12;
-    ctx.beginPath();
-    ctx.moveTo(-18,-44); ctx.lineTo(-58,-18);
-    ctx.moveTo(18,-44); ctx.lineTo(58,-18);
-    ctx.stroke();
-    ctx.strokeStyle = '#111827';
-    ctx.beginPath();
-    ctx.moveTo(-9,8); ctx.lineTo(-28,52);
-    ctx.moveTo(9,8); ctx.lineTo(28,52);
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  function drawBall(){
-    ctx.save();
-    ctx.fillStyle = 'rgba(0,0,0,.34)';
-    ctx.beginPath();
-    ctx.ellipse(ball.x, ball.y + ball.r*.78, ball.r*1.2, ball.r*.32, 0, 0, Math.PI*2);
-    ctx.fill();
-    ctx.translate(ball.x, ball.y);
-    const shine = ctx.createRadialGradient(-ball.r*.35,-ball.r*.35,ball.r*.1,0,0,ball.r);
-    shine.addColorStop(0,'#ffffff');
-    shine.addColorStop(.58,'#f3f4f6');
-    shine.addColorStop(1,'#b8c0cc');
-    ctx.fillStyle = shine;
-    ctx.beginPath();
-    ctx.arc(0,0,ball.r,0,Math.PI*2);
-    ctx.fill();
-    ctx.strokeStyle = '#111827';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = '#111827';
-    ctx.beginPath();
-    ctx.arc(0,0,ball.r*.32,0,Math.PI*2);
-    ctx.fill();
-    for(let i=0;i<5;i++){
-      const a = i * Math.PI * .4;
-      ctx.beginPath();
-      ctx.arc(Math.cos(a)*ball.r*.62, Math.sin(a)*ball.r*.62, ball.r*.18,0,Math.PI*2);
-      ctx.fill();
-    }
-    ctx.strokeStyle = 'rgba(255,255,255,.85)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.arc(-ball.r*.32,-ball.r*.34,ball.r*.2,0,Math.PI*2);
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  function draw(){
-    const m = metrics();
-    drawField(m);
-    drawGoal(m);
-    if(shot){
-      shot.t = Math.min(1, shot.t + .03);
-      const p = curvePoint(shot.start, shot.control, shot.end, shot.t);
-      ball.x = p.x;
-      ball.y = p.y;
-      ball.r = shot.startR * (1 - shot.t*.35);
-      keeper.x += (shot.keeper.x - keeper.x) * .15;
-      keeper.y += (shot.keeper.y - keeper.y) * .15;
-      keeper.lean += (shot.keeper.lean - keeper.lean) * .12;
-      if(shot.isGoal && shot.t > .75) netPulse = Math.min(1, netPulse + .1);
-      ctx.strokeStyle = 'rgba(255,255,255,.42)';
-      ctx.lineWidth = 5;
-      ctx.beginPath();
-      ctx.moveTo(shot.start.x, shot.start.y);
-      ctx.quadraticCurveTo(shot.control.x, shot.control.y, p.x, p.y);
-      ctx.stroke();
-    }else{
-      keeper.lean *= .9;
-    }
-    drawKeeper();
-    drawBall();
-    drawSceneUi(m);
-    requestAnimationFrame(draw);
-  }
-
-  function renderRounds(){
-    roundsEl.innerHTML = Array.from({length:5}).map((_, i) => {
-      const cls = results[i] === 'goal' ? ' is-goal' : results[i] === 'save' ? ' is-save' : '';
-      return `<span class="penalty-round${cls}" aria-label="Cobrança ${i+1}"></span>`;
-    }).join('');
-  }
-
-  function renderBest(){
-    const history = getHistory();
-    const best = Number(localStorage.getItem(PENALTY_STORAGE_KEY) || 0);
-    bestEl.textContent = best ? `${best}/5 - ${getLevel(best)}` : 'Nenhum desafio concluído ainda';
-    const top = history.slice().sort((a,b) => b.score - a.score).slice(0,5);
-    rankingListEl.innerHTML = top.length
-      ? top.map((item,i) => `<li><span>${i+1}</span><b>${escapeHtml(item.name || 'Jogador BE')}</b><small>${item.score} gol${item.score === 1 ? '' : 's'}</small></li>`).join('')
-      : '<li><span>1</span><b>--</b><small>--</small></li><li><span>2</span><b>--</b><small>--</small></li><li><span>3</span><b>--</b><small>--</small></li>';
-  }
-
-  function updateScore(){
-    goalsEl.textContent = goals;
-    keeperScoreEl.textContent = attempts - goals;
-    roundEl.textContent = attempts >= 5 ? '5/5' : `${attempts + 1}/5`;
-    keeperRoundsEl.textContent = `${attempts}/5`;
-    renderRounds();
-  }
-
-  function selectDirection(direction){
-    selectedDirection = direction;
-    controls.forEach(btn => btn.classList.toggle('is-selected', btn.dataset.direction === direction));
-    if(!locked && attempts < 5){
-      resultEl.textContent = `Canto ${labels[direction]} escolhido`;
-      messageEl.textContent = 'Toque em Chutar ou arraste no campo para bater.';
-    }
-  }
-
-  function shoot(type='placed'){
-    if(locked || attempts >= 5) return;
-    locked = true;
-    const m = metrics();
-    const keeperDirection = ['up','down','left','right'][Math.floor(Math.random()*4)];
-    const isGoal = keeperDirection !== selectedDirection;
-    const end = targetFor(selectedDirection, isGoal, m);
-    const start = {...m.ballStart};
-    const control = {
-      x:(start.x + end.x)/2 + (selectedDirection === 'left' ? -70 : selectedDirection === 'right' ? 70 : 0),
-      y:(start.y + end.y)/2 - (selectedDirection === 'up' ? 95 : selectedDirection === 'down' ? 16 : 64)
-    };
-    shot = {t:0,start,control,end,isGoal,startR:ball.r,keeper:keeperTarget(keeperDirection,!isGoal,m)};
-    netPulse = 0;
-    window.setTimeout(() => {
-      attempts++;
-      if(isGoal){
-        goals++;
-        results.push('goal');
-        resultEl.textContent = 'GOL!';
-        messageEl.textContent = selectedDirection === 'down' && keeperDirection === 'up'
-          ? 'Bola rasteira: o goleiro subiu e ela passou por baixo.'
-          : `Você bateu ${labels[selectedDirection]} e venceu o goleiro.`;
-      }else{
-        results.push('save');
-        resultEl.textContent = 'Defendeu!';
-        messageEl.textContent = `O goleiro leu o canto ${labels[selectedDirection]}.`;
-      }
-      updateScore();
-      if(attempts >= 5){
-        saveHistory(goals);
-        renderBest();
-        lastShareText = `${getPlayerName()} fez ${goals}/5 no Tente fazer o gol do Bem Esportivo. Jogue também: ${location.origin}${location.pathname}#desafio-penaltis`;
-      }
-      window.setTimeout(() => {
-        shot = null;
-        locked = false;
-        resetScene();
-      }, 650);
-    }, 650);
-  }
-
-  function resetGame(){
-    goals = 0;
-    attempts = 0;
-    locked = false;
-    results = [];
-    resetScene();
-    selectDirection('left');
-    updateScore();
-    renderBest();
-    resultEl.textContent = 'Escolha o canto';
-    messageEl.textContent = 'Use as setas, toque em Chutar ou arraste no campo para direcionar a bola.';
-  }
-
-  function handleSwipe(endX,endY){
-    if(!pointerStart) return;
-    const dx = endX - pointerStart.x;
-    const dy = endY - pointerStart.y;
-    const rect = canvas.getBoundingClientRect();
-    const tapX = endX - rect.left;
-    const tapY = endY - rect.top;
-    pointerStart = null;
-    if(Math.max(Math.abs(dx), Math.abs(dy)) <= 12){
-      const zone = canvasZones.find(item => inZone(item,tapX,tapY));
-      if(zone?.kind === 'direction'){
-        selectDirection(zone.value);
-        return;
-      }
-      if(zone?.kind === 'shot'){
-        shoot(zone.value);
-        return;
-      }
-      shoot('placed');
-      return;
-    }
-    if(Math.max(Math.abs(dx), Math.abs(dy)) > 18){
-      selectDirection(Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? 'left' : 'right') : (dy < 0 ? 'up' : 'down'));
-    }
-    shoot('placed');
-  }
-
-  controls.forEach(btn => btn.addEventListener('click', () => selectDirection(btn.dataset.direction)));
-  shots.forEach(btn => btn.addEventListener('click', () => shoot(btn.dataset.shotType)));
-  resetBtn.addEventListener('click', resetGame);
-  canvas.addEventListener('pointerdown', e => {
-    pointerStart = {x:e.clientX, y:e.clientY};
-    canvas.setPointerCapture?.(e.pointerId);
   });
-  canvas.addEventListener('pointerup', e => handleSwipe(e.clientX,e.clientY));
-  canvas.addEventListener('pointercancel', () => { pointerStart = null; });
-
-  if(playerNameInput){
-    playerNameInput.value = localStorage.getItem(PENALTY_PLAYER_KEY) || '';
-    playerNameInput.addEventListener('change', () => {
-      const name = playerNameInput.value.trim().slice(0,24);
-      if(name) localStorage.setItem(PENALTY_PLAYER_KEY, name);
-    });
-  }
-
-  if(shareBtn){
-    shareBtn.addEventListener('click', () => {
-      window.open(`https://wa.me/?text=${encodeURIComponent(lastShareText)}`,'_blank','noopener,noreferrer');
-    });
-  }
-
-  if(copyBtn){
-    copyBtn.addEventListener('click', async () => {
-      try{
-        await navigator.clipboard.writeText(lastShareText);
-        copyBtn.textContent = 'Copiado';
-        window.setTimeout(() => copyBtn.textContent = 'Copiar', 1200);
-      }catch(error){}
-    });
-  }
-
-  window.addEventListener('keydown', e => {
-    if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)) return;
-    const map = {ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'};
-    if(map[e.key]){
-      e.preventDefault();
-      selectDirection(map[e.key]);
-    }
-    if(e.key.toLowerCase() === 'z' || e.key === ' ' || e.key === 'Enter'){
-      e.preventDefault();
-      shoot('placed');
-    }
-    if(e.key.toLowerCase() === 'x'){
-      e.preventDefault();
-      shoot('power');
-    }
-  });
-
-  resetGame();
-  draw();
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -9326,6 +8114,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupPalpiteUserForm();
   setupPalpiteExportButtons();
   renderPalpitometro();
+  setupMobileAppNavigation();
   startWorldCupLiveAutoRefresh();
 });
 
