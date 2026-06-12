@@ -2691,6 +2691,7 @@ grid-template-columns:150px 1fr 150px;
 gap:18px;
 align-items:end;
 padding:240px 24px 28px;
+touch-action:pan-y;
 }
 
 .penalty-field{
@@ -4285,6 +4286,204 @@ align-items:center;
 
   .penalty-rank-card{
     padding:14px;
+  }
+}
+
+@media (max-width: 768px) and (orientation: portrait){
+  .penalty-game-section{
+    margin-top:24px;
+    padding-left:8px;
+    padding-right:8px;
+  }
+
+  .penalty-game{
+    border-radius:10px;
+    background-position:center top;
+  }
+
+  .penalty-orientation-tip{
+    display:flex;
+    margin:8px 8px 0;
+    padding:9px 10px;
+    border-radius:8px;
+  }
+
+  .penalty-orientation-tip p{
+    font-size:12px;
+  }
+
+  .penalty-orientation-tip button{
+    min-height:38px;
+    padding:8px 10px;
+    font-size:12px;
+  }
+
+  .penalty-game-header{
+    padding:10px 10px 0;
+  }
+
+  .penalty-hud-title{
+    padding:6px 20px 7px;
+    font-size:11px;
+  }
+
+  .penalty-scoreboard{
+    grid-template-columns:minmax(0,1fr) 70px minmax(0,1fr);
+  }
+
+  .penalty-scorebox{
+    min-height:46px;
+    padding:7px 8px;
+  }
+
+  .penalty-scorebox span{
+    font-size:11px;
+  }
+
+  .penalty-score-main{
+    font-size:23px;
+  }
+
+  .penalty-arena{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:
+      "field field"
+      "status status"
+      "joy actions";
+    min-height:auto;
+    padding:0 10px 12px;
+    gap:9px;
+    align-items:start;
+  }
+
+  .penalty-arena::before{
+    content:"";
+    grid-area:field;
+    display:block;
+    min-height:clamp(310px, 58svh, 470px);
+    border-radius:8px;
+    background:linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.16));
+    pointer-events:none;
+  }
+
+  .penalty-goal{
+    top:clamp(138px, 31svh, 206px);
+    width:min(92%, 410px);
+    height:clamp(112px, 30svh, 170px);
+  }
+
+  .penalty-keeper{
+    top:clamp(218px, 46svh, 318px);
+    width:clamp(76px, 22vw, 104px);
+    height:clamp(102px, 28vw, 138px);
+  }
+
+  .penalty-ball{
+    bottom:clamp(244px, 42svh, 344px);
+    width:clamp(42px, 12vw, 52px);
+    height:clamp(42px, 12vw, 52px);
+  }
+
+  .penalty-status{
+    grid-area:status;
+    align-self:start;
+    margin-top:0;
+    padding:0;
+  }
+
+  .penalty-status h3{
+    min-height:42px;
+    margin-bottom:6px;
+    font-size:clamp(18px, 5.4vw, 23px);
+  }
+
+  .penalty-status p{
+    font-size:12px;
+    line-height:1.35;
+  }
+
+  .penalty-rounds{
+    margin-top:9px;
+  }
+
+  .penalty-round{
+    width:12px;
+    height:12px;
+  }
+
+  .penalty-reset{
+    margin-top:10px;
+    min-height:38px;
+    padding:8px 14px;
+  }
+
+  .penalty-joystick,
+  .penalty-actions{
+    align-self:stretch;
+    width:100%;
+    max-width:none;
+    min-width:0;
+    padding:9px;
+    border-radius:8px;
+  }
+
+  .penalty-pad{
+    grid-template-columns:42px 42px 42px;
+    grid-template-rows:42px 42px 42px;
+    gap:5px;
+    align-self:center;
+  }
+
+  .penalty-control{
+    min-height:42px;
+    font-size:22px;
+    touch-action:manipulation;
+  }
+
+  .penalty-actions{
+    gap:8px;
+  }
+
+  .penalty-shot{
+    min-height:54px;
+    height:auto;
+    padding:8px 8px 8px 52px;
+    text-align:left;
+    touch-action:manipulation;
+  }
+
+  .penalty-shot::before{
+    left:13px;
+    width:25px;
+    height:25px;
+    border-width:5px;
+  }
+
+  .penalty-rank{
+    grid-template-columns:1fr;
+    padding:0 10px 12px;
+  }
+
+  .penalty-ranking-list{
+    display:flex;
+    overflow-x:auto;
+    gap:8px;
+    padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .penalty-ranking-list li{
+    flex:0 0 118px;
+  }
+
+  .penalty-share{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .penalty-share button{
+    min-height:44px;
   }
 }
 
@@ -7872,6 +8071,61 @@ function initPenaltyGame(){
     }
   }
 
+  function directionFromPoint(clientX, clientY){
+    const arena = game.querySelector('.penalty-arena');
+    if(!arena) return selectedDirection;
+
+    const rect = arena.getBoundingClientRect();
+    const x = (clientX - rect.left) / rect.width;
+    const y = (clientY - rect.top) / rect.height;
+
+    if(y < 0.38) return 'up';
+    if(y > 0.72) return 'down';
+    if(x < 0.46) return 'left';
+    if(x > 0.54) return 'right';
+    return selectedDirection;
+  }
+
+  function setupArenaTouchControls(){
+    const arena = game.querySelector('.penalty-arena');
+    if(!arena) return;
+
+    let startPoint = null;
+
+    arena.addEventListener('pointerdown', event => {
+      if(locked || attempts >= 5) return;
+      const target = event.target;
+      if(target.closest?.('button, input, .penalty-joystick, .penalty-actions, .penalty-status')){
+        return;
+      }
+
+      startPoint = { x:event.clientX, y:event.clientY };
+      arena.setPointerCapture?.(event.pointerId);
+    });
+
+    arena.addEventListener('pointerup', event => {
+      if(!startPoint || locked || attempts >= 5) return;
+      const dx = event.clientX - startPoint.x;
+      const dy = event.clientY - startPoint.y;
+      const absX = Math.abs(dx);
+      const absY = Math.abs(dy);
+      let direction;
+
+      if(Math.max(absX, absY) > 22){
+        direction = absX > absY ? (dx < 0 ? 'left' : 'right') : (dy < 0 ? 'up' : 'down');
+      }else{
+        direction = directionFromPoint(event.clientX, event.clientY);
+      }
+
+      selectDirection(direction);
+      startPoint = null;
+    });
+
+    arena.addEventListener('pointercancel', () => {
+      startPoint = null;
+    });
+  }
+
   function updateScore(){
     goalsEl.textContent = goals;
     keeperScoreEl.textContent = attempts - goals;
@@ -8058,6 +8312,8 @@ function initPenaltyGame(){
   controls.forEach(control => {
     control.addEventListener('click', () => selectDirection(control.dataset.direction));
   });
+
+  setupArenaTouchControls();
 
   shots.forEach(button => {
     button.addEventListener('click', () => shoot(button.dataset.shotType));
