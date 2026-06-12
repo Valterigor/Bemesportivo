@@ -1,7 +1,8 @@
 (function(){
   const storageKeys = {
     poll: 'arenaBemPollVote',
-    quiz: 'arenaBemQuizAnswer'
+    quiz: 'arenaBemQuizAnswer',
+    comments: 'arenaBemLocalComments'
   };
 
   let liveState = {
@@ -66,9 +67,53 @@
       headers:{'Content-Type':'application/json'},
       ...options
     });
+    const contentType = response.headers.get('content-type') || '';
+    if(!contentType.includes('application/json')){
+      throw new Error('API da Arena indisponivel');
+    }
     const payload = await response.json();
     if(!response.ok) throw new Error(payload.error || 'Falha na Arena');
     return payload;
+  }
+
+  function getLocalComments(){
+    try{
+      const comments = JSON.parse(localStorage.getItem(storageKeys.comments) || '[]');
+      return Array.isArray(comments) ? comments : [];
+    }catch(error){
+      return [];
+    }
+  }
+
+  function saveLocalComments(comments){
+    localStorage.setItem(storageKeys.comments, JSON.stringify(comments.slice(0, 80)));
+  }
+
+  function applyLocalState(){
+    const comments = getLocalComments();
+    liveState = {
+      ...liveState,
+      comments,
+      totals: {
+        ...liveState.totals,
+        comments: comments.length
+      }
+    };
+    apiReady = false;
+    updateLiveCounters();
+    renderComments();
+  }
+
+  function addLocalComment(name, text){
+    const comments = getLocalComments();
+    comments.unshift({
+      id: `local-${Date.now()}`,
+      name: String(name || '').trim().slice(0, 40) || 'Visitante',
+      text: String(text || '').trim().slice(0, 500),
+      createdAt: new Date().toISOString()
+    });
+    saveLocalComments(comments);
+    applyLocalState();
   }
 
   function applyState(nextState){
@@ -242,8 +287,9 @@
         form.reset();
         setStatus('Ao vivo');
       }catch(error){
-        setStatus('Nao salvou', true);
-        alert(error.message || 'Nao foi possivel publicar agora.');
+        addLocalComment(name, text);
+        form.reset();
+        setStatus('Salvo neste aparelho', true);
       }finally{
         if(button) button.disabled = false;
       }
@@ -251,16 +297,14 @@
   }
 
   function setupLiveUpdates(){
-    fetch('/api/arena/state')
-      .then(response => response.ok ? response.json() : Promise.reject(new Error('offline')))
+    api('/api/arena/state')
       .then(state => {
         applyState(state);
         setStatus('Ao vivo');
       })
       .catch(() => {
-        apiReady = false;
+        applyLocalState();
         setStatus('Modo local', true);
-        updateLiveCounters();
       });
 
     if(!window.EventSource) return;
