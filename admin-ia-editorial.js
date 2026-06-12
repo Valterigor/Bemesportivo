@@ -90,10 +90,10 @@
           <span><strong>Origem:</strong> ${item.origin || 'ai_generated'} | <strong>Aprovado por:</strong> ${item.approved_by || 'pendente'}</span>
         </div>
         <div class="ai-actions">
-          <button class="admin-button" type="button" data-action="approve" data-id="${item.id}">Aprovar</button>
+          <button class="admin-button" type="button" data-action="publish" data-id="${item.id}">Publicar agora na Arena</button>
+          <button class="admin-button light" type="button" data-action="approve" data-id="${item.id}">Aprovar sem publicar</button>
           <button class="admin-button light" type="button" data-action="edit" data-id="${item.id}">Editar</button>
           <button class="admin-button danger" type="button" data-action="reject" data-id="${item.id}">Rejeitar</button>
-          <button class="admin-button secondary" type="button" data-action="publish" data-id="${item.id}">Publicar agora</button>
           <button class="admin-button light" type="button" data-action="schedule" data-id="${item.id}">Agendar</button>
         </div>
       </article>
