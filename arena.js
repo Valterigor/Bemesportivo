@@ -1,6 +1,6 @@
 (function(){
   const storageKeys = {
-    poll: 'arenaBemPollVote',
+    poll: 'arenaBemPollVoteBrasilMarrocosPlacar',
     quiz: 'arenaBemQuizAnswer'
   };
 

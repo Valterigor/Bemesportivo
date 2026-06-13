@@ -22,15 +22,17 @@ window.bemAiAgentSeed = {
   ],
   suggestions: [
     {
-      id: 'ai-poll-selecao-convocacao',
+      id: 'ai-poll-brasil-marrocos-placar',
       type: 'poll',
       title: 'Enquete do Dia',
       content: {
-        question: 'Voce concorda com a convocacao da Selecao Brasileira?',
+        question: 'O Brasil vai vencer o Marrocos? Qual será o placar?',
         options: [
-          { id: 'sim', label: 'Sim, a lista foi equilibrada', votes: 42 },
-          { id: 'parcial', label: 'Em parte, faltaram alguns nomes', votes: 36 },
-          { id: 'nao', label: 'Nao, eu mudaria bastante', votes: 22 }
+          { id: 'brasil-2-0', label: 'Brasil vence por 2 x 0', votes: 34 },
+          { id: 'brasil-2-1', label: 'Brasil vence por 2 x 1', votes: 39 },
+          { id: 'empate-1-1', label: 'Empate em 1 x 1', votes: 17 },
+          { id: 'marrocos-1-0', label: 'Marrocos vence por 1 x 0', votes: 10 },
+          { id: 'outros-placares', label: 'Outros placares', votes: 8 }
         ],
         category: 'Selecao Brasileira',
         sport: 'Futebol',
@@ -39,11 +41,11 @@ window.bemAiAgentSeed = {
       },
       metadata: {
         priority: 'alta',
-        reason: 'Convocacoes costumam gerar participacao ampla sem depender de informacao sensivel.',
-        moderation_note: 'Manter o debate sobre escolhas tecnicas, sem ataques pessoais.'
+        reason: 'Brasil x Marrocos e um tema direto para participacao rapida da torcida.',
+        moderation_note: 'Manter o debate no palpite esportivo, sem ataques pessoais.'
       },
       status: 'approved',
-      source_context: 'Tema editorial recorrente da cobertura de futebol e Selecao.',
+      source_context: 'Cobertura especial de Brasil x Marrocos na Arena.',
       created_at: '2026-06-12T08:00:00-03:00',
       updated_at: '2026-06-12T08:00:00-03:00',
       approved_by: 'Curadoria Bem Esportivo',

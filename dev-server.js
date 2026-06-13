@@ -43,11 +43,13 @@ const corsHeaders = {
 const fallbackArenaContent = {
   poll: {
     title: 'Enquete do Dia',
-    question: 'Quem chega mais forte para o próximo desafio?',
+    question: 'O Brasil vai vencer o Marrocos? Qual será o placar?',
     options: [
-      {id:'brasil', label:'Brasil', votes:58},
-      {id:'marrocos', label:'Marrocos', votes:24},
-      {id:'equilibrado', label:'Jogo equilibrado', votes:18}
+      {id:'brasil-2-0', label:'Brasil vence por 2 x 0', votes:34},
+      {id:'brasil-2-1', label:'Brasil vence por 2 x 1', votes:39},
+      {id:'empate-1-1', label:'Empate em 1 x 1', votes:17},
+      {id:'marrocos-1-0', label:'Marrocos vence por 1 x 0', votes:10},
+      {id:'outros-placares', label:'Outros placares', votes:8}
     ]
   },
   quiz: {

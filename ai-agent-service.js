@@ -248,9 +248,15 @@
     })[0] || null;
   }
 
+  function isCurrentMatchPoll(poll){
+    const question = String(poll?.content?.question || '').toLowerCase();
+    return question.includes('brasil') && question.includes('marrocos') && question.includes('placar');
+  }
+
   function toArenaData(){
     const fallback = window.arenaBemData || {};
-    const poll = latestApproved('poll');
+    const approvedPoll = latestApproved('poll');
+    const poll = isCurrentMatchPoll(approvedPoll) ? approvedPoll : null;
     const quiz = latestApproved('quiz');
     const topic = latestApproved('arena_topic');
     const question = quiz?.content?.questions?.[0];
