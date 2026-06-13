@@ -1,7 +1,7 @@
 window.arenaBemData = {
   poll: {
     title: 'Enquete do Dia',
-    question: 'Quem chega mais forte para o jogo de amanhã?',
+    question: 'Quem chega mais forte para o próximo desafio?',
     options: [
       { id: 'brasil', label: 'Brasil', votes: 58 },
       { id: 'marrocos', label: 'Marrocos', votes: 24 },
@@ -23,8 +23,8 @@ window.arenaBemData = {
   hotTopic: {
     title: 'Tema Quente da Arena',
     tag: 'Seleção Brasileira',
-    headline: 'Brasil x Marrocos: teste de força antes da sequência da Copa',
-    summary: 'A Arena abre a conversa do dia com palpites, opinião da torcida e leitura rápida do clima pré-jogo.',
+    headline: 'Seleção em debate: força, escolhas e momento em campo',
+    summary: 'A Arena abre a conversa do dia com palpites, opinião da torcida e uma leitura rápida do clima do futebol.',
     prompts: [
       'Quem deve ser o jogador decisivo?',
       'O Brasil precisa pressionar desde o início?',

@@ -238,6 +238,7 @@ button{
   background:#fff;
   color:#111;
   cursor:pointer;
+  transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
 }
 
 .arena-choice span,
@@ -254,6 +255,22 @@ button{
 
 .arena-choice.is-selected{
   border-color:var(--arena-orange);
+}
+
+.arena-choice:hover:not(:disabled),
+.arena-quiz-option:hover:not(:disabled){
+  border-color:var(--arena-orange);
+  box-shadow:0 8px 18px rgba(252,110,2,.12);
+  transform:translateY(-1px);
+}
+
+.arena-choice:focus-visible,
+.arena-quiz-option:focus-visible,
+.arena-bottom-nav a:focus-visible,
+.arena-bottom-nav button:focus-visible,
+.arena-more-menu a:focus-visible{
+  outline:3px solid rgba(252,110,2,.35);
+  outline-offset:2px;
 }
 
 .arena-choice:disabled,
@@ -277,6 +294,7 @@ button{
   cursor:pointer;
   font-weight:800;
   text-align:left;
+  transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
 }
 
 .arena-quiz-option.is-correct{
@@ -297,6 +315,21 @@ button{
 
 .arena-feedback.show{
   display:block;
+}
+
+.arena-form-feedback{
+  min-height:20px;
+  color:var(--arena-muted);
+  font-size:13px;
+  font-weight:800;
+}
+
+.arena-form-feedback.is-error{
+  color:#b42318;
+}
+
+.arena-form-feedback.is-success{
+  color:#128a43;
 }
 
 .arena-prompts{
@@ -321,6 +354,28 @@ button{
 .arena-comment-form{
   display:grid;
   gap:10px;
+}
+
+.arena-field{
+  display:grid;
+  gap:6px;
+}
+
+.arena-field span{
+  color:#242424;
+  font-size:13px;
+  font-weight:900;
+}
+
+.arena-character-count{
+  justify-self:end;
+  color:var(--arena-muted);
+  font-size:12px;
+  font-weight:800;
+}
+
+.arena-character-count.is-near-limit{
+  color:#b45309;
 }
 
 .arena-comment-form input,
@@ -358,6 +413,12 @@ button{
   color:#090909;
   cursor:pointer;
   font-weight:900;
+  transition:filter .18s ease, transform .18s ease;
+}
+
+.arena-comment-form button:hover:not(:disabled){
+  filter:brightness(1.04);
+  transform:translateY(-1px);
 }
 
 .arena-comment-form button:disabled{
@@ -405,18 +466,6 @@ button{
   color:var(--arena-muted);
   font-weight:800;
   text-align:center;
-}
-
-.arena-note{
-  margin:16px 0 0;
-  padding:16px;
-  border-radius:8px;
-  background:#111;
-  color:#fff;
-}
-
-.arena-note strong{
-  color:var(--arena-orange);
 }
 
 .arena-bottom-nav{
@@ -514,6 +563,11 @@ button{
 
   .arena-card.is-wide{
     grid-column:1 / -1;
+  }
+
+  .arena-community{
+    grid-template-columns:minmax(0, .9fr) minmax(280px, .8fr) minmax(300px, 1fr);
+    align-items:start;
   }
 
   .arena-bottom-nav,

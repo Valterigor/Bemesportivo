@@ -1,8 +1,7 @@
 (function(){
   const storageKeys = {
     poll: 'arenaBemPollVote',
-    quiz: 'arenaBemQuizAnswer',
-    comments: 'arenaBemLocalComments'
+    quiz: 'arenaBemQuizAnswer'
   };
 
   let liveState = {
@@ -12,8 +11,10 @@
     totals: {poll:0, quiz:0, comments:0}
   };
   let apiReady = false;
+  let arenaDataOverride = null;
 
   function getData(){
+    if(arenaDataOverride) return arenaDataOverride;
     if(window.BemAiAgent) return window.BemAiAgent.toArenaData();
     return window.arenaBemData;
   }
@@ -51,6 +52,14 @@
     status.classList.toggle('is-offline', Boolean(offline));
   }
 
+  function setCommentFeedback(text, type){
+    const feedback = document.getElementById('arenaCommentFeedback');
+    if(!feedback) return;
+    feedback.textContent = text || '';
+    feedback.classList.toggle('is-error', type === 'error');
+    feedback.classList.toggle('is-success', type === 'success');
+  }
+
   function updateLiveCounters(){
     const votes = document.getElementById('arenaLiveVotes');
     const answers = document.getElementById('arenaLiveAnswers');
@@ -69,51 +78,11 @@
     });
     const contentType = response.headers.get('content-type') || '';
     if(!contentType.includes('application/json')){
-      throw new Error('API da Arena indisponivel');
+      throw new Error('API da Arena indisponível');
     }
     const payload = await response.json();
     if(!response.ok) throw new Error(payload.error || 'Falha na Arena');
     return payload;
-  }
-
-  function getLocalComments(){
-    try{
-      const comments = JSON.parse(localStorage.getItem(storageKeys.comments) || '[]');
-      return Array.isArray(comments) ? comments : [];
-    }catch(error){
-      return [];
-    }
-  }
-
-  function saveLocalComments(comments){
-    localStorage.setItem(storageKeys.comments, JSON.stringify(comments.slice(0, 80)));
-  }
-
-  function applyLocalState(){
-    const comments = getLocalComments();
-    liveState = {
-      ...liveState,
-      comments,
-      totals: {
-        ...liveState.totals,
-        comments: comments.length
-      }
-    };
-    apiReady = false;
-    updateLiveCounters();
-    renderComments();
-  }
-
-  function addLocalComment(name, text){
-    const comments = getLocalComments();
-    comments.unshift({
-      id: `local-${Date.now()}`,
-      name: String(name || '').trim().slice(0, 40) || 'Visitante',
-      text: String(text || '').trim().slice(0, 500),
-      createdAt: new Date().toISOString()
-    });
-    saveLocalComments(comments);
-    applyLocalState();
   }
 
   function applyState(nextState){
@@ -130,16 +99,30 @@
     renderComments();
   }
 
+  function applyArenaContent(content){
+    if(!content?.poll || !content?.quiz || !content?.hotTopic) return;
+    arenaDataOverride = content;
+    renderPoll();
+    renderQuiz();
+    renderHotTopic();
+    updateLiveCounters();
+  }
+
+  function setupArenaContent(){
+    api('/api/arena/content')
+      .then(applyArenaContent)
+      .catch(() => {});
+  }
+
   function renderPoll(){
     const data = getData();
     const root = document.getElementById('arenaPoll');
     if(!root || !data?.poll) return;
 
-    const savedVote = localStorage.getItem(storageKeys.poll);
+    const savedVote = apiReady ? localStorage.getItem(storageKeys.poll) : '';
     const totalVotes = data.poll.options.reduce((sum, option) => {
       const remoteVotes = Number(liveState.pollVotes[option.id]) || 0;
-      const localFallback = !apiReady && savedVote === option.id ? 1 : 0;
-      return sum + option.votes + remoteVotes + localFallback;
+      return sum + option.votes + remoteVotes;
     }, 0);
 
     root.innerHTML = `
@@ -151,8 +134,7 @@
       <div class="arena-poll-options">
         ${data.poll.options.map(option => {
           const remoteVotes = Number(liveState.pollVotes[option.id]) || 0;
-          const localFallback = !apiReady && savedVote === option.id ? 1 : 0;
-          const votes = option.votes + remoteVotes + localFallback;
+          const votes = option.votes + remoteVotes;
           const percent = getPercent(votes, totalVotes);
           return `
             <button class="arena-choice ${savedVote === option.id ? 'is-selected' : ''}" data-poll-option="${escapeHtml(option.id)}" ${savedVote ? 'disabled' : ''}>
@@ -169,16 +151,19 @@
     root.querySelectorAll('[data-poll-option]').forEach(button => {
       button.addEventListener('click', async () => {
         const optionId = button.dataset.pollOption;
-        localStorage.setItem(storageKeys.poll, optionId);
-        renderPoll();
+        root.querySelectorAll('[data-poll-option]').forEach(item => { item.disabled = true; });
+        setStatus('Salvando voto...');
         try{
           applyState(await api('/api/arena/poll', {
             method:'POST',
             body:JSON.stringify({optionId})
           }));
+          localStorage.setItem(storageKeys.poll, optionId);
+          renderPoll();
           setStatus('Ao vivo');
         }catch(error){
-          setStatus('Modo local', true);
+          renderPoll();
+          setStatus('Servidor offline', true);
         }
       });
     });
@@ -189,7 +174,7 @@
     const root = document.getElementById('arenaQuiz');
     if(!root || !data?.quiz) return;
 
-    const savedAnswer = localStorage.getItem(storageKeys.quiz);
+    const savedAnswer = apiReady ? localStorage.getItem(storageKeys.quiz) : '';
     const hasAnswer = Boolean(savedAnswer);
     const correct = savedAnswer === data.quiz.correctOptionId;
 
@@ -215,16 +200,19 @@
     root.querySelectorAll('[data-quiz-option]').forEach(button => {
       button.addEventListener('click', async () => {
         const optionId = button.dataset.quizOption;
-        localStorage.setItem(storageKeys.quiz, optionId);
-        renderQuiz();
+        root.querySelectorAll('[data-quiz-option]').forEach(item => { item.disabled = true; });
+        setStatus('Salvando resposta...');
         try{
           applyState(await api('/api/arena/quiz', {
             method:'POST',
             body:JSON.stringify({optionId})
           }));
+          localStorage.setItem(storageKeys.quiz, optionId);
+          renderQuiz();
           setStatus('Ao vivo');
         }catch(error){
-          setStatus('Modo local', true);
+          renderQuiz();
+          setStatus('Servidor offline', true);
         }
       });
     });
@@ -270,26 +258,45 @@
     const form = document.getElementById('arenaCommentForm');
     if(!form) return;
 
+    const textEl = document.getElementById('arenaCommentText');
+    const counter = document.getElementById('arenaCommentCount');
+    const updateCounter = () => {
+      if(!textEl || !counter) return;
+      const current = textEl.value.length;
+      const max = Number(textEl.getAttribute('maxlength')) || 500;
+      counter.textContent = `${current}/${max}`;
+      counter.classList.toggle('is-near-limit', current >= max * .9);
+    };
+
+    textEl?.addEventListener('input', updateCounter);
+    updateCounter();
+
     form.addEventListener('submit', async event => {
       event.preventDefault();
       const button = form.querySelector('button');
       const name = document.getElementById('arenaCommentName')?.value || '';
-      const textEl = document.getElementById('arenaCommentText');
       const text = textEl?.value || '';
-      if(text.trim().length < 3) return;
+      if(text.trim().length < 3){
+        setCommentFeedback('Escreva pelo menos 3 caracteres antes de enviar.', 'error');
+        textEl?.focus();
+        return;
+      }
 
       if(button) button.disabled = true;
+      setCommentFeedback('Enviando comentário...', '');
       try{
         applyState(await api('/api/arena/comments', {
           method:'POST',
           body:JSON.stringify({name, text})
         }));
         form.reset();
+        updateCounter();
         setStatus('Ao vivo');
+        setCommentFeedback('Comentário publicado na Arena.', 'success');
       }catch(error){
-        addLocalComment(name, text);
-        form.reset();
-        setStatus('Salvo neste aparelho', true);
+        updateCounter();
+        setStatus('Servidor offline', true);
+        setCommentFeedback('Não foi possível salvar agora. Tente novamente em instantes.', 'error');
       }finally{
         if(button) button.disabled = false;
       }
@@ -303,8 +310,12 @@
         setStatus('Ao vivo');
       })
       .catch(() => {
-        applyLocalState();
-        setStatus('Modo local', true);
+        apiReady = false;
+        updateLiveCounters();
+        renderPoll();
+        renderQuiz();
+        renderComments();
+        setStatus('Servidor offline', true);
       });
 
     if(!window.EventSource) return;
@@ -314,7 +325,7 @@
       setStatus('Ao vivo');
     });
     source.addEventListener('error', () => {
-      if(!apiReady) setStatus('Modo local', true);
+      if(!apiReady) setStatus('Servidor offline', true);
     });
   }
 
@@ -327,6 +338,19 @@
       const open = menu.classList.toggle('show');
       toggle.setAttribute('aria-expanded', String(open));
     });
+
+    document.addEventListener('click', event => {
+      if(menu.contains(event.target) || toggle.contains(event.target)) return;
+      menu.classList.remove('show');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+
+    document.addEventListener('keydown', event => {
+      if(event.key !== 'Escape') return;
+      menu.classList.remove('show');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    });
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -334,6 +358,7 @@
     renderQuiz();
     renderHotTopic();
     renderComments();
+    setupArenaContent();
     setupCommentForm();
     setupMoreMenu();
     setupLiveUpdates();
