@@ -12,6 +12,15 @@
   };
   let apiReady = false;
   let arenaDataOverride = null;
+  let workingApiBase = '';
+
+  function apiBases(){
+    const bases = [''];
+    if(['localhost', '127.0.0.1'].includes(window.location.hostname) && window.location.port !== '3100'){
+      bases.push('http://127.0.0.1:3100');
+    }
+    return workingApiBase ? [workingApiBase, ...bases.filter(base => base !== workingApiBase)] : bases;
+  }
 
   function getData(){
     if(arenaDataOverride) return arenaDataOverride;
@@ -71,18 +80,32 @@
     if(comments) comments.textContent = liveState.totals?.comments || 0;
   }
 
-  async function api(path, options){
-    const response = await fetch(path, {
-      headers:{'Content-Type':'application/json'},
-      ...options
-    });
-    const contentType = response.headers.get('content-type') || '';
-    if(!contentType.includes('application/json')){
-      throw new Error('API da Arena indisponível');
+  async function api(path, options = {}){
+    let lastError;
+    for(const base of apiBases()){
+      try{
+        const fetchOptions = {
+          ...options,
+          headers: options.body ? {'Content-Type':'application/json', ...(options.headers || {})} : (options.headers || {})
+        };
+        const response = await fetch(`${base}${path}`, fetchOptions);
+        const contentType = response.headers.get('content-type') || '';
+        if(!contentType.includes('application/json')){
+          throw new Error('API da Arena indisponível');
+        }
+        const payload = await response.json();
+        if(!response.ok) throw new Error(payload.error || 'Falha na Arena');
+        workingApiBase = base;
+        return payload;
+      }catch(error){
+        lastError = error;
+      }
     }
-    const payload = await response.json();
-    if(!response.ok) throw new Error(payload.error || 'Falha na Arena');
-    return payload;
+    throw lastError || new Error('API da Arena indisponível');
+  }
+
+  function eventSourceUrl(path){
+    return `${workingApiBase || ''}${path}`;
   }
 
   function applyState(nextState){
@@ -319,7 +342,7 @@
       });
 
     if(!window.EventSource) return;
-    const source = new EventSource('/api/arena/events');
+    const source = new EventSource(eventSourceUrl('/api/arena/events'));
     source.addEventListener('arena-state', event => {
       applyState(JSON.parse(event.data));
       setStatus('Ao vivo');

@@ -33,6 +33,13 @@ const mimeTypes = {
   '.txt': 'text/plain; charset=utf-8'
 };
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin':'*',
+  'Access-Control-Allow-Methods':'GET,POST,OPTIONS',
+  'Access-Control-Allow-Headers':'Content-Type',
+  'Access-Control-Max-Age':'86400'
+};
+
 const fallbackArenaContent = {
   poll: {
     title: 'Enquete do Dia',
@@ -165,7 +172,8 @@ function sendJson(response, statusCode, payload){
   response.writeHead(statusCode, {
     'Content-Type':'application/json; charset=utf-8',
     'Cache-Control':'no-store',
-    'X-Content-Type-Options':'nosniff'
+    'X-Content-Type-Options':'nosniff',
+    ...corsHeaders
   });
   response.end(JSON.stringify(payload));
 }
@@ -173,7 +181,8 @@ function sendJson(response, statusCode, payload){
 function sendText(response, statusCode, text){
   response.writeHead(statusCode, {
     'Content-Type':'text/plain; charset=utf-8',
-    'X-Content-Type-Options':'nosniff'
+    'X-Content-Type-Options':'nosniff',
+    ...corsHeaders
   });
   response.end(text);
 }
@@ -285,7 +294,8 @@ async function handleArenaApi(request, response, pathname){
     response.writeHead(200, {
       'Content-Type':'text/event-stream; charset=utf-8',
       'Cache-Control':'no-cache, no-transform',
-      Connection:'keep-alive'
+      Connection:'keep-alive',
+      ...corsHeaders
     });
     response.write(`event: arena-state\ndata: ${JSON.stringify(arenaState())}\n\n`);
     arenaClients.add(response);
@@ -402,6 +412,12 @@ function resolveRequest(urlPath){
 const server = http.createServer(async (request, response) => {
   const parsedUrl = new URL(request.url || '/', `http://${request.headers.host || 'localhost'}`);
 
+  if(request.method === 'OPTIONS'){
+    response.writeHead(204, corsHeaders);
+    response.end();
+    return;
+  }
+
   if(parsedUrl.pathname.startsWith('/api/arena/')){
     const handled = await handleArenaApi(request, response, parsedUrl.pathname);
     if(handled) return;
@@ -417,7 +433,8 @@ const server = http.createServer(async (request, response) => {
   const ext = path.extname(filePath).toLowerCase();
   response.writeHead(200, {
     'Content-Type': mimeTypes[ext] || 'application/octet-stream',
-    'X-Content-Type-Options':'nosniff'
+    'X-Content-Type-Options':'nosniff',
+    ...corsHeaders
   });
   fs.createReadStream(filePath).pipe(response);
 });
