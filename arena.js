@@ -3,6 +3,22 @@
     poll: 'arenaBemPollVoteBrasilMarrocosPlacar',
     quiz: 'arenaBemQuizAnswer'
   };
+  const matchLiveConfig = {
+    scoreboardUrl: 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard',
+    summaryUrl: 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary',
+    refreshMs: 30000,
+    fallback: {
+      date: '2026-06-13',
+      time: '19:00',
+      home: 'Brasil',
+      away: 'Marrocos',
+      venue: 'New York New Jersey Stadium',
+      homeScore: null,
+      awayScore: null,
+      status: '',
+      statusDetail: ''
+    }
+  };
 
   let liveState = {
     pollVotes: {},
@@ -13,6 +29,7 @@
   let apiReady = false;
   let arenaDataOverride = null;
   let workingApiBase = '';
+  let matchLiveTimer = null;
 
   function apiBases(){
     const bases = [''];
@@ -43,6 +60,12 @@
     return Math.round((value / total) * 100);
   }
 
+  function cleanText(value){
+    return String(value || '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
   function formatTime(value){
     const date = new Date(value);
     if(Number.isNaN(date.getTime())) return 'agora';
@@ -52,6 +75,152 @@
       hour:'2-digit',
       minute:'2-digit'
     }).format(date);
+  }
+
+  function getDateInSaoPaulo(date){
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone:'America/Sao_Paulo',
+      year:'numeric',
+      month:'2-digit',
+      day:'2-digit'
+    }).format(date);
+  }
+
+  function getTimeInSaoPaulo(date){
+    return new Intl.DateTimeFormat('pt-BR', {
+      timeZone:'America/Sao_Paulo',
+      hour:'2-digit',
+      minute:'2-digit',
+      hour12:false
+    }).format(date);
+  }
+
+  function formatMatchDateTime(match){
+    const isoDate = match?.isoDate || `${match?.date || matchLiveConfig.fallback.date}T${match?.time || matchLiveConfig.fallback.time}:00-03:00`;
+    const date = new Date(isoDate);
+    if(Number.isNaN(date.getTime())) return '13/06 - 19:00';
+    const day = new Intl.DateTimeFormat('pt-BR', {
+      day:'2-digit',
+      month:'2-digit'
+    }).format(date);
+    return `${day} - ${getTimeInSaoPaulo(date)}`;
+  }
+
+  function getTeamKey(name){
+    return cleanText(name)
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  function translateTeamName(name){
+    const map = {
+      'Brazil':'Brasil',
+      'Morocco':'Marrocos'
+    };
+    return map[name] || name;
+  }
+
+  function buildScoreboardUrl(date){
+    const dateKey = getDateInSaoPaulo(date).replace(/-/g, '');
+    return `${matchLiveConfig.scoreboardUrl}?dates=${dateKey}&limit=100`;
+  }
+
+  function getMatchDateTime(match){
+    const isoDate = match?.isoDate || `${match?.date || matchLiveConfig.fallback.date}T${match?.time || matchLiveConfig.fallback.time}:00-03:00`;
+    const date = new Date(isoDate);
+    return Number.isNaN(date.getTime()) ? new Date(`${matchLiveConfig.fallback.date}T${matchLiveConfig.fallback.time}:00-03:00`) : date;
+  }
+
+  function getMatchStatus(match){
+    if(match?.status) return match.status;
+
+    const now = new Date();
+    const matchDate = getMatchDateTime(match);
+    const matchEnd = new Date(matchDate.getTime() + 130 * 60 * 1000);
+    if(now >= matchDate && now <= matchEnd) return 'AO VIVO';
+    if(getDateInSaoPaulo(now) === getDateInSaoPaulo(matchDate)){
+      return now < matchDate ? 'HOJE' : 'ENCERRADO';
+    }
+    return matchDate > now ? 'AGENDADO' : 'ENCERRADO';
+  }
+
+  async function fetchExternalJson(url){
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 6000);
+    try{
+      const response = await fetch(url, {signal:controller.signal, cache:'no-store'});
+      if(!response.ok) throw new Error(`HTTP ${response.status}`);
+      return await response.json();
+    }finally{
+      window.clearTimeout(timeoutId);
+    }
+  }
+
+  function normalizeEspnEvent(event){
+    const competition = event.competitions?.[0];
+    const competitors = competition?.competitors || [];
+    const home = competitors.find(item => item.homeAway === 'home') || competitors[0];
+    const away = competitors.find(item => item.homeAway === 'away') || competitors[1];
+    const eventDate = new Date(competition?.date || event.date);
+    const statusType = competition?.status?.type || event.status?.type || {};
+    const isLive = statusType.state === 'in';
+    const isCompleted = Boolean(statusType.completed) || statusType.state === 'post';
+    const hasOfficialScore = isLive || isCompleted;
+    const homeScore = hasOfficialScore && home?.score !== undefined && home?.score !== '' ? Number(home.score) : null;
+    const awayScore = hasOfficialScore && away?.score !== undefined && away?.score !== '' ? Number(away.score) : null;
+
+    return {
+      date:getDateInSaoPaulo(eventDate),
+      time:getTimeInSaoPaulo(eventDate),
+      isoDate:eventDate.toISOString(),
+      home:translateTeamName(home?.team?.displayName || home?.team?.shortDisplayName || ''),
+      away:translateTeamName(away?.team?.displayName || away?.team?.shortDisplayName || ''),
+      homeScore:Number.isFinite(homeScore) ? homeScore : null,
+      awayScore:Number.isFinite(awayScore) ? awayScore : null,
+      status:isCompleted ? 'ENCERRADO' : isLive ? 'AO VIVO' : '',
+      statusDetail:statusType.shortDetail || statusType.detail || '',
+      liveClock:isLive ? (competition?.status?.displayClock || event.status?.displayClock || '') : '',
+      period:isLive ? (competition?.status?.period || event.status?.period || '') : '',
+      venue:competition?.venue?.fullName || event.venue?.fullName || '',
+      espnEventId:event.id || competition?.id || ''
+    };
+  }
+
+  function findBrazilMoroccoMatch(matches){
+    return (Array.isArray(matches) ? matches : []).find(match => {
+      if(match.date !== matchLiveConfig.fallback.date) return false;
+      const teams = [getTeamKey(match.home), getTeamKey(match.away)];
+      return teams.includes('brasil') && teams.includes('marrocos');
+    });
+  }
+
+  function getBrazilMoroccoScore(match){
+    const sides = [
+      {key:getTeamKey(match?.home), score:match?.homeScore},
+      {key:getTeamKey(match?.away), score:match?.awayScore}
+    ];
+    return {
+      brazil:sides.find(side => side.key === 'brasil')?.score ?? null,
+      morocco:sides.find(side => side.key === 'marrocos')?.score ?? null
+    };
+  }
+
+  function extractMatchPlays(summary){
+    const rawPlays = [
+      ...(Array.isArray(summary?.commentary) ? summary.commentary : []),
+      ...(Array.isArray(summary?.plays) ? summary.plays : [])
+    ];
+
+    return rawPlays
+      .map(item => ({
+        minute: cleanText(item.displayTime || item.time?.displayValue || item.clock?.displayValue || item.clock || item.minute || 'Lance'),
+        text: cleanText(item.text || item.shortText || item.description || item.headline || item.type?.text || '')
+      }))
+      .filter(item => item.text)
+      .slice(0, 5);
   }
 
   function setStatus(text, offline){
@@ -241,6 +410,112 @@
     });
   }
 
+  function renderLiveMatch(match = matchLiveConfig.fallback, plays = [], sourceLabel = ''){
+    const root = document.getElementById('arenaLiveMatch');
+    if(!root) return;
+
+    const status = getMatchStatus(match);
+    const score = getBrazilMoroccoScore(match);
+    const hasScore = score.brazil != null && score.morocco != null;
+    const clock = match?.liveClock
+      ? `${match.liveClock}${match.period ? ` - ${String(match.period)}T` : ''}`
+      : formatMatchDateTime(match);
+    const statusClass = status === 'AO VIVO' ? 'is-live' : '';
+    const summary = status === 'AO VIVO'
+      ? 'Tempo real ligado: acompanhe o cronômetro, o placar e os principais lances de Brasil x Marrocos.'
+      : status === 'ENCERRADO'
+        ? 'Jogo encerrado: placar final e lances principais ficam registrados na Arena.'
+        : 'Pré-jogo: o placar, o tempo de jogo e os lances entram aqui assim que a transmissão liberar os dados.';
+    const fallbackPlay = status === 'AO VIVO'
+      ? 'Aguardando novos lances da transmissão.'
+      : status === 'ENCERRADO'
+        ? 'A partida foi encerrada. O resumo aparece quando a fonte disponibilizar os lances.'
+        : 'Os lances aparecem aqui quando a partida começar.';
+
+    root.innerHTML = `
+      <div class="arena-card-head">
+        <span>Placar ao vivo</span>
+        <strong>${escapeHtml(sourceLabel || 'Brasil x Marrocos')}</strong>
+      </div>
+      <div class="arena-match-board">
+        <div>
+          <div class="arena-match-top">
+            <span class="arena-match-status ${statusClass}">${escapeHtml(status)}</span>
+            <span class="arena-match-clock">${escapeHtml(clock)}</span>
+          </div>
+          <div class="arena-match-score" aria-label="Placar Brasil contra Marrocos">
+            <div class="arena-match-team">
+              <span>Seleção</span>
+              <strong>Brasil</strong>
+            </div>
+            <div class="arena-match-numbers">
+              <span>${hasScore ? escapeHtml(score.brazil) : '--'}</span>
+              <small>x</small>
+              <span>${hasScore ? escapeHtml(score.morocco) : '--'}</span>
+            </div>
+            <div class="arena-match-team">
+              <span>Adversário</span>
+              <strong>Marrocos</strong>
+            </div>
+          </div>
+          <p class="arena-match-summary">${escapeHtml(summary)}</p>
+        </div>
+        <ul class="arena-match-plays">
+          ${plays.length
+            ? plays.map(play => `<li><time>${escapeHtml(play.minute)}</time><span>${escapeHtml(play.text)}</span></li>`).join('')
+            : `<li><time>Info</time><span>${escapeHtml(fallbackPlay)}</span></li>`}
+        </ul>
+      </div>
+    `;
+  }
+
+  async function fetchLiveMatch(){
+    const scoreboardDates = [
+      new Date(`${matchLiveConfig.fallback.date}T12:00:00-03:00`),
+      new Date()
+    ];
+    const payloads = await Promise.allSettled(
+      scoreboardDates.map(date => fetchExternalJson(buildScoreboardUrl(date)))
+    );
+    const matches = payloads
+      .filter(result => result.status === 'fulfilled')
+      .flatMap(result => result.value?.events || [])
+      .map(normalizeEspnEvent)
+      .filter(match => match.home && match.away);
+
+    return findBrazilMoroccoMatch(matches) || matchLiveConfig.fallback;
+  }
+
+  async function fetchLiveMatchPlays(match){
+    if(!match?.espnEventId) return [];
+    const status = getMatchStatus(match);
+    if(status !== 'AO VIVO' && status !== 'ENCERRADO') return [];
+
+    const summary = await fetchExternalJson(`${matchLiveConfig.summaryUrl}?event=${encodeURIComponent(match.espnEventId)}`);
+    return extractMatchPlays(summary);
+  }
+
+  async function updateLiveMatch(){
+    const root = document.getElementById('arenaLiveMatch');
+    if(root && !root.innerHTML.trim()){
+      renderLiveMatch(matchLiveConfig.fallback, [], 'Carregando');
+    }
+    try{
+      const match = await fetchLiveMatch();
+      renderLiveMatch(match, [], 'ESPN ao vivo');
+      const plays = await fetchLiveMatchPlays(match);
+      renderLiveMatch(match, plays, 'ESPN ao vivo');
+    }catch(error){
+      renderLiveMatch(matchLiveConfig.fallback, [], 'Tempo real indisponível');
+    }
+  }
+
+  function setupLiveMatch(){
+    updateLiveMatch();
+    window.clearInterval(matchLiveTimer);
+    matchLiveTimer = window.setInterval(updateLiveMatch, matchLiveConfig.refreshMs);
+  }
+
   function renderHotTopic(){
     const data = getData();
     const root = document.getElementById('arenaHotTopic');
@@ -377,10 +652,12 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    renderLiveMatch();
     renderPoll();
     renderQuiz();
     renderHotTopic();
     renderComments();
+    setupLiveMatch();
     setupArenaContent();
     setupCommentForm();
     setupMoreMenu();
