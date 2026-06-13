@@ -253,6 +253,13 @@
     return question.includes('brasil') && question.includes('marrocos') && question.includes('placar');
   }
 
+  function withoutBaseVotes(options){
+    return (Array.isArray(options) ? options : []).map(option => ({
+      ...option,
+      votes: 0
+    }));
+  }
+
   function toArenaData(){
     const fallback = window.arenaBemData || {};
     const approvedPoll = latestApproved('poll');
@@ -265,7 +272,7 @@
       poll: poll ? {
         title: poll.title,
         question: poll.content.question,
-        options: poll.content.options || []
+        options: withoutBaseVotes(poll.content.options)
       } : fallback.poll,
       quiz: quiz && question ? {
         title: quiz.title,

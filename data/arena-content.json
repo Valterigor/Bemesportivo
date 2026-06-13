@@ -3,11 +3,11 @@
     "title": "Enquete do Dia",
     "question": "O Brasil vai vencer o Marrocos? Qual será o placar?",
     "options": [
-      { "id": "brasil-2-0", "label": "Brasil vence por 2 x 0", "votes": 34 },
-      { "id": "brasil-2-1", "label": "Brasil vence por 2 x 1", "votes": 39 },
-      { "id": "empate-1-1", "label": "Empate em 1 x 1", "votes": 17 },
-      { "id": "marrocos-1-0", "label": "Marrocos vence por 1 x 0", "votes": 10 },
-      { "id": "outros-placares", "label": "Outros placares", "votes": 8 }
+      { "id": "brasil-2-0", "label": "Brasil vence por 2 x 0", "votes": 0 },
+      { "id": "brasil-2-1", "label": "Brasil vence por 2 x 1", "votes": 0 },
+      { "id": "empate-1-1", "label": "Empate em 1 x 1", "votes": 0 },
+      { "id": "marrocos-1-0", "label": "Marrocos vence por 1 x 0", "votes": 0 },
+      { "id": "outros-placares", "label": "Outros placares", "votes": 0 }
     ]
   },
   "quiz": {
