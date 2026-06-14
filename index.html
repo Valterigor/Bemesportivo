@@ -5378,26 +5378,26 @@ color:var(--primary);
 
 <img
 src="img/destaque-brasil-marrocos.png"
-alt="Capa Brasil x Marrocos em clima de Copa do Mundo"
-title="Brasil x Marrocos - Destaque da Copa"
+alt="Capa Brasil x Haiti em clima de Copa do Mundo"
+title="Brasil x Haiti - Destaque da Copa"
 >
 
 <div class="destaque-texto">
 
 <span class="destaque-fonte">Central da Copa no Bem Esportivo</span>
 
-<h2>Brasil x Marrocos</h2>
+<h2>Brasil x Haiti</h2>
 
 <p id="brazilLiveSummary">
-Ao vivo amanhã: cronômetro, placar e lances principais direto da atualização da ESPN.
+Próximo jogo da Seleção na Copa: acompanhe data, horário, placar e lances principais.
 </p>
 
 <div class="destaque-live-panel" id="brazilLiveSpotlight" aria-live="polite">
 <div class="destaque-live-top">
 <span class="destaque-live-status" id="brazilLiveStatus">Pré-jogo</span>
-<span class="destaque-live-clock" id="brazilLiveClock">13/06 - 19:00</span>
+<span class="destaque-live-clock" id="brazilLiveClock">19/06 - 19:00</span>
 </div>
-<div class="destaque-live-score" aria-label="Placar Brasil contra Marrocos">
+<div class="destaque-live-score" aria-label="Placar Brasil contra Haiti">
 <div class="destaque-live-team">
 <span>Seleção Brasileira</span>
 <strong>Brasil</strong>
@@ -5409,7 +5409,7 @@ Ao vivo amanhã: cronômetro, placar e lances principais direto da atualização
 </div>
 <div class="destaque-live-team">
 <span>Adversário</span>
-<strong>Marrocos</strong>
+<strong>Haiti</strong>
 </div>
 </div>
 <ul class="destaque-live-plays" id="brazilLivePlays">
@@ -6389,10 +6389,10 @@ const WORLD_CUP_MATCHES = [
   {date:'2026-06-11',time:'23:00',group:'A',home:'Coreia do Sul',away:'Rep. Tcheca / Dinamarca / Macedônia do Norte / Irlanda',venue:'Estádio Guadalajara'},
   {date:'2026-06-12',time:'16:00',group:'B',home:'Canadá',away:'Bósnia e Herzegovina / Itália / Irlanda do Norte / País de Gales',venue:'Toronto Stadium'},
   {date:'2026-06-12',time:'22:00',group:'D',home:'Estados Unidos',away:'Paraguai',venue:'Los Angeles Stadium'},
-  {date:'2026-06-13',time:'13:00',group:'C',home:'Haiti',away:'Escócia',venue:'Boston Stadium'},
-  {date:'2026-06-13',time:'16:00',group:'D',home:'Austrália',away:'Kosovo / Romênia / Eslováquia / Turquia',venue:'BC Place Vancouver'},
-  {date:'2026-06-13',time:'19:00',group:'C',home:'Brasil',away:'Marrocos',venue:'New York New Jersey Stadium'},
-  {date:'2026-06-13',time:'22:00',group:'B',home:'Catar',away:'Suíça',venue:'San Francisco Bay Area Stadium'},
+  {date:'2026-06-13',time:'13:00',group:'C',home:'Haiti',away:'Escócia',venue:'Boston Stadium',homeScore:0,awayScore:1,status:'ENCERRADO'},
+  {date:'2026-06-13',time:'16:00',group:'D',home:'Austrália',away:'Turquia',venue:'BC Place Vancouver',homeScore:2,awayScore:0,status:'ENCERRADO'},
+  {date:'2026-06-13',time:'19:00',group:'C',home:'Brasil',away:'Marrocos',venue:'New York New Jersey Stadium',homeScore:1,awayScore:1,status:'ENCERRADO'},
+  {date:'2026-06-13',time:'22:00',group:'B',home:'Catar',away:'Suíça',venue:'San Francisco Bay Area Stadium',homeScore:1,awayScore:1,status:'ENCERRADO'},
   {date:'2026-06-14',time:'13:00',group:'E',home:'Costa do Marfim',away:'Equador',venue:'Philadelphia Stadium'},
   {date:'2026-06-14',time:'16:00',group:'E',home:'Alemanha',away:'Curaçao',venue:'Houston Stadium'},
   {date:'2026-06-14',time:'19:00',group:'F',home:'Países Baixos',away:'Japão',venue:'Dallas Stadium'},
@@ -6408,7 +6408,11 @@ const WORLD_CUP_MATCHES = [
   {date:'2026-06-17',time:'13:00',group:'L',home:'Gana',away:'Panamá',venue:'Toronto Stadium'},
   {date:'2026-06-17',time:'16:00',group:'L',home:'Inglaterra',away:'Croácia',venue:'Dallas Stadium'},
   {date:'2026-06-17',time:'19:00',group:'K',home:'Portugal',away:'Congo DR / Jamaica / Nova Caledônia',venue:'Houston Stadium'},
-  {date:'2026-06-17',time:'22:00',group:'K',home:'Uzbequistão',away:'Colômbia',venue:'Estádio Cidade do México'}
+  {date:'2026-06-17',time:'22:00',group:'K',home:'Uzbequistão',away:'Colômbia',venue:'Estádio Cidade do México'},
+  {date:'2026-06-19',time:'19:00',group:'C',home:'Brasil',away:'Haiti',venue:'Lincoln Financial Field'},
+  {date:'2026-06-19',time:'22:00',group:'C',home:'Escócia',away:'Marrocos',venue:'Boston Stadium'},
+  {date:'2026-06-24',time:'19:00',group:'C',home:'Brasil',away:'Escócia',venue:'Hard Rock Stadium'},
+  {date:'2026-06-24',time:'19:00',group:'C',home:'Haiti',away:'Marrocos',venue:'Mercedes-Benz Stadium'}
 ];
 
 const PALPITOMETRO_PLAYERS = [
@@ -7148,7 +7152,18 @@ function getWorldCupTeamKey(name){
     'brasil':'brasil',
     'brazil':'brasil',
     'marrocos':'marrocos',
-    'morocco':'marrocos'
+    'morocco':'marrocos',
+    'haiti':'haiti',
+    'escocia':'escocia',
+    'scotland':'escocia',
+    'catar':'catar',
+    'qatar':'catar',
+    'suica':'suica',
+    'switzerland':'suica',
+    'australia':'australia',
+    'turquia':'turquia',
+    'turkey':'turquia',
+    'turkiye':'turquia'
   };
 
   return aliases[primary] || primary;
@@ -7181,12 +7196,6 @@ function mergeWorldCupMatches(savedMatches, liveMatches){
     return live ? {...match,...live,group:match.group || live.group,venue:live.venue || match.venue} : match;
   });
 
-  liveMatches.forEach(live => {
-    if(!merged.some(match => isSameWorldCupMatch(match,live))){
-      merged.push(live);
-    }
-  });
-
   return dedupeWorldCupMatches(merged).sort((a,b) => getWorldCupDateTime(a) - getWorldCupDateTime(b));
 }
 
@@ -7205,7 +7214,7 @@ function getSavedWorldCupMatches(){
 
 function saveWorldCupMatches(matches){
   try{
-    const normalized = dedupeWorldCupMatches(Array.isArray(matches) ? matches : []);
+    const normalized = mergeWorldCupMatches(WORLD_CUP_MATCHES, Array.isArray(matches) ? matches : []);
     localStorage.setItem(WORLD_CUP_STORAGE_KEY, JSON.stringify(normalized));
     return true;
   }catch(error){
@@ -8247,33 +8256,33 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   });
 }
 
-function getBrazilMoroccoMatch(matches = latestWorldCupMatches || WORLD_CUP_MATCHES){
+function getBrazilSpotlightMatch(matches = latestWorldCupMatches || WORLD_CUP_MATCHES){
   return (Array.isArray(matches) ? matches : []).find(match => {
-    if(match.date !== '2026-06-13') return false;
+    if(match.date !== '2026-06-19') return false;
     const teams = [getWorldCupTeamKey(match.home), getWorldCupTeamKey(match.away)];
-    return teams.includes('brasil') && teams.includes('marrocos');
+    return teams.includes('brasil') && teams.includes('haiti');
   });
 }
 
-function getBrazilMoroccoScore(match){
+function getBrazilSpotlightScore(match){
   const sides = [
     { key:getWorldCupTeamKey(match?.home), score:match?.homeScore },
     { key:getWorldCupTeamKey(match?.away), score:match?.awayScore }
   ];
   const brazil = sides.find(side => side.key === 'brasil');
-  const morocco = sides.find(side => side.key === 'marrocos');
+  const opponent = sides.find(side => side.key === 'haiti');
 
   return {
     brazil:brazil?.score ?? null,
-    morocco:morocco?.score ?? null
+    opponent:opponent?.score ?? null
   };
 }
 
-function getBrazilMoroccoSummaryUrl(eventId){
+function getBrazilSpotlightSummaryUrl(eventId){
   return `${ESPN_WORLD_CUP_SUMMARY_URL}?event=${encodeURIComponent(eventId)}`;
 }
 
-function extractBrazilMoroccoPlays(summary){
+function extractBrazilSpotlightPlays(summary){
   const rawPlays = [
     ...(Array.isArray(summary?.commentary) ? summary.commentary : []),
     ...(Array.isArray(summary?.plays) ? summary.plays : [])
@@ -8292,35 +8301,35 @@ function extractBrazilMoroccoPlays(summary){
     .slice(0, 5);
 }
 
-async function fetchBrazilMoroccoLiveDetails(match){
+async function fetchBrazilSpotlightLiveDetails(match){
   if(!match?.espnEventId){
     return [];
   }
 
   try{
-    const summary = await fetchExternalJson(getBrazilMoroccoSummaryUrl(match.espnEventId));
-    return extractBrazilMoroccoPlays(summary);
+    const summary = await fetchExternalJson(getBrazilSpotlightSummaryUrl(match.espnEventId));
+    return extractBrazilSpotlightPlays(summary);
   }catch(error){
-    console.error('Erro ao carregar lances Brasil x Marrocos:', error);
+    console.error('Erro ao carregar lances Brasil x Haiti:', error);
     return [];
   }
 }
 
-function renderBrazilMoroccoSpotlight(match, plays = []){
+function renderBrazilSpotlight(match, plays = []){
   const statusEl = document.getElementById('brazilLiveStatus');
   const clockEl = document.getElementById('brazilLiveClock');
   const brazilScoreEl = document.getElementById('brazilLiveHomeScore');
-  const moroccoScoreEl = document.getElementById('brazilLiveAwayScore');
+  const opponentScoreEl = document.getElementById('brazilLiveAwayScore');
   const playsEl = document.getElementById('brazilLivePlays');
   const summaryEl = document.getElementById('brazilLiveSummary');
 
-  if(!statusEl || !clockEl || !brazilScoreEl || !moroccoScoreEl || !playsEl) return;
+  if(!statusEl || !clockEl || !brazilScoreEl || !opponentScoreEl || !playsEl) return;
 
-  const fallbackMatch = WORLD_CUP_MATCHES.find(item => item.date === '2026-06-13' && getWorldCupTeamKey(item.home) === 'brasil');
+  const fallbackMatch = WORLD_CUP_MATCHES.find(item => item.date === '2026-06-19' && getWorldCupTeamKey(item.home) === 'brasil');
   const currentMatch = match || fallbackMatch;
   const status = currentMatch ? getWorldCupStatus(currentMatch) : 'PRÉ-JOGO';
-  const score = getBrazilMoroccoScore(currentMatch);
-  const hasScore = score.brazil != null && score.morocco != null;
+  const score = getBrazilSpotlightScore(currentMatch);
+  const hasScore = score.brazil != null && score.opponent != null;
   const liveClock = currentMatch?.liveClock
     ? `${currentMatch.liveClock}${currentMatch.period ? ` - ${String(currentMatch.period)}T` : ''}`
     : currentMatch ? `${formatWorldCupDate(currentMatch)} - ${formatWorldCupTime(currentMatch)}` : '13/06 - 19:00';
@@ -8328,14 +8337,14 @@ function renderBrazilMoroccoSpotlight(match, plays = []){
   statusEl.textContent = status;
   clockEl.textContent = liveClock;
   brazilScoreEl.textContent = hasScore ? score.brazil : '--';
-  moroccoScoreEl.textContent = hasScore ? score.morocco : '--';
+  opponentScoreEl.textContent = hasScore ? score.opponent : '--';
 
   if(summaryEl){
     summaryEl.textContent = status === 'AO VIVO'
-      ? 'Tempo real ligado: acompanhe cronômetro, placar e lances principais de Brasil x Marrocos.'
+      ? 'Tempo real ligado: acompanhe cronômetro, placar e lances principais de Brasil x Haiti.'
       : status === 'ENCERRADO'
         ? 'Jogo encerrado: placar final e principais lances ficam registrados aqui.'
-        : 'Ao vivo amanhã: cronômetro, placar e lances principais direto da atualização da ESPN.';
+        : 'Próximo jogo da Seleção na Copa: Brasil x Haiti, dia 19/06, às 19:00.';
   }
 
   const fallbackText = status === 'AO VIVO'
@@ -8349,9 +8358,9 @@ function renderBrazilMoroccoSpotlight(match, plays = []){
     : `<li><time>Info</time><span>${fallbackText}</span></li>`;
 }
 
-async function updateBrazilMoroccoSpotlight(matches = latestWorldCupMatches || WORLD_CUP_MATCHES){
-  const match = getBrazilMoroccoMatch(matches);
-  renderBrazilMoroccoSpotlight(match);
+async function updateBrazilSpotlight(matches = latestWorldCupMatches || WORLD_CUP_MATCHES){
+  const match = getBrazilSpotlightMatch(matches);
+  renderBrazilSpotlight(match);
 
   if(!match?.espnEventId) return;
 
@@ -8360,8 +8369,8 @@ async function updateBrazilMoroccoSpotlight(matches = latestWorldCupMatches || W
     return;
   }
 
-  const plays = await fetchBrazilMoroccoLiveDetails(match);
-  renderBrazilMoroccoSpotlight(match, plays);
+  const plays = await fetchBrazilSpotlightLiveDetails(match);
+  renderBrazilSpotlight(match, plays);
 }
 
 async function loadWorldCupLive(options = {}){
@@ -8376,7 +8385,7 @@ async function loadWorldCupLive(options = {}){
 
   if(showLoading || !latestWorldCupMatches){
     renderWorldCupMatches(latestWorldCupMatches || WORLD_CUP_MATCHES, 'Buscando placares ao vivo');
-    updateBrazilMoroccoSpotlight(latestWorldCupMatches || WORLD_CUP_MATCHES);
+    updateBrazilSpotlight(latestWorldCupMatches || WORLD_CUP_MATCHES);
   }
 
   try{
@@ -8388,11 +8397,11 @@ async function loadWorldCupLive(options = {}){
     latestWorldCupMatches = mergeWorldCupMatches(latestWorldCupMatches || WORLD_CUP_MATCHES, espnMatches);
     saveWorldCupMatches(latestWorldCupMatches);
     renderWorldCupMatches(latestWorldCupMatches, 'ESPN ao vivo + tabela salva');
-    updateBrazilMoroccoSpotlight(latestWorldCupMatches);
+    updateBrazilSpotlight(latestWorldCupMatches);
   } catch(error){
     latestWorldCupMatches = latestWorldCupMatches || WORLD_CUP_MATCHES;
     renderWorldCupMatches(latestWorldCupMatches, 'Placar ao vivo indisponível; mantendo ultima tabela salva');
-    updateBrazilMoroccoSpotlight(latestWorldCupMatches);
+    updateBrazilSpotlight(latestWorldCupMatches);
     console.error('Erro ao carregar Copa do Mundo:', error);
   } finally{
     worldCupRefreshInFlight = false;
@@ -8909,9 +8918,25 @@ function arrangeHomeContentHierarchy(){
   const worldCup = document.getElementById('worldcup');
   const palpitometro = document.getElementById('palpitometro');
   const hero = document.querySelector('.hero');
-  if(!reportagens || !worldCup || !palpitometro || !hero) return;
+  const carousel = document.querySelector('.banner-carousel');
+  const quickActions = document.querySelector('.hub-quick-actions');
+  const homeArena = document.getElementById('homeAiArena');
+  if(!reportagens || !worldCup || !palpitometro || !hero || !carousel) return;
 
-  hero.after(worldCup);
+  let anchor = hero;
+  carousel.after(anchor);
+  if(quickActions){
+    anchor.after(quickActions);
+    anchor = quickActions;
+    if(homeArena){
+      anchor.after(homeArena);
+      anchor = homeArena;
+    }
+  }else if(homeArena){
+    anchor.after(homeArena);
+    anchor = homeArena;
+  }
+  anchor.after(worldCup);
   worldCup.after(palpitometro);
   palpitometro.after(reportagens);
 }
