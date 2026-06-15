@@ -702,6 +702,381 @@ color:#ffb071;
 white-space:nowrap;
 }
 
+.worldcup-story-wrap{
+display:grid;
+place-items:center;
+margin-top:22px;
+}
+
+.worldcup-story-card{
+position:relative;
+isolation:isolate;
+width:min(100%, 520px);
+aspect-ratio:9/16;
+min-height:760px;
+overflow:hidden;
+border:1px solid rgba(156,232,255,.42);
+border-radius:8px;
+background:#061015;
+color:#fff;
+box-shadow:0 28px 70px rgba(0,0,0,.36), inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+.worldcup-story-card::before,
+.worldcup-story-card::after{
+content:"";
+position:absolute;
+inset:0;
+z-index:-2;
+pointer-events:none;
+}
+
+.worldcup-story-card::before{
+background:
+linear-gradient(180deg,rgba(2,8,12,.42),rgba(2,8,12,.82) 50%,#020506 100%),
+radial-gradient(circle at 16% 12%,rgba(25,118,210,.72),transparent 23%),
+radial-gradient(circle at 84% 14%,rgba(255,211,47,.64),transparent 24%),
+radial-gradient(circle at 50% 34%,rgba(0,178,86,.36),transparent 28%),
+linear-gradient(180deg,#12364d,#07151a 42%,#030404);
+}
+
+.worldcup-story-card::after{
+top:auto;
+height:42%;
+background:
+repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 1px,transparent 1px 22px),
+radial-gradient(ellipse at center bottom,rgba(0,178,86,.56),transparent 66%);
+opacity:.35;
+transform:perspective(280px) rotateX(56deg);
+transform-origin:bottom;
+}
+
+.worldcup-story-lights{
+position:absolute;
+inset:0;
+z-index:-1;
+background:
+radial-gradient(ellipse at 50% 4%,rgba(255,255,255,.68),transparent 13%),
+linear-gradient(115deg,transparent 0 14%,rgba(255,255,255,.12) 14.4% 15%,transparent 15.4% 34%,rgba(39,231,255,.16) 34.4% 35%,transparent 35.4%),
+linear-gradient(90deg,rgba(0,102,204,.24),transparent 30%,transparent 70%,rgba(255,211,47,.22));
+mix-blend-mode:screen;
+}
+
+.worldcup-story-content{
+position:relative;
+z-index:1;
+display:grid;
+grid-template-rows:auto auto 1fr auto;
+gap:14px;
+height:100%;
+padding:24px 18px 20px;
+}
+
+.worldcup-story-top{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+font-size:10px;
+font-weight:900;
+letter-spacing:.08em;
+text-transform:uppercase;
+color:#dffcff;
+}
+
+.worldcup-story-top span,
+.worldcup-story-top time{
+padding:7px 9px;
+border:1px solid rgba(255,255,255,.16);
+border-radius:6px;
+background:rgba(0,0,0,.36);
+box-shadow:inset 0 0 14px rgba(36,246,255,.08);
+}
+
+.worldcup-story-title{
+display:grid;
+justify-items:center;
+gap:8px;
+text-align:center;
+}
+
+.worldcup-story-title h2{
+margin:0;
+font-size:clamp(34px, 8vw, 54px);
+line-height:.92;
+letter-spacing:0;
+text-transform:uppercase;
+text-shadow:0 0 18px rgba(0,178,86,.62),0 2px 0 rgba(0,0,0,.9);
+}
+
+.worldcup-story-title p{
+max-width:30em;
+margin:0;
+color:#e9fff4;
+font-size:12px;
+font-weight:800;
+line-height:1.35;
+}
+
+.worldcup-story-match{
+display:grid;
+grid-template-columns:1fr auto 1fr;
+align-items:center;
+gap:10px;
+min-height:132px;
+}
+
+.worldcup-story-team{
+display:grid;
+justify-items:center;
+gap:9px;
+min-width:0;
+padding:12px 8px;
+border:1px solid rgba(255,255,255,.14);
+background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.035));
+clip-path:polygon(0 0,92% 0,100% 50%,92% 100%,0 100%);
+}
+
+.worldcup-story-team.is-away{
+clip-path:polygon(8% 0,100% 0,100% 100%,8% 100%,0 50%);
+}
+
+.worldcup-story-flag{
+width:78px;
+height:56px;
+overflow:hidden;
+border:1px solid rgba(255,255,255,.7);
+border-radius:6px;
+background:rgba(255,255,255,.16);
+box-shadow:0 0 20px rgba(39,231,255,.28);
+}
+
+.worldcup-story-flag img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+.worldcup-story-team strong{
+max-width:100%;
+overflow:hidden;
+font-size:18px;
+font-weight:900;
+line-height:1;
+text-transform:uppercase;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.worldcup-story-versus{
+display:grid;
+place-items:center;
+width:62px;
+height:62px;
+border:1px solid rgba(255,255,255,.18);
+border-radius:50%;
+background:radial-gradient(circle,rgba(255,211,47,.9),rgba(0,178,86,.42) 62%,rgba(0,0,0,.58));
+color:#04120a;
+font-size:20px;
+font-weight:900;
+box-shadow:0 0 26px rgba(255,211,47,.34);
+}
+
+.worldcup-story-controls{
+display:grid;
+gap:10px;
+align-content:start;
+}
+
+.story-control-panel{
+display:grid;
+gap:8px;
+padding:10px;
+border:1px solid rgba(255,255,255,.14);
+border-radius:8px;
+background:rgba(0,0,0,.46);
+backdrop-filter:blur(10px);
+box-shadow:inset 0 0 18px rgba(36,246,255,.08);
+}
+
+.story-control-panel label,
+.story-panel-title{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:8px;
+color:#dffcff;
+font-size:10px;
+font-weight:900;
+letter-spacing:.06em;
+line-height:1.2;
+text-transform:uppercase;
+}
+
+.story-segmented{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:6px;
+}
+
+.story-segmented button,
+.story-craque-grid button,
+.story-poll-grid button{
+min-height:36px;
+padding:7px 6px;
+border:1px solid rgba(255,255,255,.18);
+border-radius:6px;
+background:rgba(255,255,255,.08);
+color:#fff;
+cursor:pointer;
+font-size:11px;
+font-weight:900;
+line-height:1.05;
+text-transform:uppercase;
+transition:background .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.story-segmented button.is-selected,
+.story-craque-grid button.is-selected,
+.story-poll-grid button.is-selected{
+border-color:#ffd32f;
+background:linear-gradient(135deg,rgba(0,178,86,.7),rgba(25,118,210,.56));
+box-shadow:0 0 18px rgba(255,211,47,.26);
+}
+
+.story-score-row{
+display:grid;
+grid-template-columns:1fr auto 1fr;
+align-items:end;
+gap:8px;
+}
+
+.story-score-box{
+display:grid;
+gap:4px;
+}
+
+.story-score-box span{
+color:#c9fff0;
+font-size:9px;
+font-weight:900;
+text-transform:uppercase;
+}
+
+.story-score-box input{
+width:100%;
+min-height:42px;
+border:1px solid rgba(255,255,255,.18);
+border-radius:6px;
+background:rgba(255,255,255,.95);
+color:#04120a;
+font-size:24px;
+font-weight:900;
+text-align:center;
+}
+
+.story-score-divider{
+padding-bottom:8px;
+color:#ffd32f;
+font-size:22px;
+font-weight:900;
+}
+
+.story-craque-grid,
+.story-poll-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:6px;
+}
+
+.story-confidence-row{
+display:grid;
+grid-template-columns:1fr auto;
+align-items:center;
+gap:10px;
+}
+
+.story-confidence-row input{
+width:100%;
+accent-color:#00b256;
+}
+
+.story-confidence-row output{
+min-width:48px;
+color:#ffd32f;
+font-size:20px;
+font-weight:900;
+text-align:right;
+}
+
+.story-save-btn{
+min-height:42px;
+border:1px solid rgba(255,211,47,.52);
+border-radius:8px;
+background:linear-gradient(135deg,#ffd32f,#00b256 56%,#1976d2);
+color:#03120a;
+cursor:pointer;
+font-size:12px;
+font-weight:900;
+letter-spacing:.06em;
+text-transform:uppercase;
+box-shadow:0 0 22px rgba(255,211,47,.24), inset 0 0 0 1px rgba(255,255,255,.22);
+}
+
+.story-save-btn:active{
+transform:translateY(1px);
+}
+
+.story-results{
+display:grid;
+gap:5px;
+padding:10px;
+border:1px solid rgba(255,255,255,.14);
+border-radius:8px;
+background:rgba(1,8,12,.68);
+color:#e9fff4;
+font-size:10px;
+font-weight:800;
+line-height:1.25;
+}
+
+.story-results strong{
+color:#ffd32f;
+font-size:11px;
+letter-spacing:.06em;
+text-transform:uppercase;
+}
+
+.story-results span{
+display:block;
+}
+
+.story-shareline{
+display:grid;
+gap:8px;
+padding:11px;
+border:1px solid rgba(255,211,47,.28);
+border-radius:8px;
+background:linear-gradient(135deg,rgba(0,178,86,.42),rgba(25,118,210,.34));
+font-weight:900;
+line-height:1.25;
+text-align:center;
+text-transform:uppercase;
+box-shadow:0 0 24px rgba(0,178,86,.22);
+}
+
+.story-shareline strong{
+color:#fff;
+font-size:13px;
+}
+
+.story-shareline span{
+color:#dffcff;
+font-size:10px;
+letter-spacing:.05em;
+}
+
 /* =========================
 BOTÕES
 ========================= */
@@ -4365,6 +4740,57 @@ min-width:160px;
     text-align:center;
   }
 
+  .worldcup-story-card{
+    width:100%;
+    min-height:auto;
+  }
+
+  .worldcup-story-content{
+    padding:18px 12px 16px;
+    gap:10px;
+  }
+
+  .worldcup-story-title h2{
+    font-size:34px;
+  }
+
+  .worldcup-story-match{
+    min-height:108px;
+    gap:7px;
+  }
+
+  .worldcup-story-flag{
+    width:60px;
+    height:42px;
+  }
+
+  .worldcup-story-team strong{
+    font-size:14px;
+  }
+
+  .worldcup-story-versus{
+    width:48px;
+    height:48px;
+    font-size:16px;
+  }
+
+  .story-control-panel{
+    padding:8px;
+    gap:6px;
+  }
+
+  .story-segmented button,
+  .story-craque-grid button,
+  .story-poll-grid button{
+    min-height:32px;
+    font-size:10px;
+  }
+
+  .story-score-box input{
+    min-height:36px;
+    font-size:20px;
+  }
+
   .worldcup-flag{ width:48px; height:36px; }
   .palpite-team .worldcup-flag{ width:48px; height:36px; }
   .palpite-card{ padding:14px; }
@@ -5595,55 +6021,95 @@ color:var(--primary);
 
 <h1>Destaque da Copa</h1>
 
-<div class="destaque-img searchable">
-
-<img
-src="img/destaque-brasil-haiti.png"
-alt="Capa Brasil x Haiti em clima de Copa do Mundo"
-title="Brasil x Haiti - Destaque da Copa"
->
-
-<div class="destaque-texto">
-
-<span class="destaque-fonte">Central da Copa no Bem Esportivo</span>
-
-<h2>Brasil x Haiti</h2>
-
-<p id="brazilLiveSummary">
-Próximo jogo da Seleção na Copa: acompanhe data, horário, placar e lances principais.
-</p>
-
-<div class="destaque-live-panel" id="brazilLiveSpotlight" aria-live="polite">
-<div class="destaque-live-top">
-<span class="destaque-live-status" id="brazilLiveStatus">Pré-jogo</span>
-<span class="destaque-live-clock" id="brazilLiveClock">19/06 - 19:00</span>
+<div class="worldcup-story-wrap searchable">
+<article class="worldcup-story-card" id="worldCupStoryCard" aria-label="Card interativo Brasil x Haiti para torcedores da Copa do Mundo FIFA 2026">
+<div class="worldcup-story-lights"></div>
+<div class="worldcup-story-content">
+<div class="worldcup-story-top">
+<span>Copa do Mundo FIFA 2026</span>
+<time>19/06 - 19:00</time>
 </div>
-<div class="destaque-live-score" aria-label="Placar Brasil contra Haiti">
-<div class="destaque-live-team">
-<span>Seleção Brasileira</span>
+
+<div class="worldcup-story-title">
+<h2>Brasil x Haiti</h2>
+<p>Palpite, craque da partida e termômetro da torcida em clima de transmissão premium.</p>
+</div>
+
+<div class="worldcup-story-match">
+<div class="worldcup-story-team">
+<div class="worldcup-story-flag"><img src="https://flagcdn.com/w160/br.png" alt="Bandeira do Brasil" loading="lazy"></div>
 <strong>Brasil</strong>
 </div>
-<div class="destaque-live-numbers">
-<span id="brazilLiveHomeScore">--</span>
-<small>x</small>
-<span id="brazilLiveAwayScore">--</span>
-</div>
-<div class="destaque-live-team">
-<span>Adversário</span>
+<div class="worldcup-story-versus">VS</div>
+<div class="worldcup-story-team is-away">
+<div class="worldcup-story-flag"><img src="https://flagcdn.com/w160/ht.png" alt="Bandeira do Haiti" loading="lazy"></div>
 <strong>Haiti</strong>
 </div>
 </div>
-<ul class="destaque-live-plays" id="brazilLivePlays">
-<li><time>Info</time><span>Os lances aparecem aqui quando a transmissão ao vivo liberar os dados da partida.</span></li>
-</ul>
+
+<div class="worldcup-story-controls">
+<div class="story-control-panel">
+<div class="story-panel-title">Palpite do vencedor</div>
+<div class="story-segmented" data-story-group="winner">
+<button type="button" class="is-selected" data-story-value="Brasil">Brasil</button>
+<button type="button" data-story-value="Empate">Empate</button>
+<button type="button" data-story-value="Haiti">Haiti</button>
+</div>
 </div>
 
-<a class='btn' href='#worldcup'>
-Ver jogos e informações
-</a>
-
+<div class="story-control-panel">
+<label>Placar exato</label>
+<div class="story-score-row">
+<label class="story-score-box"><span>Brasil</span><input type="number" min="0" max="15" value="2" data-story-score="home" aria-label="Gols do Brasil"></label>
+<div class="story-score-divider">x</div>
+<label class="story-score-box"><span>Haiti</span><input type="number" min="0" max="15" value="0" data-story-score="away" aria-label="Gols do Haiti"></label>
+</div>
 </div>
 
+<div class="story-control-panel">
+<div class="story-panel-title">Craque da partida</div>
+<div class="story-craque-grid" data-story-group="player">
+<button type="button" class="is-selected" data-story-value="Vinícius Júnior">Vinícius Júnior</button>
+<button type="button" data-story-value="Neymar">Neymar</button>
+<button type="button" data-story-value="Raphinha">Raphinha</button>
+<button type="button" data-story-value="Gabriel Martinelli">G. Martinelli</button>
+<button type="button" data-story-value="Matheus Cunha">Matheus Cunha</button>
+<button type="button" data-story-value="Endrick">Endrick</button>
+</div>
+</div>
+
+<div class="story-control-panel">
+<div class="story-panel-title">Opinião da torcida</div>
+<div class="story-poll-grid" data-story-group="mood">
+<button type="button" class="is-selected" data-story-value="Rumo ao Hexa">Rumo ao Hexa</button>
+<button type="button" data-story-value="Jogo duro">Jogo duro</button>
+<button type="button" data-story-value="Show do Brasil">Show do Brasil</button>
+<button type="button" data-story-value="Olho na zebra">Olho na zebra</button>
+</div>
+</div>
+
+<div class="story-control-panel">
+<label for="storyConfidence">Termômetro de confiança</label>
+<div class="story-confidence-row">
+<input id="storyConfidence" type="range" min="0" max="100" value="78" data-story-confidence>
+<output id="storyConfidenceValue">78%</output>
+</div>
+</div>
+
+<button type="button" class="story-save-btn" id="storySaveAnswers">Salvar respostas</button>
+
+<div class="story-results" id="storyResults" aria-live="polite">
+<strong>Resultados da torcida</strong>
+<span>Salve respostas para ver os mais escolhidos.</span>
+</div>
+</div>
+
+<div class="story-shareline" id="storyShareline" aria-live="polite">
+<strong>Brasil vence por 2 x 0. Craque: Vinícius Júnior.</strong>
+<span>Confiança da torcida: 78% | Rumo ao Hexa</span>
+</div>
+</div>
+</article>
 </div>
 
 <div id="searchResults" class="search-results"></div>
@@ -9183,6 +9649,101 @@ function initPenaltyGame(){
   resetGame();
 }
 
+function setupWorldCupStoryCard(){
+  const card = document.getElementById('worldCupStoryCard');
+  if(!card) return;
+
+  const storageKey = 'bemStoryBrasilHaiti2026';
+  const defaultState = {
+    winner:'Brasil',
+    homeScore:2,
+    awayScore:0,
+    player:'Vini Jr.',
+    mood:'Rumo ao Hexa',
+    confidence:78
+  };
+
+  let state = {...defaultState};
+  try{
+    state = {...state, ...JSON.parse(localStorage.getItem(storageKey) || '{}')};
+  }catch(error){}
+
+  const shareline = document.getElementById('storyShareline');
+  const confidenceInput = card.querySelector('[data-story-confidence]');
+  const confidenceOutput = document.getElementById('storyConfidenceValue');
+  const scoreInputs = Array.from(card.querySelectorAll('[data-story-score]'));
+
+  function clampScore(value){
+    const number = Number(value);
+    if(!Number.isFinite(number)) return 0;
+    return Math.max(0, Math.min(15, Math.round(number)));
+  }
+
+  function persist(){
+    try{
+      localStorage.setItem(storageKey, JSON.stringify(state));
+    }catch(error){}
+  }
+
+  function syncButtons(group, selected){
+    card.querySelectorAll(`[data-story-group="${group}"] button`).forEach(button => {
+      button.classList.toggle('is-selected', button.dataset.storyValue === selected);
+    });
+  }
+
+  function render(){
+    state.homeScore = clampScore(state.homeScore);
+    state.awayScore = clampScore(state.awayScore);
+    state.confidence = Math.max(0, Math.min(100, Math.round(Number(state.confidence) || 0)));
+
+    syncButtons('winner', state.winner);
+    syncButtons('player', state.player);
+    syncButtons('mood', state.mood);
+
+    scoreInputs.forEach(input => {
+      input.value = input.dataset.storyScore === 'home' ? state.homeScore : state.awayScore;
+    });
+
+    if(confidenceInput) confidenceInput.value = state.confidence;
+    if(confidenceOutput) confidenceOutput.textContent = `${state.confidence}%`;
+
+    if(shareline){
+      shareline.innerHTML = `
+        <strong>${escapeHtml(state.winner)} ${state.winner === 'Empate' ? 'no palpite' : 'vence'} por ${escapeHtml(state.homeScore)} x ${escapeHtml(state.awayScore)}. Craque: ${escapeHtml(state.player)}.</strong>
+        <span>Confiança da torcida: ${escapeHtml(state.confidence)}% | ${escapeHtml(state.mood)}</span>
+      `;
+    }
+
+    persist();
+  }
+
+  card.querySelectorAll('[data-story-group] button').forEach(button => {
+    button.addEventListener('click', () => {
+      const group = button.closest('[data-story-group]')?.dataset.storyGroup;
+      if(!group) return;
+      if(group === 'winner') state.winner = button.dataset.storyValue;
+      if(group === 'player') state.player = button.dataset.storyValue;
+      if(group === 'mood') state.mood = button.dataset.storyValue;
+      render();
+    });
+  });
+
+  scoreInputs.forEach(input => {
+    input.addEventListener('input', () => {
+      if(input.dataset.storyScore === 'home') state.homeScore = clampScore(input.value);
+      if(input.dataset.storyScore === 'away') state.awayScore = clampScore(input.value);
+      render();
+    });
+  });
+
+  confidenceInput?.addEventListener('input', () => {
+    state.confidence = Number(confidenceInput.value);
+    render();
+  });
+
+  render();
+}
+
 function arrangeHomeContentHierarchy(){
   const reportagens = document.getElementById('reportagens-home');
   const worldCup = document.getElementById('worldcup');
@@ -9251,6 +9812,7 @@ function setupMobileAppNavigation(){
 
 window.addEventListener('DOMContentLoaded', () => {
   arrangeHomeContentHierarchy();
+  setupWorldCupStoryCard();
   initPenaltyGame();
   setupPalpiteUserForm();
   setupPalpiteExportButtons();
