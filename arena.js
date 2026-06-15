@@ -1,4 +1,4 @@
-(function(){
+﻿(function(){
   const storageKeys = {
     poll: 'arenaBemPollVoteBrasilMarrocosPlacar',
     quiz: 'arenaBemQuizAnswer'
@@ -6,13 +6,20 @@
   const matchLiveConfig = {
     scoreboardUrl: 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard',
     summaryUrl: 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary',
-    refreshMs: 30000,
+    refreshMs: 15000,
+    spotlightMatches: [
+      {date:'2026-06-15', time:'13:00', group:'H', home:'ArÃ¡bia Saudita', away:'Uruguai', venue:'Miami Stadium', city:'Miami'},
+      {date:'2026-06-15', time:'16:00', group:'H', home:'Espanha', away:'Cabo Verde', venue:'Atlanta Stadium', city:'Atlanta'},
+      {date:'2026-06-15', time:'19:00', group:'G', home:'IrÃ£', away:'Nova ZelÃ¢ndia', venue:'Los Angeles Stadium', city:'Los Angeles'},
+      {date:'2026-06-15', time:'22:00', group:'G', home:'BÃ©lgica', away:'Egito', venue:'Seattle Stadium', city:'Seattle'}
+    ],
     fallback: {
-      date: '2026-06-13',
-      time: '19:00',
-      home: 'Brasil',
-      away: 'Marrocos',
-      venue: 'New York New Jersey Stadium',
+      date: '2026-06-15',
+      time: '13:00',
+      home: 'ArÃ¡bia Saudita',
+      away: 'Uruguai',
+      venue: 'Miami Stadium',
+      city: 'Miami',
       homeScore: null,
       awayScore: null,
       status: '',
@@ -118,9 +125,58 @@
   function translateTeamName(name){
     const map = {
       'Brazil':'Brasil',
-      'Morocco':'Marrocos'
+      'Morocco':'Marrocos',
+      'Saudi Arabia':'ArÃ¡bia Saudita',
+      'Uruguay':'Uruguai',
+      'Spain':'Espanha',
+      'Cape Verde':'Cabo Verde',
+      'Iran':'IrÃ£',
+      'New Zealand':'Nova ZelÃ¢ndia',
+      'Belgium':'BÃ©lgica',
+      'Egypt':'Egito'
     };
     return map[name] || name;
+  }
+
+  function getTeamFlagUrl(name, size = '64x48'){
+    const map = {
+      'arabia-saudita':'sa',
+      'uruguai':'uy',
+      'espanha':'es',
+      'cabo-verde':'cv',
+      'ira':'ir',
+      'nova-zelandia':'nz',
+      'belgica':'be',
+      'egito':'eg',
+      'brasil':'br',
+      'marrocos':'ma'
+    };
+    const code = map[getTeamKey(name)];
+    return code ? `https://flagcdn.com/${size}/${code}.png` : '';
+  }
+
+  function getTeamInitials(name){
+    const words = cleanText(name).split(' ').filter(Boolean);
+    const initials = words.length > 1 ? `${words[0][0]}${words[words.length - 1][0]}` : cleanText(name).slice(0, 2);
+    return initials.toUpperCase();
+  }
+
+  function splitVenueCity(match){
+    const venue = cleanText(match?.venue || 'EstÃ¡dio a definir');
+    const city = cleanText(match?.city || '');
+    if(city) return {venue, city};
+
+    const map = {
+      'Miami Stadium':'Miami',
+      'Atlanta Stadium':'Atlanta',
+      'Los Angeles Stadium':'Los Angeles',
+      'Seattle Stadium':'Seattle',
+      'New York New Jersey Stadium':'Nova York / Nova Jersey',
+      'Boston Stadium':'Boston',
+      'Hard Rock Stadium':'Miami',
+      'Mercedes-Benz Stadium':'Atlanta'
+    };
+    return {venue, city:map[venue] || 'Cidade sede'};
   }
 
   function buildScoreboardUrl(date){
@@ -189,23 +245,18 @@
     };
   }
 
-  function findBrazilMoroccoMatch(matches){
-    return (Array.isArray(matches) ? matches : []).find(match => {
-      if(match.date !== matchLiveConfig.fallback.date) return false;
-      const teams = [getTeamKey(match.home), getTeamKey(match.away)];
-      return teams.includes('brasil') && teams.includes('marrocos');
-    });
+  function isSameMatch(a, b){
+    if(!a || !b || a.date !== b.date) return false;
+    const aTeams = [getTeamKey(a.home), getTeamKey(a.away)].sort().join('|');
+    const bTeams = [getTeamKey(b.home), getTeamKey(b.away)].sort().join('|');
+    return aTeams === bTeams;
   }
 
-  function getBrazilMoroccoScore(match){
-    const sides = [
-      {key:getTeamKey(match?.home), score:match?.homeScore},
-      {key:getTeamKey(match?.away), score:match?.awayScore}
-    ];
-    return {
-      brazil:sides.find(side => side.key === 'brasil')?.score ?? null,
-      morocco:sides.find(side => side.key === 'marrocos')?.score ?? null
-    };
+  function mergeSpotlightMatches(liveMatches){
+    return matchLiveConfig.spotlightMatches.map(base => {
+      const live = (Array.isArray(liveMatches) ? liveMatches : []).find(match => isSameMatch(base, match));
+      return live ? {...base, ...live, group:base.group, venue:live.venue || base.venue, city:base.city} : base;
+    });
   }
 
   function extractMatchPlays(summary){
@@ -260,7 +311,7 @@
         const response = await fetch(`${base}${path}`, fetchOptions);
         const contentType = response.headers.get('content-type') || '';
         if(!contentType.includes('application/json')){
-          throw new Error('API da Arena indisponível');
+          throw new Error('API da Arena indisponÃ­vel');
         }
         const payload = await response.json();
         if(!response.ok) throw new Error(payload.error || 'Falha na Arena');
@@ -270,7 +321,7 @@
         lastError = error;
       }
     }
-    throw lastError || new Error('API da Arena indisponível');
+    throw lastError || new Error('API da Arena indisponÃ­vel');
   }
 
   function eventSourceUrl(path){
@@ -410,70 +461,70 @@
     });
   }
 
-  function renderLiveMatch(match = matchLiveConfig.fallback, plays = [], sourceLabel = ''){
+  function renderLiveMatch(matches = matchLiveConfig.spotlightMatches, sourceLabel = ''){
     const root = document.getElementById('arenaLiveMatch');
     if(!root) return;
 
-    const status = getMatchStatus(match);
-    const score = getBrazilMoroccoScore(match);
-    const hasScore = score.brazil != null && score.morocco != null;
-    const clock = match?.liveClock
-      ? `${match.liveClock}${match.period ? ` - ${String(match.period)}T` : ''}`
-      : formatMatchDateTime(match);
-    const statusClass = status === 'AO VIVO' ? 'is-live' : '';
-    const summary = status === 'AO VIVO'
-      ? 'Tempo real ligado: acompanhe o cronômetro, o placar e os principais lances de Brasil x Marrocos.'
-      : status === 'ENCERRADO'
-        ? 'Jogo encerrado: placar final e lances principais ficam registrados na Arena.'
-        : 'Pré-jogo: o placar, o tempo de jogo e os lances entram aqui assim que a transmissão liberar os dados.';
-    const fallbackPlay = status === 'AO VIVO'
-      ? 'Aguardando novos lances da transmissão.'
-      : status === 'ENCERRADO'
-        ? 'A partida foi encerrada. O resumo aparece quando a fonte disponibilizar os lances.'
-        : 'Os lances aparecem aqui quando a partida começar.';
+    const items = Array.isArray(matches) && matches.length ? matches.slice(0, 4) : [matchLiveConfig.fallback];
 
     root.innerHTML = `
       <div class="arena-card-head">
         <span>Placar ao vivo</span>
-        <strong>${escapeHtml(sourceLabel || 'Brasil x Marrocos')}</strong>
+        <strong>${escapeHtml(sourceLabel || 'Copa do Mundo FIFA 2026')}</strong>
       </div>
-      <div class="arena-match-board">
-        <div>
-          <div class="arena-match-top">
-            <span class="arena-match-status ${statusClass}">${escapeHtml(status)}</span>
-            <span class="arena-match-clock">${escapeHtml(clock)}</span>
-          </div>
-          <div class="arena-match-score" aria-label="Placar Brasil contra Marrocos">
-            <div class="arena-match-team">
-              <span>Seleção</span>
-              <strong>Brasil</strong>
-            </div>
-            <div class="arena-match-numbers">
-              <span>${hasScore ? escapeHtml(score.brazil) : '--'}</span>
-              <small>x</small>
-              <span>${hasScore ? escapeHtml(score.morocco) : '--'}</span>
-            </div>
-            <div class="arena-match-team">
-              <span>Adversário</span>
-              <strong>Marrocos</strong>
-            </div>
-          </div>
-          <p class="arena-match-summary">${escapeHtml(summary)}</p>
-        </div>
-        <ul class="arena-match-plays">
-          ${plays.length
-            ? plays.map(play => `<li><time>${escapeHtml(play.minute)}</time><span>${escapeHtml(play.text)}</span></li>`).join('')
-            : `<li><time>Info</time><span>${escapeHtml(fallbackPlay)}</span></li>`}
-        </ul>
+      <div class="arena-match-stack">
+        ${items.map(match => {
+          const status = getMatchStatus(match);
+          const hasScore = match.homeScore != null && match.awayScore != null;
+          const homeFlag = getTeamFlagUrl(match.home);
+          const awayFlag = getTeamFlagUrl(match.away);
+          const clock = match?.liveClock
+            ? `${match.liveClock}${match.period ? ` - ${String(match.period)}T` : ''}`
+            : formatMatchDateTime(match);
+          const statusClass = status === 'AO VIVO' ? 'is-live' : '';
+          const {venue, city} = splitVenueCity(match);
+
+          return `
+            <article class="arena-fixture-card" aria-label="${escapeHtml(match.home)} contra ${escapeHtml(match.away)}">
+              <div class="arena-fixture-bg"></div>
+              <div class="arena-fixture-team">
+                <div class="arena-fixture-flag">${homeFlag ? `<img src="${homeFlag}" alt="Bandeira ${escapeHtml(match.home)}" loading="lazy">` : escapeHtml(getTeamInitials(match.home))}</div>
+                <strong>${escapeHtml(match.home)}</strong>
+              </div>
+              <div class="arena-fixture-center">
+                <div class="arena-fixture-meta">
+                  <span>Copa do Mundo FIFA 2026</span>
+                  <time>${escapeHtml(clock)}</time>
+                </div>
+                <div class="arena-fixture-score">
+                  <span>${hasScore ? escapeHtml(match.homeScore) : '--'}</span>
+                  <small>x</small>
+                  <span>${hasScore ? escapeHtml(match.awayScore) : '--'}</span>
+                </div>
+                <div class="arena-fixture-venue">
+                  <strong>${escapeHtml(venue)}</strong>
+                  <span>${escapeHtml(city)}</span>
+                </div>
+                <em class="arena-match-status ${statusClass}">${escapeHtml(status)}</em>
+              </div>
+              <div class="arena-fixture-team is-away">
+                <div class="arena-fixture-flag">${awayFlag ? `<img src="${awayFlag}" alt="Bandeira ${escapeHtml(match.away)}" loading="lazy">` : escapeHtml(getTeamInitials(match.away))}</div>
+                <strong>${escapeHtml(match.away)}</strong>
+              </div>
+            </article>
+          `;
+        }).join('')}
       </div>
+      <p class="arena-match-source">${escapeHtml(sourceLabel ? `${sourceLabel} - atualização automática a cada 15s` : 'Atualização automática de placares online')}</p>
     `;
   }
 
-  async function fetchLiveMatch(){
-    const scoreboardDates = [
-      new Date(`${matchLiveConfig.fallback.date}T12:00:00-03:00`),
-      new Date()
-    ];
+  async function fetchLiveMatches(){
+    const dateKeys = new Set(matchLiveConfig.spotlightMatches.map(match => match.date));
+    dateKeys.add(getDateInSaoPaulo(new Date()));
+    const scoreboardDates = Array.from(dateKeys)
+      .filter(Boolean)
+      .map(dateKey => new Date(`${dateKey}T12:00:00-03:00`));
     const payloads = await Promise.allSettled(
       scoreboardDates.map(date => fetchExternalJson(buildScoreboardUrl(date)))
     );
@@ -483,33 +534,21 @@
       .map(normalizeEspnEvent)
       .filter(match => match.home && match.away);
 
-    return findBrazilMoroccoMatch(matches) || matchLiveConfig.fallback;
-  }
-
-  async function fetchLiveMatchPlays(match){
-    if(!match?.espnEventId) return [];
-    const status = getMatchStatus(match);
-    if(status !== 'AO VIVO' && status !== 'ENCERRADO') return [];
-
-    const summary = await fetchExternalJson(`${matchLiveConfig.summaryUrl}?event=${encodeURIComponent(match.espnEventId)}`);
-    return extractMatchPlays(summary);
+    return mergeSpotlightMatches(matches);
   }
 
   async function updateLiveMatch(){
     const root = document.getElementById('arenaLiveMatch');
     if(root && !root.innerHTML.trim()){
-      renderLiveMatch(matchLiveConfig.fallback, [], 'Carregando');
+      renderLiveMatch(matchLiveConfig.spotlightMatches, 'Carregando');
     }
     try{
-      const match = await fetchLiveMatch();
-      renderLiveMatch(match, [], 'ESPN ao vivo');
-      const plays = await fetchLiveMatchPlays(match);
-      renderLiveMatch(match, plays, 'ESPN ao vivo');
+      const matches = await fetchLiveMatches();
+      renderLiveMatch(matches, 'ESPN ao vivo');
     }catch(error){
-      renderLiveMatch(matchLiveConfig.fallback, [], 'Tempo real indisponível');
+      renderLiveMatch(matchLiveConfig.spotlightMatches, 'Tempo real indisponível');
     }
   }
-
   function setupLiveMatch(){
     updateLiveMatch();
     window.clearInterval(matchLiveTimer);
@@ -581,7 +620,7 @@
       }
 
       if(button) button.disabled = true;
-      setCommentFeedback('Enviando comentário...', '');
+      setCommentFeedback('Enviando comentÃ¡rio...', '');
       try{
         applyState(await api('/api/arena/comments', {
           method:'POST',
@@ -590,11 +629,11 @@
         form.reset();
         updateCounter();
         setStatus('Ao vivo');
-        setCommentFeedback('Comentário publicado na Arena.', 'success');
+        setCommentFeedback('ComentÃ¡rio publicado na Arena.', 'success');
       }catch(error){
         updateCounter();
         setStatus('Servidor offline', true);
-        setCommentFeedback('Não foi possível salvar agora. Tente novamente em instantes.', 'error');
+        setCommentFeedback('NÃ£o foi possÃ­vel salvar agora. Tente novamente em instantes.', 'error');
       }finally{
         if(button) button.disabled = false;
       }
