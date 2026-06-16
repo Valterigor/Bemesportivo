@@ -2171,8 +2171,8 @@ line-height:1.5;
 
 .craque-vote-section{
 position:relative;
-width:min(1080px, calc(100% - 28px));
-margin:34px auto;
+width:min(520px, calc(100% - 22px));
+margin:24px auto;
 padding:0;
 border-radius:8px;
 overflow:hidden;
@@ -2207,12 +2207,13 @@ pointer-events:none;
 .craque-phone-frame{
 position:relative;
 z-index:1;
-min-height:min(1920px, calc(100vh - 92px));
-padding:28px;
+padding:16px;
 display:grid;
-gap:18px;
+gap:12px;
 color:#fff;
-background:linear-gradient(145deg, rgba(7,12,22,.64), rgba(4,7,12,.9));
+background:
+linear-gradient(145deg, rgba(7,12,22,.76), rgba(4,7,12,.96)),
+radial-gradient(circle at 50% 0, rgba(36,246,255,.16), transparent 42%);
 }
 
 .craque-top-strip,
@@ -2227,8 +2228,8 @@ box-shadow:inset 0 1px 0 rgba(255,255,255,.14), 0 18px 42px rgba(0,0,0,.24);
 
 .craque-top-strip{
 display:grid;
-gap:6px;
-padding:14px 16px;
+gap:4px;
+padding:10px 12px;
 border-radius:8px;
 text-align:center;
 text-transform:uppercase;
@@ -2241,7 +2242,7 @@ font-weight:900;
 }
 
 .craque-top-strip strong{
-font-size:24px;
+font-size:19px;
 line-height:1;
 }
 
@@ -2252,41 +2253,57 @@ font-weight:900;
 }
 
 .craque-match-band{
+position:relative;
+overflow:hidden;
 display:grid;
 grid-template-columns:1fr auto 1fr;
 align-items:center;
-gap:12px;
-padding:14px;
+gap:8px;
+padding:10px;
 border-radius:8px;
+border-color:rgba(36,246,255,.24);
+background:
+linear-gradient(90deg,rgba(31,247,255,.14),transparent 28%,transparent 72%,rgba(255,215,106,.16)),
+linear-gradient(180deg,rgba(16,66,78,.52),rgba(3,8,13,.94));
 }
 
 .craque-match-band > span{
 display:grid;
 place-items:center;
-width:48px;
-height:48px;
-border-radius:50%;
-background:linear-gradient(135deg, #d8b457, #fff2a5, #0b7d5b);
-color:#05080d;
+width:52px;
+min-height:42px;
+border:1px solid rgba(255,255,255,.18);
+border-radius:8px;
+background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(0,0,0,.5));
+color:#27ff86;
 font-weight:1000;
-box-shadow:0 0 24px rgba(216,180,87,.45);
+box-shadow:inset 0 0 18px rgba(36,246,255,.12),0 0 18px rgba(36,246,255,.14);
+text-shadow:0 0 10px rgba(39,255,134,.8);
 }
 
 .craque-team{
 display:grid;
-gap:8px;
+gap:6px;
 justify-items:center;
 font-weight:1000;
 text-transform:uppercase;
 }
 
 .craque-team img{
-width:74px;
-height:52px;
+width:54px;
+height:38px;
 object-fit:cover;
-border-radius:6px;
-border:1px solid rgba(255,255,255,.46);
-box-shadow:0 0 22px rgba(46,211,255,.28);
+border-radius:5px;
+border:1px solid rgba(255,255,255,.58);
+box-shadow:0 0 18px rgba(36,246,255,.24);
+}
+
+.craque-team strong{
+max-width:100%;
+overflow:hidden;
+font-size:11px;
+line-height:1.08;
+text-overflow:ellipsis;
 }
 
 .craque-title-block{
@@ -2303,7 +2320,7 @@ font-weight:1000;
 
 .craque-title-block h2{
 margin:2px 0 6px;
-font-size:clamp(38px, 7vw, 76px);
+font-size:clamp(28px, 8vw, 42px);
 line-height:.94;
 color:#f6d16a;
 text-shadow:0 0 20px rgba(246,209,106,.45), 0 2px 0 #5f4518;
@@ -2318,7 +2335,7 @@ font-weight:900;
 .craque-grid{
 display:grid;
 grid-template-columns:repeat(2, minmax(0, 1fr));
-gap:14px;
+gap:9px;
 }
 
 .craque-player-card{
@@ -2326,10 +2343,20 @@ position:relative;
 min-width:0;
 overflow:hidden;
 display:grid;
-gap:9px;
-padding:10px;
+grid-template-columns:auto 1fr;
+grid-template-areas:
+  "num meta"
+  "button button"
+  "result result";
+align-items:center;
+gap:8px;
+min-height:128px;
+padding:9px;
 border-radius:8px;
 border-color:rgba(50,236,173,.42);
+background:
+radial-gradient(circle at 18% 18%,rgba(36,246,255,.22),transparent 32%),
+linear-gradient(180deg,rgba(255,255,255,.1),rgba(0,0,0,.44));
 }
 
 .craque-player-card.is-selected{
@@ -2337,21 +2364,27 @@ border-color:#f6d16a;
 box-shadow:0 0 0 1px rgba(246,209,106,.35), 0 20px 44px rgba(0,0,0,.3), 0 0 28px rgba(50,236,173,.3);
 }
 
-.craque-player-photo{
-aspect-ratio:1/1.08;
+.craque-player-number{
+grid-area:num;
+display:grid;
+place-items:center;
+width:48px;
+height:58px;
+border:1px solid rgba(255,255,255,.18);
 border-radius:8px;
-background-image:linear-gradient(180deg, transparent, rgba(0,0,0,.35)), url('img/craque-partida-brasil-haiti.png');
-background-size:500% 100%;
-background-position:var(--portrait-x) center;
-background-repeat:no-repeat;
-border:1px solid rgba(158,232,255,.35);
-box-shadow:inset 0 0 22px rgba(0,0,0,.35), 0 0 18px rgba(50,236,173,.16);
+background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(0,0,0,.52));
+color:#f6d16a;
+font-size:28px;
+font-weight:1000;
+line-height:1;
+text-shadow:0 0 14px rgba(246,209,106,.42);
 }
 
 .craque-player-meta{
+grid-area:meta;
 display:grid;
-gap:2px;
-min-height:52px;
+gap:4px;
+min-height:0;
 }
 
 .craque-player-meta span{
@@ -2362,13 +2395,14 @@ text-transform:uppercase;
 }
 
 .craque-player-meta strong{
-font-size:clamp(15px, 2.7vw, 23px);
+font-size:clamp(15px, 4vw, 19px);
 line-height:1.05;
 text-transform:uppercase;
 color:#fff;
 }
 
 .craque-player-card button{
+grid-area:button;
 min-height:42px;
 border:0;
 border-radius:8px;
@@ -2386,6 +2420,7 @@ outline-offset:2px;
 }
 
 .craque-result{
+grid-area:result;
 position:relative;
 height:26px;
 overflow:hidden;
@@ -2415,7 +2450,9 @@ color:#fff;
 .craque-info-card{
 align-content:center;
 justify-items:center;
-min-height:220px;
+grid-template-columns:1fr;
+grid-template-areas:none;
+min-height:128px;
 text-align:center;
 border-color:rgba(246,209,106,.48);
 background:
@@ -2426,17 +2463,17 @@ linear-gradient(135deg, rgba(15,22,34,.92), rgba(3,12,17,.88));
 .craque-trophy{
 display:grid;
 place-items:center;
-width:82px;
-height:82px;
+width:54px;
+height:54px;
 border-radius:50%;
 background:rgba(255,255,255,.08);
-font-size:42px;
+font-size:28px;
 box-shadow:0 0 34px rgba(246,209,106,.36);
 }
 
 .craque-info-card strong{
 max-width:220px;
-font-size:20px;
+font-size:16px;
 line-height:1.05;
 text-transform:uppercase;
 color:#f6d16a;
@@ -2446,21 +2483,21 @@ color:#f6d16a;
 margin:0;
 max-width:230px;
 color:#dcefff;
-font-size:13px;
+font-size:12px;
 font-weight:800;
 line-height:1.35;
 }
 
 .craque-footer{
 display:grid;
-grid-template-columns:repeat(3, 1fr);
-gap:10px;
-padding:12px;
+grid-template-columns:1fr;
+gap:7px;
+padding:9px;
 border-radius:8px;
 }
 
 .craque-footer span{
-min-height:42px;
+min-height:34px;
 display:grid;
 place-items:center;
 padding:8px;
@@ -2475,7 +2512,7 @@ text-align:center;
 .craque-final-call{
 display:grid;
 gap:4px;
-padding:16px;
+padding:12px;
 border-radius:8px;
 text-align:center;
 text-transform:uppercase;
@@ -2483,7 +2520,7 @@ text-transform:uppercase;
 
 .craque-final-call strong{
 color:#f6d16a;
-font-size:24px;
+font-size:20px;
 }
 
 .craque-final-call span{
@@ -6008,9 +6045,8 @@ color:#6b7280;
   }
 
   .craque-phone-frame{
-    min-height:auto;
     padding:16px 11px 18px;
-    gap:13px;
+    gap:11px;
   }
 
   .craque-top-strip strong{
@@ -6022,13 +6058,13 @@ color:#6b7280;
   }
 
   .craque-team img{
-    width:58px;
-    height:40px;
+    width:54px;
+    height:38px;
   }
 
   .craque-match-band > span{
-    width:42px;
-    height:42px;
+    width:48px;
+    min-height:40px;
   }
 
   .craque-grid{
@@ -6040,8 +6076,10 @@ color:#6b7280;
     gap:7px;
   }
 
-  .craque-player-meta{
-    min-height:48px;
+  .craque-player-number{
+    width:44px;
+    height:54px;
+    font-size:25px;
   }
 
   .craque-player-card button{
@@ -6050,12 +6088,7 @@ color:#6b7280;
   }
 
   .craque-info-card{
-    min-height:190px;
-  }
-
-  .craque-footer{
-    grid-template-columns:1fr;
-    gap:7px;
+    min-height:128px;
   }
 }
 
@@ -6071,6 +6104,12 @@ color:#6b7280;
 
   .craque-player-card{
     padding:7px;
+  }
+
+  .craque-player-number{
+    width:40px;
+    height:50px;
+    font-size:23px;
   }
 
   .craque-player-meta span,
@@ -6648,9 +6687,9 @@ Ainda existe paixão ou virou negócio?
 
     <div class="craque-grid" id="craqueVoteGrid" aria-label="Votação do Craque da Partida">
       <article class="craque-player-card" data-player-id="vinicius-jr">
-        <div class="craque-player-photo" style="--portrait-x:0%"></div>
+        <div class="craque-player-number">20</div>
         <div class="craque-player-meta">
-          <span>10 · ATA</span>
+          <span>ATA</span>
           <strong>Vinícius Jr.</strong>
         </div>
         <button type="button" data-craque-vote="vinicius-jr">Votar</button>
@@ -6658,9 +6697,9 @@ Ainda existe paixão ou virou negócio?
       </article>
 
       <article class="craque-player-card" data-player-id="raphinha">
-        <div class="craque-player-photo" style="--portrait-x:25%"></div>
+        <div class="craque-player-number">11</div>
         <div class="craque-player-meta">
-          <span>11 · ATA</span>
+          <span>ATA</span>
           <strong>Raphinha</strong>
         </div>
         <button type="button" data-craque-vote="raphinha">Votar</button>
@@ -6668,9 +6707,9 @@ Ainda existe paixão ou virou negócio?
       </article>
 
       <article class="craque-player-card" data-player-id="lucas-paqueta">
-        <div class="craque-player-photo" style="--portrait-x:50%"></div>
+        <div class="craque-player-number">7</div>
         <div class="craque-player-meta">
-          <span>7 · MEI</span>
+          <span>MEI</span>
           <strong>Lucas Paquetá</strong>
         </div>
         <button type="button" data-craque-vote="lucas-paqueta">Votar</button>
@@ -6678,9 +6717,9 @@ Ainda existe paixão ou virou negócio?
       </article>
 
       <article class="craque-player-card" data-player-id="bruno-guimaraes">
-        <div class="craque-player-photo" style="--portrait-x:75%"></div>
+        <div class="craque-player-number">17</div>
         <div class="craque-player-meta">
-          <span>5 · VOL</span>
+          <span>VOL</span>
           <strong>Bruno Guimarães</strong>
         </div>
         <button type="button" data-craque-vote="bruno-guimaraes">Votar</button>
@@ -6688,9 +6727,9 @@ Ainda existe paixão ou virou negócio?
       </article>
 
       <article class="craque-player-card" data-player-id="marquinhos">
-        <div class="craque-player-photo" style="--portrait-x:100%"></div>
+        <div class="craque-player-number">4</div>
         <div class="craque-player-meta">
-          <span>4 · ZAG</span>
+          <span>ZAG</span>
           <strong>Marquinhos</strong>
         </div>
         <button type="button" data-craque-vote="marquinhos">Votar</button>
@@ -7319,7 +7358,7 @@ const FIFA_WORLD_CUP_URL = 'https://www.fifa.com/en/tournaments/mens/worldcup/ca
 const ESPN_WORLD_CUP_SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
 const ESPN_WORLD_CUP_SUMMARY_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary';
 const WORLD_CUP_REFRESH_MS = 15000;
-const WORLD_CUP_STORAGE_KEY = 'bemEsportivoWorldCupMatches';
+const WORLD_CUP_STORAGE_KEY = 'bemEsportivoWorldCupMatchesV2';
 let worldCupRefreshTimer = null;
 let worldCupRefreshInFlight = false;
 let latestWorldCupMatches = null;
@@ -7425,7 +7464,6 @@ const WORLD_CUP_FLAG_CODES = {
   'Jamaica':'jm',
   'Japão':'jp',
   'Jordânia':'jo',
-  'Kosovo':'xk',
   'Marrocos':'ma',
   'México':'mx',
   'Noruega':'no',
@@ -7963,6 +8001,16 @@ function translateWorldCupTeamName(name){
     'Bosnia and Herzegovina':'Bósnia e Herzegovina',
     'United States':'Estados Unidos',
     'Paraguay':'Paraguai',
+    'Haiti':'Haiti',
+    'Scotland':'Escócia',
+    'Australia':'Austrália',
+    'Turkey':'Turquia',
+    'Türkiye':'Turquia',
+    'Turkiye':'Turquia',
+    'Qatar':'Catar',
+    'Switzerland':'Suíça',
+    'Czech Republic':'Tchéquia',
+    'Czechia':'Tchéquia',
     'Brazil':'Brasil',
     'Morocco':'Marrocos',
     'Saudi Arabia':'Arábia Saudita',
@@ -7972,14 +8020,54 @@ function translateWorldCupTeamName(name){
     'Iran':'Irã',
     'New Zealand':'Nova Zelândia',
     'Belgium':'Bélgica',
-    'Egypt':'Egito'
+    'Egypt':'Egito',
+    'France':'França',
+    'Senegal':'Senegal',
+    'Argentina':'Argentina',
+    'Algeria':'Argélia',
+    'Austria':'Áustria',
+    'Jordan':'Jordânia',
+    'England':'Inglaterra',
+    'Croatia':'Croácia',
+    'Portugal':'Portugal',
+    'Colombia':'Colômbia'
   };
   return map[name] || name;
 }
 
-function buildEspnWorldCupUrl(date){
+function buildEspnWorldCupDirectUrl(date){
   const dateKey = getDateInSaoPaulo(date).replace(/-/g,'');
   return `${ESPN_WORLD_CUP_SCOREBOARD_URL}?dates=${dateKey}&limit=100`;
+}
+
+function buildWorldCupApiUrl(path, params){
+  if(location.protocol === 'file:') return '';
+  const query = new URLSearchParams(params).toString();
+  return `${location.origin}${path}?${query}`;
+}
+
+async function fetchWorldCupJsonWithFallback(primaryUrl, fallbackUrl){
+  const urls = [primaryUrl, fallbackUrl].filter(Boolean);
+  let lastError;
+
+  for(const url of urls){
+    try{
+      const payload = await fetchExternalJson(url);
+      return payload?.data || payload;
+    }catch(error){
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error('Dados da Copa indisponíveis.');
+}
+
+function buildWorldCupScoreboardUrls(date){
+  const dateKey = getDateInSaoPaulo(date).replace(/-/g,'');
+  return {
+    primary: buildWorldCupApiUrl('/api/worldcup/scoreboard', {dates:dateKey}),
+    fallback: `${ESPN_WORLD_CUP_SCOREBOARD_URL}?dates=${dateKey}&limit=100`
+  };
 }
 
 function getWorldCupScoreboardDates(){
@@ -8040,7 +8128,10 @@ async function fetchEspnWorldCupMatches(){
   const scoreboardDates = getWorldCupScoreboardDates();
 
   const payloads = await Promise.allSettled(
-    scoreboardDates.map(date => fetchExternalJson(buildEspnWorldCupUrl(date)))
+    scoreboardDates.map(date => {
+      const urls = buildWorldCupScoreboardUrls(date);
+      return fetchWorldCupJsonWithFallback(urls.primary, urls.fallback);
+    })
   );
 
   return payloads
@@ -8051,6 +8142,7 @@ async function fetchEspnWorldCupMatches(){
 }
 
 function isSameWorldCupMatch(a,b){
+  if(a.espnEventId && b.espnEventId && String(a.espnEventId) === String(b.espnEventId)) return true;
   if(a.date !== b.date) return false;
   const aHome = getWorldCupTeamKey(a.home);
   const aAway = getWorldCupTeamKey(a.away);
@@ -8071,6 +8163,7 @@ function isSameWorldCupMatch(a,b){
 function getWorldCupTeamKey(name){
   const primary = normalizeStr(getPrimaryWorldCupTeam(name))
     .replace(/\./g,'')
+    .replace(/ü/g, 'u')
     .replace(/^rep\s+/, '')
     .replace(/^republica\s+/, '')
     .replace(/\s+/g,' ')
@@ -8111,7 +8204,12 @@ function getWorldCupTeamKey(name){
     'australia':'australia',
     'turquia':'turquia',
     'turkey':'turquia',
-    'turkiye':'turquia'
+    'turkiye':'turquia',
+    'türkiye':'turquia',
+    'qatar':'catar',
+    'catar':'catar',
+    'suica':'suica',
+    'switzerland':'suica'
   };
 
   return aliases[primary] || primary;
@@ -8323,13 +8421,8 @@ function getUpcomingWorldCupMatches(matches){
 
 function getArenaStyleWorldCupMatches(matches){
   const source = Array.isArray(matches) ? matches : [];
-  const arenaBaseMatches = WORLD_CUP_MATCHES.filter(match => match.date === '2026-06-15').slice(0, 4);
-  const merged = arenaBaseMatches.map(base => {
-    const live = source.find(match => isSameWorldCupMatch(base, match));
-    return live ? {...base, ...live, group:base.group || live.group, venue:live.venue || base.venue} : base;
-  });
-
-  return merged.length ? merged : getUpcomingWorldCupMatches(source);
+  const liveMatches = source.filter(match => getWorldCupStatus(match) === 'AO VIVO' || getWorldCupStatus(match) === 'EM JOGO');
+  return liveMatches.length ? liveMatches.slice(0, 4) : getUpcomingWorldCupMatches(source);
 }
 
 // Mapeamento simples de nomes para códigos ISO (expanda conforme necessário)
@@ -9168,7 +9261,7 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
     return;
   }
 
-  const normalizedMatches = dedupeWorldCupMatches(Array.isArray(matches) && matches.length ? matches : WORLD_CUP_MATCHES);
+  const normalizedMatches = mergeWorldCupMatches(WORLD_CUP_MATCHES, Array.isArray(matches) && matches.length ? matches : []);
   const featuredMatches = getArenaStyleWorldCupMatches(normalizedMatches);
   // helper to build flag URL using WORLD_CUP_FLAG_CODES mapping
   function flagForTeam(name, size = '64x48'){
@@ -9268,6 +9361,10 @@ function getBrazilSpotlightSummaryUrl(eventId){
   return `${ESPN_WORLD_CUP_SUMMARY_URL}?event=${encodeURIComponent(eventId)}`;
 }
 
+function getBrazilSpotlightSummaryApiUrl(eventId){
+  return buildWorldCupApiUrl('/api/worldcup/summary', {event:eventId});
+}
+
 function extractBrazilSpotlightPlays(summary){
   const rawPlays = [
     ...(Array.isArray(summary?.commentary) ? summary.commentary : []),
@@ -9293,7 +9390,10 @@ async function fetchBrazilSpotlightLiveDetails(match){
   }
 
   try{
-    const summary = await fetchExternalJson(getBrazilSpotlightSummaryUrl(match.espnEventId));
+    const summary = await fetchWorldCupJsonWithFallback(
+      getBrazilSpotlightSummaryApiUrl(match.espnEventId),
+      getBrazilSpotlightSummaryUrl(match.espnEventId)
+    );
     return extractBrazilSpotlightPlays(summary);
   }catch(error){
     console.error('Erro ao carregar lances Brasil x Haiti:', error);
