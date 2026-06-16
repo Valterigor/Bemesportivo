@@ -6893,8 +6893,70 @@ return String(valor)
 .replace(/'/g,'&#039;');
 }
 
+const COMMUNITY_API_ROOT = location.protocol === 'file:' ? '' : '/api/community';
+const COMMUNITY_CLIENT_KEY = 'bemEsportivoCommunityClientId';
+let communityStateCache = null;
+let communityPalpites = [];
+
+function getCommunityClientId(){
+try{
+let id=localStorage.getItem(COMMUNITY_CLIENT_KEY);
+if(!id){
+id=window.crypto?.randomUUID ? window.crypto.randomUUID() : `be-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+localStorage.setItem(COMMUNITY_CLIENT_KEY,id);
+}
+return id;
+}catch(error){
+return `be-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+}
+
+async function communityRequest(path, options = {}){
+if(!COMMUNITY_API_ROOT) throw new Error('API comunitária indisponível em arquivo local.');
+const response=await fetch(`${COMMUNITY_API_ROOT}${path}`,{
+headers:{'Content-Type':'application/json', ...(options.headers||{})},
+cache:'no-store',
+...options
+});
+const payload=await response.json();
+if(!response.ok || payload?.ok === false){
+throw new Error(payload?.error || 'Falha na API comunitária.');
+}
+return payload;
+}
+
+function formatCommunityDate(value){
+const date=value ? new Date(value) : new Date();
+if(Number.isNaN(date.getTime())) return String(value || '');
+return date.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+async function refreshCommunityState(){
+try{
+const state=await communityRequest('/state');
+communityStateCache=state;
+communityPalpites=Array.isArray(state?.palpites?.history) ? state.palpites.history : [];
+return state;
+}catch(error){
+console.warn('Comunidade offline, usando dados locais:', error);
+return null;
+}
+}
+
+function normalizeCommunityComment(comment){
+return {
+nome:comment.nome || comment.name || 'Visitante',
+time:comment.time || comment.team || '',
+texto:comment.texto || comment.text || '',
+data:comment.data || formatCommunityDate(comment.createdAt)
+};
+}
+
 function obterComentarios(postId){
 try{
+const key=`post:${postId}`;
+const online=communityStateCache?.comments?.[key];
+if(Array.isArray(online)) return online.map(normalizeCommunityComment);
 return JSON.parse(localStorage.getItem(chaveComentarios(postId)))||[];
 }catch(e){
 return [];
@@ -6905,10 +6967,20 @@ function salvarComentarios(postId,comentarios){
 localStorage.setItem(chaveComentarios(postId),JSON.stringify(comentarios.slice(-50)));
 }
 
-function renderizarComentarios(postId){
+async function carregarComentariosOnline(postId){
+try{
+const payload=await communityRequest(`/comments?scope=post&id=${encodeURIComponent(postId)}`);
+if(!communityStateCache) communityStateCache={comments:{}};
+if(!communityStateCache.comments) communityStateCache.comments={};
+communityStateCache.comments[`post:${postId}`]=payload.comments || [];
+}catch(error){}
+}
+
+async function renderizarComentarios(postId, forceOnline = false){
 const lista=document.getElementById('postCommentsList');
 const titulo=document.getElementById('postCommentsTitle');
 if(!lista||!titulo) return;
+if(forceOnline) await carregarComentariosOnline(postId);
 const comentarios=obterComentarios(postId);
 titulo.textContent=`Comentários (${comentarios.length})`;
 if(!comentarios.length){
@@ -6936,7 +7008,7 @@ imagem.alt=botao.dataset.title;
 titulo.textContent=botao.dataset.title;
 texto.textContent=botao.dataset.text;
 document.getElementById('postCommentForm')?.reset();
-renderizarComentarios(postAtualId);
+renderizarComentarios(postAtualId, true);
 modal.classList.add('show');
 document.body.style.overflow='hidden';
 }
@@ -6974,6 +7046,15 @@ texto:texto.slice(0,500),
 data:new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})
 });
 salvarComentarios(postAtualId,comentarios);
+communityRequest('/comment',{
+method:'POST',
+body:JSON.stringify({scope:'post',id:postAtualId,name:nome,text:texto,clientId:getCommunityClientId()})
+}).then(payload=>{
+if(!communityStateCache) communityStateCache={comments:{}};
+if(!communityStateCache.comments) communityStateCache.comments={};
+communityStateCache.comments[`post:${postAtualId}`]=payload.comments || [];
+renderizarComentarios(postAtualId);
+}).catch(error=>console.warn('Comentario salvo localmente:', error));
 postCommentForm.reset();
 renderizarComentarios(postAtualId);
 });
@@ -7236,7 +7317,9 @@ function abrirPost(i){
 postAtual = i;
 mostrarTodos = false;
 
+carregarComentariosDebate(i).finally(() => {
 renderDebate();
+});
 
 document.getElementById('modalDebate').style.display = 'flex';
 
@@ -7250,6 +7333,7 @@ document.getElementById('modalDebate').style.display = 'none';
 
 function renderDebate(){
 
+aplicarComentariosDebate(postAtual);
 const p = debatePosts[postAtual];
 
 const lista = mostrarTodos
@@ -7345,6 +7429,15 @@ nome:nome,
 time:time,
 texto:texto
 });
+
+communityRequest('/comment',{
+method:'POST',
+body:JSON.stringify({scope:'debate',id:String(postAtual),name:nome,team:time,text:texto,clientId:getCommunityClientId()})
+}).then(payload=>{
+debatePosts[postAtual].comments=(payload.comments||[]).map(normalizeCommunityComment);
+renderDebate();
+destacarMaisComentado();
+}).catch(error=>console.warn('Comentario do debate salvo localmente:', error));
 
 renderDebate();
 destacarMaisComentado();
@@ -8040,6 +8133,23 @@ function buildEspnWorldCupDirectUrl(date){
   return `${ESPN_WORLD_CUP_SCOREBOARD_URL}?dates=${dateKey}&limit=100`;
 }
 
+function aplicarComentariosDebate(index){
+const online=communityStateCache?.comments?.[`debate:${index}`];
+if(Array.isArray(online)){
+debatePosts[index].comments=online.map(normalizeCommunityComment);
+}
+}
+
+async function carregarComentariosDebate(index){
+try{
+const payload=await communityRequest(`/comments?scope=debate&id=${encodeURIComponent(index)}`);
+if(!communityStateCache) communityStateCache={comments:{}};
+if(!communityStateCache.comments) communityStateCache.comments={};
+communityStateCache.comments[`debate:${index}`]=payload.comments||[];
+aplicarComentariosDebate(index);
+}catch(error){}
+}
+
 function buildWorldCupApiUrl(path, params){
   if(location.protocol === 'file:') return '';
   const query = new URLSearchParams(params).toString();
@@ -8524,9 +8634,11 @@ function generatePalpiteUserId(){
 
 function getSavedPalpites(){
   try{
-    return JSON.parse(localStorage.getItem('bemPalpitometro') || '{}');
+    const local = JSON.parse(localStorage.getItem('bemPalpitometro') || '{}');
+    const online = getLatestPalpitesByMatchFromList(communityPalpites);
+    return {...local, ...online};
   } catch(error){
-    return {};
+    return getLatestPalpitesByMatchFromList(communityPalpites);
   }
 }
 
@@ -8536,10 +8648,13 @@ function savePalpites(palpites){
 
 function getPalpiteHistory(){
   try{
+    if(Array.isArray(communityPalpites) && communityPalpites.length){
+      return communityPalpites;
+    }
     const history = JSON.parse(localStorage.getItem('bemPalpitometroHistory') || '[]');
     return Array.isArray(history) ? history : [];
   } catch(error){
-    return [];
+    return Array.isArray(communityPalpites) ? communityPalpites : [];
   }
 }
 
@@ -8559,9 +8674,9 @@ function getPalpiteEntries(){
   }));
 }
 
-function getLatestPalpitesByMatch(){
+function getLatestPalpitesByMatchFromList(entries){
   const latest = {};
-  getPalpiteEntries().forEach(item => {
+  (Array.isArray(entries) ? entries : []).forEach(item => {
     if(!item.matchId) return;
     const current = latest[item.matchId];
     const itemDate = new Date(item.updatedAt || item.savedAt || item.createdAt || 0);
@@ -8572,6 +8687,19 @@ function getLatestPalpitesByMatch(){
   });
 
   return latest;
+}
+
+function getLatestPalpitesByMatch(){
+  return getLatestPalpitesByMatchFromList(getPalpiteEntries());
+}
+
+async function syncPalpitesFromCommunity(render = true){
+  const state = await refreshCommunityState();
+  if(state?.palpites?.history){
+    communityPalpites = state.palpites.history;
+    try{ localStorage.setItem('bemPalpitometroHistory', JSON.stringify(communityPalpites)); }catch(error){}
+    if(render) renderPalpitometro();
+  }
 }
 
 function renderPalpiteLivebar(matches, latestPalpites){
@@ -8928,6 +9056,15 @@ function savePalpite(matchId){
 
   palpites[matchId] = palpiteRecord;
   savePalpites(palpites);
+  communityRequest('/palpite',{
+    method:'POST',
+    body:JSON.stringify({palpite:palpiteRecord,clientId:getCommunityClientId()})
+  }).then(payload => {
+    communityPalpites = Array.isArray(payload?.palpites?.history) ? payload.palpites.history : communityPalpites;
+    try{ localStorage.setItem('bemPalpitometroHistory', JSON.stringify(communityPalpites)); }catch(error){}
+    renderPalpitometroSummary();
+    renderPalpiteLivebar(getPalpitometroMatches(), getLatestPalpitesByMatch());
+  }).catch(error => console.warn('Palpite salvo localmente:', error));
   renderPalpitometroSummary();
   renderPalpiteLivebar(getPalpitometroMatches(), getLatestPalpitesByMatch());
 
@@ -10038,6 +10175,13 @@ function setupWorldCupStoryCard(){
     }catch(error){}
   }
 
+  function registerStoryInteraction(type, value){
+    communityRequest('/interaction',{
+      method:'POST',
+      body:JSON.stringify({type,target:'story-brasil-haiti-2026',value,clientId:getCommunityClientId()})
+    }).catch(error => console.warn('Interacao salva localmente:', error));
+  }
+
   function syncButtons(group, selected){
     card.querySelectorAll(`[data-story-group="${group}"] button`).forEach(button => {
       button.classList.toggle('is-selected', button.dataset.storyValue === selected);
@@ -10078,6 +10222,7 @@ function setupWorldCupStoryCard(){
       if(group === 'player') state.player = button.dataset.storyValue;
       if(group === 'mood') state.mood = button.dataset.storyValue;
       render();
+      registerStoryInteraction(group, button.dataset.storyValue);
     });
   });
 
@@ -10086,12 +10231,14 @@ function setupWorldCupStoryCard(){
       if(input.dataset.storyScore === 'home') state.homeScore = clampScore(input.value);
       if(input.dataset.storyScore === 'away') state.awayScore = clampScore(input.value);
       render();
+      registerStoryInteraction(`score-${input.dataset.storyScore}`, input.value);
     });
   });
 
   confidenceInput?.addEventListener('input', () => {
     state.confidence = Number(confidenceInput.value);
     render();
+    registerStoryInteraction('confidence', confidenceInput.value);
   });
 
   render();
@@ -10102,8 +10249,10 @@ function setupCraquePartidaVote(){
   if(!grid) return;
 
   const status = document.getElementById('craqueVoteStatus');
-  const storageKey = 'bemCraquePartidaBrasilHaiti';
+  const pollId = 'craque-brasil-haiti-2026';
+  const storageKey = pollId;
   const choiceKey = `${storageKey}:choice`;
+  const clientId = getCommunityClientId();
   const defaultVotes = {
     'vinicius-jr': 0,
     raphinha: 0,
@@ -10116,15 +10265,26 @@ function setupCraquePartidaVote(){
   let selected = '';
 
   try{
-    votes = {...votes, ...JSON.parse(localStorage.getItem(storageKey) || '{}')};
     selected = localStorage.getItem(choiceKey) || '';
   }catch(error){}
 
   function persist(){
     try{
-      localStorage.setItem(storageKey, JSON.stringify(votes));
       if(selected) localStorage.setItem(choiceKey, selected);
     }catch(error){}
+  }
+
+  function applyVoteState(voteState){
+    const totals = voteState?.totals || voteState || {};
+    votes = {...defaultVotes, ...totals};
+    if(voteState?.selected){
+      selected = voteState.selected;
+      persist();
+    }
+    if(voteState?.choices?.[clientId]){
+      selected = voteState.choices[clientId];
+      persist();
+    }
   }
 
   function render(){
@@ -10166,8 +10326,29 @@ function setupCraquePartidaVote(){
       selected = id;
       persist();
       render();
+      communityRequest('/vote',{
+        method:'POST',
+        body:JSON.stringify({pollId,choiceId:id,clientId})
+      }).then(payload => {
+        applyVoteState(payload.vote);
+        render();
+      }).catch(error => console.warn('Voto salvo localmente:', error));
     });
   });
+
+  refreshCommunityState().then(state => {
+    applyVoteState(state?.votes?.[pollId]);
+    render();
+  });
+
+  window.setInterval(() => {
+    refreshCommunityState().then(state => {
+      if(state?.votes?.[pollId]){
+        applyVoteState(state.votes[pollId]);
+        render();
+      }
+    });
+  }, 10000);
 
   render();
 }
@@ -10232,11 +10413,28 @@ function setupMobileAppNavigation(){
 
 window.addEventListener('DOMContentLoaded', () => {
   arrangeHomeContentHierarchy();
+  refreshCommunityState().then(() => {
+    if(postAtualId) renderizarComentarios(postAtualId);
+    destacarMaisComentado();
+  });
   setupWorldCupStoryCard();
   initPenaltyGame();
   setupCraquePartidaVote();
+  setupPalpiteUserForm();
+  setupPalpiteExportButtons();
+  syncPalpitesFromCommunity(false).then(() => renderPalpitometro());
   setupMobileAppNavigation();
   startWorldCupLiveAutoRefresh();
+  window.setInterval(() => {
+    refreshCommunityState().then(() => {
+      if(postAtualId) renderizarComentarios(postAtualId);
+      aplicarComentariosDebate(postAtual);
+      if(document.getElementById('modalDebate')?.style.display === 'flex'){
+        renderDebate();
+      }
+      destacarMaisComentado();
+    });
+  }, 15000);
 });
 
 function destacarMaisComentado(){

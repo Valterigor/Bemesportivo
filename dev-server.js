@@ -5,6 +5,7 @@ const path = require('path');
 
 const root = __dirname;
 const port = Number(process.env.PORT || 3100);
+const communityFile = path.join(root, 'data', 'community.json');
 const ESPN_WORLD_CUP_SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
 const ESPN_WORLD_CUP_SUMMARY_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary';
 const apiCache = new Map();
@@ -25,7 +26,7 @@ const mimeTypes = {
 
 const corsHeaders = {
   'Access-Control-Allow-Origin':'*',
-  'Access-Control-Allow-Methods':'GET,OPTIONS',
+  'Access-Control-Allow-Methods':'GET,POST,OPTIONS',
   'Access-Control-Allow-Headers':'Content-Type',
   'Access-Control-Max-Age':'86400'
 };
@@ -47,6 +48,236 @@ function sendText(response, statusCode, text){
     ...corsHeaders
   });
   response.end(text);
+}
+
+function getDefaultCommunityState(){
+  return {
+    schemaVersion:1,
+    updatedAt:new Date().toISOString(),
+    votes:{
+      'craque-brasil-haiti-2026':{
+        totals:{
+          'vinicius-jr':0,
+          raphinha:0,
+          'lucas-paqueta':0,
+          'bruno-guimaraes':0,
+          marquinhos:0
+        },
+        choices:{}
+      }
+    },
+    comments:{},
+    palpites:{history:[]},
+    interactions:[]
+  };
+}
+
+function readCommunityState(){
+  try{
+    const raw = fs.readFileSync(communityFile, 'utf8');
+    return {...getDefaultCommunityState(), ...JSON.parse(raw)};
+  }catch(error){
+    return getDefaultCommunityState();
+  }
+}
+
+function writeCommunityState(state){
+  fs.mkdirSync(path.dirname(communityFile), {recursive:true});
+  state.updatedAt = new Date().toISOString();
+  fs.writeFileSync(communityFile, JSON.stringify(state, null, 2));
+}
+
+function readJsonBody(request, maxBytes = 20000){
+  return new Promise((resolve, reject) => {
+    let raw = '';
+    request.setEncoding('utf8');
+    request.on('data', chunk => {
+      raw += chunk;
+      if(raw.length > maxBytes){
+        request.destroy(new Error('Payload grande demais'));
+      }
+    });
+    request.on('end', () => {
+      if(!raw){
+        resolve({});
+        return;
+      }
+      try{
+        resolve(JSON.parse(raw));
+      }catch(error){
+        reject(error);
+      }
+    });
+    request.on('error', reject);
+  });
+}
+
+function cleanText(value, limit){
+  return String(value || '')
+    .replace(/[\u0000-\u001f\u007f]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, limit);
+}
+
+function cleanId(value, fallback = 'item'){
+  const cleaned = cleanText(value, 100).toLowerCase().replace(/[^a-z0-9:_-]+/g, '-').replace(/^-+|-+$/g, '');
+  return cleaned || fallback;
+}
+
+function getCommunityCommentKey(scope, id){
+  return `${cleanId(scope, 'geral')}:${cleanId(id, 'item')}`;
+}
+
+function publicCommunityState(state){
+  const publicVotes = {};
+  Object.entries(state.votes || {}).forEach(([pollId, poll]) => {
+    publicVotes[pollId] = {totals:poll?.totals || {}};
+  });
+
+  return {
+    ok:true,
+    updatedAt:state.updatedAt,
+    votes:publicVotes,
+    comments:state.comments,
+    palpites:state.palpites
+  };
+}
+
+async function handleCommunityApi(request, response, parsedUrl){
+  if(!parsedUrl.pathname.startsWith('/api/community/')) return false;
+
+  const state = readCommunityState();
+
+  if(request.method === 'GET' && parsedUrl.pathname === '/api/community/state'){
+    sendJson(response, 200, publicCommunityState(state));
+    return true;
+  }
+
+  if(request.method === 'GET' && parsedUrl.pathname === '/api/community/comments'){
+    const key = getCommunityCommentKey(parsedUrl.searchParams.get('scope'), parsedUrl.searchParams.get('id'));
+    sendJson(response, 200, {ok:true, comments:state.comments[key] || [], updatedAt:state.updatedAt});
+    return true;
+  }
+
+  if(request.method === 'POST' && parsedUrl.pathname === '/api/community/comment'){
+    try{
+      const body = await readJsonBody(request);
+      const key = getCommunityCommentKey(body.scope, body.id);
+      const text = cleanText(body.text || body.texto, 500);
+      if(!text){
+        sendJson(response, 400, {ok:false, error:'Comentario vazio.'});
+        return true;
+      }
+      const comment = {
+        id:`comment-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        name:cleanText(body.name || body.nome || 'Visitante', 40) || 'Visitante',
+        team:cleanText(body.team || body.time || '', 40),
+        text,
+        createdAt:new Date().toISOString()
+      };
+      state.comments[key] = [...(state.comments[key] || []), comment].slice(-100);
+      writeCommunityState(state);
+      sendJson(response, 200, {ok:true, comments:state.comments[key], comment, updatedAt:state.updatedAt});
+    }catch(error){
+      sendJson(response, 400, {ok:false, error:'Nao foi possivel salvar comentario.', detail:error.message});
+    }
+    return true;
+  }
+
+  if(request.method === 'POST' && parsedUrl.pathname === '/api/community/vote'){
+    try{
+      const body = await readJsonBody(request);
+      const pollId = cleanId(body.pollId, 'poll');
+      const choiceId = cleanId(body.choiceId, '');
+      const clientId = cleanId(body.clientId, '');
+      if(!choiceId || !clientId){
+        sendJson(response, 400, {ok:false, error:'Voto invalido.'});
+        return true;
+      }
+
+      const poll = state.votes[pollId] || {totals:{}, choices:{}};
+      const previous = poll.choices[clientId];
+      if(previous && previous !== choiceId){
+        poll.totals[previous] = Math.max(0, Number(poll.totals[previous] || 0) - 1);
+      }
+      if(previous !== choiceId){
+        poll.totals[choiceId] = Number(poll.totals[choiceId] || 0) + 1;
+      }
+      poll.choices[clientId] = choiceId;
+      state.votes[pollId] = poll;
+      writeCommunityState(state);
+      sendJson(response, 200, {ok:true, pollId, vote:{totals:poll.totals, selected:choiceId}, updatedAt:state.updatedAt});
+    }catch(error){
+      sendJson(response, 400, {ok:false, error:'Nao foi possivel registrar voto.', detail:error.message});
+    }
+    return true;
+  }
+
+  if(request.method === 'POST' && parsedUrl.pathname === '/api/community/palpite'){
+    try{
+      const body = await readJsonBody(request, 40000);
+      const item = body.palpite || body;
+      const matchId = cleanText(item.matchId, 120);
+      const userId = cleanText(item.userId, 120);
+      if(!matchId || !userId){
+        sendJson(response, 400, {ok:false, error:'Palpite invalido.'});
+        return true;
+      }
+      const cleanPalpite = {
+        ...item,
+        matchId,
+        userId,
+        entryId:cleanText(item.entryId, 120) || `palpite-${Date.now()}`,
+        userName:cleanText(item.userName, 40),
+        userTeam:cleanText(item.userTeam, 40),
+        userCity:cleanText(item.userCity, 40),
+        home:cleanText(item.home, 80),
+        away:cleanText(item.away, 80),
+        group:cleanText(item.group, 20),
+        venue:cleanText(item.venue, 120),
+        player:cleanText(item.player, 80),
+        homeScore:Math.max(0, Math.min(15, Number(item.homeScore) || 0)),
+        awayScore:Math.max(0, Math.min(15, Number(item.awayScore) || 0)),
+        confidence:Math.max(10, Math.min(100, Number(item.confidence) || 50)),
+        updatedAt:new Date().toISOString()
+      };
+      const history = Array.isArray(state.palpites?.history) ? state.palpites.history : [];
+      const withoutSame = history.filter(saved => !(saved.userId === userId && saved.matchId === matchId));
+      withoutSame.push(cleanPalpite);
+      state.palpites = {history:withoutSame.slice(-500)};
+      writeCommunityState(state);
+      sendJson(response, 200, {ok:true, palpites:state.palpites, updatedAt:state.updatedAt});
+    }catch(error){
+      sendJson(response, 400, {ok:false, error:'Nao foi possivel registrar palpite.', detail:error.message});
+    }
+    return true;
+  }
+
+  if(request.method === 'POST' && parsedUrl.pathname === '/api/community/interaction'){
+    try{
+      const body = await readJsonBody(request);
+      state.interactions = [
+        ...(Array.isArray(state.interactions) ? state.interactions : []),
+        {
+          id:`interaction-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+          type:cleanText(body.type, 40),
+          target:cleanText(body.target, 120),
+          value:cleanText(body.value, 120),
+          clientId:cleanText(body.clientId, 120),
+          createdAt:new Date().toISOString()
+        }
+      ].slice(-1000);
+      writeCommunityState(state);
+      sendJson(response, 200, {ok:true, updatedAt:state.updatedAt});
+    }catch(error){
+      sendJson(response, 400, {ok:false, error:'Interacao invalida.', detail:error.message});
+    }
+    return true;
+  }
+
+  sendJson(response, 404, {ok:false, error:'API nao encontrada.'});
+  return true;
 }
 
 function fetchJson(url){
@@ -148,6 +379,9 @@ async function handleWorldCupApi(request, response, parsedUrl){
 
 function resolveRequest(urlPath){
   const cleanPath = decodeURIComponent(urlPath.split('?')[0]).replace(/^\/+/, '');
+  if(cleanPath === 'data' || cleanPath.startsWith('data/')){
+    return null;
+  }
   const route = cleanPath || 'index';
   const candidates = [
     path.join(root, route),
@@ -172,6 +406,11 @@ const server = http.createServer(async (request, response) => {
 
   if(parsedUrl.pathname.startsWith('/api/worldcup/')){
     const handled = await handleWorldCupApi(request, response, parsedUrl);
+    if(handled) return;
+  }
+
+  if(parsedUrl.pathname.startsWith('/api/community/')){
+    const handled = await handleCommunityApi(request, response, parsedUrl);
     if(handled) return;
   }
 
