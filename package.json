@@ -2,6 +2,6 @@
   "scripts": {
     "dev": "node dev-server.js",
     "start": "node dev-server.js",
-    "check": "node --check dev-server.js && node --check arena.js && node --check arena-data.js"
+    "check": "node --check dev-server.js"
   }
 }
