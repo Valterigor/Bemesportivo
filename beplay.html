@@ -427,9 +427,7 @@ img{display:block;max-width:100%}
   line-height:1.18;
 }
 
-.video-feedback,
-.comment-form,
-.comments-list{
+.video-feedback{
   display:grid;
   gap:8px;
   padding:10px;
@@ -454,84 +452,6 @@ img{display:block;max-width:100%}
   border-color:rgba(45,255,141,.62);
   background:linear-gradient(135deg,rgba(45,255,141,.28),rgba(54,213,255,.16));
   box-shadow:0 0 22px rgba(45,255,141,.16);
-}
-
-.comment-form input,
-.comment-form textarea{
-  width:100%;
-  min-height:48px;
-  border:1px solid rgba(255,255,255,.16);
-  border-radius:8px;
-  background:rgba(0,0,0,.22);
-  color:var(--text);
-  padding:12px;
-  outline:none;
-}
-
-.comment-form textarea{
-  min-height:94px;
-  resize:vertical;
-}
-
-.comment-form input:focus,
-.comment-form textarea:focus{
-  border-color:var(--green);
-  box-shadow:0 0 0 3px rgba(45,255,141,.12);
-}
-
-.comments-list{
-  padding-top:0;
-}
-
-.video-comment{
-  display:grid;
-  gap:6px;
-  padding:10px;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:8px;
-  background:rgba(255,255,255,.045);
-}
-
-.video-comment header{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  align-items:center;
-}
-
-.video-comment strong{
-  font-size:13px;
-}
-
-.video-comment time{
-  color:var(--muted);
-  font-size:10px;
-  font-weight:800;
-}
-
-.video-comment p{
-  margin:0;
-  color:#d8e5ed;
-  font-size:13px;
-  line-height:1.42;
-}
-
-.comment-tools{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-}
-
-.comment-tools button{
-  min-height:38px;
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:8px;
-  background:rgba(255,255,255,.06);
-  color:var(--text);
-  padding:8px 10px;
-  font-size:10px;
-  font-weight:900;
-  text-transform:uppercase;
 }
 
 .related-card button{
@@ -822,12 +742,6 @@ img{display:block;max-width:100%}
       <button class="feedback-btn" type="button" data-video-reaction="like">Gostei <span id="likeCount">0</span></button>
       <button class="feedback-btn" type="button" data-video-reaction="dislike">Nao gostei <span id="dislikeCount">0</span></button>
     </div>
-    <form class="comment-form" id="videoCommentForm">
-      <input id="videoCommentName" maxlength="40" autocomplete="nickname" placeholder="Seu nome ou apelido">
-      <textarea id="videoCommentText" maxlength="500" placeholder="Comente este video..." required></textarea>
-      <button class="action-btn" type="submit">Publicar comentario</button>
-    </form>
-    <div class="comments-list" id="videoCommentsList" aria-live="polite"></div>
   </section>
 
   <section class="section panel" aria-labelledby="relatedTitle">
@@ -847,7 +761,7 @@ img{display:block;max-width:100%}
 <nav class="retention-dock" aria-label="Atalhos durante a reproducao">
   <a href="#inicio">Player</a>
   <a href="#relatedVideos">Sugestoes</a>
-  <a href="#opinioes">Opinioes</a>
+  <a href="#perfil">Salvos</a>
 </nav>
 
 <div class="toast" id="pageToast" role="status" aria-live="polite"></div>
@@ -903,18 +817,8 @@ async function communityRequest(path, options={}){
   return payload;
 }
 
-function getVideoCommentId(video=currentVideo){
-  return `beplay-video-${video.id}`.toLowerCase();
-}
-
 function getVideoReactionPollId(video=currentVideo){
   return `beplay-reaction-${video.id}`.toLowerCase();
-}
-
-function formatCommentDate(value){
-  const date=value ? new Date(value) : new Date();
-  if(Number.isNaN(date.getTime())) return '';
-  return date.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
 }
 
 function setVideo(video){
@@ -980,40 +884,12 @@ function renderReactions(totals={}, selected=''){
   });
 }
 
-function renderComments(comments=[]){
-  const list=document.getElementById('videoCommentsList');
-  if(!comments.length){
-    list.innerHTML='<article class="video-comment"><p>Seja o primeiro a comentar este video.</p></article>';
-    return;
-  }
-  list.innerHTML=[...comments].reverse().map(comment=>`
-    <article class="video-comment" data-comment-id="${escapeHtml(comment.id)}">
-      <header>
-        <strong>${escapeHtml(comment.name||'Visitante')}</strong>
-        <time>${escapeHtml(formatCommentDate(comment.createdAt))}</time>
-      </header>
-      <p>${escapeHtml(comment.text)}</p>
-      <div class="comment-tools">
-        <button type="button" data-report-comment="${escapeHtml(comment.id)}">Denunciar</button>
-      </div>
-    </article>
-  `).join('');
-  list.querySelectorAll('[data-report-comment]').forEach(button=>{
-    button.addEventListener('click',()=>reportComment(button.dataset.reportComment));
-  });
-}
-
 async function loadVideoCommunity(){
   try{
-    const [state, commentsPayload]=await Promise.all([
-      communityRequest('/state'),
-      communityRequest(`/comments?scope=beplay&id=${encodeURIComponent(getVideoCommentId())}`)
-    ]);
+    const state=await communityRequest('/state');
     renderReactions(state?.votes?.[getVideoReactionPollId()]?.totals || {}, localStorage.getItem(`${getVideoReactionPollId()}:choice`) || '');
-    renderComments(commentsPayload.comments || []);
   }catch(error){
     renderReactions({}, '');
-    document.getElementById('videoCommentsList').innerHTML='<article class="video-comment"><p>Comentarios online indisponiveis no momento.</p></article>';
   }
 }
 
@@ -1034,37 +910,6 @@ document.querySelectorAll('[data-video-reaction]').forEach(button=>{
     }
   });
 });
-
-document.getElementById('videoCommentForm').addEventListener('submit',async event=>{
-  event.preventDefault();
-  const name=document.getElementById('videoCommentName').value.trim() || 'Visitante';
-  const text=document.getElementById('videoCommentText').value.trim();
-  if(!text) return;
-  try{
-    const payload=await communityRequest('/comment',{
-      method:'POST',
-      body:JSON.stringify({scope:'beplay',id:getVideoCommentId(),name,text,clientId:getClientId()})
-    });
-    document.getElementById('videoCommentText').value='';
-    renderComments(payload.comments || []);
-    showToast('Comentario publicado');
-  }catch(error){
-    showToast('Servidor de comentarios indisponivel');
-  }
-});
-
-async function reportComment(commentId){
-  try{
-    const payload=await communityRequest('/comment-action',{
-      method:'POST',
-      body:JSON.stringify({scope:'beplay',id:getVideoCommentId(),commentId,action:'report',clientId:getClientId()})
-    });
-    renderComments(payload.comments || []);
-    showToast('Comentario denunciado');
-  }catch(error){
-    showToast('Servidor de comentarios indisponivel');
-  }
-}
 
 document.getElementById('watchOnSite').addEventListener('click',()=>{
   document.getElementById('youtubePlayer').scrollIntoView({behavior:'smooth',block:'center'});
