@@ -154,6 +154,20 @@ function publicComments(comments){
   return (Array.isArray(comments) ? comments : []).map(publicComment);
 }
 
+function publicInteraction(interaction){
+  return {
+    id:interaction.id,
+    type:interaction.type,
+    target:interaction.target,
+    value:interaction.value,
+    createdAt:interaction.createdAt
+  };
+}
+
+function publicInteractions(interactions){
+  return (Array.isArray(interactions) ? interactions : []).map(publicInteraction);
+}
+
 function publicCommunityState(state){
   const publicVotes = {};
   Object.entries(state.votes || {}).forEach(([pollId, poll]) => {
@@ -165,7 +179,8 @@ function publicCommunityState(state){
     updatedAt:state.updatedAt,
     votes:publicVotes,
     comments:Object.fromEntries(Object.entries(state.comments || {}).map(([key, comments]) => [key, publicComments(comments)])),
-    palpites:state.palpites
+    palpites:state.palpites,
+    interactions:publicInteractions(state.interactions)
   };
 }
 

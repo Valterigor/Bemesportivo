@@ -11013,6 +11013,7 @@ function setupWorldCupStoryCard(){
   if(!card) return;
 
   const storageKey = 'bemStoryBrasilHaiti2026';
+  const targetId = 'story-brasil-haiti-2026';
   const defaultState = {
     winner:'Brasil',
     homeScore:2,
@@ -11028,9 +11029,12 @@ function setupWorldCupStoryCard(){
   }catch(error){}
 
   const shareline = document.getElementById('storyShareline');
+  const results = document.getElementById('storyResults');
+  const saveButton = document.getElementById('storySaveAnswers');
   const confidenceInput = card.querySelector('[data-story-confidence]');
   const confidenceOutput = document.getElementById('storyConfidenceValue');
   const scoreInputs = Array.from(card.querySelectorAll('[data-story-score]'));
+  let onlineInteractions = [];
 
   function clampScore(value){
     const number = Number(value);
@@ -11047,8 +11051,45 @@ function setupWorldCupStoryCard(){
   function registerStoryInteraction(type, value){
     communityRequest('/interaction',{
       method:'POST',
-      body:JSON.stringify({type,target:'story-brasil-haiti-2026',value,clientId:getCommunityClientId()})
+      body:JSON.stringify({type,target:targetId,value,clientId:getCommunityClientId()})
+    }).then(payload => {
+      onlineInteractions = Array.isArray(payload?.interactions) ? payload.interactions.filter(item => item.target === targetId) : onlineInteractions;
+      renderOnlineResults();
     }).catch(error => console.warn('Interacao salva localmente:', error));
+  }
+
+  function getTopChoice(type){
+    const counts = {};
+    onlineInteractions
+      .filter(item => item.type === type && item.value)
+      .forEach(item => { counts[item.value] = (counts[item.value] || 0) + 1; });
+    return Object.entries(counts).sort((a, b) => b[1] - a[1])[0] || null;
+  }
+
+  function renderOnlineResults(){
+    if(!results) return;
+    const total = onlineInteractions.length;
+    const winner = getTopChoice('winner');
+    const score = getTopChoice('score');
+    const player = getTopChoice('player');
+    const mood = getTopChoice('mood');
+
+    if(!total){
+      results.innerHTML = '<strong>Resultados da torcida</strong><span>As escolhas aparecem aqui em tempo real.</span>';
+      return;
+    }
+
+    results.innerHTML = `
+      <strong>${escapeHtml(total)} escolha${total === 1 ? '' : 's'} registrada${total === 1 ? '' : 's'}</strong>
+      <span>${winner ? `Vencedor: ${escapeHtml(winner[0])}` : 'Vencedor: aguardando'} | ${score ? `Placar: ${escapeHtml(score[0])}` : 'Placar: aguardando'}</span>
+      <span>${player ? `Craque: ${escapeHtml(player[0])}` : 'Craque: aguardando'} | ${mood ? escapeHtml(mood[0]) : 'Torcida entrando no clima'}</span>
+    `;
+  }
+
+  function syncOnlineInteractions(statePayload){
+    const interactions = statePayload?.interactions;
+    onlineInteractions = Array.isArray(interactions) ? interactions.filter(item => item.target === targetId) : [];
+    renderOnlineResults();
   }
 
   function syncButtons(group, selected){
@@ -11083,6 +11124,10 @@ function setupWorldCupStoryCard(){
     persist();
   }
 
+  function registerCurrentScore(){
+    registerStoryInteraction('score', `Brasil ${state.homeScore} x ${state.awayScore} Haiti`);
+  }
+
   card.querySelectorAll('[data-story-group] button').forEach(button => {
     button.addEventListener('click', () => {
       const group = button.closest('[data-story-group]')?.dataset.storyGroup;
@@ -11092,6 +11137,7 @@ function setupWorldCupStoryCard(){
       if(group === 'mood') state.mood = button.dataset.storyValue;
       render();
       registerStoryInteraction(group, button.dataset.storyValue);
+      if(group === 'winner') registerCurrentScore();
     });
   });
 
@@ -11100,7 +11146,7 @@ function setupWorldCupStoryCard(){
       if(input.dataset.storyScore === 'home') state.homeScore = clampScore(input.value);
       if(input.dataset.storyScore === 'away') state.awayScore = clampScore(input.value);
       render();
-      registerStoryInteraction(`score-${input.dataset.storyScore}`, input.value);
+      registerCurrentScore();
     });
   });
 
@@ -11110,7 +11156,18 @@ function setupWorldCupStoryCard(){
     registerStoryInteraction('confidence', confidenceInput.value);
   });
 
+  saveButton?.addEventListener('click', () => {
+    render();
+    registerStoryInteraction('winner', state.winner);
+    registerCurrentScore();
+    registerStoryInteraction('player', state.player);
+    registerStoryInteraction('mood', state.mood);
+  });
+
+  refreshCommunityState().then(syncOnlineInteractions);
+  window.setInterval(() => refreshCommunityState().then(syncOnlineInteractions), 10000);
   render();
+  renderOnlineResults();
 }
 
 function setupCraquePartidaVote(){
@@ -11137,21 +11194,30 @@ function setupCraquePartidaVote(){
     selected = localStorage.getItem(choiceKey) || '';
   }catch(error){}
 
+  function isValidChoice(id){
+    return Object.prototype.hasOwnProperty.call(defaultVotes, id);
+  }
+
   function persist(){
     try{
       if(selected) localStorage.setItem(choiceKey, selected);
+      else localStorage.removeItem(choiceKey);
     }catch(error){}
   }
 
   function applyVoteState(voteState){
     const totals = voteState?.totals || voteState || {};
     votes = {...defaultVotes, ...totals};
-    if(voteState?.selected){
+    if(voteState?.selected && isValidChoice(voteState.selected)){
       selected = voteState.selected;
       persist();
     }
-    if(voteState?.choices?.[clientId]){
+    if(voteState?.choices?.[clientId] && isValidChoice(voteState.choices[clientId])){
       selected = voteState.choices[clientId];
+      persist();
+    }
+    if(selected && !isValidChoice(selected)){
+      selected = '';
       persist();
     }
   }
@@ -11182,7 +11248,7 @@ function setupCraquePartidaVote(){
   grid.querySelectorAll('[data-craque-vote]').forEach(button => {
     button.addEventListener('click', () => {
       const id = button.dataset.craqueVote;
-      if(!Object.prototype.hasOwnProperty.call(votes, id)) return;
+      if(!isValidChoice(id)) return;
 
       if(selected && selected !== id){
         votes[selected] = Math.max(0, (Number(votes[selected]) || 0) - 1);

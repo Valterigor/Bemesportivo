@@ -90,6 +90,20 @@ function publicComments(comments){
   return (Array.isArray(comments) ? comments : []).map(publicComment);
 }
 
+function publicInteraction(interaction){
+  return {
+    id: interaction.id,
+    type: interaction.type,
+    target: interaction.target,
+    value: interaction.value,
+    createdAt: interaction.createdAt
+  };
+}
+
+function publicInteractions(interactions){
+  return (Array.isArray(interactions) ? interactions : []).map(publicInteraction);
+}
+
 function publicCommunityState(state){
   const publicVotes = {};
   Object.entries(state.votes || {}).forEach(([pollId, poll]) => {
@@ -101,7 +115,8 @@ function publicCommunityState(state){
     updatedAt: state.updatedAt,
     votes: publicVotes,
     comments: Object.fromEntries(Object.entries(state.comments || {}).map(([key, comments]) => [key, publicComments(comments)])),
-    palpites: state.palpites
+    palpites: state.palpites,
+    interactions: publicInteractions(state.interactions)
   };
 }
 
@@ -242,6 +257,62 @@ export async function handler(event){
     state.votes[pollId] = poll;
     await writeState(state);
     return json(200, { ok: true, pollId, vote: { totals: poll.totals, selected: choiceId }, updatedAt: state.updatedAt });
+  }
+
+  if(event.httpMethod === 'POST' && action === 'palpite'){
+    const body = parseBody(event);
+    const item = body.palpite || body;
+    const matchId = cleanText(item.matchId, 120);
+    const userId = cleanText(item.userId, 120);
+    if(!matchId || !userId) return json(400, { ok: false, error: 'Palpite invalido.' });
+
+    const cleanPalpite = {
+      ...item,
+      matchId,
+      userId,
+      entryId: cleanText(item.entryId, 120) || `palpite-${Date.now()}`,
+      userName: cleanText(item.userName, 40),
+      userTeam: cleanText(item.userTeam, 40),
+      userCity: cleanText(item.userCity, 40),
+      home: cleanText(item.home, 80),
+      away: cleanText(item.away, 80),
+      group: cleanText(item.group, 20),
+      venue: cleanText(item.venue, 120),
+      player: cleanText(item.player, 80),
+      homeScore: Math.max(0, Math.min(15, Number(item.homeScore) || 0)),
+      awayScore: Math.max(0, Math.min(15, Number(item.awayScore) || 0)),
+      confidence: Math.max(10, Math.min(100, Number(item.confidence) || 50)),
+      updatedAt: new Date().toISOString()
+    };
+    const history = Array.isArray(state.palpites?.history) ? state.palpites.history : [];
+    const withoutSame = history.filter(saved => !(saved.userId === userId && saved.matchId === matchId));
+    withoutSame.push(cleanPalpite);
+    state.palpites = { history: withoutSame.slice(-500) };
+    await writeState(state);
+    return json(200, { ok: true, palpites: state.palpites, updatedAt: state.updatedAt });
+  }
+
+  if(event.httpMethod === 'POST' && action === 'interaction'){
+    const body = parseBody(event);
+    const type = cleanText(body.type, 40);
+    const target = cleanText(body.target, 120);
+    const value = cleanText(body.value, 120);
+    const clientId = cleanText(body.clientId, 120);
+    if(!type || !target || !value || !clientId) return json(400, { ok: false, error: 'Interacao invalida.' });
+
+    state.interactions = [
+      ...(Array.isArray(state.interactions) ? state.interactions : []),
+      {
+        id: `interaction-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        type,
+        target,
+        value,
+        clientId,
+        createdAt: new Date().toISOString()
+      }
+    ].slice(-1000);
+    await writeState(state);
+    return json(200, { ok: true, interactions: publicInteractions(state.interactions), updatedAt: state.updatedAt });
   }
 
   return json(404, { ok: false, error: 'API nao encontrada.' });

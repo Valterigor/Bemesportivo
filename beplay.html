@@ -776,6 +776,7 @@ const videos=[
 
 let currentVideo=videos[0];
 let toastTimer=null;
+let communityRefreshTimer=null;
 const COMMUNITY_ROOT=location.protocol==='file:'?'':'/api/community';
 const CLIENT_KEY='bemEsportivoCommunityClientId';
 const siteMenuToggle=document.getElementById('siteMenuToggle');
@@ -951,6 +952,10 @@ try{
 }catch(error){}
 renderRelated();
 loadVideoCommunity();
+communityRefreshTimer=window.setInterval(()=>{
+  if(document.hidden) return;
+  loadVideoCommunity();
+},15000);
 </script>
 </body>
 </html>
