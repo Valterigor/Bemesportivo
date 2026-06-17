@@ -2555,10 +2555,200 @@ box-shadow:0 18px 45px rgba(0,0,0,.16);
 
 .worldcup-table-card{
 margin-top:22px;
-background:#fff;
+background:
+linear-gradient(145deg,rgba(8,14,24,.96),rgba(3,8,13,.98)),
+radial-gradient(circle at top right,rgba(36,246,255,.18),transparent 38%);
+border:1px solid rgba(168,229,255,.26);
 border-radius:8px;
-box-shadow:0 16px 34px rgba(0,0,0,.22);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 18px 45px rgba(0,0,0,.28);
 overflow:hidden;
+}
+
+.worldcup-results-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:12px;
+padding:14px;
+background:
+linear-gradient(180deg,rgba(255,255,255,.035),transparent 28%),
+radial-gradient(circle at 50% 0,rgba(36,246,255,.1),transparent 42%);
+}
+
+.worldcup-result-card{
+position:relative;
+overflow:hidden;
+display:grid;
+gap:10px;
+min-height:178px;
+padding:12px;
+border:1px solid rgba(168,229,255,.3);
+border-radius:8px;
+background:
+linear-gradient(90deg,rgba(31,247,255,.12),transparent 32%,rgba(255,215,106,.12)),
+linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.34));
+box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 12px 28px rgba(0,0,0,.24);
+}
+
+.worldcup-result-card::before{
+content:"";
+position:absolute;
+inset:0;
+pointer-events:none;
+background:
+linear-gradient(115deg,transparent 0 20%,rgba(255,255,255,.08) 20.4% 21%,transparent 21.4%),
+radial-gradient(circle at 50% 0,rgba(36,246,255,.18),transparent 35%);
+}
+
+.worldcup-result-top,
+.worldcup-result-match,
+.worldcup-result-bottom{
+position:relative;
+z-index:1;
+}
+
+.worldcup-result-top,
+.worldcup-result-bottom{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
+
+.worldcup-result-top{
+color:#9ee8ff;
+font-size:11px;
+font-weight:900;
+text-transform:uppercase;
+letter-spacing:.04em;
+}
+
+.worldcup-result-top strong{
+color:#f6d16a;
+text-align:right;
+white-space:nowrap;
+}
+
+.worldcup-result-match{
+display:grid;
+grid-template-columns:minmax(0,1fr) minmax(82px,auto) minmax(0,1fr);
+align-items:center;
+gap:8px;
+}
+
+.worldcup-result-team{
+display:grid;
+gap:5px;
+justify-items:center;
+min-width:0;
+padding:8px 6px;
+border:1px solid rgba(255,255,255,.1);
+border-radius:8px;
+background:rgba(255,255,255,.055);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.worldcup-result-team .worldcup-flag{
+width:42px;
+height:30px;
+border-radius:5px;
+overflow:hidden;
+box-shadow:0 0 16px rgba(36,246,255,.22);
+}
+
+.worldcup-result-team .worldcup-flag img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.worldcup-result-team strong{
+max-width:100%;
+overflow:hidden;
+color:#fff;
+font-size:12px;
+font-weight:1000;
+line-height:1.05;
+text-align:center;
+text-overflow:ellipsis;
+text-transform:uppercase;
+text-shadow:0 1px 8px rgba(0,0,0,.55);
+}
+
+.worldcup-result-team small{
+min-height:12px;
+color:#9fb3c2;
+font-size:9px;
+font-weight:800;
+text-align:center;
+text-transform:uppercase;
+}
+
+.worldcup-result-score{
+min-width:82px;
+min-height:66px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+padding:8px;
+border:1px solid rgba(255,255,255,.2);
+border-radius:8px;
+background:
+linear-gradient(180deg,rgba(255,255,255,.14),rgba(0,0,0,.58)),
+radial-gradient(circle at 50% 0,rgba(36,246,255,.18),transparent 44%);
+color:#fff;
+font-weight:1000;
+box-shadow:
+inset 0 1px 0 rgba(255,255,255,.18),
+inset 0 0 18px rgba(36,246,255,.1),
+0 0 22px rgba(36,246,255,.18);
+}
+
+.worldcup-result-score .score-number{
+display:grid;
+place-items:center;
+min-width:28px;
+height:42px;
+color:#f6d16a;
+font-size:34px;
+line-height:1;
+text-align:center;
+font-variant-numeric:tabular-nums;
+text-shadow:0 0 18px rgba(246,209,106,.42),0 2px 0 rgba(0,0,0,.8);
+}
+
+.worldcup-result-score .score-separator{
+display:inline-grid;
+place-items:center;
+width:18px;
+height:22px;
+color:#9ee8ff;
+font-size:14px;
+font-weight:1000;
+text-transform:uppercase;
+text-shadow:0 0 12px rgba(158,232,255,.45);
+}
+
+.worldcup-result-bottom{
+align-items:flex-end;
+color:#dcefff;
+font-size:11px;
+font-weight:800;
+line-height:1.25;
+}
+
+.worldcup-result-bottom span{
+min-width:0;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.worldcup-result-bottom > div{
+display:grid;
+justify-items:end;
+gap:4px;
+min-width:max-content;
 }
 
 .worldcup-table .team-cell{
@@ -6014,6 +6204,46 @@ box-shadow:0 0 24px rgba(45,255,141,.2);
     min-width:860px;
   }
 
+  .worldcup-results-grid{
+    grid-template-columns:1fr;
+    padding:10px;
+  }
+
+  .worldcup-result-card{
+    padding:10px;
+  }
+
+  .worldcup-result-match{
+    grid-template-columns:minmax(0,1fr) 78px minmax(0,1fr);
+    gap:6px;
+  }
+
+  .worldcup-result-team{
+    padding:7px 4px;
+  }
+
+  .worldcup-result-team strong{
+    font-size:10px;
+  }
+
+  .worldcup-result-score{
+    min-width:78px;
+    min-height:60px;
+    padding:7px;
+    gap:4px;
+  }
+
+  .worldcup-result-score .score-number{
+    min-width:23px;
+    height:36px;
+    font-size:30px;
+  }
+
+  .worldcup-result-score .score-separator{
+    width:14px;
+    font-size:13px;
+  }
+
   .mobile-app-nav{
     position:fixed;
     left:10px;
@@ -6859,25 +7089,10 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Ca
     <div id="worldCupUpdated" class="standings-updated">Atualizando jogos...</div>
   </div>
 
-  <div class="standings-table-wrap">
-    <table class="standings-table worldcup-table">
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Horário</th>
-          <th>Grupo</th>
-          <th>Jogo</th>
-          <th>Placar</th>
-          <th>Estádio</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="worldCupTable">
-        <tr>
-          <td colspan="7">Carregando tabela da Copa...</td>
-        </tr>
-      </tbody>
-    </table>
+  <div id="worldCupTable" class="worldcup-results-grid" aria-live="polite">
+    <article class="worldcup-result-card">
+      <div class="worldcup-result-bottom"><span>Carregando tabela da Copa...</span></div>
+    </article>
   </div>
 </div>
 
@@ -8331,22 +8546,109 @@ async function fetchEspnWorldCupMatches(){
 }
 
 function isSameWorldCupMatch(a,b){
+  if(a.matchNumber && b.matchNumber && Number(a.matchNumber) === Number(b.matchNumber)) return true;
   if(a.espnEventId && b.espnEventId && String(a.espnEventId) === String(b.espnEventId)) return true;
   if(a.date !== b.date) return false;
-  const aHome = getWorldCupTeamKey(a.home);
-  const aAway = getWorldCupTeamKey(a.away);
-  const bHome = getWorldCupTeamKey(b.home);
-  const bAway = getWorldCupTeamKey(b.away);
-  const sameTeams = (aHome === bHome && aAway === bAway) || (aHome === bAway && aAway === bHome);
+  const aHomeList = getWorldCupTeamKeys(a.home);
+  const aAwayList = getWorldCupTeamKeys(a.away);
+  const bHomeList = getWorldCupTeamKeys(b.home);
+  const bAwayList = getWorldCupTeamKeys(b.away);
+  const sameHomeAway = hasWorldCupTeamOverlap(aHomeList, bHomeList) && hasWorldCupTeamOverlap(aAwayList, bAwayList);
+  const sameAwayHome = hasWorldCupTeamOverlap(aHomeList, bAwayList) && hasWorldCupTeamOverlap(aAwayList, bHomeList);
+  const sameTeams = sameHomeAway || sameAwayHome;
   if(sameTeams) return true;
 
-  const sameKickoff = a.time && b.time && a.time === b.time;
+  const sameKickoff = isSameWorldCupKickoff(a, b);
+  const sameVenue = getWorldCupVenueKey(a.venue) && getWorldCupVenueKey(a.venue) === getWorldCupVenueKey(b.venue);
+  if(sameKickoff && sameVenue) return true;
+
   return sameKickoff && (
-    aHome === bHome ||
-    aAway === bAway ||
-    aHome === bAway ||
-    aAway === bHome
+    hasWorldCupTeamOverlap(aHomeList, bHomeList) ||
+    hasWorldCupTeamOverlap(aAwayList, bAwayList) ||
+    hasWorldCupTeamOverlap(aHomeList, bAwayList) ||
+    hasWorldCupTeamOverlap(aAwayList, bHomeList)
   );
+}
+
+function getWorldCupTeamKeys(name){
+  return String(name || '')
+    .split('/')
+    .map(part => getWorldCupTeamKey(part.replace(/\(.+\)/g, '').trim()))
+    .filter(Boolean);
+}
+
+function hasWorldCupTeamOverlap(a,b){
+  return a.some(item => b.includes(item));
+}
+
+function getWorldCupMinutes(match){
+  const [hours, minutes] = String(match?.time || '').split(':').map(Number);
+  if(!Number.isFinite(hours) || !Number.isFinite(minutes)) return null;
+  return (hours * 60) + minutes;
+}
+
+function isSameWorldCupKickoff(a,b){
+  const aMinutes = getWorldCupMinutes(a);
+  const bMinutes = getWorldCupMinutes(b);
+  if(aMinutes == null || bMinutes == null) return false;
+  return Math.abs(aMinutes - bMinutes) <= 15;
+}
+
+function getWorldCupVenueKey(value){
+  return normalizeStr(value || '')
+    .replace(/\bstadium\b/g, 'estadio')
+    .replace(/\bestadio\b/g, 'estadio')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function getWorldCupMatchSourceRank(match){
+  if(match.official || WORLD_CUP_MATCHES.some(official => official === match)) return 3;
+  if(match.source === 'FIFA') return 3;
+  if(match.source === 'ESPN') return 2;
+  return 1;
+}
+
+function hasCompositeWorldCupTeam(match){
+  return String(match?.home || '').includes('/') || String(match?.away || '').includes('/');
+}
+
+function mergeWorldCupMatchData(base, update){
+  const updateHasScore = update.homeScore != null && update.awayScore != null;
+  const baseHasScore = base.homeScore != null && base.awayScore != null;
+  const baseRank = getWorldCupMatchSourceRank(base);
+  const updateRank = getWorldCupMatchSourceRank(update);
+  const useUpdateScore = updateHasScore && (!baseHasScore || updateRank >= baseRank);
+  const keepBaseTeams = getWorldCupMatchSourceRank(base) >= getWorldCupMatchSourceRank(update) && !hasCompositeWorldCupTeam(base);
+
+  return {
+    ...base,
+    ...update,
+    official:Boolean(base.official || WORLD_CUP_MATCHES.some(official => official === base)),
+    home:keepBaseTeams ? base.home : (update.home || base.home),
+    away:keepBaseTeams ? base.away : (update.away || base.away),
+    date:base.date || update.date,
+    time:base.time || update.time,
+    group:base.group || update.group,
+    venue:base.venue || update.venue,
+    homeScore:useUpdateScore ? update.homeScore : base.homeScore,
+    awayScore:useUpdateScore ? update.awayScore : base.awayScore,
+    status:update.status || base.status,
+    statusDetail:update.statusDetail || base.statusDetail,
+    liveClock:update.liveClock || base.liveClock,
+    period:update.period || base.period,
+    source:updateRank >= baseRank ? (update.source || base.source || 'Sistema') : (base.source || 'Sistema'),
+    espnEventId:update.espnEventId || base.espnEventId
+  };
+}
+
+function mergeWorldCupDuplicate(existing, match){
+  const matchRank = getWorldCupMatchSourceRank(match);
+  const existingRank = getWorldCupMatchSourceRank(existing);
+  const base = matchRank > existingRank ? match : existing;
+  const extra = base === match ? existing : match;
+
+  return mergeWorldCupMatchData(base, extra);
 }
 
 function getWorldCupTeamKey(name){
@@ -8412,14 +8714,7 @@ function dedupeWorldCupMatches(matches){
       return unique;
     }
 
-    const existing = unique[existingIndex];
-    const matchHasScore = match.homeScore != null && match.awayScore != null;
-    const existingHasScore = existing.homeScore != null && existing.awayScore != null;
-    if(matchHasScore && !existingHasScore){
-      unique[existingIndex] = {...existing, ...match, group:existing.group || match.group, venue:match.venue || existing.venue};
-    }else{
-      unique[existingIndex] = {...match, ...existing, group:existing.group || match.group, venue:existing.venue || match.venue};
-    }
+    unique[existingIndex] = mergeWorldCupDuplicate(unique[existingIndex], match);
 
     return unique;
   }, []);
@@ -8428,7 +8723,7 @@ function dedupeWorldCupMatches(matches){
 function mergeWorldCupMatches(savedMatches, liveMatches){
   const merged = savedMatches.map(match => {
     const live = liveMatches.find(item => isSameWorldCupMatch(match,item));
-    return live ? {...match,...live,group:match.group || live.group,venue:live.venue || match.venue} : match;
+    return live ? mergeWorldCupMatchData(match, live) : match;
   });
   const unmatchedLive = liveMatches.filter(live => !merged.some(match => isSameWorldCupMatch(match, live)));
 
@@ -9513,35 +9808,36 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
     const awayFlag = flagForTeam(match.away, '32x24');
     const homeDisplay = getPrimaryWorldCupTeam(match.home);
     const awayDisplay = getPrimaryWorldCupTeam(match.away);
+    const homeDetail = getCompositeTeamDetail(match.home);
+    const awayDetail = getCompositeTeamDetail(match.away);
 
     return `
-      <tr>
-        <td>${formatWorldCupDate(match)}</td>
-        <td>${formatWorldCupTime(match)}</td>
-        <td>${groupLabel}</td>
-        <td>
-          <div class="team-cell">
-            <div class="worldcup-table-team">
-              <div class="worldcup-flag">${homeFlag ? `<img src="${homeFlag}" alt="${homeDisplay}">` : initials(homeDisplay)}</div>
-              <div>
-                <div class="worldcup-team-main" title="${match.home}">${homeDisplay}</div>
-                <div class="worldcup-team-detail">${getCompositeTeamDetail(match.home)}</div>
-              </div>
-            </div>
-            <strong aria-hidden="true">x</strong>
-            <div class="worldcup-table-team">
-              <div>
-                <div class="worldcup-team-main" title="${match.away}">${awayDisplay}</div>
-                <div class="worldcup-team-detail">${getCompositeTeamDetail(match.away)}</div>
-              </div>
-              <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${awayDisplay}">` : initials(awayDisplay)}</div>
-            </div>
+      <article class="worldcup-result-card" aria-label="${escapeHtml(homeDisplay)} contra ${escapeHtml(awayDisplay)}">
+        <div class="worldcup-result-top">
+          <span>${escapeHtml(formatWorldCupDate(match))} - ${escapeHtml(formatWorldCupTime(match))}</span>
+          <strong>${escapeHtml(groupLabel)}</strong>
+        </div>
+        <div class="worldcup-result-match">
+          <div class="worldcup-result-team">
+            <div class="worldcup-flag">${homeFlag ? `<img src="${homeFlag}" alt="${escapeHtml(homeDisplay)}" loading="lazy">` : initials(homeDisplay)}</div>
+            <strong title="${escapeHtml(match.home)}">${escapeHtml(homeDisplay)}</strong>
+            <small>${escapeHtml(homeDetail)}</small>
           </div>
-        </td>
-        <td class="worldcup-table-score">${renderWorldCupScore(match)}</td>
-        <td>${match.venue}</td>
-        <td><span class="match-status ${statusClass}">${status}</span>${match.liveClock ? `<div class="worldcup-team-detail">Relógio: ${escapeHtml(match.liveClock)}</div>` : match.statusDetail ? `<div class="worldcup-team-detail">${escapeHtml(match.statusDetail)}</div>` : ''}</td>
-      </tr>
+          <div class="worldcup-result-score" aria-label="Placar">${renderWorldCupScore(match)}</div>
+          <div class="worldcup-result-team">
+            <div class="worldcup-flag">${awayFlag ? `<img src="${awayFlag}" alt="${escapeHtml(awayDisplay)}" loading="lazy">` : initials(awayDisplay)}</div>
+            <strong title="${escapeHtml(match.away)}">${escapeHtml(awayDisplay)}</strong>
+            <small>${escapeHtml(awayDetail)}</small>
+          </div>
+        </div>
+        <div class="worldcup-result-bottom">
+          <span title="${escapeHtml(match.venue)}">${escapeHtml(match.venue)}</span>
+          <div>
+            <span class="match-status ${statusClass}">${escapeHtml(status)}</span>
+            ${match.liveClock ? `<div class="worldcup-team-detail">Relógio: ${escapeHtml(match.liveClock)}</div>` : match.statusDetail ? `<div class="worldcup-team-detail">${escapeHtml(match.statusDetail)}</div>` : ''}
+          </div>
+        </div>
+      </article>
     `;
   }).join('');
 
