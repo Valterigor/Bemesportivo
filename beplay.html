@@ -62,15 +62,121 @@ button,input,textarea{font:inherit}
 button{min-height:48px;cursor:pointer}
 img{display:block;max-width:100%}
 
+.site-menu{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:80;
+  width:100%;
+  padding:calc(7px + var(--safe-top)) 14px 7px;
+  border-bottom:2px solid #fc6e02;
+  background:#000;
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+}
+
+.site-menu-content{
+  width:min(100%, 1180px);
+  min-height:52px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.site-logo{
+  display:flex;
+  align-items:center;
+  flex:0 0 auto;
+}
+
+.site-logo img{
+  height:42px;
+  width:auto;
+}
+
+.site-nav{
+  display:flex;
+  flex:1 1 auto;
+  justify-content:center;
+  align-items:center;
+  gap:22px;
+}
+
+.site-nav a{
+  position:relative;
+  color:#fc6e02;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  transition:.2s ease;
+}
+
+.site-nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:#fc6e02;
+  transition:.2s ease;
+}
+
+.site-nav a:hover,
+.site-nav a.is-active{
+  color:#fff;
+}
+
+.site-nav a:hover::after,
+.site-nav a.is-active::after{
+  width:100%;
+}
+
+.site-contact{
+  flex:0 0 auto;
+  display:inline-grid;
+  place-items:center;
+  min-height:40px;
+  padding:10px 18px;
+  border-radius:999px;
+  background:#fc6e02;
+  color:#000;
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.site-menu-btn{
+  display:none;
+  width:42px;
+  height:42px;
+  border:1px solid rgba(252,110,2,.38);
+  border-radius:8px;
+  background:transparent;
+  place-items:center;
+  padding:0;
+}
+
+.site-menu-btn span{
+  display:block;
+  width:19px;
+  height:2px;
+  margin:3px auto;
+  border-radius:999px;
+  background:#fc6e02;
+}
+
 .app-shell{
   width:min(100%, 760px);
   margin:0 auto;
-  padding:calc(112px + var(--safe-top)) 12px 24px;
+  padding:calc(176px + var(--safe-top)) 12px 24px;
 }
 
 .topbar{
   position:fixed;
-  top:0;
+  top:calc(66px + var(--safe-top));
   left:50%;
   transform:translateX(-50%);
   z-index:40;
@@ -548,6 +654,64 @@ img{display:block;max-width:100%}
   .content-grid .section{margin-top:0}
 }
 
+@media (max-width:920px){
+  .site-menu{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .site-menu-content{
+    min-height:50px;
+    gap:10px;
+  }
+
+  .site-logo img{
+    height:36px;
+  }
+
+  .site-menu-btn{
+    display:grid;
+  }
+
+  .site-contact{
+    display:none;
+  }
+
+  .site-nav{
+    position:absolute;
+    left:10px;
+    right:10px;
+    top:calc(100% + 8px);
+    display:none;
+    grid-template-columns:1fr;
+    gap:0;
+    padding:8px;
+    border:1px solid rgba(252,110,2,.24);
+    border-radius:8px;
+    background:#05070c;
+    box-shadow:0 18px 40px rgba(0,0,0,.38);
+  }
+
+  .site-nav.is-open{
+    display:grid;
+  }
+
+  .site-nav a{
+    min-height:42px;
+    display:flex;
+    align-items:center;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+
+  .site-nav a:last-child{
+    border-bottom:0;
+  }
+
+  .site-nav a::after{
+    display:none;
+  }
+}
+
 @media (max-width:390px){
   .app-shell{padding-left:9px;padding-right:9px}
   .topbar{padding-left:9px;padding-right:9px}
@@ -559,7 +723,7 @@ img{display:block;max-width:100%}
 }
 
 @media (max-width:340px){
-  .app-shell{padding:calc(108px + var(--safe-top)) 7px 20px}
+  .app-shell{padding:calc(172px + var(--safe-top)) 7px 20px}
   .brand-kicker span{font-size:9px}
   .brand-kicker strong{font-size:15px}
   .round-pill{min-width:39px;padding:5px 4px}
@@ -574,6 +738,29 @@ img{display:block;max-width:100%}
 </style>
 </head>
 <body>
+<header class="site-menu" id="topo">
+  <div class="site-menu-content">
+    <a class="site-logo" href="/" aria-label="Bem Esportivo">
+      <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
+    </a>
+    <nav id="siteNav" class="site-nav" aria-label="Menu principal">
+      <a href="/">Inicio</a>
+      <a href="/profissionais">Profissionais</a>
+      <a href="/produtos">Produtos</a>
+      <a href="/escalacao">Escalacao</a>
+      <a href="/reportagens">Reportagens</a>
+      <a class="is-active" href="/beplay">Beplay</a>
+      <a href="/coluna-valtinho">Fala ai Valtinho</a>
+    </nav>
+    <a class="site-contact" href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer">Entre em contato</a>
+    <button class="site-menu-btn" id="siteMenuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="siteNav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
 <header class="topbar">
   <div class="topline">
     <div class="brand-kicker">
@@ -677,6 +864,15 @@ let currentVideo=videos[0];
 let toastTimer=null;
 const COMMUNITY_ROOT=location.protocol==='file:'?'':'/api/community';
 const CLIENT_KEY='bemEsportivoCommunityClientId';
+const siteMenuToggle=document.getElementById('siteMenuToggle');
+const siteNav=document.getElementById('siteNav');
+
+if(siteMenuToggle && siteNav){
+  siteMenuToggle.addEventListener('click',()=>{
+    const isOpen=siteNav.classList.toggle('is-open');
+    siteMenuToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+}
 
 function escapeHtml(value){
   return String(value||'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
