@@ -5739,6 +5739,62 @@ line-height:1.25;
 color:#6b7280;
 }
 
+.beplay-home-callout{
+width:min(1100px, calc(100% - 32px));
+margin:14px auto 0;
+display:grid;
+grid-template-columns:minmax(0,1fr) auto;
+gap:14px;
+align-items:center;
+padding:18px;
+border-radius:8px;
+background:
+radial-gradient(circle at 12% 0,rgba(45,255,141,.22),transparent 34%),
+linear-gradient(135deg,#060910,#111827 58%,#06161b);
+color:#fff;
+box-shadow:0 18px 38px rgba(0,0,0,.18);
+overflow:hidden;
+}
+
+.beplay-home-callout span{
+display:block;
+margin-bottom:4px;
+color:#2dff8d;
+font-size:11px;
+font-weight:900;
+text-transform:uppercase;
+letter-spacing:.08em;
+}
+
+.beplay-home-callout h2{
+margin:0;
+font-size:24px;
+line-height:1.05;
+}
+
+.beplay-home-callout p{
+margin:7px 0 0;
+max-width:620px;
+color:#d7e7f2;
+font-size:14px;
+line-height:1.45;
+}
+
+.beplay-home-callout a{
+min-height:48px;
+display:grid;
+place-items:center;
+padding:12px 18px;
+border-radius:8px;
+background:linear-gradient(135deg,#2dff8d,#36d5ff);
+color:#07100d;
+font-size:12px;
+font-weight:1000;
+text-transform:uppercase;
+white-space:nowrap;
+box-shadow:0 0 24px rgba(45,255,141,.2);
+}
+
 @media (max-width: 820px){
   body{
     background:#f5f6f8;
@@ -5887,6 +5943,20 @@ color:#6b7280;
     min-width:142px;
     min-height:68px;
     scroll-snap-align:start;
+  }
+
+  .beplay-home-callout{
+    grid-template-columns:1fr;
+    width:min(100% - 22px, 520px);
+    padding:16px;
+  }
+
+  .beplay-home-callout h2{
+    font-size:21px;
+  }
+
+  .beplay-home-callout a{
+    width:100%;
   }
 
   .hero > .container,
@@ -6188,6 +6258,7 @@ color:#6b7280;
 <a href='/reportagens'>Reportagens</a>
 <a href="#palpitometro">Craque da Partida</a>
 <a href='/beplay'>Beplay</a>
+<a href='/beplay-premium'>BEplay Rodada</a>
 <a href='/coluna-valtinho'>Fala aí Valtinho</a>
 </nav>
 
@@ -6278,6 +6349,15 @@ color:#6b7280;
 <a href="/escalacao"><strong>Escalação</strong><span>Monte sua Seleção</span></a>
 <a href="/profissionais"><strong>Profissionais</strong><span>Valorize quem vive esporte</span></a>
 <a href="#reportagens-home"><strong>Reportagens</strong><span>Histórias e debate</span></a>
+</section>
+
+<section class="beplay-home-callout" aria-labelledby="beplayHomeTitle">
+<div>
+<span>Nova plataforma de videos</span>
+<h2 id="beplayHomeTitle">BEplay Rodada</h2>
+<p>Assista aos videos do Bem Esportivo em uma experiencia mobile rapida, com playlist e player direto na pagina.</p>
+</div>
+<a href="/beplay-premium">Abrir BEplay</a>
 </section>
 
 <section class="hero">
@@ -10360,6 +10440,7 @@ function arrangeHomeContentHierarchy(){
   const hero = document.querySelector('.hero');
   const carousel = document.querySelector('.banner-carousel');
   const quickActions = document.querySelector('.hub-quick-actions');
+  const beplayCallout = document.querySelector('.beplay-home-callout');
   if(!reportagens || !worldCup || !palpitometro || !hero || !carousel) return;
 
   let anchor = hero;
@@ -10367,6 +10448,10 @@ function arrangeHomeContentHierarchy(){
   if(quickActions){
     anchor.after(quickActions);
     anchor = quickActions;
+  }
+  if(beplayCallout){
+    anchor.after(beplayCallout);
+    anchor = beplayCallout;
   }
   anchor.after(worldCup);
   worldCup.after(palpitometro);

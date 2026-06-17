@@ -129,6 +129,31 @@ function getCommunityCommentKey(scope, id){
   return `${cleanId(scope, 'geral')}:${cleanId(id, 'item')}`;
 }
 
+function publicComment(comment){
+  const likedBy = comment?.likedBy && typeof comment.likedBy === 'object' ? comment.likedBy : {};
+  const reports = Array.isArray(comment?.reports) ? comment.reports : [];
+  const replies = Array.isArray(comment?.replies) ? comment.replies : [];
+  return {
+    id:comment.id,
+    name:comment.name,
+    team:comment.team || '',
+    text:comment.text,
+    createdAt:comment.createdAt,
+    likes:Object.keys(likedBy).length,
+    replies:replies.map(reply => ({
+      id:reply.id,
+      name:reply.name,
+      text:reply.text,
+      createdAt:reply.createdAt
+    })),
+    reports:reports.length
+  };
+}
+
+function publicComments(comments){
+  return (Array.isArray(comments) ? comments : []).map(publicComment);
+}
+
 function publicCommunityState(state){
   const publicVotes = {};
   Object.entries(state.votes || {}).forEach(([pollId, poll]) => {
@@ -139,7 +164,7 @@ function publicCommunityState(state){
     ok:true,
     updatedAt:state.updatedAt,
     votes:publicVotes,
-    comments:state.comments,
+    comments:Object.fromEntries(Object.entries(state.comments || {}).map(([key, comments]) => [key, publicComments(comments)])),
     palpites:state.palpites
   };
 }
@@ -156,7 +181,7 @@ async function handleCommunityApi(request, response, parsedUrl){
 
   if(request.method === 'GET' && parsedUrl.pathname === '/api/community/comments'){
     const key = getCommunityCommentKey(parsedUrl.searchParams.get('scope'), parsedUrl.searchParams.get('id'));
-    sendJson(response, 200, {ok:true, comments:state.comments[key] || [], updatedAt:state.updatedAt});
+    sendJson(response, 200, {ok:true, comments:publicComments(state.comments[key] || []), updatedAt:state.updatedAt});
     return true;
   }
 
@@ -174,13 +199,71 @@ async function handleCommunityApi(request, response, parsedUrl){
         name:cleanText(body.name || body.nome || 'Visitante', 40) || 'Visitante',
         team:cleanText(body.team || body.time || '', 40),
         text,
-        createdAt:new Date().toISOString()
+        createdAt:new Date().toISOString(),
+        likedBy:{},
+        replies:[],
+        reports:[]
       };
       state.comments[key] = [...(state.comments[key] || []), comment].slice(-100);
       writeCommunityState(state);
-      sendJson(response, 200, {ok:true, comments:state.comments[key], comment, updatedAt:state.updatedAt});
+      sendJson(response, 200, {ok:true, comments:publicComments(state.comments[key]), comment:publicComment(comment), updatedAt:state.updatedAt});
     }catch(error){
       sendJson(response, 400, {ok:false, error:'Nao foi possivel salvar comentario.', detail:error.message});
+    }
+    return true;
+  }
+
+  if(request.method === 'POST' && parsedUrl.pathname === '/api/community/comment-action'){
+    try{
+      const body = await readJsonBody(request);
+      const key = getCommunityCommentKey(body.scope, body.id);
+      const comments = Array.isArray(state.comments[key]) ? state.comments[key] : [];
+      const comment = comments.find(item => item.id === cleanText(body.commentId, 120));
+      const action = cleanId(body.action, '');
+      const clientId = cleanId(body.clientId, '');
+      if(!comment || !action || !clientId){
+        sendJson(response, 400, {ok:false, error:'Acao de comentario invalida.'});
+        return true;
+      }
+
+      if(action === 'like'){
+        comment.likedBy = comment.likedBy && typeof comment.likedBy === 'object' ? comment.likedBy : {};
+        if(comment.likedBy[clientId]){
+          delete comment.likedBy[clientId];
+        }else{
+          comment.likedBy[clientId] = true;
+        }
+      }else if(action === 'reply'){
+        const text = cleanText(body.text || body.texto, 400);
+        if(!text){
+          sendJson(response, 400, {ok:false, error:'Resposta vazia.'});
+          return true;
+        }
+        comment.replies = Array.isArray(comment.replies) ? comment.replies : [];
+        comment.replies = [
+          ...comment.replies,
+          {
+            id:`reply-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+            name:cleanText(body.name || body.nome || 'Visitante', 40) || 'Visitante',
+            text,
+            createdAt:new Date().toISOString()
+          }
+        ].slice(-50);
+      }else if(action === 'report'){
+        comment.reports = Array.isArray(comment.reports) ? comment.reports : [];
+        if(!comment.reports.includes(clientId)){
+          comment.reports.push(clientId);
+        }
+      }else{
+        sendJson(response, 400, {ok:false, error:'Acao desconhecida.'});
+        return true;
+      }
+
+      state.comments[key] = comments;
+      writeCommunityState(state);
+      sendJson(response, 200, {ok:true, comments:publicComments(comments), comment:publicComment(comment), updatedAt:state.updatedAt});
+    }catch(error){
+      sendJson(response, 400, {ok:false, error:'Nao foi possivel atualizar comentario.', detail:error.message});
     }
     return true;
   }
