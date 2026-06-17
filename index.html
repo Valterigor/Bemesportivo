@@ -2803,6 +2803,129 @@ gap:4px;
 min-width:max-content;
 }
 
+.worldcup-groups-card{
+margin-top:22px;
+background:
+linear-gradient(145deg,rgba(8,14,24,.96),rgba(3,8,13,.98)),
+radial-gradient(circle at top left,rgba(252,110,2,.16),transparent 34%),
+radial-gradient(circle at top right,rgba(36,246,255,.14),transparent 38%);
+border:1px solid rgba(168,229,255,.26);
+border-radius:8px;
+box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 18px 45px rgba(0,0,0,.28);
+overflow:hidden;
+}
+
+.worldcup-groups-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:12px;
+padding:14px;
+}
+
+.worldcup-group-card{
+position:relative;
+overflow:hidden;
+padding:12px;
+border:1px solid rgba(255,255,255,.12);
+border-radius:8px;
+background:
+linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.34)),
+radial-gradient(circle at 50% 0,rgba(36,246,255,.14),transparent 42%);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 28px rgba(0,0,0,.22);
+}
+
+.worldcup-group-card h4{
+margin:0 0 10px;
+color:#f6d16a;
+font-size:15px;
+font-weight:1000;
+letter-spacing:.05em;
+text-transform:uppercase;
+}
+
+.worldcup-group-table{
+width:100%;
+border-collapse:separate;
+border-spacing:0 6px;
+color:#fff;
+font-size:11px;
+}
+
+.worldcup-group-table th{
+color:#9ee8ff;
+font-size:9px;
+font-weight:1000;
+text-align:center;
+text-transform:uppercase;
+}
+
+.worldcup-group-table th:nth-child(2){
+text-align:left;
+}
+
+.worldcup-group-table td{
+padding:7px 5px;
+background:rgba(255,255,255,.06);
+text-align:center;
+font-weight:900;
+}
+
+.worldcup-group-table td:first-child{
+border-radius:8px 0 0 8px;
+color:#f6d16a;
+font-size:12px;
+}
+
+.worldcup-group-table td:last-child{
+border-radius:0 8px 8px 0;
+color:#f6d16a;
+font-size:13px;
+}
+
+.worldcup-group-table td:nth-child(2){
+text-align:left;
+}
+
+.worldcup-group-team{
+display:flex;
+align-items:center;
+gap:6px;
+min-width:0;
+}
+
+.worldcup-group-team .worldcup-flag{
+flex:0 0 28px;
+width:28px;
+height:20px;
+overflow:hidden;
+border-radius:4px;
+background:rgba(255,255,255,.08);
+box-shadow:0 0 12px rgba(36,246,255,.14);
+}
+
+.worldcup-group-team .worldcup-flag img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.worldcup-group-team strong{
+overflow:hidden;
+font-size:11px;
+line-height:1.05;
+text-overflow:ellipsis;
+text-transform:uppercase;
+white-space:nowrap;
+}
+
+.worldcup-group-note{
+padding:0 14px 14px;
+color:#cfe1ec;
+font-size:11px;
+font-weight:800;
+line-height:1.45;
+}
+
 .worldcup-table .team-cell{
   min-width:220px;
   display:flex;
@@ -6261,6 +6384,32 @@ box-shadow:0 0 24px rgba(45,255,141,.2);
     padding:10px;
   }
 
+  .worldcup-groups-grid{
+    grid-template-columns:1fr;
+    padding:10px;
+  }
+
+  .worldcup-group-table{
+    min-width:0;
+    font-size:10px;
+  }
+
+  .worldcup-group-table th,
+  .worldcup-group-table td{
+    padding-left:3px;
+    padding-right:3px;
+  }
+
+  .worldcup-group-team .worldcup-flag{
+    flex-basis:24px;
+    width:24px;
+    height:18px;
+  }
+
+  .worldcup-group-team strong{
+    font-size:10px;
+  }
+
   .worldcup-result-card{
     padding:10px;
   }
@@ -7133,6 +7282,20 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Ca
 
 <div id="worldCupMatches" class="seriea-cards arena-match-stack" aria-live="polite">
   <p>Carregando jogos da Copa do Mundo 2026...</p>
+</div>
+
+<div class="worldcup-groups-card" aria-labelledby="worldCupGroupsTitle">
+  <div class="standings-top">
+    <h3 id="worldCupGroupsTitle">Classificação por grupos</h3>
+    <div id="worldCupGroupsUpdated" class="standings-updated">Atualizando grupos...</div>
+  </div>
+  <div id="worldCupGroups" class="worldcup-groups-grid" aria-live="polite">
+    <article class="worldcup-group-card">
+      <h4>Grupos da Copa</h4>
+      <p class="worldcup-group-note">Carregando classificação em tempo real...</p>
+    </article>
+  </div>
+  <p class="worldcup-group-note">Critérios exibidos: pontos, jogos, vitórias, empates, derrotas, saldo e gols pró. A tabela recalcula quando os placares ao vivo forem atualizados.</p>
 </div>
 
 <div class="worldcup-table-card">
@@ -8905,6 +9068,162 @@ function renderWorldCupBroadcastScore(match){
   `;
 }
 
+function getWorldCupGroupLabel(group){
+  if(!group) return 'Grupo';
+  return group === 'Fase de grupos' ? group : `Grupo ${group}`;
+}
+
+function getWorldCupStandingTeam(groupMap, group, teamName){
+  const key = getWorldCupTeamKey(teamName);
+  if(!key) return null;
+
+  if(!groupMap[group]){
+    groupMap[group] = new Map();
+  }
+
+  if(!groupMap[group].has(key)){
+    const display = getPrimaryWorldCupTeam(teamName);
+    groupMap[group].set(key, {
+      key,
+      name:display,
+      group,
+      played:0,
+      wins:0,
+      draws:0,
+      losses:0,
+      goalsFor:0,
+      goalsAgainst:0,
+      goalDiff:0,
+      points:0
+    });
+  }
+
+  return groupMap[group].get(key);
+}
+
+function buildWorldCupGroupStandings(matches){
+  const groupMap = {};
+
+  (Array.isArray(matches) ? matches : []).forEach(match => {
+    const group = match.group || 'Copa';
+    const home = getWorldCupStandingTeam(groupMap, group, match.home);
+    const away = getWorldCupStandingTeam(groupMap, group, match.away);
+    const hasScore = match.homeScore != null && match.awayScore != null;
+
+    if(!home || !away || !hasScore) return;
+
+    const homeScore = Number(match.homeScore);
+    const awayScore = Number(match.awayScore);
+    if(!Number.isFinite(homeScore) || !Number.isFinite(awayScore)) return;
+
+    home.played++;
+    away.played++;
+    home.goalsFor += homeScore;
+    home.goalsAgainst += awayScore;
+    away.goalsFor += awayScore;
+    away.goalsAgainst += homeScore;
+
+    if(homeScore > awayScore){
+      home.wins++;
+      away.losses++;
+      home.points += 3;
+    }else if(homeScore < awayScore){
+      away.wins++;
+      home.losses++;
+      away.points += 3;
+    }else{
+      home.draws++;
+      away.draws++;
+      home.points++;
+      away.points++;
+    }
+
+    home.goalDiff = home.goalsFor - home.goalsAgainst;
+    away.goalDiff = away.goalsFor - away.goalsAgainst;
+  });
+
+  return Object.fromEntries(
+    Object.entries(groupMap).map(([group, teams]) => [
+      group,
+      [...teams.values()].sort((a,b) =>
+        b.points - a.points ||
+        b.goalDiff - a.goalDiff ||
+        b.goalsFor - a.goalsFor ||
+        a.name.localeCompare(b.name, 'pt-BR')
+      )
+    ])
+  );
+}
+
+function renderWorldCupGroups(matches, sourceLabel = 'Atualizado automaticamente'){
+  const container = document.getElementById('worldCupGroups');
+  const updated = document.getElementById('worldCupGroupsUpdated');
+  if(!container || !updated) return;
+
+  const standings = buildWorldCupGroupStandings(matches);
+  const groups = Object.keys(standings).sort((a,b) => {
+    if(a === 'Fase de grupos') return 1;
+    if(b === 'Fase de grupos') return -1;
+    return String(a).localeCompare(String(b), 'pt-BR', {numeric:true});
+  });
+
+  if(!groups.length){
+    container.innerHTML = `
+      <article class="worldcup-group-card">
+        <h4>Grupos da Copa</h4>
+        <p class="worldcup-group-note">A classificação aparecerá quando os jogos forem carregados.</p>
+      </article>
+    `;
+  }else{
+    container.innerHTML = groups.map(group => `
+      <article class="worldcup-group-card">
+        <h4>${escapeHtml(getWorldCupGroupLabel(group))}</h4>
+        <table class="worldcup-group-table" aria-label="Classificação ${escapeHtml(getWorldCupGroupLabel(group))}">
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Seleção</th>
+              <th>J</th>
+              <th>V</th>
+              <th>E</th>
+              <th>D</th>
+              <th>SG</th>
+              <th>Pts</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${standings[group].map((team, index) => {
+              const flag = getWorldCupFlagUrl(team.name, '32x24');
+              return `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>
+                    <div class="worldcup-group-team">
+                      <span class="worldcup-flag">${flag ? `<img src="${flag}" alt="${escapeHtml(team.name)}" loading="lazy">` : initials(team.name)}</span>
+                      <strong title="${escapeHtml(team.name)}">${escapeHtml(team.name)}</strong>
+                    </div>
+                  </td>
+                  <td>${team.played}</td>
+                  <td>${team.wins}</td>
+                  <td>${team.draws}</td>
+                  <td>${team.losses}</td>
+                  <td>${team.goalDiff > 0 ? `+${team.goalDiff}` : team.goalDiff}</td>
+                  <td>${team.points}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </article>
+    `).join('');
+  }
+
+  updated.textContent = sourceLabel + ': ' + new Date().toLocaleTimeString('pt-BR', {
+    hour:'2-digit',
+    minute:'2-digit'
+  });
+}
+
 function renderWorldCupArenaCard(match){
   const status = getWorldCupStatus(match);
   const statusClass = status === 'AO VIVO' ? 'is-live ao-vivo' : status.toLowerCase().replace(/\s+/g, '-');
@@ -9819,6 +10138,7 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   const container = document.getElementById('worldCupMatches');
   const table = document.getElementById('worldCupTable');
   const updated = document.getElementById('worldCupUpdated');
+  const groups = document.getElementById('worldCupGroups');
 
   if(!container || !table || !updated){
     return;
@@ -9826,6 +10146,9 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
 
   const normalizedMatches = mergeWorldCupMatches(WORLD_CUP_MATCHES, Array.isArray(matches) && matches.length ? matches : []);
   const featuredMatches = getArenaStyleWorldCupMatches(normalizedMatches);
+  if(groups){
+    renderWorldCupGroups(normalizedMatches, sourceLabel);
+  }
   // helper to build flag URL using WORLD_CUP_FLAG_CODES mapping
   function flagForTeam(name, size = '64x48'){
     if(!name) return '';
