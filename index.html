@@ -2605,6 +2605,75 @@ radial-gradient(circle at top right,rgba(252,110,2,.34),transparent 34%);
 box-shadow:0 18px 45px rgba(0,0,0,.16);
 }
 
+.worldcup-tabs{
+display:flex;
+gap:8px;
+margin:18px 0 12px;
+padding:6px;
+border:1px solid rgba(168,229,255,.22);
+border-radius:8px;
+background:rgba(3,8,13,.42);
+}
+
+.worldcup-tabs button{
+flex:1;
+min-height:44px;
+border:0;
+border-radius:8px;
+background:transparent;
+color:#dcefff;
+font:inherit;
+font-size:12px;
+font-weight:1000;
+letter-spacing:.04em;
+text-transform:uppercase;
+cursor:pointer;
+}
+
+.worldcup-tabs button.is-active{
+background:linear-gradient(135deg,#fa8a01,#f6d16a);
+color:#111;
+box-shadow:0 10px 24px rgba(0,0,0,.18);
+}
+
+.worldcup-panel{
+display:none;
+}
+
+.worldcup-panel.is-active,
+.worldcup-table-card[data-copa-panel].is-active{
+display:block;
+}
+
+.worldcup-table-card[data-copa-panel]{
+display:none;
+}
+
+.worldcup-panel-intro{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin:0 0 10px;
+padding:12px 14px;
+border:1px solid rgba(168,229,255,.18);
+border-radius:8px;
+background:rgba(3,8,13,.38);
+color:#fff;
+}
+
+.worldcup-panel-intro strong{
+font-size:15px;
+font-weight:1000;
+}
+
+.worldcup-panel-intro span{
+color:#cfe1ec;
+font-size:12px;
+font-weight:800;
+text-align:right;
+}
+
 .worldcup-table-card{
 margin-top:22px;
 background:
@@ -2813,6 +2882,67 @@ border:1px solid rgba(168,229,255,.26);
 border-radius:8px;
 box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 18px 45px rgba(0,0,0,.28);
 overflow:hidden;
+}
+
+.worldcup-brazil-card{
+display:grid;
+gap:10px;
+padding:18px;
+border:1px solid rgba(246,209,106,.32);
+border-radius:8px;
+background:
+linear-gradient(135deg,rgba(255,255,255,.1),rgba(0,0,0,.34)),
+radial-gradient(circle at top right,rgba(246,209,106,.22),transparent 40%);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 16px 34px rgba(0,0,0,.22);
+color:#fff;
+}
+
+.worldcup-brazil-card span{
+color:#f6d16a;
+font-size:11px;
+font-weight:1000;
+letter-spacing:.08em;
+text-transform:uppercase;
+}
+
+.worldcup-brazil-card h3{
+margin:0;
+font-size:clamp(28px,4vw,42px);
+line-height:1;
+}
+
+.worldcup-brazil-card p{
+max-width:720px;
+margin:0;
+color:#dcefff;
+font-size:14px;
+font-weight:800;
+line-height:1.45;
+}
+
+.worldcup-brazil-actions{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.worldcup-brazil-actions a{
+display:inline-grid;
+place-items:center;
+min-height:44px;
+padding:10px 14px;
+border-radius:8px;
+background:#fa8a01;
+color:#111;
+font-size:12px;
+font-weight:1000;
+text-decoration:none;
+text-transform:uppercase;
+}
+
+.worldcup-brazil-actions a:last-child{
+background:#111;
+color:#fff;
 }
 
 .worldcup-groups-grid{
@@ -3966,10 +4096,25 @@ JOGO DE PENALTIS
 margin-top:42px;
 }
 
+.penalty-game-card{
+padding:18px;
+border:1px solid rgba(17,17,17,.12);
+border-radius:12px;
+background:
+linear-gradient(180deg,rgba(255,255,255,.94),rgba(245,246,248,.98)),
+radial-gradient(circle at top right,rgba(250,138,1,.12),transparent 38%);
+box-shadow:0 18px 42px rgba(0,0,0,.12);
+}
+
+.penalty-game-card .game-action-head{
+margin-bottom:14px;
+}
+
 .penalty-game{
 position:relative;
 overflow:hidden;
-border-radius:18px;
+border:1px solid rgba(17,17,17,.16);
+border-radius:12px;
 background:
 linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,.08) 48%, rgba(0,0,0,.26) 100%),
 url("img/penalty-stadium-bg.png") center/cover no-repeat;
@@ -4043,6 +4188,23 @@ font-weight:900;
 padding:10px 13px;
 white-space:nowrap;
 cursor:pointer;
+}
+
+.penalty-orientation-actions{
+display:flex;
+align-items:center;
+gap:8px;
+flex:0 0 auto;
+}
+
+.penalty-orientation-actions .secondary{
+background:rgba(255,255,255,.13);
+border:1px solid rgba(255,255,255,.18);
+color:#fff;
+}
+
+.penalty-orientation-tip.is-hidden{
+display:none!important;
 }
 
 .penalty-orientation-tip button:disabled{
@@ -5854,10 +6016,18 @@ align-items:center;
     margin:8px 8px 0;
     padding:9px 10px;
     border-radius:8px;
+    position:relative;
+    top:auto;
+    left:auto;
+    right:auto;
   }
 
   .penalty-orientation-tip p{
     font-size:12px;
+  }
+
+  .penalty-orientation-actions{
+    gap:6px;
   }
 
   .penalty-orientation-tip button{
@@ -6039,6 +6209,16 @@ align-items:center;
   .penalty-game-section{
     padding-left:8px;
     padding-right:8px;
+  }
+
+  .penalty-orientation-tip{
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  .penalty-orientation-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
   }
 
   .penalty-arena{
@@ -6546,13 +6726,18 @@ transform:translate(-50%, 0);
     padding-top:18px;
   }
 
+  .penalty-game-card{
+    padding:10px;
+    border-radius:10px;
+  }
+
   .game-action-head{
     margin-bottom:8px;
   }
 
   .penalty-game-header p,
   .penalty-rank,
-  .penalty-orientation-tip{
+  .penalty-objective{
     display:none;
   }
 
@@ -7447,6 +7632,7 @@ Ainda existe paixão ou virou negócio?
 </section>
 
 <section class="container penalty-game-section" id="desafio-penaltis">
+<div class="penalty-game-card">
 <div class="section-action-head game-action-head">
 <div>
 <span>Jogo rápido</span>
@@ -7456,8 +7642,11 @@ Ainda existe paixão ou virou negócio?
 </div>
 <div class="penalty-game searchable" aria-labelledby="penaltyTitle">
 <div class="penalty-orientation-tip" id="penaltyOrientationTip">
-<p><span>Dica</span>Vire a tela para jogar melhor.</p>
+<p><span>Modo mobile</span>Jogue na vertical ou vire para tela cheia.</p>
+<div class="penalty-orientation-actions">
+<button type="button" class="secondary" id="penaltyPortraitBtn">Vertical</button>
 <button type="button" id="penaltyLandscapeBtn">Virar tela</button>
+</div>
 </div>
 
 <div class="penalty-game-header">
@@ -7530,6 +7719,7 @@ Ainda existe paixão ou virou negócio?
 <div class="penalty-share" aria-label="Compartilhar resultado">
 <button type="button" id="penaltyShareBtn">Compartilhar</button>
 <button type="button" class="secondary" id="penaltyCopyBtn">Copiar</button>
+</div>
 </div>
 </div>
 </div>
@@ -7637,19 +7827,32 @@ Ainda existe paixão ou virou negócio?
 <div class="seriea-heading">
   <div>
     <span class="seriea-kicker">Copa do Mundo 2026</span>
-    <h2>Jogos e tempo real</h2>
+    <h2>Central da Copa</h2>
   </div>
-  <p>Acompanhe os próximos jogos da Copa, status ao vivo e atualização automática da rodada.</p>
+  <p>Acompanhe jogos, grupos e o caminho do Brasil em uma área única.</p>
+</div>
+
+<div class="worldcup-tabs" role="tablist" aria-label="Central da Copa">
+  <button type="button" class="is-active" data-copa-tab="jogos" role="tab" aria-selected="true">Jogos</button>
+  <button type="button" data-copa-tab="grupos" role="tab" aria-selected="false">Grupos</button>
+  <button type="button" data-copa-tab="brasil" role="tab" aria-selected="false">Brasil</button>
 </div>
 
 <p class="worldcup-source">
 Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Cada visitante recebe atualização automática no site, sem depender do seu computador.
 </p>
 
+<div class="worldcup-panel is-active" data-copa-panel="jogos">
+<div class="worldcup-panel-intro">
+<strong>Jogos em destaque</strong>
+<span>Próximas partidas e placar ao vivo.</span>
+</div>
 <div id="worldCupMatches" class="seriea-cards arena-match-stack" aria-live="polite">
   <p>Carregando jogos da Copa do Mundo 2026...</p>
 </div>
+</div>
 
+<div class="worldcup-panel" data-copa-panel="grupos">
 <div class="worldcup-groups-card" aria-labelledby="worldCupGroupsTitle">
   <div class="standings-top">
     <h3 id="worldCupGroupsTitle">Grupos</h3>
@@ -7663,8 +7866,21 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Ca
   </div>
   <p class="worldcup-group-note">Critérios exibidos: pontos, jogos, vitórias, empates, derrotas, saldo e gols pró. A tabela recalcula quando os placares ao vivo forem atualizados.</p>
 </div>
+</div>
 
-<div class="worldcup-table-card">
+<div class="worldcup-panel" data-copa-panel="brasil">
+<div class="worldcup-brazil-card">
+  <span>Seleção Brasileira</span>
+  <h3>Brasil x Haiti</h3>
+  <p>Próximo jogo da Seleção na Copa, com votação do craque, palpite da torcida e acompanhamento da rodada.</p>
+  <div class="worldcup-brazil-actions">
+    <a href="#topo">Ver destaque</a>
+    <a href="#palpitometro">Votar no craque</a>
+  </div>
+</div>
+</div>
+
+<div class="worldcup-table-card is-active" data-copa-panel="jogos-table">
   <div class="standings-top">
     <h3>Jogos</h3>
     <div id="worldCupUpdated" class="standings-updated">Atualizando jogos...</div>
@@ -10883,6 +11099,7 @@ function initPenaltyGame(){
   const rankingListEl = document.getElementById('penaltyRankingList');
   const playerNameInput = document.getElementById('penaltyPlayerName');
   const orientationTip = document.getElementById('penaltyOrientationTip');
+  const portraitBtn = document.getElementById('penaltyPortraitBtn');
   const landscapeBtn = document.getElementById('penaltyLandscapeBtn');
   const shareBtn = document.getElementById('penaltyShareBtn');
   const copyBtn = document.getElementById('penaltyCopyBtn');
@@ -11184,6 +11401,21 @@ function initPenaltyGame(){
     renderBest();
   }
 
+  function updateOrientationCopy(title, text){
+    if(!orientationTip) return;
+    const copy = orientationTip.querySelector('p');
+    if(copy){
+      copy.innerHTML = `<span>${title}</span>${text}`;
+    }
+  }
+
+  function keepPortraitMode(){
+    if(orientationTip){
+      orientationTip.classList.add('is-hidden');
+    }
+    showSiteToast('Modo vertical ativado');
+  }
+
   async function requestLandscapeMode(){
     if(!landscapeBtn) return;
 
@@ -11201,24 +11433,16 @@ function initPenaltyGame(){
       }
 
       landscapeBtn.textContent = 'Pronto';
-      if(orientationTip){
-        const copy = orientationTip.querySelector('p');
-        if(copy){
-          copy.innerHTML = '<span>Paisagem</span>Gire se precisar.';
-        }
-      }
+      updateOrientationCopy('Paisagem', 'Tela cheia ativada. Gire se precisar.');
+      showSiteToast('Modo paisagem solicitado');
     }catch(error){
       landscapeBtn.textContent = 'Gire o celular';
-      if(orientationTip){
-        const copy = orientationTip.querySelector('p');
-        if(copy){
-          copy.innerHTML = '<span>Paisagem</span>Gire manualmente.';
-        }
-      }
+      updateOrientationCopy('Paisagem', 'Seu navegador não travou a tela. Gire manualmente.');
+      showSiteToast('Gire o celular manualmente');
     }finally{
       window.setTimeout(() => {
         landscapeBtn.disabled = false;
-        if(landscapeBtn.textContent === 'Abrindo...'){
+        if(landscapeBtn.textContent === 'Abrindo...' || landscapeBtn.textContent === 'Pronto'){
           landscapeBtn.textContent = originalText;
         }
       }, 900);
@@ -11277,6 +11501,18 @@ function initPenaltyGame(){
   if(landscapeBtn){
     landscapeBtn.addEventListener('click', requestLandscapeMode);
   }
+
+  if(portraitBtn){
+    portraitBtn.addEventListener('click', keepPortraitMode);
+  }
+
+  window.addEventListener('orientationchange', () => {
+    window.setTimeout(() => {
+      if(!orientationTip || orientationTip.classList.contains('is-hidden')) return;
+      const isLandscape = window.matchMedia('(orientation: landscape)').matches;
+      updateOrientationCopy(isLandscape ? 'Paisagem' : 'Modo mobile', isLandscape ? 'Tela virada. Boa cobrança!' : 'Jogue na vertical ou vire para tela cheia.');
+    }, 250);
+  });
 
   if(shareBtn){
     shareBtn.addEventListener('click', shareResult);
@@ -11672,6 +11908,51 @@ function setupResponsiveHomeBehavior(){
   });
 }
 
+function setupWorldCupTabs(){
+  const tabs = Array.from(document.querySelectorAll('[data-copa-tab]'));
+  const panels = Array.from(document.querySelectorAll('[data-copa-panel]'));
+  if(!tabs.length || !panels.length) return;
+
+  const panelMap = {
+    jogos:['jogos','jogos-table'],
+    grupos:['grupos'],
+    brasil:['brasil']
+  };
+
+  const activate = tabId => {
+    const activePanels = panelMap[tabId] || panelMap.jogos;
+    tabs.forEach(tab => {
+      const isActive = tab.dataset.copaTab === tabId;
+      tab.classList.toggle('is-active', isActive);
+      tab.setAttribute('aria-selected', String(isActive));
+    });
+    panels.forEach(panel => {
+      panel.classList.toggle('is-active', activePanels.includes(panel.dataset.copaPanel));
+    });
+  };
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      activate(tab.dataset.copaTab);
+      showSiteToast(tab.dataset.copaTab === 'grupos' ? 'Grupos abertos' : tab.dataset.copaTab === 'brasil' ? 'Caminho do Brasil' : 'Jogos abertos');
+    });
+  });
+
+  document.querySelectorAll('[data-mobile-nav="worldcup"], [data-mobile-nav="grupos"]').forEach(link => {
+    link.addEventListener('click', event => {
+      const tabId = link.dataset.mobileNav === 'grupos' ? 'grupos' : 'jogos';
+      activate(tabId);
+      const section = document.getElementById('worldcup');
+      if(section){
+        event.preventDefault();
+        section.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+
+  activate('jogos');
+}
+
 function setupMobileAppNavigation(){
   const navLinks = Array.from(document.querySelectorAll('.mobile-app-nav a[href^="#"]'));
   const sections = navLinks
@@ -11713,6 +11994,7 @@ function setupMobileAppNavigation(){
 window.addEventListener('DOMContentLoaded', () => {
   arrangeHomeContentHierarchy();
   setupResponsiveHomeBehavior();
+  setupWorldCupTabs();
   refreshCommunityState().then(() => {
     if(postAtualId) renderizarComentarios(postAtualId);
     destacarMaisComentado();
