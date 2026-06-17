@@ -577,7 +577,7 @@ img{display:block;max-width:100%}
 <header class="topbar">
   <div class="topline">
     <div class="brand-kicker">
-      <span>Copa do Mundo FIFA 2026</span>
+      <span>Bem Esportivo</span>
       <strong>Plataforma de Videos</strong>
     </div>
     <div class="round-stats" aria-label="Resumo da rodada">
@@ -817,7 +817,7 @@ async function loadVideoCommunity(){
     renderComments(commentsPayload.comments || []);
   }catch(error){
     renderReactions({}, '');
-    renderComments([]);
+    document.getElementById('videoCommentsList').innerHTML='<article class="video-comment"><p>Comentarios online indisponiveis no momento.</p></article>';
   }
 }
 
@@ -834,7 +834,7 @@ document.querySelectorAll('[data-video-reaction]').forEach(button=>{
       renderReactions(payload.vote?.totals || {}, choiceId);
       showToast(choiceId==='like' ? 'Voce gostou deste video' : 'Opiniao registrada');
     }catch(error){
-      showToast('Nao foi possivel registrar agora');
+      showToast('Servidor de opinioes indisponivel');
     }
   });
 });
@@ -853,7 +853,7 @@ document.getElementById('videoCommentForm').addEventListener('submit',async even
     renderComments(payload.comments || []);
     showToast('Comentario publicado');
   }catch(error){
-    showToast('Nao foi possivel publicar');
+    showToast('Servidor de comentarios indisponivel');
   }
 });
 
@@ -866,7 +866,7 @@ async function reportComment(commentId){
     renderComments(payload.comments || []);
     showToast('Comentario denunciado');
   }catch(error){
-    showToast('Nao foi possivel denunciar');
+    showToast('Servidor de comentarios indisponivel');
   }
 }
 
