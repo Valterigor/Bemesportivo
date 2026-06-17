@@ -1391,45 +1391,97 @@ font-size:12px;
 }
 
 .reportagem-card{
-background:#fff;
-border:1px solid #eee;
+position:relative;
+display:grid;
+grid-template-rows:auto 1fr;
+background:
+linear-gradient(145deg,rgba(18,18,18,.98),rgba(5,5,5,.96)),
+radial-gradient(circle at 88% 0,rgba(252,110,2,.2),transparent 36%);
+border:1px solid rgba(252,110,2,.24);
 border-radius:8px;
 overflow:hidden;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 18px 42px rgba(0,0,0,.22);
 cursor:pointer;
-transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+isolation:isolate;
+}
+
+.reportagem-card::before{
+content:"";
+position:absolute;
+inset:0;
+z-index:-1;
+pointer-events:none;
+background:
+linear-gradient(115deg,transparent 0 18%,rgba(255,255,255,.075) 18.4% 19%,transparent 19.4%),
+linear-gradient(180deg,rgba(255,255,255,.035),transparent 34%);
+}
+
+.reportagem-card::after{
+content:"";
+position:absolute;
+left:0;
+right:0;
+top:0;
+height:4px;
+background:linear-gradient(90deg,var(--primary),#f6d16a,rgba(36,246,255,.72));
 }
 
 .reportagem-card:hover,
 .reportagem-card:focus-visible{
 transform:translateY(-3px);
-box-shadow:0 16px 38px rgba(0,0,0,.12);
-border-color:rgba(252,110,2,.42);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 22px 48px rgba(0,0,0,.32),0 0 28px rgba(252,110,2,.18);
+border-color:rgba(252,110,2,.58);
 outline:none;
 }
 
 .reportagem-card img{
 display:block;
 width:100%;
+aspect-ratio:16/10;
 height:auto;
-max-height:360px;
-object-fit:contain;
+object-fit:cover;
 background:#050505;
+border-bottom:1px solid rgba(255,255,255,.1);
 }
 
 .reportagem-card-content{
+display:grid;
+align-content:start;
+gap:10px;
 padding:18px;
+color:#fff;
 }
 
 .reportagem-card h3{
-font-size:22px;
-margin-bottom:8px;
-color:#111;
+font-size:clamp(20px, 2.3vw, 24px);
+line-height:1.08;
+margin:0;
+color:#fff;
+text-transform:uppercase;
 }
 
 .reportagem-card p{
-color:#555;
-margin-bottom:10px;
+color:#d9dde5;
+font-size:14px;
+line-height:1.5;
+margin:0;
+}
+
+.reportagem-card .btn{
+justify-self:start;
+min-height:44px;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+margin-top:4px;
+border:1px solid rgba(252,110,2,.44);
+border-radius:8px;
+background:linear-gradient(135deg,var(--primary),#f6d16a);
+color:#101010;
+font-size:13px;
+font-weight:900;
+box-shadow:0 0 20px rgba(252,110,2,.18);
 }
 
 .lineup-callout{
