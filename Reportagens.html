@@ -24,7 +24,8 @@ body {
   line-height: 1.7;
 }
 
-header {
+header,
+.menu {
   align-items: center;
   background: #000;
   border-bottom: 2px solid #fa8a01;
@@ -36,11 +37,56 @@ header {
   z-index: 1000;
 }
 
-header img {
+header img,
+.logo img {
   max-height: 58px;
 }
 
-#menu-toggle {
+.menu-content {
+  align-items: center;
+  display: flex;
+  gap: 22px;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1180px;
+  width: 100%;
+}
+
+.menu-actions {
+  align-items: center;
+  display: flex;
+}
+
+.btn-contato {
+  background: #fa8a01;
+  border-radius: 999px;
+  color: #080808;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 10px 16px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.menu-btn {
+  border: 1px solid rgba(250, 138, 1, .36);
+  border-radius: 8px;
+  height: 44px;
+  padding: 0;
+  width: 44px;
+}
+
+.menu-btn span {
+  background: #fa8a01;
+  border-radius: 999px;
+  display: block;
+  height: 2px;
+  margin: 4px auto;
+  width: 21px;
+}
+
+#menu-toggle,
+.menu-btn {
   background: transparent;
   border: 0;
   color: #fa8a01;
@@ -49,19 +95,27 @@ header img {
   font-size: 28px;
 }
 
-nav {
+header nav,
+.nav-menu {
+  align-items: center;
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 14px 18px;
+  justify-content: center;
 }
 
-nav a {
+header nav a,
+.nav-menu a {
   color: #fa8a01;
+  font-size: 14px;
   font-weight: 700;
   text-decoration: none;
 }
 
-nav a:hover,
-nav a.active {
+header nav a:hover,
+header nav a.active,
+.nav-menu a:hover,
+.nav-menu a.active {
   color: #fff;
 }
 
@@ -232,12 +286,26 @@ main {
   font-size: 12px;
 }
 
-@media (max-width: 760px) {
-  #menu-toggle {
+@media (max-width: 980px) {
+  .menu {
+    padding: 10px 16px;
+  }
+
+  .menu-content {
+    gap: 14px;
+  }
+
+  .menu-actions {
+    display: none;
+  }
+
+  #menu-toggle,
+  .menu-btn {
     display: block;
   }
 
-  nav {
+  header nav,
+  .nav-menu {
     background: #111;
     border: 1px solid rgba(250, 138, 1, .25);
     border-radius: 8px;
@@ -250,7 +318,9 @@ main {
     top: 78px;
   }
 
-  nav.show {
+  header nav.show,
+  .nav-menu.show,
+  .nav-menu.active {
     display: flex;
   }
 }
@@ -260,14 +330,30 @@ main {
 </head>
 <body>
 
-<header>
-<a href="index.html"><img src="img/logo-bemesportivo.png" alt="Logo Bem Esportivo"></a>
-<button id="menu-toggle" aria-label="Abrir menu">☰</button>
-<nav id="menu">
-<a href="index.html">Início</a>
-<a href="Reportagens.html" class="active">Reportagens</a>
-<a href="contato.html">Contato</a>
+<header class="menu" id="topo">
+<div class="menu-content">
+<a class="logo" href="/">
+<img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
+</a>
+<nav id="menu" class="nav-menu" aria-label="Menu principal">
+<a href="/">Início</a>
+<a href="/profissionais">Profissionais</a>
+<a href="/produtos">Produtos</a>
+<a href="/escalacao">Escalação</a>
+<a href="/reportagens" class="active">Reportagens</a>
+<a href="/#palpitometro">Craque da Partida</a>
+<a href="/beplay">BEplay</a>
+<a href="/coluna-valtinho">Fala aí Valtinho</a>
 </nav>
+<div class="menu-actions">
+<a href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer" class="btn-contato">Entre em contato</a>
+</div>
+<button id="menu-toggle" class="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</div>
 </header>
 
 <section class="page-hero">
@@ -345,7 +431,15 @@ const menu = document.getElementById("menu");
 
 if (menuToggle && menu) {
   menuToggle.addEventListener("click", () => {
-    menu.classList.toggle("show");
+    const isOpen = menu.classList.toggle("show");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  menu.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      menu.classList.remove("show");
+      menuToggle.setAttribute("aria-expanded", "false");
+    });
   });
 }
 
