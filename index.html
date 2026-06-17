@@ -2834,6 +2834,37 @@ radial-gradient(circle at 50% 0,rgba(36,246,255,.14),transparent 42%);
 box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 28px rgba(0,0,0,.22);
 }
 
+.worldcup-group-toggle,
+.worldcup-load-more{
+display:none;
+align-items:center;
+justify-content:center;
+min-height:44px;
+border:0;
+border-radius:8px;
+background:#111;
+color:#fff;
+font-size:12px;
+font-weight:900;
+letter-spacing:.02em;
+text-transform:uppercase;
+cursor:pointer;
+}
+
+.worldcup-load-more{
+grid-column:1 / -1;
+width:100%;
+background:linear-gradient(135deg,#111,#2b2b2b);
+box-shadow:0 10px 24px rgba(0,0,0,.14);
+}
+
+.worldcup-group-toggle{
+width:100%;
+margin-top:10px;
+background:#fa8a01;
+color:#111;
+}
+
 .worldcup-group-card h4{
 margin:0 0 10px;
 color:#f6d16a;
@@ -6160,6 +6191,70 @@ white-space:nowrap;
 box-shadow:0 0 24px rgba(45,255,141,.2);
 }
 
+.section-action-head{
+display:flex;
+align-items:end;
+justify-content:space-between;
+gap:14px;
+margin:0 0 14px;
+}
+
+.section-action-head span{
+display:block;
+margin-bottom:4px;
+color:#fa8a01;
+font-size:11px;
+font-weight:900;
+letter-spacing:.08em;
+text-transform:uppercase;
+}
+
+.section-action-head h2{
+margin:0;
+font-size:clamp(24px, 4vw, 34px);
+line-height:1.08;
+}
+
+.section-action-head a{
+display:inline-grid;
+place-items:center;
+min-height:44px;
+padding:10px 14px;
+border-radius:8px;
+background:#111;
+color:#fff;
+font-size:12px;
+font-weight:900;
+text-decoration:none;
+white-space:nowrap;
+}
+
+.site-toast{
+position:fixed;
+left:50%;
+bottom:calc(92px + env(safe-area-inset-bottom, 0px));
+z-index:1300;
+transform:translate(-50%, 18px);
+max-width:min(360px, calc(100% - 32px));
+padding:12px 16px;
+border-radius:8px;
+background:rgba(17,17,17,.96);
+color:#fff;
+font-size:13px;
+font-weight:800;
+line-height:1.3;
+text-align:center;
+box-shadow:0 18px 38px rgba(0,0,0,.28);
+opacity:0;
+pointer-events:none;
+transition:opacity .22s ease, transform .22s ease;
+}
+
+.site-toast.is-visible{
+opacity:1;
+transform:translate(-50%, 0);
+}
+
 @media (max-width: 820px){
   body{
     background:#f5f6f8;
@@ -6324,6 +6419,20 @@ box-shadow:0 0 24px rgba(45,255,141,.2);
     width:100%;
   }
 
+  .section-action-head{
+    align-items:center;
+    margin-bottom:10px;
+  }
+
+  .section-action-head h2{
+    font-size:clamp(21px, 6.5vw, 28px);
+  }
+
+  .section-action-head a{
+    min-height:40px;
+    padding:9px 12px;
+  }
+
   .hero > .container,
   .container{
     width:min(100% - 22px, 720px);
@@ -6354,11 +6463,35 @@ box-shadow:0 0 24px rgba(45,255,141,.2);
     grid-template-columns:1fr;
   }
 
+  .lineup-callout{
+    display:none;
+  }
+
   .worldcup-section,
   .palpitometro-section,
   #reportagens-home{
     padding-top:18px;
     padding-bottom:18px;
+  }
+
+  .seriea-heading{
+    gap:6px;
+  }
+
+  .seriea-heading h2,
+  .standings-top h3,
+  #reportagens-home > h2,
+  .hero h1{
+    font-size:clamp(22px, 7vw, 30px);
+    line-height:1.08;
+  }
+
+  .seriea-heading p,
+  .worldcup-source,
+  .worldcup-groups-card > .worldcup-group-note,
+  .worldcup-story-title p,
+  .beplay-home-callout p{
+    display:none;
   }
 
   .worldcup-table-card,
@@ -6368,6 +6501,59 @@ box-shadow:0 0 24px rgba(45,255,141,.2);
   .palpite-card,
   .match-card{
     border-radius:8px;
+  }
+
+  #reportagens-home .reportagens-grid{
+    gap:10px;
+  }
+
+  #reportagens-home .reportagem-card{
+    display:grid;
+    grid-template-columns:104px minmax(0,1fr);
+    min-height:116px;
+  }
+
+  #reportagens-home .reportagem-card img{
+    height:100%;
+    min-height:116px;
+  }
+
+  #reportagens-home .reportagem-card-content{
+    padding:12px;
+  }
+
+  #reportagens-home .reportagem-card h3{
+    font-size:16px;
+    line-height:1.12;
+  }
+
+  #reportagens-home .reportagem-card p,
+  .home-posts-panel p,
+  .home-side-post span,
+  .home-posts-sidebar,
+  .sidebar,
+  .container:has(.debate-card){
+    display:none;
+  }
+
+  #reportagens-home .reportagem-card .btn{
+    min-height:38px;
+    padding:8px 10px;
+    font-size:11px;
+  }
+
+  .penalty-game-section{
+    padding-top:18px;
+  }
+
+  .game-action-head{
+    margin-bottom:8px;
+  }
+
+  .penalty-game-header p,
+  .penalty-rank,
+  .penalty-orientation-tip{
+    display:none;
   }
 
   .standings-table-wrap{
@@ -6384,9 +6570,25 @@ box-shadow:0 0 24px rgba(45,255,141,.2);
     padding:10px;
   }
 
+  .worldcup-load-more{
+    display:flex;
+  }
+
   .worldcup-groups-grid{
     grid-template-columns:1fr;
     padding:10px;
+  }
+
+  .worldcup-group-card{
+    cursor:pointer;
+  }
+
+  .worldcup-group-card:not(.is-expanded) tbody tr:nth-child(n+3){
+    display:none;
+  }
+
+  .worldcup-group-toggle{
+    display:flex;
   }
 
   .worldcup-group-table{
@@ -6443,6 +6645,11 @@ box-shadow:0 0 24px rgba(45,255,141,.2);
   .worldcup-result-score .score-separator{
     width:14px;
     font-size:13px;
+  }
+
+  .worldcup-table-card,
+  .worldcup-groups-card{
+    margin-top:14px;
   }
 
   .mobile-app-nav{
@@ -6649,6 +6856,32 @@ box-shadow:0 0 24px rgba(45,255,141,.2);
   }
 }
 
+@media (min-width: 821px) and (max-width: 1180px){
+  .worldcup-results-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .worldcup-load-more{
+    display:flex;
+  }
+
+  .worldcup-groups-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .worldcup-group-card{
+    cursor:pointer;
+  }
+
+  .worldcup-group-card:not(.is-expanded) tbody tr:nth-child(n+3){
+    display:none;
+  }
+
+  .worldcup-group-toggle{
+    display:flex;
+  }
+}
+
 /* Ajustes finais de responsividade: banners sem cortes laterais em telas estreitas */
 @media (max-width: 820px){
   html,
@@ -6823,10 +7056,11 @@ box-shadow:0 0 24px rgba(45,255,141,.2);
 </header>
 
 <nav class="mobile-app-nav" aria-label="Navegação rápida mobile">
-<a href="#topo" data-mobile-nav="topo">Início</a>
-<a href="/reportagens" data-mobile-nav="reportagens-home">Notícias</a>
-<a href="/profissionais" data-mobile-nav="profissionais">Profissionais</a>
-<a href="/beplay" data-mobile-nav="mais">Mais</a>
+<a href="#topo" data-mobile-nav="topo">Topo</a>
+<a href="#worldcup" data-mobile-nav="worldcup">Jogos</a>
+<a href="#worldCupGroupsTitle" data-mobile-nav="grupos">Grupos</a>
+<a href="#palpitometro" data-mobile-nav="palpitometro">Votar</a>
+<a href="/beplay" data-mobile-nav="beplay">Vídeos</a>
 </nav>
 
 <main>
@@ -6893,27 +7127,27 @@ box-shadow:0 0 24px rgba(45,255,141,.2);
 </section>
 
 <section class="hub-quick-actions" aria-label="Atalhos do Bem Esportivo">
-<a href="#worldcup"><strong>Jogos ao vivo</strong><span>Placar, tabela e horários</span></a>
-<a href="#palpitometro"><strong>Craque</strong><span>Vote no melhor em campo</span></a>
-<a href="/escalacao"><strong>Escalação</strong><span>Monte sua Seleção</span></a>
-<a href="/profissionais"><strong>Profissionais</strong><span>Valorize quem vive esporte</span></a>
-<a href="#reportagens-home"><strong>Reportagens</strong><span>Histórias e debate</span></a>
+<a href="#worldcup"><strong>Jogos</strong><span>Placar e horário</span></a>
+<a href="#worldCupGroupsTitle"><strong>Grupos</strong><span>Classificação</span></a>
+<a href="#palpitometro"><strong>Votar</strong><span>Craque da partida</span></a>
+<a href="/beplay"><strong>Vídeos</strong><span>Assista agora</span></a>
+<a href="#reportagens-home"><strong>Notícias</strong><span>Últimas histórias</span></a>
 </section>
 
 <section class="beplay-home-callout" aria-labelledby="beplayHomeTitle">
 <div>
-<span>Nova plataforma de videos</span>
-<h2 id="beplayHomeTitle">BEplay Rodada</h2>
-<p>Assista aos videos do Bem Esportivo em uma experiencia mobile rapida, com playlist e player direto na pagina.</p>
+<span>Vídeos</span>
+<h2 id="beplayHomeTitle">BEplay</h2>
+<p>Assista aos vídeos do Bem Esportivo direto no site.</p>
 </div>
-<a href="/beplay">Abrir BEplay</a>
+<a href="/beplay">Assistir</a>
 </section>
 
 <section class="hero">
 
 <div class="container">
 
-<h1>Destaque da Copa</h1>
+<h1>Destaque</h1>
 
 <div class="worldcup-story-wrap searchable">
 <article class="worldcup-story-card" id="worldCupStoryCard" aria-label="Card interativo Brasil x Haiti para torcedores da Copa do Mundo FIFA 2026">
@@ -7030,7 +7264,13 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 </section>
 
 <section class="container" id="reportagens-home">
+<div class="section-action-head">
+<div>
+<span>Notícias</span>
 <h2 class="mt-40">Reportagens</h2>
+</div>
+<a href="/reportagens">Ver todas</a>
+</div>
 <div class="home-editorial-layout">
 <div class="home-reportagens-main">
 <div class="reportagens-grid">
@@ -7207,6 +7447,13 @@ Ainda existe paixão ou virou negócio?
 </section>
 
 <section class="container penalty-game-section" id="desafio-penaltis">
+<div class="section-action-head game-action-head">
+<div>
+<span>Jogo rápido</span>
+<h2>Desafio de Pênalti</h2>
+</div>
+<a href="#desafio-penaltis">Jogar</a>
+</div>
 <div class="penalty-game searchable" aria-labelledby="penaltyTitle">
 <div class="penalty-orientation-tip" id="penaltyOrientationTip">
 <p><span>Dica</span>Vire a tela para jogar melhor.</p>
@@ -7405,7 +7652,7 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Ca
 
 <div class="worldcup-groups-card" aria-labelledby="worldCupGroupsTitle">
   <div class="standings-top">
-    <h3 id="worldCupGroupsTitle">Classificação por grupos</h3>
+    <h3 id="worldCupGroupsTitle">Grupos</h3>
     <div id="worldCupGroupsUpdated" class="standings-updated">Atualizando grupos...</div>
   </div>
   <div id="worldCupGroups" class="worldcup-groups-grid" aria-live="polite">
@@ -7419,7 +7666,7 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Ca
 
 <div class="worldcup-table-card">
   <div class="standings-top">
-    <h3>Tabela de jogos</h3>
+    <h3>Jogos</h3>
     <div id="worldCupUpdated" class="standings-updated">Atualizando jogos...</div>
   </div>
 
@@ -7487,6 +7734,7 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Ca
 <button id="topBtn">
 ↑
 </button>
+<div class="site-toast" id="siteToast" role="status" aria-live="polite"></div>
 
 <footer class="site-footer">
 <div class="site-footer-inner">
@@ -7507,6 +7755,16 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Ca
 <script>
 
 let postAtualId='';
+let siteToastTimer=null;
+
+function showSiteToast(message){
+const toast=document.getElementById('siteToast');
+if(!toast) return;
+toast.textContent=message;
+toast.classList.add('is-visible');
+window.clearTimeout(siteToastTimer);
+siteToastTimer=window.setTimeout(()=>toast.classList.remove('is-visible'),2200);
+}
 
 function chaveComentarios(postId){
 return `bemEsportivoComentarios:${postId}`;
@@ -8083,6 +8341,9 @@ const WORLD_CUP_STORAGE_KEY = 'bemEsportivoWorldCupMatchesV2';
 let worldCupRefreshTimer = null;
 let worldCupRefreshInFlight = false;
 let latestWorldCupMatches = null;
+let latestWorldCupSourceLabel = 'Tabela oficial da FIFA';
+let worldCupMatchesExpanded = false;
+const expandedWorldCupGroups = new Set();
 
 const WORLD_CUP_MATCHES = [
   {date:'2026-06-11',time:'16:00',group:'A',home:'México',away:'África do Sul',venue:'Estádio Cidade do México'},
@@ -9192,6 +9453,23 @@ function getWorldCupGroupLabel(group){
   return group === 'Fase de grupos' ? group : `Grupo ${group}`;
 }
 
+function getHomeViewportMode(){
+  if(window.matchMedia('(max-width: 820px)').matches) return 'mobile';
+  if(window.matchMedia('(max-width: 1180px)').matches) return 'tablet';
+  return 'desktop';
+}
+
+function getCompactWorldCupLimit(){
+  const mode = getHomeViewportMode();
+  if(mode === 'mobile') return 4;
+  if(mode === 'tablet') return 8;
+  return Infinity;
+}
+
+function shouldCompactHomeLists(){
+  return getHomeViewportMode() !== 'desktop';
+}
+
 function getWorldCupStandingTeam(groupMap, group, teamName){
   const key = getWorldCupTeamKey(teamName);
   if(!key) return null;
@@ -9294,8 +9572,11 @@ function renderWorldCupGroups(matches, sourceLabel = 'Atualizado automaticamente
       </article>
     `;
   }else{
-    container.innerHTML = groups.map(group => `
-      <article class="worldcup-group-card">
+    const compactGroups = shouldCompactHomeLists();
+    container.innerHTML = groups.map(group => {
+      const isExpanded = !compactGroups || expandedWorldCupGroups.has(group);
+      return `
+      <article class="worldcup-group-card ${isExpanded ? 'is-expanded' : ''}" data-worldcup-group="${escapeHtml(group)}" tabindex="0" role="button" aria-expanded="${isExpanded}" aria-label="${escapeHtml(getWorldCupGroupLabel(group))}: ver classificação completa">
         <h4>${escapeHtml(getWorldCupGroupLabel(group))}</h4>
         <table class="worldcup-group-table" aria-label="Classificação ${escapeHtml(getWorldCupGroupLabel(group))}">
           <thead>
@@ -9333,8 +9614,36 @@ function renderWorldCupGroups(matches, sourceLabel = 'Atualizado automaticamente
             }).join('')}
           </tbody>
         </table>
+        <button type="button" class="worldcup-group-toggle" data-worldcup-group-toggle="${escapeHtml(group)}">${isExpanded ? 'Ver menos' : 'Ver classificação completa'}</button>
       </article>
-    `).join('');
+    `;
+    }).join('');
+
+    container.querySelectorAll('[data-worldcup-group]').forEach(card => {
+      const toggle = () => {
+        const group = card.dataset.worldcupGroup;
+        if(!group || !shouldCompactHomeLists()) return;
+        if(expandedWorldCupGroups.has(group)){
+          expandedWorldCupGroups.delete(group);
+          showSiteToast('Grupo recolhido');
+        }else{
+          expandedWorldCupGroups.add(group);
+          showSiteToast('Classificação completa aberta');
+        }
+        renderWorldCupGroups(matches, sourceLabel);
+      };
+
+      card.addEventListener('click', event => {
+        if(event.target.closest('a')) return;
+        toggle();
+      });
+      card.addEventListener('keydown', event => {
+        if(event.key === 'Enter' || event.key === ' '){
+          event.preventDefault();
+          toggle();
+        }
+      });
+    });
   }
 
   updated.textContent = sourceLabel + ': ' + new Date().toLocaleTimeString('pt-BR', {
@@ -9928,6 +10237,7 @@ function savePalpite(matchId){
     try{ localStorage.setItem('bemPalpitometroHistory', JSON.stringify(communityPalpites)); }catch(error){}
     renderPalpitometroSummary();
     renderPalpiteLivebar(getPalpitometroMatches(), getLatestPalpitesByMatch());
+    showSiteToast('Palpite salvo online');
   }).catch(error => console.warn('Palpite salvo localmente:', error));
   renderPalpitometroSummary();
   renderPalpiteLivebar(getPalpitometroMatches(), getLatestPalpitesByMatch());
@@ -9937,6 +10247,7 @@ function savePalpite(matchId){
   preview.classList.add('saved');
   preview.innerHTML = `<strong>Palpite registrado</strong>${getPalpiteLabel(card.dataset.home, card.dataset.away, homeScore, awayScore)}. Decisivo: ${escapeHtml(player)}. <span class="palpite-protocol">Protocolo ${protocol}</span>`;
   card.classList.add('is-saved');
+  showSiteToast('Palpite registrado');
 
   const saveButton = card.querySelector('[data-save-palpite]');
   if(saveButton){
@@ -10264,6 +10575,8 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   }
 
   const normalizedMatches = mergeWorldCupMatches(WORLD_CUP_MATCHES, Array.isArray(matches) && matches.length ? matches : []);
+  latestWorldCupMatches = normalizedMatches;
+  latestWorldCupSourceLabel = sourceLabel;
   const featuredMatches = getArenaStyleWorldCupMatches(normalizedMatches);
   if(groups){
     renderWorldCupGroups(normalizedMatches, sourceLabel);
@@ -10293,7 +10606,11 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
 
   container.innerHTML = featuredMatches.map(renderWorldCupArenaCard).join('');
 
-  table.innerHTML = normalizedMatches.map(match => {
+  const compactLimit = getCompactWorldCupLimit();
+  const shouldLimitMatches = Number.isFinite(compactLimit) && !worldCupMatchesExpanded && normalizedMatches.length > compactLimit;
+  const visibleMatches = shouldLimitMatches ? normalizedMatches.slice(0, compactLimit) : normalizedMatches;
+
+  table.innerHTML = visibleMatches.map(match => {
     const status = getWorldCupStatus(match);
     const statusClass = status.toLowerCase().replace(/\s+/g, '-');
     const groupLabel = match.group === 'Fase de grupos' ? match.group : `Grupo ${match.group}`;
@@ -10333,7 +10650,20 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
         </div>
       </article>
     `;
-  }).join('');
+  }).join('') + (Number.isFinite(compactLimit) && normalizedMatches.length > compactLimit ? `
+    <button type="button" class="worldcup-load-more" id="worldCupLoadMore">
+      ${worldCupMatchesExpanded ? 'Ver menos jogos' : `Ver mais jogos (${normalizedMatches.length - visibleMatches.length})`}
+    </button>
+  ` : '');
+
+  const loadMore = document.getElementById('worldCupLoadMore');
+  if(loadMore){
+    loadMore.addEventListener('click', () => {
+      worldCupMatchesExpanded = !worldCupMatchesExpanded;
+      renderWorldCupMatches(normalizedMatches, sourceLabel);
+      showSiteToast(worldCupMatchesExpanded ? 'Mais jogos na tela' : 'Lista resumida');
+    });
+  }
 
   updated.textContent = sourceLabel + ': ' + new Date().toLocaleTimeString('pt-BR', {
     hour:'2-digit',
@@ -11162,6 +11492,7 @@ function setupWorldCupStoryCard(){
     registerCurrentScore();
     registerStoryInteraction('player', state.player);
     registerStoryInteraction('mood', state.mood);
+    showSiteToast('Respostas salvas');
   });
 
   refreshCommunityState().then(syncOnlineInteractions);
@@ -11261,12 +11592,14 @@ function setupCraquePartidaVote(){
       selected = id;
       persist();
       render();
+      showSiteToast('Voto registrado');
       communityRequest('/vote',{
         method:'POST',
         body:JSON.stringify({pollId,choiceId:id,clientId})
       }).then(payload => {
         applyVoteState(payload.vote);
         render();
+        showSiteToast('Voto salvo online');
       }).catch(error => console.warn('Voto salvo localmente:', error));
     });
   });
@@ -11292,25 +11625,51 @@ function arrangeHomeContentHierarchy(){
   const reportagens = document.getElementById('reportagens-home');
   const worldCup = document.getElementById('worldcup');
   const palpitometro = document.getElementById('palpitometro');
+  const penalty = document.getElementById('desafio-penaltis');
   const hero = document.querySelector('.hero');
   const carousel = document.querySelector('.banner-carousel');
   const quickActions = document.querySelector('.hub-quick-actions');
   const beplayCallout = document.querySelector('.beplay-home-callout');
   if(!reportagens || !worldCup || !palpitometro || !hero || !carousel) return;
 
-  let anchor = hero;
-  carousel.after(anchor);
   if(quickActions){
-    anchor.after(quickActions);
-    anchor = quickActions;
+    carousel.after(quickActions);
+    quickActions.after(hero);
+  }else{
+    carousel.after(hero);
   }
-  if(beplayCallout){
-    anchor.after(beplayCallout);
-    anchor = beplayCallout;
-  }
-  anchor.after(worldCup);
+
+  hero.after(worldCup);
   worldCup.after(palpitometro);
-  palpitometro.after(reportagens);
+  if(beplayCallout){
+    palpitometro.after(beplayCallout);
+    beplayCallout.after(reportagens);
+  }else{
+    palpitometro.after(reportagens);
+  }
+  if(penalty){
+    reportagens.after(penalty);
+  }
+}
+
+function setupResponsiveHomeBehavior(){
+  let currentMode = '';
+  const applyMode = () => {
+    const mode = getHomeViewportMode();
+    document.body.classList.remove('is-home-mobile','is-home-tablet','is-home-desktop');
+    document.body.classList.add(`is-home-${mode}`);
+    if(mode === currentMode) return;
+    currentMode = mode;
+    if(latestWorldCupMatches){
+      renderWorldCupMatches(latestWorldCupMatches, latestWorldCupSourceLabel);
+    }
+  };
+
+  applyMode();
+  window.addEventListener('resize', () => {
+    window.clearTimeout(setupResponsiveHomeBehavior.timer);
+    setupResponsiveHomeBehavior.timer = window.setTimeout(applyMode, 160);
+  });
 }
 
 function setupMobileAppNavigation(){
@@ -11353,6 +11712,7 @@ function setupMobileAppNavigation(){
 
 window.addEventListener('DOMContentLoaded', () => {
   arrangeHomeContentHierarchy();
+  setupResponsiveHomeBehavior();
   refreshCommunityState().then(() => {
     if(postAtualId) renderizarComentarios(postAtualId);
     destacarMaisComentado();
