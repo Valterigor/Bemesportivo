@@ -7505,6 +7505,164 @@ display:none;
   }
 }
 
+/* Card framing pass: consistent inner breathing room for titles and text. */
+.card,
+.reportagem-card-content,
+.home-posts-panel,
+.home-side-post,
+.lineup-callout-content,
+.palpite-card,
+.palpite-user-card,
+.palpite-summary-item,
+.palpite-ranking-row,
+.craque-top-strip,
+.craque-match-band,
+.craque-player-card,
+.craque-info-card,
+.craque-footer,
+.craque-final-call,
+.worldcup-panel-intro,
+.worldcup-result-card,
+.worldcup-group-card,
+.worldcup-brazil-card,
+.arena-fixture-card,
+.match-card,
+.standings-card,
+.penalty-game-card,
+.penalty-rank-card,
+.valtinho,
+.debate-card{
+--card-safe-x:clamp(16px, 4.3vw, 24px);
+}
+
+.card,
+.home-posts-panel,
+.lineup-callout-content,
+.palpite-card,
+.palpite-user-card,
+.worldcup-result-card,
+.worldcup-group-card,
+.worldcup-brazil-card,
+.match-card,
+.standings-card,
+.penalty-game-card,
+.penalty-rank-card,
+.valtinho,
+.debate-card{
+padding-left:var(--card-safe-x);
+padding-right:var(--card-safe-x);
+}
+
+.reportagem-card-content,
+.worldcup-panel-intro,
+.craque-top-strip,
+.craque-match-band,
+.craque-player-card,
+.craque-info-card,
+.craque-footer,
+.craque-final-call,
+.arena-fixture-card,
+.palpite-summary-item,
+.palpite-ranking-row,
+.home-side-post{
+padding-left:var(--card-safe-x);
+padding-right:var(--card-safe-x);
+}
+
+.worldcup-results-grid,
+.worldcup-groups-grid,
+.palpite-cards,
+.seriea-cards,
+.grid{
+padding-left:clamp(14px, 3.8vw, 20px);
+padding-right:clamp(14px, 3.8vw, 20px);
+}
+
+.card h2,
+.card h3,
+.reportagem-card h3,
+.home-posts-panel h3,
+.home-side-post strong,
+.lineup-callout h2,
+.palpite-card h3,
+.palpite-result strong,
+.craque-title-block h2,
+.craque-player-meta strong,
+.craque-info-card strong,
+.craque-final-call strong,
+.worldcup-panel-intro strong,
+.worldcup-result-top,
+.worldcup-result-team strong,
+.worldcup-group-card h4,
+.worldcup-group-team strong,
+.worldcup-brazil-card h3,
+.arena-fixture-team strong,
+.arena-fixture-venue strong,
+.match-card h3,
+.standings-top h3,
+.penalty-game-header h2,
+.penalty-rank-card strong,
+.valtinho strong,
+.debate-card h3{
+overflow-wrap:anywhere;
+text-wrap:balance;
+}
+
+.card p,
+.reportagem-card p,
+.home-side-post span,
+.lineup-callout p,
+.palpite-result,
+.craque-title-block p,
+.craque-info-card p,
+.craque-final-call span,
+.worldcup-panel-intro span,
+.worldcup-result-bottom,
+.worldcup-group-note,
+.worldcup-brazil-card p,
+.arena-fixture-venue,
+.match-card p,
+.penalty-game-header p,
+.valtinho p,
+.debate-card p{
+overflow-wrap:anywhere;
+}
+
+@media (max-width: 540px){
+  .container{
+    padding-left:14px;
+    padding-right:14px;
+  }
+
+  .worldcup-result-card,
+  .worldcup-group-card,
+  .palpite-card,
+  .reportagem-card-content,
+  .craque-player-card,
+  .penalty-game-card,
+  .match-card,
+  .standings-card,
+  .card{
+    --card-safe-x:18px;
+  }
+
+  .worldcup-result-team,
+  .worldcup-result-score,
+  .worldcup-group-table td,
+  .worldcup-group-table th{
+    padding-left:8px;
+    padding-right:8px;
+  }
+
+  .craque-title-block,
+  .worldcup-section > .section-action-head,
+  .seriea-heading,
+  .home-posts-head{
+    padding-left:4px;
+    padding-right:4px;
+  }
+}
+
 </style>
 <link rel="stylesheet" href="site-common.css">
 
