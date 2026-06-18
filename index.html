@@ -4822,6 +4822,10 @@ border-radius:999px;
 background:rgba(0,0,0,.72);
 color:#fff;
 border:1px solid rgba(255,255,255,.18);
+position:relative;
+z-index:12;
+pointer-events:auto;
+touch-action:manipulation;
 }
 
 .penalty-rank{
@@ -7186,6 +7190,321 @@ transform:translate(-50%, 0);
   }
 }
 
+/* Penalty game realism pass: cinematic lighting, depth and cleaner game HUD. */
+.penalty-game{
+isolation:isolate;
+background:
+radial-gradient(ellipse at 50% 76%, rgba(117,185,54,.18), transparent 28%),
+linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.02) 42%, rgba(0,0,0,.38) 100%),
+url("img/penalty-stadium-bg.png") center/cover no-repeat;
+box-shadow:0 22px 54px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+.penalty-game::before{
+content:"";
+position:absolute;
+left:50%;
+bottom:clamp(70px, 8vw, 110px);
+width:clamp(170px, 24vw, 280px);
+height:clamp(82px, 11vw, 132px);
+transform:translateX(-50%);
+z-index:1;
+pointer-events:none;
+background:
+radial-gradient(ellipse at 50% 50%, rgba(70,126,30,.98) 0%, rgba(58,112,26,.94) 42%, rgba(45,92,22,.66) 68%, rgba(45,92,22,0) 82%),
+repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 1px, rgba(0,0,0,0) 1px 9px);
+filter:blur(.35px);
+}
+
+.penalty-game::after{
+background:radial-gradient(ellipse, rgba(0,0,0,.42), rgba(0,0,0,.08) 58%, transparent 72%);
+filter:blur(1px);
+}
+
+.penalty-game-header,
+.penalty-arena,
+.penalty-rank{
+position:relative;
+z-index:2;
+}
+
+.penalty-arena{
+min-height:clamp(590px, 49vw, 710px);
+padding-top:clamp(246px, 20vw, 286px);
+}
+
+.penalty-field{
+opacity:.42;
+filter:drop-shadow(0 2px 3px rgba(0,0,0,.28));
+}
+
+.penalty-box{
+border-color:rgba(255,255,255,.32);
+box-shadow:0 2px 10px rgba(0,0,0,.14);
+}
+
+.penalty-goal{
+filter:contrast(1.1) saturate(1.04) drop-shadow(0 10px 18px rgba(0,0,0,.22));
+}
+
+.penalty-keeper{
+top:282px;
+width:106px;
+height:142px;
+z-index:5;
+filter:drop-shadow(0 14px 12px rgba(0,0,0,.48)) contrast(1.04) saturate(1.04);
+}
+
+.penalty-keeper:not([data-dive]):not([data-miss]){
+animation:keeperReadyBreath 1.7s ease-in-out infinite;
+}
+
+.penalty-keeper::after{
+content:"";
+position:absolute;
+left:50%;
+bottom:-8px;
+width:86%;
+height:13px;
+transform:translateX(-50%);
+border-radius:50%;
+background:rgba(0,0,0,.32);
+filter:blur(4px);
+z-index:-1;
+}
+
+.penalty-ball{
+bottom:168px;
+width:52px;
+height:52px;
+z-index:6;
+filter:drop-shadow(0 12px 10px rgba(0,0,0,.42));
+}
+
+.penalty-ball::before{
+content:"";
+position:absolute;
+left:50%;
+bottom:-12px;
+width:72%;
+height:12px;
+transform:translateX(-50%);
+border-radius:50%;
+background:rgba(0,0,0,.34);
+filter:blur(3px);
+}
+
+.penalty-ball[data-shot]::before{
+opacity:.42;
+transform:translateX(-50%) scale(.7);
+}
+
+.penalty-status{
+z-index:8;
+margin-top:72px;
+pointer-events:none;
+}
+
+.penalty-status h3{
+min-width:150px;
+min-height:38px;
+padding:0 14px;
+border-radius:8px;
+background:rgba(0,0,0,.58);
+font-size:18px;
+box-shadow:0 10px 24px rgba(0,0,0,.26);
+}
+
+.penalty-status p{
+font-size:12px;
+}
+
+.penalty-reset{
+pointer-events:auto;
+position:relative;
+z-index:11;
+min-height:42px;
+}
+
+.penalty-joystick,
+.penalty-actions{
+z-index:9;
+padding:12px;
+border-radius:8px;
+background:rgba(0,0,0,.66);
+box-shadow:0 12px 28px rgba(0,0,0,.24), inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
+.penalty-pad{
+grid-template-columns:42px 42px 42px;
+grid-template-rows:42px 42px 42px;
+}
+
+.penalty-control{
+font-size:22px;
+border-radius:7px;
+}
+
+.penalty-actions{
+min-width:0;
+align-items:center;
+}
+
+.penalty-actions strong{
+display:none;
+}
+
+.penalty-shot{
+width:54px;
+height:54px;
+min-width:54px;
+padding:0;
+border-radius:10px;
+text-align:center;
+}
+
+.penalty-shot span,
+.penalty-shot small{
+position:absolute;
+width:1px;
+height:1px;
+overflow:hidden;
+clip:rect(0 0 0 0);
+white-space:nowrap;
+}
+
+.penalty-shot::before,
+.penalty-shot[data-shot-type="power"]::before{
+left:50%;
+top:50%;
+width:27px;
+height:27px;
+border-width:5px;
+transform:translate(-50%, -50%);
+box-sizing:border-box;
+}
+
+.penalty-shot[data-shot-type="placed"]{
+display:none;
+}
+
+@keyframes keeperReadyBreath{
+0%,100%{transform:translateX(-50%) translateY(0) scale(1)}
+50%{transform:translateX(-50%) translateY(1px) scale(1.01,.995)}
+}
+
+@media (max-width: 820px){
+  .penalty-game::before{
+    bottom:clamp(174px, 30svh, 240px);
+    width:clamp(124px, 34vw, 178px);
+    height:clamp(62px, 17vw, 92px);
+  }
+
+  .penalty-arena{
+    grid-template-columns:minmax(96px, auto) 1fr minmax(58px, auto);
+    grid-template-areas:
+    "field field field"
+    "status status status"
+    "joy . actions";
+    min-height:clamp(552px, 92svh, 680px);
+    padding:0 12px 14px;
+    gap:8px;
+    justify-items:center;
+    align-items:end;
+  }
+
+  .penalty-arena::before{
+    min-height:clamp(352px, 62svh, 490px);
+  }
+
+  .penalty-keeper{
+    top:clamp(270px, 46svh, 330px);
+    width:clamp(76px, 20vw, 88px);
+    height:clamp(100px, 25vw, 114px);
+  }
+
+  .penalty-ball{
+    bottom:clamp(210px, 37svh, 280px);
+    width:clamp(38px, 10vw, 46px);
+    height:clamp(38px, 10vw, 46px);
+  }
+
+  .penalty-status{
+    margin:0;
+  }
+
+  .penalty-status h3{
+    min-height:34px;
+    font-size:15px;
+  }
+
+  .penalty-joystick{
+    justify-self:start;
+    width:auto;
+  }
+
+  .penalty-actions{
+    justify-self:end;
+    width:auto;
+  }
+
+  .penalty-pad{
+    grid-template-columns:34px 34px 34px;
+    grid-template-rows:34px 34px 34px;
+    gap:4px;
+  }
+
+  .penalty-control{
+    min-height:34px;
+    font-size:18px;
+  }
+
+  .penalty-shot{
+    width:48px;
+    height:48px;
+    min-width:48px;
+  }
+}
+
+@media (max-width: 480px){
+  .penalty-game::before{
+    bottom:clamp(160px, 29svh, 214px);
+  }
+
+  .penalty-arena{
+    min-height:clamp(532px, 90svh, 632px);
+    padding:0 10px 12px;
+  }
+
+  .penalty-arena::before{
+    min-height:clamp(336px, 60svh, 446px);
+  }
+
+  .penalty-keeper{
+    top:clamp(252px, 45svh, 306px);
+  }
+
+  .penalty-ball{
+    bottom:clamp(198px, 36svh, 256px);
+  }
+
+  .penalty-pad{
+    grid-template-columns:32px 32px 32px;
+    grid-template-rows:32px 32px 32px;
+  }
+
+  .penalty-control{
+    min-height:32px;
+    font-size:17px;
+  }
+
+  .penalty-shot{
+    width:46px;
+    height:46px;
+    min-width:46px;
+  }
+}
+
 </style>
 <link rel="stylesheet" href="site-common.css">
 
@@ -7715,10 +8034,6 @@ Ainda existe paixão ou virou negócio?
 <strong id="penaltyBest">Sem recorde</strong>
 <input class="penalty-player-name" id="penaltyPlayerName" maxlength="24" placeholder="Nome" autocomplete="nickname">
 <ol class="penalty-ranking-list" id="penaltyRankingList" aria-label="Ranking local do desafio"></ol>
-</div>
-<div class="penalty-share" aria-label="Compartilhar resultado">
-<button type="button" id="penaltyShareBtn">Compartilhar</button>
-<button type="button" class="secondary" id="penaltyCopyBtn">Copiar</button>
 </div>
 </div>
 </div>
@@ -11101,8 +11416,6 @@ function initPenaltyGame(){
   const orientationTip = document.getElementById('penaltyOrientationTip');
   const portraitBtn = document.getElementById('penaltyPortraitBtn');
   const landscapeBtn = document.getElementById('penaltyLandscapeBtn');
-  const shareBtn = document.getElementById('penaltyShareBtn');
-  const copyBtn = document.getElementById('penaltyCopyBtn');
 
   const labels = {
     up: 'alto',
@@ -11116,7 +11429,6 @@ function initPenaltyGame(){
   let attempts = 0;
   let locked = false;
   let results = [];
-  let lastShareText = 'Eu estou jogando o Desafio dos Pênaltis no Bem Esportivo. Tente bater minha marca!';
 
   function getSavedBest(){
     try{
@@ -11181,13 +11493,6 @@ function initPenaltyGame(){
       return false;
     }
     return true;
-  }
-
-  function getShareText(score = goals){
-    const level = getLevel(score);
-    const name = getPlayerName();
-    const pageUrl = location.protocol === 'file:' ? 'https://bemesportivo.com/#desafio-penaltis' : `${location.origin}${location.pathname}#desafio-penaltis`;
-    return `${name} fez ${score}/5 no Desafio dos Pênaltis do Bem Esportivo e ficou como ${level}. Jogue também: ${pageUrl}`;
   }
 
   function getLevel(score){
@@ -11364,7 +11669,6 @@ function initPenaltyGame(){
           saveBest(goals);
         }
         renderBest();
-        lastShareText = getShareText(goals);
         resultEl.textContent = `${goals}/5 - ${level}`;
         messageEl.textContent = goals >= 4 ? 'Grande campanha.' : 'Fim de jogo.';
       }
@@ -11394,10 +11698,10 @@ function initPenaltyGame(){
     if(net){
       net.classList.remove('is-shaking');
     }
-    resultEl.textContent = 'Escolha o canto';
-    messageEl.textContent = 'Mire e chute.';
     updateScore();
     selectDirection('left');
+    resultEl.textContent = 'Escolha o canto';
+    messageEl.textContent = 'Mire e chute.';
     renderBest();
   }
 
@@ -11449,43 +11753,6 @@ function initPenaltyGame(){
     }
   }
 
-  async function copyShareText(){
-    const text = lastShareText || getShareText(goals);
-    try{
-      await navigator.clipboard.writeText(text);
-      if(copyBtn) copyBtn.textContent = 'Copiado';
-      window.setTimeout(() => {
-        if(copyBtn) copyBtn.textContent = 'Copiar';
-      }, 1400);
-    }catch(error){
-      window.prompt('Copie seu resultado:', text);
-    }
-  }
-
-  async function shareResult(){
-    const text = lastShareText || getShareText(goals);
-    if(navigator.share){
-      try{
-        await navigator.share({
-          title:'Desafio dos Pênaltis Bem Esportivo',
-          text,
-          url:location.protocol === 'file:' ? 'https://bemesportivo.com/#desafio-penaltis' : `${location.origin}${location.pathname}#desafio-penaltis`
-        });
-        return;
-      }catch(error){
-        if(error?.name === 'AbortError') return;
-      }
-    }
-
-    await copyShareText();
-    if(shareBtn){
-      shareBtn.textContent = 'Texto copiado';
-      window.setTimeout(() => {
-        shareBtn.textContent = 'Compartilhar';
-      }, 1400);
-    }
-  }
-
   controls.forEach(control => {
     control.addEventListener('click', () => selectDirection(control.dataset.direction));
   });
@@ -11496,7 +11763,16 @@ function initPenaltyGame(){
     button.addEventListener('click', () => shoot(button.dataset.shotType));
   });
 
-  resetBtn.addEventListener('click', resetGame);
+  if(resetBtn){
+    resetBtn.addEventListener('pointerdown', event => {
+      event.stopPropagation();
+    });
+    resetBtn.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      resetGame();
+    });
+  }
 
   if(landscapeBtn){
     landscapeBtn.addEventListener('click', requestLandscapeMode);
@@ -11513,14 +11789,6 @@ function initPenaltyGame(){
       updateOrientationCopy(isLandscape ? 'Paisagem' : 'Modo mobile', isLandscape ? 'Tela virada. Boa cobrança!' : 'Jogue na vertical ou vire para tela cheia.');
     }, 250);
   });
-
-  if(shareBtn){
-    shareBtn.addEventListener('click', shareResult);
-  }
-
-  if(copyBtn){
-    copyBtn.addEventListener('click', copyShareText);
-  }
 
   if(playerNameInput){
     try{
