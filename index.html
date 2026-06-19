@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Bem Esportivo | Conteúdo Esportivo">
 <meta name="twitter:description" content="Futebol, escalações, colunas e análises esportivas">
-<meta name="theme-color" content="#fc6e02">
+<meta name="theme-color" content="#111827">
 <meta name="google-adsense-account" content="ca-pub-5105345296041597">
 <title>Bem Esportivo | Conteúdo Esportivo</title>
 
@@ -24,10 +24,20 @@
 <style>
 
 :root{
---primary:#fc6e02;
---secondary:#9a5700;
---dark:#111111;
---light:#f8f9fa;
+--primary:#f97316;
+--primary-dark:#c2410c;
+--secondary:#2563eb;
+--accent:#16a34a;
+--dark:#111827;
+--muted:#64748b;
+--line:#e2e8f0;
+--light:#f6f8fb;
+--surface:#ffffff;
+--surface-soft:#f1f5f9;
+--ink:#0f172a;
+--focus:0 0 0 3px rgba(249,115,22,.22);
+--shadow-sm:0 8px 22px rgba(15,23,42,.08);
+--shadow-md:0 18px 45px rgba(15,23,42,.12);
 }
 
 html {
@@ -46,10 +56,12 @@ scroll-behavior:smooth;
 }
 
 body{
-background:var(--light);
-color:var(--dark);
+background:
+linear-gradient(180deg,#f8fafc 0,#f6f8fb 52%,#eef2f7 100%);
+color:var(--ink);
 padding-top:70px;
 overflow-x:hidden;
+line-height:1.55;
 }
 
 img{
@@ -59,12 +71,13 @@ display:block;
 
 a{
 text-decoration:none;
+color:inherit;
 }
 
 .container{
 max-width:1100px;
 margin:auto;
-padding:20px;
+padding:24px 20px;
 }
 
 .mt-40{
@@ -1168,6 +1181,314 @@ mark{
 background:#fff2e7;
 padding:2px 4px;
 border-radius:4px;
+}
+
+/* =========================
+UX VISUAL REFRESH
+========================= */
+
+::selection{
+background:rgba(249,115,22,.18);
+color:var(--ink);
+}
+
+:focus-visible{
+outline:none;
+box-shadow:var(--focus);
+}
+
+.menu{
+background:rgba(15,23,42,.96);
+border-bottom:1px solid rgba(255,255,255,.08);
+box-shadow:0 12px 30px rgba(15,23,42,.18);
+backdrop-filter:blur(14px);
+}
+
+.nav-menu a{
+color:#cbd5e1;
+letter-spacing:.04em;
+}
+
+.nav-menu a::after{
+background:var(--primary);
+}
+
+.nav-menu a:hover,
+.nav-menu a.active{
+color:#fff;
+}
+
+.btn-contato,
+.btn,
+.btn-banner,
+.btn-lineup,
+.post-comment-form button,
+.palpite-save,
+.worldcup-load-more,
+.worldcup-group-toggle,
+.craque-player-card button,
+.palpite-user-actions .btn{
+border:1px solid rgba(194,65,12,.18);
+border-radius:8px;
+background:linear-gradient(135deg,var(--primary),#fb923c);
+color:#111827;
+box-shadow:0 10px 24px rgba(249,115,22,.22);
+transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+}
+
+.btn:hover,
+.btn-banner:hover,
+.btn-contato:hover,
+.btn-lineup:hover,
+.post-comment-form button:hover,
+.worldcup-load-more:hover,
+.worldcup-group-toggle:hover{
+opacity:1;
+background:linear-gradient(135deg,#fb923c,#fdba74);
+color:#111827;
+transform:translateY(-2px);
+box-shadow:0 14px 30px rgba(249,115,22,.28);
+}
+
+.banner-carousel{
+background:#0f172a;
+box-shadow:var(--shadow-md);
+}
+
+.banner-top{
+background:#111827;
+}
+
+.banner-top::before{
+background:linear-gradient(90deg,rgba(15,23,42,.82),rgba(15,23,42,.34) 52%,rgba(15,23,42,.72));
+}
+
+.banner-top::after{
+opacity:.42;
+}
+
+.banner-top h1{
+color:#fff;
+text-shadow:0 10px 32px rgba(0,0,0,.32);
+}
+
+.banner-top p{
+max-width:680px;
+color:#e2e8f0;
+}
+
+.carousel-btn{
+background:rgba(255,255,255,.92);
+color:#111827;
+box-shadow:0 10px 26px rgba(15,23,42,.18);
+}
+
+.indicator{
+background:rgba(255,255,255,.44);
+}
+
+.indicator.active{
+background:var(--primary);
+}
+
+.hub-quick-actions,
+.beplay-home-callout,
+.search-results{
+border:1px solid var(--line);
+background:rgba(255,255,255,.9);
+box-shadow:var(--shadow-sm);
+}
+
+.hub-quick-actions a{
+border:1px solid transparent;
+border-radius:8px;
+transition:background .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.hub-quick-actions a:hover,
+.hub-quick-actions a:focus-visible{
+border-color:rgba(249,115,22,.24);
+background:#fff7ed;
+transform:translateY(-2px);
+}
+
+.hero{
+background:transparent;
+}
+
+.hero h1,
+.section-title,
+.seriea-heading h2,
+.standings-top h3{
+color:var(--ink);
+letter-spacing:0;
+}
+
+.worldcup-story-card,
+.palpitometro-section,
+.craque-vote-section,
+.worldcup-section,
+.seriea-section,
+.lineup-callout{
+border:1px solid rgba(15,23,42,.1);
+box-shadow:var(--shadow-md);
+}
+
+.worldcup-story-card{
+background:
+linear-gradient(180deg,rgba(15,23,42,.9),rgba(17,24,39,.96)),
+radial-gradient(circle at 78% 0,rgba(249,115,22,.24),transparent 34%);
+}
+
+.worldcup-story-card::before{
+background:
+linear-gradient(180deg,rgba(15,23,42,.1),rgba(15,23,42,.82) 64%,#0f172a 100%),
+radial-gradient(circle at 18% 10%,rgba(37,99,235,.28),transparent 26%),
+radial-gradient(circle at 82% 12%,rgba(249,115,22,.26),transparent 27%),
+linear-gradient(180deg,#1e293b,#0f172a 58%,#111827);
+}
+
+.worldcup-story-card::after,
+.worldcup-story-lights{
+opacity:.44;
+}
+
+.destaque-live-panel,
+.story-control-panel,
+.story-results{
+border-color:rgba(226,232,240,.18);
+background:rgba(15,23,42,.62);
+}
+
+.destaque-live-status{
+background:rgba(249,115,22,.18);
+color:#fff;
+}
+
+.destaque-live-status::before{
+background:var(--primary);
+}
+
+.story-segmented button,
+.story-craque-grid button,
+.story-poll-grid button{
+border-radius:8px;
+background:rgba(255,255,255,.08);
+}
+
+.story-segmented button.is-selected,
+.story-craque-grid button.is-selected,
+.story-poll-grid button.is-selected{
+border-color:#fdba74;
+background:linear-gradient(135deg,rgba(249,115,22,.78),rgba(37,99,235,.56));
+}
+
+.story-save-btn{
+border-color:rgba(249,115,22,.46);
+background:linear-gradient(135deg,#fb923c,#f97316);
+color:#111827;
+}
+
+.story-result-row em{
+background:linear-gradient(90deg,#f97316,#38bdf8);
+}
+
+.story-shareline{
+border-color:rgba(249,115,22,.24);
+background:rgba(15,23,42,.62);
+box-shadow:none;
+}
+
+.grid .card,
+.reportagem-card,
+.palpite-card,
+.worldcup-result-card,
+.worldcup-group-card,
+.worldcup-brazil-card,
+.match-card,
+.standings-card,
+.craque-player-card,
+.craque-info-card,
+.post-lightbox-card{
+border-radius:8px;
+box-shadow:var(--shadow-sm);
+}
+
+.reportagem-card{
+background:#111827;
+}
+
+.reportagem-card::after{
+background:linear-gradient(90deg,var(--primary),#38bdf8);
+}
+
+.lineup-callout{
+background:
+linear-gradient(135deg,rgba(15,23,42,.96),rgba(30,41,59,.94)),
+radial-gradient(circle at 85% 15%,rgba(249,115,22,.2),transparent 36%);
+}
+
+.palpitometro-section{
+background:
+linear-gradient(135deg,#111827,#1e293b),
+radial-gradient(circle at 16% 10%,rgba(249,115,22,.2),transparent 30%);
+}
+
+.palpite-card{
+background:#fff;
+border-color:rgba(15,23,42,.09);
+}
+
+.palpite-card::before{
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+}
+
+.palpite-quick:hover,
+.palpite-quick:focus-visible,
+.palpite-quick.active{
+border-color:var(--primary);
+background:#fff7ed;
+color:var(--primary-dark);
+}
+
+.craque-vote-section,
+.worldcup-section{
+background:
+linear-gradient(135deg,#111827,#1e293b),
+radial-gradient(circle at 82% 0,rgba(37,99,235,.2),transparent 34%);
+}
+
+.worldcup-tabs,
+.worldcup-panel-intro,
+.worldcup-table-card{
+border-color:rgba(226,232,240,.16);
+background:rgba(15,23,42,.56);
+}
+
+.worldcup-tabs button.is-active{
+background:linear-gradient(135deg,var(--primary),#fb923c);
+color:#111827;
+}
+
+.worldcup-result-card{
+background:
+linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035)),
+rgba(15,23,42,.74);
+}
+
+.worldcup-result-score,
+.worldcup-score,
+.match-score{
+background:#fff;
+border-color:rgba(15,23,42,.1);
+color:var(--ink);
+}
+
+.worldcup-result-score .score-number,
+.worldcup-score .score-number,
+.worldcup-table-score .score-number,
+.match-score .score-number{
+color:var(--ink);
 }
 
 /* =========================
@@ -7712,6 +8033,264 @@ overflow-wrap:anywhere;
     padding-left:4px;
     padding-right:4px;
   }
+}
+
+/* =========================
+FINAL UX POLISH OVERRIDES
+========================= */
+
+body{
+background:linear-gradient(180deg,#f8fafc 0,#f6f8fb 52%,#eef2f7 100%);
+color:var(--ink);
+}
+
+.menu{
+background:rgba(15,23,42,.96);
+border-bottom:1px solid rgba(255,255,255,.08);
+box-shadow:0 12px 30px rgba(15,23,42,.18);
+backdrop-filter:blur(14px);
+}
+
+.nav-menu a{
+color:#cbd5e1;
+letter-spacing:.04em;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active{
+color:#fff;
+}
+
+.banner-art{
+background-image:var(--banner-image)!important;
+background-size:cover!important;
+background-position:center!important;
+background-repeat:no-repeat!important;
+background-color:#111827;
+}
+
+.banner-art::before{
+background:linear-gradient(90deg,rgba(0,0,0,.1),transparent 18%,transparent 82%,rgba(0,0,0,.12))!important;
+}
+
+.banner-art::after{
+display:none;
+}
+
+.btn,
+.btn-banner,
+.btn-contato,
+.btn-lineup,
+.palpite-save,
+.worldcup-load-more,
+.worldcup-group-toggle,
+.craque-player-card button,
+.beplay-home-callout a{
+border-radius:8px;
+background:linear-gradient(135deg,var(--primary),#fb923c);
+color:#111827;
+box-shadow:0 10px 24px rgba(249,115,22,.22);
+}
+
+.btn:hover,
+.btn-banner:hover,
+.btn-contato:hover,
+.btn-lineup:hover,
+.worldcup-load-more:hover,
+.worldcup-group-toggle:hover,
+.beplay-home-callout a:hover{
+background:linear-gradient(135deg,#fb923c,#fdba74);
+color:#111827;
+box-shadow:0 14px 30px rgba(249,115,22,.28);
+}
+
+.hub-quick-actions,
+.beplay-home-callout,
+.search-results{
+border:1px solid var(--line);
+background:rgba(255,255,255,.92);
+box-shadow:var(--shadow-sm);
+}
+
+.hub-quick-actions a:hover,
+.hub-quick-actions a:focus-visible{
+border-color:rgba(249,115,22,.24);
+background:#fff7ed;
+transform:translateY(-2px);
+}
+
+.worldcup-story-card,
+.palpitometro-section,
+.craque-vote-section,
+.worldcup-section,
+.lineup-callout{
+border:1px solid rgba(15,23,42,.1);
+box-shadow:var(--shadow-md);
+}
+
+.worldcup-story-card,
+.palpitometro-section,
+.craque-vote-section,
+.worldcup-section{
+background:
+linear-gradient(135deg,#111827,#1e293b),
+radial-gradient(circle at 82% 0,rgba(37,99,235,.2),transparent 34%);
+}
+
+.worldcup-story-card{
+aspect-ratio:auto;
+min-height:0;
+height:auto;
+overflow:hidden;
+}
+
+.worldcup-story-content{
+padding-bottom:clamp(22px,4vw,32px);
+}
+
+.beplay-home-callout{
+padding:clamp(18px,3.4vw,26px);
+color:#fff;
+border:1px solid rgba(226,232,240,.14);
+background:
+linear-gradient(135deg,rgba(15,23,42,.98),rgba(30,41,59,.96)),
+radial-gradient(circle at 14% 0,rgba(249,115,22,.24),transparent 36%),
+radial-gradient(circle at 92% 18%,rgba(37,99,235,.2),transparent 34%);
+box-shadow:var(--shadow-md);
+}
+
+.beplay-home-callout > div{
+min-width:0;
+padding-inline:clamp(4px,1.6vw,10px);
+}
+
+.beplay-home-callout span{
+color:#fdba74;
+}
+
+.beplay-home-callout h2{
+color:#fff;
+}
+
+.beplay-home-callout p{
+color:#dbeafe;
+}
+
+.worldcup-section > .seriea-heading,
+.worldcup-section > .section-action-head,
+.section-action-head,
+.seriea-heading{
+padding-left:clamp(14px,3vw,22px);
+padding-right:clamp(14px,3vw,22px);
+}
+
+.worldcup-section .worldcup-source{
+padding-left:clamp(14px,3vw,22px);
+padding-right:clamp(14px,3vw,22px);
+}
+
+.worldcup-section .seriea-heading h2,
+.worldcup-section .seriea-heading p,
+.worldcup-section .section-action-head h2,
+.worldcup-section .section-action-head span{
+color:#fff;
+}
+
+.worldcup-story-card::before{
+background:
+linear-gradient(180deg,rgba(15,23,42,.08),rgba(15,23,42,.82) 64%,#0f172a 100%),
+radial-gradient(circle at 18% 10%,rgba(37,99,235,.28),transparent 26%),
+radial-gradient(circle at 82% 12%,rgba(249,115,22,.26),transparent 27%),
+linear-gradient(180deg,#1e293b,#0f172a 58%,#111827);
+}
+
+.destaque-live-panel,
+.story-control-panel,
+.story-results,
+.worldcup-tabs,
+.worldcup-panel-intro,
+.worldcup-table-card{
+border-color:rgba(226,232,240,.16);
+background:rgba(15,23,42,.58);
+}
+
+.story-save-btn,
+.worldcup-tabs button.is-active,
+.craque-player-card button{
+background:linear-gradient(135deg,#fb923c,#f97316);
+color:#111827;
+}
+
+.story-segmented button.is-selected,
+.story-craque-grid button.is-selected,
+.story-poll-grid button.is-selected{
+border-color:#fdba74;
+background:linear-gradient(135deg,rgba(249,115,22,.78),rgba(37,99,235,.56));
+}
+
+.reportagem-card{
+background:#111827;
+}
+
+.reportagem-card::after,
+.palpite-card::before{
+background:linear-gradient(90deg,var(--primary),#38bdf8);
+}
+
+.palpite-card,
+.worldcup-result-card,
+.worldcup-group-card,
+.worldcup-brazil-card,
+.match-card,
+.standings-card,
+.craque-player-card,
+.craque-info-card{
+border-radius:8px;
+box-shadow:var(--shadow-sm);
+}
+
+.palpite-card{
+background:#fff;
+border-color:rgba(15,23,42,.09);
+}
+
+.palpite-quick:hover,
+.palpite-quick:focus-visible,
+.palpite-quick.active{
+border-color:var(--primary);
+background:#fff7ed;
+color:var(--primary-dark);
+}
+
+.worldcup-result-card{
+background:
+linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035)),
+rgba(15,23,42,.74);
+}
+
+.worldcup-result-score,
+.worldcup-score,
+.match-score{
+background:#fff;
+border-color:rgba(15,23,42,.1);
+color:var(--ink);
+}
+
+.mobile-app-nav{
+border:1px solid rgba(226,232,240,.82);
+background:rgba(255,255,255,.94);
+box-shadow:0 12px 32px rgba(15,23,42,.16);
+backdrop-filter:blur(14px);
+}
+
+.mobile-app-nav a{
+color:#475569;
+}
+
+.mobile-app-nav a.is-active,
+.mobile-app-nav a:focus-visible{
+background:#fff7ed;
+color:var(--primary-dark);
 }
 
 </style>
