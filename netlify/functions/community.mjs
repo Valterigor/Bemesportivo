@@ -300,8 +300,15 @@ export async function handler(event){
     const clientId = cleanText(body.clientId, 120);
     if(!type || !target || !value || !clientId) return json(400, { ok: false, error: 'Interacao invalida.' });
 
+    const previousInteractions = Array.isArray(state.interactions) ? state.interactions : [];
+    const withoutSameClientChoice = previousInteractions.filter(item => (
+      item.type !== type ||
+      item.target !== target ||
+      item.clientId !== clientId
+    ));
+
     state.interactions = [
-      ...(Array.isArray(state.interactions) ? state.interactions : []),
+      ...withoutSameClientChoice,
       {
         id: `interaction-${Date.now()}-${Math.random().toString(16).slice(2)}`,
         type,

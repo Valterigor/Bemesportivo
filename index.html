@@ -1052,6 +1052,57 @@ text-transform:uppercase;
 display:block;
 }
 
+.story-result-row{
+display:grid;
+grid-template-columns:minmax(0,1fr) 74px auto;
+align-items:center;
+gap:7px;
+text-align:left;
+}
+
+.story-result-row b{
+min-width:0;
+overflow:hidden;
+color:#fff;
+font-size:10px;
+font-weight:900;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.story-result-row i{
+display:block;
+height:7px;
+overflow:hidden;
+border-radius:999px;
+background:rgba(255,255,255,.14);
+box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+.story-result-row em{
+display:block;
+height:100%;
+border-radius:inherit;
+background:linear-gradient(90deg,#00b256,#ffd32f);
+box-shadow:0 0 12px rgba(255,211,47,.22);
+}
+
+.story-result-row strong{
+color:#ffd32f;
+font-size:10px;
+font-weight:900;
+text-align:right;
+}
+
+.story-results-subtitle{
+margin-top:4px;
+color:#9ee8ff;
+font-size:9px;
+font-weight:900;
+letter-spacing:.08em;
+text-transform:uppercase;
+}
+
 .story-shareline{
 display:grid;
 gap:8px;
@@ -7822,7 +7873,7 @@ overflow-wrap:anywhere;
 
 <div class="worldcup-story-title">
 <h2>Brasil x Haiti</h2>
-<p>Palpite, craque da partida e termômetro da torcida em clima de transmissão premium.</p>
+<p>Publique seu placar e acompanhe os resultados mais apontados pela torcida.</p>
 </div>
 
 <div class="worldcup-story-match">
@@ -7835,6 +7886,28 @@ overflow-wrap:anywhere;
 <div class="worldcup-story-flag"><img src="https://flagcdn.com/w160/ht.png" alt="Bandeira do Haiti" loading="lazy"></div>
 <strong>Haiti</strong>
 </div>
+</div>
+
+<div class="destaque-live-panel" aria-label="Transmissao ao vivo Brasil x Haiti">
+<div class="destaque-live-top">
+<span class="destaque-live-status" id="brazilLiveStatus">PRE-JOGO</span>
+<span class="destaque-live-clock" id="brazilLiveClock">19/06 - 19:00</span>
+</div>
+<div class="destaque-live-score">
+<div class="destaque-live-team">
+<span>Brasil</span>
+<strong id="brazilLiveHomeScore">--</strong>
+</div>
+<div class="destaque-live-numbers">x</div>
+<div class="destaque-live-team">
+<span>Haiti</span>
+<strong id="brazilLiveAwayScore">--</strong>
+</div>
+</div>
+<p id="brazilLiveSummary">Proximo jogo da Selecao na Copa: Brasil x Haiti, dia 19/06, as 19:00.</p>
+<ul class="destaque-live-plays" id="brazilLivePlays">
+<li><time>Info</time><span>Os lances aparecem aqui quando a transmissao ao vivo liberar os dados da partida.</span></li>
+</ul>
 </div>
 
 <div class="worldcup-story-controls">
@@ -7857,46 +7930,28 @@ overflow-wrap:anywhere;
 </div>
 
 <div class="story-control-panel">
-<div class="story-panel-title">Craque da partida</div>
+<div class="story-panel-title">Primeiro gol</div>
 <div class="story-craque-grid" data-story-group="player">
 <button type="button" class="is-selected" data-story-value="Vinícius Júnior">Vinícius Júnior</button>
-<button type="button" data-story-value="Neymar">Neymar</button>
 <button type="button" data-story-value="Raphinha">Raphinha</button>
-<button type="button" data-story-value="Gabriel Martinelli">G. Martinelli</button>
-<button type="button" data-story-value="Matheus Cunha">Matheus Cunha</button>
 <button type="button" data-story-value="Endrick">Endrick</button>
+<button type="button" data-story-value="Lucas Paquetá">Paquetá</button>
+<button type="button" data-story-value="Bruno Guimarães">Bruno G.</button>
+<button type="button" data-story-value="Outro">Outro</button>
 </div>
 </div>
 
-<div class="story-control-panel">
-<div class="story-panel-title">Opinião da torcida</div>
-<div class="story-poll-grid" data-story-group="mood">
-<button type="button" class="is-selected" data-story-value="Rumo ao Hexa">Rumo ao Hexa</button>
-<button type="button" data-story-value="Jogo duro">Jogo duro</button>
-<button type="button" data-story-value="Show do Brasil">Show do Brasil</button>
-<button type="button" data-story-value="Olho na zebra">Olho na zebra</button>
-</div>
-</div>
-
-<div class="story-control-panel">
-<label for="storyConfidence">Termômetro de confiança</label>
-<div class="story-confidence-row">
-<input id="storyConfidence" type="range" min="0" max="100" value="78" data-story-confidence>
-<output id="storyConfidenceValue">78%</output>
-</div>
-</div>
-
-<button type="button" class="story-save-btn" id="storySaveAnswers">Salvar respostas</button>
+<button type="button" class="story-save-btn" id="storySaveAnswers">Publicar palpite</button>
 
 <div class="story-results" id="storyResults" aria-live="polite">
-<strong>Resultados da torcida</strong>
-<span>Salve respostas para ver os mais escolhidos.</span>
+<strong>Placares mais apontados</strong>
+<span>Publique seu palpite para entrar no resultado da torcida.</span>
 </div>
 </div>
 
 <div class="story-shareline" id="storyShareline" aria-live="polite">
-<strong>Brasil vence por 2 x 0. Craque: Vinícius Júnior.</strong>
-<span>Confiança da torcida: 78% | Rumo ao Hexa</span>
+<strong>Meu palpite: Brasil 2 x 0 Haiti.</strong>
+<span>Primeiro gol: Vinícius Júnior</span>
 </div>
 </div>
 </article>
@@ -12005,14 +12060,12 @@ function setupWorldCupStoryCard(){
   if(!card) return;
 
   const storageKey = 'bemStoryBrasilHaiti2026';
-  const targetId = 'story-brasil-haiti-2026';
+  const targetId = 'bolao-brasil-haiti-2026';
   const defaultState = {
     winner:'Brasil',
     homeScore:2,
     awayScore:0,
-    player:'Vini Jr.',
-    mood:'Rumo ao Hexa',
-    confidence:78
+    player:'Vinícius Júnior'
   };
 
   let state = {...defaultState};
@@ -12023,8 +12076,6 @@ function setupWorldCupStoryCard(){
   const shareline = document.getElementById('storyShareline');
   const results = document.getElementById('storyResults');
   const saveButton = document.getElementById('storySaveAnswers');
-  const confidenceInput = card.querySelector('[data-story-confidence]');
-  const confidenceOutput = document.getElementById('storyConfidenceValue');
   const scoreInputs = Array.from(card.querySelectorAll('[data-story-score]'));
   let onlineInteractions = [];
 
@@ -12041,40 +12092,63 @@ function setupWorldCupStoryCard(){
   }
 
   function registerStoryInteraction(type, value){
-    communityRequest('/interaction',{
+    return communityRequest('/interaction',{
       method:'POST',
       body:JSON.stringify({type,target:targetId,value,clientId:getCommunityClientId()})
-    }).then(payload => {
-      onlineInteractions = Array.isArray(payload?.interactions) ? payload.interactions.filter(item => item.target === targetId) : onlineInteractions;
-      renderOnlineResults();
     }).catch(error => console.warn('Interacao salva localmente:', error));
   }
 
-  function getTopChoice(type){
+  function getChoiceCounts(type){
     const counts = {};
     onlineInteractions
       .filter(item => item.type === type && item.value)
       .forEach(item => { counts[item.value] = (counts[item.value] || 0) + 1; });
-    return Object.entries(counts).sort((a, b) => b[1] - a[1])[0] || null;
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  }
+
+  function getScoreLabel(){
+    return `Brasil ${state.homeScore} x ${state.awayScore} Haiti`;
+  }
+
+  function getWinnerFromScore(){
+    if(state.homeScore > state.awayScore) return 'Brasil';
+    if(state.homeScore < state.awayScore) return 'Haiti';
+    return 'Empate';
+  }
+
+  function renderResultRows(items, total, emptyText){
+    if(!items.length){
+      return `<span>${emptyText}</span>`;
+    }
+    return items.slice(0, 4).map(([label, count]) => {
+      const percent = total ? Math.round((count / total) * 100) : 0;
+      return `
+        <span class="story-result-row">
+          <b>${escapeHtml(label)}</b>
+          <i><em style="width:${percent}%"></em></i>
+          <strong>${percent}%</strong>
+        </span>
+      `;
+    }).join('');
   }
 
   function renderOnlineResults(){
     if(!results) return;
-    const total = onlineInteractions.length;
-    const winner = getTopChoice('winner');
-    const score = getTopChoice('score');
-    const player = getTopChoice('player');
-    const mood = getTopChoice('mood');
+    const scoreCounts = getChoiceCounts('score');
+    const playerCounts = getChoiceCounts('player');
+    const scoreTotal = scoreCounts.reduce((sum, item) => sum + item[1], 0);
+    const playerTotal = playerCounts.reduce((sum, item) => sum + item[1], 0);
 
-    if(!total){
-      results.innerHTML = '<strong>Resultados da torcida</strong><span>As escolhas aparecem aqui em tempo real.</span>';
+    if(!scoreTotal && !playerTotal){
+      results.innerHTML = '<strong>Placares mais apontados</strong><span>Publique seu palpite para abrir o resultado da torcida.</span>';
       return;
     }
 
     results.innerHTML = `
-      <strong>${escapeHtml(total)} escolha${total === 1 ? '' : 's'} registrada${total === 1 ? '' : 's'}</strong>
-      <span>${winner ? `Vencedor: ${escapeHtml(winner[0])}` : 'Vencedor: aguardando'} | ${score ? `Placar: ${escapeHtml(score[0])}` : 'Placar: aguardando'}</span>
-      <span>${player ? `Craque: ${escapeHtml(player[0])}` : 'Craque: aguardando'} | ${mood ? escapeHtml(mood[0]) : 'Torcida entrando no clima'}</span>
+      <strong>${scoreTotal} palpite${scoreTotal === 1 ? '' : 's'} publicado${scoreTotal === 1 ? '' : 's'}</strong>
+      ${renderResultRows(scoreCounts, scoreTotal, 'Aguardando placares.')}
+      <span class="story-results-subtitle">Primeiro gol</span>
+      ${renderResultRows(playerCounts, playerTotal, 'Aguardando jogadores.')}
     `;
   }
 
@@ -12093,23 +12167,19 @@ function setupWorldCupStoryCard(){
   function render(){
     state.homeScore = clampScore(state.homeScore);
     state.awayScore = clampScore(state.awayScore);
-    state.confidence = Math.max(0, Math.min(100, Math.round(Number(state.confidence) || 0)));
+    state.winner = getWinnerFromScore();
 
     syncButtons('winner', state.winner);
     syncButtons('player', state.player);
-    syncButtons('mood', state.mood);
 
     scoreInputs.forEach(input => {
       input.value = input.dataset.storyScore === 'home' ? state.homeScore : state.awayScore;
     });
 
-    if(confidenceInput) confidenceInput.value = state.confidence;
-    if(confidenceOutput) confidenceOutput.textContent = `${state.confidence}%`;
-
     if(shareline){
       shareline.innerHTML = `
-        <strong>${escapeHtml(state.winner)} ${state.winner === 'Empate' ? 'no palpite' : 'vence'} por ${escapeHtml(state.homeScore)} x ${escapeHtml(state.awayScore)}. Craque: ${escapeHtml(state.player)}.</strong>
-        <span>Confiança da torcida: ${escapeHtml(state.confidence)}% | ${escapeHtml(state.mood)}</span>
+        <strong>Meu palpite: ${escapeHtml(getScoreLabel())}.</strong>
+        <span>Primeiro gol: ${escapeHtml(state.player)}</span>
       `;
     }
 
@@ -12117,7 +12187,7 @@ function setupWorldCupStoryCard(){
   }
 
   function registerCurrentScore(){
-    registerStoryInteraction('score', `Brasil ${state.homeScore} x ${state.awayScore} Haiti`);
+    return registerStoryInteraction('score', getScoreLabel());
   }
 
   card.querySelectorAll('[data-story-group] button').forEach(button => {
@@ -12126,10 +12196,7 @@ function setupWorldCupStoryCard(){
       if(!group) return;
       if(group === 'winner') state.winner = button.dataset.storyValue;
       if(group === 'player') state.player = button.dataset.storyValue;
-      if(group === 'mood') state.mood = button.dataset.storyValue;
       render();
-      registerStoryInteraction(group, button.dataset.storyValue);
-      if(group === 'winner') registerCurrentScore();
     });
   });
 
@@ -12138,23 +12205,22 @@ function setupWorldCupStoryCard(){
       if(input.dataset.storyScore === 'home') state.homeScore = clampScore(input.value);
       if(input.dataset.storyScore === 'away') state.awayScore = clampScore(input.value);
       render();
-      registerCurrentScore();
     });
-  });
-
-  confidenceInput?.addEventListener('input', () => {
-    state.confidence = Number(confidenceInput.value);
-    render();
-    registerStoryInteraction('confidence', confidenceInput.value);
   });
 
   saveButton?.addEventListener('click', () => {
     render();
-    registerStoryInteraction('winner', state.winner);
-    registerCurrentScore();
-    registerStoryInteraction('player', state.player);
-    registerStoryInteraction('mood', state.mood);
-    showSiteToast('Respostas salvas');
+    saveButton.disabled = true;
+    saveButton.textContent = 'Publicando...';
+    Promise.all([
+      registerStoryInteraction('winner', state.winner),
+      registerCurrentScore(),
+      registerStoryInteraction('player', state.player)
+    ]).then(() => refreshCommunityState()).then(syncOnlineInteractions).finally(() => {
+      saveButton.disabled = false;
+      saveButton.textContent = 'Atualizar palpite';
+      showSiteToast('Palpite publicado');
+    });
   });
 
   refreshCommunityState().then(syncOnlineInteractions);

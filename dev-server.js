@@ -355,14 +355,23 @@ async function handleCommunityApi(request, response, parsedUrl){
   if(request.method === 'POST' && parsedUrl.pathname === '/api/community/interaction'){
     try{
       const body = await readJsonBody(request);
+      const type = cleanText(body.type, 40);
+      const target = cleanText(body.target, 120);
+      const clientId = cleanText(body.clientId, 120);
+      const previousInteractions = Array.isArray(state.interactions) ? state.interactions : [];
+      const withoutSameClientChoice = previousInteractions.filter(item => (
+        item.type !== type ||
+        item.target !== target ||
+        item.clientId !== clientId
+      ));
       state.interactions = [
-        ...(Array.isArray(state.interactions) ? state.interactions : []),
+        ...withoutSameClientChoice,
         {
           id:`interaction-${Date.now()}-${Math.random().toString(16).slice(2)}`,
-          type:cleanText(body.type, 40),
-          target:cleanText(body.target, 120),
+          type,
+          target,
           value:cleanText(body.value, 120),
-          clientId:cleanText(body.clientId, 120),
+          clientId,
           createdAt:new Date().toISOString()
         }
       ].slice(-1000);
