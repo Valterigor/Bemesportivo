@@ -8294,11 +8294,22 @@ color:var(--primary-dark);
 }
 
 @media (max-width: 820px){
+  .banner-carousel[data-art-active="true"]{
+    height:calc(100vw / 3);
+    max-height:274px;
+  }
+
+  .banner-carousel[data-art-active="true"] .carousel-container,
+  .banner-carousel[data-art-active="true"] .carousel-slide{
+    height:100%;
+  }
+
   .carousel-slide[data-slide="2"] .banner-art,
   .carousel-slide[data-slide="3"] .banner-art,
   .carousel-slide[data-slide="4"] .banner-art{
+    height:100%;
     min-height:0;
-    aspect-ratio:3/1;
+    aspect-ratio:auto;
     background-size:cover!important;
     background-position:center center!important;
     background-repeat:no-repeat!important;
@@ -8307,10 +8318,13 @@ color:var(--primary-dark);
 }
 
 @media (max-width: 480px){
+  .banner-carousel[data-art-active="true"]{
+    height:calc(100vw / 3);
+  }
+
   .carousel-slide[data-slide="2"] .banner-art,
   .carousel-slide[data-slide="3"] .banner-art,
   .carousel-slide[data-slide="4"] .banner-art{
-    aspect-ratio:3/1;
     border-radius:0 0 10px 10px;
   }
 }
@@ -9307,6 +9321,7 @@ window.location.href=card.dataset.reportLink;
 
 class BannerCarousel {
   constructor() {
+    this.carousel = document.querySelector('.banner-carousel');
     this.container = document.querySelector('.carousel-container');
     this.slides = document.querySelectorAll('.carousel-slide');
     this.indicators = document.querySelectorAll('.indicator');
@@ -9338,6 +9353,7 @@ class BannerCarousel {
     
     // Auto-play
     this.startAutoPlay();
+    this.updateCarousel();
     
     // Pausar ao passar mouse, retomar ao sair
     this.container.addEventListener('mouseenter', () => this.stopAutoPlay());
@@ -9347,6 +9363,9 @@ class BannerCarousel {
   updateCarousel() {
     const offset = this.currentSlide * -100;
     this.container.style.transform = `translateX(${offset}%)`;
+    if(this.carousel){
+      this.carousel.toggleAttribute('data-art-active', this.currentSlide >= 2);
+    }
     
     // Atualizar indicadores
     this.indicators.forEach((indicator, index) => {
