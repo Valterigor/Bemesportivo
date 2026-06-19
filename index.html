@@ -8293,6 +8293,33 @@ background:#fff7ed;
 color:var(--primary-dark);
 }
 
+@media (max-width: 820px){
+  .carousel-slide[data-slide="2"] .banner-art,
+  .carousel-slide[data-slide="3"] .banner-art,
+  .carousel-slide[data-slide="4"] .banner-art{
+    min-height:clamp(230px, 72vw, 390px);
+    aspect-ratio:4/5;
+    background-size:contain!important;
+    background-position:center!important;
+    background-repeat:no-repeat!important;
+    background-color:#0f172a;
+  }
+
+  .carousel-slide[data-slide="2"] .banner-art::before,
+  .carousel-slide[data-slide="3"] .banner-art::before,
+  .carousel-slide[data-slide="4"] .banner-art::before{
+    background:linear-gradient(180deg,rgba(15,23,42,.06),rgba(15,23,42,.14))!important;
+  }
+}
+
+@media (max-width: 480px){
+  .carousel-slide[data-slide="2"] .banner-art,
+  .carousel-slide[data-slide="3"] .banner-art,
+  .carousel-slide[data-slide="4"] .banner-art{
+    min-height:clamp(260px, 88vw, 430px);
+  }
+}
+
 </style>
 <link rel="stylesheet" href="site-common.css">
 
