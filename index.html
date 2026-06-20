@@ -8483,7 +8483,7 @@ color:var(--primary-dark);
 <div class="worldcup-story-content">
 <div class="worldcup-story-top">
 <span>Copa do Mundo FIFA 2026</span>
-<time>19/06 - 19:00</time>
+<time id="brazilLiveKickoff">19/06 - 21:30</time>
 </div>
 
 <div class="worldcup-story-title">
@@ -8506,7 +8506,7 @@ color:var(--primary-dark);
 <div class="destaque-live-panel" aria-label="Transmissao ao vivo Brasil x Haiti">
 <div class="destaque-live-top">
 <span class="destaque-live-status" id="brazilLiveStatus">PRE-JOGO</span>
-<span class="destaque-live-clock" id="brazilLiveClock">19/06 - 19:00</span>
+<span class="destaque-live-clock" id="brazilLiveClock">19/06 - 21:30</span>
 </div>
 <div class="destaque-live-score">
 <div class="destaque-live-team">
@@ -8519,7 +8519,7 @@ color:var(--primary-dark);
 <strong id="brazilLiveAwayScore">--</strong>
 </div>
 </div>
-<p id="brazilLiveSummary">Proximo jogo da Selecao na Copa: Brasil x Haiti, dia 19/06, as 19:00.</p>
+<p id="brazilLiveSummary">Proximo jogo da Selecao na Copa: Brasil x Haiti, dia 19/06, as 21:30.</p>
 <ul class="destaque-live-plays" id="brazilLivePlays">
 <li><time>Info</time><span>Os lances aparecem aqui quando a transmissao ao vivo liberar os dados da partida.</span></li>
 </ul>
@@ -8873,7 +8873,7 @@ Ainda existe paixão ou virou negócio?
     <div class="craque-top-strip">
       <span>🏆 Copa do Mundo FIFA 2026</span>
       <strong>Brasil VS Haiti</strong>
-      <small>19/06 · 19:00</small>
+      <small>19/06 · 21:30</small>
     </div>
 
     <div class="craque-match-band" aria-label="Brasil contra Haiti">
@@ -9734,7 +9734,7 @@ const WORLD_CUP_MATCHES = [
   {date:'2026-06-17',time:'16:00',group:'L',home:'Inglaterra',away:'Croácia',venue:'Dallas Stadium'},
   {date:'2026-06-17',time:'19:00',group:'K',home:'Portugal',away:'Congo DR / Jamaica / Nova Caledônia',venue:'Houston Stadium'},
   {date:'2026-06-17',time:'22:00',group:'K',home:'Uzbequistão',away:'Colômbia',venue:'Estádio Cidade do México'},
-  {date:'2026-06-19',time:'19:00',group:'C',home:'Brasil',away:'Haiti',venue:'Lincoln Financial Field'},
+  {date:'2026-06-19',time:'21:30',group:'C',home:'Brasil',away:'Haiti',venue:'Lincoln Financial Field'},
   {date:'2026-06-19',time:'22:00',group:'C',home:'Escócia',away:'Marrocos',venue:'Boston Stadium'},
   {date:'2026-06-24',time:'19:00',group:'C',home:'Brasil',away:'Escócia',venue:'Hard Rock Stadium'},
   {date:'2026-06-24',time:'19:00',group:'C',home:'Haiti',away:'Marrocos',venue:'Mercedes-Benz Stadium'}
@@ -12103,6 +12103,7 @@ async function fetchBrazilSpotlightLiveDetails(match){
 
 function renderBrazilSpotlight(match, plays = []){
   const statusEl = document.getElementById('brazilLiveStatus');
+  const kickoffEl = document.getElementById('brazilLiveKickoff');
   const clockEl = document.getElementById('brazilLiveClock');
   const brazilScoreEl = document.getElementById('brazilLiveHomeScore');
   const opponentScoreEl = document.getElementById('brazilLiveAwayScore');
@@ -12118,9 +12119,11 @@ function renderBrazilSpotlight(match, plays = []){
   const hasScore = score.brazil != null && score.opponent != null;
   const liveClock = currentMatch?.liveClock
     ? `${currentMatch.liveClock}${currentMatch.period ? ` - ${String(currentMatch.period)}T` : ''}`
-    : currentMatch ? `${formatWorldCupDate(currentMatch)} - ${formatWorldCupTime(currentMatch)}` : '13/06 - 19:00';
+    : currentMatch ? `${formatWorldCupDate(currentMatch)} - ${formatWorldCupTime(currentMatch)}` : '19/06 - 21:30';
+  const scheduledLabel = currentMatch ? `${formatWorldCupDate(currentMatch)} - ${formatWorldCupTime(currentMatch)}` : '19/06 - 21:30';
 
   statusEl.textContent = status;
+  if(kickoffEl) kickoffEl.textContent = status === 'AO VIVO' ? liveClock : scheduledLabel;
   clockEl.textContent = liveClock;
   brazilScoreEl.textContent = hasScore ? score.brazil : '--';
   opponentScoreEl.textContent = hasScore ? score.opponent : '--';
@@ -12130,7 +12133,7 @@ function renderBrazilSpotlight(match, plays = []){
       ? 'Tempo real ligado: acompanhe cronômetro, placar e lances principais de Brasil x Haiti.'
       : status === 'ENCERRADO'
         ? 'Jogo encerrado: placar final e principais lances ficam registrados aqui.'
-        : 'Próximo jogo da Seleção na Copa: Brasil x Haiti, dia 19/06, às 19:00.';
+        : `Próximo jogo da Seleção na Copa: Brasil x Haiti, ${scheduledLabel}.`;
   }
 
   const fallbackText = status === 'AO VIVO'

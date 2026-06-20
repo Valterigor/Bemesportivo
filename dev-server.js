@@ -470,11 +470,11 @@ async function handleWorldCupApi(request, response, parsedUrl){
     }
 
     try{
-      const payload = await cachedJson(`summary:${event}`, 12000, () => {
+      const payload = await cachedJson(`summary:${event}`, 5000, () => {
         const url = `${ESPN_WORLD_CUP_SUMMARY_URL}?event=${encodeURIComponent(event)}`;
         return fetchJson(url);
       });
-      sendJson(response, 200, payload, 12);
+      sendJson(response, 200, payload, 5);
     }catch(error){
       sendJson(response, 502, {ok:false, error:'Resumo ESPN indisponível no momento', detail:error.message});
     }

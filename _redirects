@@ -1,1 +1,2 @@
 /api/community/* /.netlify/functions/community/:splat 200
+/api/worldcup/* /.netlify/functions/worldcup/:splat 200
