@@ -8369,6 +8369,7 @@ color:var(--primary-dark);
 <a href='/reportagens'>Reportagens</a>
 <a href="#palpitometro">Craque da Partida</a>
 <a href='/beplay'>Beplay</a>
+<a href='/performance'>KOBEM</a>
 <a href='/coluna-valtinho'>Fala aí Valtinho</a>
 </nav>
 
@@ -8389,6 +8390,7 @@ color:var(--primary-dark);
 <a href="#worldCupGroupsTitle" data-mobile-nav="grupos">Grupos</a>
 <a href="#palpitometro" data-mobile-nav="palpitometro">Votar</a>
 <a href="/beplay" data-mobile-nav="beplay">Vídeos</a>
+<a href="/performance" data-mobile-nav="kobem">KOBEM</a>
 </nav>
 
 <main>
@@ -12065,6 +12067,97 @@ function getBrazilSpotlightSummaryApiUrl(eventId){
   return buildWorldCupApiUrl('/api/worldcup/summary', {event:eventId});
 }
 
+function translateBrazilSpotlightPlayText(text){
+  let translated = cleanText(text);
+  if(!translated) return '';
+
+  const exact = {
+    'Goal': 'Gol',
+    'Yellow Card': 'Cartão amarelo',
+    'Red Card': 'Cartão vermelho',
+    'Substitution': 'Substituição',
+    'Corner': 'Escanteio',
+    'Foul': 'Falta',
+    'Offside': 'Impedimento',
+    'Penalty': 'Pênalti',
+    'Hand Ball': 'Mão na bola',
+    'First Half begins.': 'Começa o primeiro tempo.',
+    'First Half ends.': 'Fim do primeiro tempo.',
+    'Second Half begins.': 'Começa o segundo tempo.',
+    'Second Half ends.': 'Fim do segundo tempo.',
+    'Match ends.': 'Fim de jogo.'
+  };
+
+  if(exact[translated]) return exact[translated];
+
+  const replacements = [
+    [/\bGoal!/gi, 'Gol!'],
+    [/Yellow Card ([^.]+) is shown the yellow card\./gi, '$1 recebe cartão amarelo.'],
+    [/Red Card ([^.]+) is shown the red card\./gi, '$1 recebe cartão vermelho.'],
+    [/([^.]+) right footed shot/gi, 'Chute de pé direito de $1'],
+    [/([^.]+) left footed shot/gi, 'Chute de pé esquerdo de $1'],
+    [/([^.]+) header/gi, 'Cabeceio de $1'],
+    [/\bYellow Card\b/gi, 'Cartão amarelo'],
+    [/\bRed Card\b/gi, 'Cartão vermelho'],
+    [/\bSecond yellow card\b/gi, 'Segundo cartão amarelo'],
+    [/\bSubstitution,\s*/gi, 'Substituição: '],
+    [/\bCorner,\s*/gi, 'Escanteio para '],
+    [/\bFoul by\b/gi, 'Falta de'],
+    [/\bOffside,\s*/gi, 'Impedimento de '],
+    [/\bPenalty conceded by\b/gi, 'Pênalti cometido por'],
+    [/\bPenalty saved\b/gi, 'Pênalti defendido'],
+    [/\bPenalty missed\b/gi, 'Pênalti perdido'],
+    [/\bAttempt saved\./gi, 'Finalização defendida.'],
+    [/\bAttempt missed\./gi, 'Finalização para fora.'],
+    [/\bAttempt blocked\./gi, 'Finalização bloqueada.'],
+    [/\bHeader saved\./gi, 'Cabeceio defendido.'],
+    [/\bShot saved\./gi, 'Chute defendido.'],
+    [/\bis saved\b/gi, 'é defendido'],
+    [/\bis blocked\b/gi, 'é bloqueado'],
+    [/\bis close, but misses\b/gi, 'passa perto, mas vai para fora'],
+    [/\bwins a free kick\b/gi, 'sofre falta'],
+    [/\bin the attacking half\b/gi, 'no campo de ataque'],
+    [/\bin the defensive half\b/gi, 'no campo de defesa'],
+    [/\bon the left wing\b/gi, 'pela esquerda'],
+    [/\bon the right wing\b/gi, 'pela direita'],
+    [/\bin the centre of the box\b/gi, 'no centro da área'],
+    [/\bfrom outside the box\b/gi, 'de fora da área'],
+    [/\bfrom the centre of the box\b/gi, 'do centro da área'],
+    [/\bfrom very close range\b/gi, 'de muito perto'],
+    [/\bto the bottom left corner\b/gi, 'no canto inferior esquerdo'],
+    [/\bto the bottom right corner\b/gi, 'no canto inferior direito'],
+    [/\bto the top left corner\b/gi, 'no canto superior esquerdo'],
+    [/\bto the top right corner\b/gi, 'no canto superior direito'],
+    [/\bhigh and wide to the left\b/gi, 'alto e para fora à esquerda'],
+    [/\bhigh and wide to the right\b/gi, 'alto e para fora à direita'],
+    [/\bmisses to the left\b/gi, 'vai para fora à esquerda'],
+    [/\bmisses to the right\b/gi, 'vai para fora à direita'],
+    [/\bis shown the yellow card\b/gi, 'recebe cartão amarelo'],
+    [/\bis shown the red card\b/gi, 'recebe cartão vermelho'],
+    [/\bbecause of an injury\b/gi, 'por lesão'],
+    [/\bfollowing a corner\b/gi, 'após escanteio'],
+    [/\bfollowing a set piece situation\b/gi, 'após bola parada'],
+    [/\bassisted by\b/gi, 'assistência de'],
+    [/\breplaces\b/gi, 'entra no lugar de'],
+    [/\bVAR Decision:\s*/gi, 'Decisão do VAR: '],
+    [/\bconfirmed\b/gi, 'confirmado'],
+    [/\boverturned\b/gi, 'anulado'],
+    [/\bDelay in match\b/gi, 'Partida paralisada'],
+    [/\bDelay over\./gi, 'Bola volta a rolar.']
+  ];
+
+  replacements.forEach(([pattern, replacement]) => {
+    translated = translated.replace(pattern, replacement);
+  });
+
+  return translated
+    .replace(/\bBrazil\b/g, 'Brasil')
+    .replace(/\bHaiti\b/g, 'Haiti')
+    .replace(/\.([A-ZÁÉÍÓÚÂÊÔÃÕÇ])/g, '. $1')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function extractBrazilSpotlightPlays(summary){
   const rawPlays = [
     ...(Array.isArray(summary?.commentary) ? summary.commentary : []),
@@ -12077,7 +12170,7 @@ function extractBrazilSpotlightPlays(summary){
       const text = item.text || item.shortText || item.description || item.headline || item.type?.text || '';
       return {
         minute: cleanText(minute || 'Lance'),
-        text: cleanText(text)
+        text: translateBrazilSpotlightPlayText(text)
       };
     })
     .filter(item => item.text)

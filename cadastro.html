@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101010">
+  <title>Cadastro | KOBEM Performance</title>
+  <link rel="icon" href="img/logobemoficial.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/performance.css">
+</head>
+<body class="kobem-body">
+  <header class="kobem-topbar">
+    <div class="kobem-shell kobem-topbar-inner">
+      <a class="kobem-brand" href="performance.html"><span class="kobem-brand-mark"><img src="img/logobemoficial.png" alt="Bem Esportivo"></span><span><span>Bem Esportivo</span><strong>KOBEM Performance</strong></span></a>
+      <nav class="kobem-nav"><a href="performance.html">Produto</a><a href="login.html">Login</a><a href="/">Bem Esportivo</a></nav>
+    </div>
+  </header>
+  <main class="kobem-app">
+    <div class="kobem-shell">
+      <section class="kobem-page-title">
+        <span class="kobem-eyebrow">Comece em menos de 2 minutos</span>
+        <h1>Crie sua conta KOBEM.</h1>
+        <p>Defina seu ponto de partida para receber relatórios e mensagens do treinador digital.</p>
+      </section>
+      <section class="kobem-card kobem-panel">
+        <form class="kobem-form" id="kobemRegisterForm">
+          <div class="kobem-form-grid">
+            <div class="kobem-field"><label>Nome</label><input name="name" required placeholder="Seu nome"></div>
+            <div class="kobem-field"><label>E-mail</label><input name="email" type="email" required autocomplete="email" placeholder="voce@email.com"></div>
+            <div class="kobem-field"><label>Senha</label><input name="password" type="password" required minlength="6" placeholder="Mínimo 6 caracteres"></div>
+            <div class="kobem-field"><label>Idade</label><input name="age" type="number" min="10" max="100" required placeholder="32"></div>
+            <div class="kobem-field"><label>Peso inicial (kg)</label><input name="initialWeight" type="number" step="0.1" min="20" required placeholder="82,5"></div>
+            <div class="kobem-field"><label>Altura (cm)</label><input name="height" type="number" min="100" required placeholder="178"></div>
+          </div>
+          <div class="kobem-field">
+            <label>Objetivo principal</label>
+            <select name="mainGoal" required>
+              <option value="">Escolha seu objetivo</option>
+              <option>Perder peso</option>
+              <option>Caminhar mais</option>
+              <option>Melhorar sono</option>
+              <option>Beber mais água</option>
+              <option>Treinar mais vezes por semana</option>
+              <option>Ganhar condicionamento</option>
+            </select>
+          </div>
+          <button class="kobem-btn" type="submit">Criar conta e entrar</button>
+          <a class="kobem-btn ghost" href="login.html">Já tenho conta</a>
+        </form>
+      </section>
+    </div>
+  </main>
+  <div class="kobem-toast" data-kobem-toast></div>
+  <script src="js/performance.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

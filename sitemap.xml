@@ -29,6 +29,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://bemesportivo.com/performance.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bemesportivo.com/cadastro.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bemesportivo.com/login.html</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://bemesportivo.com/coluna-valtinho.html</loc>
     <priority>0.8</priority>
   </url>

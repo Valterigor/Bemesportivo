@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101010">
+  <title>Admin | KOBEM Performance</title>
+  <link rel="icon" href="img/logobemoficial.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/performance.css">
+</head>
+<body class="kobem-body">
+  <header class="kobem-topbar">
+    <div class="kobem-shell kobem-topbar-inner">
+      <a class="kobem-brand" href="performance.html"><span class="kobem-brand-mark"><img src="img/logobemoficial.png" alt="Bem Esportivo"></span><span><span>Bem Esportivo</span><strong>KOBEM Admin</strong></span></a>
+      <nav class="kobem-nav"><a href="dashboard.html">Dashboard</a><a href="performance.html">Produto</a><a href="/">Bem Esportivo</a></nav>
+    </div>
+  </header>
+  <main class="kobem-app" data-admin-root>
+    <div class="kobem-shell">
+      <section class="kobem-page-title">
+        <span class="kobem-eyebrow">Painel administrativo MVP</span>
+        <h1>Operação KOBEM.</h1>
+        <p>Métricas locais, mensagens motivacionais e desafios semanais para testar recorrência.</p>
+      </section>
+      <section class="kobem-grid four">
+        <article class="kobem-card kobem-kpi"><span>Usuários</span><strong data-admin-users>0</strong></article>
+        <article class="kobem-card kobem-kpi"><span>Ativos</span><strong data-admin-active>0</strong></article>
+        <article class="kobem-card kobem-kpi"><span>Check-ins</span><strong data-admin-checkins>0</strong></article>
+        <article class="kobem-card kobem-kpi"><span>Premium</span><strong data-admin-premium>0</strong></article>
+      </section>
+      <section class="kobem-grid two" style="margin-top:14px">
+        <article class="kobem-card kobem-panel">
+          <h2>Criar mensagem motivacional</h2>
+          <form class="kobem-form" id="kobemAdminMessageForm">
+            <div class="kobem-field"><label>Mensagem do KOBEM</label><textarea name="message" required placeholder="Ex: Hoje o treino é mental: registre mesmo se o dia foi difícil."></textarea></div>
+            <button class="kobem-btn" type="submit">Salvar mensagem</button>
+          </form>
+          <div class="kobem-alert-list" data-admin-messages style="margin-top:12px"></div>
+        </article>
+        <article class="kobem-card kobem-panel">
+          <h2>Criar desafio semanal</h2>
+          <form class="kobem-form" id="kobemAdminChallengeForm">
+            <div class="kobem-field"><label>Título</label><input name="title" required placeholder="Semana em movimento"></div>
+            <div class="kobem-field"><label>Descrição</label><textarea name="text" required placeholder="Registre 4 atividades nesta semana."></textarea></div>
+            <button class="kobem-btn" type="submit">Salvar desafio</button>
+          </form>
+          <div class="kobem-goal-list" data-admin-challenges style="margin-top:12px"></div>
+        </article>
+      </section>
+    </div>
+  </main>
+  <script src="js/performance.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
