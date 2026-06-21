@@ -427,6 +427,25 @@ button,input,select,textarea{font:inherit}
   outline:none;
 }
 
+.kobem-field select{
+  appearance:none;
+  background:
+    linear-gradient(45deg,transparent 50%,#fed7aa 50%) right 18px center/7px 7px no-repeat,
+    linear-gradient(135deg,#1d1d1d,#101010);
+  color:#fff;
+  padding-right:42px;
+}
+
+.kobem-field select option{
+  background:#101010;
+  color:#fff;
+}
+
+.kobem-field select option:checked{
+  background:#fc6e02;
+  color:#101010;
+}
+
 .kobem-field textarea{
   min-height:94px;
   resize:vertical;
