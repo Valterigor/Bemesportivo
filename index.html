@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Bem Esportivo | Conteúdo Esportivo">
 <meta name="twitter:description" content="Futebol, escalações, colunas e análises esportivas">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#fc6e02">
 <meta name="google-adsense-account" content="ca-pub-5105345296041597">
 <title>Bem Esportivo | Conteúdo Esportivo</title>
 
@@ -24,20 +24,10 @@
 <style>
 
 :root{
---primary:#f97316;
---primary-dark:#c2410c;
---secondary:#2563eb;
---accent:#16a34a;
---dark:#111827;
---muted:#64748b;
---line:#e2e8f0;
---light:#f6f8fb;
---surface:#ffffff;
---surface-soft:#f1f5f9;
---ink:#0f172a;
---focus:0 0 0 3px rgba(249,115,22,.22);
---shadow-sm:0 8px 22px rgba(15,23,42,.08);
---shadow-md:0 18px 45px rgba(15,23,42,.12);
+--primary:#fc6e02;
+--secondary:#9a5700;
+--dark:#111111;
+--light:#f8f9fa;
 }
 
 html {
@@ -56,12 +46,10 @@ scroll-behavior:smooth;
 }
 
 body{
-background:
-linear-gradient(180deg,#f8fafc 0,#f6f8fb 52%,#eef2f7 100%);
-color:var(--ink);
+background:var(--light);
+color:var(--dark);
 padding-top:70px;
 overflow-x:hidden;
-line-height:1.55;
 }
 
 img{
@@ -71,13 +59,12 @@ display:block;
 
 a{
 text-decoration:none;
-color:inherit;
 }
 
 .container{
 max-width:1100px;
 margin:auto;
-padding:24px 20px;
+padding:20px;
 }
 
 .mt-40{
@@ -1065,57 +1052,6 @@ text-transform:uppercase;
 display:block;
 }
 
-.story-result-row{
-display:grid;
-grid-template-columns:minmax(0,1fr) 74px auto;
-align-items:center;
-gap:7px;
-text-align:left;
-}
-
-.story-result-row b{
-min-width:0;
-overflow:hidden;
-color:#fff;
-font-size:10px;
-font-weight:900;
-text-overflow:ellipsis;
-white-space:nowrap;
-}
-
-.story-result-row i{
-display:block;
-height:7px;
-overflow:hidden;
-border-radius:999px;
-background:rgba(255,255,255,.14);
-box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
-}
-
-.story-result-row em{
-display:block;
-height:100%;
-border-radius:inherit;
-background:linear-gradient(90deg,#00b256,#ffd32f);
-box-shadow:0 0 12px rgba(255,211,47,.22);
-}
-
-.story-result-row strong{
-color:#ffd32f;
-font-size:10px;
-font-weight:900;
-text-align:right;
-}
-
-.story-results-subtitle{
-margin-top:4px;
-color:#9ee8ff;
-font-size:9px;
-font-weight:900;
-letter-spacing:.08em;
-text-transform:uppercase;
-}
-
 .story-shareline{
 display:grid;
 gap:8px;
@@ -1181,314 +1117,6 @@ mark{
 background:#fff2e7;
 padding:2px 4px;
 border-radius:4px;
-}
-
-/* =========================
-UX VISUAL REFRESH
-========================= */
-
-::selection{
-background:rgba(249,115,22,.18);
-color:var(--ink);
-}
-
-:focus-visible{
-outline:none;
-box-shadow:var(--focus);
-}
-
-.menu{
-background:rgba(15,23,42,.96);
-border-bottom:1px solid rgba(255,255,255,.08);
-box-shadow:0 12px 30px rgba(15,23,42,.18);
-backdrop-filter:blur(14px);
-}
-
-.nav-menu a{
-color:#cbd5e1;
-letter-spacing:.04em;
-}
-
-.nav-menu a::after{
-background:var(--primary);
-}
-
-.nav-menu a:hover,
-.nav-menu a.active{
-color:#fff;
-}
-
-.btn-contato,
-.btn,
-.btn-banner,
-.btn-lineup,
-.post-comment-form button,
-.palpite-save,
-.worldcup-load-more,
-.worldcup-group-toggle,
-.craque-player-card button,
-.palpite-user-actions .btn{
-border:1px solid rgba(194,65,12,.18);
-border-radius:8px;
-background:linear-gradient(135deg,var(--primary),#fb923c);
-color:#111827;
-box-shadow:0 10px 24px rgba(249,115,22,.22);
-transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
-}
-
-.btn:hover,
-.btn-banner:hover,
-.btn-contato:hover,
-.btn-lineup:hover,
-.post-comment-form button:hover,
-.worldcup-load-more:hover,
-.worldcup-group-toggle:hover{
-opacity:1;
-background:linear-gradient(135deg,#fb923c,#fdba74);
-color:#111827;
-transform:translateY(-2px);
-box-shadow:0 14px 30px rgba(249,115,22,.28);
-}
-
-.banner-carousel{
-background:#0f172a;
-box-shadow:var(--shadow-md);
-}
-
-.banner-top{
-background:#111827;
-}
-
-.banner-top::before{
-background:linear-gradient(90deg,rgba(15,23,42,.82),rgba(15,23,42,.34) 52%,rgba(15,23,42,.72));
-}
-
-.banner-top::after{
-opacity:.42;
-}
-
-.banner-top h1{
-color:#fff;
-text-shadow:0 10px 32px rgba(0,0,0,.32);
-}
-
-.banner-top p{
-max-width:680px;
-color:#e2e8f0;
-}
-
-.carousel-btn{
-background:rgba(255,255,255,.92);
-color:#111827;
-box-shadow:0 10px 26px rgba(15,23,42,.18);
-}
-
-.indicator{
-background:rgba(255,255,255,.44);
-}
-
-.indicator.active{
-background:var(--primary);
-}
-
-.hub-quick-actions,
-.beplay-home-callout,
-.search-results{
-border:1px solid var(--line);
-background:rgba(255,255,255,.9);
-box-shadow:var(--shadow-sm);
-}
-
-.hub-quick-actions a{
-border:1px solid transparent;
-border-radius:8px;
-transition:background .18s ease, border-color .18s ease, transform .18s ease;
-}
-
-.hub-quick-actions a:hover,
-.hub-quick-actions a:focus-visible{
-border-color:rgba(249,115,22,.24);
-background:#fff7ed;
-transform:translateY(-2px);
-}
-
-.hero{
-background:transparent;
-}
-
-.hero h1,
-.section-title,
-.seriea-heading h2,
-.standings-top h3{
-color:var(--ink);
-letter-spacing:0;
-}
-
-.worldcup-story-card,
-.palpitometro-section,
-.craque-vote-section,
-.worldcup-section,
-.seriea-section,
-.lineup-callout{
-border:1px solid rgba(15,23,42,.1);
-box-shadow:var(--shadow-md);
-}
-
-.worldcup-story-card{
-background:
-linear-gradient(180deg,rgba(15,23,42,.9),rgba(17,24,39,.96)),
-radial-gradient(circle at 78% 0,rgba(249,115,22,.24),transparent 34%);
-}
-
-.worldcup-story-card::before{
-background:
-linear-gradient(180deg,rgba(15,23,42,.1),rgba(15,23,42,.82) 64%,#0f172a 100%),
-radial-gradient(circle at 18% 10%,rgba(37,99,235,.28),transparent 26%),
-radial-gradient(circle at 82% 12%,rgba(249,115,22,.26),transparent 27%),
-linear-gradient(180deg,#1e293b,#0f172a 58%,#111827);
-}
-
-.worldcup-story-card::after,
-.worldcup-story-lights{
-opacity:.44;
-}
-
-.destaque-live-panel,
-.story-control-panel,
-.story-results{
-border-color:rgba(226,232,240,.18);
-background:rgba(15,23,42,.62);
-}
-
-.destaque-live-status{
-background:rgba(249,115,22,.18);
-color:#fff;
-}
-
-.destaque-live-status::before{
-background:var(--primary);
-}
-
-.story-segmented button,
-.story-craque-grid button,
-.story-poll-grid button{
-border-radius:8px;
-background:rgba(255,255,255,.08);
-}
-
-.story-segmented button.is-selected,
-.story-craque-grid button.is-selected,
-.story-poll-grid button.is-selected{
-border-color:#fdba74;
-background:linear-gradient(135deg,rgba(249,115,22,.78),rgba(37,99,235,.56));
-}
-
-.story-save-btn{
-border-color:rgba(249,115,22,.46);
-background:linear-gradient(135deg,#fb923c,#f97316);
-color:#111827;
-}
-
-.story-result-row em{
-background:linear-gradient(90deg,#f97316,#38bdf8);
-}
-
-.story-shareline{
-border-color:rgba(249,115,22,.24);
-background:rgba(15,23,42,.62);
-box-shadow:none;
-}
-
-.grid .card,
-.reportagem-card,
-.palpite-card,
-.worldcup-result-card,
-.worldcup-group-card,
-.worldcup-brazil-card,
-.match-card,
-.standings-card,
-.craque-player-card,
-.craque-info-card,
-.post-lightbox-card{
-border-radius:8px;
-box-shadow:var(--shadow-sm);
-}
-
-.reportagem-card{
-background:#111827;
-}
-
-.reportagem-card::after{
-background:linear-gradient(90deg,var(--primary),#38bdf8);
-}
-
-.lineup-callout{
-background:
-linear-gradient(135deg,rgba(15,23,42,.96),rgba(30,41,59,.94)),
-radial-gradient(circle at 85% 15%,rgba(249,115,22,.2),transparent 36%);
-}
-
-.palpitometro-section{
-background:
-linear-gradient(135deg,#111827,#1e293b),
-radial-gradient(circle at 16% 10%,rgba(249,115,22,.2),transparent 30%);
-}
-
-.palpite-card{
-background:#fff;
-border-color:rgba(15,23,42,.09);
-}
-
-.palpite-card::before{
-background:linear-gradient(90deg,var(--primary),var(--secondary));
-}
-
-.palpite-quick:hover,
-.palpite-quick:focus-visible,
-.palpite-quick.active{
-border-color:var(--primary);
-background:#fff7ed;
-color:var(--primary-dark);
-}
-
-.craque-vote-section,
-.worldcup-section{
-background:
-linear-gradient(135deg,#111827,#1e293b),
-radial-gradient(circle at 82% 0,rgba(37,99,235,.2),transparent 34%);
-}
-
-.worldcup-tabs,
-.worldcup-panel-intro,
-.worldcup-table-card{
-border-color:rgba(226,232,240,.16);
-background:rgba(15,23,42,.56);
-}
-
-.worldcup-tabs button.is-active{
-background:linear-gradient(135deg,var(--primary),#fb923c);
-color:#111827;
-}
-
-.worldcup-result-card{
-background:
-linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035)),
-rgba(15,23,42,.74);
-}
-
-.worldcup-result-score,
-.worldcup-score,
-.match-score{
-background:#fff;
-border-color:rgba(15,23,42,.1);
-color:var(--ink);
-}
-
-.worldcup-result-score .score-number,
-.worldcup-score .score-number,
-.worldcup-table-score .score-number,
-.match-score .score-number{
-color:var(--ink);
 }
 
 /* =========================
@@ -4704,7 +4332,7 @@ display:grid;
 grid-template-columns:150px 1fr 150px;
 gap:18px;
 align-items:end;
-padding:240px 24px 28px;
+padding:250px 24px 28px;
 touch-action:pan-y;
 }
 
@@ -4717,7 +4345,7 @@ display:none;
 }
 
 .penalty-goal{
-display:block;
+display:none;
 position:absolute;
 left:50%;
 top:154px;
@@ -4726,11 +4354,10 @@ height:244px;
 transform:translateX(-50%);
 pointer-events:none;
 z-index:4;
-opacity:0;
+opacity:1;
 background:url("img/penalty-goal-real.png") center/contain no-repeat;
 filter:contrast(1.08) saturate(1.05) drop-shadow(0 10px 14px rgba(0,0,0,.20));
 transform-origin:50% 20%;
-mix-blend-mode:screen;
 }
 
 .penalty-goal.is-shaking{
@@ -4738,20 +4365,19 @@ animation:penaltyNetShake .62s ease-out;
 }
 
 @keyframes penaltyNetShake{
-0%{transform:translateX(-50%) scale(1);opacity:0}
-12%{transform:translateX(-50%) scale(1.024,.972) skewX(-1.2deg);opacity:.56}
-28%{transform:translateX(-50%) scale(.986,1.034) skewX(1.2deg);opacity:.46}
-48%{transform:translateX(-50%) scale(1.012,.99) skewX(-.6deg);opacity:.30}
-70%{transform:translateX(-50%) scale(.998,1.01) skewX(.4deg);opacity:.16}
-100%{transform:translateX(-50%) scale(1);opacity:0}
+0%{transform:translateX(-50%) scale(1)}
+18%{transform:translateX(-50%) scale(1.012,.988) skewX(-.45deg)}
+38%{transform:translateX(-50%) scale(.994,1.01) skewX(.45deg)}
+62%{transform:translateX(-50%) scale(1.006,.996) skewX(-.25deg)}
+100%{transform:translateX(-50%) scale(1)}
 }
 
 .penalty-keeper{
 position:absolute;
 left:50%;
-top:250px;
-width:118px;
-height:156px;
+top:248px;
+width:108px;
+height:144px;
 transform:translateX(-50%);
 transition:transform .45s ease, top .45s ease;
 z-index:3;
@@ -4776,135 +4402,131 @@ transition:width .12s ease, height .12s ease, background-image .12s ease, top .1
 }
 
 .penalty-keeper[data-dive="left"]{
-width:292px;
-height:160px;
-top:240px;
+width:248px;
+height:136px;
+top:252px;
 background-image:url("img/penalty-keeper-left.png");
-transform:translateX(-356px);
+transform:translateX(-292px);
 animation:keeperDiveLeft .68s cubic-bezier(.16,.82,.26,1) forwards;
 }
 
 .penalty-keeper[data-dive="right"]{
-width:286px;
-height:156px;
-top:240px;
+width:244px;
+height:132px;
+top:252px;
 background-image:url("img/penalty-keeper-right.png");
-transform:translateX(66px);
+transform:translateX(52px);
 animation:keeperDiveRight .68s cubic-bezier(.16,.82,.26,1) forwards;
 }
 
 .penalty-keeper[data-dive="up"]{
-width:116px;
-height:220px;
-top:170px;
+width:104px;
+height:178px;
+top:208px;
 background-image:url("img/penalty-keeper-up.png");
 transform:translateX(-50%);
 animation:keeperDiveUp .68s cubic-bezier(.16,.82,.26,1) forwards;
 }
 
 .penalty-keeper[data-dive="down"]{
-width:258px;
-height:150px;
-top:286px;
+width:226px;
+height:132px;
+top:292px;
 background-image:url("img/penalty-keeper-down.png");
 transform:translateX(-50%);
 animation:keeperDiveDown .68s cubic-bezier(.16,.82,.26,1) forwards;
 }
 
 .penalty-keeper[data-miss="left"]{
-width:300px;
-height:140px;
-top:236px;
+width:248px;
+height:122px;
+top:260px;
 background-image:url("img/penalty-keeper-miss-left.png");
-transform:translateX(-342px);
+transform:translateX(-290px);
 animation:keeperMissLeft .70s cubic-bezier(.14,.78,.24,1) forwards;
 }
 
 .penalty-keeper[data-miss="right"]{
-width:300px;
-height:131px;
-top:236px;
+width:248px;
+height:114px;
+top:260px;
 background-image:url("img/penalty-keeper-miss-right.png");
-transform:translateX(48px);
+transform:translateX(42px);
 animation:keeperMissRight .70s cubic-bezier(.14,.78,.24,1) forwards;
 }
 
 .penalty-keeper[data-miss="up"]{
-width:94px;
-height:312px;
-top:150px;
+width:82px;
+height:222px;
+top:190px;
 background-image:url("img/penalty-keeper-miss-up.png");
 transform:translateX(-50%);
 animation:keeperMissUp .70s cubic-bezier(.14,.78,.24,1) forwards;
 }
 
 .penalty-keeper[data-miss="down"]{
-width:280px;
-height:144px;
-top:292px;
+width:238px;
+height:124px;
+top:300px;
 background-image:url("img/penalty-keeper-miss-down.png");
 transform:translateX(-50%);
 animation:keeperMissDown .70s cubic-bezier(.14,.78,.24,1) forwards;
 }
 
 @keyframes keeperDiveLeft{
-0%{transform:translateX(-50%) translateY(0) scale(1);top:250px}
-24%{transform:translateX(-120px) translateY(-18px) rotate(-5deg) scale(1.04);top:236px}
-62%{transform:translateX(-330px) translateY(-5px) rotate(-13deg) scale(1.02);top:240px}
-100%{transform:translateX(-356px) translateY(8px) rotate(-16deg);top:244px}
+0%{transform:translateX(-50%) translateY(0) scale(1);top:248px}
+28%{transform:translateX(-100px) translateY(-8px) rotate(-4deg) scale(1.02);top:246px}
+70%{transform:translateX(-258px) translateY(10px) rotate(-10deg) scale(1);top:254px}
+100%{transform:translateX(-292px) translateY(16px) rotate(-13deg);top:258px}
 }
 
 @keyframes keeperDiveRight{
-0%{transform:translateX(-50%) translateY(0) scale(1);top:250px}
-24%{transform:translateX(-10px) translateY(-18px) rotate(5deg) scale(1.04);top:236px}
-62%{transform:translateX(46px) translateY(-5px) rotate(13deg) scale(1.02);top:240px}
-100%{transform:translateX(66px) translateY(8px) rotate(16deg);top:244px}
+0%{transform:translateX(-50%) translateY(0) scale(1);top:248px}
+28%{transform:translateX(-6px) translateY(-8px) rotate(4deg) scale(1.02);top:246px}
+70%{transform:translateX(38px) translateY(10px) rotate(10deg) scale(1);top:254px}
+100%{transform:translateX(52px) translateY(16px) rotate(13deg);top:258px}
 }
 
 @keyframes keeperDiveUp{
-0%{transform:translateX(-50%) translateY(0) scale(1);top:250px}
-28%{transform:translateX(-50%) translateY(-28px) scale(1.08);top:218px}
-70%{transform:translateX(-50%) translateY(-70px) scale(1.04);top:176px}
-100%{transform:translateX(-50%) translateY(-58px) scale(1.02);top:184px}
+0%{transform:translateX(-50%) translateY(0) scale(1);top:248px}
+32%{transform:translateX(-50%) translateY(-18px) scale(1.04);top:232px}
+74%{transform:translateX(-50%) translateY(-38px) scale(1.02);top:212px}
+100%{transform:translateX(-50%) translateY(-32px) scale(1);top:218px}
 }
 
 @keyframes keeperDiveDown{
-0%{transform:translateX(-50%) translateY(0) scale(1);top:250px}
-28%{transform:translateX(-50%) translateY(18px) scale(1.02,.96);top:266px}
-70%{transform:translateX(-50%) translateY(38px) scale(1.03,.90);top:290px}
-100%{transform:translateX(-50%) translateY(30px) scale(1,.94);top:286px}
+0%{transform:translateX(-50%) translateY(0) scale(1);top:248px}
+30%{transform:translateX(-50%) translateY(14px) scale(1.01,.96);top:266px}
+72%{transform:translateX(-50%) translateY(28px) scale(1.02,.92);top:292px}
+100%{transform:translateX(-50%) translateY(22px) scale(1,.94);top:296px}
 }
 
 @keyframes keeperMissLeft{
-0%{transform:translateX(-50%) translateY(4px) rotate(0) scale(.42);top:250px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.42)) brightness(.96)}
-16%{transform:translateX(-116px) translateY(-18px) rotate(-3deg) scale(.88);top:236px;filter:drop-shadow(0 22px 18px rgba(0,0,0,.38)) brightness(1)}
-46%{transform:translateX(-270px) translateY(-26px) rotate(-8deg) scale(1.02);top:230px}
-78%{transform:translateX(-354px) translateY(2px) rotate(-12deg) scale(1);top:240px}
-100%{transform:translateX(-342px) translateY(14px) rotate(-15deg) scale(.98);top:246px;filter:drop-shadow(0 18px 20px rgba(0,0,0,.46)) brightness(.94)}
+0%{transform:translateX(-50%) translateY(2px) rotate(0) scale(.72);top:248px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.42)) brightness(.96)}
+20%{transform:translateX(-100px) translateY(-8px) rotate(-3deg) scale(.92);top:250px;filter:drop-shadow(0 20px 16px rgba(0,0,0,.38)) brightness(1)}
+60%{transform:translateX(-250px) translateY(8px) rotate(-9deg) scale(1);top:258px}
+100%{transform:translateX(-290px) translateY(18px) rotate(-13deg) scale(.98);top:266px;filter:drop-shadow(0 18px 20px rgba(0,0,0,.46)) brightness(.94)}
 }
 
 @keyframes keeperMissRight{
-0%{transform:translateX(-50%) translateY(4px) rotate(0) scale(.42);top:250px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.42)) brightness(.96)}
-16%{transform:translateX(-24px) translateY(-18px) rotate(3deg) scale(.88);top:236px;filter:drop-shadow(0 22px 18px rgba(0,0,0,.38)) brightness(1)}
-46%{transform:translateX(18px) translateY(-26px) rotate(8deg) scale(1.02);top:230px}
-78%{transform:translateX(60px) translateY(2px) rotate(12deg) scale(1);top:240px}
-100%{transform:translateX(48px) translateY(14px) rotate(15deg) scale(.98);top:246px;filter:drop-shadow(0 18px 20px rgba(0,0,0,.46)) brightness(.94)}
+0%{transform:translateX(-50%) translateY(2px) rotate(0) scale(.72);top:248px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.42)) brightness(.96)}
+20%{transform:translateX(-10px) translateY(-8px) rotate(3deg) scale(.92);top:250px;filter:drop-shadow(0 20px 16px rgba(0,0,0,.38)) brightness(1)}
+60%{transform:translateX(34px) translateY(8px) rotate(9deg) scale(1);top:258px}
+100%{transform:translateX(42px) translateY(18px) rotate(13deg) scale(.98);top:266px;filter:drop-shadow(0 18px 20px rgba(0,0,0,.46)) brightness(.94)}
 }
 
 @keyframes keeperMissUp{
-0%{transform:translateX(-50%) translateY(4px) scale(.44);top:250px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.42)) brightness(.96)}
-18%{transform:translateX(-50%) translateY(-32px) scale(.72);top:218px;filter:drop-shadow(0 24px 18px rgba(0,0,0,.36)) brightness(1)}
-52%{transform:translateX(-50%) translateY(-76px) scale(1.02);top:154px}
-78%{transform:translateX(-50%) translateY(-62px) scale(1);top:146px}
-100%{transform:translateX(-50%) translateY(-48px) scale(.98);top:154px;filter:drop-shadow(0 18px 20px rgba(0,0,0,.46)) brightness(.94)}
+0%{transform:translateX(-50%) translateY(2px) scale(.72);top:248px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.42)) brightness(.96)}
+22%{transform:translateX(-50%) translateY(-16px) scale(.9);top:230px;filter:drop-shadow(0 20px 16px rgba(0,0,0,.38)) brightness(1)}
+62%{transform:translateX(-50%) translateY(-38px) scale(1);top:194px}
+100%{transform:translateX(-50%) translateY(-30px) scale(.98);top:202px;filter:drop-shadow(0 18px 20px rgba(0,0,0,.46)) brightness(.94)}
 }
 
 @keyframes keeperMissDown{
-0%{transform:translateX(-50%) translateY(2px) scale(.42);top:250px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.42)) brightness(.96)}
-18%{transform:translateX(-50%) translateY(18px) scale(.78);top:266px;filter:drop-shadow(0 20px 16px rgba(0,0,0,.38)) brightness(1)}
-50%{transform:translateX(-50%) translateY(36px) scale(1.02);top:288px}
-78%{transform:translateX(-50%) translateY(28px) scale(1);top:294px}
-100%{transform:translateX(-50%) translateY(20px) scale(.98);top:300px;filter:drop-shadow(0 18px 20px rgba(0,0,0,.46)) brightness(.94)}
+0%{transform:translateX(-50%) translateY(2px) scale(.72);top:248px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.42)) brightness(.96)}
+22%{transform:translateX(-50%) translateY(16px) scale(.9);top:270px;filter:drop-shadow(0 20px 16px rgba(0,0,0,.38)) brightness(1)}
+62%{transform:translateX(-50%) translateY(28px) scale(1);top:302px}
+100%{transform:translateX(-50%) translateY(22px) scale(.98);top:306px;filter:drop-shadow(0 18px 20px rgba(0,0,0,.46)) brightness(.94)}
 }
 
 .penalty-ball{
@@ -4939,38 +4561,34 @@ content:none;
 
 @keyframes ballGoalLeft{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none}
-28%{transform:translateX(-96px) translateY(-82px) scale(.78) rotate(-210deg);filter:blur(.05px)}
-64%{transform:translateX(-176px) translateY(-178px) scale(.48) rotate(-460deg);filter:blur(.16px)}
-78%{transform:translateX(-168px) translateY(-198px) scale(.42) rotate(-520deg);filter:blur(.22px) brightness(1.08)}
-88%{transform:translateX(-158px) translateY(-184px) scale(.38) rotate(-540deg);filter:blur(.18px) brightness(.92)}
-100%{transform:translateX(-164px) translateY(-190px) scale(.40) rotate(-560deg);filter:blur(.16px) brightness(.88)}
+30%{transform:translateX(-92px) translateY(-92px) scale(.72) rotate(-210deg);filter:blur(.04px)}
+66%{transform:translateX(-158px) translateY(-158px) scale(.46) rotate(-460deg);filter:blur(.12px)}
+82%{transform:translateX(-166px) translateY(-170px) scale(.38) rotate(-520deg);filter:blur(.15px) brightness(1.05)}
+100%{transform:translateX(-152px) translateY(-164px) scale(.36) rotate(-560deg);filter:blur(.12px) brightness(.9)}
 }
 
 @keyframes ballGoalRight{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none}
-28%{transform:translateX(54px) translateY(-82px) scale(.78) rotate(210deg);filter:blur(.05px)}
-64%{transform:translateX(132px) translateY(-178px) scale(.48) rotate(460deg);filter:blur(.16px)}
-78%{transform:translateX(122px) translateY(-198px) scale(.42) rotate(520deg);filter:blur(.22px) brightness(1.08)}
-88%{transform:translateX(112px) translateY(-184px) scale(.38) rotate(540deg);filter:blur(.18px) brightness(.92)}
-100%{transform:translateX(118px) translateY(-190px) scale(.40) rotate(560deg);filter:blur(.16px) brightness(.88)}
+30%{transform:translateX(52px) translateY(-92px) scale(.72) rotate(210deg);filter:blur(.04px)}
+66%{transform:translateX(118px) translateY(-158px) scale(.46) rotate(460deg);filter:blur(.12px)}
+82%{transform:translateX(126px) translateY(-170px) scale(.38) rotate(520deg);filter:blur(.15px) brightness(1.05)}
+100%{transform:translateX(112px) translateY(-164px) scale(.36) rotate(560deg);filter:blur(.12px) brightness(.9)}
 }
 
 @keyframes ballGoalUp{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none}
-30%{transform:translateX(-50%) translateY(-94px) scale(.74) rotate(200deg);filter:blur(.06px)}
-66%{transform:translateX(-50%) translateY(-188px) scale(.48) rotate(420deg);filter:blur(.16px)}
-82%{transform:translateX(-50%) translateY(-198px) scale(.44) rotate(500deg);filter:blur(.18px) brightness(1.08)}
-90%{transform:translateX(-50%) translateY(-184px) scale(.40) rotate(520deg);filter:blur(.14px) brightness(.92)}
-100%{transform:translateX(-50%) translateY(-192px) scale(.42) rotate(540deg);filter:blur(.12px) brightness(.88)}
+30%{transform:translateX(-50%) translateY(-104px) scale(.70) rotate(200deg);filter:blur(.05px)}
+66%{transform:translateX(-50%) translateY(-174px) scale(.44) rotate(420deg);filter:blur(.12px)}
+84%{transform:translateX(-50%) translateY(-186px) scale(.36) rotate(500deg);filter:blur(.14px) brightness(1.04)}
+100%{transform:translateX(-50%) translateY(-176px) scale(.34) rotate(540deg);filter:blur(.11px) brightness(.9)}
 }
 
 @keyframes ballGoalDown{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none}
-30%{transform:translateX(-50%) translateY(-30px) scale(.92) rotate(-150deg);filter:blur(.03px)}
-58%{transform:translateX(-50%) translateY(-58px) scale(.74) rotate(-300deg);filter:blur(.08px)}
-78%{transform:translateX(-50%) translateY(-82px) scale(.62) rotate(-390deg);filter:blur(.10px) brightness(1.06)}
-90%{transform:translateX(-50%) translateY(-76px) scale(.58) rotate(-430deg);filter:blur(.08px) brightness(.94)}
-100%{transform:translateX(-50%) translateY(-86px) scale(.60) rotate(-470deg);filter:blur(.08px) brightness(.9)}
+30%{transform:translateX(-50%) translateY(-38px) scale(.9) rotate(-150deg);filter:blur(.02px)}
+60%{transform:translateX(-50%) translateY(-80px) scale(.66) rotate(-300deg);filter:blur(.06px)}
+82%{transform:translateX(-50%) translateY(-108px) scale(.48) rotate(-390deg);filter:blur(.08px) brightness(1.04)}
+100%{transform:translateX(-50%) translateY(-100px) scale(.46) rotate(-470deg);filter:blur(.06px) brightness(.9)}
 }
 
 @keyframes ballSaveLeft{
@@ -5139,26 +4757,26 @@ transform:translateY(-2px);
 
 .penalty-status{
 position:relative;
-z-index:4;
+z-index:2;
 align-self:end;
 text-align:center;
 padding-bottom:8px;
 align-self:center;
-margin-top:auto;
+margin-top:80px;
 }
 
 .penalty-status h3{
 display:inline-flex;
 align-items:center;
 justify-content:center;
-min-width:220px;
-min-height:54px;
-padding:0 22px;
+min-width:160px;
+min-height:40px;
+padding:0 16px;
 border-radius:8px;
-background:rgba(0,0,0,.72);
+background:rgba(0,0,0,.58);
 border:1px solid rgba(255,255,255,.18);
-font-size:28px;
-margin-bottom:8px;
+font-size:18px;
+margin-bottom:5px;
 }
 
 .penalty-status p{
@@ -5194,10 +4812,6 @@ border-radius:999px;
 background:rgba(0,0,0,.72);
 color:#fff;
 border:1px solid rgba(255,255,255,.18);
-position:relative;
-z-index:12;
-pointer-events:auto;
-touch-action:manipulation;
 }
 
 .penalty-rank{
@@ -5360,15 +4974,16 @@ grid-template-areas:
 "status status"
 "joy actions";
 min-height:610px;
-padding:190px 18px 18px;
+padding:210px 18px 18px;
 align-items:end;
 }
 
 .penalty-status{
 grid-area:status;
 align-self:start;
-padding-top:0;
+padding-top:22px;
 padding-bottom:0;
+margin-top:0;
 }
 
 .penalty-joystick{grid-area:joy}
@@ -5410,30 +5025,30 @@ bottom:152px;
 
 @keyframes ballGoalLeftTablet{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0)}
-34%{transform:translateX(-74px) translateY(-72px) scale(.78) rotate(-190deg)}
-72%{transform:translateX(-110px) translateY(-166px) scale(.45) rotate(-430deg);filter:blur(.14px)}
-100%{transform:translateX(-104px) translateY(-154px) scale(.42) rotate(-470deg);filter:blur(.12px)}
+34%{transform:translateX(-70px) translateY(-74px) scale(.74) rotate(-190deg)}
+72%{transform:translateX(-106px) translateY(-136px) scale(.42) rotate(-430deg);filter:blur(.11px)}
+100%{transform:translateX(-96px) translateY(-132px) scale(.38) rotate(-470deg);filter:blur(.10px)}
 }
 
 @keyframes ballGoalRightTablet{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0)}
-34%{transform:translateX(34px) translateY(-72px) scale(.78) rotate(190deg)}
-72%{transform:translateX(72px) translateY(-166px) scale(.45) rotate(430deg);filter:blur(.14px)}
-100%{transform:translateX(64px) translateY(-154px) scale(.42) rotate(470deg);filter:blur(.12px)}
+34%{transform:translateX(34px) translateY(-74px) scale(.74) rotate(190deg)}
+72%{transform:translateX(70px) translateY(-136px) scale(.42) rotate(430deg);filter:blur(.11px)}
+100%{transform:translateX(60px) translateY(-132px) scale(.38) rotate(470deg);filter:blur(.10px)}
 }
 
 @keyframes ballGoalUpTablet{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0)}
-34%{transform:translateX(-50%) translateY(-70px) scale(.76) rotate(180deg)}
-74%{transform:translateX(-50%) translateY(-156px) scale(.48) rotate(390deg);filter:blur(.14px)}
-100%{transform:translateX(-50%) translateY(-150px) scale(.46) rotate(430deg);filter:blur(.10px)}
+34%{transform:translateX(-50%) translateY(-78px) scale(.72) rotate(180deg)}
+74%{transform:translateX(-50%) translateY(-146px) scale(.40) rotate(390deg);filter:blur(.11px)}
+100%{transform:translateX(-50%) translateY(-138px) scale(.37) rotate(430deg);filter:blur(.09px)}
 }
 
 @keyframes ballGoalDownTablet{
 0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0)}
-36%{transform:translateX(-50%) translateY(-28px) scale(.92) rotate(-140deg)}
-72%{transform:translateX(-50%) translateY(-72px) scale(.64) rotate(-300deg);filter:blur(.08px)}
-100%{transform:translateX(-50%) translateY(-78px) scale(.60) rotate(-360deg);filter:blur(.08px)}
+36%{transform:translateX(-50%) translateY(-34px) scale(.9) rotate(-140deg)}
+72%{transform:translateX(-50%) translateY(-86px) scale(.55) rotate(-300deg);filter:blur(.07px)}
+100%{transform:translateX(-50%) translateY(-82px) scale(.50) rotate(-360deg);filter:blur(.06px)}
 }
 
 @keyframes ballSaveLeftTablet{
@@ -5787,7 +5402,7 @@ min-width:160px;
   .penalty-arena{
     min-height:570px;
     gap:10px;
-    padding:184px 14px 14px;
+    padding:202px 14px 14px;
   }
 
   .penalty-field{
@@ -5798,7 +5413,6 @@ min-width:160px;
     top:136px;
     width:88%;
     height:132px;
-    border-width:6px;
   }
 
   .penalty-box{
@@ -5809,9 +5423,9 @@ min-width:160px;
   }
 
   .penalty-keeper{
-    width:86px;
-    height:114px;
-    top:220px;
+    width:78px;
+    height:104px;
+    top:214px;
   }
 
   .penalty-keeper::before{
@@ -5823,91 +5437,87 @@ min-width:160px;
   }
 
   .penalty-keeper[data-dive="left"]{
-    width:206px;
-    height:112px;
-    top:230px;
-    transform:translateX(-245px);
+    width:178px;
+    height:98px;
+    top:226px;
+    transform:translateX(-210px);
   }
 
   .penalty-keeper[data-dive="right"]{
-    width:202px;
-    height:110px;
-    top:230px;
-    transform:translateX(42px);
+    width:176px;
+    height:96px;
+    top:226px;
+    transform:translateX(36px);
   }
 
   .penalty-keeper[data-dive="up"]{
-    width:86px;
-    height:162px;
-    top:176px;
+    width:76px;
+    height:132px;
+    top:190px;
     transform:translateX(-50%);
   }
 
   .penalty-keeper[data-dive="down"]{
-    width:182px;
-    height:106px;
-    top:270px;
+    width:160px;
+    height:92px;
+    top:260px;
     transform:translateX(-50%);
   }
 
   .penalty-keeper[data-miss="left"]{
-    width:230px;
-    height:107px;
-    top:228px;
-    transform:translateX(-250px);
+    width:180px;
+    height:92px;
+    top:232px;
+    transform:translateX(-206px);
   }
 
   .penalty-keeper[data-miss="right"]{
-    width:230px;
-    height:100px;
-    top:228px;
-    transform:translateX(20px);
+    width:180px;
+    height:88px;
+    top:232px;
+    transform:translateX(28px);
   }
 
   .penalty-keeper[data-miss="up"]{
-    width:70px;
-    height:232px;
-    top:148px;
+    width:64px;
+    height:166px;
+    top:180px;
     transform:translateX(-50%);
   }
 
   .penalty-keeper[data-miss="down"]{
-    width:218px;
-    height:112px;
-    top:276px;
+    width:170px;
+    height:94px;
+    top:264px;
     transform:translateX(-50%);
   }
 
   @keyframes keeperMissLeft{
-    0%{transform:translateX(-50%) translateY(3px) rotate(0) scale(.38);top:220px;filter:drop-shadow(0 14px 16px rgba(0,0,0,.42)) brightness(.96)}
-    16%{transform:translateX(-86px) translateY(-14px) rotate(-3deg) scale(.78);top:216px;filter:drop-shadow(0 18px 16px rgba(0,0,0,.38)) brightness(1)}
-    46%{transform:translateX(-188px) translateY(-20px) rotate(-8deg) scale(1.02);top:218px}
-    78%{transform:translateX(-258px) translateY(2px) rotate(-12deg) scale(1);top:228px}
-    100%{transform:translateX(-250px) translateY(12px) rotate(-15deg) scale(.98);top:234px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.46)) brightness(.94)}
+    0%{transform:translateX(-50%) translateY(2px) rotate(0) scale(.72);top:214px;filter:drop-shadow(0 14px 16px rgba(0,0,0,.42)) brightness(.96)}
+    22%{transform:translateX(-76px) translateY(-6px) rotate(-3deg) scale(.9);top:220px;filter:drop-shadow(0 18px 16px rgba(0,0,0,.38)) brightness(1)}
+    62%{transform:translateX(-176px) translateY(6px) rotate(-8deg) scale(1);top:230px}
+    100%{transform:translateX(-206px) translateY(14px) rotate(-12deg) scale(.98);top:238px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.46)) brightness(.94)}
   }
 
   @keyframes keeperMissRight{
-    0%{transform:translateX(-50%) translateY(3px) rotate(0) scale(.38);top:220px;filter:drop-shadow(0 14px 16px rgba(0,0,0,.42)) brightness(.96)}
-    16%{transform:translateX(-22px) translateY(-14px) rotate(3deg) scale(.78);top:216px;filter:drop-shadow(0 18px 16px rgba(0,0,0,.38)) brightness(1)}
-    46%{transform:translateX(0) translateY(-20px) rotate(8deg) scale(1.02);top:218px}
-    78%{transform:translateX(28px) translateY(2px) rotate(12deg) scale(1);top:228px}
-    100%{transform:translateX(20px) translateY(12px) rotate(15deg) scale(.98);top:234px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.46)) brightness(.94)}
+    0%{transform:translateX(-50%) translateY(2px) rotate(0) scale(.72);top:214px;filter:drop-shadow(0 14px 16px rgba(0,0,0,.42)) brightness(.96)}
+    22%{transform:translateX(-12px) translateY(-6px) rotate(3deg) scale(.9);top:220px;filter:drop-shadow(0 18px 16px rgba(0,0,0,.38)) brightness(1)}
+    62%{transform:translateX(22px) translateY(6px) rotate(8deg) scale(1);top:230px}
+    100%{transform:translateX(28px) translateY(14px) rotate(12deg) scale(.98);top:238px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.46)) brightness(.94)}
   }
 
   @keyframes keeperMissUp{
-    0%{transform:translateX(-50%) translateY(4px) scale(.38);top:220px;filter:drop-shadow(0 14px 16px rgba(0,0,0,.42)) brightness(.96)}
-    18%{transform:translateX(-50%) translateY(-24px) scale(.68);top:194px;filter:drop-shadow(0 18px 16px rgba(0,0,0,.38)) brightness(1)}
-    52%{transform:translateX(-50%) translateY(-56px) scale(1.02);top:148px}
-    78%{transform:translateX(-50%) translateY(-46px) scale(1);top:142px}
-    100%{transform:translateX(-50%) translateY(-36px) scale(.98);top:148px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.46)) brightness(.94)}
+    0%{transform:translateX(-50%) translateY(2px) scale(.72);top:214px;filter:drop-shadow(0 14px 16px rgba(0,0,0,.42)) brightness(.96)}
+    22%{transform:translateX(-50%) translateY(-12px) scale(.9);top:202px;filter:drop-shadow(0 18px 16px rgba(0,0,0,.38)) brightness(1)}
+    62%{transform:translateX(-50%) translateY(-26px) scale(1);top:184px}
+    100%{transform:translateX(-50%) translateY(-20px) scale(.98);top:190px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.46)) brightness(.94)}
   }
 
   @keyframes keeperMissDown{
-    0%{transform:translateX(-50%) translateY(2px) scale(.38);top:220px;filter:drop-shadow(0 14px 16px rgba(0,0,0,.42)) brightness(.96)}
-    18%{transform:translateX(-50%) translateY(14px) scale(.72);top:238px;filter:drop-shadow(0 18px 16px rgba(0,0,0,.38)) brightness(1)}
-    50%{transform:translateX(-50%) translateY(28px) scale(1.02);top:268px}
-    78%{transform:translateX(-50%) translateY(22px) scale(1);top:278px}
-    100%{transform:translateX(-50%) translateY(16px) scale(.98);top:282px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.46)) brightness(.94)}
+    0%{transform:translateX(-50%) translateY(2px) scale(.72);top:214px;filter:drop-shadow(0 14px 16px rgba(0,0,0,.42)) brightness(.96)}
+    22%{transform:translateX(-50%) translateY(12px) scale(.9);top:236px;filter:drop-shadow(0 18px 16px rgba(0,0,0,.38)) brightness(1)}
+    62%{transform:translateX(-50%) translateY(22px) scale(1);top:266px}
+    100%{transform:translateX(-50%) translateY(18px) scale(.98);top:270px;filter:drop-shadow(0 16px 18px rgba(0,0,0,.46)) brightness(.94)}
   }
 
   .penalty-status{
@@ -5915,11 +5525,13 @@ min-width:160px;
   }
 
   .penalty-status h3{
-    font-size:25px;
+    min-width:140px;
+    min-height:36px;
+    font-size:16px;
   }
 
   .penalty-status p{
-    font-size:14px;
+    font-size:12px;
   }
 
   .penalty-pad{
@@ -6796,7 +6408,7 @@ padding:12px 16px;
 border-radius:8px;
 background:rgba(17,17,17,.96);
 color:#fff;
-font-size:13px;
+font-size:12px;
 font-weight:800;
 line-height:1.3;
 text-align:center;
@@ -7562,149 +7174,376 @@ transform:translate(-50%, 0);
   }
 }
 
-/* Penalty game realism pass: cinematic lighting, depth and cleaner game HUD. */
+/* Penalty game UX pass: stable camera, restrained HUD and in-goal ball paths. */
 .penalty-game{
-isolation:isolate;
-background:
-radial-gradient(ellipse at 50% 76%, rgba(117,185,54,.18), transparent 28%),
-linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.02) 42%, rgba(0,0,0,.38) 100%),
-url("img/penalty-stadium-bg.png") center/cover no-repeat;
-box-shadow:0 22px 54px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.08);
-}
-
-.penalty-game::before{
-content:"";
-position:absolute;
-left:50%;
-bottom:clamp(70px, 8vw, 110px);
-width:clamp(170px, 24vw, 280px);
-height:clamp(82px, 11vw, 132px);
-transform:translateX(-50%);
-z-index:1;
-pointer-events:none;
-background:
-radial-gradient(ellipse at 50% 50%, rgba(70,126,30,.98) 0%, rgba(58,112,26,.94) 42%, rgba(45,92,22,.66) 68%, rgba(45,92,22,0) 82%),
-repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 1px, rgba(0,0,0,0) 1px 9px);
-filter:blur(.35px);
-}
-
-.penalty-game::after{
-background:radial-gradient(ellipse, rgba(0,0,0,.42), rgba(0,0,0,.08) 58%, transparent 72%);
-filter:blur(1px);
-}
-
-.penalty-game-header,
-.penalty-arena,
-.penalty-rank{
-position:relative;
-z-index:2;
+overflow:hidden;
 }
 
 .penalty-arena{
-min-height:clamp(590px, 49vw, 710px);
-padding-top:clamp(246px, 20vw, 286px);
-}
-
-.penalty-field{
-opacity:.42;
-filter:drop-shadow(0 2px 3px rgba(0,0,0,.28));
-}
-
-.penalty-box{
-border-color:rgba(255,255,255,.32);
-box-shadow:0 2px 10px rgba(0,0,0,.14);
+grid-template-columns:minmax(126px, 174px) minmax(220px, 1fr) minmax(126px, 174px);
+grid-template-areas:"joy status actions";
+align-items:end;
+min-height:clamp(560px, 48vw, 690px);
+padding:clamp(228px, 19vw, 268px) clamp(18px, 2vw, 26px) 24px;
 }
 
 .penalty-goal{
-filter:contrast(1.1) saturate(1.04) drop-shadow(0 10px 18px rgba(0,0,0,.22));
+display:none !important;
 }
 
 .penalty-keeper{
-top:282px;
-width:106px;
-height:142px;
-z-index:5;
-filter:drop-shadow(0 14px 12px rgba(0,0,0,.48)) contrast(1.04) saturate(1.04);
-}
-
-.penalty-keeper:not([data-dive]):not([data-miss]){
-animation:keeperReadyBreath 1.7s ease-in-out infinite;
-}
-
-.penalty-keeper::after{
-content:"";
-position:absolute;
-left:50%;
-bottom:-8px;
-width:86%;
-height:13px;
-transform:translateX(-50%);
-border-radius:50%;
-background:rgba(0,0,0,.32);
-filter:blur(4px);
-z-index:-1;
+top:clamp(224px, 18.2vw, 250px);
+width:clamp(84px, 7.6vw, 106px);
+height:clamp(112px, 10vw, 142px);
+z-index:4;
+will-change:transform, top;
 }
 
 .penalty-ball{
-bottom:168px;
-width:52px;
-height:52px;
-z-index:6;
-filter:drop-shadow(0 12px 10px rgba(0,0,0,.42));
-}
-
-.penalty-ball::before{
-content:"";
-position:absolute;
-left:50%;
-bottom:-12px;
-width:72%;
-height:12px;
-transform:translateX(-50%);
-border-radius:50%;
-background:rgba(0,0,0,.34);
-filter:blur(3px);
-}
-
-.penalty-ball[data-shot]::before{
-opacity:.42;
-transform:translateX(-50%) scale(.7);
+bottom:clamp(132px, 12.4vw, 172px);
+width:clamp(42px, 4.2vw, 56px);
+height:clamp(42px, 4.2vw, 56px);
+z-index:5;
+will-change:transform;
 }
 
 .penalty-status{
-z-index:8;
-margin-top:72px;
+grid-area:status;
+align-self:end;
+justify-self:center;
+z-index:6;
+width:min(100%, 300px);
+margin:0 0 6px;
+padding:0;
 pointer-events:none;
 }
 
 .penalty-status h3{
-min-width:150px;
-min-height:38px;
+min-width:0;
+min-height:36px;
+max-width:100%;
 padding:0 14px;
-border-radius:8px;
-background:rgba(0,0,0,.58);
-font-size:18px;
-box-shadow:0 10px 24px rgba(0,0,0,.26);
+border-radius:7px;
+font-size:clamp(15px, 1.55vw, 18px);
+line-height:1.05;
+background:rgba(0,0,0,.62);
+box-shadow:0 10px 24px rgba(0,0,0,.28);
 }
 
 .penalty-status p{
 font-size:12px;
+line-height:1.25;
+margin:0;
+}
+
+.penalty-rounds{
+gap:6px;
+margin-top:8px;
+}
+
+.penalty-round{
+width:12px;
+height:12px;
 }
 
 .penalty-reset{
-pointer-events:auto;
-position:relative;
-z-index:11;
+margin-top:8px;
 min-height:42px;
+padding:0 18px;
 }
 
 .penalty-joystick,
 .penalty-actions{
-z-index:9;
+align-self:end;
+z-index:7;
+max-width:174px;
 padding:12px;
+}
+
+.penalty-joystick{
+grid-area:joy;
+}
+
+.penalty-actions{
+grid-area:actions;
+}
+
+.penalty-keeper[data-dive="left"],
+.penalty-keeper[data-miss="left"]{
+width:clamp(190px, 17vw, 244px);
+height:clamp(98px, 9vw, 130px);
+top:clamp(238px, 19vw, 262px);
+transform:translateX(clamp(-286px, -20vw, -214px));
+}
+
+.penalty-keeper[data-dive="right"],
+.penalty-keeper[data-miss="right"]{
+width:clamp(190px, 17vw, 244px);
+height:clamp(96px, 8.8vw, 128px);
+top:clamp(238px, 19vw, 262px);
+transform:translateX(clamp(36px, 4vw, 52px));
+}
+
+.penalty-keeper[data-dive="up"],
+.penalty-keeper[data-miss="up"]{
+width:clamp(72px, 6.8vw, 98px);
+height:clamp(132px, 12.6vw, 178px);
+top:clamp(190px, 15.6vw, 216px);
+}
+
+.penalty-keeper[data-dive="down"],
+.penalty-keeper[data-miss="down"]{
+width:clamp(172px, 16vw, 226px);
+height:clamp(92px, 8.7vw, 124px);
+top:clamp(270px, 22vw, 302px);
+}
+
+@keyframes keeperDiveLeft{
+0%{transform:translateX(-50%) translateY(0) rotate(0) scale(1)}
+32%{transform:translateX(-88px) translateY(-6px) rotate(-4deg) scale(1.01)}
+72%{transform:translateX(-242px) translateY(9px) rotate(-10deg) scale(1)}
+100%{transform:translateX(-276px) translateY(14px) rotate(-12deg)}
+}
+
+@keyframes keeperDiveRight{
+0%{transform:translateX(-50%) translateY(0) rotate(0) scale(1)}
+32%{transform:translateX(-8px) translateY(-6px) rotate(4deg) scale(1.01)}
+72%{transform:translateX(34px) translateY(9px) rotate(10deg) scale(1)}
+100%{transform:translateX(48px) translateY(14px) rotate(12deg)}
+}
+
+@keyframes keeperDiveUp{
+0%{transform:translateX(-50%) translateY(0) scale(1)}
+36%{transform:translateX(-50%) translateY(-16px) scale(1.03)}
+76%{transform:translateX(-50%) translateY(-34px) scale(1.01)}
+100%{transform:translateX(-50%) translateY(-28px) scale(1)}
+}
+
+@keyframes keeperDiveDown{
+0%{transform:translateX(-50%) translateY(0) scale(1)}
+36%{transform:translateX(-50%) translateY(12px) scale(1.01,.97)}
+76%{transform:translateX(-50%) translateY(26px) scale(1.01,.94)}
+100%{transform:translateX(-50%) translateY(20px) scale(1,.95)}
+}
+
+@keyframes keeperMissLeft{
+0%{transform:translateX(-50%) translateY(0) rotate(0) scale(.78)}
+28%{transform:translateX(-92px) translateY(-4px) rotate(-3deg) scale(.94)}
+70%{transform:translateX(-238px) translateY(10px) rotate(-9deg) scale(1)}
+100%{transform:translateX(-270px) translateY(16px) rotate(-12deg) scale(.98)}
+}
+
+@keyframes keeperMissRight{
+0%{transform:translateX(-50%) translateY(0) rotate(0) scale(.78)}
+28%{transform:translateX(-10px) translateY(-4px) rotate(3deg) scale(.94)}
+70%{transform:translateX(32px) translateY(10px) rotate(9deg) scale(1)}
+100%{transform:translateX(44px) translateY(16px) rotate(12deg) scale(.98)}
+}
+
+@keyframes keeperMissUp{
+0%{transform:translateX(-50%) translateY(0) scale(.78)}
+30%{transform:translateX(-50%) translateY(-14px) scale(.94)}
+72%{transform:translateX(-50%) translateY(-34px) scale(1)}
+100%{transform:translateX(-50%) translateY(-28px) scale(.98)}
+}
+
+@keyframes keeperMissDown{
+0%{transform:translateX(-50%) translateY(0) scale(.78)}
+30%{transform:translateX(-50%) translateY(12px) scale(.94)}
+72%{transform:translateX(-50%) translateY(26px) scale(1)}
+100%{transform:translateX(-50%) translateY(20px) scale(.98)}
+}
+
+@keyframes ballGoalLeft{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none}
+32%{transform:translateX(-84px) translateY(-86px) scale(.74) rotate(-190deg);filter:blur(.03px)}
+70%{transform:translateX(-146px) translateY(-146px) scale(.43) rotate(-430deg);filter:blur(.10px)}
+86%{transform:translateX(-156px) translateY(-158px) scale(.35) rotate(-500deg);filter:blur(.12px) brightness(1.06)}
+100%{transform:translateX(-144px) translateY(-150px) scale(.34) rotate(-540deg);filter:blur(.10px) brightness(.9)}
+}
+
+@keyframes ballGoalRight{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none}
+32%{transform:translateX(46px) translateY(-86px) scale(.74) rotate(190deg);filter:blur(.03px)}
+70%{transform:translateX(104px) translateY(-146px) scale(.43) rotate(430deg);filter:blur(.10px)}
+86%{transform:translateX(114px) translateY(-158px) scale(.35) rotate(500deg);filter:blur(.12px) brightness(1.06)}
+100%{transform:translateX(104px) translateY(-150px) scale(.34) rotate(540deg);filter:blur(.10px) brightness(.9)}
+}
+
+@keyframes ballGoalUp{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none}
+34%{transform:translateX(-50%) translateY(-94px) scale(.70) rotate(190deg);filter:blur(.04px)}
+72%{transform:translateX(-50%) translateY(-160px) scale(.40) rotate(420deg);filter:blur(.10px)}
+88%{transform:translateX(-50%) translateY(-172px) scale(.32) rotate(500deg);filter:blur(.12px) brightness(1.06)}
+100%{transform:translateX(-50%) translateY(-164px) scale(.32) rotate(540deg);filter:blur(.10px) brightness(.9)}
+}
+
+@keyframes ballGoalDown{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none}
+34%{transform:translateX(-50%) translateY(-34px) scale(.90) rotate(-130deg);filter:blur(.02px)}
+70%{transform:translateX(-50%) translateY(-76px) scale(.62) rotate(-300deg);filter:blur(.06px)}
+88%{transform:translateX(-50%) translateY(-100px) scale(.46) rotate(-390deg);filter:blur(.08px) brightness(1.04)}
+100%{transform:translateX(-50%) translateY(-94px) scale(.44) rotate(-450deg);filter:blur(.06px) brightness(.9)}
+}
+
+@keyframes ballSaveLeft{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none;opacity:1}
+54%{transform:translateX(-118px) translateY(-100px) scale(.70) rotate(-240deg);filter:blur(.08px);opacity:.86}
+100%{transform:translateX(-160px) translateY(-74px) scale(.62) rotate(-360deg);filter:blur(.10px);opacity:.55}
+}
+
+@keyframes ballSaveRight{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none;opacity:1}
+54%{transform:translateX(70px) translateY(-100px) scale(.70) rotate(240deg);filter:blur(.08px);opacity:.86}
+100%{transform:translateX(112px) translateY(-74px) scale(.62) rotate(360deg);filter:blur(.10px);opacity:.55}
+}
+
+@keyframes ballSaveUp{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none;opacity:1}
+54%{transform:translateX(-50%) translateY(-126px) scale(.62) rotate(220deg);filter:blur(.08px);opacity:.86}
+100%{transform:translateX(-50%) translateY(-104px) scale(.56) rotate(340deg);filter:blur(.10px);opacity:.55}
+}
+
+@keyframes ballSaveDown{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);filter:none;opacity:1}
+54%{transform:translateX(-50%) translateY(-58px) scale(.82) rotate(-190deg);filter:blur(.06px);opacity:.86}
+100%{transform:translateX(-50%) translateY(-40px) scale(.74) rotate(-300deg);filter:blur(.08px);opacity:.55}
+}
+
+@keyframes ballGoalLeftTablet{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0)}
+34%{transform:translateX(-64px) translateY(-70px) scale(.74) rotate(-180deg)}
+74%{transform:translateX(-94px) translateY(-124px) scale(.42) rotate(-400deg);filter:blur(.09px)}
+100%{transform:translateX(-86px) translateY(-118px) scale(.36) rotate(-460deg);filter:blur(.08px)}
+}
+
+@keyframes ballGoalRightTablet{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0)}
+34%{transform:translateX(28px) translateY(-70px) scale(.74) rotate(180deg)}
+74%{transform:translateX(62px) translateY(-124px) scale(.42) rotate(400deg);filter:blur(.09px)}
+100%{transform:translateX(54px) translateY(-118px) scale(.36) rotate(460deg);filter:blur(.08px)}
+}
+
+@keyframes ballGoalUpTablet{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0)}
+34%{transform:translateX(-50%) translateY(-76px) scale(.72) rotate(180deg)}
+74%{transform:translateX(-50%) translateY(-132px) scale(.40) rotate(380deg);filter:blur(.09px)}
+100%{transform:translateX(-50%) translateY(-124px) scale(.36) rotate(430deg);filter:blur(.08px)}
+}
+
+@keyframes ballGoalDownTablet{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0)}
+36%{transform:translateX(-50%) translateY(-30px) scale(.90) rotate(-130deg)}
+74%{transform:translateX(-50%) translateY(-78px) scale(.56) rotate(-290deg);filter:blur(.06px)}
+100%{transform:translateX(-50%) translateY(-72px) scale(.50) rotate(-350deg);filter:blur(.06px)}
+}
+
+@keyframes ballSaveLeftTablet{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);opacity:1}
+56%{transform:translateX(-84px) translateY(-82px) scale(.70) rotate(-230deg);opacity:.84}
+100%{transform:translateX(-112px) translateY(-58px) scale(.62) rotate(-340deg);opacity:.55}
+}
+
+@keyframes ballSaveRightTablet{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);opacity:1}
+56%{transform:translateX(46px) translateY(-82px) scale(.70) rotate(230deg);opacity:.84}
+100%{transform:translateX(74px) translateY(-58px) scale(.62) rotate(340deg);opacity:.55}
+}
+
+@keyframes ballSaveUpTablet{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);opacity:1}
+56%{transform:translateX(-50%) translateY(-106px) scale(.62) rotate(220deg);opacity:.84}
+100%{transform:translateX(-50%) translateY(-88px) scale(.56) rotate(330deg);opacity:.55}
+}
+
+@keyframes ballSaveDownTablet{
+0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);opacity:1}
+56%{transform:translateX(-50%) translateY(-48px) scale(.82) rotate(-180deg);opacity:.84}
+100%{transform:translateX(-50%) translateY(-34px) scale(.74) rotate(-290deg);opacity:.55}
+}
+
+@media (max-width: 820px){
+  .penalty-arena{
+    grid-template-columns:minmax(118px, 1fr) minmax(118px, 1fr);
+    grid-template-areas:
+    "status status"
+    "joy actions";
+    min-height:clamp(520px, 92svh, 660px);
+    padding:clamp(210px, 37svh, 260px) 12px 14px;
+  }
+
+  .penalty-status{
+    width:min(100%, 250px);
+    margin:0 auto 6px;
+  }
+
+  .penalty-status h3{
+    min-height:34px;
+    padding:0 12px;
+    font-size:15px;
+  }
+
+  .penalty-status p{
+    font-size:11px;
+  }
+
+  .penalty-keeper{
+    top:clamp(196px, 35svh, 226px);
+    width:clamp(76px, 20vw, 88px);
+    height:clamp(102px, 27vw, 116px);
+  }
+
+  .penalty-ball{
+    bottom:clamp(168px, 31svh, 216px);
+    width:clamp(38px, 10vw, 46px);
+    height:clamp(38px, 10vw, 46px);
+  }
+
+  .penalty-joystick,
+  .penalty-actions{
+    max-width:168px;
+    padding:11px;
+  }
+}
+
+@media (max-width: 480px){
+  .penalty-arena{
+    min-height:clamp(500px, 90svh, 610px);
+    padding:clamp(200px, 36svh, 236px) 10px 12px;
+  }
+
+  .penalty-keeper[data-dive="left"],
+  .penalty-keeper[data-miss="left"]{
+    width:174px;
+    height:92px;
+    transform:translateX(-198px);
+  }
+
+  .penalty-keeper[data-dive="right"],
+  .penalty-keeper[data-miss="right"]{
+    width:174px;
+    height:90px;
+    transform:translateX(28px);
+  }
+}
+
+/* Compact gamepad controls. */
+.penalty-keeper:not([data-dive]):not([data-miss]){
+top:clamp(260px, 21vw, 288px);
+height:clamp(112px, 9.6vw, 136px);
+}
+
+.penalty-joystick,
+.penalty-actions{
+padding:10px;
+gap:8px;
 border-radius:8px;
-background:rgba(0,0,0,.66);
-box-shadow:0 12px 28px rgba(0,0,0,.24), inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
+.penalty-joystick strong,
+.penalty-actions strong{
+font-size:12px;
+line-height:1;
 }
 
 .penalty-pad{
@@ -7713,13 +7552,24 @@ grid-template-rows:42px 42px 42px;
 }
 
 .penalty-control{
-font-size:22px;
 border-radius:7px;
+font-size:23px;
+box-shadow:0 3px 0 rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.12);
+}
+
+.penalty-pad-center{
+transform:scale(.86);
+border-radius:50%;
+font-size:0;
+background:linear-gradient(180deg, #33343a, #19191e);
+border:1px solid rgba(255,255,255,.15);
+box-shadow:inset 0 0 0 1px rgba(255,255,255,.06), 0 3px 0 rgba(0,0,0,.35);
 }
 
 .penalty-actions{
 min-width:0;
 align-items:center;
+justify-content:center;
 }
 
 .penalty-actions strong{
@@ -7727,12 +7577,14 @@ display:none;
 }
 
 .penalty-shot{
-width:54px;
-height:54px;
-min-width:54px;
+width:58px;
+height:58px;
+min-width:58px;
 padding:0;
 border-radius:10px;
 text-align:center;
+background:linear-gradient(180deg, rgba(18,18,22,.94), rgba(0,0,0,.88));
+box-shadow:0 5px 0 rgba(0,0,0,.42), 0 10px 20px rgba(0,0,0,.30);
 }
 
 .penalty-shot span,
@@ -7749,27 +7601,140 @@ white-space:nowrap;
 .penalty-shot[data-shot-type="power"]::before{
 left:50%;
 top:50%;
-width:27px;
-height:27px;
-border-width:5px;
+width:28px;
+height:28px;
+border:6px solid #c45cff;
+border-radius:6px;
 transform:translate(-50%, -50%);
 box-sizing:border-box;
 }
 
-.penalty-shot[data-shot-type="placed"]{
-display:none;
+.penalty-power{
+width:58px;
+height:6px;
+border-radius:999px;
+overflow:hidden;
+background:rgba(255,255,255,.16);
+box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
 }
 
-@keyframes keeperReadyBreath{
-0%,100%{transform:translateX(-50%) translateY(0) scale(1)}
-50%{transform:translateX(-50%) translateY(1px) scale(1.01,.995)}
+.penalty-power span{
+display:block;
+width:calc(var(--penalty-power, .58) * 100%);
+height:100%;
+border-radius:inherit;
+background:linear-gradient(90deg, #2e8cff, #00d26a 58%, #ffb000 82%, #ff3b4f);
+transition:width .08s linear;
+}
+
+.penalty-shot.is-charging{
+transform:translateY(1px) scale(.98);
+box-shadow:0 2px 0 rgba(0,0,0,.48), 0 8px 16px rgba(0,0,0,.26);
+}
+
+@media (max-width: 820px){
+  .penalty-keeper:not([data-dive]):not([data-miss]){
+    top:clamp(228px, 38svh, 258px);
+    height:clamp(100px, 25vw, 112px);
+  }
+
+  .penalty-pad{
+    grid-template-columns:38px 38px 38px;
+    grid-template-rows:38px 38px 38px;
+  }
+
+  .penalty-control{
+    font-size:21px;
+  }
+
+  .penalty-shot{
+    width:54px;
+    height:54px;
+    min-width:54px;
+  }
+
+  .penalty-power{
+    width:54px;
+  }
+
+  .penalty-shot::before,
+  .penalty-shot[data-shot-type="power"]::before{
+    width:26px;
+    height:26px;
+    border-width:5px;
+  }
+}
+
+@media (max-width: 480px){
+  .penalty-keeper:not([data-dive]):not([data-miss]){
+    top:clamp(218px, 37svh, 244px);
+  }
+
+  .penalty-pad{
+    grid-template-columns:34px 34px 34px;
+    grid-template-rows:34px 34px 34px;
+  }
+
+  .penalty-control{
+    font-size:19px;
+  }
+
+  .penalty-shot{
+    width:50px;
+    height:50px;
+    min-width:50px;
+  }
+
+  .penalty-power{
+    width:50px;
+  }
+
+  .penalty-shot::before,
+  .penalty-shot[data-shot-type="power"]::before{
+    width:24px;
+    height:24px;
+  }
+}
+
+/* Final penalty mobile composition fixes. */
+.penalty-game::before{
+content:"";
+position:absolute;
+left:50%;
+bottom:clamp(54px, 7.5vw, 86px);
+width:clamp(150px, 22vw, 250px);
+height:clamp(78px, 10vw, 120px);
+transform:translateX(-50%);
+z-index:1;
+pointer-events:none;
+background:
+radial-gradient(ellipse at 50% 42%, rgba(66,118,27,.96) 0%, rgba(56,105,24,.92) 38%, rgba(45,88,20,.74) 64%, rgba(45,88,20,0) 76%),
+linear-gradient(90deg, rgba(85,132,36,0), rgba(111,154,46,.42), rgba(61,103,27,0));
+filter:blur(.4px);
+}
+
+.penalty-arena,
+.penalty-game-header,
+.penalty-scoreboard,
+.penalty-rank{
+position:relative;
+z-index:2;
+}
+
+.penalty-keeper:not([data-dive]):not([data-miss]){
+top:clamp(286px, 23vw, 314px);
+height:clamp(118px, 9.8vw, 136px);
+}
+
+.penalty-ball{
+bottom:clamp(150px, 13.8vw, 188px);
 }
 
 @media (max-width: 820px){
   .penalty-game::before{
-    bottom:clamp(174px, 30svh, 240px);
-    width:clamp(124px, 34vw, 178px);
-    height:clamp(62px, 17vw, 92px);
+    bottom:clamp(178px, 30svh, 240px);
+    width:clamp(118px, 34vw, 170px);
+    height:clamp(60px, 17vw, 88px);
   }
 
   .penalty-arena{
@@ -7778,7 +7743,7 @@ display:none;
     "field field field"
     "status status status"
     "joy . actions";
-    min-height:clamp(552px, 92svh, 680px);
+    min-height:clamp(560px, 92svh, 690px);
     padding:0 12px 14px;
     gap:8px;
     justify-items:center;
@@ -7786,38 +7751,33 @@ display:none;
   }
 
   .penalty-arena::before{
-    min-height:clamp(352px, 62svh, 490px);
+    min-height:clamp(360px, 62svh, 500px);
   }
 
-  .penalty-keeper{
-    top:clamp(270px, 46svh, 330px);
-    width:clamp(76px, 20vw, 88px);
-    height:clamp(100px, 25vw, 114px);
+  .penalty-keeper:not([data-dive]):not([data-miss]){
+    top:clamp(276px, 47svh, 338px);
+    height:clamp(104px, 25vw, 118px);
   }
 
   .penalty-ball{
-    bottom:clamp(210px, 37svh, 280px);
-    width:clamp(38px, 10vw, 46px);
-    height:clamp(38px, 10vw, 46px);
+    bottom:clamp(224px, 38svh, 292px);
   }
 
   .penalty-status{
-    margin:0;
-  }
-
-  .penalty-status h3{
-    min-height:34px;
-    font-size:15px;
+    margin-top:-4px;
+    margin-bottom:2px;
   }
 
   .penalty-joystick{
     justify-self:start;
     width:auto;
+    max-width:none;
   }
 
   .penalty-actions{
     justify-self:end;
     width:auto;
+    max-width:none;
   }
 
   .penalty-pad{
@@ -7836,28 +7796,38 @@ display:none;
     height:48px;
     min-width:48px;
   }
+
+  .penalty-power{
+    width:48px;
+  }
 }
 
 @media (max-width: 480px){
   .penalty-game::before{
-    bottom:clamp(160px, 29svh, 214px);
+    bottom:clamp(164px, 29svh, 214px);
   }
 
   .penalty-arena{
-    min-height:clamp(532px, 90svh, 632px);
+    min-height:clamp(540px, 90svh, 640px);
     padding:0 10px 12px;
   }
 
   .penalty-arena::before{
-    min-height:clamp(336px, 60svh, 446px);
+    min-height:clamp(342px, 60svh, 452px);
   }
 
-  .penalty-keeper{
-    top:clamp(252px, 45svh, 306px);
+  .penalty-keeper:not([data-dive]):not([data-miss]){
+    top:clamp(258px, 46svh, 314px);
+    height:clamp(96px, 25vw, 108px);
   }
 
   .penalty-ball{
-    bottom:clamp(198px, 36svh, 256px);
+    bottom:clamp(206px, 37svh, 264px);
+  }
+
+  .penalty-joystick,
+  .penalty-actions{
+    padding:8px;
   }
 
   .penalty-pad{
@@ -7875,457 +7845,16 @@ display:none;
     height:46px;
     min-width:46px;
   }
-}
 
-/* Card framing pass: consistent inner breathing room for titles and text. */
-.card,
-.reportagem-card-content,
-.home-posts-panel,
-.home-side-post,
-.lineup-callout-content,
-.palpite-card,
-.palpite-user-card,
-.palpite-summary-item,
-.palpite-ranking-row,
-.craque-top-strip,
-.craque-match-band,
-.craque-player-card,
-.craque-info-card,
-.craque-footer,
-.craque-final-call,
-.worldcup-panel-intro,
-.worldcup-result-card,
-.worldcup-group-card,
-.worldcup-brazil-card,
-.arena-fixture-card,
-.match-card,
-.standings-card,
-.penalty-game-card,
-.penalty-rank-card,
-.valtinho,
-.debate-card{
---card-safe-x:clamp(16px, 4.3vw, 24px);
-}
-
-.card,
-.home-posts-panel,
-.lineup-callout-content,
-.palpite-card,
-.palpite-user-card,
-.worldcup-result-card,
-.worldcup-group-card,
-.worldcup-brazil-card,
-.match-card,
-.standings-card,
-.penalty-game-card,
-.penalty-rank-card,
-.valtinho,
-.debate-card{
-padding-left:var(--card-safe-x);
-padding-right:var(--card-safe-x);
-}
-
-.reportagem-card-content,
-.worldcup-panel-intro,
-.craque-top-strip,
-.craque-match-band,
-.craque-player-card,
-.craque-info-card,
-.craque-footer,
-.craque-final-call,
-.arena-fixture-card,
-.palpite-summary-item,
-.palpite-ranking-row,
-.home-side-post{
-padding-left:var(--card-safe-x);
-padding-right:var(--card-safe-x);
-}
-
-.worldcup-results-grid,
-.worldcup-groups-grid,
-.palpite-cards,
-.seriea-cards,
-.grid{
-padding-left:clamp(14px, 3.8vw, 20px);
-padding-right:clamp(14px, 3.8vw, 20px);
-}
-
-.card h2,
-.card h3,
-.reportagem-card h3,
-.home-posts-panel h3,
-.home-side-post strong,
-.lineup-callout h2,
-.palpite-card h3,
-.palpite-result strong,
-.craque-title-block h2,
-.craque-player-meta strong,
-.craque-info-card strong,
-.craque-final-call strong,
-.worldcup-panel-intro strong,
-.worldcup-result-top,
-.worldcup-result-team strong,
-.worldcup-group-card h4,
-.worldcup-group-team strong,
-.worldcup-brazil-card h3,
-.arena-fixture-team strong,
-.arena-fixture-venue strong,
-.match-card h3,
-.standings-top h3,
-.penalty-game-header h2,
-.penalty-rank-card strong,
-.valtinho strong,
-.debate-card h3{
-overflow-wrap:anywhere;
-text-wrap:balance;
-}
-
-.card p,
-.reportagem-card p,
-.home-side-post span,
-.lineup-callout p,
-.palpite-result,
-.craque-title-block p,
-.craque-info-card p,
-.craque-final-call span,
-.worldcup-panel-intro span,
-.worldcup-result-bottom,
-.worldcup-group-note,
-.worldcup-brazil-card p,
-.arena-fixture-venue,
-.match-card p,
-.penalty-game-header p,
-.valtinho p,
-.debate-card p{
-overflow-wrap:anywhere;
-}
-
-@media (max-width: 540px){
-  .container{
-    padding-left:14px;
-    padding-right:14px;
+  .penalty-power{
+    width:46px;
   }
 
-  .worldcup-result-card,
-  .worldcup-group-card,
-  .palpite-card,
-  .reportagem-card-content,
-  .craque-player-card,
-  .penalty-game-card,
-  .match-card,
-  .standings-card,
-  .card{
-    --card-safe-x:18px;
-  }
-
-  .worldcup-result-team,
-  .worldcup-result-score,
-  .worldcup-group-table td,
-  .worldcup-group-table th{
-    padding-left:8px;
-    padding-right:8px;
-  }
-
-  .craque-title-block,
-  .worldcup-section > .section-action-head,
-  .seriea-heading,
-  .home-posts-head{
-    padding-left:4px;
-    padding-right:4px;
-  }
-}
-
-/* =========================
-FINAL UX POLISH OVERRIDES
-========================= */
-
-body{
-background:linear-gradient(180deg,#f8fafc 0,#f6f8fb 52%,#eef2f7 100%);
-color:var(--ink);
-}
-
-.menu{
-background:rgba(15,23,42,.96);
-border-bottom:1px solid rgba(255,255,255,.08);
-box-shadow:0 12px 30px rgba(15,23,42,.18);
-backdrop-filter:blur(14px);
-}
-
-.nav-menu a{
-color:#cbd5e1;
-letter-spacing:.04em;
-}
-
-.nav-menu a:hover,
-.nav-menu a.active{
-color:#fff;
-}
-
-.banner-art{
-background-image:var(--banner-image)!important;
-background-size:cover;
-background-position:center!important;
-background-repeat:no-repeat!important;
-background-color:#111827;
-}
-
-.banner-art::before{
-background:linear-gradient(90deg,rgba(0,0,0,.1),transparent 18%,transparent 82%,rgba(0,0,0,.12))!important;
-}
-
-.banner-art::after{
-display:none;
-}
-
-.btn,
-.btn-banner,
-.btn-contato,
-.btn-lineup,
-.palpite-save,
-.worldcup-load-more,
-.worldcup-group-toggle,
-.craque-player-card button,
-.beplay-home-callout a{
-border-radius:8px;
-background:linear-gradient(135deg,var(--primary),#fb923c);
-color:#111827;
-box-shadow:0 10px 24px rgba(249,115,22,.22);
-}
-
-.btn:hover,
-.btn-banner:hover,
-.btn-contato:hover,
-.btn-lineup:hover,
-.worldcup-load-more:hover,
-.worldcup-group-toggle:hover,
-.beplay-home-callout a:hover{
-background:linear-gradient(135deg,#fb923c,#fdba74);
-color:#111827;
-box-shadow:0 14px 30px rgba(249,115,22,.28);
-}
-
-.hub-quick-actions,
-.beplay-home-callout,
-.search-results{
-border:1px solid var(--line);
-background:rgba(255,255,255,.92);
-box-shadow:var(--shadow-sm);
-}
-
-.hub-quick-actions a:hover,
-.hub-quick-actions a:focus-visible{
-border-color:rgba(249,115,22,.24);
-background:#fff7ed;
-transform:translateY(-2px);
-}
-
-.worldcup-story-card,
-.palpitometro-section,
-.craque-vote-section,
-.worldcup-section,
-.lineup-callout{
-border:1px solid rgba(15,23,42,.1);
-box-shadow:var(--shadow-md);
-}
-
-.worldcup-story-card,
-.palpitometro-section,
-.craque-vote-section,
-.worldcup-section{
-background:
-linear-gradient(135deg,#111827,#1e293b),
-radial-gradient(circle at 82% 0,rgba(37,99,235,.2),transparent 34%);
-}
-
-.worldcup-story-card{
-aspect-ratio:auto;
-min-height:0;
-height:auto;
-overflow:hidden;
-}
-
-.worldcup-story-content{
-padding-bottom:clamp(22px,4vw,32px);
-}
-
-.beplay-home-callout{
-padding:clamp(18px,3.4vw,26px);
-color:#fff;
-border:1px solid rgba(226,232,240,.14);
-background:
-linear-gradient(135deg,rgba(15,23,42,.98),rgba(30,41,59,.96)),
-radial-gradient(circle at 14% 0,rgba(249,115,22,.24),transparent 36%),
-radial-gradient(circle at 92% 18%,rgba(37,99,235,.2),transparent 34%);
-box-shadow:var(--shadow-md);
-}
-
-.beplay-home-callout > div{
-min-width:0;
-padding-inline:clamp(4px,1.6vw,10px);
-}
-
-.beplay-home-callout span{
-color:#fdba74;
-}
-
-.beplay-home-callout h2{
-color:#fff;
-}
-
-.beplay-home-callout p{
-color:#dbeafe;
-}
-
-.worldcup-section > .seriea-heading,
-.worldcup-section > .section-action-head,
-.section-action-head,
-.seriea-heading{
-padding-left:clamp(14px,3vw,22px);
-padding-right:clamp(14px,3vw,22px);
-}
-
-.worldcup-section .worldcup-source{
-padding-left:clamp(14px,3vw,22px);
-padding-right:clamp(14px,3vw,22px);
-}
-
-.worldcup-section .seriea-heading h2,
-.worldcup-section .seriea-heading p,
-.worldcup-section .section-action-head h2,
-.worldcup-section .section-action-head span{
-color:#fff;
-}
-
-.worldcup-story-card::before{
-background:
-linear-gradient(180deg,rgba(15,23,42,.08),rgba(15,23,42,.82) 64%,#0f172a 100%),
-radial-gradient(circle at 18% 10%,rgba(37,99,235,.28),transparent 26%),
-radial-gradient(circle at 82% 12%,rgba(249,115,22,.26),transparent 27%),
-linear-gradient(180deg,#1e293b,#0f172a 58%,#111827);
-}
-
-.destaque-live-panel,
-.story-control-panel,
-.story-results,
-.worldcup-tabs,
-.worldcup-panel-intro,
-.worldcup-table-card{
-border-color:rgba(226,232,240,.16);
-background:rgba(15,23,42,.58);
-}
-
-.story-save-btn,
-.worldcup-tabs button.is-active,
-.craque-player-card button{
-background:linear-gradient(135deg,#fb923c,#f97316);
-color:#111827;
-}
-
-.story-segmented button.is-selected,
-.story-craque-grid button.is-selected,
-.story-poll-grid button.is-selected{
-border-color:#fdba74;
-background:linear-gradient(135deg,rgba(249,115,22,.78),rgba(37,99,235,.56));
-}
-
-.reportagem-card{
-background:#111827;
-}
-
-.reportagem-card::after,
-.palpite-card::before{
-background:linear-gradient(90deg,var(--primary),#38bdf8);
-}
-
-.palpite-card,
-.worldcup-result-card,
-.worldcup-group-card,
-.worldcup-brazil-card,
-.match-card,
-.standings-card,
-.craque-player-card,
-.craque-info-card{
-border-radius:8px;
-box-shadow:var(--shadow-sm);
-}
-
-.palpite-card{
-background:#fff;
-border-color:rgba(15,23,42,.09);
-}
-
-.palpite-quick:hover,
-.palpite-quick:focus-visible,
-.palpite-quick.active{
-border-color:var(--primary);
-background:#fff7ed;
-color:var(--primary-dark);
-}
-
-.worldcup-result-card{
-background:
-linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035)),
-rgba(15,23,42,.74);
-}
-
-.worldcup-result-score,
-.worldcup-score,
-.match-score{
-background:#fff;
-border-color:rgba(15,23,42,.1);
-color:var(--ink);
-}
-
-.mobile-app-nav{
-border:1px solid rgba(226,232,240,.82);
-background:rgba(255,255,255,.94);
-box-shadow:0 12px 32px rgba(15,23,42,.16);
-backdrop-filter:blur(14px);
-}
-
-.mobile-app-nav a{
-color:#475569;
-}
-
-.mobile-app-nav a.is-active,
-.mobile-app-nav a:focus-visible{
-background:#fff7ed;
-color:var(--primary-dark);
-}
-
-@media (max-width: 820px){
-  .banner-carousel[data-art-active="true"]{
-    height:calc(100vw / 3);
-    max-height:274px;
-  }
-
-  .banner-carousel[data-art-active="true"] .carousel-container,
-  .banner-carousel[data-art-active="true"] .carousel-slide{
-    height:100%;
-  }
-
-  .carousel-slide[data-slide="2"] .banner-art,
-  .carousel-slide[data-slide="3"] .banner-art,
-  .carousel-slide[data-slide="4"] .banner-art{
-    height:100%;
-    min-height:0;
-    aspect-ratio:auto;
-    background-size:contain!important;
-    background-position:center center!important;
-    background-repeat:no-repeat!important;
-    background-color:#000;
-  }
-}
-
-@media (max-width: 480px){
-  .banner-carousel[data-art-active="true"]{
-    height:calc(100vw / 3);
-  }
-
-  .carousel-slide[data-slide="2"] .banner-art,
-  .carousel-slide[data-slide="3"] .banner-art,
-  .carousel-slide[data-slide="4"] .banner-art{
-    border-radius:0 0 10px 10px;
+  .penalty-shot::before,
+  .penalty-shot[data-shot-type="power"]::before{
+    width:22px;
+    height:22px;
+    border-width:5px;
   }
 }
 
@@ -8369,7 +7898,6 @@ color:var(--primary-dark);
 <a href='/reportagens'>Reportagens</a>
 <a href="#palpitometro">Craque da Partida</a>
 <a href='/beplay'>Beplay</a>
-<a href='performance.html'>KOBEM</a>
 <a href='/coluna-valtinho'>Fala aí Valtinho</a>
 </nav>
 
@@ -8390,7 +7918,6 @@ color:var(--primary-dark);
 <a href="#worldCupGroupsTitle" data-mobile-nav="grupos">Grupos</a>
 <a href="#palpitometro" data-mobile-nav="palpitometro">Votar</a>
 <a href="/beplay" data-mobile-nav="beplay">Vídeos</a>
-<a href="performance.html" data-mobile-nav="kobem">KOBEM</a>
 </nav>
 
 <main>
@@ -8480,51 +8007,29 @@ color:var(--primary-dark);
 <h1>Destaque</h1>
 
 <div class="worldcup-story-wrap searchable">
-<article class="worldcup-story-card" id="worldCupStoryCard" aria-label="Card interativo Escócia x Brasil para torcedores da Copa do Mundo FIFA 2026">
+<article class="worldcup-story-card" id="worldCupStoryCard" aria-label="Card interativo Brasil x Haiti para torcedores da Copa do Mundo FIFA 2026">
 <div class="worldcup-story-lights"></div>
 <div class="worldcup-story-content">
 <div class="worldcup-story-top">
 <span>Copa do Mundo FIFA 2026</span>
-<time id="brazilLiveKickoff">24/06 - 19:00</time>
+<time>19/06 - 19:00</time>
 </div>
 
 <div class="worldcup-story-title">
-<h2>Escócia x Brasil</h2>
-<p>Publique seu placar e acompanhe os resultados mais apontados pela torcida.</p>
+<h2>Brasil x Haiti</h2>
+<p>Palpite, craque da partida e termômetro da torcida em clima de transmissão premium.</p>
 </div>
 
 <div class="worldcup-story-match">
 <div class="worldcup-story-team">
-<div class="worldcup-story-flag"><img src="https://flagcdn.com/w160/gb-sct.png" alt="Bandeira da Escócia" loading="lazy"></div>
-<strong>Escócia</strong>
-</div>
-<div class="worldcup-story-versus">VS</div>
-<div class="worldcup-story-team is-away">
 <div class="worldcup-story-flag"><img src="https://flagcdn.com/w160/br.png" alt="Bandeira do Brasil" loading="lazy"></div>
 <strong>Brasil</strong>
 </div>
+<div class="worldcup-story-versus">VS</div>
+<div class="worldcup-story-team is-away">
+<div class="worldcup-story-flag"><img src="https://flagcdn.com/w160/ht.png" alt="Bandeira do Haiti" loading="lazy"></div>
+<strong>Haiti</strong>
 </div>
-
-<div class="destaque-live-panel" aria-label="Transmissão ao vivo Escócia x Brasil">
-<div class="destaque-live-top">
-<span class="destaque-live-status" id="brazilLiveStatus">PRE-JOGO</span>
-<span class="destaque-live-clock" id="brazilLiveClock">24/06 - 19:00</span>
-</div>
-<div class="destaque-live-score">
-<div class="destaque-live-team">
-<span id="brazilLiveHomeTeam">Escócia</span>
-<strong id="brazilLiveHomeScore">--</strong>
-</div>
-<div class="destaque-live-numbers">x</div>
-<div class="destaque-live-team">
-<span id="brazilLiveAwayTeam">Brasil</span>
-<strong id="brazilLiveAwayScore">--</strong>
-</div>
-</div>
-<p id="brazilLiveSummary">Próximo jogo da Seleção na Copa: Escócia x Brasil, dia 24/06, às 19:00.</p>
-<ul class="destaque-live-plays" id="brazilLivePlays">
-<li><time>Info</time><span>Os lances aparecem aqui quando a transmissão ao vivo liberar os dados da partida.</span></li>
-</ul>
 </div>
 
 <div class="worldcup-story-controls">
@@ -8533,42 +8038,60 @@ color:var(--primary-dark);
 <div class="story-segmented" data-story-group="winner">
 <button type="button" class="is-selected" data-story-value="Brasil">Brasil</button>
 <button type="button" data-story-value="Empate">Empate</button>
-<button type="button" data-story-value="Escócia">Escócia</button>
+<button type="button" data-story-value="Haiti">Haiti</button>
 </div>
 </div>
 
 <div class="story-control-panel">
 <label>Placar exato</label>
 <div class="story-score-row">
-<label class="story-score-box"><span>Escócia</span><input type="number" min="0" max="15" value="0" data-story-score="home" aria-label="Gols da Escócia"></label>
+<label class="story-score-box"><span>Brasil</span><input type="number" min="0" max="15" value="2" data-story-score="home" aria-label="Gols do Brasil"></label>
 <div class="story-score-divider">x</div>
-<label class="story-score-box"><span>Brasil</span><input type="number" min="0" max="15" value="2" data-story-score="away" aria-label="Gols do Brasil"></label>
+<label class="story-score-box"><span>Haiti</span><input type="number" min="0" max="15" value="0" data-story-score="away" aria-label="Gols do Haiti"></label>
 </div>
 </div>
 
 <div class="story-control-panel">
-<div class="story-panel-title">Primeiro gol</div>
+<div class="story-panel-title">Craque da partida</div>
 <div class="story-craque-grid" data-story-group="player">
 <button type="button" class="is-selected" data-story-value="Vinícius Júnior">Vinícius Júnior</button>
+<button type="button" data-story-value="Neymar">Neymar</button>
 <button type="button" data-story-value="Raphinha">Raphinha</button>
+<button type="button" data-story-value="Gabriel Martinelli">G. Martinelli</button>
+<button type="button" data-story-value="Matheus Cunha">Matheus Cunha</button>
 <button type="button" data-story-value="Endrick">Endrick</button>
-<button type="button" data-story-value="Lucas Paquetá">Paquetá</button>
-<button type="button" data-story-value="Bruno Guimarães">Bruno G.</button>
-<button type="button" data-story-value="Outro">Outro</button>
 </div>
 </div>
 
-<button type="button" class="story-save-btn" id="storySaveAnswers">Publicar palpite</button>
+<div class="story-control-panel">
+<div class="story-panel-title">Opinião da torcida</div>
+<div class="story-poll-grid" data-story-group="mood">
+<button type="button" class="is-selected" data-story-value="Rumo ao Hexa">Rumo ao Hexa</button>
+<button type="button" data-story-value="Jogo duro">Jogo duro</button>
+<button type="button" data-story-value="Show do Brasil">Show do Brasil</button>
+<button type="button" data-story-value="Olho na zebra">Olho na zebra</button>
+</div>
+</div>
+
+<div class="story-control-panel">
+<label for="storyConfidence">Termômetro de confiança</label>
+<div class="story-confidence-row">
+<input id="storyConfidence" type="range" min="0" max="100" value="78" data-story-confidence>
+<output id="storyConfidenceValue">78%</output>
+</div>
+</div>
+
+<button type="button" class="story-save-btn" id="storySaveAnswers">Salvar respostas</button>
 
 <div class="story-results" id="storyResults" aria-live="polite">
-<strong>Placares mais apontados</strong>
-<span>Publique seu palpite para entrar no resultado da torcida.</span>
+<strong>Resultados da torcida</strong>
+<span>Salve respostas para ver os mais escolhidos.</span>
 </div>
 </div>
 
 <div class="story-shareline" id="storyShareline" aria-live="polite">
-<strong>Meu palpite: Escócia 0 x 2 Brasil.</strong>
-<span>Primeiro gol: Vinícius Júnior</span>
+<strong>Brasil vence por 2 x 0. Craque: Vinícius Júnior.</strong>
+<span>Confiança da torcida: 78% | Rumo ao Hexa</span>
 </div>
 </div>
 </article>
@@ -8668,33 +8191,6 @@ Escolha o esquema, arraste os convocados para o campo e gere uma arte pronta par
 </div>
 </div>
 </aside>
-</div>
-</section>
-
-<section class="container worldcup-section worldcup-results-section" id="worldcup-results">
-<div class="seriea-heading">
-  <div>
-    <span class="seriea-kicker">Copa do Mundo 2026</span>
-    <h2>Resultados dos jogos</h2>
-  </div>
-  <p>Placar, horário, status da partida e resumo dos resultados atualizados em tempo real.</p>
-</div>
-
-<p class="worldcup-source">
-Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Cada visitante recebe atualização automática no site, sem depender do seu computador.
-</p>
-
-<div class="worldcup-table-card is-active">
-  <div class="standings-top">
-    <h3>Resultados dos jogos</h3>
-    <div id="worldCupUpdated" class="standings-updated">Atualizando jogos...</div>
-  </div>
-
-  <div id="worldCupTable" class="worldcup-results-grid" aria-live="polite">
-    <article class="worldcup-result-card">
-      <div class="worldcup-result-bottom"><span>Carregando tabela da Copa...</span></div>
-    </article>
-  </div>
 </div>
 </section>
 
@@ -8865,23 +8361,22 @@ Ainda existe paixão ou virou negócio?
 <div class="penalty-pad">
 <button class="penalty-control" type="button" data-direction="up" aria-label="Chutar para cima">↑</button>
 <button class="penalty-control" type="button" data-direction="left" aria-label="Chutar para esquerda">←</button>
-<span class="penalty-pad-center" aria-hidden="true"></span>
+<button class="penalty-control penalty-pad-center" type="button" data-direction="center" aria-label="Chutar no centro"></button>
 <button class="penalty-control" type="button" data-direction="right" aria-label="Chutar para direita">→</button>
 <button class="penalty-control" type="button" data-direction="down" aria-label="Chutar para baixo">↓</button>
 </div>
 </div>
 
 <div class="penalty-status" aria-live="polite">
-<h3 id="penaltyResult">Escolha o canto</h3>
-<p id="penaltyMessage">Mire e chute.</p>
+<h3 id="penaltyResult">Mire</h3>
+<p id="penaltyMessage">Escolha o canto.</p>
 <div class="penalty-rounds" id="penaltyRounds" aria-label="Resultado das cobranças"></div>
 <button class="penalty-reset" type="button" id="penaltyReset">Reiniciar</button>
 </div>
 
-<div class="penalty-actions" aria-label="Botões de finalização">
-<strong>Chute</strong>
-<button class="penalty-shot" type="button" data-shot-type="placed" aria-label="Bolinha, chute colocado"><span>Bolinha</span><small>Chute colocado</small></button>
-<button class="penalty-shot" type="button" data-shot-type="power" aria-label="Quadrado, chute forte"><span>Quadrado</span><small>Chute forte</small></button>
+<div class="penalty-actions" aria-label="Botão de chute">
+<button class="penalty-shot" type="button" data-shot-type="power" aria-label="Chutar"><span>Chutar</span></button>
+<div class="penalty-power" id="penaltyPower" aria-hidden="true"><span></span></div>
 </div>
 </div>
 
@@ -8892,6 +8387,9 @@ Ainda existe paixão ou virou negócio?
 <input class="penalty-player-name" id="penaltyPlayerName" maxlength="24" placeholder="Nome" autocomplete="nickname">
 <ol class="penalty-ranking-list" id="penaltyRankingList" aria-label="Ranking local do desafio"></ol>
 </div>
+<div class="penalty-share" aria-label="Compartilhar resultado">
+<button type="button" id="penaltyShareBtn">Compartilhar</button>
+</div>
 </div>
 </div>
 </div>
@@ -8901,19 +8399,19 @@ Ainda existe paixão ou virou negócio?
   <div class="craque-phone-frame">
     <div class="craque-top-strip">
       <span>🏆 Copa do Mundo FIFA 2026</span>
-      <strong>Escócia VS Brasil</strong>
-      <small>24/06 · 19:00</small>
+      <strong>Brasil VS Haiti</strong>
+      <small>19/06 · 19:00</small>
     </div>
 
-    <div class="craque-match-band" aria-label="Escócia contra Brasil">
-      <div class="craque-team">
-        <img src="https://flagcdn.com/w160/gb-sct.png" alt="Bandeira oficial da Escócia" loading="lazy">
-        <strong>Escócia</strong>
-      </div>
-      <span>VS</span>
+    <div class="craque-match-band" aria-label="Brasil contra Haiti">
       <div class="craque-team">
         <img src="https://flagcdn.com/w160/br.png" alt="Bandeira oficial do Brasil" loading="lazy">
         <strong>Brasil</strong>
+      </div>
+      <span>VS</span>
+      <div class="craque-team">
+        <img src="https://flagcdn.com/w160/ht.png" alt="Bandeira oficial do Haiti" loading="lazy">
+        <strong>Haiti</strong>
       </div>
     </div>
 
@@ -9001,7 +8499,7 @@ Ainda existe paixão ou virou negócio?
     <span class="seriea-kicker">Copa do Mundo 2026</span>
     <h2>Central da Copa</h2>
   </div>
-  <p>Acompanhe os grupos, o caminho do Brasil e os principais atalhos da cobertura.</p>
+  <p>Acompanhe jogos, grupos e o caminho do Brasil em uma área única.</p>
 </div>
 
 <div class="worldcup-tabs" role="tablist" aria-label="Central da Copa">
@@ -9011,7 +8509,7 @@ Ainda existe paixão ou virou negócio?
 </div>
 
 <p class="worldcup-source">
-Jogos em destaque, grupos e caminho do Brasil ficam na Central. A lista completa de resultados aparece em uma seção separada abaixo das reportagens.
+Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Cada visitante recebe atualização automática no site, sem depender do seu computador.
 </p>
 
 <div class="worldcup-panel is-active" data-copa-panel="jogos">
@@ -9043,13 +8541,26 @@ Jogos em destaque, grupos e caminho do Brasil ficam na Central. A lista completa
 <div class="worldcup-panel" data-copa-panel="brasil">
 <div class="worldcup-brazil-card">
   <span>Seleção Brasileira</span>
-  <h3>Escócia x Brasil</h3>
+  <h3>Brasil x Haiti</h3>
   <p>Próximo jogo da Seleção na Copa, com votação do craque, palpite da torcida e acompanhamento da rodada.</p>
   <div class="worldcup-brazil-actions">
     <a href="#topo">Ver destaque</a>
     <a href="#palpitometro">Votar no craque</a>
+  </div>
 </div>
 </div>
+
+<div class="worldcup-table-card is-active" data-copa-panel="jogos-table">
+  <div class="standings-top">
+    <h3>Jogos</h3>
+    <div id="worldCupUpdated" class="standings-updated">Atualizando jogos...</div>
+  </div>
+
+  <div id="worldCupTable" class="worldcup-results-grid" aria-live="polite">
+    <article class="worldcup-result-card">
+      <div class="worldcup-result-bottom"><span>Carregando tabela da Copa...</span></div>
+    </article>
+  </div>
 </div>
 
 </section>
@@ -9337,7 +8848,6 @@ window.location.href=card.dataset.reportLink;
 
 class BannerCarousel {
   constructor() {
-    this.carousel = document.querySelector('.banner-carousel');
     this.container = document.querySelector('.carousel-container');
     this.slides = document.querySelectorAll('.carousel-slide');
     this.indicators = document.querySelectorAll('.indicator');
@@ -9369,7 +8879,6 @@ class BannerCarousel {
     
     // Auto-play
     this.startAutoPlay();
-    this.updateCarousel();
     
     // Pausar ao passar mouse, retomar ao sair
     this.container.addEventListener('mouseenter', () => this.stopAutoPlay());
@@ -9379,9 +8888,6 @@ class BannerCarousel {
   updateCarousel() {
     const offset = this.currentSlide * -100;
     this.container.style.transform = `translateX(${offset}%)`;
-    if(this.carousel){
-      this.carousel.toggleAttribute('data-art-active', this.currentSlide >= 2);
-    }
     
     // Atualizar indicadores
     this.indicators.forEach((indicator, index) => {
@@ -9750,9 +9256,9 @@ const WORLD_CUP_MATCHES = [
   {date:'2026-06-17',time:'16:00',group:'L',home:'Inglaterra',away:'Croácia',venue:'Dallas Stadium'},
   {date:'2026-06-17',time:'19:00',group:'K',home:'Portugal',away:'Congo DR / Jamaica / Nova Caledônia',venue:'Houston Stadium'},
   {date:'2026-06-17',time:'22:00',group:'K',home:'Uzbequistão',away:'Colômbia',venue:'Estádio Cidade do México'},
-  {date:'2026-06-19',time:'21:30',group:'C',home:'Brasil',away:'Haiti',venue:'Lincoln Financial Field'},
+  {date:'2026-06-19',time:'19:00',group:'C',home:'Brasil',away:'Haiti',venue:'Lincoln Financial Field'},
   {date:'2026-06-19',time:'22:00',group:'C',home:'Escócia',away:'Marrocos',venue:'Boston Stadium'},
-  {date:'2026-06-24',time:'19:00',group:'C',home:'Escócia',away:'Brasil',venue:'Hard Rock Stadium'},
+  {date:'2026-06-24',time:'19:00',group:'C',home:'Brasil',away:'Escócia',venue:'Hard Rock Stadium'},
   {date:'2026-06-24',time:'19:00',group:'C',home:'Haiti',away:'Marrocos',venue:'Mercedes-Benz Stadium'}
 ];
 
@@ -12052,28 +11558,24 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
 }
 
 function getBrazilSpotlightMatch(matches = latestWorldCupMatches || WORLD_CUP_MATCHES){
-  const list = (Array.isArray(matches) ? matches : [])
-    .filter(match => [getWorldCupTeamKey(match.home), getWorldCupTeamKey(match.away)].includes('brasil'))
-    .sort((a,b) => `${a.date} ${a.time || '00:00'}`.localeCompare(`${b.date} ${b.time || '00:00'}`));
-  const today = getDateInSaoPaulo(new Date());
-  return list.find(match => match.date >= today && getWorldCupStatus(match) !== 'ENCERRADO') || list.find(match => match.date >= today) || list[list.length - 1];
+  return (Array.isArray(matches) ? matches : []).find(match => {
+    if(match.date !== '2026-06-19') return false;
+    const teams = [getWorldCupTeamKey(match.home), getWorldCupTeamKey(match.away)];
+    return teams.includes('brasil') && teams.includes('haiti');
+  });
 }
 
 function getBrazilSpotlightScore(match){
   const sides = [
-    { key:getWorldCupTeamKey(match?.home), team:match?.home, score:match?.homeScore },
-    { key:getWorldCupTeamKey(match?.away), team:match?.away, score:match?.awayScore }
+    { key:getWorldCupTeamKey(match?.home), score:match?.homeScore },
+    { key:getWorldCupTeamKey(match?.away), score:match?.awayScore }
   ];
   const brazil = sides.find(side => side.key === 'brasil');
-  const opponent = sides.find(side => side.key !== 'brasil');
+  const opponent = sides.find(side => side.key === 'haiti');
 
   return {
     brazil:brazil?.score ?? null,
-    opponent:opponent?.score ?? null,
-    brazilIsHome:getWorldCupTeamKey(match?.home) === 'brasil',
-    homeTeam:getPrimaryWorldCupTeam(match?.home || 'Brasil'),
-    awayTeam:getPrimaryWorldCupTeam(match?.away || 'Escócia'),
-    opponentName:getPrimaryWorldCupTeam(opponent?.team || '')
+    opponent:opponent?.score ?? null
   };
 }
 
@@ -12083,98 +11585,6 @@ function getBrazilSpotlightSummaryUrl(eventId){
 
 function getBrazilSpotlightSummaryApiUrl(eventId){
   return buildWorldCupApiUrl('/api/worldcup/summary', {event:eventId});
-}
-
-function translateBrazilSpotlightPlayText(text){
-  let translated = cleanText(text);
-  if(!translated) return '';
-
-  const exact = {
-    'Goal': 'Gol',
-    'Yellow Card': 'Cartão amarelo',
-    'Red Card': 'Cartão vermelho',
-    'Substitution': 'Substituição',
-    'Corner': 'Escanteio',
-    'Foul': 'Falta',
-    'Offside': 'Impedimento',
-    'Penalty': 'Pênalti',
-    'Hand Ball': 'Mão na bola',
-    'First Half begins.': 'Começa o primeiro tempo.',
-    'First Half ends.': 'Fim do primeiro tempo.',
-    'Second Half begins.': 'Começa o segundo tempo.',
-    'Second Half ends.': 'Fim do segundo tempo.',
-    'Match ends.': 'Fim de jogo.'
-  };
-
-  if(exact[translated]) return exact[translated];
-
-  const replacements = [
-    [/\bGoal!/gi, 'Gol!'],
-    [/Yellow Card ([^.]+) is shown the yellow card\./gi, '$1 recebe cartão amarelo.'],
-    [/Red Card ([^.]+) is shown the red card\./gi, '$1 recebe cartão vermelho.'],
-    [/([^.]+) right footed shot/gi, 'Chute de pé direito de $1'],
-    [/([^.]+) left footed shot/gi, 'Chute de pé esquerdo de $1'],
-    [/([^.]+) header/gi, 'Cabeceio de $1'],
-    [/\bYellow Card\b/gi, 'Cartão amarelo'],
-    [/\bRed Card\b/gi, 'Cartão vermelho'],
-    [/\bSecond yellow card\b/gi, 'Segundo cartão amarelo'],
-    [/\bSubstitution,\s*/gi, 'Substituição: '],
-    [/\bCorner,\s*/gi, 'Escanteio para '],
-    [/\bFoul by\b/gi, 'Falta de'],
-    [/\bOffside,\s*/gi, 'Impedimento de '],
-    [/\bPenalty conceded by\b/gi, 'Pênalti cometido por'],
-    [/\bPenalty saved\b/gi, 'Pênalti defendido'],
-    [/\bPenalty missed\b/gi, 'Pênalti perdido'],
-    [/\bAttempt saved\./gi, 'Finalização defendida.'],
-    [/\bAttempt missed\./gi, 'Finalização para fora.'],
-    [/\bAttempt blocked\./gi, 'Finalização bloqueada.'],
-    [/\bHeader saved\./gi, 'Cabeceio defendido.'],
-    [/\bShot saved\./gi, 'Chute defendido.'],
-    [/\bis saved\b/gi, 'é defendido'],
-    [/\bis blocked\b/gi, 'é bloqueado'],
-    [/\bis close, but misses\b/gi, 'passa perto, mas vai para fora'],
-    [/\bwins a free kick\b/gi, 'sofre falta'],
-    [/\bin the attacking half\b/gi, 'no campo de ataque'],
-    [/\bin the defensive half\b/gi, 'no campo de defesa'],
-    [/\bon the left wing\b/gi, 'pela esquerda'],
-    [/\bon the right wing\b/gi, 'pela direita'],
-    [/\bin the centre of the box\b/gi, 'no centro da área'],
-    [/\bfrom outside the box\b/gi, 'de fora da área'],
-    [/\bfrom the centre of the box\b/gi, 'do centro da área'],
-    [/\bfrom very close range\b/gi, 'de muito perto'],
-    [/\bto the bottom left corner\b/gi, 'no canto inferior esquerdo'],
-    [/\bto the bottom right corner\b/gi, 'no canto inferior direito'],
-    [/\bto the top left corner\b/gi, 'no canto superior esquerdo'],
-    [/\bto the top right corner\b/gi, 'no canto superior direito'],
-    [/\bhigh and wide to the left\b/gi, 'alto e para fora à esquerda'],
-    [/\bhigh and wide to the right\b/gi, 'alto e para fora à direita'],
-    [/\bmisses to the left\b/gi, 'vai para fora à esquerda'],
-    [/\bmisses to the right\b/gi, 'vai para fora à direita'],
-    [/\bis shown the yellow card\b/gi, 'recebe cartão amarelo'],
-    [/\bis shown the red card\b/gi, 'recebe cartão vermelho'],
-    [/\bbecause of an injury\b/gi, 'por lesão'],
-    [/\bfollowing a corner\b/gi, 'após escanteio'],
-    [/\bfollowing a set piece situation\b/gi, 'após bola parada'],
-    [/\bassisted by\b/gi, 'assistência de'],
-    [/\breplaces\b/gi, 'entra no lugar de'],
-    [/\bVAR Decision:\s*/gi, 'Decisão do VAR: '],
-    [/\bconfirmed\b/gi, 'confirmado'],
-    [/\boverturned\b/gi, 'anulado'],
-    [/\bDelay in match\b/gi, 'Partida paralisada'],
-    [/\bDelay over\./gi, 'Bola volta a rolar.']
-  ];
-
-  replacements.forEach(([pattern, replacement]) => {
-    translated = translated.replace(pattern, replacement);
-  });
-
-  return translated
-    .replace(/\bBrazil\b/g, 'Brasil')
-    .replace(/\bHaiti\b/g, 'Haiti')
-    .replace(/\bScotland\b/g, 'Escócia')
-    .replace(/\.([A-ZÁÉÍÓÚÂÊÔÃÕÇ])/g, '. $1')
-    .replace(/\s+/g, ' ')
-    .trim();
 }
 
 function extractBrazilSpotlightPlays(summary){
@@ -12189,7 +11599,7 @@ function extractBrazilSpotlightPlays(summary){
       const text = item.text || item.shortText || item.description || item.headline || item.type?.text || '';
       return {
         minute: cleanText(minute || 'Lance'),
-        text: translateBrazilSpotlightPlayText(text)
+        text: cleanText(text)
       };
     })
     .filter(item => item.text)
@@ -12208,49 +11618,41 @@ async function fetchBrazilSpotlightLiveDetails(match){
     );
     return extractBrazilSpotlightPlays(summary);
   }catch(error){
-    console.error('Erro ao carregar lances do destaque da Seleção:', error);
+    console.error('Erro ao carregar lances Brasil x Haiti:', error);
     return [];
   }
 }
 
 function renderBrazilSpotlight(match, plays = []){
   const statusEl = document.getElementById('brazilLiveStatus');
-  const kickoffEl = document.getElementById('brazilLiveKickoff');
   const clockEl = document.getElementById('brazilLiveClock');
-  const homeScoreEl = document.getElementById('brazilLiveHomeScore');
-  const awayScoreEl = document.getElementById('brazilLiveAwayScore');
-  const homeTeamEl = document.getElementById('brazilLiveHomeTeam');
-  const awayTeamEl = document.getElementById('brazilLiveAwayTeam');
+  const brazilScoreEl = document.getElementById('brazilLiveHomeScore');
+  const opponentScoreEl = document.getElementById('brazilLiveAwayScore');
   const playsEl = document.getElementById('brazilLivePlays');
   const summaryEl = document.getElementById('brazilLiveSummary');
 
-  if(!statusEl || !clockEl || !homeScoreEl || !awayScoreEl || !playsEl) return;
+  if(!statusEl || !clockEl || !brazilScoreEl || !opponentScoreEl || !playsEl) return;
 
-  const fallbackMatch = getBrazilSpotlightMatch(WORLD_CUP_MATCHES);
+  const fallbackMatch = WORLD_CUP_MATCHES.find(item => item.date === '2026-06-19' && getWorldCupTeamKey(item.home) === 'brasil');
   const currentMatch = match || fallbackMatch;
   const status = currentMatch ? getWorldCupStatus(currentMatch) : 'PRÉ-JOGO';
   const score = getBrazilSpotlightScore(currentMatch);
   const hasScore = score.brazil != null && score.opponent != null;
-  const matchLabel = currentMatch ? `${score.homeTeam} x ${score.awayTeam}` : 'Escócia x Brasil';
   const liveClock = currentMatch?.liveClock
     ? `${currentMatch.liveClock}${currentMatch.period ? ` - ${String(currentMatch.period)}T` : ''}`
-    : currentMatch ? `${formatWorldCupDate(currentMatch)} - ${formatWorldCupTime(currentMatch)}` : '24/06 - 19:00';
-  const scheduledLabel = currentMatch ? `${formatWorldCupDate(currentMatch)} - ${formatWorldCupTime(currentMatch)}` : '24/06 - 19:00';
+    : currentMatch ? `${formatWorldCupDate(currentMatch)} - ${formatWorldCupTime(currentMatch)}` : '13/06 - 19:00';
 
   statusEl.textContent = status;
-  if(kickoffEl) kickoffEl.textContent = status === 'AO VIVO' ? liveClock : scheduledLabel;
   clockEl.textContent = liveClock;
-  if(homeTeamEl) homeTeamEl.textContent = score.homeTeam;
-  if(awayTeamEl) awayTeamEl.textContent = score.awayTeam;
-  homeScoreEl.textContent = hasScore ? (score.brazilIsHome ? score.brazil : score.opponent) : '--';
-  awayScoreEl.textContent = hasScore ? (score.brazilIsHome ? score.opponent : score.brazil) : '--';
+  brazilScoreEl.textContent = hasScore ? score.brazil : '--';
+  opponentScoreEl.textContent = hasScore ? score.opponent : '--';
 
   if(summaryEl){
     summaryEl.textContent = status === 'AO VIVO'
-      ? `Tempo real ligado: acompanhe cronômetro, placar e lances principais de ${matchLabel}.`
+      ? 'Tempo real ligado: acompanhe cronômetro, placar e lances principais de Brasil x Haiti.'
       : status === 'ENCERRADO'
         ? 'Jogo encerrado: placar final e principais lances ficam registrados aqui.'
-        : `Próximo jogo da Seleção na Copa: ${matchLabel}, ${scheduledLabel}.`;
+        : 'Próximo jogo da Seleção na Copa: Brasil x Haiti, dia 19/06, às 19:00.';
   }
 
   const fallbackText = status === 'AO VIVO'
@@ -12363,18 +11765,28 @@ function initPenaltyGame(){
   const messageEl = document.getElementById('penaltyMessage');
   const roundsEl = document.getElementById('penaltyRounds');
   const resetBtn = document.getElementById('penaltyReset');
+  const powerEl = document.getElementById('penaltyPower');
   const bestEl = document.getElementById('penaltyBest');
   const rankingListEl = document.getElementById('penaltyRankingList');
   const playerNameInput = document.getElementById('penaltyPlayerName');
   const orientationTip = document.getElementById('penaltyOrientationTip');
   const portraitBtn = document.getElementById('penaltyPortraitBtn');
   const landscapeBtn = document.getElementById('penaltyLandscapeBtn');
+  const shareBtn = document.getElementById('penaltyShareBtn');
 
   const labels = {
     up: 'alto',
     down: 'baixo',
     left: 'esquerda',
-    right: 'direita'
+    right: 'direita',
+    center: 'centro'
+  };
+  const hudLabels = {
+    up: 'Alto',
+    down: 'Baixo',
+    left: 'Esquerda',
+    right: 'Direita',
+    center: 'Centro'
   };
 
   let selectedDirection = 'left';
@@ -12382,6 +11794,12 @@ function initPenaltyGame(){
   let attempts = 0;
   let locked = false;
   let results = [];
+  let shotHistory = [];
+  let chargeFrame = 0;
+  let chargeStart = 0;
+  let activeShotButton = null;
+  let lastPointerShotAt = 0;
+  let lastShareText = 'Eu estou jogando o Desafio dos Pênaltis no Bem Esportivo. Tente bater minha marca!';
 
   function getSavedBest(){
     try{
@@ -12448,6 +11866,13 @@ function initPenaltyGame(){
     return true;
   }
 
+  function getShareText(score = goals){
+    const level = getLevel(score);
+    const name = getPlayerName();
+    const pageUrl = location.protocol === 'file:' ? 'https://bemesportivo.com/#desafio-penaltis' : `${location.origin}${location.pathname}#desafio-penaltis`;
+    return `${name} fez ${score}/5 no Desafio dos Pênaltis do Bem Esportivo e ficou como ${level}. Jogue também: ${pageUrl}`;
+  }
+
   function getLevel(score){
     if(score >= 5) return 'Craque';
     if(score === 4) return 'Artilheiro';
@@ -12490,9 +11915,60 @@ function initPenaltyGame(){
       control.classList.toggle('is-selected', control.dataset.direction === direction);
     });
     if(!locked && attempts < 5){
-      resultEl.textContent = `Canto ${labels[direction]} escolhido`;
-      messageEl.textContent = 'Escolha o chute.';
+      resultEl.textContent = hudLabels[direction];
+      messageEl.textContent = 'Agora chute.';
     }
+  }
+
+  function setPower(value){
+    const power = Math.max(.34, Math.min(1, value));
+    game.style.setProperty('--penalty-power', power.toFixed(2));
+  }
+
+  function getChargePower(){
+    if(!chargeStart) return .62;
+    const elapsed = performance.now() - chargeStart;
+    const cycle = Math.min(1, elapsed / 920);
+    return .38 + (cycle * .62);
+  }
+
+  function startCharge(button){
+    if(locked || attempts >= 5) return;
+    activeShotButton = button;
+    chargeStart = performance.now();
+    button.classList.add('is-charging');
+    resultEl.textContent = 'Força';
+    messageEl.textContent = 'Solte para chutar.';
+
+    const tick = () => {
+      if(!chargeStart) return;
+      setPower(getChargePower());
+      chargeFrame = window.requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  function stopCharge(shouldShoot = true){
+    if(!chargeStart) return;
+    const power = getChargePower();
+    window.cancelAnimationFrame(chargeFrame);
+    chargeFrame = 0;
+    chargeStart = 0;
+    const button = activeShotButton;
+    activeShotButton = null;
+    button?.classList.remove('is-charging');
+    setPower(power);
+    if(shouldShoot){
+      lastPointerShotAt = Date.now();
+      shoot(button?.dataset.shotType || 'power', power);
+    }
+  }
+
+  function getShotProfile(power){
+    if(power < .5) return { label:'colocado', error:.04, keeperBonus:-.05 };
+    if(power > .9) return { label:'forte', error:.18 + ((power - .9) * 1.8), keeperBonus:.04 };
+    if(power > .78) return { label:'firme', error:.08, keeperBonus:.01 };
+    return { label:'preciso', error:.02, keeperBonus:-.02 };
   }
 
   function directionFromPoint(clientX, clientY){
@@ -12503,11 +11979,11 @@ function initPenaltyGame(){
     const x = (clientX - rect.left) / rect.width;
     const y = (clientY - rect.top) / rect.height;
 
-    if(y < 0.38) return 'up';
+    if(y < 0.36) return 'up';
     if(y > 0.72) return 'down';
-    if(x < 0.46) return 'left';
-    if(x > 0.54) return 'right';
-    return selectedDirection;
+    if(x < 0.42) return 'left';
+    if(x > 0.58) return 'right';
+    return 'center';
   }
 
   function setupArenaTouchControls(){
@@ -12558,21 +12034,53 @@ function initPenaltyGame(){
     renderRounds();
   }
 
-  function keeperChoice(){
-    const directions = ['up', 'down', 'left', 'right'];
-    const memoryBias = results.length >= 2 && selectedDirection === 'left' ? 0.16 : 0;
-    if(Math.random() < .28 + memoryBias) return selectedDirection;
-    return directions[Math.floor(Math.random() * directions.length)];
+  function keeperChoice(power = .62){
+    const directions = ['up', 'down', 'left', 'right', 'center'];
+    const recentShots = shotHistory.slice(-3);
+    const repeated = recentShots.filter(item => item.direction === selectedDirection).length;
+    const sideBias = selectedDirection === 'center' ? -.04 : 0;
+    const powerBias = power > .88 ? .08 : power < .5 ? -.05 : 0;
+    const readChance = Math.max(.18, Math.min(.56, .24 + (repeated * .11) + powerBias + sideBias));
+
+    if(Math.random() < readChance){
+      return selectedDirection;
+    }
+
+    const weighted = directions.flatMap(direction => {
+      if(direction === selectedDirection) return [];
+      if(recentShots.some(item => item.direction === direction)) return [direction];
+      return [direction, direction];
+    });
+    return weighted[Math.floor(Math.random() * weighted.length)] || directions[Math.floor(Math.random() * directions.length)];
   }
 
-  function shoot(type){
+  function visualDirection(direction, fallback = 'down'){
+    if(direction === 'center') return fallback;
+    return direction;
+  }
+
+  function getMissDirection(goalDirection, keeperDirection){
+    if(keeperDirection !== 'center') return visualDirection(keeperDirection);
+    if(goalDirection === 'left') return 'right';
+    if(goalDirection === 'right') return 'left';
+    return Math.random() > .5 ? 'left' : 'right';
+  }
+
+  function shoot(type, power = .62){
     if(locked || attempts >= 5) return;
     locked = true;
 
-    const keeperDirection = keeperChoice();
+    const shotPower = Math.max(.34, Math.min(1, Number(power) || .62));
+    const profile = getShotProfile(shotPower);
+    const keeperDirection = keeperChoice(shotPower);
     const sameCorner = keeperDirection === selectedDirection;
-    const isGoal = !sameCorner;
-    const shotLabel = type === 'power' ? 'chute forte' : 'chute colocado';
+    const offTarget = Math.random() < profile.error;
+    const saveChance = sameCorner ? (.78 + profile.keeperBonus) : (.06 + Math.max(0, profile.keeperBonus));
+    const isSaved = !offTarget && Math.random() < Math.max(.03, Math.min(.88, saveChance));
+    const isGoal = !offTarget && !isSaved;
+    const ballDirection = visualDirection(selectedDirection, 'down');
+    const keeperVisual = isGoal ? getMissDirection(selectedDirection, keeperDirection) : visualDirection(keeperDirection, 'down');
+    const shotLabel = type === 'power' ? profile.label : 'colocado';
     const netDelay = {
       left: 430,
       right: 430,
@@ -12580,13 +12088,13 @@ function initPenaltyGame(){
       down: 380
     };
 
-    ball.dataset.shot = `${isGoal ? 'goal' : 'save'}-${selectedDirection}`;
+    ball.dataset.shot = `${isGoal ? 'goal' : 'save'}-${ballDirection}`;
     keeper.removeAttribute('data-dive');
     keeper.removeAttribute('data-miss');
     if(isGoal){
-      keeper.dataset.miss = keeperDirection;
+      keeper.dataset.miss = keeperVisual;
     }else{
-      keeper.dataset.dive = keeperDirection;
+      keeper.dataset.dive = keeperVisual;
     }
     game.classList.add('is-shooting');
 
@@ -12604,13 +12112,23 @@ function initPenaltyGame(){
       if(isGoal){
         goals += 1;
         results.push('goal');
-        resultEl.textContent = 'GOL!';
-        messageEl.textContent = `${shotLabel}: ${labels[selectedDirection]}.`;
+        resultEl.textContent = 'GOL';
+        messageEl.textContent = `${shotLabel} ${Math.round(shotPower * 100)}%.`;
+      }else if(offTarget){
+        results.push('save');
+        resultEl.textContent = 'FORA';
+        messageEl.textContent = `Força ${Math.round(shotPower * 100)}%.`;
       }else{
         results.push('save');
-        resultEl.textContent = 'Defendeu!';
-        messageEl.textContent = `Goleiro no canto ${labels[selectedDirection]}.`;
+        resultEl.textContent = 'DEFESA';
+        messageEl.textContent = `${labels[keeperDirection]}.`;
       }
+
+      shotHistory.push({
+        direction:selectedDirection,
+        power:shotPower,
+        result:isGoal ? 'goal' : offTarget ? 'miss' : 'save'
+      });
 
       updateScore();
 
@@ -12622,8 +12140,9 @@ function initPenaltyGame(){
           saveBest(goals);
         }
         renderBest();
+        lastShareText = getShareText(goals);
         resultEl.textContent = `${goals}/5 - ${level}`;
-        messageEl.textContent = goals >= 4 ? 'Grande campanha.' : 'Fim de jogo.';
+        messageEl.textContent = goals >= 4 ? 'Grande campanha.' : 'Fim.';
       }
 
       window.setTimeout(() => {
@@ -12644,6 +12163,9 @@ function initPenaltyGame(){
     attempts = 0;
     locked = false;
     results = [];
+    shotHistory = [];
+    stopCharge(false);
+    setPower(.58);
     ball.removeAttribute('data-shot');
     keeper.removeAttribute('data-dive');
     keeper.removeAttribute('data-miss');
@@ -12651,10 +12173,10 @@ function initPenaltyGame(){
     if(net){
       net.classList.remove('is-shaking');
     }
+    resultEl.textContent = 'Mire';
+    messageEl.textContent = 'Escolha o canto.';
     updateScore();
     selectDirection('left');
-    resultEl.textContent = 'Escolha o canto';
-    messageEl.textContent = 'Mire e chute.';
     renderBest();
   }
 
@@ -12706,6 +12228,39 @@ function initPenaltyGame(){
     }
   }
 
+  async function copyShareText(){
+    const text = lastShareText || getShareText(goals);
+    try{
+      await navigator.clipboard.writeText(text);
+    }catch(error){
+      window.prompt('Copie seu resultado:', text);
+    }
+  }
+
+  async function shareResult(){
+    const text = lastShareText || getShareText(goals);
+    if(navigator.share){
+      try{
+        await navigator.share({
+          title:'Desafio dos Pênaltis Bem Esportivo',
+          text,
+          url:location.protocol === 'file:' ? 'https://bemesportivo.com/#desafio-penaltis' : `${location.origin}${location.pathname}#desafio-penaltis`
+        });
+        return;
+      }catch(error){
+        if(error?.name === 'AbortError') return;
+      }
+    }
+
+    await copyShareText();
+    if(shareBtn){
+      shareBtn.textContent = 'Texto copiado';
+      window.setTimeout(() => {
+        shareBtn.textContent = 'Compartilhar';
+      }, 1400);
+    }
+  }
+
   controls.forEach(control => {
     control.addEventListener('click', () => selectDirection(control.dataset.direction));
   });
@@ -12713,19 +12268,37 @@ function initPenaltyGame(){
   setupArenaTouchControls();
 
   shots.forEach(button => {
-    button.addEventListener('click', () => shoot(button.dataset.shotType));
+    button.addEventListener('pointerdown', event => {
+      event.preventDefault();
+      button.setPointerCapture?.(event.pointerId);
+      startCharge(button);
+    });
+
+    button.addEventListener('pointerup', event => {
+      event.preventDefault();
+      stopCharge(true);
+    });
+
+    button.addEventListener('pointercancel', () => {
+      stopCharge(false);
+    });
+
+    button.addEventListener('pointerleave', event => {
+      if(chargeStart && event.buttons === 0){
+        stopCharge(true);
+      }
+    });
+
+    button.addEventListener('click', event => {
+      if(Date.now() - lastPointerShotAt < 500){
+        event.preventDefault();
+        return;
+      }
+      shoot(button.dataset.shotType, .62);
+    });
   });
 
-  if(resetBtn){
-    resetBtn.addEventListener('pointerdown', event => {
-      event.stopPropagation();
-    });
-    resetBtn.addEventListener('click', event => {
-      event.preventDefault();
-      event.stopPropagation();
-      resetGame();
-    });
-  }
+  resetBtn.addEventListener('click', resetGame);
 
   if(landscapeBtn){
     landscapeBtn.addEventListener('click', requestLandscapeMode);
@@ -12742,6 +12315,10 @@ function initPenaltyGame(){
       updateOrientationCopy(isLandscape ? 'Paisagem' : 'Modo mobile', isLandscape ? 'Tela virada. Boa cobrança!' : 'Jogue na vertical ou vire para tela cheia.');
     }, 250);
   });
+
+  if(shareBtn){
+    shareBtn.addEventListener('click', shareResult);
+  }
 
   if(playerNameInput){
     try{
@@ -12772,7 +12349,9 @@ function initPenaltyGame(){
       ArrowUp: 'up',
       ArrowDown: 'down',
       ArrowLeft: 'left',
-      ArrowRight: 'right'
+      ArrowRight: 'right',
+      c: 'center',
+      C: 'center'
     };
 
     if(keyMap[event.key]){
@@ -12799,13 +12378,15 @@ function setupWorldCupStoryCard(){
   const card = document.getElementById('worldCupStoryCard');
   if(!card) return;
 
-  const storageKey = 'bemStoryEscociaBrasil2026';
-  const targetId = 'bolao-escocia-brasil-2026';
+  const storageKey = 'bemStoryBrasilHaiti2026';
+  const targetId = 'story-brasil-haiti-2026';
   const defaultState = {
     winner:'Brasil',
-    homeScore:0,
-    awayScore:2,
-    player:'Vinícius Júnior'
+    homeScore:2,
+    awayScore:0,
+    player:'Vini Jr.',
+    mood:'Rumo ao Hexa',
+    confidence:78
   };
 
   let state = {...defaultState};
@@ -12816,6 +12397,8 @@ function setupWorldCupStoryCard(){
   const shareline = document.getElementById('storyShareline');
   const results = document.getElementById('storyResults');
   const saveButton = document.getElementById('storySaveAnswers');
+  const confidenceInput = card.querySelector('[data-story-confidence]');
+  const confidenceOutput = document.getElementById('storyConfidenceValue');
   const scoreInputs = Array.from(card.querySelectorAll('[data-story-score]'));
   let onlineInteractions = [];
 
@@ -12832,63 +12415,40 @@ function setupWorldCupStoryCard(){
   }
 
   function registerStoryInteraction(type, value){
-    return communityRequest('/interaction',{
+    communityRequest('/interaction',{
       method:'POST',
       body:JSON.stringify({type,target:targetId,value,clientId:getCommunityClientId()})
+    }).then(payload => {
+      onlineInteractions = Array.isArray(payload?.interactions) ? payload.interactions.filter(item => item.target === targetId) : onlineInteractions;
+      renderOnlineResults();
     }).catch(error => console.warn('Interacao salva localmente:', error));
   }
 
-  function getChoiceCounts(type){
+  function getTopChoice(type){
     const counts = {};
     onlineInteractions
       .filter(item => item.type === type && item.value)
       .forEach(item => { counts[item.value] = (counts[item.value] || 0) + 1; });
-    return Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  }
-
-  function getScoreLabel(){
-    return `Escócia ${state.homeScore} x ${state.awayScore} Brasil`;
-  }
-
-  function getWinnerFromScore(){
-    if(state.homeScore > state.awayScore) return 'Escócia';
-    if(state.homeScore < state.awayScore) return 'Brasil';
-    return 'Empate';
-  }
-
-  function renderResultRows(items, total, emptyText){
-    if(!items.length){
-      return `<span>${emptyText}</span>`;
-    }
-    return items.slice(0, 4).map(([label, count]) => {
-      const percent = total ? Math.round((count / total) * 100) : 0;
-      return `
-        <span class="story-result-row">
-          <b>${escapeHtml(label)}</b>
-          <i><em style="width:${percent}%"></em></i>
-          <strong>${percent}%</strong>
-        </span>
-      `;
-    }).join('');
+    return Object.entries(counts).sort((a, b) => b[1] - a[1])[0] || null;
   }
 
   function renderOnlineResults(){
     if(!results) return;
-    const scoreCounts = getChoiceCounts('score');
-    const playerCounts = getChoiceCounts('player');
-    const scoreTotal = scoreCounts.reduce((sum, item) => sum + item[1], 0);
-    const playerTotal = playerCounts.reduce((sum, item) => sum + item[1], 0);
+    const total = onlineInteractions.length;
+    const winner = getTopChoice('winner');
+    const score = getTopChoice('score');
+    const player = getTopChoice('player');
+    const mood = getTopChoice('mood');
 
-    if(!scoreTotal && !playerTotal){
-      results.innerHTML = '<strong>Placares mais apontados</strong><span>Publique seu palpite para abrir o resultado da torcida.</span>';
+    if(!total){
+      results.innerHTML = '<strong>Resultados da torcida</strong><span>As escolhas aparecem aqui em tempo real.</span>';
       return;
     }
 
     results.innerHTML = `
-      <strong>${scoreTotal} palpite${scoreTotal === 1 ? '' : 's'} publicado${scoreTotal === 1 ? '' : 's'}</strong>
-      ${renderResultRows(scoreCounts, scoreTotal, 'Aguardando placares.')}
-      <span class="story-results-subtitle">Primeiro gol</span>
-      ${renderResultRows(playerCounts, playerTotal, 'Aguardando jogadores.')}
+      <strong>${escapeHtml(total)} escolha${total === 1 ? '' : 's'} registrada${total === 1 ? '' : 's'}</strong>
+      <span>${winner ? `Vencedor: ${escapeHtml(winner[0])}` : 'Vencedor: aguardando'} | ${score ? `Placar: ${escapeHtml(score[0])}` : 'Placar: aguardando'}</span>
+      <span>${player ? `Craque: ${escapeHtml(player[0])}` : 'Craque: aguardando'} | ${mood ? escapeHtml(mood[0]) : 'Torcida entrando no clima'}</span>
     `;
   }
 
@@ -12907,19 +12467,23 @@ function setupWorldCupStoryCard(){
   function render(){
     state.homeScore = clampScore(state.homeScore);
     state.awayScore = clampScore(state.awayScore);
-    state.winner = getWinnerFromScore();
+    state.confidence = Math.max(0, Math.min(100, Math.round(Number(state.confidence) || 0)));
 
     syncButtons('winner', state.winner);
     syncButtons('player', state.player);
+    syncButtons('mood', state.mood);
 
     scoreInputs.forEach(input => {
       input.value = input.dataset.storyScore === 'home' ? state.homeScore : state.awayScore;
     });
 
+    if(confidenceInput) confidenceInput.value = state.confidence;
+    if(confidenceOutput) confidenceOutput.textContent = `${state.confidence}%`;
+
     if(shareline){
       shareline.innerHTML = `
-        <strong>Meu palpite: ${escapeHtml(getScoreLabel())}.</strong>
-        <span>Primeiro gol: ${escapeHtml(state.player)}</span>
+        <strong>${escapeHtml(state.winner)} ${state.winner === 'Empate' ? 'no palpite' : 'vence'} por ${escapeHtml(state.homeScore)} x ${escapeHtml(state.awayScore)}. Craque: ${escapeHtml(state.player)}.</strong>
+        <span>Confiança da torcida: ${escapeHtml(state.confidence)}% | ${escapeHtml(state.mood)}</span>
       `;
     }
 
@@ -12927,7 +12491,7 @@ function setupWorldCupStoryCard(){
   }
 
   function registerCurrentScore(){
-    return registerStoryInteraction('score', getScoreLabel());
+    registerStoryInteraction('score', `Brasil ${state.homeScore} x ${state.awayScore} Haiti`);
   }
 
   card.querySelectorAll('[data-story-group] button').forEach(button => {
@@ -12936,7 +12500,10 @@ function setupWorldCupStoryCard(){
       if(!group) return;
       if(group === 'winner') state.winner = button.dataset.storyValue;
       if(group === 'player') state.player = button.dataset.storyValue;
+      if(group === 'mood') state.mood = button.dataset.storyValue;
       render();
+      registerStoryInteraction(group, button.dataset.storyValue);
+      if(group === 'winner') registerCurrentScore();
     });
   });
 
@@ -12945,22 +12512,23 @@ function setupWorldCupStoryCard(){
       if(input.dataset.storyScore === 'home') state.homeScore = clampScore(input.value);
       if(input.dataset.storyScore === 'away') state.awayScore = clampScore(input.value);
       render();
+      registerCurrentScore();
     });
+  });
+
+  confidenceInput?.addEventListener('input', () => {
+    state.confidence = Number(confidenceInput.value);
+    render();
+    registerStoryInteraction('confidence', confidenceInput.value);
   });
 
   saveButton?.addEventListener('click', () => {
     render();
-    saveButton.disabled = true;
-    saveButton.textContent = 'Publicando...';
-    Promise.all([
-      registerStoryInteraction('winner', state.winner),
-      registerCurrentScore(),
-      registerStoryInteraction('player', state.player)
-    ]).then(() => refreshCommunityState()).then(syncOnlineInteractions).finally(() => {
-      saveButton.disabled = false;
-      saveButton.textContent = 'Atualizar palpite';
-      showSiteToast('Palpite publicado');
-    });
+    registerStoryInteraction('winner', state.winner);
+    registerCurrentScore();
+    registerStoryInteraction('player', state.player);
+    registerStoryInteraction('mood', state.mood);
+    showSiteToast('Respostas salvas');
   });
 
   refreshCommunityState().then(syncOnlineInteractions);
@@ -12974,7 +12542,7 @@ function setupCraquePartidaVote(){
   if(!grid) return;
 
   const status = document.getElementById('craqueVoteStatus');
-  const pollId = 'craque-escocia-brasil-2026';
+  const pollId = 'craque-brasil-haiti-2026';
   const storageKey = pollId;
   const choiceKey = `${storageKey}:choice`;
   const clientId = getCommunityClientId();
@@ -13092,14 +12660,13 @@ function setupCraquePartidaVote(){
 function arrangeHomeContentHierarchy(){
   const reportagens = document.getElementById('reportagens-home');
   const worldCup = document.getElementById('worldcup');
-  const worldCupResults = document.getElementById('worldcup-results');
   const palpitometro = document.getElementById('palpitometro');
   const penalty = document.getElementById('desafio-penaltis');
   const hero = document.querySelector('.hero');
   const carousel = document.querySelector('.banner-carousel');
   const quickActions = document.querySelector('.hub-quick-actions');
   const beplayCallout = document.querySelector('.beplay-home-callout');
-  if(!reportagens || !worldCup || !worldCupResults || !palpitometro || !hero || !carousel) return;
+  if(!reportagens || !worldCup || !palpitometro || !hero || !carousel) return;
 
   if(quickActions){
     carousel.after(quickActions);
@@ -13116,9 +12683,8 @@ function arrangeHomeContentHierarchy(){
   }else{
     palpitometro.after(reportagens);
   }
-  reportagens.after(worldCupResults);
   if(penalty){
-    worldCupResults.after(penalty);
+    reportagens.after(penalty);
   }
 }
 
@@ -13148,7 +12714,7 @@ function setupWorldCupTabs(){
   if(!tabs.length || !panels.length) return;
 
   const panelMap = {
-    jogos:['jogos'],
+    jogos:['jogos','jogos-table'],
     grupos:['grupos'],
     brasil:['brasil']
   };
@@ -13172,17 +12738,9 @@ function setupWorldCupTabs(){
     });
   });
 
-  document.querySelectorAll('[data-mobile-nav="worldcup"], [data-mobile-nav="grupos"], [data-mobile-nav="worldcup-results"]').forEach(link => {
+  document.querySelectorAll('[data-mobile-nav="worldcup"], [data-mobile-nav="grupos"]').forEach(link => {
     link.addEventListener('click', event => {
-      if(link.dataset.mobileNav === 'worldcup-results'){
-        const resultsSection = document.getElementById('worldcup-results');
-        if(resultsSection){
-          event.preventDefault();
-          resultsSection.scrollIntoView({behavior:'smooth', block:'start'});
-        }
-        return;
-      }
-      const tabId = link.dataset.mobileNav === 'grupos' ? 'grupos' : link.dataset.mobileNav === 'brasil' ? 'brasil' : 'jogos';
+      const tabId = link.dataset.mobileNav === 'grupos' ? 'grupos' : 'jogos';
       activate(tabId);
       const section = document.getElementById('worldcup');
       if(section){

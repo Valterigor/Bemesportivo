@@ -1015,7 +1015,7 @@ span {
 
   .mobile-app-nav {
     display: grid !important;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     left: 8px !important;
     right: 8px !important;
     bottom: 8px !important;
@@ -1042,4 +1042,54 @@ span {
   .mobile-app-nav a {
     font-size: 10px !important;
   }
+}
+
+.kobem-runner-callout .card{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(252,110,2,.34);
+  background:
+    radial-gradient(circle at 84% 18%,rgba(252,110,2,.26),transparent 34%),
+    linear-gradient(135deg,#111 0%,#1d1d1d 58%,#090909 100%);
+  color:#fff;
+  box-shadow:0 22px 55px rgba(0,0,0,.24);
+}
+
+.kobem-runner-callout .card::after{
+  content:"";
+  position:absolute;
+  right:-34px;
+  bottom:-58px;
+  width:190px;
+  height:190px;
+  border-radius:50%;
+  border:28px solid rgba(252,110,2,.18);
+  pointer-events:none;
+}
+
+.kobem-runner-callout span{
+  display:inline-flex;
+  margin-bottom:8px;
+  color:#ffb36f;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.kobem-runner-callout h2{
+  color:#fff;
+  margin:0 0 8px;
+}
+
+.kobem-runner-callout p{
+  max-width:680px;
+  color:#dedede;
+}
+
+.kobem-runner-callout .btn{
+  position:relative;
+  z-index:1;
+  margin-top:18px;
+  display:inline-flex;
 }
