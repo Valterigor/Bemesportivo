@@ -21,6 +21,7 @@ const mimeTypes = {
   '.svg': 'image/svg+xml',
   '.webp': 'image/webp',
   '.mp4': 'video/mp4',
+  '.wav': 'audio/wav',
   '.txt': 'text/plain; charset=utf-8'
 };
 
