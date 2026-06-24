@@ -6671,6 +6671,43 @@ transform:translate(-50%, 0);
     border-radius:8px;
   }
 
+  .worldcup-story-card,
+  .worldcup-table-card,
+  .worldcup-groups-card,
+  .worldcup-brazil-card,
+  .home-posts-panel,
+  .reportagem-card,
+  .palpite-card,
+  .penalty-game-card,
+  .penalty-game,
+  .craque-phone-frame,
+  .beplay-home-callout{
+    overflow-wrap:anywhere;
+  }
+
+  .worldcup-story-content,
+  .worldcup-table-card,
+  .worldcup-groups-card,
+  .worldcup-brazil-card,
+  .home-posts-panel,
+  .reportagem-card-content,
+  .palpite-card,
+  .penalty-game-card,
+  .craque-phone-frame,
+  .beplay-home-callout{
+    padding-left:max(14px, env(safe-area-inset-left));
+    padding-right:max(14px, env(safe-area-inset-right));
+  }
+
+  .worldcup-result-card,
+  .worldcup-group-card,
+  .arena-fixture-card,
+  .home-side-post,
+  .story-control-panel{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
   #reportagens-home .reportagens-grid{
     gap:10px;
   }
@@ -8007,28 +8044,28 @@ bottom:clamp(150px, 13.8vw, 188px);
 <h1>Destaque</h1>
 
 <div class="worldcup-story-wrap searchable">
-<article class="worldcup-story-card" id="worldCupStoryCard" aria-label="Card interativo Brasil x Haiti para torcedores da Copa do Mundo FIFA 2026">
+<article class="worldcup-story-card" id="worldCupStoryCard" aria-label="Card interativo Brasil x Escócia para torcedores da Copa do Mundo FIFA 2026">
 <div class="worldcup-story-lights"></div>
 <div class="worldcup-story-content">
 <div class="worldcup-story-top">
 <span>Copa do Mundo FIFA 2026</span>
-<time>19/06 - 19:00</time>
+<time data-story-match-time>24/06 - 19:00</time>
 </div>
 
 <div class="worldcup-story-title">
-<h2>Brasil x Haiti</h2>
+<h2 data-story-match-title>Brasil x Escócia</h2>
 <p>Palpite, craque da partida e termômetro da torcida em clima de transmissão premium.</p>
 </div>
 
 <div class="worldcup-story-match">
 <div class="worldcup-story-team">
-<div class="worldcup-story-flag"><img src="https://flagcdn.com/w160/br.png" alt="Bandeira do Brasil" loading="lazy"></div>
-<strong>Brasil</strong>
+<div class="worldcup-story-flag" data-story-home-flag><img src="https://flagcdn.com/w160/br.png" alt="Bandeira do Brasil" loading="lazy"></div>
+<strong data-story-home-team>Brasil</strong>
 </div>
 <div class="worldcup-story-versus">VS</div>
 <div class="worldcup-story-team is-away">
-<div class="worldcup-story-flag"><img src="https://flagcdn.com/w160/ht.png" alt="Bandeira do Haiti" loading="lazy"></div>
-<strong>Haiti</strong>
+<div class="worldcup-story-flag" data-story-away-flag><img src="https://flagcdn.com/w160/gb-sct.png" alt="Bandeira da Escócia" loading="lazy"></div>
+<strong data-story-away-team>Escócia</strong>
 </div>
 </div>
 
@@ -8038,7 +8075,7 @@ bottom:clamp(150px, 13.8vw, 188px);
 <div class="story-segmented" data-story-group="winner">
 <button type="button" class="is-selected" data-story-value="Brasil">Brasil</button>
 <button type="button" data-story-value="Empate">Empate</button>
-<button type="button" data-story-value="Haiti">Haiti</button>
+<button type="button" data-story-value="Escócia">Escócia</button>
 </div>
 </div>
 
@@ -8047,7 +8084,7 @@ bottom:clamp(150px, 13.8vw, 188px);
 <div class="story-score-row">
 <label class="story-score-box"><span>Brasil</span><input type="number" min="0" max="15" value="2" data-story-score="home" aria-label="Gols do Brasil"></label>
 <div class="story-score-divider">x</div>
-<label class="story-score-box"><span>Haiti</span><input type="number" min="0" max="15" value="0" data-story-score="away" aria-label="Gols do Haiti"></label>
+<label class="story-score-box"><span>Escócia</span><input type="number" min="0" max="15" value="0" data-story-score="away" aria-label="Gols da Escócia"></label>
 </div>
 </div>
 
@@ -8399,19 +8436,19 @@ Ainda existe paixão ou virou negócio?
   <div class="craque-phone-frame">
     <div class="craque-top-strip">
       <span>🏆 Copa do Mundo FIFA 2026</span>
-      <strong>Brasil VS Haiti</strong>
-      <small>19/06 · 19:00</small>
+      <strong>Brasil VS Escócia</strong>
+      <small>24/06 · 19:00</small>
     </div>
 
-    <div class="craque-match-band" aria-label="Brasil contra Haiti">
+    <div class="craque-match-band" aria-label="Brasil contra Escócia">
       <div class="craque-team">
         <img src="https://flagcdn.com/w160/br.png" alt="Bandeira oficial do Brasil" loading="lazy">
         <strong>Brasil</strong>
       </div>
       <span>VS</span>
       <div class="craque-team">
-        <img src="https://flagcdn.com/w160/ht.png" alt="Bandeira oficial do Haiti" loading="lazy">
-        <strong>Haiti</strong>
+        <img src="https://flagcdn.com/w160/gb-sct.png" alt="Bandeira oficial da Escócia" loading="lazy">
+        <strong>Escócia</strong>
       </div>
     </div>
 
@@ -8514,8 +8551,8 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Ca
 
 <div class="worldcup-panel is-active" data-copa-panel="jogos">
 <div class="worldcup-panel-intro">
-<strong>Jogos em destaque</strong>
-<span>Próximas partidas e placar ao vivo.</span>
+<strong>Jogos do dia</strong>
+<span>Partidas de hoje com horário, placar ao vivo e sede.</span>
 </div>
 <div id="worldCupMatches" class="seriea-cards arena-match-stack" aria-live="polite">
   <p>Carregando jogos da Copa do Mundo 2026...</p>
@@ -8541,7 +8578,7 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Ca
 <div class="worldcup-panel" data-copa-panel="brasil">
 <div class="worldcup-brazil-card">
   <span>Seleção Brasileira</span>
-  <h3>Brasil x Haiti</h3>
+  <h3 id="worldCupBrazilNextTitle">Brasil x Escócia</h3>
   <p>Próximo jogo da Seleção na Copa, com votação do craque, palpite da torcida e acompanhamento da rodada.</p>
   <div class="worldcup-brazil-actions">
     <a href="#topo">Ver destaque</a>
@@ -8550,19 +8587,24 @@ Calendário baseado na tabela oficial da FIFA, com placares ao vivo via ESPN. Ca
 </div>
 </div>
 
-<div class="worldcup-table-card is-active" data-copa-panel="jogos-table">
+</section>
+
+<section class="container worldcup-results-section" id="worldcup-results">
+<div class="worldcup-table-card">
   <div class="standings-top">
-    <h3>Jogos</h3>
-    <div id="worldCupUpdated" class="standings-updated">Atualizando jogos...</div>
+    <div>
+      <span class="seriea-kicker">Resultados da Copa</span>
+      <h3>Resultados dos jogos</h3>
+    </div>
+    <div id="worldCupUpdated" class="standings-updated">Atualizando resultados...</div>
   </div>
 
   <div id="worldCupTable" class="worldcup-results-grid" aria-live="polite">
     <article class="worldcup-result-card">
-      <div class="worldcup-result-bottom"><span>Carregando tabela da Copa...</span></div>
+      <div class="worldcup-result-bottom"><span>Carregando resultados da Copa...</span></div>
     </article>
   </div>
 </div>
-
 </section>
 
 <section class="container seriea-section brasileirao-legacy" aria-hidden="true">
@@ -10588,10 +10630,18 @@ function getUpcomingWorldCupMatches(matches){
   return (upcoming.length ? upcoming : matches).slice(0, 4);
 }
 
+function getTodayWorldCupMatches(matches){
+  const source = Array.isArray(matches) ? matches : [];
+  const todayKey = getDateInSaoPaulo(new Date());
+  const todayMatches = source.filter(match => match.date === todayKey);
+  if(todayMatches.length) return todayMatches;
+  return getUpcomingWorldCupMatches(source);
+}
+
 function getArenaStyleWorldCupMatches(matches){
   const source = Array.isArray(matches) ? matches : [];
   const liveMatches = source.filter(match => getWorldCupStatus(match) === 'AO VIVO' || getWorldCupStatus(match) === 'EM JOGO');
-  return liveMatches.length ? liveMatches.slice(0, 4) : getUpcomingWorldCupMatches(source);
+  return liveMatches.length ? liveMatches.slice(0, 4) : getTodayWorldCupMatches(source);
 }
 
 // Mapeamento simples de nomes para códigos ISO (expanda conforme necessário)
@@ -11558,11 +11608,13 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
 }
 
 function getBrazilSpotlightMatch(matches = latestWorldCupMatches || WORLD_CUP_MATCHES){
-  return (Array.isArray(matches) ? matches : []).find(match => {
-    if(match.date !== '2026-06-19') return false;
-    const teams = [getWorldCupTeamKey(match.home), getWorldCupTeamKey(match.away)];
-    return teams.includes('brasil') && teams.includes('haiti');
-  });
+  const source = (Array.isArray(matches) ? matches : [])
+    .filter(match => [getWorldCupTeamKey(match.home), getWorldCupTeamKey(match.away)].includes('brasil'))
+    .sort((a,b) => getWorldCupDateTime(a) - getWorldCupDateTime(b));
+  const now = new Date();
+  const live = source.find(match => ['AO VIVO','EM JOGO'].includes(getWorldCupStatus(match)));
+  if(live) return live;
+  return source.find(match => new Date(getWorldCupDateTime(match).getTime() + 130 * 60 * 1000) >= now) || source[source.length - 1] || null;
 }
 
 function getBrazilSpotlightScore(match){
@@ -11571,7 +11623,7 @@ function getBrazilSpotlightScore(match){
     { key:getWorldCupTeamKey(match?.away), score:match?.awayScore }
   ];
   const brazil = sides.find(side => side.key === 'brasil');
-  const opponent = sides.find(side => side.key === 'haiti');
+  const opponent = sides.find(side => side.key !== 'brasil');
 
   return {
     brazil:brazil?.score ?? null,
@@ -11618,7 +11670,7 @@ async function fetchBrazilSpotlightLiveDetails(match){
     );
     return extractBrazilSpotlightPlays(summary);
   }catch(error){
-    console.error('Erro ao carregar lances Brasil x Haiti:', error);
+    console.error('Erro ao carregar lances do Brasil:', error);
     return [];
   }
 }
@@ -11633,7 +11685,7 @@ function renderBrazilSpotlight(match, plays = []){
 
   if(!statusEl || !clockEl || !brazilScoreEl || !opponentScoreEl || !playsEl) return;
 
-  const fallbackMatch = WORLD_CUP_MATCHES.find(item => item.date === '2026-06-19' && getWorldCupTeamKey(item.home) === 'brasil');
+  const fallbackMatch = getBrazilSpotlightMatch(WORLD_CUP_MATCHES);
   const currentMatch = match || fallbackMatch;
   const status = currentMatch ? getWorldCupStatus(currentMatch) : 'PRÉ-JOGO';
   const score = getBrazilSpotlightScore(currentMatch);
@@ -11649,10 +11701,10 @@ function renderBrazilSpotlight(match, plays = []){
 
   if(summaryEl){
     summaryEl.textContent = status === 'AO VIVO'
-      ? 'Tempo real ligado: acompanhe cronômetro, placar e lances principais de Brasil x Haiti.'
+      ? 'Tempo real ligado: acompanhe cronômetro, placar e lances principais da Seleção.'
       : status === 'ENCERRADO'
         ? 'Jogo encerrado: placar final e principais lances ficam registrados aqui.'
-        : 'Próximo jogo da Seleção na Copa: Brasil x Haiti, dia 19/06, às 19:00.';
+        : `Próximo jogo da Seleção na Copa: ${escapeHtml(getPrimaryWorldCupTeam(currentMatch?.home) || 'Brasil')} x ${escapeHtml(getPrimaryWorldCupTeam(currentMatch?.away) || 'adversário')}, dia ${escapeHtml(formatWorldCupDate(currentMatch))}, às ${escapeHtml(formatWorldCupTime(currentMatch))}.`;
   }
 
   const fallbackText = status === 'AO VIVO'
@@ -11668,6 +11720,9 @@ function renderBrazilSpotlight(match, plays = []){
 
 async function updateBrazilSpotlight(matches = latestWorldCupMatches || WORLD_CUP_MATCHES){
   const match = getBrazilSpotlightMatch(matches);
+  if(window.applyWorldCupStoryMatch){
+    window.applyWorldCupStoryMatch(match);
+  }
   renderBrazilSpotlight(match);
 
   if(!match?.espnEventId) return;
@@ -12400,6 +12455,15 @@ function setupWorldCupStoryCard(){
   const confidenceInput = card.querySelector('[data-story-confidence]');
   const confidenceOutput = document.getElementById('storyConfidenceValue');
   const scoreInputs = Array.from(card.querySelectorAll('[data-story-score]'));
+  const scoreLabels = Array.from(card.querySelectorAll('.story-score-box span'));
+  const scoreBoxes = Array.from(card.querySelectorAll('.story-score-box'));
+  const matchTitle = card.querySelector('[data-story-match-title]');
+  const matchTime = card.querySelector('[data-story-match-time]');
+  const homeTeamEl = card.querySelector('[data-story-home-team]');
+  const awayTeamEl = card.querySelector('[data-story-away-team]');
+  const homeFlagEl = card.querySelector('[data-story-home-flag]');
+  const awayFlagEl = card.querySelector('[data-story-away-flag]');
+  let storyMatchTeams = {home:'Brasil', away:'Escócia'};
   let onlineInteractions = [];
 
   function clampScore(value){
@@ -12491,8 +12555,55 @@ function setupWorldCupStoryCard(){
   }
 
   function registerCurrentScore(){
-    registerStoryInteraction('score', `Brasil ${state.homeScore} x ${state.awayScore} Haiti`);
+    registerStoryInteraction('score', `${storyMatchTeams.home} ${state.homeScore} x ${state.awayScore} ${storyMatchTeams.away}`);
   }
+
+  function setFlag(container, teamName){
+    if(!container) return;
+    const flag = getWorldCupFlagUrl(teamName, '160x120');
+    container.innerHTML = flag
+      ? `<img src="${flag}" alt="Bandeira de ${escapeHtml(teamName)}" loading="lazy">`
+      : escapeHtml(initials(teamName));
+  }
+
+  window.applyWorldCupStoryMatch = match => {
+    if(!match) return;
+    const home = getPrimaryWorldCupTeam(match.home);
+    const away = getPrimaryWorldCupTeam(match.away);
+    storyMatchTeams = {home, away};
+    const title = `${home} x ${away}`;
+    card.setAttribute('aria-label', `Card interativo ${title} para torcedores da Copa do Mundo FIFA 2026`);
+    if(matchTitle) matchTitle.textContent = title;
+    const brazilNextTitle = document.getElementById('worldCupBrazilNextTitle');
+    if(brazilNextTitle) brazilNextTitle.textContent = title;
+    if(matchTime) matchTime.textContent = `${formatWorldCupDate(match)} - ${formatWorldCupTime(match)}`;
+    if(homeTeamEl) homeTeamEl.textContent = home;
+    if(awayTeamEl) awayTeamEl.textContent = away;
+    setFlag(homeFlagEl, home);
+    setFlag(awayFlagEl, away);
+
+    const winnerButtons = Array.from(card.querySelectorAll('[data-story-group="winner"] button'));
+    if(winnerButtons[0]){
+      winnerButtons[0].textContent = home;
+      winnerButtons[0].dataset.storyValue = home;
+    }
+    if(winnerButtons[2]){
+      winnerButtons[2].textContent = away;
+      winnerButtons[2].dataset.storyValue = away;
+    }
+
+    if(![home, away, 'Empate'].includes(state.winner)){
+      state.winner = home;
+    }
+
+    if(scoreLabels[0]) scoreLabels[0].textContent = home;
+    if(scoreLabels[1]) scoreLabels[1].textContent = away;
+    if(scoreInputs[0]) scoreInputs[0].setAttribute('aria-label', `Gols de ${home}`);
+    if(scoreInputs[1]) scoreInputs[1].setAttribute('aria-label', `Gols de ${away}`);
+    if(scoreBoxes[0]) scoreBoxes[0].querySelector('span').textContent = home;
+    if(scoreBoxes[1]) scoreBoxes[1].querySelector('span').textContent = away;
+    render();
+  };
 
   card.querySelectorAll('[data-story-group] button').forEach(button => {
     button.addEventListener('click', () => {
@@ -12533,6 +12644,7 @@ function setupWorldCupStoryCard(){
 
   refreshCommunityState().then(syncOnlineInteractions);
   window.setInterval(() => refreshCommunityState().then(syncOnlineInteractions), 10000);
+  window.applyWorldCupStoryMatch(getBrazilSpotlightMatch(latestWorldCupMatches || WORLD_CUP_MATCHES));
   render();
   renderOnlineResults();
 }
@@ -12660,6 +12772,7 @@ function setupCraquePartidaVote(){
 function arrangeHomeContentHierarchy(){
   const reportagens = document.getElementById('reportagens-home');
   const worldCup = document.getElementById('worldcup');
+  const worldCupResults = document.getElementById('worldcup-results');
   const palpitometro = document.getElementById('palpitometro');
   const penalty = document.getElementById('desafio-penaltis');
   const hero = document.querySelector('.hero');
@@ -12683,8 +12796,11 @@ function arrangeHomeContentHierarchy(){
   }else{
     palpitometro.after(reportagens);
   }
+  if(worldCupResults){
+    reportagens.after(worldCupResults);
+  }
   if(penalty){
-    reportagens.after(penalty);
+    (worldCupResults || reportagens).after(penalty);
   }
 }
 
@@ -12714,7 +12830,7 @@ function setupWorldCupTabs(){
   if(!tabs.length || !panels.length) return;
 
   const panelMap = {
-    jogos:['jogos','jogos-table'],
+    jogos:['jogos'],
     grupos:['grupos'],
     brasil:['brasil']
   };
