@@ -6,6 +6,7 @@ const TYPES = [
   {id:'gate',w:136,h:150,color:'#42e8ff',speed:1,shift:false,dodge:'slide'},
   {id:'box',w:108,h:108,color:'#8b4a19',speed:1,shift:false,dodge:null}
 ];
+export const OBSTACLE_TYPES = TYPES;
 
 export class ObstacleSystem{
   constructor(){
@@ -19,12 +20,12 @@ export class ObstacleSystem{
     this.timer = 0;
   }
 
-  spawn(game, lanes){
-    const type = TYPES[Math.floor(Math.random() * TYPES.length)];
+  spawn(game, lanes, lane = Math.floor(Math.random() * 3), typeId = null, yOffset = 0){
+    const type = typeId ? TYPES.find(item => item.id === typeId) || TYPES[0] : TYPES[Math.floor(Math.random() * TYPES.length)];
     const item = this.pool.pop() || {};
     item.type = type;
-    item.lane = Math.floor(Math.random() * 3);
-    item.y = roadSpawnY(game);
+    item.lane = lane;
+    item.y = roadSpawnY(game) + yOffset;
     item.x = perspectiveLaneX(game, lanes[item.lane], item.y);
     item.w = type.w;
     item.h = type.h;
@@ -35,7 +36,7 @@ export class ObstacleSystem{
 
   update(dt, game, lanes){
     this.timer -= dt;
-    if(this.timer <= 0){
+    if(!game.directorEnabled && this.timer <= 0){
       this.spawn(game, lanes);
       this.timer = Math.max(.42, 1.08 - game.level * .045);
     }

@@ -61,11 +61,19 @@ const game = {
   shake:0,
   time:0,
   last:0,
+  directorEnabled:true,
   activePowerups:{turbo:0,shield:0,magnet:0,multiplier:0}
 };
 
 const particles = [];
 const lanes = [300,450,600];
+const director = {
+  timer:.8,
+  pattern:0,
+  queue:[],
+  lastSafeLane:1,
+  beat:.58
+};
 let pointerStartX = 0;
 let pointerStartY = 0;
 
@@ -100,6 +108,10 @@ function reset(){
   game.turbo = false;
   game.shake = 0;
   game.time = 0;
+  director.timer = .8;
+  director.pattern = 0;
+  director.queue.length = 0;
+  director.lastSafeLane = 1;
   game.activePowerups = {turbo:0,shield:0,magnet:0,multiplier:0};
   rewardToast.classList.add('is-hidden');
   particles.length = 0;
@@ -483,6 +495,7 @@ function update(dt){
   obstacles.update(dt, game, lanes);
   coins.update(dt, game, lanes, player);
   powerups.update(dt, game, lanes);
+  updateDirector(dt);
   updateParticles(dt);
   checkCollisions();
 
@@ -505,11 +518,93 @@ function awardGem(){
   audio.play('powerup');
 }
 
+function updateDirector(dt){
+  if(!game.directorEnabled) return;
+  director.timer -= dt;
+  if(director.timer > 0) return;
+
+  const difficulty = Math.min(1, game.distance / 8);
+  director.beat = Math.max(.34, .58 - difficulty * .16);
+  if(!director.queue.length){
+    buildTrackSegment(difficulty);
+  }
+
+  const beat = director.queue.shift();
+  spawnTrackBeat(beat);
+  director.timer = director.queue.length ? director.beat : Math.max(.42, .76 - difficulty * .18);
+}
+
+function buildTrackSegment(difficulty){
+  const type = (director.pattern++ + Math.floor(game.distance)) % 6;
+  if(type === 0) queueBottleGuide();
+  if(type === 1) queueSingleDodge('jump');
+  if(type === 2) queueSafeLaneChoice();
+  if(type === 3) queueZigZagGuide();
+  if(type === 4) queueSingleDodge('slide');
+  if(type === 5) queueTwoLaneGate(difficulty);
+
+  if(Math.random() < .12 + difficulty * .08){
+    director.queue.push({powerup:Math.floor(Math.random() * 3)});
+  }
+}
+
+function queueBottleGuide(){
+  const lane = director.lastSafeLane = Math.floor(Math.random() * 3);
+  for(let i=0;i<5;i++) director.queue.push({bottles:[lane]});
+  director.queue.push({rest:true});
+}
+
+function queueSingleDodge(action){
+  const lane = director.lastSafeLane = Math.floor(Math.random() * 3);
+  const type = action === 'slide' ? 'gate' : Math.random() > .5 ? 'barrier' : 'cone';
+  director.queue.push({bottles:[lane]});
+  director.queue.push({obstacles:[{lane,type}], bottles:[lane]});
+  director.queue.push({bottles:[lane]});
+  director.queue.push({rest:true});
+}
+
+function queueSafeLaneChoice(){
+  const blocked = Math.floor(Math.random() * 3);
+  const safe = director.lastSafeLane = (blocked + (Math.random() > .5 ? 1 : 2)) % 3;
+  director.queue.push({bottles:[safe]});
+  director.queue.push({obstacles:[{lane:blocked,type:Math.random() > .5 ? 'bus' : 'box'}], bottles:[safe]});
+  director.queue.push({bottles:[safe]});
+  director.queue.push({rest:true});
+}
+
+function queueZigZagGuide(){
+  let lane = Math.floor(Math.random() * 3);
+  for(let i=0;i<6;i++){
+    director.queue.push({bottles:[lane]});
+    lane += lane === 2 ? -1 : lane === 0 ? 1 : Math.random() > .5 ? 1 : -1;
+  }
+  director.lastSafeLane = lane;
+}
+
+function queueTwoLaneGate(difficulty){
+  const safe = director.lastSafeLane = Math.floor(Math.random() * 3);
+  const blocked = [0,1,2].filter(lane => lane !== safe);
+  director.queue.push({bottles:[safe]});
+  director.queue.push({
+    obstacles:blocked.map((lane,index) => ({lane,type:index === 0 || difficulty > .5 ? 'box' : 'cone'})),
+    bottles:[safe]
+  });
+  director.queue.push({bottles:[safe]});
+  director.queue.push({rest:true});
+}
+
+function spawnTrackBeat(beat){
+  if(!beat || beat.rest) return;
+  (beat.obstacles || []).forEach(item => obstacles.spawn(game, lanes, item.lane, item.type));
+  (beat.bottles || []).forEach(lane => coins.spawn(game, lanes, lane, 1, 54));
+  if(Number.isInteger(beat.powerup)) powerups.spawn(game, lanes, beat.powerup);
+}
+
 function checkCollisions(){
   const hb = player.getHitbox();
   obstacles.items.forEach(item => {
     if(item.hit) return;
-    const scale = .45 + item.y / 1800;
+    const scale = perspectiveScale(item.y);
     const box = {x:item.x - item.w*scale*.5, y:item.y - item.h*scale*.65, w:item.w*scale, h:item.h*scale};
     if(item.type.dodge === 'jump' && player.isJumping()) return;
     if(item.type.dodge === 'slide' && player.isSliding()) return;
@@ -548,6 +643,11 @@ function checkCollisions(){
       audio.play('powerup');
     }
   });
+}
+
+function perspectiveScale(y){
+  const p = Math.max(0, Math.min(1, y / game.height));
+  return .16 + Math.pow(p,1.35) * .92;
 }
 
 function endGame(){

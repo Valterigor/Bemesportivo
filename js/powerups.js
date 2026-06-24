@@ -18,7 +18,7 @@ export class PowerupSystem{
 
   update(dt, game, lanes){
     this.timer -= dt;
-    if(this.timer <= 0){
+    if(!game.directorEnabled && this.timer <= 0){
       const def = POWERUPS[Math.floor(Math.random() * POWERUPS.length)];
       const lane = Math.floor(Math.random()*3);
       const y = roadSpawnY(game);
@@ -31,6 +31,12 @@ export class PowerupSystem{
       item.spin += dt * 4;
     });
     this.items = this.items.filter(item => item.y < game.height + 140);
+  }
+
+  spawn(game, lanes, lane = Math.floor(Math.random()*3), id = null){
+    const def = id ? POWERUPS.find(item => item.id === id) || POWERUPS[0] : POWERUPS[Math.floor(Math.random() * POWERUPS.length)];
+    const y = roadSpawnY(game);
+    this.items.push({def,lane,x:perspectiveLaneX(game,lanes[lane],y),y,spin:0});
   }
 
   draw(ctx){

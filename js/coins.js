@@ -10,14 +10,13 @@ export class CoinSystem{
     this.timer = 0;
   }
 
-  spawn(game, lanes){
-    const lane = Math.floor(Math.random() * 3);
+  spawn(game, lanes, lane = Math.floor(Math.random() * 3), count = 4, spacing = 58, yOffset = 0){
     const premium = Math.random() > .9;
     const startY = roadSpawnY(game);
-    for(let i=0;i<4;i++){
+    for(let i=0;i<count;i++){
       const item = this.pool.pop() || {};
       item.lane = lane;
-      item.y = startY + i * 58;
+      item.y = startY + yOffset - i * spacing;
       item.x = perspectiveLaneX(game, lanes[lane], item.y);
       item.kind = premium ? 'big-water' : 'water';
       item.value = premium ? 3 : 1;
@@ -29,7 +28,7 @@ export class CoinSystem{
 
   update(dt, game, lanes, player){
     this.timer -= dt;
-    if(this.timer <= 0){
+    if(!game.directorEnabled && this.timer <= 0){
       this.spawn(game, lanes);
       this.timer = .68 + Math.random() * .52;
     }
