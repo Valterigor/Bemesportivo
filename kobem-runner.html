@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#101010">
-<meta name="description" content="KOBEM Runner, endless runner mobile do Bem Esportivo com moedas, power-ups, ranking, conquistas e Kobems desbloqueáveis.">
+<meta name="description" content="KOBEM Runner, endless runner mobile do Bem Esportivo com garrafas de agua, joias, hidratacao, missoes diarias e Kobems desbloqueaveis.">
 <title>KOBEM Runner | Bem Esportivo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,17 +16,27 @@
   <section class="runner-phone" id="runnerShell">
     <canvas id="gameCanvas" width="900" height="1600" aria-label="KOBEM Runner"></canvas>
 
-    <div class="runner-hud" id="runnerHud" aria-label="Informações da partida">
+    <div class="runner-hud" id="runnerHud" aria-label="Informacoes da partida">
       <button class="hud-icon" id="pauseBtn" type="button" aria-label="Pausar">II</button>
       <div class="hud-card score-card"><span>Pontos</span><strong id="score">0</strong></div>
-      <div class="hud-card coins-card"><span class="coin-dot"></span><strong id="coinsCount">0</strong></div>
-      <div class="hud-card lives-card" id="lives" aria-label="Vidas">❤️❤️❤️</div>
+      <div class="hud-card bottles-card"><span class="bottle-dot"></span><small>Garrafas</small><strong id="coinsCount">0</strong></div>
+      <div class="hud-card gems-card"><span class="gem-dot"></span><small>Joias</small><strong id="gemsCount">0</strong></div>
+      <div class="hud-card lives-card"><span>Vidas</span><strong id="lives" aria-label="Vidas">♥♥♥♥♥</strong></div>
       <div class="hud-card combo-card"><span>Combo</span><strong>x<span id="combo">1</span></strong></div>
+      <div class="hud-card distance-card"><span>Distancia</span><strong id="distance">0,0 km</strong></div>
+    </div>
+
+    <div class="reward-toast is-hidden" id="rewardToast" aria-live="polite">
+      <span class="gem-dot"></span>
+      <strong>Meta 5 km</strong>
+      <b>+1 joia!</b>
+      <small>Continue assim!</small>
     </div>
 
     <div class="runner-bottom-hud">
-      <div class="energy-card"><strong>⚡ <span id="energy">100</span>%</strong><i><b id="energyBar"></b></i></div>
-      <div class="distance-card"><span>Distância</span><strong id="distance">0,0 km</strong></div>
+      <div class="energy-card"><strong>Hidratacao <span id="energy">100</span>%</strong><i><b id="energyBar"></b></i></div>
+      <div class="power-card"><span>Ima</span><strong id="magnetTimer">0s</strong></div>
+      <div class="mission-card"><span>Missao diaria</span><strong>Colete 50 garrafas</strong><i><b id="missionBar"></b></i><small id="missionText">0/50</small></div>
     </div>
 
     <div class="runner-controls" aria-label="Controles">
@@ -41,15 +51,15 @@
       <div class="runner-title">
         <strong>KOBEM</strong>
         <span>RUNNER</span>
-        <em>DRIBLE • CORRA • EVOLUA!</em>
+        <em>HIDRATE • CORRA • EVOLUA!</em>
       </div>
       <div class="menu-robot" aria-hidden="true"></div>
       <div class="menu-actions">
         <button id="playBtn" class="primary" type="button">JOGAR <span>▶</span></button>
         <button id="rankingBtn" type="button">🏆 Ranking</button>
         <button id="achievementsBtn" type="button">🏅 Conquistas</button>
-        <button id="settingsBtn" type="button">⚙ Configurações</button>
-        <button id="kobemsBtn" type="button">⚡ Kobems</button>
+        <button id="settingsBtn" type="button">⚙ Configuracoes</button>
+        <button id="kobemsBtn" type="button">💎 Kobems</button>
       </div>
     </section>
 
@@ -57,7 +67,7 @@
       <div class="panel-card">
         <button class="panel-close" data-close-panel type="button">×</button>
         <h2>Ranking</h2>
-        <label class="name-field">Nome <input id="playerName" maxlength="18" autocomplete="nickname" placeholder="Você"></label>
+        <label class="name-field">Nome <input id="playerName" maxlength="18" autocomplete="nickname" placeholder="Voce"></label>
         <ol class="ranking-list" id="rankingList"></ol>
       </div>
     </section>
@@ -81,16 +91,16 @@
     <section class="runner-panel is-hidden" id="settingsPanel" aria-hidden="true">
       <div class="panel-card">
         <button class="panel-close" data-close-panel type="button">×</button>
-        <h2>Configurações</h2>
+        <h2>Configuracoes</h2>
         <label class="toggle-row"><span>Sons</span><input id="soundToggle" type="checkbox" checked></label>
-        <label class="toggle-row"><span>Vibração</span><input id="vibrationToggle" type="checkbox" checked></label>
+        <label class="toggle-row"><span>Vibracao</span><input id="vibrationToggle" type="checkbox" checked></label>
       </div>
     </section>
 
     <section class="game-over is-hidden" id="gameOverPanel" aria-hidden="true">
       <div class="game-over-card">
         <h2>GAME OVER</h2>
-        <p id="gameOverSummary">Você correu 0,0 km.</p>
+        <p id="gameOverSummary">Voce correu 0,0 km.</p>
         <button id="restartBtn" class="primary" type="button">Jogar de novo</button>
         <button id="menuBtn" type="button">Menu</button>
       </div>

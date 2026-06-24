@@ -8,11 +8,16 @@ export function formatNumber(value){
 export function updateHud(game){
   document.getElementById('score').textContent = formatNumber(game.score);
   document.getElementById('coinsCount').textContent = formatNumber(game.coins);
+  document.getElementById('gemsCount').textContent = formatNumber(game.gems);
   document.getElementById('combo').textContent = game.combo;
   document.getElementById('energy').textContent = Math.round(game.energy);
   document.getElementById('energyBar').style.width = `${Math.max(0, game.energy)}%`;
-  document.getElementById('distance').textContent = `${game.distance.toFixed(1).replace('.', ',')} km`;
-  document.getElementById('lives').textContent = '❤️'.repeat(Math.max(0, game.lives));
+  document.getElementById('distance').textContent = `${game.distance.toFixed(2).replace('.', ',')} km`;
+  document.getElementById('lives').textContent = '♥'.repeat(Math.max(0, game.lives));
+  document.getElementById('magnetTimer').textContent = `${Math.ceil(game.activePowerups.magnet || 0)}s`;
+  const mission = Math.min(50, game.coins);
+  document.getElementById('missionText').textContent = `${mission}/50`;
+  document.getElementById('missionBar').style.width = `${mission * 2}%`;
 }
 
 export function renderRanking(list, currentName){
@@ -42,7 +47,7 @@ export function renderKobems(store, onSelect, onBuy){
     return `<article class="kobem-card ${selected ? 'is-selected' : ''}" style="--skin:${kobem.color}">
       <div class="kobem-avatar">🤖</div>
       <strong>${kobem.name}</strong>
-      <span>${unlocked ? 'Desbloqueado' : `${kobem.price} moedas`}</span>
+      <span>${unlocked ? 'Desbloqueado' : `${kobem.price} garrafas`}</span>
       <button data-kobem="${kobem.id}" type="button">${selected ? 'Selecionado' : unlocked ? 'Usar' : 'Comprar'}</button>
     </article>`;
   }).join('');

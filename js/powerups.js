@@ -1,7 +1,7 @@
 const POWERUPS = [
-  {id:'turbo',icon:'⚡',color:'#42e8ff'},
-  {id:'shield',icon:'S',color:'#42e8ff'},
-  {id:'magnet',icon:'M',color:'#fc6e02'},
+  {id:'turbo',icon:'SPR',color:'#42e8ff'},
+  {id:'shield',icon:'ESC',color:'#42e8ff'},
+  {id:'magnet',icon:'IMA',color:'#fc6e02'},
   {id:'multiplier',icon:'x2',color:'#ffd34d'}
 ];
 
@@ -20,12 +20,14 @@ export class PowerupSystem{
     this.timer -= dt;
     if(this.timer <= 0){
       const def = POWERUPS[Math.floor(Math.random() * POWERUPS.length)];
-      this.items.push({def,lane:Math.floor(Math.random()*3),x:lanes[1],y:-180,spin:0});
+      const lane = Math.floor(Math.random()*3);
+      const y = roadSpawnY(game);
+      this.items.push({def,lane,x:perspectiveLaneX(game,lanes[lane],y),y,spin:0});
       this.timer = 5 + Math.random() * 4;
     }
     this.items.forEach(item => {
-      item.x += (lanes[item.lane] - item.x) * Math.min(1, dt * 8);
       item.y += game.speed * dt;
+      item.x += (perspectiveLaneX(game, lanes[item.lane], item.y) - item.x) * Math.min(1, dt * 9);
       item.spin += dt * 4;
     });
     this.items = this.items.filter(item => item.y < game.height + 140);
@@ -35,7 +37,7 @@ export class PowerupSystem{
     this.items.forEach(item => {
       ctx.save();
       ctx.translate(item.x,item.y);
-      const scale = .5 + item.y / 1900;
+      const scale = itemScale(ctx,item.y);
       ctx.scale(scale, scale);
       ctx.rotate(Math.sin(item.spin)*.1);
       ctx.shadowColor = item.def.color;
@@ -47,12 +49,43 @@ export class PowerupSystem{
       ctx.strokeStyle = item.def.color;
       ctx.lineWidth = 5;
       ctx.stroke();
-      ctx.fillStyle = item.def.color;
-      ctx.font = '900 34px Inter';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(item.def.icon,0,0);
+      if(item.def.id === 'magnet') drawMagnet(ctx,item.def.color);
+      else{
+        ctx.fillStyle = item.def.color;
+        ctx.font = '900 24px Inter';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(item.def.icon,0,0);
+      }
       ctx.restore();
     });
   }
+}
+
+function perspectiveLaneX(game,laneX,y){
+  const p = Math.max(0, Math.min(1, y / game.height));
+  const spread = .16 + Math.pow(p,1.35) * .92;
+  return game.width * .5 + (laneX - game.width * .5) * spread;
+}
+
+function roadSpawnY(game){
+  return game.height * .35;
+}
+
+function itemScale(ctx,y){
+  const h = ctx.canvas.clientHeight || ctx.canvas.height || 800;
+  const p = Math.max(0, Math.min(1, y / h));
+  return .16 + Math.pow(p,1.35) * .92;
+}
+
+function drawMagnet(ctx,color){
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 16;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.arc(0,-2,26,Math.PI*.08,Math.PI*.92);
+  ctx.stroke();
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(-34,-1,16,20);
+  ctx.fillRect(18,-1,16,20);
 }
