@@ -12,7 +12,6 @@ const shell = document.getElementById('runnerShell');
 const menu = document.getElementById('menu');
 const gameOverPanel = document.getElementById('gameOverPanel');
 const runnerHud = document.getElementById('runnerHud');
-const turboBtn = document.getElementById('turboBtn');
 const leftBtn = document.getElementById('leftBtn');
 const rightBtn = document.getElementById('rightBtn');
 const pauseBtn = document.getElementById('pauseBtn');
@@ -252,7 +251,7 @@ function update(dt){
   game.time += dt;
   game.level = Math.floor(game.distance / 1.2);
   const turboActive = (game.turbo || game.activePowerups.turbo > 0) && game.energy > 0;
-  turboBtn.classList.toggle('is-active', turboActive);
+  shell.classList.toggle('is-turbo', turboActive);
   game.speed = game.baseSpeed + game.level * 28;
   if(turboActive) game.speed *= 1.5;
   game.energy = Math.max(0, Math.min(100, game.energy + (turboActive ? -34 : 17) * dt));
@@ -414,9 +413,6 @@ function vibrate(ms){
 function bindControls(){
   leftBtn.addEventListener('click', () => player.move(-1));
   rightBtn.addEventListener('click', () => player.move(1));
-  turboBtn.addEventListener('pointerdown', () => { game.turbo = true; audio.play('turbo'); });
-  turboBtn.addEventListener('pointerup', () => { game.turbo = false; });
-  turboBtn.addEventListener('pointercancel', () => { game.turbo = false; });
   pauseBtn.addEventListener('click', () => { game.paused = !game.paused; audio.play('button'); });
   playBtn.addEventListener('click', () => { audio.play('button'); reset(); });
   restartBtn.addEventListener('click', reset);
@@ -446,7 +442,10 @@ function bindControls(){
     const dx = event.clientX - pointerStartX;
     const dy = event.clientY - pointerStartY;
     if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 28) player.move(dx > 0 ? 1 : -1);
-    if(dy < -34) game.activePowerups.turbo = Math.max(game.activePowerups.turbo, 1.6);
+    if(dy < -34 && game.energy > 0){
+      game.activePowerups.turbo = Math.max(game.activePowerups.turbo, 1.8);
+      audio.play('turbo');
+    }
   });
 }
 
