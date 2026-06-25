@@ -39,6 +39,7 @@ export class ObstacleSystem{
     item.h = type.h;
     item.phase = options.phase ?? 0;
     item.hit = false;
+    item.scored = false;
     this.items.push(item);
   }
 
@@ -72,7 +73,7 @@ export class ObstacleSystem{
   }
 
   draw(ctx){
-    this.items.forEach(item => {
+    this.items.slice().sort((a,b) => a.y - b.y).forEach(item => {
       drawGroundWarning(ctx,item);
       ctx.save();
       ctx.translate(item.x, item.y);

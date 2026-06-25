@@ -33,10 +33,24 @@
       <small>Continue assim!</small>
     </div>
 
+    <div class="goal-banner" id="goalBanner" aria-live="polite">
+      <span class="gem-dot"></span>
+      <strong id="goalTitle">META 5 KM</strong>
+      <b id="goalProgress">0,00 / 5,00 km</b>
+      <small id="goalHint">Complete a meta para ganhar joia</small>
+    </div>
+
+    <div class="runner-feedback" id="runnerFeedback" aria-live="polite"></div>
+
     <div class="runner-bottom-hud">
       <div class="energy-card"><strong>Hidratacao <span id="energy">100</span>%</strong><i><b id="energyBar"></b></i></div>
       <div class="power-card"><span>Ima</span><strong id="magnetTimer">0s</strong></div>
       <div class="mission-card"><span>Missao diaria</span><strong>Colete 50 garrafas</strong><i><b id="missionBar"></b></i><small id="missionText">0/50</small></div>
+    </div>
+
+    <div class="runner-action-controls" aria-label="Acoes">
+      <button id="jumpBtn" type="button" aria-label="Pular">UP</button>
+      <button id="slideBtn" type="button" aria-label="Deslizar">DOWN</button>
     </div>
 
     <div class="runner-controls" aria-label="Controles">

@@ -5,7 +5,7 @@ const defaults = {
   wallet:0,
   gems:0,
   bestDistance:0,
-  selected:'classic',
+  selected:'mascot2',
   sound:true,
   vibration:true,
   xp:0,

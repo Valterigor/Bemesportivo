@@ -21,6 +21,17 @@ export function updateHud(game){
   const mission = Math.min(50, game.coins);
   document.getElementById('missionText').textContent = `${mission}/50`;
   document.getElementById('missionBar').style.width = `${mission * 2}%`;
+  const goalTitle = document.getElementById('goalTitle');
+  const goalProgress = document.getElementById('goalProgress');
+  const goalHint = document.getElementById('goalHint');
+  if(goalTitle && goalProgress && goalHint){
+    const currentGoal = game.nextGemKm || 5;
+    const previousGoal = Math.max(0, currentGoal - 5);
+    const segmentDistance = Math.max(0, game.distance - previousGoal);
+    goalTitle.textContent = `META ${currentGoal} KM`;
+    goalProgress.textContent = `${segmentDistance.toFixed(2).replace('.', ',')} / 5,00 km`;
+    goalHint.textContent = game.gems > 0 ? `Joias nesta corrida: ${game.gems}` : 'Complete a meta para ganhar joia';
+  }
 }
 
 function getActivePowerup(powerups){

@@ -14,6 +14,8 @@ const gameOverPanel = document.getElementById('gameOverPanel');
 const runnerHud = document.getElementById('runnerHud');
 const leftBtn = document.getElementById('leftBtn');
 const rightBtn = document.getElementById('rightBtn');
+const jumpBtn = document.getElementById('jumpBtn');
+const slideBtn = document.getElementById('slideBtn');
 const pauseBtn = document.getElementById('pauseBtn');
 const playBtn = document.getElementById('playBtn');
 const restartBtn = document.getElementById('restartBtn');
@@ -31,7 +33,12 @@ const vibrationToggle = document.getElementById('vibrationToggle');
 const playerName = document.getElementById('playerName');
 const gameOverSummary = document.getElementById('gameOverSummary');
 const rewardToast = document.getElementById('rewardToast');
+const runnerFeedback = document.getElementById('runnerFeedback');
 const store = loadStore();
+if(store.selected === 'classic'){
+  store.selected = 'mascot2';
+  saveStore(store);
+}
 const audio = new AudioBus(store);
 const player = new Player();
 const obstacles = new ObstacleSystem();
@@ -94,6 +101,9 @@ const game = {
   baseSpeed:620,
   maxSpeed:1180,
   level:0,
+  perfectDodges:0,
+  feedbackTimer:0,
+  feedbackText:'',
   turbo:false,
   shake:0,
   time:0,
@@ -114,6 +124,8 @@ const director = {
 };
 let pointerStartX = 0;
 let pointerStartY = 0;
+
+hydrateStaticLabels();
 
 function resize(){
   const rect = shell.getBoundingClientRect();
@@ -144,6 +156,9 @@ function reset(){
   game.speed = 620;
   game.maxSpeed = 1180;
   game.level = 0;
+  game.perfectDodges = 0;
+  game.feedbackTimer = 0;
+  game.feedbackText = '';
   game.turbo = false;
   game.shake = 0;
   game.time = 0;
@@ -170,6 +185,9 @@ function setScreen(name){
   runnerHud.style.display = name === 'menu' ? 'none' : '';
   document.querySelector('.runner-bottom-hud').style.display = name === 'menu' ? 'none' : '';
   document.querySelector('.runner-controls').style.display = name === 'menu' ? 'none' : '';
+  document.querySelector('.runner-action-controls').style.display = name === 'menu' ? 'none' : '';
+  document.querySelector('.goal-banner').style.display = name === 'menu' ? 'none' : '';
+  document.querySelector('.runner-feedback').style.display = name === 'menu' ? 'none' : '';
   if(name === 'menu') engine.setState(GameState.Menu);
   if(name === 'gameover') engine.setState(GameState.GameOver);
 }
@@ -543,6 +561,8 @@ function update(dt){
   updateDirector(dt);
   updateParticles(dt);
   checkCollisions();
+  updatePerfectDodges();
+  updateRunnerFeedback(dt);
 
   const multiplier = (game.activePowerups.multiplier ? 2 : 1) * (1 + Math.min(.65, difficulty * .65));
   game.score += game.speed * Math.max(1, game.combo) * multiplier * dt * .11;
@@ -738,6 +758,40 @@ function checkCollisions(){
   });
 }
 
+function updatePerfectDodges(){
+  obstacles.items.forEach(item => {
+    if(item.scored || item.hit) return;
+    if(item.y <= player.y + 84) return;
+    item.scored = true;
+    const laneDistance = Math.abs(item.x - player.x);
+    if(laneDistance < 78 && !game.activePowerups.shield && item.type.dodge !== 'jump' && item.type.dodge !== 'slide') return;
+    game.perfectDodges += 1;
+    game.combo = Math.min(12, game.combo + 1);
+    game.score += 90 * game.combo * (game.activePowerups.multiplier ? 2 : 1);
+    if(game.perfectDodges % 3 === 0){
+      showRunnerFeedback(`Desvio perfeito x${game.perfectDodges}`);
+      impact(player.x, player.y - 120, '#ffd34d');
+      audio.play('coin');
+    }
+  });
+}
+
+function showRunnerFeedback(text){
+  game.feedbackText = text;
+  game.feedbackTimer = 1.1;
+  if(runnerFeedback){
+    runnerFeedback.textContent = text;
+    runnerFeedback.classList.add('is-visible');
+  }
+}
+
+function updateRunnerFeedback(dt){
+  game.feedbackTimer = Math.max(0, game.feedbackTimer - dt);
+  if(runnerFeedback && game.feedbackTimer <= 0){
+    runnerFeedback.classList.remove('is-visible');
+  }
+}
+
 function perspectiveScale(y){
   const p = Math.max(0, Math.min(1, y / game.height));
   return .16 + Math.pow(p,1.35) * .92;
@@ -850,6 +904,16 @@ function vibrate(ms){
 function bindControls(){
   leftBtn.addEventListener('click', () => player.move(-1));
   rightBtn.addEventListener('click', () => player.move(1));
+  jumpBtn?.addEventListener('click', () => {
+    player.jumpStart();
+    audio.play('turbo');
+    vibrate(35);
+  });
+  slideBtn?.addEventListener('click', () => {
+    player.slideStart();
+    audio.play('turbo');
+    vibrate(35);
+  });
   pauseBtn.addEventListener('click', () => {
     engine.setState(game.paused ? GameState.Playing : GameState.Pause);
     audio.play('button');
@@ -895,6 +959,21 @@ function bindControls(){
       game.activePowerups.turbo = Math.max(game.activePowerups.turbo, .65);
       audio.play('turbo');
     }
+  });
+}
+
+function hydrateStaticLabels(){
+  const subtitle = document.querySelector('.runner-title em');
+  if(subtitle) subtitle.textContent = 'HIDRATE • CORRA • EVOLUA!';
+  const labels = [
+    [playBtn,'JOGAR ▶'],
+    [rankingBtn,'Ranking'],
+    [achievementsBtn,'Conquistas'],
+    [settingsBtn,'Configuracoes'],
+    [kobemsBtn,'Kobems']
+  ];
+  labels.forEach(([button,text]) => {
+    if(button) button.textContent = text;
   });
 }
 
