@@ -3,7 +3,7 @@ import { ObstacleSystem } from './obstacles.js';
 import { CoinSystem } from './coins.js';
 import { PowerupSystem } from './powerups.js';
 import { AudioBus } from './audio.js';
-import { loadStore, saveStore, addRanking, unlockAchievement } from './storage.js';
+import { loadStore, saveStore, addRanking, unlockAchievement, addXp, updateMissionProgress } from './storage.js';
 import { updateHud, renderRanking, renderAchievements, renderKobems } from './ui.js';
 
 const canvas = document.getElementById('gameCanvas');
@@ -40,11 +40,47 @@ const powerups = new PowerupSystem();
 const sceneImage = new Image();
 sceneImage.src = 'assets/img/kobem-runner-scene-clean.png';
 
+const GameState = {
+  Menu:'menu',
+  Playing:'playing',
+  Pause:'pause',
+  GameOver:'gameover'
+};
+
+class GameEngine{
+  constructor(){
+    this.state = GameState.Menu;
+    this.maxDelta = .033;
+    this.scenes = {
+      [GameState.Menu]:{name:'Menu'},
+      [GameState.Playing]:{name:'Playing'},
+      [GameState.Pause]:{name:'Pause'},
+      [GameState.GameOver]:{name:'GameOver'}
+    };
+  }
+
+  setState(state){
+    this.state = state;
+    game.state = state;
+    game.running = state === GameState.Playing || state === GameState.Pause;
+    game.paused = state === GameState.Pause;
+  }
+
+  tick(now){
+    const dt = Math.min(this.maxDelta, (now - game.last) / 1000 || 0);
+    game.last = now;
+    update(dt);
+    draw();
+    requestAnimationFrame(time => this.tick(time));
+  }
+}
+
 const game = {
   width:900,
   height:1600,
   running:false,
   paused:false,
+  state:GameState.Menu,
   score:0,
   coins:0,
   gems:0,
@@ -56,14 +92,16 @@ const game = {
   energy:100,
   speed:620,
   baseSpeed:620,
+  maxSpeed:1180,
   level:0,
   turbo:false,
   shake:0,
   time:0,
   last:0,
   directorEnabled:true,
-  activePowerups:{turbo:0,shield:0,magnet:0,multiplier:0}
+  activePowerups:{turbo:0,shield:0,magnet:0,multiplier:0,slow:0}
 };
+const engine = new GameEngine();
 
 const particles = [];
 const lanes = [300,450,600];
@@ -104,6 +142,7 @@ function reset(){
   game.energy = 100;
   game.baseSpeed = 620;
   game.speed = 620;
+  game.maxSpeed = 1180;
   game.level = 0;
   game.turbo = false;
   game.shake = 0;
@@ -112,7 +151,7 @@ function reset(){
   director.pattern = 0;
   director.queue.length = 0;
   director.lastSafeLane = 1;
-  game.activePowerups = {turbo:0,shield:0,magnet:0,multiplier:0};
+  game.activePowerups = {turbo:0,shield:0,magnet:0,multiplier:0,slow:0};
   rewardToast.classList.add('is-hidden');
   particles.length = 0;
   player.reset();
@@ -121,6 +160,7 @@ function reset(){
   coins.reset();
   powerups.reset();
   setScreen('game');
+  engine.setState(GameState.Playing);
   updateHud(game);
 }
 
@@ -130,6 +170,8 @@ function setScreen(name){
   runnerHud.style.display = name === 'menu' ? 'none' : '';
   document.querySelector('.runner-bottom-hud').style.display = name === 'menu' ? 'none' : '';
   document.querySelector('.runner-controls').style.display = name === 'menu' ? 'none' : '';
+  if(name === 'menu') engine.setState(GameState.Menu);
+  if(name === 'gameover') engine.setState(GameState.GameOver);
 }
 
 function openPanel(panel){
@@ -482,8 +524,11 @@ function update(dt){
   game.level = Math.floor(game.distance / 1.2);
   const turboActive = (game.turbo || game.activePowerups.turbo > 0) && game.energy > 0;
   shell.classList.toggle('is-turbo', turboActive);
-  game.speed = game.baseSpeed + game.level * 28;
+  const difficulty = getDifficulty();
+  game.baseSpeed = Math.min(game.maxSpeed, 620 + game.distance * 18 + game.level * 18);
+  game.speed = game.baseSpeed;
   if(turboActive) game.speed *= 1.5;
+  if(game.activePowerups.slow > 0) game.speed *= .72;
   game.energy = Math.max(0, Math.min(100, game.energy + (turboActive ? -35 : -2.8) * dt));
   if(game.energy <= 0) game.turbo = false;
 
@@ -499,8 +544,8 @@ function update(dt){
   updateParticles(dt);
   checkCollisions();
 
-  const multiplier = game.activePowerups.multiplier ? 2 : 1;
-  game.score += game.speed * game.combo * multiplier * dt * .11;
+  const multiplier = (game.activePowerups.multiplier ? 2 : 1) * (1 + Math.min(.65, difficulty * .65));
+  game.score += game.speed * Math.max(1, game.combo) * multiplier * dt * .11;
   game.distance += game.speed * dt / 3000;
   if(game.distance >= game.nextGemKm) awardGem();
   game.toastTimer = Math.max(0, game.toastTimer - dt);
@@ -523,22 +568,24 @@ function updateDirector(dt){
   director.timer -= dt;
   if(director.timer > 0) return;
 
-  const difficulty = Math.min(1, game.distance / 8);
+  const difficulty = getDifficulty();
   buildTrackSegment(difficulty);
   director.timer = Math.max(1.35, 2.1 - difficulty * .55);
 }
 
 function buildTrackSegment(difficulty){
-  const type = (director.pattern++ + Math.floor(game.distance)) % 6;
+  const type = (director.pattern++ + Math.floor(game.distance)) % 8;
   if(type === 0) queueBottleGuide();
   if(type === 1) queueSingleDodge('jump');
   if(type === 2) queueSafeLaneChoice();
   if(type === 3) queueZigZagGuide();
   if(type === 4) queueSingleDodge('slide');
   if(type === 5) queueTwoLaneGate(difficulty);
+  if(type === 6) queueMovingThreat(difficulty);
+  if(type === 7) queueHoleLine();
 
   if(Math.random() < .12 + difficulty * .08){
-    spawnTrackBeat({powerup:Math.floor(Math.random() * 3), offset:260});
+    spawnTrackBeat({powerup:pickPowerupId(), powerLane:Math.floor(Math.random() * 3), offset:260});
   }
 }
 
@@ -549,7 +596,7 @@ function queueBottleGuide(){
 
 function queueSingleDodge(action){
   const lane = director.lastSafeLane = Math.floor(Math.random() * 3);
-  const type = action === 'slide' ? 'gate' : Math.random() > .5 ? 'barrier' : 'cone';
+  const type = action === 'slide' ? 'gate' : Math.random() > .5 ? 'barrier' : Math.random() > .5 ? 'cone' : 'hole';
   spawnTrackBeat({bottles:[lane], offset:0});
   spawnTrackBeat({obstacles:[{lane,type}], offset:118});
   spawnTrackBeat({bottles:[lane], offset:218});
@@ -560,9 +607,26 @@ function queueSafeLaneChoice(){
   const blocked = Math.floor(Math.random() * 3);
   const safe = director.lastSafeLane = (blocked + (Math.random() > .5 ? 1 : 2)) % 3;
   spawnTrackBeat({bottles:[safe], offset:0});
-  spawnTrackBeat({obstacles:[{lane:blocked,type:Math.random() > .5 ? 'bus' : 'box'}], offset:125});
+  spawnTrackBeat({obstacles:[{lane:blocked,type:Math.random() > .5 ? 'bus' : Math.random() > .5 ? 'box' : 'rival'}], offset:125});
   spawnTrackBeat({bottles:[safe], offset:224});
   spawnTrackBeat({bottles:[safe], offset:318});
+}
+
+function queueMovingThreat(difficulty){
+  const safe = Math.floor(Math.random() * 3);
+  const lane = (safe + 1 + Math.floor(Math.random() * 2)) % 3;
+  spawnTrackBeat({bottles:[safe], offset:0});
+  spawnTrackBeat({obstacles:[{lane,type:difficulty > .45 ? 'cart' : 'rival'}], offset:116});
+  spawnTrackBeat({bottles:[safe], offset:224});
+  spawnTrackBeat({obstacles:[{lane:safe === 1 ? 0 : 1,type:'cone'}], offset:322});
+}
+
+function queueHoleLine(){
+  const safe = Math.floor(Math.random() * 3);
+  const blocked = [0,1,2].filter(lane => lane !== safe);
+  spawnTrackBeat({bottles:[safe], offset:0});
+  spawnTrackBeat({obstacles:blocked.map(lane => ({lane,type:'hole'})), offset:124});
+  spawnTrackBeat({bottles:[safe], offset:234});
 }
 
 function queueZigZagGuide(){
@@ -591,7 +655,16 @@ function spawnTrackBeat(beat){
   const offset = beat.offset || 0;
   (beat.obstacles || []).forEach(item => obstacles.spawn(game, lanes, item.lane, item.type, offset));
   (beat.bottles || []).forEach(lane => coins.spawn(game, lanes, lane, 1, 54, offset));
-  if(Number.isInteger(beat.powerup)) powerups.spawn(game, lanes, beat.powerup, null, offset);
+  if(beat.powerup) powerups.spawn(game, lanes, beat.powerLane ?? Math.floor(Math.random() * 3), beat.powerup, offset);
+}
+
+function pickPowerupId(){
+  const ids = ['turbo','shield','magnet','multiplier','slow','energy'];
+  return ids[Math.floor(Math.random() * ids.length)];
+}
+
+function getDifficulty(){
+  return Math.max(0, Math.min(1, game.distance / 10 + game.level * .025));
 }
 
 function checkCollisions(){
@@ -610,6 +683,8 @@ function checkCollisions(){
       game.combo = 1;
       player.invulnerable = 1.4;
       game.shake = 12;
+      shell.classList.add('is-damaged');
+      window.setTimeout(() => shell.classList.remove('is-damaged'), 180);
       audio.play('hit');
       vibrate(90);
       if(game.lives <= 0) endGame();
@@ -621,7 +696,8 @@ function checkCollisions(){
       item.collected = true;
       game.coins += item.value;
       game.energy = Math.min(100, game.energy + 4 + item.value * 2);
-      game.combo = Math.min(10, game.combo + 1);
+      game.combo = Math.min(12, game.combo + 1);
+      game.score += item.value * 35 * (game.activePowerups.multiplier ? 2 : 1);
       impact(item.x,item.y,'#18c8ff');
       audio.play('coin');
     }
@@ -632,7 +708,11 @@ function checkCollisions(){
     if(Math.hypot(player.x - item.x, player.y - item.y) < 68){
       item.collected = true;
       item.y = game.height + 200;
-      game.activePowerups[item.def.id] = 8;
+      if(item.def.id === 'energy'){
+        game.energy = Math.min(100, game.energy + 34);
+      }else{
+        game.activePowerups[item.def.id] = item.def.id === 'slow' ? 5.5 : 8;
+      }
       impact(item.x,item.y,item.def.color);
       audio.play('powerup');
     }
@@ -646,15 +726,24 @@ function perspectiveScale(y){
 
 function endGame(){
   game.running = false;
-  gameOverSummary.textContent = `Voce fez ${Math.floor(game.score).toLocaleString('pt-BR')} pontos, coletou ${game.coins} garrafas, ganhou ${game.gems} joia(s) e correu ${game.distance.toFixed(1).replace('.', ',')} km.`;
+  engine.setState(GameState.GameOver);
   store.best = Math.max(store.best, Math.floor(game.score));
   store.wallet += game.coins;
   store.gems = (store.gems || 0) + game.gems;
   store.bestDistance = Math.max(store.bestDistance, game.distance);
+  store.stats.runs += 1;
+  store.stats.totalDistance += game.distance;
+  store.stats.bestCombo = Math.max(store.stats.bestCombo || 0, game.combo);
+  store.stats.bestGems = Math.max(store.stats.bestGems || 0, game.gems);
+  const xpEarned = Math.floor(game.score / 45) + Math.floor(game.distance * 30) + game.coins;
+  addXp(store, xpEarned);
+  updateMissionProgress(store, {coins:game.coins,distance:game.distance});
+  gameOverSummary.textContent = `Voce fez ${Math.floor(game.score).toLocaleString('pt-BR')} pontos, coletou ${game.coins} garrafas, ganhou ${game.gems} joia(s), correu ${game.distance.toFixed(1).replace('.', ',')} km e recebeu ${xpEarned} XP. Nivel atual: ${store.level}.`;
   addRanking(store, {
     name:playerName.value || 'Voce',
     score:Math.floor(game.score),
     distance:Number(game.distance.toFixed(1)),
+    combo:game.combo,
     date:new Date().toLocaleDateString('pt-BR')
   });
   unlockAchievement(store,'first-run');
@@ -742,7 +831,10 @@ function vibrate(ms){
 function bindControls(){
   leftBtn.addEventListener('click', () => player.move(-1));
   rightBtn.addEventListener('click', () => player.move(1));
-  pauseBtn.addEventListener('click', () => { game.paused = !game.paused; audio.play('button'); });
+  pauseBtn.addEventListener('click', () => {
+    engine.setState(game.paused ? GameState.Playing : GameState.Pause);
+    audio.play('button');
+  });
   playBtn.addEventListener('click', () => { audio.play('button'); reset(); });
   restartBtn.addEventListener('click', reset);
   menuBtn.addEventListener('click', () => setScreen('menu'));
@@ -792,5 +884,5 @@ resize();
 bindControls();
 renderPanels();
 setScreen('menu');
-requestAnimationFrame(loop);
+requestAnimationFrame(time => engine.tick(time));
 

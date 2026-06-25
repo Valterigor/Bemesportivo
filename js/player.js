@@ -1,5 +1,6 @@
 export const KOBEMS = [
   {id:'classic',name:'Classico',price:0,color:'#fc6e02',accent:'#42e8ff'},
+  {id:'mascot2',name:'Kobem 2.0',price:0,color:'#fc6e02',accent:'#ff9f1c',variant:'mascot2'},
   {id:'athlete',name:'Atleta',price:180,color:'#f04d23',accent:'#ffffff'},
   {id:'gold',name:'Ouro',price:500,color:'#ffd34d',accent:'#42e8ff'},
   {id:'neon',name:'Neon',price:900,color:'#141414',accent:'#42e8ff'},
@@ -23,6 +24,8 @@ export class Player{
     this.jumpVelocity = 0;
     this.slide = 0;
     this.tilt = 0;
+    this.laneVelocity = 0;
+    this.turnBoost = 0;
     this.lastLane = 1;
     this.skin = KOBEMS[0];
   }
@@ -35,6 +38,8 @@ export class Player{
     this.jumpVelocity = 0;
     this.slide = 0;
     this.tilt = 0;
+    this.laneVelocity = 0;
+    this.turnBoost = 0;
     this.lastLane = 1;
   }
 
@@ -47,6 +52,8 @@ export class Player{
     if(next !== this.targetLane){
       this.lastLane = this.targetLane;
       this.targetLane = next;
+      this.laneVelocity += dir * .95;
+      this.turnBoost = .22;
       this.tilt = dir * .18;
     }
   }
@@ -69,11 +76,19 @@ export class Player{
   update(dt, lanes, height, gameSpeed = 620){
     const runRate = 8.6 + Math.min(8, (gameSpeed - 620) / 90);
     this.anim += dt * runRate;
-    this.lane += (this.targetLane - this.lane) * Math.min(1, dt * 15);
+    const laneDelta = this.targetLane - this.lane;
+    this.laneVelocity += laneDelta * dt * 34;
+    this.laneVelocity *= Math.max(0, 1 - dt * 9.5);
+    this.lane += this.laneVelocity * dt * 8.5;
+    if(Math.abs(laneDelta) < .012 && Math.abs(this.laneVelocity) < .02){
+      this.lane = this.targetLane;
+      this.laneVelocity = 0;
+    }
     this.x = lanes[0] + (lanes[2] - lanes[0]) * (this.lane / 2);
     this.y = height * .79;
     this.invulnerable = Math.max(0, this.invulnerable - dt);
     this.slide = Math.max(0, this.slide - dt);
+    this.turnBoost = Math.max(0, this.turnBoost - dt);
     this.tilt += (0 - this.tilt) * Math.min(1, dt * 9);
     if(this.jump > 0 || this.jumpVelocity > 0){
       this.jump += this.jumpVelocity * dt;
@@ -103,6 +118,10 @@ export class Player{
     const stride = Math.sin(this.anim);
     const color = this.skin.color;
     const accent = this.skin.accent;
+    if(this.skin.variant === 'mascot2'){
+      drawMascot2(ctx, this.x, this.y, bob, stride, activePowerups, color, accent, this.jump, this.slide, this.tilt, this.turnBoost);
+      return;
+    }
     if(robotRunSheet.complete && robotRunSheet.naturalWidth){
       drawRobotRunSheet(ctx, robotRunSheet, this.x, this.y, bob, this.anim, activePowerups, accent, this.jump, this.slide, this.tilt);
       return;
@@ -247,6 +266,137 @@ function drawRobotRunSheet(ctx,image,x,y,bob,anim,activePowerups,accent,jump,sli
   const footPhase = Math.sin(anim * 1.35);
   drawSpriteFlame(ctx,x - spriteWidth*.17,y + 30 - jump + footPhase*9,accent,slide);
   drawSpriteFlame(ctx,x + spriteWidth*.18,y + 25 - jump - footPhase*9,accent,slide);
+  ctx.restore();
+}
+
+function drawMascot2(ctx,x,y,bob,stride,activePowerups,color,accent,jump,slide,tilt,turnBoost){
+  const squash = slide > 0 ? .72 : 1;
+  const lean = slide > 0 ? .12 : tilt + turnBoost * .16;
+  const scale = Math.min(1.08, Math.max(.86, (ctx.canvas.clientHeight || 800) / 860));
+  ctx.save();
+  ctx.translate(x, y + bob - jump);
+  ctx.rotate(lean);
+  ctx.scale(scale, scale * squash);
+
+  if(activePowerups.shield){
+    ctx.strokeStyle = 'rgba(66,232,255,.84)';
+    ctx.lineWidth = 8;
+    ctx.shadowColor = '#42e8ff';
+    ctx.shadowBlur = 26;
+    ctx.beginPath();
+    ctx.ellipse(0,-96,94,128,0,0,Math.PI*2);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+
+  ctx.fillStyle = 'rgba(0,0,0,.36)';
+  ctx.beginPath();
+  ctx.ellipse(18,44,72,18,0,0,Math.PI*2);
+  ctx.fill();
+
+  const foot = Math.sin(stride);
+  drawMascotLeg(ctx,-34,20,foot * 18,color,accent);
+  drawMascotLeg(ctx,34,20,-foot * 18,color,accent);
+  drawMascotArm(ctx,-70,-80,-foot * 16,color,accent);
+  drawMascotArm(ctx,70,-80,foot * 16,color,accent);
+
+  const body = ctx.createLinearGradient(-52,-86,52,34);
+  body.addColorStop(0,'#ffffff');
+  body.addColorStop(.38,'#f4f0ea');
+  body.addColorStop(.39,color);
+  body.addColorStop(1,'#17191f');
+  ctx.fillStyle = body;
+  roundRect(ctx,-54,-78,108,116,30);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,.45)';
+  ctx.lineWidth = 4;
+  ctx.stroke();
+  ctx.fillStyle = '#fff';
+  roundRect(ctx,-38,-38,76,42,10);
+  ctx.fill();
+  ctx.fillStyle = color;
+  ctx.font = '900 22px Inter, Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('BE',0,-10);
+
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 7;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(-44,-154); ctx.lineTo(-60,-204);
+  ctx.moveTo(44,-154); ctx.lineTo(60,-204);
+  ctx.stroke();
+  ctx.fillStyle = accent;
+  ctx.shadowColor = accent;
+  ctx.shadowBlur = 18;
+  ctx.beginPath();
+  ctx.arc(-61,-207,12,0,Math.PI*2);
+  ctx.arc(61,-207,12,0,Math.PI*2);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+
+  const head = ctx.createLinearGradient(-84,-178,84,-62);
+  head.addColorStop(0,'#fffaf3');
+  head.addColorStop(.18,'#ffffff');
+  head.addColorStop(.2,color);
+  head.addColorStop(.55,'#f47a08');
+  head.addColorStop(1,'#22252e');
+  ctx.fillStyle = head;
+  roundRect(ctx,-86,-178,172,124,46);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,.5)';
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  ctx.fillStyle = '#05080d';
+  roundRect(ctx,-62,-154,124,74,28);
+  ctx.fill();
+  ctx.fillStyle = accent;
+  ctx.shadowColor = accent;
+  ctx.shadowBlur = 16;
+  roundRect(ctx,-39,-128,22,34,11);
+  roundRect(ctx,17,-128,22,34,11);
+  ctx.beginPath();
+  ctx.arc(0,-96,14,0,Math.PI);
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 5;
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+
+  drawSpriteFlame(ctx,-34,48,accent,slide);
+  drawSpriteFlame(ctx,34,44,accent,slide);
+  ctx.restore();
+}
+
+function drawMascotArm(ctx,x,y,phase,color,accent){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.rotate(phase * .012);
+  ctx.fillStyle = color;
+  roundRect(ctx,-16,-8,32,58,14);
+  ctx.fill();
+  ctx.fillStyle = '#f7f7f7';
+  roundRect(ctx,-20,38,40,30,14);
+  ctx.fill();
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawMascotLeg(ctx,x,y,phase,color,accent){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.rotate(phase * .012);
+  ctx.fillStyle = '#17191f';
+  roundRect(ctx,-16,-8,32,66,14);
+  ctx.fill();
+  ctx.fillStyle = color;
+  roundRect(ctx,-24,46,48,28,12);
+  ctx.fill();
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 3;
+  ctx.stroke();
   ctx.restore();
 }
 

@@ -52,6 +52,8 @@ button{border:0;color:#fff;font-weight:900;cursor:pointer;touch-action:manipulat
 .runner-controls button,.menu-actions button,.game-over-card button{min-height:60px;border-radius:15px;background:linear-gradient(180deg,#ffbd2c,#fc6e02 58%,#d64b00);box-shadow:0 8px 0 #8d2f00,0 0 24px rgba(252,110,2,.35);font-size:28px}
 .runner-controls button{pointer-events:auto}
 .runner-phone.is-turbo .energy-card{box-shadow:0 9px 0 rgba(0,0,0,.26),0 0 30px #42e8ff}
+.runner-phone.is-damaged{animation:damageFlash .18s linear both}
+@keyframes damageFlash{0%,100%{filter:none}45%{filter:saturate(1.6) brightness(1.2);box-shadow:0 0 0 3px rgba(255,48,64,.9),0 0 42px rgba(255,48,64,.55)}}
 .runner-menu,.runner-panel,.game-over{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:26px 28px 34px;background:radial-gradient(circle at 50% 15%,rgba(66,232,255,.25),transparent 25%),linear-gradient(180deg,rgba(1,10,24,.55),rgba(1,2,5,.96));text-align:center}
 .runner-menu::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 0 46%,rgba(252,110,2,.2) 72%,rgba(0,0,0,.6));pointer-events:none}
 .brand-lockup{position:absolute;top:28px;left:30px;display:flex;align-items:center;gap:8px}
@@ -79,7 +81,16 @@ button{border:0;color:#fff;font-weight:900;cursor:pointer;touch-action:manipulat
 .achievement-card,.kobem-card{grid-template-columns:1fr;min-height:92px}
 .achievement-card.is-unlocked,.kobem-card.is-selected{border-color:#42e8ff;box-shadow:0 0 20px rgba(66,232,255,.28)}
 .kobem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.kobem-avatar{height:110px;border-radius:16px;background:linear-gradient(180deg,var(--skin,#fc6e02),#111);display:grid;place-items:center;font-size:46px}
+.kobem-avatar{height:110px;border-radius:16px;background:radial-gradient(circle at 50% 18%,rgba(255,255,255,.28),transparent 34%),linear-gradient(180deg,var(--skin,#fc6e02),#111);display:grid;place-items:center;font-size:46px;overflow:hidden}
+.kobem-avatar-bot{position:relative;display:block;width:78px;height:92px}
+.kobem-avatar-bot::before{content:"";position:absolute;left:6px;right:6px;top:8px;height:48px;border-radius:22px;background:linear-gradient(135deg,#fff,#ff8b1a 48%,#15191f);box-shadow:0 0 18px rgba(252,110,2,.35)}
+.kobem-avatar-bot::after{content:"";position:absolute;left:16px;right:16px;top:20px;height:26px;border-radius:14px;background:#05080d;box-shadow:inset 0 0 0 2px rgba(255,255,255,.16)}
+.kobem-avatar-bot b{position:absolute;left:20px;right:20px;bottom:13px;height:38px;border-radius:16px;background:linear-gradient(180deg,#fff,var(--skin,#fc6e02) 52%,#15191f)}
+.kobem-avatar-bot em{position:absolute;left:28px;top:28px;width:8px;height:12px;border-radius:6px;background:var(--accent,#42e8ff);box-shadow:22px 0 0 var(--accent,#42e8ff),0 0 12px var(--accent,#42e8ff)}
+.kobem-avatar-bot small{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);font-size:11px;font-style:normal;color:var(--skin,#fc6e02);font-weight:900}
+.kobem-avatar-bot i{position:absolute;top:-8px;width:6px;height:22px;border-radius:999px;background:var(--skin,#fc6e02);box-shadow:0 -6px 0 3px var(--accent,#ff9f1c)}
+.kobem-avatar-bot i:first-child{left:16px;transform:rotate(-14deg)}
+.kobem-avatar-bot i:nth-child(2){right:16px;transform:rotate(14deg)}
 .kobem-card button{min-height:38px;border-radius:12px;background:#fc6e02}
 .game-over-card{display:grid;gap:12px;text-align:center}
 @media (min-width:760px){.runner-phone{border-radius:28px;height:min(96dvh,960px)}}

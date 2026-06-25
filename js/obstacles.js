@@ -3,6 +3,9 @@ const TYPES = [
   {id:'fast-marker',w:78,h:124,color:'#181818',speed:1.32,shift:true,dodge:null},
   {id:'cone',w:72,h:86,color:'#fc6e02',speed:1,shift:false,dodge:'jump'},
   {id:'barrier',w:136,h:92,color:'#ffd34d',speed:1,shift:false,dodge:'jump'},
+  {id:'hole',w:128,h:72,color:'#080808',speed:1,shift:false,dodge:'jump'},
+  {id:'rival',w:86,h:138,color:'#1976d2',speed:1.05,shift:true,dodge:null},
+  {id:'cart',w:118,h:82,color:'#fc6e02',speed:1.22,shift:true,dodge:null},
   {id:'gate',w:136,h:150,color:'#42e8ff',speed:1,shift:false,dodge:'slide'},
   {id:'box',w:108,h:108,color:'#8b4a19',speed:1,shift:false,dodge:null}
 ];
@@ -71,6 +74,9 @@ export class ObstacleSystem{
       if(item.type.id === 'fast-marker') drawMarker(ctx,item.type.color,true);
       if(item.type.id === 'cone') drawCone(ctx);
       if(item.type.id === 'barrier') drawBarrier(ctx);
+      if(item.type.id === 'hole') drawHole(ctx);
+      if(item.type.id === 'rival') drawRival(ctx,item.type.color);
+      if(item.type.id === 'cart') drawCart(ctx,item.type.color);
       if(item.type.id === 'gate') drawGate(ctx);
       if(item.type.id === 'box') drawBox(ctx);
       ctx.restore();
@@ -160,6 +166,66 @@ function drawBarrier(ctx){
   }
   ctx.fillStyle = '#fc6e02';
   ctx.fillRect(-76,-44,152,10);
+}
+
+function drawHole(ctx){
+  ctx.fillStyle = 'rgba(0,0,0,.3)';
+  ctx.beginPath(); ctx.ellipse(0,34,82,16,0,0,Math.PI*2); ctx.fill();
+  const pit = ctx.createRadialGradient(0,0,8,0,0,70);
+  pit.addColorStop(0,'#020202');
+  pit.addColorStop(.58,'#07090f');
+  pit.addColorStop(1,'rgba(252,110,2,.62)');
+  ctx.fillStyle = pit;
+  ctx.beginPath();
+  ctx.ellipse(0,0,72,38,0,0,Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle = '#ff9f1c';
+  ctx.lineWidth = 5;
+  ctx.stroke();
+}
+
+function drawRival(ctx,color){
+  ctx.fillStyle = 'rgba(0,0,0,.28)';
+  ctx.beginPath(); ctx.ellipse(0,68,46,12,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = color;
+  ctx.beginPath(); ctx.arc(0,-58,24,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.beginPath(); ctx.arc(-8,-63,5,0,Math.PI*2); ctx.arc(8,-63,5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#111';
+  ctx.beginPath(); ctx.roundRect(-32,-32,64,70,16); ctx.fill();
+  ctx.fillStyle = color;
+  ctx.fillRect(-24,-20,48,12);
+  ctx.fillStyle = '#fff';
+  ctx.font = '900 22px Inter, Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('10',0,16);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 9;
+  ctx.beginPath();
+  ctx.moveTo(-28,-10); ctx.lineTo(-52,16);
+  ctx.moveTo(28,-10); ctx.lineTo(52,18);
+  ctx.moveTo(-15,36); ctx.lineTo(-34,70);
+  ctx.moveTo(15,36); ctx.lineTo(34,70);
+  ctx.stroke();
+}
+
+function drawCart(ctx,color){
+  ctx.fillStyle = 'rgba(0,0,0,.32)';
+  ctx.beginPath(); ctx.ellipse(0,46,72,13,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.roundRect(-58,-28,116,56,14);
+  ctx.fill();
+  ctx.fillStyle = '#111';
+  ctx.fillRect(-44,-44,88,20);
+  ctx.fillStyle = '#fff';
+  ctx.font = '900 18px Inter, Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('BE',0,11);
+  ctx.fillStyle = '#1b1f28';
+  ctx.beginPath(); ctx.arc(-36,32,16,0,Math.PI*2); ctx.arc(36,32,16,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#42e8ff';
+  ctx.beginPath(); ctx.arc(-36,32,7,0,Math.PI*2); ctx.arc(36,32,7,0,Math.PI*2); ctx.fill();
 }
 
 function drawGate(ctx){
