@@ -9308,6 +9308,18 @@ const WORLD_CUP_MATCHES = [
   {date:'2026-06-24',time:'19:00',group:'C',home:'Haiti',away:'Marrocos',venue:'Mercedes-Benz Stadium'}
 ];
 
+const BRAZIL_NEXT_MATCH_FALLBACK = {
+  date:'2026-06-29',
+  time:'12:00',
+  group:'Mata-mata',
+  home:'Brasil',
+  away:'Adversário a definir',
+  venue:'Houston Stadium',
+  status:'PRÓXIMO JOGO',
+  statusDetail:'O adversário será atualizado automaticamente assim que a tabela oficial liberar o confronto.',
+  source:'Tabela Copa 2026'
+};
+
 const PALPITOMETRO_PLAYERS = [
   'Alisson',
   'Ederson',
@@ -11679,7 +11691,11 @@ function getBrazilSpotlightMatch(matches = latestWorldCupMatches || WORLD_CUP_MA
   const now = new Date();
   const live = source.find(match => ['AO VIVO','EM JOGO'].includes(getWorldCupStatus(match)));
   if(live) return live;
-  return source.find(match => new Date(getWorldCupDateTime(match).getTime() + 130 * 60 * 1000) >= now) || source[source.length - 1] || null;
+  const upcoming = source.find(match => new Date(getWorldCupDateTime(match).getTime() + 130 * 60 * 1000) >= now);
+  if(upcoming) return upcoming;
+
+  const fallbackDate = getWorldCupDateTime(BRAZIL_NEXT_MATCH_FALLBACK);
+  return fallbackDate >= now ? BRAZIL_NEXT_MATCH_FALLBACK : source[source.length - 1] || BRAZIL_NEXT_MATCH_FALLBACK;
 }
 
 function getBrazilSpotlightScore(match){
@@ -11694,6 +11710,14 @@ function getBrazilSpotlightScore(match){
     brazil:brazil?.score ?? null,
     opponent:opponent?.score ?? null
   };
+}
+
+function getBrazilSpotlightDisplayStatus(match){
+  const status = match ? getWorldCupStatus(match) : 'PRÉ-JOGO';
+  if(status === 'AGENDADO' || status === 'HOJE' || status === 'PRÉ-JOGO'){
+    return 'PRÓXIMO JOGO';
+  }
+  return status;
 }
 
 function getBrazilSpotlightSummaryUrl(eventId){
@@ -11752,7 +11776,8 @@ function renderBrazilSpotlight(match, plays = []){
 
   const fallbackMatch = getBrazilSpotlightMatch(WORLD_CUP_MATCHES);
   const currentMatch = match || fallbackMatch;
-  const status = currentMatch ? getWorldCupStatus(currentMatch) : 'PRÉ-JOGO';
+  const rawStatus = currentMatch ? getWorldCupStatus(currentMatch) : 'PRÉ-JOGO';
+  const status = getBrazilSpotlightDisplayStatus(currentMatch);
   const score = getBrazilSpotlightScore(currentMatch);
   const hasScore = score.brazil != null && score.opponent != null;
   const liveClock = currentMatch?.liveClock
@@ -11767,16 +11792,16 @@ function renderBrazilSpotlight(match, plays = []){
   if(summaryEl){
     summaryEl.textContent = status === 'AO VIVO'
       ? 'Tempo real ligado: acompanhe cronômetro, placar e lances principais da Seleção.'
-      : status === 'ENCERRADO'
+      : rawStatus === 'ENCERRADO'
         ? 'Jogo encerrado: placar final e principais lances ficam registrados aqui.'
         : `Próximo jogo da Seleção na Copa: ${escapeHtml(getPrimaryWorldCupTeam(currentMatch?.home) || 'Brasil')} x ${escapeHtml(getPrimaryWorldCupTeam(currentMatch?.away) || 'adversário')}, dia ${escapeHtml(formatWorldCupDate(currentMatch))}, às ${escapeHtml(formatWorldCupTime(currentMatch))}.`;
   }
 
   const fallbackText = status === 'AO VIVO'
     ? 'Aguardando novos lances da transmissão.'
-    : status === 'ENCERRADO'
+    : rawStatus === 'ENCERRADO'
       ? 'A partida foi encerrada. Os lances aparecem quando a ESPN disponibilizar o resumo.'
-      : 'Os lances aparecem aqui quando a transmissão ao vivo liberar os dados da partida.';
+      : 'O destaque está preparado para o próximo jogo da Seleção. Placar e lances entram automaticamente quando a transmissão liberar os dados.';
 
   playsEl.innerHTML = plays.length
     ? plays.map(play => `<li><time>${escapeHtml(play.minute)}</time><span>${escapeHtml(play.text)}</span></li>`).join('')
