@@ -7,6 +7,7 @@ const root = __dirname;
 const port = Number(process.env.PORT || 3100);
 const communityFile = path.join(root, 'data', 'community.json');
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
+const SELECAO_NEWS_RSS_URL = 'https://news.google.com/rss/search?q=sele%C3%A7%C3%A3o%20brasileira%20futebol%20when%3A1d&hl=pt-BR&gl=BR&ceid=BR:pt-419';
 const ESPN_WORLD_CUP_SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
 const ESPN_WORLD_CUP_SUMMARY_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary';
 const apiCache = new Map();
@@ -503,6 +504,42 @@ function extractJsAssignment(html, variableName){
   return null;
 }
 
+function decodeXmlText(value){
+  return String(value || '')
+    .replace(/<!\[CDATA\[|\]\]>/g, '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function extractXmlTag(item, tag){
+  const match = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i').exec(item);
+  return decodeXmlText(match?.[1] || '');
+}
+
+function parseSelecaoNewsRss(xml){
+  return [...String(xml || '').matchAll(/<item\b[\s\S]*?<\/item>/gi)]
+    .map(match => {
+      const item = match[0];
+      const rawTitle = extractXmlTag(item, 'title');
+      const title = rawTitle.replace(/\s+-\s+[^-]+$/,'').trim() || rawTitle;
+      const source = rawTitle.includes(' - ') ? rawTitle.split(' - ').pop().trim() : extractXmlTag(item, 'source');
+      return {
+        title:cleanText(title, 120),
+        source:cleanText(source, 60),
+        url:extractXmlTag(item, 'link'),
+        publishedAt:extractXmlTag(item, 'pubDate')
+      };
+    })
+    .filter(item => item.title && item.url)
+    .slice(0, 3);
+}
+
 async function cachedJson(key, ttlMs, loader){
   const cached = apiCache.get(key);
   if(cached && Date.now() - cached.createdAt < ttlMs){
@@ -518,6 +555,25 @@ async function cachedJson(key, ttlMs, loader){
   };
   apiCache.set(key, {createdAt:Date.now(), payload:wrapped});
   return wrapped;
+}
+
+async function handleSelecaoApi(request, response, parsedUrl){
+  if(request.method !== 'GET') return false;
+
+  if(parsedUrl.pathname === '/api/selecaobrasileira/news'){
+    try{
+      const payload = await cachedJson('selecaobrasileira:news', 180000, async () => {
+        const xml = await fetchText(SELECAO_NEWS_RSS_URL);
+        return parseSelecaoNewsRss(xml);
+      });
+      sendJson(response, 200, payload, 180);
+    }catch(error){
+      sendJson(response, 502, {ok:false, error:'Noticias da Selecao indisponiveis no momento', detail:error.message});
+    }
+    return true;
+  }
+
+  return false;
 }
 
 async function loadBrasileiraoPageData(){
@@ -638,6 +694,11 @@ const server = http.createServer(async (request, response) => {
 
   if(parsedUrl.pathname.startsWith('/api/brasileirao/')){
     const handled = await handleBrasileiraoApi(request, response, parsedUrl);
+    if(handled) return;
+  }
+
+  if(parsedUrl.pathname.startsWith('/api/selecaobrasileira/')){
+    const handled = await handleSelecaoApi(request, response, parsedUrl);
     if(handled) return;
   }
 

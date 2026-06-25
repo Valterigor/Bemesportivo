@@ -889,6 +889,93 @@ gap:10px;
 align-content:start;
 }
 
+.worldcup-story-news{
+display:grid;
+gap:12px;
+align-content:start;
+padding:14px;
+border:1px solid rgba(255,255,255,.16);
+border-radius:8px;
+background:rgba(0,0,0,.42);
+backdrop-filter:blur(10px);
+box-shadow:inset 0 0 18px rgba(36,246,255,.08);
+}
+
+.worldcup-news-list{
+display:grid;
+gap:10px;
+}
+
+.worldcup-news-list a{
+display:grid;
+gap:4px;
+padding:10px 0 0;
+border-top:1px solid rgba(255,255,255,.12);
+color:#fff;
+text-decoration:none;
+}
+
+.worldcup-news-list a:first-child{
+padding-top:0;
+border-top:0;
+}
+
+.worldcup-news-list strong{
+font-size:15px;
+line-height:1.25;
+}
+
+.worldcup-news-list span{
+font-size:11px;
+font-weight:900;
+color:#ffb071;
+text-transform:uppercase;
+}
+
+.story-palpite-footer{
+display:grid;
+grid-template-columns:minmax(0,1fr) auto;
+align-items:center;
+gap:9px;
+padding:11px;
+border:1px solid rgba(255,255,255,.16);
+border-radius:8px;
+background:rgba(0,0,0,.58);
+}
+
+.story-footer-pick{
+display:flex;
+gap:6px;
+min-width:0;
+}
+
+.story-footer-pick button{
+padding:8px 9px;
+border:1px solid rgba(255,255,255,.18);
+border-radius:999px;
+background:rgba(255,255,255,.08);
+color:#fff;
+font-size:11px;
+font-weight:900;
+cursor:pointer;
+}
+
+.story-footer-pick button.is-selected{
+background:#fc6e02;
+border-color:#fc6e02;
+}
+
+.story-footer-score{
+display:flex;
+align-items:end;
+gap:6px;
+}
+
+.story-palpite-footer .story-save-btn,
+.story-palpite-footer .story-shareline{
+grid-column:1 / -1;
+}
+
 .story-control-panel{
 display:grid;
 gap:8px;
@@ -8055,7 +8142,7 @@ bottom:clamp(150px, 13.8vw, 188px);
 
 <div class="worldcup-story-title">
 <h2 data-story-match-title>Brasil x Escócia</h2>
-<p>Palpite, craque da partida e termômetro da torcida em clima de transmissão premium.</p>
+<p>Últimas notícias da Seleção Brasileira e próximo jogo em atualização automática.</p>
 </div>
 
 <div class="worldcup-story-match">
@@ -8070,66 +8157,29 @@ bottom:clamp(150px, 13.8vw, 188px);
 </div>
 </div>
 
-<div class="worldcup-story-controls">
-<div class="story-control-panel">
-<div class="story-panel-title">Palpite do vencedor</div>
-<div class="story-segmented" data-story-group="winner">
+<div class="worldcup-story-news" aria-live="polite">
+<div class="story-panel-title">Notícias em destaque</div>
+<div id="selecaoNewsList" class="worldcup-news-list">
+<a href="#reportagens-home"><strong>Carregando notícias da Seleção...</strong><span>Atualização em tempo real</span></a>
+</div>
+</div>
+
+<div class="story-palpite-footer">
+<div class="story-footer-pick" data-story-group="winner">
 <button type="button" class="is-selected" data-story-value="Brasil">Brasil</button>
 <button type="button" data-story-value="Empate">Empate</button>
 <button type="button" data-story-value="Escócia">Escócia</button>
 </div>
-</div>
-
-<div class="story-control-panel">
-<label>Placar exato</label>
-<div class="story-score-row">
+<div class="story-footer-score">
 <label class="story-score-box"><span>Brasil</span><input type="number" min="0" max="15" value="2" data-story-score="home" aria-label="Gols do Brasil"></label>
 <div class="story-score-divider">x</div>
 <label class="story-score-box"><span>Escócia</span><input type="number" min="0" max="15" value="0" data-story-score="away" aria-label="Gols da Escócia"></label>
 </div>
-</div>
-
-<div class="story-control-panel">
-<div class="story-panel-title">Craque da partida</div>
-<div class="story-craque-grid" data-story-group="player">
-<button type="button" class="is-selected" data-story-value="Vinícius Júnior">Vinícius Júnior</button>
-<button type="button" data-story-value="Neymar">Neymar</button>
-<button type="button" data-story-value="Raphinha">Raphinha</button>
-<button type="button" data-story-value="Gabriel Martinelli">G. Martinelli</button>
-<button type="button" data-story-value="Matheus Cunha">Matheus Cunha</button>
-<button type="button" data-story-value="Endrick">Endrick</button>
-</div>
-</div>
-
-<div class="story-control-panel">
-<div class="story-panel-title">Opinião da torcida</div>
-<div class="story-poll-grid" data-story-group="mood">
-<button type="button" class="is-selected" data-story-value="Rumo ao Hexa">Rumo ao Hexa</button>
-<button type="button" data-story-value="Jogo duro">Jogo duro</button>
-<button type="button" data-story-value="Show do Brasil">Show do Brasil</button>
-<button type="button" data-story-value="Olho na zebra">Olho na zebra</button>
-</div>
-</div>
-
-<div class="story-control-panel">
-<label for="storyConfidence">Termômetro de confiança</label>
-<div class="story-confidence-row">
-<input id="storyConfidence" type="range" min="0" max="100" value="78" data-story-confidence>
-<output id="storyConfidenceValue">78%</output>
-</div>
-</div>
-
-<button type="button" class="story-save-btn" id="storySaveAnswers">Salvar respostas</button>
-
-<div class="story-results" id="storyResults" aria-live="polite">
-<strong>Resultados da torcida</strong>
-<span>Salve respostas para ver os mais escolhidos.</span>
-</div>
-</div>
-
+<button type="button" class="story-save-btn" id="storySaveAnswers">Salvar palpite</button>
 <div class="story-shareline" id="storyShareline" aria-live="polite">
-<strong>Brasil vence por 2 x 0. Craque: Vinícius Júnior.</strong>
-<span>Confiança da torcida: 78% | Rumo ao Hexa</span>
+<strong>Brasil vence por 2 x 0.</strong>
+<span>Palpite da torcida</span>
+</div>
 </div>
 </div>
 </article>
@@ -9840,6 +9890,37 @@ async function fetchBrasileiraoApi(path){
 
   const payload = await fetchExternalJson(apiUrl);
   return payload?.data || payload;
+}
+
+async function loadSelecaoNews(){
+  const container = document.getElementById('selecaoNewsList');
+  if(!container) return;
+
+  try{
+    const payload = await fetchExternalJson(buildLocalApiUrl('/api/selecaobrasileira/news'));
+    const news = Array.isArray(payload?.data) ? payload.data : [];
+    if(!news.length) throw new Error('Noticias vazias.');
+
+    container.innerHTML = news.slice(0, 3).map(item => `
+      <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">
+        <strong>${escapeHtml(item.title)}</strong>
+        <span>${escapeHtml(item.source || 'Seleção Brasileira')}</span>
+      </a>
+    `).join('');
+  }catch(error){
+    container.innerHTML = `
+      <a href="#reportagens-home">
+        <strong>Notícias da Seleção aparecem aqui em tempo real.</strong>
+        <span>Atualizando fonte</span>
+      </a>
+    `;
+    console.error('Erro ao carregar notícias da Seleção:', error);
+  }
+}
+
+function startSelecaoNewsRefresh(){
+  loadSelecaoNews();
+  window.setInterval(loadSelecaoNews, 180000);
 }
 
 async function loadBrasileiraoLive(){
@@ -12636,8 +12717,8 @@ function setupWorldCupStoryCard(){
 
     if(shareline){
       shareline.innerHTML = `
-        <strong>${escapeHtml(state.winner)} ${state.winner === 'Empate' ? 'no palpite' : 'vence'} por ${escapeHtml(state.homeScore)} x ${escapeHtml(state.awayScore)}. Craque: ${escapeHtml(state.player)}.</strong>
-        <span>Confiança da torcida: ${escapeHtml(state.confidence)}% | ${escapeHtml(state.mood)}</span>
+        <strong>${escapeHtml(state.winner)} ${state.winner === 'Empate' ? 'no palpite' : 'vence'} por ${escapeHtml(state.homeScore)} x ${escapeHtml(state.awayScore)}.</strong>
+        <span>Palpite da torcida para o próximo jogo</span>
       `;
     }
 
@@ -13012,6 +13093,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupPalpiteExportButtons();
   syncPalpitesFromCommunity(false).then(() => renderPalpitometro());
   setupMobileAppNavigation();
+  startSelecaoNewsRefresh();
   startBrasileiraoLiveAutoRefresh();
   startWorldCupLiveAutoRefresh();
   window.setInterval(() => {
