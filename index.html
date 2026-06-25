@@ -9266,9 +9266,12 @@ const FIFA_WORLD_CUP_URL = 'https://www.fifa.com/en/tournaments/mens/worldcup/ca
 const ESPN_WORLD_CUP_SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
 const ESPN_WORLD_CUP_SUMMARY_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary';
 const WORLD_CUP_REFRESH_MS = 15000;
+const BRASILEIRAO_REFRESH_MS = 30000;
 const WORLD_CUP_STORAGE_KEY = 'bemEsportivoWorldCupMatchesV2';
 let worldCupRefreshTimer = null;
 let worldCupRefreshInFlight = false;
+let brasileiraoRefreshTimer = null;
+let brasileiraoRefreshInFlight = false;
 let latestWorldCupMatches = null;
 let latestWorldCupSourceLabel = 'Tabela oficial da FIFA';
 let worldCupMatchesExpanded = false;
@@ -9494,6 +9497,12 @@ async function fetchExternalJson(url){
   } finally {
     clearTimeout(timeoutId);
   }
+}
+
+function buildLocalApiUrl(path, params = {}){
+  if(location.protocol === 'file:') return '';
+  const query = new URLSearchParams(params).toString();
+  return `${location.origin}${path}${query ? `?${query}` : ''}`;
 }
 
 function extractJsAssignment(html, variableName){
@@ -9811,20 +9820,34 @@ function renderBrasileiraoMatches(lista, sourceLabel = ''){
   }).join('');
 }
 
+async function fetchBrasileiraoApi(path){
+  const apiUrl = buildLocalApiUrl(path);
+  if(!apiUrl){
+    throw new Error('API local indisponível em arquivo estático.');
+  }
+
+  const payload = await fetchExternalJson(apiUrl);
+  return payload?.data || payload;
+}
+
 async function loadBrasileiraoLive(){
   renderBrasileiraoMatches(FALLBACK_MATCHES, 'Buscando atualização ao vivo. Enquanto isso, veja os links oficiais da rodada.');
 
   try {
-    const html = await fetchExternalText(GE_BRASILEIRAO_URL);
-    const rawJson = extractListaJogos(html);
-    if(!rawJson){
-      throw new Error('Dados de jogos não encontrados.');
-    }
-
-    renderBrasileiraoMatches(JSON.parse(rawJson));
+    const matches = await fetchBrasileiraoApi('/api/brasileirao/matches');
+    renderBrasileiraoMatches(matches, 'GE ao vivo');
   } catch(error){
-    renderBrasileiraoMatches(FALLBACK_MATCHES, 'Atualização ao vivo indisponível agora. Acesse o GE pelo botão para conferir a rodada oficial.');
-    console.error('Erro ao carregar Brasileirão:', error);
+    try{
+      const html = await fetchExternalText(GE_BRASILEIRAO_URL);
+      const rawJson = extractListaJogos(html);
+      if(!rawJson){
+        throw new Error('Dados de jogos não encontrados.');
+      }
+      renderBrasileiraoMatches(JSON.parse(rawJson), 'GE ao vivo via fallback');
+    }catch(fallbackError){
+      renderBrasileiraoMatches(FALLBACK_MATCHES, 'Atualização ao vivo indisponível agora. Acesse o GE pelo botão para conferir a rodada oficial.');
+      console.error('Erro ao carregar Brasileirão:', fallbackError);
+    }
   }
 }
 
@@ -9832,17 +9855,60 @@ async function loadBrasileiraoStandings(){
   renderBrasileiraoStandings(FALLBACK_STANDINGS, 'Buscando tabela ao vivo');
 
   try {
-    const html = await fetchExternalText(GE_BRASILEIRAO_URL);
-    const rawJson = extractClassificacao(html);
-    if(!rawJson){
-      throw new Error('Dados de classificação não encontrados.');
-    }
-
-    renderBrasileiraoStandings(rawJson);
+    const standings = await fetchBrasileiraoApi('/api/brasileirao/standings');
+    renderBrasileiraoStandings(standings, 'GE ao vivo');
   } catch(error){
-    renderBrasileiraoStandings(FALLBACK_STANDINGS, 'Tabela ao vivo indisponível');
-    console.error('Erro ao carregar classificação:', error);
+    try{
+      const html = await fetchExternalText(GE_BRASILEIRAO_URL);
+      const rawJson = extractClassificacao(html);
+      if(!rawJson){
+        throw new Error('Dados de classificação não encontrados.');
+      }
+      renderBrasileiraoStandings(rawJson, 'GE ao vivo via fallback');
+    }catch(fallbackError){
+      renderBrasileiraoStandings(FALLBACK_STANDINGS, 'Tabela ao vivo indisponível');
+      console.error('Erro ao carregar classificação:', fallbackError);
+    }
   }
+}
+
+async function refreshBrasileiraoLive(options = {}){
+  if(brasileiraoRefreshInFlight) return;
+  brasileiraoRefreshInFlight = true;
+  try{
+    await Promise.all([
+      loadBrasileiraoLive(),
+      loadBrasileiraoStandings()
+    ]);
+  }finally{
+    brasileiraoRefreshInFlight = false;
+  }
+}
+
+function scheduleBrasileiraoLiveRefresh(delay = BRASILEIRAO_REFRESH_MS){
+  window.clearTimeout(brasileiraoRefreshTimer);
+  brasileiraoRefreshTimer = window.setTimeout(async () => {
+    await refreshBrasileiraoLive();
+    scheduleBrasileiraoLiveRefresh();
+  }, delay);
+}
+
+function startBrasileiraoLiveAutoRefresh(){
+  refreshBrasileiraoLive().finally(() => {
+    scheduleBrasileiraoLiveRefresh();
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if(!document.hidden){
+      refreshBrasileiraoLive();
+      scheduleBrasileiraoLiveRefresh();
+    }
+  });
+
+  window.addEventListener('online', () => {
+    refreshBrasileiraoLive();
+    scheduleBrasileiraoLiveRefresh(5000);
+  });
 }
 
 function normalizeWorldCupTeam(value){
@@ -9969,9 +10035,7 @@ aplicarComentariosDebate(index);
 }
 
 function buildWorldCupApiUrl(path, params){
-  if(location.protocol === 'file:') return '';
-  const query = new URLSearchParams(params).toString();
-  return `${location.origin}${path}?${query}`;
+  return buildLocalApiUrl(path, params);
 }
 
 async function fetchWorldCupJsonWithFallback(primaryUrl, fallbackUrl){
@@ -12923,6 +12987,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupPalpiteExportButtons();
   syncPalpitesFromCommunity(false).then(() => renderPalpitometro());
   setupMobileAppNavigation();
+  startBrasileiraoLiveAutoRefresh();
   startWorldCupLiveAutoRefresh();
   window.setInterval(() => {
     refreshCommunityState().then(() => {

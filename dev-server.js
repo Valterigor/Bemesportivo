@@ -6,6 +6,7 @@ const path = require('path');
 const root = __dirname;
 const port = Number(process.env.PORT || 3100);
 const communityFile = path.join(root, 'data', 'community.json');
+const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const ESPN_WORLD_CUP_SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
 const ESPN_WORLD_CUP_SUMMARY_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary';
 const apiCache = new Map();
@@ -424,6 +425,84 @@ function fetchJson(url){
   });
 }
 
+function fetchText(url){
+  return new Promise((resolve, reject) => {
+    const request = https.get(url, {
+      headers: {
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'User-Agent': 'BemEsportivo/1.0 (+https://bemesportivo.com)'
+      },
+      rejectUnauthorized: false,
+      timeout: 8000
+    }, response => {
+      let raw = '';
+      response.setEncoding('utf8');
+      response.on('data', chunk => {
+        raw += chunk;
+        if(raw.length > 6000000){
+          request.destroy(new Error('Payload grande demais'));
+        }
+      });
+      response.on('end', () => {
+        if(response.statusCode < 200 || response.statusCode >= 300){
+          reject(new Error(`HTTP ${response.statusCode}`));
+          return;
+        }
+        resolve(raw);
+      });
+    });
+
+    request.on('timeout', () => request.destroy(new Error('Timeout')));
+    request.on('error', reject);
+  });
+}
+
+function extractJsAssignment(html, variableName){
+  const marker = new RegExp(`(?:const|let|var)\\s+${variableName}\\s*=\\s*`);
+  const match = marker.exec(html);
+  if(!match) return null;
+
+  const start = match.index + match[0].length;
+  const firstChar = html[start];
+  const closingChar = firstChar === '[' ? ']' : firstChar === '{' ? '}' : '';
+  if(!closingChar) return null;
+
+  let depth = 0;
+  let inString = '';
+  let escaped = false;
+
+  for(let index = start; index < html.length; index++){
+    const char = html[index];
+
+    if(inString){
+      if(escaped){
+        escaped = false;
+      }else if(char === '\\'){
+        escaped = true;
+      }else if(char === inString){
+        inString = '';
+      }
+      continue;
+    }
+
+    if(char === '"' || char === "'" || char === '`'){
+      inString = char;
+      continue;
+    }
+
+    if(char === firstChar){
+      depth++;
+    }else if(char === closingChar){
+      depth--;
+      if(depth === 0){
+        return html.slice(start, index + 1);
+      }
+    }
+  }
+
+  return null;
+}
+
 async function cachedJson(key, ttlMs, loader){
   const cached = apiCache.get(key);
   if(cached && Date.now() - cached.createdAt < ttlMs){
@@ -439,6 +518,46 @@ async function cachedJson(key, ttlMs, loader){
   };
   apiCache.set(key, {createdAt:Date.now(), payload:wrapped});
   return wrapped;
+}
+
+async function loadBrasileiraoPageData(){
+  const html = await fetchText(GE_BRASILEIRAO_URL);
+  return {
+    matches:JSON.parse(extractJsAssignment(html, 'listaJogos') || '[]'),
+    standings:JSON.parse(extractJsAssignment(html, 'classificacao') || '[]')
+  };
+}
+
+async function handleBrasileiraoApi(request, response, parsedUrl){
+  if(request.method !== 'GET') return false;
+
+  if(parsedUrl.pathname === '/api/brasileirao/matches'){
+    try{
+      const payload = await cachedJson('brasileirao:matches', 15000, async () => {
+        const data = await loadBrasileiraoPageData();
+        return data.matches;
+      });
+      sendJson(response, 200, payload, 15);
+    }catch(error){
+      sendJson(response, 502, {ok:false, error:'GE indisponivel no momento', detail:error.message});
+    }
+    return true;
+  }
+
+  if(parsedUrl.pathname === '/api/brasileirao/standings'){
+    try{
+      const payload = await cachedJson('brasileirao:standings', 30000, async () => {
+        const data = await loadBrasileiraoPageData();
+        return data.standings;
+      });
+      sendJson(response, 200, payload, 30);
+    }catch(error){
+      sendJson(response, 502, {ok:false, error:'Tabela do GE indisponivel no momento', detail:error.message});
+    }
+    return true;
+  }
+
+  return false;
 }
 
 async function handleWorldCupApi(request, response, parsedUrl){
@@ -514,6 +633,11 @@ const server = http.createServer(async (request, response) => {
 
   if(parsedUrl.pathname.startsWith('/api/worldcup/')){
     const handled = await handleWorldCupApi(request, response, parsedUrl);
+    if(handled) return;
+  }
+
+  if(parsedUrl.pathname.startsWith('/api/brasileirao/')){
+    const handled = await handleBrasileiraoApi(request, response, parsedUrl);
     if(handled) return;
   }
 
