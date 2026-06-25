@@ -11,6 +11,8 @@ const robotSprite = new Image();
 robotSprite.src = 'assets/img/kobem-runner-robot.png';
 const robotRunSheet = new Image();
 robotRunSheet.src = 'assets/img/kobem-runner-robot-sheet.png';
+const mascot2Sprite = new Image();
+mascot2Sprite.src = 'assets/img/kobem-runner-mascot2.png';
 
 export class Player{
   constructor(){
@@ -119,6 +121,10 @@ export class Player{
     const color = this.skin.color;
     const accent = this.skin.accent;
     if(this.skin.variant === 'mascot2'){
+      if(mascot2Sprite.complete && mascot2Sprite.naturalWidth){
+        drawMascot2Sprite(ctx, mascot2Sprite, this.x, this.y, bob, stride, activePowerups, accent, this.jump, this.slide, this.tilt, this.turnBoost);
+        return;
+      }
       drawMascot2(ctx, this.x, this.y, bob, stride, activePowerups, color, accent, this.jump, this.slide, this.tilt, this.turnBoost);
       return;
     }
@@ -366,6 +372,72 @@ function drawMascot2(ctx,x,y,bob,stride,activePowerups,color,accent,jump,slide,t
   drawSpriteFlame(ctx,-34,48,accent,slide);
   drawSpriteFlame(ctx,34,44,accent,slide);
   ctx.restore();
+}
+
+function drawMascot2Sprite(ctx,image,x,y,bob,stride,activePowerups,accent,jump,slide,tilt,turnBoost){
+  const spriteHeight = Math.min(560, Math.max(430, ctx.canvas.clientHeight ? ctx.canvas.clientHeight * .55 : 500));
+  const spriteWidth = spriteHeight * image.naturalWidth / image.naturalHeight;
+  const squash = slide > 0 ? .7 : 1;
+  const lean = slide > 0 ? .12 : tilt + turnBoost * .12;
+  const runPush = slide > 0 ? 0 : Math.sin(stride) * 5;
+  const drawX = x - spriteWidth * .5 + runPush;
+  const drawY = y - spriteHeight * squash + 70 + bob - jump;
+
+  ctx.save();
+  if(activePowerups.shield){
+    ctx.strokeStyle = 'rgba(66,232,255,.84)';
+    ctx.lineWidth = 8;
+    ctx.shadowColor = '#42e8ff';
+    ctx.shadowBlur = 26;
+    ctx.beginPath();
+    ctx.ellipse(x,y - jump - spriteHeight*.44,spriteWidth*.42,spriteHeight*.42,0,0,Math.PI*2);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+
+  ctx.fillStyle = 'rgba(0,0,0,.36)';
+  ctx.beginPath();
+  ctx.ellipse(x + 22,y + 42,spriteWidth*.28 * (1 - Math.min(.45,jump/360)),20 * (1 - Math.min(.55,jump/260)),0,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.shadowColor = 'rgba(0,0,0,.28)';
+  ctx.shadowBlur = 20;
+  ctx.translate(x, drawY + spriteHeight*squash*.54);
+  ctx.rotate(lean);
+  ctx.translate(-x, -(drawY + spriteHeight*squash*.54));
+
+  drawMascot2AnimatedSprite(ctx,image,drawX,drawY,spriteWidth,spriteHeight*squash,stride,slide);
+  drawSpriteFlame(ctx,x - spriteWidth*.06,y + 22 - jump + Math.max(0,stride)*8,accent,slide);
+  drawSpriteFlame(ctx,x + spriteWidth*.12,y + 18 - jump - Math.min(0,stride)*8,accent,slide);
+  ctx.restore();
+}
+
+function drawMascot2AnimatedSprite(ctx,image,x,y,w,h,stride,slide){
+  const sourceW = image.naturalWidth;
+  const sourceH = image.naturalHeight;
+  const upperCut = sourceH * .64;
+  const legTop = sourceH * .55;
+  const legH = sourceH - legTop;
+  const leftLegX = sourceW * .10;
+  const rightLegX = sourceW * .43;
+  const legSW = sourceW * .36;
+  const legDY = y + h * .55;
+  const legDH = h * .45;
+  const legDW = w * .36;
+
+  ctx.drawImage(image,0,0,sourceW,upperCut,x,y,w,h*(upperCut/sourceH));
+
+  if(slide > 0){
+    ctx.save();
+    ctx.translate(x + w*.5, legDY + legDH*.08);
+    ctx.rotate(-.1);
+    ctx.drawImage(image,0,legTop,sourceW,legH,-w*.5,0,w,legDH*.68);
+    ctx.restore();
+    return;
+  }
+
+  drawLegSlice(ctx,image,leftLegX,legTop,legSW,legH,x+w*.18,legDY,legDW,legDH,stride*.18,-stride*20);
+  drawLegSlice(ctx,image,rightLegX,legTop,legSW,legH,x+w*.45,legDY,legDW,legDH,-stride*.18,stride*20);
 }
 
 function drawMascotArm(ctx,x,y,phase,color,accent){

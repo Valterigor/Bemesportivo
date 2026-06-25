@@ -570,7 +570,7 @@ function updateDirector(dt){
 
   const difficulty = getDifficulty();
   buildTrackSegment(difficulty);
-  director.timer = Math.max(1.35, 2.1 - difficulty * .55);
+  director.timer = Math.max(1.55, 2.28 - difficulty * .52);
 }
 
 function buildTrackSegment(difficulty){
@@ -585,54 +585,64 @@ function buildTrackSegment(difficulty){
   if(type === 7) queueHoleLine();
 
   if(Math.random() < .12 + difficulty * .08){
-    spawnTrackBeat({powerup:pickPowerupId(), powerLane:Math.floor(Math.random() * 3), offset:260});
+    spawnTrackBeat({powerup:pickPowerupId(), powerLane:director.lastSafeLane, offset:420});
   }
 }
 
 function queueBottleGuide(){
   const lane = director.lastSafeLane = Math.floor(Math.random() * 3);
-  for(let i=0;i<6;i++) spawnTrackBeat({bottles:[lane], offset:i * 82});
+  for(let i=0;i<6;i++) spawnTrackBeat({bottles:[lane], offset:i * 102});
 }
 
 function queueSingleDodge(action){
-  const lane = director.lastSafeLane = Math.floor(Math.random() * 3);
+  const obstacleLane = Math.floor(Math.random() * 3);
+  const lane = director.lastSafeLane = pickDifferentLane(obstacleLane);
   const type = action === 'slide' ? 'gate' : Math.random() > .5 ? 'barrier' : Math.random() > .5 ? 'cone' : 'hole';
   spawnTrackBeat({bottles:[lane], offset:0});
-  spawnTrackBeat({obstacles:[{lane,type}], offset:118});
-  spawnTrackBeat({bottles:[lane], offset:218});
-  spawnTrackBeat({bottles:[lane], offset:306});
+  spawnTrackBeat({bottles:[lane], offset:118});
+  spawnTrackBeat({obstacles:[{lane:obstacleLane,type}], offset:236});
+  spawnTrackBeat({bottles:[lane], offset:372});
+  spawnTrackBeat({bottles:[lane], offset:498});
 }
 
 function queueSafeLaneChoice(){
-  const blocked = Math.floor(Math.random() * 3);
-  const safe = director.lastSafeLane = (blocked + (Math.random() > .5 ? 1 : 2)) % 3;
+  const safe = director.lastSafeLane = Math.floor(Math.random() * 3);
+  const blocked = [0,1,2].filter(lane => lane !== safe);
   spawnTrackBeat({bottles:[safe], offset:0});
-  spawnTrackBeat({obstacles:[{lane:blocked,type:Math.random() > .5 ? 'bus' : Math.random() > .5 ? 'box' : 'rival'}], offset:125});
-  spawnTrackBeat({bottles:[safe], offset:224});
-  spawnTrackBeat({bottles:[safe], offset:318});
+  spawnTrackBeat({bottles:[safe], offset:120});
+  spawnTrackBeat({
+    obstacles:blocked.map((lane,index) => ({lane,type:index === 0 ? 'bus' : Math.random() > .5 ? 'box' : 'barrier'})),
+    offset:260
+  });
+  spawnTrackBeat({bottles:[safe], offset:420});
+  spawnTrackBeat({bottles:[safe], offset:540});
 }
 
 function queueMovingThreat(difficulty){
-  const safe = Math.floor(Math.random() * 3);
-  const lane = (safe + 1 + Math.floor(Math.random() * 2)) % 3;
+  const fromLane = Math.floor(Math.random() * 3);
+  const targetLane = fromLane === 2 ? 1 : fromLane + 1;
+  const safe = director.lastSafeLane = [0,1,2].find(lane => lane !== fromLane && lane !== targetLane) ?? pickDifferentLane(fromLane);
   spawnTrackBeat({bottles:[safe], offset:0});
-  spawnTrackBeat({obstacles:[{lane,type:difficulty > .45 ? 'cart' : 'rival'}], offset:116});
-  spawnTrackBeat({bottles:[safe], offset:224});
-  spawnTrackBeat({obstacles:[{lane:safe === 1 ? 0 : 1,type:'cone'}], offset:322});
+  spawnTrackBeat({bottles:[safe], offset:130});
+  spawnTrackBeat({obstacles:[{lane:fromLane,type:difficulty > .45 ? 'cart' : 'rival', targetLane}], offset:282});
+  spawnTrackBeat({bottles:[safe], offset:440});
+  spawnTrackBeat({bottles:[safe], offset:560});
 }
 
 function queueHoleLine(){
   const safe = Math.floor(Math.random() * 3);
   const blocked = [0,1,2].filter(lane => lane !== safe);
   spawnTrackBeat({bottles:[safe], offset:0});
-  spawnTrackBeat({obstacles:blocked.map(lane => ({lane,type:'hole'})), offset:124});
-  spawnTrackBeat({bottles:[safe], offset:234});
+  spawnTrackBeat({bottles:[safe], offset:116});
+  spawnTrackBeat({obstacles:blocked.map(lane => ({lane,type:'hole'})), offset:252});
+  spawnTrackBeat({bottles:[safe], offset:420});
+  spawnTrackBeat({bottles:[safe], offset:536});
 }
 
 function queueZigZagGuide(){
   let lane = Math.floor(Math.random() * 3);
   for(let i=0;i<6;i++){
-    spawnTrackBeat({bottles:[lane], offset:i * 78});
+    spawnTrackBeat({bottles:[lane], offset:i * 104});
     lane += lane === 2 ? -1 : lane === 0 ? 1 : Math.random() > .5 ? 1 : -1;
   }
   director.lastSafeLane = lane;
@@ -642,20 +652,26 @@ function queueTwoLaneGate(difficulty){
   const safe = director.lastSafeLane = Math.floor(Math.random() * 3);
   const blocked = [0,1,2].filter(lane => lane !== safe);
   spawnTrackBeat({bottles:[safe], offset:0});
+  spawnTrackBeat({bottles:[safe], offset:120});
   spawnTrackBeat({
     obstacles:blocked.map((lane,index) => ({lane,type:index === 0 || difficulty > .5 ? 'box' : 'cone'})),
-    offset:130
+    offset:270
   });
-  spawnTrackBeat({bottles:[safe], offset:236});
-  spawnTrackBeat({bottles:[safe], offset:326});
+  spawnTrackBeat({bottles:[safe], offset:430});
+  spawnTrackBeat({bottles:[safe], offset:550});
 }
 
 function spawnTrackBeat(beat){
   if(!beat || beat.rest) return;
   const offset = beat.offset || 0;
-  (beat.obstacles || []).forEach(item => obstacles.spawn(game, lanes, item.lane, item.type, offset));
+  (beat.obstacles || []).forEach(item => obstacles.spawn(game, lanes, item.lane, item.type, offset, item));
   (beat.bottles || []).forEach(lane => coins.spawn(game, lanes, lane, 1, 54, offset));
   if(beat.powerup) powerups.spawn(game, lanes, beat.powerLane ?? Math.floor(Math.random() * 3), beat.powerup, offset);
+}
+
+function pickDifferentLane(lane){
+  const options = [0,1,2].filter(item => item !== lane);
+  return options[Math.floor(Math.random() * options.length)];
 }
 
 function pickPowerupId(){
@@ -672,7 +688,10 @@ function checkCollisions(){
   obstacles.items.forEach(item => {
     if(item.hit) return;
     const scale = perspectiveScale(item.y);
-    const box = {x:item.x - item.w*scale*.5, y:item.y - item.h*scale*.65, w:item.w*scale, h:item.h*scale};
+    const tune = item.type.hitbox || {w:1,h:1,y:.65};
+    const bw = item.w * tune.w * scale;
+    const bh = item.h * tune.h * scale;
+    const box = {x:item.x - bw*.5, y:item.y - item.h*scale*tune.y, w:bw, h:bh};
     if(item.type.dodge === 'jump' && player.isJumping()) return;
     if(item.type.dodge === 'slide' && player.isSliding()) return;
     if(intersects(hb,box)){

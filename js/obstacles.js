@@ -1,13 +1,13 @@
 const TYPES = [
-  {id:'bus',w:104,h:166,color:'#171d25',speed:1,shift:false,dodge:null},
-  {id:'fast-marker',w:78,h:124,color:'#181818',speed:1.32,shift:true,dodge:null},
-  {id:'cone',w:72,h:86,color:'#fc6e02',speed:1,shift:false,dodge:'jump'},
-  {id:'barrier',w:136,h:92,color:'#ffd34d',speed:1,shift:false,dodge:'jump'},
-  {id:'hole',w:128,h:72,color:'#080808',speed:1,shift:false,dodge:'jump'},
-  {id:'rival',w:86,h:138,color:'#1976d2',speed:1.05,shift:true,dodge:null},
-  {id:'cart',w:118,h:82,color:'#fc6e02',speed:1.22,shift:true,dodge:null},
-  {id:'gate',w:136,h:150,color:'#42e8ff',speed:1,shift:false,dodge:'slide'},
-  {id:'box',w:108,h:108,color:'#8b4a19',speed:1,shift:false,dodge:null}
+  {id:'bus',w:104,h:166,color:'#171d25',speed:1,move:false,dodge:null,hitbox:{w:.76,h:.82,y:.62}},
+  {id:'fast-marker',w:78,h:124,color:'#181818',speed:1.24,move:true,dodge:null,hitbox:{w:.72,h:.78,y:.64}},
+  {id:'cone',w:72,h:86,color:'#fc6e02',speed:1,move:false,dodge:'jump',hitbox:{w:.7,h:.64,y:.66}},
+  {id:'barrier',w:136,h:92,color:'#ffd34d',speed:1,move:false,dodge:'jump',hitbox:{w:.82,h:.62,y:.68}},
+  {id:'hole',w:128,h:72,color:'#080808',speed:1,move:false,dodge:'jump',hitbox:{w:.82,h:.44,y:.82}},
+  {id:'rival',w:86,h:138,color:'#1976d2',speed:1.02,move:true,dodge:null,hitbox:{w:.68,h:.76,y:.66}},
+  {id:'cart',w:118,h:82,color:'#fc6e02',speed:1.13,move:true,dodge:null,hitbox:{w:.78,h:.58,y:.7}},
+  {id:'gate',w:136,h:150,color:'#42e8ff',speed:1,move:false,dodge:'slide',hitbox:{w:.78,h:.72,y:.58}},
+  {id:'box',w:108,h:108,color:'#8b4a19',speed:1,move:false,dodge:null,hitbox:{w:.74,h:.72,y:.66}}
 ];
 export const OBSTACLE_TYPES = TYPES;
 
@@ -23,16 +23,21 @@ export class ObstacleSystem{
     this.timer = 0;
   }
 
-  spawn(game, lanes, lane = Math.floor(Math.random() * 3), typeId = null, yOffset = 0){
+  spawn(game, lanes, lane = Math.floor(Math.random() * 3), typeId = null, yOffset = 0, options = {}){
     const type = typeId ? TYPES.find(item => item.id === typeId) || TYPES[0] : TYPES[Math.floor(Math.random() * TYPES.length)];
     const item = this.pool.pop() || {};
     item.type = type;
     item.lane = lane;
+    item.fromLane = lane;
+    item.targetLane = Number.isInteger(options.targetLane) ? options.targetLane : lane;
+    if(type.move && item.targetLane === lane) item.targetLane = lane === 2 ? 1 : lane + 1;
+    item.moveDelay = options.moveDelay ?? .25;
+    item.moveProgress = 0;
     item.y = roadSpawnY(game) + yOffset;
     item.x = perspectiveLaneX(game, lanes[item.lane], item.y);
     item.w = type.w;
     item.h = type.h;
-    item.phase = Math.random() * Math.PI * 2;
+    item.phase = options.phase ?? 0;
     item.hit = false;
     this.items.push(item);
   }
@@ -45,14 +50,18 @@ export class ObstacleSystem{
     }
 
     this.items.forEach(item => {
-      if(item.type.shift){
-        item.phase += dt * 4.2;
-        if(Math.sin(item.phase) > .86){
-          item.lane = Math.max(0, Math.min(2, item.lane + (Math.random() > .5 ? 1 : -1)));
+      if(item.type.move){
+        item.phase += dt;
+        const nearPlayer = item.y > game.height * .48;
+        if(nearPlayer && item.moveDelay <= 0){
+          item.moveProgress = Math.min(1, item.moveProgress + dt * 1.15);
+        }else{
+          item.moveDelay -= dt;
         }
       }
       item.y += game.speed * item.type.speed * dt;
-      item.x += (perspectiveLaneX(game, lanes[item.lane], item.y) - item.x) * Math.min(1, dt * 9);
+      const laneIndex = item.type.move ? lerp(item.fromLane, item.targetLane, smoothstep(item.moveProgress)) : item.lane;
+      item.x += (perspectiveLaneX(game, lanePosition(lanes, laneIndex), item.y) - item.x) * Math.min(1, dt * 10);
     });
 
     this.items = this.items.filter(item => {
@@ -64,6 +73,7 @@ export class ObstacleSystem{
 
   draw(ctx){
     this.items.forEach(item => {
+      drawGroundWarning(ctx,item);
       ctx.save();
       ctx.translate(item.x, item.y);
       const scale = itemScale(ctx,item.y);
@@ -82,6 +92,46 @@ export class ObstacleSystem{
       ctx.restore();
     });
   }
+}
+
+function lanePosition(lanes,laneIndex){
+  const left = Math.floor(laneIndex);
+  const right = Math.min(2, left + 1);
+  return lerp(lanes[left], lanes[right], laneIndex - left);
+}
+
+function smoothstep(t){
+  t = Math.max(0, Math.min(1, t));
+  return t * t * (3 - 2 * t);
+}
+
+function lerp(a,b,t){
+  return a + (b - a) * t;
+}
+
+function drawGroundWarning(ctx,item){
+  const scale = itemScale(ctx,item.y);
+  const alpha = Math.max(0, Math.min(.48, (item.y / (ctx.canvas.clientHeight || ctx.canvas.height || 800)) * .42));
+  ctx.save();
+  ctx.translate(item.x,item.y);
+  ctx.scale(scale,scale);
+  ctx.fillStyle = `rgba(252,110,2,${alpha})`;
+  ctx.strokeStyle = `rgba(255,211,77,${alpha + .16})`;
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.ellipse(0,item.h*.46,item.w*.54,13,0,0,Math.PI*2);
+  ctx.fill();
+  ctx.stroke();
+  if(item.type.move){
+    ctx.strokeStyle = `rgba(66,232,255,${alpha + .2})`;
+    ctx.lineWidth = 4;
+    ctx.setLineDash([12,10]);
+    ctx.beginPath();
+    ctx.moveTo(0,item.h*.46);
+    ctx.lineTo((item.targetLane - item.fromLane) * 120,item.h*.46);
+    ctx.stroke();
+  }
+  ctx.restore();
 }
 
 function perspectiveLaneX(game,laneX,y){
