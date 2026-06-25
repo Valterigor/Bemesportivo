@@ -14,25 +14,25 @@ button{border:0;color:#fff;font-weight:900;cursor:pointer;touch-action:manipulat
 .runner-app{min-height:100dvh;display:grid;place-items:center;background:radial-gradient(circle at 50% 0,#174d97 0,#071326 42%,#020307 100%);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
 .runner-phone{position:relative;width:100vw;height:100dvh;max-width:540px;max-height:960px;overflow:hidden;background:#101010;box-shadow:0 0 0 2px rgba(255,255,255,.8),0 22px 80px rgba(0,0,0,.65);touch-action:none}
 #gameCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:#1e83ff}
-.runner-hud{position:absolute;top:max(8px,env(safe-area-inset-top));left:8px;right:8px;display:grid;grid-template-columns:44px 1fr 76px 68px;gap:6px;z-index:5;pointer-events:none}
+.runner-hud{position:absolute;top:max(8px,env(safe-area-inset-top));left:8px;right:8px;display:grid;grid-template-columns:44px 1.1fr .95fr .78fr .98fr;grid-template-rows:48px 50px;gap:6px;z-index:5;pointer-events:none}
 .hud-card,.hud-icon,.energy-card,.distance-card,.power-card,.mission-card{background:linear-gradient(180deg,rgba(13,48,77,.9),rgba(4,12,24,.88));border:1px solid rgba(255,255,255,.22);box-shadow:0 7px 0 rgba(0,0,0,.28),0 0 24px rgba(66,232,255,.18);border-radius:9px;text-shadow:0 3px 0 rgba(0,0,0,.38)}
-.hud-icon{pointer-events:auto;min-height:44px;font-size:24px;color:#eaf7ff}
+.hud-icon{pointer-events:auto;min-height:48px;font-size:24px;color:#eaf7ff}
 .score-card{padding:6px 8px}
 .score-card span,.combo-card span,.distance-card span,.lives-card span,.power-card span,.mission-card span{display:block;font-size:9px;text-transform:uppercase;color:#fff1c8;letter-spacing:.4px}
-.score-card strong{font-size:22px;line-height:1}
+.score-card strong{font-size:21px;line-height:1}
 .bottles-card,.gems-card{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 5px;padding:5px}
 .bottles-card small,.gems-card small{font-size:8px;text-transform:uppercase;color:#d9efff}
 .bottles-card strong,.gems-card strong{grid-column:2;font-size:20px;line-height:1}
 .bottle-dot{width:19px;height:31px;border-radius:8px 8px 11px 11px;background:linear-gradient(90deg,#e9fbff,#65ddff 45%,#1286ff);box-shadow:0 0 14px var(--water);position:relative;display:block}
 .bottle-dot::before{content:"";position:absolute;top:-7px;left:5px;width:9px;height:8px;border-radius:3px;background:#0e77dc}
 .gem-dot{width:31px;height:27px;display:block;background:linear-gradient(135deg,#eaffff 0 18%,#2af5ff 19% 48%,#0e8fff 49% 74%,#0757b9 75%);clip-path:polygon(22% 0,78% 0,100% 35%,50% 100%,0 35%);box-shadow:0 0 17px var(--neon)}
-.lives-card{grid-column:1 / span 2;min-height:39px;display:flex;align-items:center;justify-content:center;gap:6px;padding:5px}
-.lives-card strong{font-size:19px;color:#ff4055;letter-spacing:0}
-.combo-card{min-height:48px;text-align:center;padding:6px;color:var(--gold)}
+.lives-card{min-height:48px;display:flex;align-items:center;justify-content:center;gap:5px;padding:5px}
+.lives-card strong{font-size:18px;color:#ff4055;letter-spacing:-1px}
+.combo-card{grid-column:1;grid-row:2;min-height:48px;text-align:center;padding:6px;color:var(--gold)}
 .combo-card strong{font-size:28px;line-height:.95;color:#ffb02e}
-.distance-card{padding:6px 8px;text-align:center}
-.distance-card strong{font-size:19px}
-.reward-toast{position:absolute;top:96px;left:50%;z-index:6;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 10px;min-width:230px;padding:12px 16px;transform:translateX(-50%);border-radius:14px;background:linear-gradient(180deg,rgba(11,48,71,.92),rgba(5,17,31,.9));border:1px solid rgba(66,232,255,.45);box-shadow:0 12px 34px rgba(0,0,0,.42),0 0 28px rgba(66,232,255,.3);animation:toastPop .45s ease both}
+.distance-card{grid-column:5;grid-row:2;padding:6px 8px;text-align:center}
+.distance-card strong{font-size:18px}
+.reward-toast{position:absolute;top:108px;left:50%;z-index:6;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 10px;min-width:220px;padding:10px 14px;transform:translateX(-50%);border-radius:10px;background:linear-gradient(180deg,rgba(11,48,71,.92),rgba(5,17,31,.9));border:1px solid rgba(66,232,255,.45);box-shadow:0 12px 34px rgba(0,0,0,.42),0 0 28px rgba(66,232,255,.3);animation:toastPop .45s ease both}
 .reward-toast .gem-dot{grid-row:1 / span 3}
 .reward-toast strong{color:#ffd34d;text-transform:uppercase;font-size:12px}
 .reward-toast b{font-size:23px;color:#fff}
@@ -84,11 +84,13 @@ button{border:0;color:#fff;font-weight:900;cursor:pointer;touch-action:manipulat
 .game-over-card{display:grid;gap:12px;text-align:center}
 @media (min-width:760px){.runner-phone{border-radius:28px;height:min(96dvh,960px)}}
 @media (max-width:380px){
-  .runner-hud{grid-template-columns:40px 1fr 67px 60px;gap:5px}
-  .score-card strong{font-size:18px}
-  .bottles-card strong,.gems-card strong{font-size:17px}
+  .runner-hud{grid-template-columns:38px 1fr 64px 56px 70px;grid-template-rows:44px 46px;gap:5px}
+  .hud-icon{min-height:44px}
+  .score-card strong{font-size:17px}
+  .bottles-card strong,.gems-card strong{font-size:16px}
+  .lives-card strong{font-size:15px}
   .combo-card strong{font-size:24px}
-  .distance-card strong{font-size:16px}
+  .distance-card strong{font-size:15px}
   .runner-bottom-hud{grid-template-columns:1fr 58px 112px;gap:5px}
   .energy-card{padding:8px}
   .energy-card strong{font-size:11px}

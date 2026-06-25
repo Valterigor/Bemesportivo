@@ -16,7 +16,7 @@ export class CoinSystem{
     for(let i=0;i<count;i++){
       const item = this.pool.pop() || {};
       item.lane = lane;
-      item.y = startY + yOffset - i * spacing;
+      item.y = startY + yOffset + i * spacing;
       item.x = perspectiveLaneX(game, lanes[lane], item.y);
       item.kind = premium ? 'big-water' : 'water';
       item.value = premium ? 3 : 1;
@@ -76,54 +76,84 @@ function perspectiveLaneX(game,laneX,y){
 }
 
 function roadSpawnY(game){
-  return game.height * .36;
+  return game.height * .40;
 }
 
 function itemScale(ctx,y){
   const h = ctx.canvas.clientHeight || ctx.canvas.height || 800;
   const p = Math.max(0, Math.min(1, y / h));
-  return .14 + Math.pow(p,1.35) * .9;
+  return .18 + Math.pow(p,1.32) * 1.05;
 }
 
 function drawBottle(ctx,big){
-  const h = big ? 92 : 78;
-  const w = big ? 38 : 30;
+  const h = big ? 106 : 92;
+  const w = big ? 42 : 34;
   ctx.fillStyle = 'rgba(0,0,0,.28)';
   ctx.beginPath();
-  ctx.ellipse(0,h*.56,w*.6,8,0,0,Math.PI*2);
+  ctx.ellipse(0,h*.55,w*.62,8,0,0,Math.PI*2);
   ctx.fill();
   ctx.shadowColor = '#18c8ff';
   ctx.shadowBlur = 26;
-  ctx.fillStyle = '#0e77dc';
+
+  ctx.fillStyle = '#0869d8';
   ctx.beginPath();
-  ctx.roundRect(-w*.22,-h*.62,w*.44,14,5);
+  ctx.roundRect(-w*.23,-h*.61,w*.46,h*.12,4);
   ctx.fill();
-  const body = ctx.createLinearGradient(-w*.5,-h*.42,w*.5,h*.5);
-  body.addColorStop(0,'#f1ffff');
-  body.addColorStop(.2,'#d9fbff');
-  body.addColorStop(.5,'#5edcff');
-  body.addColorStop(1,'#0869d8');
+  ctx.fillStyle = '#0b8dff';
+  ctx.fillRect(-w*.28,-h*.67,w*.56,h*.08);
+
+  const body = ctx.createLinearGradient(-w*.55,-h*.5,w*.55,h*.48);
+  body.addColorStop(0,'#f5ffff');
+  body.addColorStop(.16,'#d8fbff');
+  body.addColorStop(.45,'#65ddff');
+  body.addColorStop(.78,'#1286ff');
+  body.addColorStop(1,'#075fc8');
   ctx.fillStyle = body;
   ctx.beginPath();
-  ctx.roundRect(-w*.5,-h*.45,w,h,12);
+  ctx.moveTo(-w*.25,-h*.5);
+  ctx.quadraticCurveTo(-w*.5,-h*.45,-w*.5,-h*.25);
+  ctx.lineTo(-w*.5,h*.36);
+  ctx.quadraticCurveTo(-w*.5,h*.52,-w*.34,h*.55);
+  ctx.lineTo(w*.34,h*.55);
+  ctx.quadraticCurveTo(w*.5,h*.52,w*.5,h*.36);
+  ctx.lineTo(w*.5,-h*.25);
+  ctx.quadraticCurveTo(w*.5,-h*.45,w*.25,-h*.5);
+  ctx.closePath();
   ctx.fill();
+
   ctx.strokeStyle = 'rgba(255,255,255,.7)';
   ctx.lineWidth = 2;
   ctx.stroke();
+
+  ctx.strokeStyle = 'rgba(255,255,255,.26)';
+  ctx.lineWidth = 2;
+  for(let y=-h*.15;y<h*.36;y+=h*.14){
+    ctx.beginPath();
+    ctx.moveTo(-w*.43,y);
+    ctx.quadraticCurveTo(0,y+5,w*.43,y);
+    ctx.stroke();
+  }
+
   ctx.fillStyle = 'rgba(255,255,255,.72)';
   ctx.beginPath();
-  ctx.roundRect(-w*.3,-h*.3,w*.22,h*.55,7);
+  ctx.roundRect(-w*.31,-h*.39,w*.18,h*.73,7);
   ctx.fill();
   ctx.fillStyle = 'rgba(255,255,255,.28)';
   ctx.beginPath();
-  ctx.ellipse(w*.23,-h*.08,w*.13,h*.28,0,0,Math.PI*2);
+  ctx.ellipse(w*.24,-h*.04,w*.12,h*.35,0,0,Math.PI*2);
   ctx.fill();
+
   ctx.fillStyle = big ? '#ffd34d' : '#ffffff';
   ctx.beginPath();
-  ctx.roundRect(-w*.4,-4,w*.8,18,6);
+  ctx.roundRect(-w*.42,-h*.03,w*.84,h*.22,6);
   ctx.fill();
   ctx.fillStyle = '#0e77dc';
-  ctx.font = '900 13px Inter, Arial';
+  ctx.font = `900 ${big ? 14 : 12}px Inter, Arial`;
   ctx.textAlign = 'center';
-  ctx.fillText('BE',0,9);
+  ctx.fillText('BE',0,h*.115);
+
+  ctx.fillStyle = 'rgba(255,255,255,.32)';
+  ctx.beginPath();
+  ctx.ellipse(0,h*.49,w*.34,5,0,0,Math.PI*2);
+  ctx.fill();
 }

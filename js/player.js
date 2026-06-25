@@ -213,7 +213,7 @@ function drawRobotRunSheet(ctx,image,x,y,bob,anim,activePowerups,accent,jump,sli
   const frameW = image.naturalWidth / frameCount;
   const frameH = image.naturalHeight;
   const frame = slide > 0 ? 1 : Math.floor(anim * 1.35) % frameCount;
-  const spriteHeight = Math.min(455, Math.max(345, ctx.canvas.clientHeight ? ctx.canvas.clientHeight * .48 : 410));
+  const spriteHeight = Math.min(405, Math.max(310, ctx.canvas.clientHeight ? ctx.canvas.clientHeight * .42 : 365));
   const spriteWidth = spriteHeight * frameW / frameH;
   const squash = slide > 0 ? .72 : 1;
   const lean = slide > 0 ? .12 : tilt;

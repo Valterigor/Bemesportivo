@@ -524,14 +524,8 @@ function updateDirector(dt){
   if(director.timer > 0) return;
 
   const difficulty = Math.min(1, game.distance / 8);
-  director.beat = Math.max(.34, .58 - difficulty * .16);
-  if(!director.queue.length){
-    buildTrackSegment(difficulty);
-  }
-
-  const beat = director.queue.shift();
-  spawnTrackBeat(beat);
-  director.timer = director.queue.length ? director.beat : Math.max(.42, .76 - difficulty * .18);
+  buildTrackSegment(difficulty);
+  director.timer = Math.max(1.35, 2.1 - difficulty * .55);
 }
 
 function buildTrackSegment(difficulty){
@@ -544,38 +538,37 @@ function buildTrackSegment(difficulty){
   if(type === 5) queueTwoLaneGate(difficulty);
 
   if(Math.random() < .12 + difficulty * .08){
-    director.queue.push({powerup:Math.floor(Math.random() * 3)});
+    spawnTrackBeat({powerup:Math.floor(Math.random() * 3), offset:260});
   }
 }
 
 function queueBottleGuide(){
   const lane = director.lastSafeLane = Math.floor(Math.random() * 3);
-  for(let i=0;i<5;i++) director.queue.push({bottles:[lane]});
-  director.queue.push({rest:true});
+  for(let i=0;i<6;i++) spawnTrackBeat({bottles:[lane], offset:i * 82});
 }
 
 function queueSingleDodge(action){
   const lane = director.lastSafeLane = Math.floor(Math.random() * 3);
   const type = action === 'slide' ? 'gate' : Math.random() > .5 ? 'barrier' : 'cone';
-  director.queue.push({bottles:[lane]});
-  director.queue.push({obstacles:[{lane,type}], bottles:[lane]});
-  director.queue.push({bottles:[lane]});
-  director.queue.push({rest:true});
+  spawnTrackBeat({bottles:[lane], offset:0});
+  spawnTrackBeat({obstacles:[{lane,type}], offset:118});
+  spawnTrackBeat({bottles:[lane], offset:218});
+  spawnTrackBeat({bottles:[lane], offset:306});
 }
 
 function queueSafeLaneChoice(){
   const blocked = Math.floor(Math.random() * 3);
   const safe = director.lastSafeLane = (blocked + (Math.random() > .5 ? 1 : 2)) % 3;
-  director.queue.push({bottles:[safe]});
-  director.queue.push({obstacles:[{lane:blocked,type:Math.random() > .5 ? 'bus' : 'box'}], bottles:[safe]});
-  director.queue.push({bottles:[safe]});
-  director.queue.push({rest:true});
+  spawnTrackBeat({bottles:[safe], offset:0});
+  spawnTrackBeat({obstacles:[{lane:blocked,type:Math.random() > .5 ? 'bus' : 'box'}], offset:125});
+  spawnTrackBeat({bottles:[safe], offset:224});
+  spawnTrackBeat({bottles:[safe], offset:318});
 }
 
 function queueZigZagGuide(){
   let lane = Math.floor(Math.random() * 3);
   for(let i=0;i<6;i++){
-    director.queue.push({bottles:[lane]});
+    spawnTrackBeat({bottles:[lane], offset:i * 78});
     lane += lane === 2 ? -1 : lane === 0 ? 1 : Math.random() > .5 ? 1 : -1;
   }
   director.lastSafeLane = lane;
@@ -584,20 +577,21 @@ function queueZigZagGuide(){
 function queueTwoLaneGate(difficulty){
   const safe = director.lastSafeLane = Math.floor(Math.random() * 3);
   const blocked = [0,1,2].filter(lane => lane !== safe);
-  director.queue.push({bottles:[safe]});
-  director.queue.push({
+  spawnTrackBeat({bottles:[safe], offset:0});
+  spawnTrackBeat({
     obstacles:blocked.map((lane,index) => ({lane,type:index === 0 || difficulty > .5 ? 'box' : 'cone'})),
-    bottles:[safe]
+    offset:130
   });
-  director.queue.push({bottles:[safe]});
-  director.queue.push({rest:true});
+  spawnTrackBeat({bottles:[safe], offset:236});
+  spawnTrackBeat({bottles:[safe], offset:326});
 }
 
 function spawnTrackBeat(beat){
   if(!beat || beat.rest) return;
-  (beat.obstacles || []).forEach(item => obstacles.spawn(game, lanes, item.lane, item.type));
-  (beat.bottles || []).forEach(lane => coins.spawn(game, lanes, lane, 1, 54));
-  if(Number.isInteger(beat.powerup)) powerups.spawn(game, lanes, beat.powerup);
+  const offset = beat.offset || 0;
+  (beat.obstacles || []).forEach(item => obstacles.spawn(game, lanes, item.lane, item.type, offset));
+  (beat.bottles || []).forEach(lane => coins.spawn(game, lanes, lane, 1, 54, offset));
+  if(Number.isInteger(beat.powerup)) powerups.spawn(game, lanes, beat.powerup, null, offset);
 }
 
 function checkCollisions(){
