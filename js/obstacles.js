@@ -90,6 +90,7 @@ export class ObstacleSystem{
       if(item.type.id === 'cart') drawCart(ctx,item.type.color);
       if(item.type.id === 'gate') drawGate(ctx);
       if(item.type.id === 'box') drawBox(ctx);
+      drawActionHint(ctx,item.type);
       ctx.restore();
     });
   }
@@ -132,6 +133,28 @@ function drawGroundWarning(ctx,item){
     ctx.lineTo((item.targetLane - item.fromLane) * 120,item.h*.46);
     ctx.stroke();
   }
+  ctx.restore();
+}
+
+function drawActionHint(ctx,type){
+  if(!type.dodge) return;
+  const label = type.dodge === 'jump' ? 'PULE' : 'DESLIZE';
+  const y = type.dodge === 'jump' ? -72 : -104;
+  ctx.save();
+  ctx.shadowColor = type.dodge === 'jump' ? '#ffd34d' : '#42e8ff';
+  ctx.shadowBlur = 14;
+  ctx.fillStyle = 'rgba(5,8,13,.86)';
+  ctx.strokeStyle = type.dodge === 'jump' ? '#ffd34d' : '#42e8ff';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.roundRect(-42,y,84,24,8);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#fff';
+  ctx.font = '900 13px Inter, Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(label,0,y + 12);
   ctx.restore();
 }
 

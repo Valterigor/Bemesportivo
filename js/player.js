@@ -2,6 +2,14 @@ export const KOBEMS = [
   {id:'classic',name:'Kobem Oficial',price:0,color:'#fc6e02',accent:'#ff9f1c',variant:'official'}
 ];
 
+export const PLAYER_STATE = {
+  Run:'run',
+  LaneChange:'lane-change',
+  Jump:'jump',
+  Slide:'slide',
+  Hit:'hit'
+};
+
 const robotSprite = new Image();
 robotSprite.src = 'assets/img/kobem-runner-robot.png';
 const robotRunSheet = new Image();
@@ -24,6 +32,9 @@ export class Player{
     this.laneVelocity = 0;
     this.turnBoost = 0;
     this.lastLane = 1;
+    this.state = PLAYER_STATE.Run;
+    this.actionCooldown = 0;
+    this.hitTimer = 0;
     this.skin = KOBEMS[0];
   }
 
@@ -38,6 +49,9 @@ export class Player{
     this.laneVelocity = 0;
     this.turnBoost = 0;
     this.lastLane = 1;
+    this.state = PLAYER_STATE.Run;
+    this.actionCooldown = 0;
+    this.hitTimer = 0;
   }
 
   setSkin(skin){
@@ -45,6 +59,7 @@ export class Player{
   }
 
   move(dir){
+    if(this.hitTimer > 0) return false;
     const next = Math.max(0, Math.min(2, this.targetLane + dir));
     if(next !== this.targetLane){
       this.lastLane = this.targetLane;
@@ -52,22 +67,42 @@ export class Player{
       this.laneVelocity += dir * .95;
       this.turnBoost = .22;
       this.tilt = dir * .18;
+      this.state = PLAYER_STATE.LaneChange;
+      return true;
     }
+    return false;
   }
 
   jumpStart(){
-    if(this.jump <= 0.02){
+    if(this.hitTimer > 0 || this.actionCooldown > 0) return false;
+    if(this.jump <= 0.02 && this.slide <= 0){
       this.jumpVelocity = 820;
       this.slide = 0;
+      this.actionCooldown = .12;
+      this.state = PLAYER_STATE.Jump;
+      return true;
     }
+    return false;
   }
 
   slideStart(){
+    if(this.hitTimer > 0 || this.actionCooldown > 0) return false;
     if(this.jump <= 0.08){
       this.slide = .55;
       this.jumpVelocity = 0;
       this.jump = 0;
+      this.actionCooldown = .12;
+      this.state = PLAYER_STATE.Slide;
+      return true;
     }
+    return false;
+  }
+
+  takeHit(){
+    this.hitTimer = .42;
+    this.invulnerable = 1.4;
+    this.actionCooldown = .18;
+    this.state = PLAYER_STATE.Hit;
   }
 
   update(dt, lanes, height, gameSpeed = 620){
@@ -84,6 +119,8 @@ export class Player{
     this.x = lanes[0] + (lanes[2] - lanes[0]) * (this.lane / 2);
     this.y = height * .79;
     this.invulnerable = Math.max(0, this.invulnerable - dt);
+    this.hitTimer = Math.max(0, this.hitTimer - dt);
+    this.actionCooldown = Math.max(0, this.actionCooldown - dt);
     this.slide = Math.max(0, this.slide - dt);
     this.turnBoost = Math.max(0, this.turnBoost - dt);
     this.tilt += (0 - this.tilt) * Math.min(1, dt * 9);
@@ -95,6 +132,27 @@ export class Player{
         this.jumpVelocity = 0;
       }
     }
+    this.updateState();
+  }
+
+  updateState(){
+    if(this.hitTimer > 0){
+      this.state = PLAYER_STATE.Hit;
+      return;
+    }
+    if(this.slide > 0){
+      this.state = PLAYER_STATE.Slide;
+      return;
+    }
+    if(this.jump > 0 || this.jumpVelocity > 0){
+      this.state = PLAYER_STATE.Jump;
+      return;
+    }
+    if(Math.abs(this.targetLane - this.lane) > .025 || Math.abs(this.laneVelocity) > .04){
+      this.state = PLAYER_STATE.LaneChange;
+      return;
+    }
+    this.state = PLAYER_STATE.Run;
   }
 
   getHitbox(){
@@ -115,23 +173,29 @@ export class Player{
     const stride = Math.sin(this.anim);
     const color = this.skin.color;
     const accent = this.skin.accent;
+    const flicker = this.invulnerable > 0 && Math.floor(this.invulnerable * 18) % 2 === 0;
+    ctx.save();
+    if(flicker) ctx.globalAlpha = .58;
     if(this.skin.variant === 'official'){
       if(officialKobemSprite.complete && officialKobemSprite.naturalWidth){
         drawMascot2Sprite(ctx, officialKobemSprite, this.x, this.y, bob, stride, activePowerups, accent, this.jump, this.slide, this.tilt, this.turnBoost);
+        ctx.restore();
         return;
       }
       drawMascot2(ctx, this.x, this.y, bob, stride, activePowerups, color, accent, this.jump, this.slide, this.tilt, this.turnBoost);
+      ctx.restore();
       return;
     }
     if(robotRunSheet.complete && robotRunSheet.naturalWidth){
       drawRobotRunSheet(ctx, robotRunSheet, this.x, this.y, bob, this.anim, activePowerups, accent, this.jump, this.slide, this.tilt);
+      ctx.restore();
       return;
     }
     if(robotSprite.complete && robotSprite.naturalWidth){
       drawRobotSprite(ctx, robotSprite, this.x, this.y, bob, stride, activePowerups, accent, this.jump, this.slide, this.tilt);
+      ctx.restore();
       return;
     }
-    ctx.save();
     ctx.translate(this.x, this.y + bob);
     ctx.scale(1.18,1.18);
     if(activePowerups.shield){

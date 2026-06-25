@@ -3,6 +3,7 @@ import { ObstacleSystem } from './obstacles.js';
 import { CoinSystem } from './coins.js';
 import { PowerupSystem } from './powerups.js';
 import { AudioBus } from './audio.js';
+import { InputManager } from './input.js';
 import { loadStore, saveStore, addRanking, unlockAchievement, addXp, updateMissionProgress } from './storage.js';
 import { updateHud, renderRanking, renderAchievements, renderKobems } from './ui.js';
 
@@ -121,9 +122,6 @@ const director = {
   lastSafeLane:1,
   beat:.58
 };
-let pointerStartX = 0;
-let pointerStartY = 0;
-
 hydrateStaticLabels();
 
 function resize(){
@@ -753,7 +751,7 @@ function checkCollisions(){
       game.perfectDodges = 0;
       game.energy = Math.max(0, game.energy - 18);
       game.hitSlowTimer = .75;
-      player.invulnerable = 1.4;
+      player.takeHit();
       game.shake = 12;
       showRunnerFeedback('Impacto');
       shell.classList.add('is-damaged');
@@ -938,18 +936,35 @@ function vibrate(ms){
 }
 
 function bindControls(){
-  leftBtn.addEventListener('click', () => player.move(-1));
-  rightBtn.addEventListener('click', () => player.move(1));
-  jumpBtn?.addEventListener('click', () => {
-    player.jumpStart();
-    audio.play('turbo');
-    vibrate(35);
+  const input = new InputManager({
+    canvas,
+    leftBtn,
+    rightBtn,
+    jumpBtn,
+    slideBtn,
+    onMove: dir => {
+      if(player.move(dir)){
+        audio.play('button');
+        vibrate(18);
+      }
+    },
+    onJump: () => {
+      if(player.jumpStart()){
+        audio.play('turbo');
+        vibrate(35);
+      }
+    },
+    onSlide: () => {
+      if(player.slideStart()){
+        audio.play('turbo');
+        vibrate(35);
+      }
+    },
+    onTurbo: active => {
+      game.turbo = active;
+    }
   });
-  slideBtn?.addEventListener('click', () => {
-    player.slideStart();
-    audio.play('turbo');
-    vibrate(35);
-  });
+  input.bind();
   pauseBtn.addEventListener('click', () => {
     engine.setState(game.paused ? GameState.Playing : GameState.Pause);
     audio.play('button');
@@ -966,36 +981,6 @@ function bindControls(){
   vibrationToggle.addEventListener('change', () => { store.vibration = vibrationToggle.checked; saveStore(store); });
   playerName.addEventListener('input', () => renderRanking(store.ranking, playerName.value || 'Voce'));
 
-  window.addEventListener('keydown', event => {
-    if(event.key === 'ArrowLeft') player.move(-1);
-    if(event.key === 'ArrowRight') player.move(1);
-    if(event.key === 'ArrowUp') player.jumpStart();
-    if(event.key === 'ArrowDown') player.slideStart();
-    if(event.key === ' ') game.turbo = true;
-    if(event.key === 'w' || event.key === 'W') player.jumpStart();
-    if(event.key === 's' || event.key === 'S') player.slideStart();
-  });
-  window.addEventListener('keyup', event => {
-    if(event.key === ' ') game.turbo = false;
-  });
-  canvas.addEventListener('pointerdown', event => {
-    pointerStartX = event.clientX;
-    pointerStartY = event.clientY;
-  });
-  canvas.addEventListener('pointerup', event => {
-    const dx = event.clientX - pointerStartX;
-    const dy = event.clientY - pointerStartY;
-    if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 28) player.move(dx > 0 ? 1 : -1);
-    if(dy > 34 && Math.abs(dy) > Math.abs(dx)){
-      player.slideStart();
-      audio.play('turbo');
-    }
-    if(dy < -34 && Math.abs(dy) > Math.abs(dx)){
-      player.jumpStart();
-      game.activePowerups.turbo = Math.max(game.activePowerups.turbo, .65);
-      audio.play('turbo');
-    }
-  });
 }
 
 function hydrateStaticLabels(){
