@@ -5,14 +5,14 @@ const defaults = {
   wallet:0,
   gems:0,
   bestDistance:0,
-  selected:'mascot2',
+  selected:'classic',
   sound:true,
   vibration:true,
   xp:0,
   level:1,
   stats:{runs:0,totalDistance:0,bestCombo:0,bestGems:0},
   missions:{daily:{date:'',bottles:0,rewarded:false},weekly:{week:'',distance:0,rewarded:false}},
-  unlocked:['classic','mascot2'],
+  unlocked:['classic'],
   ranking:[],
   achievements:[]
 };
@@ -96,6 +96,8 @@ function normalizeStore(store){
   normalized.unlocked = [...new Set([...(defaults.unlocked || []), ...(store.unlocked || [])])];
   normalized.achievements = Array.isArray(store.achievements) ? store.achievements : [];
   normalized.ranking = Array.isArray(store.ranking) ? store.ranking : [];
+  if(normalized.selected === 'mascot2') normalized.selected = 'classic';
+  normalized.unlocked = normalized.unlocked.filter(id => id !== 'mascot2');
   normalized.level = Math.max(1, Number(normalized.level || 1));
   normalized.xp = Math.max(0, Number(normalized.xp || 0));
   return normalized;

@@ -35,10 +35,6 @@ const gameOverSummary = document.getElementById('gameOverSummary');
 const rewardToast = document.getElementById('rewardToast');
 const runnerFeedback = document.getElementById('runnerFeedback');
 const store = loadStore();
-if(store.selected === 'classic'){
-  store.selected = 'mascot2';
-  saveStore(store);
-}
 const audio = new AudioBus(store);
 const player = new Player();
 const obstacles = new ObstacleSystem();
@@ -92,8 +88,10 @@ const game = {
   coins:0,
   gems:0,
   nextGemKm:5,
+  nextMilestoneKm:1,
   toastTimer:0,
   combo:1,
+  comboTimer:0,
   lives:5,
   distance:0,
   energy:100,
@@ -102,6 +100,7 @@ const game = {
   maxSpeed:1180,
   level:0,
   perfectDodges:0,
+  hitSlowTimer:0,
   feedbackTimer:0,
   feedbackText:'',
   turbo:false,
@@ -147,8 +146,10 @@ function reset(){
   game.coins = 0;
   game.gems = 0;
   game.nextGemKm = 5;
+  game.nextMilestoneKm = 1;
   game.toastTimer = 0;
   game.combo = 1;
+  game.comboTimer = 0;
   game.lives = 5;
   game.distance = 0;
   game.energy = 100;
@@ -157,6 +158,7 @@ function reset(){
   game.maxSpeed = 1180;
   game.level = 0;
   game.perfectDodges = 0;
+  game.hitSlowTimer = 0;
   game.feedbackTimer = 0;
   game.feedbackText = '';
   game.turbo = false;
@@ -547,12 +549,20 @@ function update(dt){
   game.speed = game.baseSpeed;
   if(turboActive) game.speed *= 1.5;
   if(game.activePowerups.slow > 0) game.speed *= .72;
-  game.energy = Math.max(0, Math.min(100, game.energy + (turboActive ? -35 : -2.8) * dt));
+  if(game.hitSlowTimer > 0) game.speed *= .58;
+  if(game.energy <= 0) game.speed *= .82;
+  game.energy = Math.max(0, Math.min(100, game.energy + (turboActive ? -35 : -3.2 - difficulty * 1.4) * dt));
   if(game.energy <= 0) game.turbo = false;
+  game.hitSlowTimer = Math.max(0, game.hitSlowTimer - dt);
 
   Object.keys(game.activePowerups).forEach(key => {
     game.activePowerups[key] = Math.max(0, game.activePowerups[key] - dt);
   });
+  game.comboTimer = Math.max(0, game.comboTimer - dt);
+  if(game.comboTimer <= 0 && game.combo > 1){
+    game.combo = Math.max(1, game.combo - 1);
+    game.comboTimer = .85;
+  }
 
   player.update(dt, lanes, game.height, game.speed);
   obstacles.update(dt, game, lanes);
@@ -567,6 +577,7 @@ function update(dt){
   const multiplier = (game.activePowerups.multiplier ? 2 : 1) * (1 + Math.min(.65, difficulty * .65));
   game.score += game.speed * Math.max(1, game.combo) * multiplier * dt * .11;
   game.distance += game.speed * dt / 3000;
+  updateMilestones();
   if(game.distance >= game.nextGemKm) awardGem();
   game.toastTimer = Math.max(0, game.toastTimer - dt);
   if(game.toastTimer <= 0) rewardToast.classList.add('is-hidden');
@@ -580,6 +591,16 @@ function awardGem(){
   game.toastTimer = 2.4;
   rewardToast.classList.remove('is-hidden');
   impact(game.width * .5, game.height * .25, '#42e8ff');
+  audio.play('powerup');
+}
+
+function updateMilestones(){
+  if(game.distance < game.nextMilestoneKm) return;
+  const km = game.nextMilestoneKm;
+  game.nextMilestoneKm += 1;
+  game.energy = Math.min(100, game.energy + 8);
+  showRunnerFeedback(`Nivel ${Math.min(10, Math.floor(km) + 1)}`);
+  impact(game.width * .5, game.height * .58, '#fc6e02');
   audio.play('powerup');
 }
 
@@ -717,11 +738,24 @@ function checkCollisions(){
     if(intersects(hb,box)){
       item.hit = true;
       impact(item.x,item.y,'#fc6e02');
-      if(game.activePowerups.shield || player.invulnerable) return;
+      if(player.invulnerable) return;
+      if(game.activePowerups.shield){
+        game.activePowerups.shield = 0;
+        player.invulnerable = .8;
+        showRunnerFeedback('Escudo absorveu');
+        audio.play('powerup');
+        vibrate(55);
+        return;
+      }
       game.lives -= 1;
       game.combo = 1;
+      game.comboTimer = 0;
+      game.perfectDodges = 0;
+      game.energy = Math.max(0, game.energy - 18);
+      game.hitSlowTimer = .75;
       player.invulnerable = 1.4;
       game.shake = 12;
+      showRunnerFeedback('Impacto');
       shell.classList.add('is-damaged');
       window.setTimeout(() => shell.classList.remove('is-damaged'), 180);
       audio.play('hit');
@@ -736,6 +770,7 @@ function checkCollisions(){
       game.coins += item.value;
       game.energy = Math.min(100, game.energy + 4 + item.value * 2);
       game.combo = Math.min(12, game.combo + 1);
+      game.comboTimer = 2.4;
       game.score += item.value * 35 * (game.activePowerups.multiplier ? 2 : 1);
       impact(item.x,item.y,'#18c8ff');
       audio.play('coin');
@@ -767,6 +802,7 @@ function updatePerfectDodges(){
     if(laneDistance < 78 && !game.activePowerups.shield && item.type.dodge !== 'jump' && item.type.dodge !== 'slide') return;
     game.perfectDodges += 1;
     game.combo = Math.min(12, game.combo + 1);
+    game.comboTimer = 2.6;
     game.score += 90 * game.combo * (game.activePowerups.multiplier ? 2 : 1);
     if(game.perfectDodges % 3 === 0){
       showRunnerFeedback(`Desvio perfeito x${game.perfectDodges}`);

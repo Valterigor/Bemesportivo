@@ -1,18 +1,13 @@
 export const KOBEMS = [
-  {id:'classic',name:'Classico',price:0,color:'#fc6e02',accent:'#42e8ff'},
-  {id:'mascot2',name:'Kobem 2.0',price:0,color:'#fc6e02',accent:'#ff9f1c',variant:'mascot2'},
-  {id:'athlete',name:'Atleta',price:180,color:'#f04d23',accent:'#ffffff'},
-  {id:'gold',name:'Ouro',price:500,color:'#ffd34d',accent:'#42e8ff'},
-  {id:'neon',name:'Neon',price:900,color:'#141414',accent:'#42e8ff'},
-  {id:'legendary',name:'Campeao',price:1600,color:'#42e8ff',accent:'#ffd34d'}
+  {id:'classic',name:'Kobem Oficial',price:0,color:'#fc6e02',accent:'#ff9f1c',variant:'official'}
 ];
 
 const robotSprite = new Image();
 robotSprite.src = 'assets/img/kobem-runner-robot.png';
 const robotRunSheet = new Image();
 robotRunSheet.src = 'assets/img/kobem-runner-robot-sheet.png';
-const mascot2Sprite = new Image();
-mascot2Sprite.src = 'assets/img/kobem-runner-mascot2.png';
+const officialKobemSprite = new Image();
+officialKobemSprite.src = 'assets/img/kobem-runner-mascot2.png';
 
 export class Player{
   constructor(){
@@ -120,9 +115,9 @@ export class Player{
     const stride = Math.sin(this.anim);
     const color = this.skin.color;
     const accent = this.skin.accent;
-    if(this.skin.variant === 'mascot2'){
-      if(mascot2Sprite.complete && mascot2Sprite.naturalWidth){
-        drawMascot2Sprite(ctx, mascot2Sprite, this.x, this.y, bob, stride, activePowerups, accent, this.jump, this.slide, this.tilt, this.turnBoost);
+    if(this.skin.variant === 'official'){
+      if(officialKobemSprite.complete && officialKobemSprite.naturalWidth){
+        drawMascot2Sprite(ctx, officialKobemSprite, this.x, this.y, bob, stride, activePowerups, accent, this.jump, this.slide, this.tilt, this.turnBoost);
         return;
       }
       drawMascot2(ctx, this.x, this.y, bob, stride, activePowerups, color, accent, this.jump, this.slide, this.tilt, this.turnBoost);

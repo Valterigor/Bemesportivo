@@ -90,7 +90,7 @@ export function renderKobems(store, onSelect, onBuy){
 }
 
 function renderKobemAvatar(kobem){
-  const antenna = kobem.variant === 'mascot2' ? '<i></i><i></i>' : '';
+  const antenna = kobem.variant === 'official' ? '<i></i><i></i>' : '';
   return `<span class="kobem-avatar-bot ${kobem.variant || ''}">
     ${antenna}
     <b></b>
