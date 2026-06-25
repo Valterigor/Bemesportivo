@@ -1,3 +1,4 @@
 /api/community/* /.netlify/functions/community/:splat 200
 /api/worldcup/* /.netlify/functions/worldcup/:splat 200
+/api/brasileirao/* /.netlify/functions/brasileirao/:splat 200
 /kobem-runner /kobem-runner.html 200
