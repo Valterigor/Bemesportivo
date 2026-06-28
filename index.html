@@ -8938,34 +8938,21 @@ color:#ffb47b !important;
 </div>
 </div>
 
-<div class="featured-match-card game-card">
+<div class="live-center-card" aria-labelledby="liveCenterTitle">
 <div class="match-card-head">
-<span><i></i> Ao vivo</span>
-<button type="button" aria-label="Favoritar jogo">☆</button>
+<span id="liveCenterTitle"><i></i> Ao vivo na Copa</span>
+<a href="#worldcup" aria-label="Ver todos os jogos da Copa">Todos</a>
 </div>
-<div class="scoreline">
-<div class="team-side">
-<img src="https://flagcdn.com/w80/br.png" alt="Brasil" loading="lazy">
-<strong>Brasil</strong>
+<div class="live-center-list" id="worldCupLiveCenter" aria-live="polite" aria-labelledby="liveCenterTitle">
+<article class="live-center-row">
+<div class="live-team is-home"><strong>Carregando</strong></div>
+<div class="live-score-stack">
+<strong>-- - --</strong>
+<span>Copa do Mundo 2026</span>
 </div>
-<div class="score-center">
-<strong>2 - 0</strong>
-<span>67' segundo tempo</span>
-</div>
-<div class="team-side">
-<img src="https://flagcdn.com/w80/gb-sct.png" alt="Escócia" loading="lazy">
-<strong>Escócia</strong>
-</div>
-</div>
-<div class="match-meta">
-<span>MetLife Stadium</span>
-<span>Grupo C</span>
-<span>Rodada 1</span>
-</div>
-<div class="match-tools">
-<a href="#worldcup-results">Estatísticas</a>
-<a href="/escalacao">Escalações</a>
-<a href="#worldcup">Eventos</a>
+<div class="live-team is-away"><strong>jogos da Copa</strong></div>
+<small>Atualizando placares...</small>
+</article>
 </div>
 </div>
 </article>
@@ -11397,6 +11384,81 @@ function renderWorldCupBroadcastScore(match){
   `;
 }
 
+function getWorldCupFlagMarkup(teamName, size = '40x30'){
+  const flagUrl = getWorldCupFlagUrl(teamName, size);
+  const display = getPrimaryWorldCupTeam(teamName);
+  return flagUrl
+    ? `<img src="${flagUrl}" alt="${escapeHtml(display)}" loading="lazy">`
+    : `<span class="live-flag-fallback">${escapeHtml(initials(display))}</span>`;
+}
+
+function getWorldCupLiveCenterMatches(matches){
+  const source = Array.isArray(matches) && matches.length ? matches : WORLD_CUP_MATCHES;
+  const now = new Date();
+  const sorted = [...source].sort((a,b) => getWorldCupDateTime(a) - getWorldCupDateTime(b));
+  const live = sorted.filter(match => ['AO VIVO','EM JOGO'].includes(getWorldCupStatus(match)));
+  if(live.length) return live.slice(0, 4);
+
+  const today = sorted.filter(match => isSameDay(getWorldCupDateTime(match), now));
+  if(today.length) return today.slice(0, 4);
+
+  const upcoming = sorted.filter(match => getWorldCupDateTime(match) >= now);
+  if(upcoming.length) return upcoming.slice(0, 4);
+
+  return sorted.slice(-4).reverse();
+}
+
+function getWorldCupLiveCenterMeta(match){
+  const status = getWorldCupStatus(match);
+  if(status === 'AO VIVO'){
+    return match.liveClock || match.statusDetail || 'Ao vivo';
+  }
+  if(status === 'ENCERRADO'){
+    return 'Encerrado';
+  }
+  if(status === 'HOJE'){
+    return `Hoje - ${formatWorldCupTime(match)}`;
+  }
+  return `${formatWorldCupDate(match)} - ${formatWorldCupTime(match)}`;
+}
+
+function renderWorldCupLiveCenter(matches){
+  const container = document.getElementById('worldCupLiveCenter');
+  if(!container) return;
+
+  const liveMatches = getWorldCupLiveCenterMatches(matches);
+  container.innerHTML = liveMatches.map(match => {
+    const home = getPrimaryWorldCupTeam(match.home);
+    const away = getPrimaryWorldCupTeam(match.away);
+    const hasScore = match.homeScore != null && match.awayScore != null;
+    const score = hasScore ? `${match.homeScore} - ${match.awayScore}` : '0 - 0';
+    const status = getWorldCupLiveCenterMeta(match);
+    const venue = cleanText(match.venue || 'Copa do Mundo 2026');
+    const subline = ['AO VIVO','EM JOGO'].includes(getWorldCupStatus(match))
+      ? `${status} · ${venue}`
+      : `${status} · ${venue}`;
+
+    return `
+      <article class="live-center-row" aria-label="${escapeHtml(home)} ${escapeHtml(score)} ${escapeHtml(away)}">
+        <div class="live-team is-home">
+          <strong>${escapeHtml(home)}</strong>
+          ${getWorldCupFlagMarkup(match.home)}
+        </div>
+        <div class="live-score-stack">
+          <strong>${escapeHtml(score)}</strong>
+          <span>${escapeHtml(status)}</span>
+        </div>
+        <div class="live-team is-away">
+          ${getWorldCupFlagMarkup(match.away)}
+          <strong>${escapeHtml(away)}</strong>
+        </div>
+        <small>${escapeHtml(subline)}</small>
+        <span class="live-tv-badge" aria-hidden="true">tv</span>
+      </article>
+    `;
+  }).join('');
+}
+
 function getWorldCupGroupLabel(group){
   if(!group) return 'Grupo';
   return group === 'Fase de grupos' ? group : `Grupo ${group}`;
@@ -12535,6 +12597,7 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   latestWorldCupMatches = normalizedMatches;
   latestWorldCupSourceLabel = sourceLabel;
   const featuredMatches = getArenaStyleWorldCupMatches(normalizedMatches);
+  renderWorldCupLiveCenter(normalizedMatches);
   if(groups){
     renderWorldCupGroups(normalizedMatches, sourceLabel);
   }

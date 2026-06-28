@@ -1379,6 +1379,148 @@ body {
   border-top: 1px solid rgba(255, 255, 255, .1);
 }
 
+.live-center-card {
+  display: grid;
+  gap: 10px;
+  align-self: end;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, .11);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .94), rgba(245, 246, 248, .9));
+  color: #07111f;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .34);
+}
+
+.live-center-card .match-card-head {
+  padding: 0 4px 4px;
+  border-bottom: 1px solid rgba(7, 17, 31, .08);
+}
+
+.live-center-card .match-card-head span {
+  color: #07111f;
+}
+
+.live-center-card .match-card-head a {
+  color: var(--be-orange);
+  font-size: 11px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.live-center-list {
+  display: grid;
+}
+
+.live-center-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-height: 86px;
+  padding: 10px 8px 24px;
+  border-bottom: 1px solid rgba(7, 17, 31, .08);
+}
+
+.live-center-row:last-child {
+  border-bottom: 0;
+}
+
+.live-team {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.live-team.is-home {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.live-team.is-away {
+  justify-content: flex-start;
+}
+
+.live-team strong {
+  overflow: hidden;
+  color: #07111f;
+  font-size: 15px;
+  font-weight: 850;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.live-team img,
+.live-team .live-flag-fallback {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(7, 17, 31, .12);
+  background: #fff;
+}
+
+.live-team .live-flag-fallback {
+  display: grid;
+  place-items: center;
+  color: var(--be-orange);
+  font-size: 10px;
+  font-weight: 950;
+}
+
+.live-score-stack {
+  display: grid;
+  justify-items: center;
+  min-width: 82px;
+  color: #07111f;
+  line-height: 1.05;
+}
+
+.live-score-stack strong {
+  color: #07111f;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.live-score-stack span {
+  color: #5f6673;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.live-center-row small {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  transform: translateX(-50%);
+  max-width: calc(100% - 44px);
+  overflow: hidden;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.live-tv-badge {
+  position: absolute;
+  right: 8px;
+  bottom: 7px;
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 14px;
+  border-radius: 4px;
+  background: #c8cbd0;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 950;
+}
+
 .dashboard-side {
   grid-column: span 4;
   display: grid;
