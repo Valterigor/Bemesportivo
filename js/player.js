@@ -15,7 +15,7 @@ robotSprite.src = 'assets/img/kobem-runner-robot.png';
 const robotRunSheet = new Image();
 robotRunSheet.src = 'assets/img/kobem-runner-robot-sheet.png';
 const officialKobemSprite = new Image();
-officialKobemSprite.src = 'assets/img/kobem-runner-mascot2.png';
+officialKobemSprite.src = 'assets/img/kobem-official-gameplay.png';
 
 export class Player{
   constructor(){
@@ -434,13 +434,14 @@ function drawMascot2(ctx,x,y,bob,stride,activePowerups,color,accent,jump,slide,t
 }
 
 function drawMascot2Sprite(ctx,image,x,y,bob,stride,activePowerups,accent,jump,slide,tilt,turnBoost){
-  const spriteHeight = Math.min(560, Math.max(430, ctx.canvas.clientHeight ? ctx.canvas.clientHeight * .55 : 500));
+  const spriteHeight = Math.min(500, Math.max(350, ctx.canvas.clientHeight ? ctx.canvas.clientHeight * .49 : 430));
   const spriteWidth = spriteHeight * image.naturalWidth / image.naturalHeight;
   const squash = slide > 0 ? .7 : 1;
   const lean = slide > 0 ? .12 : tilt + turnBoost * .12;
-  const runPush = slide > 0 ? 0 : Math.sin(stride) * 5;
+  const runPush = slide > 0 ? 0 : Math.sin(stride) * 3;
+  const runScale = slide > 0 ? 1 : 1 + Math.abs(stride) * .012;
   const drawX = x - spriteWidth * .5 + runPush;
-  const drawY = y - spriteHeight * squash + 70 + bob - jump;
+  const drawY = y - spriteHeight * squash + 42 + bob - jump;
 
   ctx.save();
   if(activePowerups.shield){
@@ -463,11 +464,12 @@ function drawMascot2Sprite(ctx,image,x,y,bob,stride,activePowerups,accent,jump,s
   ctx.shadowBlur = 20;
   ctx.translate(x, drawY + spriteHeight*squash*.54);
   ctx.rotate(lean);
+  ctx.scale(runScale, 1);
   ctx.translate(-x, -(drawY + spriteHeight*squash*.54));
 
-  drawMascot2AnimatedSprite(ctx,image,drawX,drawY,spriteWidth,spriteHeight*squash,stride,slide);
-  drawSpriteFlame(ctx,x - spriteWidth*.06,y + 22 - jump + Math.max(0,stride)*8,accent,slide);
-  drawSpriteFlame(ctx,x + spriteWidth*.12,y + 18 - jump - Math.min(0,stride)*8,accent,slide);
+  ctx.drawImage(image,drawX,drawY,spriteWidth,spriteHeight*squash);
+  drawSpriteFlame(ctx,x - spriteWidth*.12,y + 22 - jump + Math.max(0,stride)*7,accent,slide);
+  drawSpriteFlame(ctx,x + spriteWidth*.12,y + 18 - jump - Math.min(0,stride)*7,accent,slide);
   ctx.restore();
 }
 
