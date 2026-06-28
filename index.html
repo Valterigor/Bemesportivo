@@ -20,6 +20,7 @@
 <title>Bem Esportivo | Conteúdo Esportivo</title>
 
 <link rel="icon" href="img/logobemoficial.png">
+<link rel="canonical" href="https://bemesportivo.com/">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 
@@ -8923,15 +8924,15 @@ color:#ffb47b !important;
 <div class="dashboard-shell">
 <div class="dashboard-topline">
 <span class="live-pill"><i></i> Live center</span>
-<span>Bem Esportivo Premium HUD</span>
+<span>Central Bem Esportivo</span>
 </div>
 
 <div class="dashboard-grid">
 <article class="dashboard-main-card">
 <div class="dashboard-copy">
 <span class="dashboard-kicker">Copa do Mundo 2026 em primeiro plano</span>
-<h1 id="dashboardTitle">O esporte em ritmo de aplicativo.</h1>
-<p>Placar, calendário, estatísticas, palpites e notícias organizados em uma experiência rápida, escura e premium.</p>
+<h1 id="dashboardTitle">A Copa em tempo real, do jeito Bem Esportivo.</h1>
+<p>Jogos ao vivo, placares, agenda, estatísticas e notícias da Copa em uma central rápida, clara e feita para acompanhar cada rodada.</p>
 <div class="dashboard-actions">
 <a href="#worldcup">Ver jogos ao vivo</a>
 <a href="#worldcup">Ver central da Copa</a>
@@ -8940,7 +8941,7 @@ color:#ffb47b !important;
 
 <div class="live-center-card" aria-labelledby="liveCenterTitle">
 <div class="match-card-head">
-<span id="liveCenterTitle"><i></i> Ao vivo na Copa</span>
+<span id="liveCenterTitle"><i></i> Ao vivo hoje na Copa</span>
 <a href="#worldcup" aria-label="Ver todos os jogos da Copa">Todos</a>
 </div>
 <div class="live-center-list" id="worldCupLiveCenter" aria-live="polite" aria-labelledby="liveCenterTitle">
@@ -8951,7 +8952,7 @@ color:#ffb47b !important;
 <span>Copa do Mundo 2026</span>
 </div>
 <div class="live-team is-away"><strong>jogos da Copa</strong></div>
-<small>Atualizando placares...</small>
+<small>Buscando jogos ao vivo de hoje...</small>
 </article>
 </div>
 </div>
@@ -11396,16 +11397,19 @@ function getWorldCupLiveCenterMatches(matches){
   const source = Array.isArray(matches) && matches.length ? matches : WORLD_CUP_MATCHES;
   const now = new Date();
   const sorted = [...source].sort((a,b) => getWorldCupDateTime(a) - getWorldCupDateTime(b));
-  const live = sorted.filter(match => ['AO VIVO','EM JOGO'].includes(getWorldCupStatus(match)));
-  if(live.length) return live.slice(0, 4);
+  const liveToday = sorted.filter(match => {
+    const status = getWorldCupStatus(match);
+    return ['AO VIVO','EM JOGO'].includes(status) && isSameDay(getWorldCupDateTime(match), now);
+  });
+  if(liveToday.length) return {matches:liveToday.slice(0, 4), mode:'live'};
 
-  const today = sorted.filter(match => isSameDay(getWorldCupDateTime(match), now));
-  if(today.length) return today.slice(0, 4);
+  const liveOtherDays = sorted.filter(match => ['AO VIVO','EM JOGO'].includes(getWorldCupStatus(match)));
+  if(liveOtherDays.length) return {matches:liveOtherDays.slice(0, 4), mode:'live'};
 
   const upcoming = sorted.filter(match => getWorldCupDateTime(match) >= now);
-  if(upcoming.length) return upcoming.slice(0, 4);
+  if(upcoming.length) return {matches:upcoming.slice(0, 2), mode:'empty'};
 
-  return sorted.slice(-4).reverse();
+  return {matches:sorted.slice(-2).reverse(), mode:'empty'};
 }
 
 function getWorldCupLiveCenterMeta(match){
@@ -11426,17 +11430,23 @@ function renderWorldCupLiveCenter(matches){
   const container = document.getElementById('worldCupLiveCenter');
   if(!container) return;
 
-  const liveMatches = getWorldCupLiveCenterMatches(matches);
-  container.innerHTML = liveMatches.map(match => {
+  const liveCenter = getWorldCupLiveCenterMatches(matches);
+  const liveMatches = liveCenter.matches;
+  const emptyState = liveCenter.mode !== 'live' ? `
+    <div class="live-center-empty">
+      <strong>Nenhum jogo da Copa ao vivo neste momento</strong>
+      <span>O próximo jogo fica abaixo para você acompanhar quando a bola rolar.</span>
+    </div>
+  ` : '';
+
+  container.innerHTML = emptyState + liveMatches.map(match => {
     const home = getPrimaryWorldCupTeam(match.home);
     const away = getPrimaryWorldCupTeam(match.away);
     const hasScore = match.homeScore != null && match.awayScore != null;
-    const score = hasScore ? `${match.homeScore} - ${match.awayScore}` : '0 - 0';
+    const score = hasScore ? `${match.homeScore} - ${match.awayScore}` : '-- - --';
     const status = getWorldCupLiveCenterMeta(match);
     const venue = cleanText(match.venue || 'Copa do Mundo 2026');
-    const subline = ['AO VIVO','EM JOGO'].includes(getWorldCupStatus(match))
-      ? `${status} · ${venue}`
-      : `${status} · ${venue}`;
+    const subline = `${status} · ${venue}`;
 
     return `
       <article class="live-center-row" aria-label="${escapeHtml(home)} ${escapeHtml(score)} ${escapeHtml(away)}">

@@ -1381,18 +1381,18 @@ body {
 
 .live-center-card {
   display: grid;
-  gap: 10px;
+  gap: 6px;
   align-self: end;
-  padding: 12px;
-  border: 1px solid rgba(255, 255, 255, .11);
+  padding: 10px 12px;
+  border: 1px solid rgba(7, 17, 31, .08);
   border-radius: 8px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, .94), rgba(245, 246, 248, .9));
+  background: #fff;
   color: #07111f;
-  box-shadow: 0 18px 60px rgba(0, 0, 0, .34);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, .26);
 }
 
 .live-center-card .match-card-head {
-  padding: 0 4px 4px;
+  padding: 2px 4px 8px;
   border-bottom: 1px solid rgba(7, 17, 31, .08);
 }
 
@@ -1411,14 +1411,34 @@ body {
   display: grid;
 }
 
+.live-center-empty {
+  display: grid;
+  gap: 3px;
+  padding: 12px 8px;
+  border-bottom: 1px solid rgba(7, 17, 31, .08);
+  text-align: center;
+}
+
+.live-center-empty strong {
+  color: #07111f;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.live-center-empty span {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 750;
+}
+
 .live-center-row {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: 12px;
-  min-height: 86px;
-  padding: 10px 8px 24px;
+  gap: 10px;
+  min-height: 72px;
+  padding: 10px 8px 22px;
   border-bottom: 1px solid rgba(7, 17, 31, .08);
 }
 
@@ -1445,7 +1465,7 @@ body {
 .live-team strong {
   overflow: hidden;
   color: #07111f;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 850;
   line-height: 1.15;
   text-overflow: ellipsis;
@@ -1455,8 +1475,8 @@ body {
 .live-team img,
 .live-team .live-flag-fallback {
   flex: 0 0 auto;
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid rgba(7, 17, 31, .12);
@@ -1474,20 +1494,20 @@ body {
 .live-score-stack {
   display: grid;
   justify-items: center;
-  min-width: 82px;
+  min-width: 76px;
   color: #07111f;
   line-height: 1.05;
 }
 
 .live-score-stack strong {
   color: #07111f;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 950;
 }
 
 .live-score-stack span {
   color: #5f6673;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 850;
 }
 
@@ -1499,7 +1519,7 @@ body {
   max-width: calc(100% - 44px);
   overflow: hidden;
   color: #6b7280;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   text-align: center;
   text-overflow: ellipsis;
