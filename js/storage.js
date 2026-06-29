@@ -11,7 +11,7 @@ const defaults = {
   xp:0,
   level:1,
   stats:{runs:0,totalDistance:0,bestCombo:0,bestGems:0},
-  missions:{daily:{date:'',bottles:0,rewarded:false},weekly:{week:'',distance:0,rewarded:false}},
+  missions:{daily:{date:'',bottles:0,rewarded:false,healthRewarded:false},weekly:{week:'',distance:0,rewarded:false}},
   unlocked:['classic'],
   ranking:[],
   achievements:[]
@@ -26,6 +26,7 @@ export const ACHIEVEMENTS = [
   {id:'bottles-100',name:'Hidratado',desc:'Guarde 100 garrafas.'},
   {id:'bottles-500',name:'Estoque campeao',desc:'Guarde 500 garrafas.'},
   {id:'hydration-hero',name:'Sem sede',desc:'Termine uma corrida com 80% de hidratacao.'},
+  {id:'kobem-health-01',name:'Missao saude',desc:'Colete 30 garrafas e termine com 80% de hidratacao.'},
   {id:'dribble-master',name:'Mestre do combo',desc:'Chegue ao combo x10.'},
   {id:'legend',name:'Lenda Kobem',desc:'Desbloqueie o Kobem Lendario.'}
 ];
@@ -65,10 +66,11 @@ export function addXp(store, amount){
 }
 
 export function updateMissionProgress(store, run){
+  const rewards = {daily:false, weekly:false, health:false};
   const today = new Date().toISOString().slice(0,10);
   const week = getWeekKey(new Date());
   if(store.missions.daily.date !== today){
-    store.missions.daily = {date:today,bottles:0,rewarded:false};
+    store.missions.daily = {date:today,bottles:0,rewarded:false,healthRewarded:false};
   }
   if(store.missions.weekly.week !== week){
     store.missions.weekly = {week,distance:0,rewarded:false};
@@ -79,11 +81,20 @@ export function updateMissionProgress(store, run){
   if(store.missions.daily.bottles >= 50 && !store.missions.daily.rewarded){
     store.wallet += 75;
     store.missions.daily.rewarded = true;
+    rewards.daily = true;
+  }
+  if((run.coins || 0) >= 30 && (run.energy || 0) >= 80 && !store.missions.daily.healthRewarded){
+    store.wallet += 120;
+    store.gems = (store.gems || 0) + 1;
+    store.missions.daily.healthRewarded = true;
+    rewards.health = true;
   }
   if(store.missions.weekly.distance >= 25 && !store.missions.weekly.rewarded){
     store.gems = (store.gems || 0) + 3;
     store.missions.weekly.rewarded = true;
+    rewards.weekly = true;
   }
+  return rewards;
 }
 
 function normalizeStore(store){

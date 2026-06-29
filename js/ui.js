@@ -18,9 +18,11 @@ export function updateHud(game){
   const powerCard = document.querySelector('.power-card span');
   if(powerCard) powerCard.textContent = active.label;
   document.getElementById('magnetTimer').textContent = `${Math.ceil(active.time)}s`;
-  const mission = Math.min(50, game.coins);
-  document.getElementById('missionText').textContent = `${mission}/50`;
-  document.getElementById('missionBar').style.width = `${mission * 2}%`;
+  const bottlesProgress = Math.min(1, game.coins / 30);
+  const healthProgress = Math.min(1, game.energy / 80);
+  const missionProgress = Math.floor((bottlesProgress * .68 + healthProgress * .32) * 100);
+  document.getElementById('missionText').textContent = `${missionProgress}%`;
+  document.getElementById('missionBar').style.width = `${missionProgress}%`;
   const goalTitle = document.getElementById('goalTitle');
   const goalProgress = document.getElementById('goalProgress');
   const goalHint = document.getElementById('goalHint');

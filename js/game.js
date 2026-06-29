@@ -104,6 +104,8 @@ const game = {
   hitSlowTimer:0,
   feedbackTimer:0,
   feedbackText:'',
+  hydrationMissionReady:false,
+  hydrationMissionFeedback:false,
   turbo:false,
   shake:0,
   time:0,
@@ -159,6 +161,8 @@ function reset(){
   game.hitSlowTimer = 0;
   game.feedbackTimer = 0;
   game.feedbackText = '';
+  game.hydrationMissionReady = false;
+  game.hydrationMissionFeedback = false;
   game.turbo = false;
   game.shake = 0;
   game.time = 0;
@@ -781,6 +785,7 @@ function checkCollisions(){
       item.collected = true;
       game.coins += item.value;
       game.energy = Math.min(100, game.energy + 4 + item.value * 2);
+      updateHydrationMissionFeedback();
       game.combo = Math.min(12, game.combo + 1);
       game.comboTimer = 2.4;
       game.score += item.value * 35 * (game.activePowerups.multiplier ? 2 : 1);
@@ -833,6 +838,17 @@ function showRunnerFeedback(text){
   }
 }
 
+function updateHydrationMissionFeedback(){
+  if(game.coins >= 30 && !game.hydrationMissionReady){
+    game.hydrationMissionReady = true;
+    showRunnerFeedback('KOBEM hidratado');
+  }
+  if(game.hydrationMissionReady && game.energy >= 80 && !game.hydrationMissionFeedback){
+    game.hydrationMissionFeedback = true;
+    showRunnerFeedback('Missao saude pronta');
+  }
+}
+
 function updateRunnerFeedback(dt){
   game.feedbackTimer = Math.max(0, game.feedbackTimer - dt);
   if(runnerFeedback && game.feedbackTimer <= 0){
@@ -848,6 +864,11 @@ function perspectiveScale(y){
 function endGame(){
   game.running = false;
   engine.setState(GameState.GameOver);
+  const missionRewards = updateMissionProgress(store, {coins:game.coins,distance:game.distance,energy:game.energy});
+  if(missionRewards.health){
+    game.score += 1000;
+    unlockAchievement(store,'kobem-health-01');
+  }
   store.best = Math.max(store.best, Math.floor(game.score));
   store.wallet += game.coins;
   store.gems = (store.gems || 0) + game.gems;
@@ -858,8 +879,8 @@ function endGame(){
   store.stats.bestGems = Math.max(store.stats.bestGems || 0, game.gems);
   const xpEarned = Math.floor(game.score / 45) + Math.floor(game.distance * 30) + game.coins;
   addXp(store, xpEarned);
-  updateMissionProgress(store, {coins:game.coins,distance:game.distance});
-  gameOverSummary.textContent = `Voce fez ${Math.floor(game.score).toLocaleString('pt-BR')} pontos, coletou ${game.coins} garrafas, ganhou ${game.gems} joia(s), correu ${game.distance.toFixed(1).replace('.', ',')} km e recebeu ${xpEarned} XP. Nivel atual: ${store.level}.`;
+  const missionText = missionRewards.health ? ' Missao saude concluida: +1000 pontos, +120 garrafas e +1 joia.' : '';
+  gameOverSummary.textContent = `Voce fez ${Math.floor(game.score).toLocaleString('pt-BR')} pontos, coletou ${game.coins} garrafas, ganhou ${game.gems} joia(s), correu ${game.distance.toFixed(1).replace('.', ',')} km e recebeu ${xpEarned} XP. Nivel atual: ${store.level}.${missionText}`;
   addRanking(store, {
     name:playerName.value || 'Voce',
     score:Math.floor(game.score),
