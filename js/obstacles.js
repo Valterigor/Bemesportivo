@@ -79,8 +79,8 @@ export class ObstacleSystem{
       drawGroundWarning(ctx,item);
       ctx.save();
       const viewH = ctx.canvas.clientHeight || ctx.canvas.height || 800;
-      const positionAlpha = Math.max(0, Math.min(1, (item.y - viewH * .22) / (viewH * .18)));
-      const spawnAlpha = Math.max(0, Math.min(1, item.age * 4.5));
+      const positionAlpha = Math.max(.45, Math.min(1, (item.y - viewH * .22) / (viewH * .18)));
+      const spawnAlpha = Math.max(.45, Math.min(1, item.age * 5.5));
       ctx.globalAlpha = Math.min(positionAlpha, spawnAlpha);
       ctx.translate(item.x, item.y);
       const scale = itemScale(ctx,item.y);

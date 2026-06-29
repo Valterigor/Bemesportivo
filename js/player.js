@@ -177,12 +177,7 @@ export class Player{
     ctx.save();
     if(flicker) ctx.globalAlpha = .58;
     if(this.skin.variant === 'official'){
-      if(officialKobemSprite.complete && officialKobemSprite.naturalWidth){
-        drawMascot2Sprite(ctx, officialKobemSprite, this.x, this.y, bob, this.anim, activePowerups, accent, this.jump, this.slide, this.tilt, this.turnBoost);
-        ctx.restore();
-        return;
-      }
-      drawMascot2(ctx, this.x, this.y, bob, stride, activePowerups, color, accent, this.jump, this.slide, this.tilt, this.turnBoost);
+      drawKobemBackRunner(ctx, this.x, this.y, bob, this.anim, activePowerups, color, accent, this.jump, this.slide, this.tilt, this.turnBoost);
       ctx.restore();
       return;
     }
@@ -331,6 +326,154 @@ function drawRobotRunSheet(ctx,image,x,y,bob,anim,activePowerups,accent,jump,sli
   const footPhase = Math.sin(anim * 1.35);
   drawSpriteFlame(ctx,x - spriteWidth*.17,y + 30 - jump + footPhase*9,accent,slide);
   drawSpriteFlame(ctx,x + spriteWidth*.18,y + 25 - jump - footPhase*9,accent,slide);
+  ctx.restore();
+}
+
+function drawKobemBackRunner(ctx,x,y,bob,runCycle,activePowerups,color,accent,jump,slide,tilt,turnBoost){
+  const stride = Math.sin(runCycle);
+  const support = Math.cos(runCycle);
+  const stride2 = Math.sin(runCycle + Math.PI);
+  const support2 = Math.cos(runCycle + Math.PI);
+  const squash = slide > 0 ? .72 : 1;
+  const scale = Math.min(1.05, Math.max(.84, (ctx.canvas.clientHeight || 800) / 900));
+  const lean = slide > 0 ? .18 : tilt + turnBoost * .13 + Math.sin(runCycle * 2) * .025;
+  const lift = slide > 0 ? 0 : Math.max(0, support) * 7;
+  const hipY = 18;
+
+  ctx.save();
+  ctx.translate(x, y + bob - jump + lift);
+  ctx.rotate(lean);
+  ctx.scale(scale, scale * squash);
+
+  if(activePowerups.shield){
+    ctx.strokeStyle = 'rgba(66,232,255,.84)';
+    ctx.lineWidth = 8;
+    ctx.shadowColor = '#42e8ff';
+    ctx.shadowBlur = 26;
+    ctx.beginPath();
+    ctx.ellipse(0,-96,96,130,0,0,Math.PI*2);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+
+  ctx.fillStyle = 'rgba(0,0,0,.34)';
+  ctx.beginPath();
+  ctx.ellipse(0,50,74 * (1 - Math.min(.45,jump/360)),18 * (1 - Math.min(.55,jump/260)),0,0,Math.PI*2);
+  ctx.fill();
+
+  const leftLeg = getRunLimb(stride, support);
+  const rightLeg = getRunLimb(stride2, support2);
+  drawBackLeg(ctx,-28,hipY,leftLeg,color,accent);
+  drawBackLeg(ctx,28,hipY,rightLeg,color,accent);
+
+  const leftArm = getRunLimb(stride2, support2);
+  const rightArm = getRunLimb(stride, support);
+  drawBackArm(ctx,-58,-78,leftArm,color,accent);
+  drawBackArm(ctx,58,-78,rightArm,color,accent);
+
+  const body = ctx.createLinearGradient(-54,-88,54,34);
+  body.addColorStop(0,'#fff8ed');
+  body.addColorStop(.34,'#ffffff');
+  body.addColorStop(.35,color);
+  body.addColorStop(.76,'#f07708');
+  body.addColorStop(1,'#1a1e27');
+  ctx.fillStyle = body;
+  roundRect(ctx,-55,-82,110,122,32);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,.5)';
+  ctx.lineWidth = 4;
+  ctx.stroke();
+
+  ctx.fillStyle = '#171b23';
+  roundRect(ctx,-32,-46,64,70,18);
+  ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.12)';
+  roundRect(ctx,-23,-34,46,46,14);
+  ctx.fill();
+  ctx.fillStyle = color;
+  ctx.font = '900 23px Inter, Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('BE',0,-10);
+
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 7;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(-38,-156); ctx.lineTo(-56,-208);
+  ctx.moveTo(38,-156); ctx.lineTo(56,-208);
+  ctx.stroke();
+  ctx.fillStyle = accent;
+  ctx.shadowColor = accent;
+  ctx.shadowBlur = 18;
+  ctx.beginPath();
+  ctx.arc(-57,-211,12,0,Math.PI*2);
+  ctx.arc(57,-211,12,0,Math.PI*2);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+
+  const head = ctx.createLinearGradient(-82,-180,82,-58);
+  head.addColorStop(0,'#fffaf3');
+  head.addColorStop(.2,'#ffffff');
+  head.addColorStop(.22,color);
+  head.addColorStop(.64,'#f47a08');
+  head.addColorStop(1,'#272b35');
+  ctx.fillStyle = head;
+  roundRect(ctx,-84,-180,168,126,48);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,.55)';
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  ctx.fillStyle = '#1a1e27';
+  roundRect(ctx,-48,-144,96,58,22);
+  ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.18)';
+  roundRect(ctx,-34,-134,68,18,9);
+  ctx.fill();
+
+  drawSpriteFlame(ctx,-32,52,accent,slide);
+  drawSpriteFlame(ctx,32,48,accent,slide);
+  ctx.restore();
+}
+
+function getRunLimb(stride, support){
+  return {
+    reach: stride,
+    lift: Math.max(0, -support),
+    plant: Math.max(0, support)
+  };
+}
+
+function drawBackLeg(ctx,x,y,phase,color,accent){
+  ctx.save();
+  ctx.translate(x + phase.reach * 18, y + phase.lift * -28 + phase.plant * 5);
+  ctx.rotate(phase.reach * .34);
+  ctx.fillStyle = '#161a22';
+  roundRect(ctx,-15,-4,30,62,14);
+  ctx.fill();
+  ctx.fillStyle = color;
+  roundRect(ctx,-23,46,46,30,12);
+  ctx.fill();
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawBackArm(ctx,x,y,phase,color,accent){
+  ctx.save();
+  ctx.translate(x + phase.reach * 12, y + phase.lift * -14);
+  ctx.rotate(phase.reach * -.34);
+  ctx.fillStyle = color;
+  roundRect(ctx,-14,-6,28,58,14);
+  ctx.fill();
+  ctx.fillStyle = '#f7f7f7';
+  roundRect(ctx,-19,40,38,28,14);
+  ctx.fill();
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 3;
+  ctx.stroke();
   ctx.restore();
 }
 
