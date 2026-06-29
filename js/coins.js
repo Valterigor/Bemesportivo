@@ -16,7 +16,7 @@ export class CoinSystem{
     for(let i=0;i<count;i++){
       const item = this.pool.pop() || {};
       item.lane = lane;
-      item.y = startY - yOffset + i * spacing;
+      item.y = startY + Math.min(Math.max(0, yOffset), game.height * .34) + i * spacing;
       item.x = perspectiveLaneX(game, lanes[lane], item.y);
       item.kind = premium ? 'big-water' : 'water';
       item.value = premium ? 3 : 1;
@@ -76,7 +76,7 @@ function perspectiveLaneX(game,laneX,y){
 }
 
 function roadSpawnY(game){
-  return game.height * .28;
+  return game.height * .34;
 }
 
 function itemScale(ctx,y){

@@ -33,11 +33,12 @@ export class ObstacleSystem{
     if(type.move && item.targetLane === lane) item.targetLane = lane === 2 ? 1 : lane + 1;
     item.moveDelay = options.moveDelay ?? .25;
     item.moveProgress = 0;
-    item.y = roadSpawnY(game) - yOffset;
+    item.y = roadSpawnY(game) + Math.min(Math.max(0, yOffset), game.height * .34);
     item.x = perspectiveLaneX(game, lanes[item.lane], item.y);
     item.w = type.w;
     item.h = type.h;
     item.phase = options.phase ?? 0;
+    item.age = 0;
     item.hit = false;
     item.scored = false;
     this.items.push(item);
@@ -51,6 +52,7 @@ export class ObstacleSystem{
     }
 
     this.items.forEach(item => {
+      item.age += dt;
       if(item.type.move){
         item.phase += dt;
         const nearPlayer = item.y > game.height * .48;
@@ -77,7 +79,9 @@ export class ObstacleSystem{
       drawGroundWarning(ctx,item);
       ctx.save();
       const viewH = ctx.canvas.clientHeight || ctx.canvas.height || 800;
-      ctx.globalAlpha = Math.max(0, Math.min(1, (item.y - viewH * .16) / (viewH * .18)));
+      const positionAlpha = Math.max(0, Math.min(1, (item.y - viewH * .22) / (viewH * .18)));
+      const spawnAlpha = Math.max(0, Math.min(1, item.age * 4.5));
+      ctx.globalAlpha = Math.min(positionAlpha, spawnAlpha);
       ctx.translate(item.x, item.y);
       const scale = itemScale(ctx,item.y);
       ctx.scale(scale, scale);
@@ -167,7 +171,7 @@ function perspectiveLaneX(game,laneX,y){
 }
 
 function roadSpawnY(game){
-  return game.height * .28;
+  return game.height * .34;
 }
 
 function itemScale(ctx,y){

@@ -470,11 +470,7 @@ function drawMascot2Sprite(ctx,image,x,y,bob,runCycle,activePowerups,accent,jump
   ctx.scale(runScale, 1);
   ctx.translate(-x, -(drawY + spriteHeight*squash*.54));
 
-  ctx.save();
-  ctx.translate(x, 0);
-  ctx.scale(-1, 1);
-  drawMascot2AnimatedSprite(ctx,image,-spriteWidth * .5 - runPush,drawY,spriteWidth,spriteHeight*squash,runCycle,slide);
-  ctx.restore();
+  drawMascot2AnimatedSprite(ctx,image,drawX,drawY,spriteWidth,spriteHeight*squash,runCycle,slide);
   drawSpriteFlame(ctx,x - spriteWidth*.15,y + 24 - jump + Math.max(0,stride)*14,accent,slide);
   drawSpriteFlame(ctx,x + spriteWidth*.15,y + 18 - jump - Math.min(0,stride)*14,accent,slide);
   ctx.restore();
