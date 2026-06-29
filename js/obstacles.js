@@ -33,7 +33,7 @@ export class ObstacleSystem{
     if(type.move && item.targetLane === lane) item.targetLane = lane === 2 ? 1 : lane + 1;
     item.moveDelay = options.moveDelay ?? .25;
     item.moveProgress = 0;
-    item.y = roadSpawnY(game) + Math.min(Math.max(0, yOffset), game.height * .34);
+    item.y = roadSpawnY(game) - Math.min(Math.max(0, yOffset), game.height * .72);
     item.x = perspectiveLaneX(game, lanes[item.lane], item.y);
     item.w = type.w;
     item.h = type.h;
@@ -79,11 +79,10 @@ export class ObstacleSystem{
       drawGroundWarning(ctx,item);
       ctx.save();
       const viewH = ctx.canvas.clientHeight || ctx.canvas.height || 800;
-      const positionAlpha = Math.max(.45, Math.min(1, (item.y - viewH * .22) / (viewH * .18)));
-      const spawnAlpha = Math.max(.45, Math.min(1, item.age * 5.5));
-      ctx.globalAlpha = Math.min(positionAlpha, spawnAlpha);
-      ctx.translate(item.x, item.y);
       const scale = itemScale(ctx,item.y);
+      const positionAlpha = Math.max(.18, Math.min(1, (item.y - viewH * .06) / (viewH * .22)));
+      ctx.globalAlpha = positionAlpha;
+      ctx.translate(item.x, item.y - item.h * scale * .46);
       ctx.scale(scale, scale);
       ctx.shadowColor = 'rgba(0,0,0,.45)';
       ctx.shadowBlur = 18;
@@ -119,7 +118,7 @@ function lerp(a,b,t){
 
 function drawGroundWarning(ctx,item){
   const scale = itemScale(ctx,item.y);
-  const alpha = Math.max(0, Math.min(.48, (item.y / (ctx.canvas.clientHeight || ctx.canvas.height || 800)) * .42));
+  const alpha = Math.max(0, Math.min(.5, (item.y / (ctx.canvas.clientHeight || ctx.canvas.height || 800)) * .46));
   ctx.save();
   ctx.translate(item.x,item.y);
   ctx.scale(scale,scale);
@@ -127,7 +126,7 @@ function drawGroundWarning(ctx,item){
   ctx.strokeStyle = `rgba(255,211,77,${alpha + .16})`;
   ctx.lineWidth = 5;
   ctx.beginPath();
-  ctx.ellipse(0,item.h*.46,item.w*.54,13,0,0,Math.PI*2);
+  ctx.ellipse(0,0,item.w*.54,13,0,0,Math.PI*2);
   ctx.fill();
   ctx.stroke();
   if(item.type.move){
@@ -135,8 +134,8 @@ function drawGroundWarning(ctx,item){
     ctx.lineWidth = 4;
     ctx.setLineDash([12,10]);
     ctx.beginPath();
-    ctx.moveTo(0,item.h*.46);
-    ctx.lineTo((item.targetLane - item.fromLane) * 120,item.h*.46);
+    ctx.moveTo(0,0);
+    ctx.lineTo((item.targetLane - item.fromLane) * 120,0);
     ctx.stroke();
   }
   ctx.restore();
