@@ -174,9 +174,23 @@ function reset(){
   obstacles.reset();
   coins.reset();
   powerups.reset();
+  seedOpeningTrack();
   setScreen('game');
   engine.setState(GameState.Playing);
   updateHud(game);
+}
+
+function seedOpeningTrack(){
+  const safe = director.lastSafeLane = 1;
+  const firstLane = 0;
+  const secondLane = 2;
+  spawnTrackBeat({bottles:[safe], offset:-70});
+  spawnTrackBeat({bottles:[safe], offset:36});
+  spawnTrackBeat({obstacles:[{lane:firstLane,type:'cone'}], offset:120});
+  spawnTrackBeat({bottles:[safe], offset:202});
+  spawnTrackBeat({obstacles:[{lane:secondLane,type:'barrier'}], offset:310});
+  spawnTrackBeat({bottles:[safe], offset:430});
+  director.timer = 1.15;
 }
 
 function setScreen(name){

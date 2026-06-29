@@ -437,11 +437,12 @@ function drawMascot2Sprite(ctx,image,x,y,bob,stride,activePowerups,accent,jump,s
   const spriteHeight = Math.min(500, Math.max(350, ctx.canvas.clientHeight ? ctx.canvas.clientHeight * .49 : 430));
   const spriteWidth = spriteHeight * image.naturalWidth / image.naturalHeight;
   const squash = slide > 0 ? .7 : 1;
-  const lean = slide > 0 ? .12 : tilt + turnBoost * .12;
-  const runPush = slide > 0 ? 0 : Math.sin(stride) * 3;
-  const runScale = slide > 0 ? 1 : 1 + Math.abs(stride) * .012;
+  const lean = slide > 0 ? .12 : tilt + turnBoost * .12 + Math.sin(stride * 2) * .018;
+  const runPush = slide > 0 ? 0 : Math.sin(stride) * 5;
+  const runScale = slide > 0 ? 1 : 1 + Math.abs(stride) * .018;
+  const verticalDrive = slide > 0 ? 0 : Math.abs(Math.sin(stride)) * 6;
   const drawX = x - spriteWidth * .5 + runPush;
-  const drawY = y - spriteHeight * squash + 42 + bob - jump;
+  const drawY = y - spriteHeight * squash + 42 + bob - jump + verticalDrive;
 
   ctx.save();
   if(activePowerups.shield){
@@ -467,9 +468,13 @@ function drawMascot2Sprite(ctx,image,x,y,bob,stride,activePowerups,accent,jump,s
   ctx.scale(runScale, 1);
   ctx.translate(-x, -(drawY + spriteHeight*squash*.54));
 
-  ctx.drawImage(image,drawX,drawY,spriteWidth,spriteHeight*squash);
-  drawSpriteFlame(ctx,x - spriteWidth*.12,y + 22 - jump + Math.max(0,stride)*7,accent,slide);
-  drawSpriteFlame(ctx,x + spriteWidth*.12,y + 18 - jump - Math.min(0,stride)*7,accent,slide);
+  ctx.save();
+  ctx.translate(x, 0);
+  ctx.scale(-1, 1);
+  drawMascot2AnimatedSprite(ctx,image,-spriteWidth * .5 - runPush,drawY,spriteWidth,spriteHeight*squash,stride,slide);
+  ctx.restore();
+  drawSpriteFlame(ctx,x - spriteWidth*.15,y + 24 - jump + Math.max(0,stride)*12,accent,slide);
+  drawSpriteFlame(ctx,x + spriteWidth*.15,y + 18 - jump - Math.min(0,stride)*12,accent,slide);
   ctx.restore();
 }
 
@@ -497,8 +502,8 @@ function drawMascot2AnimatedSprite(ctx,image,x,y,w,h,stride,slide){
     return;
   }
 
-  drawLegSlice(ctx,image,leftLegX,legTop,legSW,legH,x+w*.18,legDY,legDW,legDH,stride*.18,-stride*20);
-  drawLegSlice(ctx,image,rightLegX,legTop,legSW,legH,x+w*.45,legDY,legDW,legDH,-stride*.18,stride*20);
+  drawLegSlice(ctx,image,leftLegX,legTop,legSW,legH,x+w*.16,legDY,legDW,legDH,stride*.24,-stride*28);
+  drawLegSlice(ctx,image,rightLegX,legTop,legSW,legH,x+w*.48,legDY,legDW,legDH,-stride*.24,stride*28);
 }
 
 function drawMascotArm(ctx,x,y,phase,color,accent){

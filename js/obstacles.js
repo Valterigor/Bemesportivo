@@ -165,7 +165,7 @@ function perspectiveLaneX(game,laneX,y){
 }
 
 function roadSpawnY(game){
-  return game.height * .40;
+  return game.height * .28;
 }
 
 function itemScale(ctx,y){
