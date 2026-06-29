@@ -529,7 +529,6 @@ span {
 .palpite-save,
 .worldcup-load-more,
 .worldcup-group-toggle,
-.craque-player-card button,
 .beplay-home-callout a {
   border-radius: var(--site-radius) !important;
   font-weight: 850;
@@ -544,7 +543,6 @@ span {
 .beplay-home-callout,
 .hero,
 .palpitometro-section,
-.craque-vote-section,
 .worldcup-section,
 .lineup-callout {
   border-radius: 12px;
@@ -562,8 +560,6 @@ span {
 .worldcup-brazil-card,
 .match-card,
 .standings-card,
-.craque-player-card,
-.craque-info-card,
 .penalty-game-card,
 .penalty-rank-card,
 .debate-card {
@@ -575,8 +571,6 @@ span {
 .worldcup-group-card,
 .match-card,
 .standings-card,
-.craque-player-card,
-.craque-info-card,
 .penalty-game-card,
 .debate-card {
   box-shadow: var(--site-shadow);
@@ -744,8 +738,7 @@ span {
 }
 
 .penalty-game-section,
-.worldcup-section,
-.craque-vote-section {
+.worldcup-section {
   scroll-margin-top: 90px;
 }
 
@@ -780,8 +773,7 @@ span {
   .hub-quick-actions,
   .beplay-home-callout,
   .worldcup-section,
-  .palpitometro-section,
-  .craque-vote-section {
+  .palpitometro-section {
     width: min(calc(100% - 36px), 1120px);
     margin-left: auto;
     margin-right: auto;
@@ -922,7 +914,6 @@ span {
   .hero,
   .worldcup-section,
   .palpitometro-section,
-  .craque-vote-section,
   .lineup-callout {
     width: min(calc(100% - 18px), 720px) !important;
     margin-left: auto !important;

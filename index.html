@@ -1025,7 +1025,6 @@ gap:6px;
 }
 
 .story-segmented button,
-.story-craque-grid button,
 .story-poll-grid button{
 min-height:36px;
 padding:7px 6px;
@@ -1042,7 +1041,6 @@ transition:background .18s ease, border-color .18s ease, transform .18s ease;
 }
 
 .story-segmented button.is-selected,
-.story-craque-grid button.is-selected,
 .story-poll-grid button.is-selected{
 border-color:#ffd32f;
 background:linear-gradient(135deg,rgba(0,178,86,.7),rgba(25,118,210,.56));
@@ -1092,7 +1090,6 @@ font-size:18px;
 font-weight:900;
 }
 
-.story-craque-grid,
 .story-poll-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -2508,366 +2505,6 @@ color:#d9f2ec;
 color:#d9f2ec;
 font-size:13px;
 line-height:1.5;
-}
-
-.craque-vote-section{
-position:relative;
-width:min(520px, calc(100% - 22px));
-margin:24px auto;
-padding:0;
-border-radius:8px;
-overflow:hidden;
-background:#04070b;
-box-shadow:0 28px 70px rgba(0,0,0,.28);
-}
-
-.craque-vote-section::before{
-content:"";
-position:absolute;
-inset:0;
-background:
-linear-gradient(180deg, rgba(2,6,14,.28), rgba(2,6,14,.92)),
-radial-gradient(circle at 18% 8%, rgba(5,255,137,.35), transparent 26%),
-radial-gradient(circle at 82% 10%, rgba(0,145,255,.28), transparent 28%),
-url('img/penalty-stadium-bg.png') center/cover no-repeat;
-filter:saturate(1.18) contrast(1.08);
-}
-
-.craque-vote-section::after{
-content:"";
-position:absolute;
-inset:0;
-background:
-linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px),
-linear-gradient(180deg, rgba(255,255,255,.035) 1px, transparent 1px);
-background-size:46px 46px;
-opacity:.18;
-pointer-events:none;
-}
-
-.craque-phone-frame{
-position:relative;
-z-index:1;
-padding:16px;
-display:grid;
-gap:12px;
-color:#fff;
-background:
-linear-gradient(145deg, rgba(7,12,22,.76), rgba(4,7,12,.96)),
-radial-gradient(circle at 50% 0, rgba(36,246,255,.16), transparent 42%);
-}
-
-.craque-top-strip,
-.craque-match-band,
-.craque-player-card,
-.craque-footer,
-.craque-final-call{
-border:1px solid rgba(209,171,69,.3);
-background:linear-gradient(135deg, rgba(13,18,29,.88), rgba(13,26,39,.68));
-box-shadow:inset 0 1px 0 rgba(255,255,255,.14), 0 18px 42px rgba(0,0,0,.24);
-}
-
-.craque-top-strip{
-display:grid;
-gap:4px;
-padding:10px 12px;
-border-radius:8px;
-text-align:center;
-text-transform:uppercase;
-}
-
-.craque-top-strip span{
-color:#d9b760;
-font-size:12px;
-font-weight:900;
-}
-
-.craque-top-strip strong{
-font-size:19px;
-line-height:1;
-}
-
-.craque-top-strip small{
-color:#9ee8ff;
-font-size:12px;
-font-weight:900;
-}
-
-.craque-match-band{
-position:relative;
-overflow:hidden;
-display:grid;
-grid-template-columns:1fr auto 1fr;
-align-items:center;
-gap:8px;
-padding:10px;
-border-radius:8px;
-border-color:rgba(36,246,255,.24);
-background:
-linear-gradient(90deg,rgba(31,247,255,.14),transparent 28%,transparent 72%,rgba(255,215,106,.16)),
-linear-gradient(180deg,rgba(16,66,78,.52),rgba(3,8,13,.94));
-}
-
-.craque-match-band > span{
-display:grid;
-place-items:center;
-width:52px;
-min-height:42px;
-border:1px solid rgba(255,255,255,.18);
-border-radius:8px;
-background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(0,0,0,.5));
-color:#27ff86;
-font-weight:1000;
-box-shadow:inset 0 0 18px rgba(36,246,255,.12),0 0 18px rgba(36,246,255,.14);
-text-shadow:0 0 10px rgba(39,255,134,.8);
-}
-
-.craque-team{
-display:grid;
-gap:6px;
-justify-items:center;
-font-weight:1000;
-text-transform:uppercase;
-}
-
-.craque-team img{
-width:54px;
-height:38px;
-object-fit:cover;
-border-radius:5px;
-border:1px solid rgba(255,255,255,.58);
-box-shadow:0 0 18px rgba(36,246,255,.24);
-}
-
-.craque-team strong{
-max-width:100%;
-overflow:hidden;
-font-size:11px;
-line-height:1.08;
-text-overflow:ellipsis;
-}
-
-.craque-title-block{
-text-align:center;
-text-transform:uppercase;
-}
-
-.craque-title-block span{
-display:block;
-color:#9ee8ff;
-font-size:15px;
-font-weight:1000;
-}
-
-.craque-title-block h2{
-margin:2px 0 6px;
-font-size:clamp(28px, 8vw, 42px);
-line-height:.94;
-color:#f6d16a;
-text-shadow:0 0 20px rgba(246,209,106,.45), 0 2px 0 #5f4518;
-}
-
-.craque-title-block p{
-margin:0;
-color:#e9f7ff;
-font-weight:900;
-}
-
-.craque-grid{
-display:grid;
-grid-template-columns:repeat(2, minmax(0, 1fr));
-gap:9px;
-}
-
-.craque-player-card{
-position:relative;
-min-width:0;
-overflow:hidden;
-display:grid;
-grid-template-columns:auto 1fr;
-grid-template-areas:
-  "num meta"
-  "button button"
-  "result result";
-align-items:center;
-gap:8px;
-min-height:128px;
-padding:9px;
-border-radius:8px;
-border-color:rgba(50,236,173,.42);
-background:
-radial-gradient(circle at 18% 18%,rgba(36,246,255,.22),transparent 32%),
-linear-gradient(180deg,rgba(255,255,255,.1),rgba(0,0,0,.44));
-}
-
-.craque-player-card.is-selected{
-border-color:#f6d16a;
-box-shadow:0 0 0 1px rgba(246,209,106,.35), 0 20px 44px rgba(0,0,0,.3), 0 0 28px rgba(50,236,173,.3);
-}
-
-.craque-player-number{
-grid-area:num;
-display:grid;
-place-items:center;
-width:48px;
-height:58px;
-border:1px solid rgba(255,255,255,.18);
-border-radius:8px;
-background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(0,0,0,.52));
-color:#f6d16a;
-font-size:28px;
-font-weight:1000;
-line-height:1;
-text-shadow:0 0 14px rgba(246,209,106,.42);
-}
-
-.craque-player-meta{
-grid-area:meta;
-display:grid;
-gap:4px;
-min-height:0;
-}
-
-.craque-player-meta span{
-color:#9ee8ff;
-font-size:12px;
-font-weight:1000;
-text-transform:uppercase;
-}
-
-.craque-player-meta strong{
-font-size:clamp(15px, 4vw, 19px);
-line-height:1.05;
-text-transform:uppercase;
-color:#fff;
-}
-
-.craque-player-card button{
-grid-area:button;
-min-height:42px;
-border:0;
-border-radius:8px;
-background:linear-gradient(135deg, #f6d16a, #fff0a5 46%, #24f0a8);
-color:#06100d;
-font-weight:1000;
-text-transform:uppercase;
-cursor:pointer;
-box-shadow:0 0 20px rgba(246,209,106,.28);
-}
-
-.craque-player-card button:focus-visible{
-outline:3px solid rgba(158,232,255,.72);
-outline-offset:2px;
-}
-
-.craque-result{
-grid-area:result;
-position:relative;
-height:26px;
-overflow:hidden;
-border-radius:999px;
-background:rgba(255,255,255,.1);
-}
-
-.craque-result i{
-position:absolute;
-inset:0 auto 0 0;
-width:0;
-background:linear-gradient(90deg, rgba(36,240,168,.65), rgba(158,232,255,.62), rgba(246,209,106,.72));
-transition:width .28s ease;
-}
-
-.craque-result span{
-position:relative;
-z-index:1;
-display:grid;
-place-items:center;
-height:100%;
-font-size:12px;
-font-weight:1000;
-color:#fff;
-}
-
-.craque-info-card{
-align-content:center;
-justify-items:center;
-grid-template-columns:1fr;
-grid-template-areas:none;
-min-height:128px;
-text-align:center;
-border-color:rgba(246,209,106,.48);
-background:
-radial-gradient(circle at top, rgba(246,209,106,.22), transparent 44%),
-linear-gradient(135deg, rgba(15,22,34,.92), rgba(3,12,17,.88));
-}
-
-.craque-trophy{
-display:grid;
-place-items:center;
-width:54px;
-height:54px;
-border-radius:50%;
-background:rgba(255,255,255,.08);
-font-size:28px;
-box-shadow:0 0 34px rgba(246,209,106,.36);
-}
-
-.craque-info-card strong{
-max-width:220px;
-font-size:16px;
-line-height:1.05;
-text-transform:uppercase;
-color:#f6d16a;
-}
-
-.craque-info-card p{
-margin:0;
-max-width:230px;
-color:#dcefff;
-font-size:12px;
-font-weight:800;
-line-height:1.35;
-}
-
-.craque-footer{
-display:grid;
-grid-template-columns:1fr;
-gap:7px;
-padding:9px;
-border-radius:8px;
-}
-
-.craque-footer span{
-min-height:34px;
-display:grid;
-place-items:center;
-padding:8px;
-border-radius:8px;
-background:rgba(255,255,255,.08);
-color:#f4f8ff;
-font-size:12px;
-font-weight:900;
-text-align:center;
-}
-
-.craque-final-call{
-display:grid;
-gap:4px;
-padding:12px;
-border-radius:8px;
-text-align:center;
-text-transform:uppercase;
-}
-
-.craque-final-call strong{
-color:#f6d16a;
-font-size:20px;
-}
-
-.craque-final-call span{
-color:#dcefff;
-font-size:12px;
-font-weight:900;
 }
 
 .seriea-section{
@@ -5975,7 +5612,6 @@ min-width:160px;
   }
 
   .story-segmented button,
-  .story-craque-grid button,
   .story-poll-grid button{
     min-height:32px;
     font-size:10px;
@@ -6969,7 +6605,6 @@ transform:translate(-50%, 0);
   .palpite-card,
   .penalty-game-card,
   .penalty-game,
-  .craque-phone-frame,
   .beplay-home-callout{
     overflow-wrap:anywhere;
   }
@@ -6982,7 +6617,6 @@ transform:translate(-50%, 0);
   .reportagem-card-content,
   .palpite-card,
   .penalty-game-card,
-  .craque-phone-frame,
   .beplay-home-callout{
     padding-left:max(14px, env(safe-area-inset-left));
     padding-right:max(14px, env(safe-area-inset-right));
@@ -7241,93 +6875,6 @@ transform:translate(-50%, 0);
 
   .worldcup-table{
     min-width:740px;
-  }
-}
-
-@media (max-width: 820px){
-  .craque-vote-section{
-    width:100%;
-    margin:16px 0 22px;
-    border-radius:0;
-  }
-
-  .craque-phone-frame{
-    padding:16px 11px 18px;
-    gap:11px;
-  }
-
-  .craque-top-strip strong{
-    font-size:20px;
-  }
-
-  .craque-match-band{
-    padding:10px;
-  }
-
-  .craque-team img{
-    width:54px;
-    height:38px;
-  }
-
-  .craque-match-band > span{
-    width:48px;
-    min-height:40px;
-  }
-
-  .craque-grid{
-    gap:10px;
-  }
-
-  .craque-player-card{
-    padding:8px;
-    gap:7px;
-  }
-
-  .craque-player-number{
-    width:44px;
-    height:54px;
-    font-size:25px;
-  }
-
-  .craque-player-card button{
-    min-height:38px;
-    font-size:12px;
-  }
-
-  .craque-info-card{
-    min-height:128px;
-  }
-}
-
-@media (max-width: 390px){
-  .craque-phone-frame{
-    padding-left:8px;
-    padding-right:8px;
-  }
-
-  .craque-grid{
-    gap:8px;
-  }
-
-  .craque-player-card{
-    padding:7px;
-  }
-
-  .craque-player-number{
-    width:40px;
-    height:50px;
-    font-size:23px;
-  }
-
-  .craque-player-meta span,
-  .craque-result span,
-  .craque-footer span,
-  .craque-final-call span{
-    font-size:11px;
-  }
-
-  .craque-info-card strong{
-    font-size:17px;
   }
 }
 
@@ -9303,7 +8850,7 @@ Ler coluna completa
 
 <div class="card debate-card" id="debate-0" onclick="abrirPost(0)">
 
-<h3>🔥 Craque ou mídia?</h3>
+<h3>🔥 Marketing ou desempenho?</h3>
 
 <p>
 Tem jogador que vive de marketing. Mas entrega?
@@ -10004,9 +9551,9 @@ behavior:'smooth'
 
 const debatePosts = [
 {
-title:"Craque ou mídia?",
+title:"Marketing ou desempenho?",
 text:"Hoje o futebol também é entretenimento. Muitos vivem mais da imagem do que do desempenho.",
-img:"img/craque.jpg",
+img:"img/brasil-paraguai.jpg",
 comments:[]
 },
 {
@@ -13051,7 +12598,7 @@ function initPenaltyGame(){
   }
 
   function getLevel(score){
-    if(score >= 5) return 'Craque';
+    if(score >= 5) return 'Elite';
     if(score === 4) return 'Artilheiro';
     if(score === 3) return 'Bom jogador';
     if(score === 2) return 'Reserva';
@@ -13561,7 +13108,6 @@ function setupWorldCupStoryCard(){
     winner:'Brasil',
     homeScore:2,
     awayScore:0,
-    player:'Vini Jr.',
     mood:'Rumo ao Hexa',
     confidence:78
   };
@@ -13623,7 +13169,6 @@ function setupWorldCupStoryCard(){
     const total = onlineInteractions.length;
     const winner = getTopChoice('winner');
     const score = getTopChoice('score');
-    const player = getTopChoice('player');
     const mood = getTopChoice('mood');
 
     if(!total){
@@ -13634,7 +13179,7 @@ function setupWorldCupStoryCard(){
     results.innerHTML = `
       <strong>${escapeHtml(total)} escolha${total === 1 ? '' : 's'} registrada${total === 1 ? '' : 's'}</strong>
       <span>${winner ? `Vencedor: ${escapeHtml(winner[0])}` : 'Vencedor: aguardando'} | ${score ? `Placar: ${escapeHtml(score[0])}` : 'Placar: aguardando'}</span>
-      <span>${player ? `Craque: ${escapeHtml(player[0])}` : 'Craque: aguardando'} | ${mood ? escapeHtml(mood[0]) : 'Torcida entrando no clima'}</span>
+      <span>${mood ? escapeHtml(mood[0]) : 'Torcida entrando no clima'}</span>
     `;
   }
 
@@ -13732,7 +13277,6 @@ function setupWorldCupStoryCard(){
       const group = button.closest('[data-story-group]')?.dataset.storyGroup;
       if(!group) return;
       if(group === 'winner') state.winner = button.dataset.storyValue;
-      if(group === 'player') state.player = button.dataset.storyValue;
       if(group === 'mood') state.mood = button.dataset.storyValue;
       render();
       registerStoryInteraction(group, button.dataset.storyValue);
@@ -13759,7 +13303,6 @@ function setupWorldCupStoryCard(){
     render();
     registerStoryInteraction('winner', state.winner);
     registerCurrentScore();
-    registerStoryInteraction('player', state.player);
     registerStoryInteraction('mood', state.mood);
     showSiteToast('Respostas salvas');
   });
@@ -13769,126 +13312,6 @@ function setupWorldCupStoryCard(){
   window.applyWorldCupStoryMatch(getBrazilSpotlightMatch(latestWorldCupMatches || WORLD_CUP_MATCHES));
   render();
   renderOnlineResults();
-}
-
-function setupCraquePartidaVote(){
-  const grid = document.getElementById('craqueVoteGrid');
-  if(!grid) return;
-
-  const status = document.getElementById('craqueVoteStatus');
-  const pollId = 'craque-brasil-haiti-2026';
-  const storageKey = pollId;
-  const choiceKey = `${storageKey}:choice`;
-  const clientId = getCommunityClientId();
-  const defaultVotes = {
-    'vinicius-jr': 0,
-    raphinha: 0,
-    'lucas-paqueta': 0,
-    'bruno-guimaraes': 0,
-    marquinhos: 0
-  };
-
-  let votes = {...defaultVotes};
-  let selected = '';
-
-  try{
-    selected = localStorage.getItem(choiceKey) || '';
-  }catch(error){}
-
-  function isValidChoice(id){
-    return Object.prototype.hasOwnProperty.call(defaultVotes, id);
-  }
-
-  function persist(){
-    try{
-      if(selected) localStorage.setItem(choiceKey, selected);
-      else localStorage.removeItem(choiceKey);
-    }catch(error){}
-  }
-
-  function applyVoteState(voteState){
-    const totals = voteState?.totals || voteState || {};
-    votes = {...defaultVotes, ...totals};
-    if(voteState?.selected && isValidChoice(voteState.selected)){
-      selected = voteState.selected;
-      persist();
-    }
-    if(voteState?.choices?.[clientId] && isValidChoice(voteState.choices[clientId])){
-      selected = voteState.choices[clientId];
-      persist();
-    }
-    if(selected && !isValidChoice(selected)){
-      selected = '';
-      persist();
-    }
-  }
-
-  function render(){
-    const total = Object.values(votes).reduce((sum, value) => sum + Math.max(0, Number(value) || 0), 0);
-
-    grid.querySelectorAll('[data-player-id]').forEach(card => {
-      const id = card.dataset.playerId;
-      const percent = total ? Math.round(((Number(votes[id]) || 0) / total) * 100) : 0;
-      const bar = card.querySelector('.craque-result i');
-      const label = card.querySelector('.craque-result span');
-      const button = card.querySelector('[data-craque-vote]');
-
-      card.classList.toggle('is-selected', selected === id);
-      if(bar) bar.style.width = `${percent}%`;
-      if(label) label.textContent = `${percent}%`;
-      if(button) button.textContent = selected === id ? 'Votado' : 'Votar';
-    });
-
-    if(status){
-      status.innerHTML = selected
-        ? '<strong>Obrigado por participar</strong><span>O resultado será divulgado após o término da partida.</span>'
-        : '<strong>Participe agora</strong><span>O resultado será divulgado após o término da partida.</span>';
-    }
-  }
-
-  grid.querySelectorAll('[data-craque-vote]').forEach(button => {
-    button.addEventListener('click', () => {
-      const id = button.dataset.craqueVote;
-      if(!isValidChoice(id)) return;
-
-      if(selected && selected !== id){
-        votes[selected] = Math.max(0, (Number(votes[selected]) || 0) - 1);
-      }
-
-      if(selected !== id){
-        votes[id] = (Number(votes[id]) || 0) + 1;
-      }
-
-      selected = id;
-      persist();
-      render();
-      showSiteToast('Voto registrado');
-      communityRequest('/vote',{
-        method:'POST',
-        body:JSON.stringify({pollId,choiceId:id,clientId})
-      }).then(payload => {
-        applyVoteState(payload.vote);
-        render();
-        showSiteToast('Voto salvo online');
-      }).catch(error => console.warn('Voto salvo localmente:', error));
-    });
-  });
-
-  refreshCommunityState().then(state => {
-    applyVoteState(state?.votes?.[pollId]);
-    render();
-  });
-
-  window.setInterval(() => {
-    refreshCommunityState().then(state => {
-      if(state?.votes?.[pollId]){
-        applyVoteState(state.votes[pollId]);
-        render();
-      }
-    });
-  }, 10000);
-
-  render();
 }
 
 function arrangeHomeContentHierarchy(){
