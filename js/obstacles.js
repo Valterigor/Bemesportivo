@@ -33,7 +33,7 @@ export class ObstacleSystem{
     if(type.move && item.targetLane === lane) item.targetLane = lane === 2 ? 1 : lane + 1;
     item.moveDelay = options.moveDelay ?? .25;
     item.moveProgress = 0;
-    item.y = roadSpawnY(game) + yOffset;
+    item.y = roadSpawnY(game) - yOffset;
     item.x = perspectiveLaneX(game, lanes[item.lane], item.y);
     item.w = type.w;
     item.h = type.h;
@@ -76,6 +76,8 @@ export class ObstacleSystem{
     this.items.slice().sort((a,b) => a.y - b.y).forEach(item => {
       drawGroundWarning(ctx,item);
       ctx.save();
+      const viewH = ctx.canvas.clientHeight || ctx.canvas.height || 800;
+      ctx.globalAlpha = Math.max(0, Math.min(1, (item.y - viewH * .16) / (viewH * .18)));
       ctx.translate(item.x, item.y);
       const scale = itemScale(ctx,item.y);
       ctx.scale(scale, scale);

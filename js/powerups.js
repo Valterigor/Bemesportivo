@@ -43,7 +43,7 @@ export class PowerupSystem{
 
   spawn(game, lanes, lane = Math.floor(Math.random()*3), id = null, yOffset = 0){
     const def = id ? POWERUPS.find(item => item.id === id) || POWERUPS[0] : POWERUPS[Math.floor(Math.random() * POWERUPS.length)];
-    const y = roadSpawnY(game) + yOffset;
+    const y = roadSpawnY(game) - yOffset;
     this.addItem(def,lane,perspectiveLaneX(game,lanes[lane],y),y);
   }
 
@@ -96,7 +96,7 @@ function perspectiveLaneX(game,laneX,y){
 }
 
 function roadSpawnY(game){
-  return game.height * .40;
+  return game.height * .28;
 }
 
 function itemScale(ctx,y){

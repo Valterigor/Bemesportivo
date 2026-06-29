@@ -184,12 +184,12 @@ function seedOpeningTrack(){
   const safe = director.lastSafeLane = 1;
   const firstLane = 0;
   const secondLane = 2;
-  spawnTrackBeat({bottles:[safe], offset:-70});
-  spawnTrackBeat({bottles:[safe], offset:36});
-  spawnTrackBeat({obstacles:[{lane:firstLane,type:'cone'}], offset:120});
-  spawnTrackBeat({bottles:[safe], offset:202});
-  spawnTrackBeat({obstacles:[{lane:secondLane,type:'barrier'}], offset:310});
-  spawnTrackBeat({bottles:[safe], offset:430});
+  spawnTrackBeat({bottles:[safe], offset:-120});
+  spawnTrackBeat({bottles:[safe], offset:-20});
+  spawnTrackBeat({obstacles:[{lane:firstLane,type:'cone'}], offset:-110});
+  spawnTrackBeat({bottles:[safe], offset:90});
+  spawnTrackBeat({obstacles:[{lane:secondLane,type:'barrier'}], offset:210});
+  spawnTrackBeat({bottles:[safe], offset:330});
   director.timer = 1.15;
 }
 
