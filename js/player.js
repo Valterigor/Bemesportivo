@@ -336,8 +336,8 @@ function drawKobemBackRunner(ctx,x,y,bob,runCycle,activePowerups,color,accent,ju
   const support2 = Math.cos(runCycle + Math.PI);
   const squash = slide > 0 ? .72 : 1;
   const scale = Math.min(1.05, Math.max(.84, (ctx.canvas.clientHeight || 800) / 900));
-  const lean = slide > 0 ? .18 : tilt + turnBoost * .13 + Math.sin(runCycle * 2) * .025;
-  const lift = slide > 0 ? 0 : Math.max(0, support) * 7;
+  const lean = slide > 0 ? -.16 : -tilt - turnBoost * .13 - Math.sin(runCycle * 2) * .035;
+  const lift = slide > 0 ? 0 : Math.max(0, support) * 9;
   const hipY = 18;
 
   ctx.save();
@@ -361,15 +361,15 @@ function drawKobemBackRunner(ctx,x,y,bob,runCycle,activePowerups,color,accent,ju
   ctx.ellipse(0,50,74 * (1 - Math.min(.45,jump/360)),18 * (1 - Math.min(.55,jump/260)),0,0,Math.PI*2);
   ctx.fill();
 
-  const leftLeg = getRunLimb(stride, support);
-  const rightLeg = getRunLimb(stride2, support2);
-  drawBackLeg(ctx,-28,hipY,leftLeg,color,accent);
-  drawBackLeg(ctx,28,hipY,rightLeg,color,accent);
+  const leftLeg = getRunLimb(stride2, support2);
+  const rightLeg = getRunLimb(stride, support);
+  drawBackLeg(ctx,-30,hipY,leftLeg,color,accent,-1);
+  drawBackLeg(ctx,30,hipY,rightLeg,color,accent,1);
 
-  const leftArm = getRunLimb(stride2, support2);
-  const rightArm = getRunLimb(stride, support);
-  drawBackArm(ctx,-58,-78,leftArm,color,accent);
-  drawBackArm(ctx,58,-78,rightArm,color,accent);
+  const leftArm = getRunLimb(stride, support);
+  const rightArm = getRunLimb(stride2, support2);
+  drawBackArm(ctx,-62,-78,leftArm,color,accent,-1);
+  drawBackArm(ctx,62,-78,rightArm,color,accent,1);
 
   const body = ctx.createLinearGradient(-54,-88,54,34);
   body.addColorStop(0,'#fff8ed');
@@ -384,17 +384,22 @@ function drawKobemBackRunner(ctx,x,y,bob,runCycle,activePowerups,color,accent,ju
   ctx.lineWidth = 4;
   ctx.stroke();
 
-  ctx.fillStyle = '#171b23';
-  roundRect(ctx,-32,-46,64,70,18);
+  ctx.fillStyle = '#111720';
+  roundRect(ctx,-36,-50,72,76,20);
   ctx.fill();
-  ctx.fillStyle = 'rgba(255,255,255,.12)';
-  roundRect(ctx,-23,-34,46,46,14);
+  ctx.strokeStyle = 'rgba(66,232,255,.22)';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.fillStyle = 'rgba(255,255,255,.10)';
+  roundRect(ctx,-24,-36,48,42,12);
   ctx.fill();
-  ctx.fillStyle = color;
-  ctx.font = '900 23px Inter, Arial';
+  ctx.fillStyle = accent;
+  ctx.font = '900 17px Inter, Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('BE',0,-10);
+  ctx.fillText('K',0,-13);
+  ctx.fillStyle = 'rgba(255,255,255,.16)';
+  ctx.fillRect(-3,-48,6,72);
 
   ctx.strokeStyle = color;
   ctx.lineWidth = 7;
@@ -425,11 +430,17 @@ function drawKobemBackRunner(ctx,x,y,bob,runCycle,activePowerups,color,accent,ju
   ctx.lineWidth = 5;
   ctx.stroke();
 
-  ctx.fillStyle = '#1a1e27';
-  roundRect(ctx,-48,-144,96,58,22);
+  ctx.fillStyle = '#161b24';
+  roundRect(ctx,-52,-152,104,68,26);
   ctx.fill();
+  ctx.strokeStyle = 'rgba(66,232,255,.28)';
+  ctx.lineWidth = 3;
+  ctx.stroke();
   ctx.fillStyle = 'rgba(255,255,255,.18)';
-  roundRect(ctx,-34,-134,68,18,9);
+  roundRect(ctx,-36,-141,72,16,8);
+  ctx.fill();
+  ctx.fillStyle = 'rgba(0,0,0,.18)';
+  roundRect(ctx,-26,-118,52,18,9);
   ctx.fill();
 
   drawSpriteFlame(ctx,-32,52,accent,slide);
@@ -445,31 +456,34 @@ function getRunLimb(stride, support){
   };
 }
 
-function drawBackLeg(ctx,x,y,phase,color,accent){
+function drawBackLeg(ctx,x,y,phase,color,accent,side=1){
   ctx.save();
-  ctx.translate(x + phase.reach * 18, y + phase.lift * -28 + phase.plant * 5);
-  ctx.rotate(phase.reach * .34);
+  ctx.translate(x + phase.reach * 28, y + phase.lift * -34 + phase.plant * 7);
+  ctx.rotate(phase.reach * .42 + side * phase.plant * .06);
   ctx.fillStyle = '#161a22';
-  roundRect(ctx,-15,-4,30,62,14);
+  roundRect(ctx,-16,-6,32,68,15);
   ctx.fill();
   ctx.fillStyle = color;
-  roundRect(ctx,-23,46,46,30,12);
+  roundRect(ctx,-25,50 + phase.plant * 4,50,31,13);
   ctx.fill();
   ctx.strokeStyle = accent;
   ctx.lineWidth = 3;
   ctx.stroke();
+  ctx.fillStyle = 'rgba(255,255,255,.22)';
+  roundRect(ctx,-7,2,7,48,5);
+  ctx.fill();
   ctx.restore();
 }
 
-function drawBackArm(ctx,x,y,phase,color,accent){
+function drawBackArm(ctx,x,y,phase,color,accent,side=1){
   ctx.save();
-  ctx.translate(x + phase.reach * 12, y + phase.lift * -14);
-  ctx.rotate(phase.reach * -.34);
+  ctx.translate(x + phase.reach * 20, y + phase.lift * -18);
+  ctx.rotate(phase.reach * -.48 + side * .04);
   ctx.fillStyle = color;
-  roundRect(ctx,-14,-6,28,58,14);
+  roundRect(ctx,-15,-8,30,62,15);
   ctx.fill();
   ctx.fillStyle = '#f7f7f7';
-  roundRect(ctx,-19,40,38,28,14);
+  roundRect(ctx,-20,43,40,29,14);
   ctx.fill();
   ctx.strokeStyle = accent;
   ctx.lineWidth = 3;
