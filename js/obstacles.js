@@ -33,7 +33,9 @@ export class ObstacleSystem{
     if(type.move && item.targetLane === lane) item.targetLane = lane === 2 ? 1 : lane + 1;
     item.moveDelay = options.moveDelay ?? .25;
     item.moveProgress = 0;
-    item.y = roadSpawnY(game) - Math.min(Math.max(0, yOffset), game.height * .72);
+    const trackStart = game.height * .13;
+    const depthOffset = Math.min(Math.max(0, yOffset), game.height * .62) * .42;
+    item.y = Math.max(trackStart, roadSpawnY(game) - depthOffset);
     item.x = perspectiveLaneX(game, lanes[item.lane], item.y);
     item.w = type.w;
     item.h = type.h;
@@ -80,7 +82,7 @@ export class ObstacleSystem{
       ctx.save();
       const viewH = ctx.canvas.clientHeight || ctx.canvas.height || 800;
       const scale = itemScale(ctx,item.y);
-      const positionAlpha = Math.max(.18, Math.min(1, (item.y - viewH * .06) / (viewH * .22)));
+      const positionAlpha = Math.max(.34, Math.min(1, (item.y - viewH * .04) / (viewH * .2)));
       ctx.globalAlpha = positionAlpha;
       ctx.translate(item.x, item.y - item.h * scale * .46);
       ctx.scale(scale, scale);
@@ -118,7 +120,7 @@ function lerp(a,b,t){
 
 function drawGroundWarning(ctx,item){
   const scale = itemScale(ctx,item.y);
-  const alpha = Math.max(0, Math.min(.5, (item.y / (ctx.canvas.clientHeight || ctx.canvas.height || 800)) * .46));
+  const alpha = Math.max(.16, Math.min(.56, (item.y / (ctx.canvas.clientHeight || ctx.canvas.height || 800)) * .5));
   ctx.save();
   ctx.translate(item.x,item.y);
   ctx.scale(scale,scale);
