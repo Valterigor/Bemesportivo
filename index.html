@@ -10167,6 +10167,7 @@ const FIFA_WORLD_CUP_URL = 'https://www.fifa.com/en/tournaments/mens/worldcup/ca
 const ESPN_WORLD_CUP_SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
 const ESPN_WORLD_CUP_SUMMARY_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary';
 const WORLD_CUP_REFRESH_MS = 15000;
+const WORLD_CUP_LIVE_REFRESH_MS = 10000;
 const BRASILEIRAO_REFRESH_MS = 30000;
 const WORLD_CUP_STORAGE_KEY = 'bemEsportivoWorldCupMatchesV2';
 let worldCupRefreshTimer = null;
@@ -11008,15 +11009,21 @@ function buildWorldCupScoreboardUrls(date){
 
 function getWorldCupScoreboardDates(){
   const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
+  const nextWeek = new Date(today);
+  nextWeek.setDate(today.getDate() + 7);
 
+  const yesterdayKey = getDateInSaoPaulo(yesterday);
   const todayKey = getDateInSaoPaulo(today);
   const tomorrowKey = getDateInSaoPaulo(tomorrow);
-  const dateKeys = new Set([todayKey, tomorrowKey]);
+  const nextWeekKey = getDateInSaoPaulo(nextWeek);
+  const dateKeys = new Set([yesterdayKey, todayKey, tomorrowKey]);
 
   WORLD_CUP_MATCHES.forEach(match => {
-    if(match.date && match.date <= tomorrowKey){
+    if(match.date && match.date >= todayKey && match.date <= nextWeekKey){
       dateKeys.add(match.date);
     }
   });
@@ -11383,6 +11390,10 @@ function renderWorldCupBroadcastScore(match){
     <small>x</small>
     <span>${hasScore ? escapeHtml(match.awayScore) : '--'}</span>
   `;
+}
+
+function hasLiveWorldCupMatch(matches){
+  return (Array.isArray(matches) ? matches : []).some(match => ['AO VIVO','EM JOGO','INTERVALO'].includes(getWorldCupStatus(match)));
 }
 
 function getWorldCupFlagMarkup(teamName, size = '40x30'){
@@ -12883,14 +12894,18 @@ async function loadWorldCupLive(options = {}){
 function scheduleWorldCupLiveRefresh(delay = WORLD_CUP_REFRESH_MS){
   window.clearTimeout(worldCupRefreshTimer);
   worldCupRefreshTimer = window.setTimeout(async () => {
+    if(document.hidden){
+      scheduleWorldCupLiveRefresh(WORLD_CUP_REFRESH_MS);
+      return;
+    }
     await loadWorldCupLive();
-    scheduleWorldCupLiveRefresh();
+    scheduleWorldCupLiveRefresh(hasLiveWorldCupMatch(latestWorldCupMatches) ? WORLD_CUP_LIVE_REFRESH_MS : WORLD_CUP_REFRESH_MS);
   }, delay);
 }
 
 function startWorldCupLiveAutoRefresh(){
   loadWorldCupLive({ showLoading: true }).finally(() => {
-    scheduleWorldCupLiveRefresh();
+    scheduleWorldCupLiveRefresh(hasLiveWorldCupMatch(latestWorldCupMatches) ? WORLD_CUP_LIVE_REFRESH_MS : WORLD_CUP_REFRESH_MS);
   });
 
   document.addEventListener('visibilitychange', () => {

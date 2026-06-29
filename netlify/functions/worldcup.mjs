@@ -1,5 +1,8 @@
+import { get as httpsGet } from 'node:https';
+
 const ESPN_WORLD_CUP_SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
 const ESPN_WORLD_CUP_SUMMARY_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary';
+
 const apiCache = new Map();
 
 const corsHeaders = {
@@ -23,18 +26,66 @@ function json(statusCode, payload, cacheSeconds = 0){
 }
 
 async function fetchJson(url){
-  const response = await fetch(url, {
-    headers: {
-      Accept: 'application/json',
-      'User-Agent': 'BemEsportivo/1.0 (+https://bemesportivo.com)'
+  try{
+    const response = await fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'User-Agent': 'BemEsportivo/1.0 (+https://bemesportivo.com)'
+      }
+    });
+
+    if(!response.ok){
+      throw new Error(`HTTP ${response.status}`);
     }
-  });
 
-  if(!response.ok){
-    throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  }catch(error){
+    return fetchJsonWithHttps(url, error);
   }
+}
 
-  return response.json();
+function fetchJsonWithHttps(url, cause){
+  return new Promise((resolve, reject) => {
+    const target = new URL(url);
+    const request = httpsGet({
+      protocol: target.protocol,
+      hostname: target.hostname,
+      path: `${target.pathname}${target.search}`,
+      family: 4,
+      rejectUnauthorized: false,
+      headers: {
+        Accept: 'application/json',
+        'User-Agent': 'BemEsportivo/1.0 (+https://bemesportivo.com)'
+      },
+      timeout: 8000
+    }, response => {
+      let body = '';
+      response.setEncoding('utf8');
+      response.on('data', chunk => {
+        body += chunk;
+      });
+      response.on('end', () => {
+        if(response.statusCode < 200 || response.statusCode >= 300){
+          reject(new Error(`HTTP ${response.statusCode}`));
+          return;
+        }
+
+        try{
+          resolve(JSON.parse(body));
+        }catch(parseError){
+          reject(parseError);
+        }
+      });
+    });
+
+    request.on('timeout', () => {
+      request.destroy(new Error('Timeout ESPN'));
+    });
+
+    request.on('error', error => {
+      reject(new Error(`${error.message}; fetch original: ${cause?.message || 'indisponivel'}`));
+    });
+  });
 }
 
 async function cachedJson(key, ttlMs, loader){
@@ -89,11 +140,11 @@ export async function handler(event){
     }
 
     try{
-      const payload = await cachedJson(`scoreboard:${dates}`, 12000, () => {
+      const payload = await cachedJson(`scoreboard:${dates}`, 5000, () => {
         const url = `${ESPN_WORLD_CUP_SCOREBOARD_URL}?dates=${dates}&limit=100`;
         return fetchJson(url);
       });
-      return json(200, payload, 12);
+      return json(200, payload, 5);
     }catch(error){
       return json(502, {ok: false, error: 'ESPN indisponivel no momento', detail: error.message});
     }
