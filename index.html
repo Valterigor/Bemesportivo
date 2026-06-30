@@ -10895,6 +10895,273 @@ font-weight:800 !important;
   }
 }
 
+/* Palpitometro horizontal e atualizado */
+.palpitometro-section{
+background:#fff !important;
+color:#111 !important;
+border:1px solid #e5e7eb !important;
+box-shadow:none !important;
+}
+
+.palpitometro-section::before{
+display:none !important;
+}
+
+.palpitometro-section :where(h2,h3,h4,strong,b,label){
+color:#111 !important;
+}
+
+.palpitometro-section :where(p,span,small,li){
+color:#3f3f46 !important;
+}
+
+.palpite-livebar{
+grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+gap:12px !important;
+}
+
+.palpite-livebar-card,
+.palpitometro-panel,
+.palpite-user-card,
+.palpite-profile-badge,
+.palpite-summary-item,
+.palpite-ranking-row{
+background:#f6f6f6 !important;
+border:1px solid #e5e7eb !important;
+box-shadow:none !important;
+color:#111 !important;
+}
+
+.palpite-livebar-card span,
+.palpite-kicker,
+.palpite-counter-number,
+.palpite-ranking-user,
+.palpite-ranking-score{
+color:var(--primary) !important;
+}
+
+.palpite-livebar-card small,
+.palpite-counter-detail,
+.palpite-ranking-detail,
+.palpite-data-note,
+.palpite-empty,
+.palpite-profile-badge span{
+color:#4b5563 !important;
+}
+
+.palpitometro-grid{
+grid-template-columns:minmax(0,1fr) 340px !important;
+gap:18px !important;
+align-items:start !important;
+}
+
+.palpite-cards{
+grid-template-columns:1fr !important;
+gap:14px !important;
+}
+
+.palpite-card{
+display:grid !important;
+grid-template-columns:minmax(260px,.95fr) minmax(340px,1.2fr) minmax(240px,.8fr) !important;
+grid-template-areas:
+  "head quick result"
+  "match score result"
+  "match fields actions" !important;
+align-items:stretch !important;
+gap:16px !important;
+min-height:0 !important;
+padding:18px !important;
+border:1px solid #e5e7eb !important;
+border-radius:14px !important;
+background:#fff !important;
+box-shadow:0 12px 30px rgba(17,24,39,.08) !important;
+color:#111 !important;
+}
+
+.palpite-card::before{
+height:100% !important;
+width:5px !important;
+right:auto !important;
+bottom:0 !important;
+background:var(--primary) !important;
+}
+
+.palpite-card-top{
+grid-area:head !important;
+display:grid !important;
+gap:8px !important;
+align-content:start !important;
+}
+
+.palpite-card-top h3{
+font-size:clamp(22px,3vw,34px) !important;
+line-height:1 !important;
+letter-spacing:-.025em !important;
+}
+
+.palpite-card-top > div:last-child{
+display:flex !important;
+align-items:center !important;
+gap:8px !important;
+flex-wrap:wrap !important;
+}
+
+.palpite-date{
+text-align:left !important;
+color:#3f3f46 !important;
+}
+
+.palpite-match{
+grid-area:match !important;
+align-self:center !important;
+padding:14px !important;
+border-radius:12px !important;
+background:#f6f6f6 !important;
+}
+
+.palpite-team span,
+.palpite-versus,
+.palpite-matchup-meta{
+color:#111 !important;
+}
+
+.palpite-matchup-meta{
+grid-column:1 / -1 !important;
+justify-content:flex-start !important;
+font-size:12px !important;
+}
+
+.palpite-quick-row{
+grid-area:quick !important;
+grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+align-self:start !important;
+}
+
+.score-inputs{
+grid-area:score !important;
+align-self:center !important;
+}
+
+.palpite-player-field,
+.palpite-confidence-field{
+min-width:0;
+}
+
+.palpite-player-field{
+grid-area:fields !important;
+align-self:start !important;
+}
+
+.palpite-confidence-field{
+grid-area:fields !important;
+align-self:end !important;
+margin-top:72px !important;
+}
+
+.palpite-result{
+grid-area:result !important;
+align-self:stretch !important;
+display:grid !important;
+align-content:center !important;
+min-height:100% !important;
+background:#f6f6f6 !important;
+border:1px solid #e5e7eb !important;
+color:#111 !important;
+}
+
+.palpite-result strong,
+.palpite-protocol{
+color:#111 !important;
+}
+
+.palpite-actions{
+grid-area:actions !important;
+align-self:end !important;
+justify-content:flex-end !important;
+}
+
+.palpite-actions .btn{
+min-height:44px !important;
+border-radius:999px !important;
+font-weight:1000 !important;
+}
+
+.palpite-save{
+background:#111 !important;
+color:#fff !important;
+box-shadow:none !important;
+}
+
+.palpite-clear{
+background:#fff !important;
+color:#111 !important;
+}
+
+@media (max-width:1120px){
+  .palpitometro-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  .palpitometro-panel{
+    position:static !important;
+  }
+
+  .palpite-card{
+    grid-template-columns:1fr 1fr !important;
+    grid-template-areas:
+      "head head"
+      "match quick"
+      "score result"
+      "fields result"
+      "actions actions" !important;
+  }
+
+  .palpite-player-field,
+  .palpite-confidence-field{
+    grid-area:auto !important;
+    margin-top:0 !important;
+  }
+}
+
+@media (max-width:720px){
+  .palpite-livebar{
+    grid-template-columns:1fr !important;
+  }
+
+  .palpite-card{
+    grid-template-columns:1fr !important;
+    grid-template-areas:
+      "head"
+      "match"
+      "quick"
+      "score"
+      "fields"
+      "result"
+      "actions" !important;
+  }
+
+  .palpite-player-field,
+  .palpite-confidence-field{
+    grid-area:fields !important;
+  }
+
+  .palpite-confidence-field{
+    margin-top:74px !important;
+  }
+
+  .palpite-quick-row{
+    grid-template-columns:1fr !important;
+  }
+
+  .palpite-actions{
+    justify-content:stretch !important;
+  }
+
+  .palpite-actions .btn{
+    flex:1 1 100% !important;
+  }
+}
+
 @media (max-width:820px){
   .dashboard-main-card{
     grid-template-columns:1fr !important;
@@ -10988,7 +11255,7 @@ font-weight:800 !important;
 <div class="dashboard-trust-row" aria-label="Recursos em destaque">
 <a href="#worldcup" data-copa-shortcut="jogos">Placar ao vivo</a>
 <a href="#worldcup" data-copa-shortcut="jogos">Agenda</a>
-<a href="#worldCupGroupsTitle" data-copa-shortcut="grupos">Grupos</a>
+<a href="#worldcup" data-copa-shortcut="grupos">Chaveamento</a>
 </div>
 <div class="dashboard-actions">
 <a href="#worldcup">Ver jogos ao vivo</a>
@@ -14571,14 +14838,14 @@ function renderPalpitometro(){
           </div>
         </div>
 
-        <div class="palpite-field">
+        <div class="palpite-field palpite-player-field">
           <label>Jogador decisivo</label>
           <select data-player>
             ${PALPITOMETRO_PLAYERS.map(name => `<option value="${name}" ${name === player ? 'selected' : ''}>${name}</option>`).join('')}
           </select>
         </div>
 
-        <div class="palpite-field">
+        <div class="palpite-field palpite-confidence-field">
           <label>Confiança no palpite</label>
           <div class="confidence-row">
             <input type="range" min="10" max="100" step="5" value="${confidence}" data-confidence aria-label="Confiança no palpite">
@@ -15911,9 +16178,16 @@ function setupWorldCupTabs(){
   });
 
   document.querySelectorAll('[data-copa-shortcut]').forEach(shortcut => {
-    shortcut.addEventListener('click', () => {
+    shortcut.addEventListener('click', event => {
+      event.preventDefault();
       const tabId = shortcut.dataset.copaShortcut || 'jogos';
-      window.setTimeout(() => activate(tabId), 40);
+      activate(tabId);
+      const target = tabId === 'grupos'
+        ? document.getElementById('worldCupGroupsTitle') || document.getElementById('worldcup')
+        : document.getElementById('worldcup');
+      window.setTimeout(() => {
+        target?.scrollIntoView({behavior:'smooth', block:'start'});
+      }, 40);
     });
   });
 
@@ -15983,6 +16257,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupPalpiteUserForm();
   setupPalpiteExportButtons();
   syncPalpitesFromCommunity(false).then(() => renderPalpitometro());
+  window.setInterval(() => syncPalpitesFromCommunity(true), 12000);
   setupMobileAppNavigation();
   startSelecaoNewsRefresh();
   startBrasileiraoLiveAutoRefresh();
