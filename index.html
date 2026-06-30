@@ -11444,7 +11444,7 @@ color:#111 !important;
 
 <section class="hub-quick-actions" aria-label="Atalhos do Bem Esportivo">
 <a href="#worldcup"><strong>Jogos</strong><span>Placar e horário</span></a>
-<a href="#worldCupGroupsTitle"><strong>Chaves</strong><span>Mata-mata</span></a>
+<a href="#worldcup" data-copa-shortcut="grupos"><strong>Chaves</strong><span>Mata-mata</span></a>
 <a href="/kobem-runner"><strong>KOBEM</strong><span>Runner mobile</span></a>
 <a href="/beplay"><strong>Vídeos</strong><span>Assista agora</span></a>
 <a href="#reportagens-home"><strong>Notícias</strong><span>Últimas histórias</span></a>
@@ -16262,6 +16262,21 @@ function setupWorldCupTabs(){
     });
   };
 
+  const openCopaTab = (tabId = 'jogos', shouldScroll = true) => {
+    activate(tabId);
+    if(!shouldScroll) return;
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        const target = tabId === 'grupos'
+          ? document.getElementById('worldCupGroupsTitle') || document.querySelector('[data-copa-panel="grupos"]') || document.getElementById('worldcup')
+          : document.getElementById('worldcup');
+        target?.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+  };
+
+  window.openWorldCupTab = openCopaTab;
+
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       activate(tab.dataset.copaTab);
@@ -16273,25 +16288,15 @@ function setupWorldCupTabs(){
     shortcut.addEventListener('click', event => {
       event.preventDefault();
       const tabId = shortcut.dataset.copaShortcut || 'jogos';
-      activate(tabId);
-      const target = tabId === 'grupos'
-        ? document.getElementById('worldCupGroupsTitle') || document.getElementById('worldcup')
-        : document.getElementById('worldcup');
-      window.setTimeout(() => {
-        target?.scrollIntoView({behavior:'smooth', block:'start'});
-      }, 40);
+      openCopaTab(tabId);
     });
   });
 
   document.querySelectorAll('[data-mobile-nav="worldcup"], [data-mobile-nav="grupos"]').forEach(link => {
     link.addEventListener('click', event => {
       const tabId = link.dataset.mobileNav === 'grupos' ? 'grupos' : 'jogos';
-      activate(tabId);
-      const section = document.getElementById('worldcup');
-      if(section){
-        event.preventDefault();
-        section.scrollIntoView({behavior:'smooth', block:'start'});
-      }
+      event.preventDefault();
+      openCopaTab(tabId);
     });
   });
 
