@@ -147,7 +147,7 @@ a{color:inherit;text-decoration:none}
 .onboarding-gate.is-hidden{display:none}
 
 .login-panel{
-  width:min(100%,980px);
+  width:min(100%,1180px);
   display:grid;
   grid-template-columns:1.1fr .9fr;
   gap:18px;
@@ -162,7 +162,7 @@ a{color:inherit;text-decoration:none}
   padding:36px;
   background:
     linear-gradient(90deg,rgba(0,0,0,.5),rgba(0,0,0,.1)),
-    url("img/destaque-brasil-marrocos.png") center/cover;
+    url("img/app-copa-hero.png") center/cover;
   min-height:420px;
   display:grid;
   align-content:end;
@@ -191,6 +191,8 @@ a{color:inherit;text-decoration:none}
   display:grid;
   align-content:center;
   gap:16px;
+  max-height:calc(100vh - 80px);
+  overflow:auto;
 }
 
 .login-form label{
@@ -201,19 +203,97 @@ a{color:inherit;text-decoration:none}
 }
 
 .login-form input,
-.login-form select{
+.login-form select,
+.login-form textarea{
   width:100%;
-  min-height:48px;
   border:1px solid var(--line);
   border-radius:10px;
   background:#071018;
   color:var(--text);
-  padding:0 14px;
+  padding:13px 14px;
   font:inherit;
   font-weight:800;
 }
 
+.login-form input,
+.login-form select{min-height:48px}
+.login-form textarea{min-height:88px;resize:vertical}
 .login-form small{color:var(--muted);line-height:1.45}
+
+.form-section{
+  display:grid;
+  gap:12px;
+  padding-top:4px;
+}
+
+.form-section h2{
+  margin:0;
+  color:#fff;
+  font-size:18px;
+  letter-spacing:-.02em;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.photo-upload{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  align-items:center;
+  gap:14px;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,.035);
+}
+
+.photo-preview{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  overflow:hidden;
+  background:#101820;
+  border:2px solid rgba(252,110,2,.65);
+}
+
+.photo-preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.photo-upload input{padding:10px;background:transparent}
+
+.chip-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+
+.chip-option{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:42px;
+  padding:8px 10px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:#dce5ef;
+  background:rgba(255,255,255,.035);
+  font-size:12px;
+  font-weight:900;
+}
+
+.chip-option input{
+  width:16px;
+  height:16px;
+  min-height:auto;
+  padding:0;
+  accent-color:var(--orange);
+}
 
 .journey-panel{
   padding:18px;
@@ -316,6 +396,30 @@ a{color:inherit;text-decoration:none}
 .profile-stats strong{display:block;font-size:18px}
 .profile-stats span{color:var(--muted);font-size:12px}
 
+.profile-tags{
+  display:grid;
+  gap:8px;
+  margin-top:14px;
+}
+
+.profile-tags span{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:9px 10px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:rgba(255,255,255,.03);
+  color:#dce4ee;
+  font-size:12px;
+  font-weight:850;
+}
+
+.profile-tags b{
+  color:var(--orange);
+  text-align:right;
+}
+
 .section-title{
   display:flex;
   align-items:center;
@@ -393,7 +497,7 @@ a{color:inherit;text-decoration:none}
   padding:34px 30px;
   background:
     linear-gradient(90deg,rgba(5,10,15,.98) 0,rgba(5,10,15,.8) 42%,rgba(5,10,15,.1)),
-    url("img/penalty-stadium-bg.png") center/cover;
+    url("img/app-copa-hero.png") center/cover;
 }
 
 .hero-card::after{
@@ -432,6 +536,15 @@ a{color:inherit;text-decoration:none}
   display:grid;
   align-content:space-between;
   gap:12px;
+}
+
+.mini-card-media{
+  display:block;
+  width:100%;
+  min-height:94px;
+  border-radius:8px;
+  background:var(--card-image) center/cover;
+  border:1px solid rgba(255,255,255,.1);
 }
 
 .match-row{
@@ -506,6 +619,16 @@ a{color:inherit;text-decoration:none}
   border-radius:8px;
 }
 
+.nutrition-visual{
+  min-height:128px;
+  margin-bottom:16px;
+  border-radius:9px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(90deg,rgba(5,10,15,.88),rgba(5,10,15,.18)),
+    url("img/app-nutricao-card.png") center/cover;
+}
+
 .progress-ring{
   display:grid;
   grid-template-columns:120px 1fr;
@@ -549,6 +672,34 @@ a{color:inherit;text-decoration:none}
 .macro-list{
   display:grid;
   gap:15px;
+}
+
+.nutrition-log{
+  display:grid;
+  gap:10px;
+  margin:16px 0;
+}
+
+.nutrition-log div{
+  padding:10px 12px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:rgba(255,255,255,.035);
+}
+
+.nutrition-log strong{
+  display:block;
+  color:#fff;
+  font-size:12px;
+  text-transform:uppercase;
+}
+
+.nutrition-log span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:750;
 }
 
 .macro label{
@@ -821,6 +972,8 @@ a{color:inherit;text-decoration:none}
   .onboarding-gate{padding:12px}
   .login-copy,.login-form{padding:24px}
   .login-copy{min-height:260px}
+  .form-grid,.chip-grid{grid-template-columns:1fr}
+  .photo-upload{grid-template-columns:1fr}
   .journey-step{grid-template-columns:auto 1fr}
   .journey-step a{grid-column:2}
 }
@@ -831,10 +984,19 @@ a{color:inherit;text-decoration:none}
 <div class="login-panel">
 <div class="login-copy">
 <span>Bem Esportivo App</span>
-<h1 id="loginTitle">Entre, escolha sua jornada e comece pela Copa.</h1>
-<p>O primeiro núcleo será futebol: jogos da Copa, palpites, missões, XP e ranking. Depois a mesma lógica entra em outras competições, treinos e saúde.</p>
+<h1 id="loginTitle">Monte seu perfil esportivo.</h1>
+<p>Personalize o Bem Esportivo com seu time, suas modalidades favoritas e seus objetivos para receber jogos, missões e recomendações do seu jeito.</p>
 </div>
 <form class="login-form" id="loginForm">
+<div class="form-section">
+<h2>Meu cadastro</h2>
+<div class="photo-upload">
+<div class="photo-preview"><img src="img/app-avatar-default.png" alt="" data-user-photo></div>
+<label>Foto do perfil
+<input type="file" id="photoInput" accept="image/*">
+</label>
+</div>
+<div class="form-grid">
 <label>Seu nome
 <input type="text" id="userNameInput" value="João Silva" autocomplete="name">
 </label>
@@ -847,16 +1009,47 @@ a{color:inherit;text-decoration:none}
 <option>São Paulo</option>
 </select>
 </label>
+</div>
+</div>
+
+<div class="form-section">
+<h2>Preferências esportivas</h2>
+<div class="form-grid">
+<label>Modalidade principal
+<select id="mainSportInput">
+<option>Futebol</option>
+<option>Corrida</option>
+<option>Musculação</option>
+<option>Basquete</option>
+<option>Vôlei</option>
+<option>Ciclismo</option>
+<option>Natação</option>
+<option>Lutas</option>
+</select>
+</label>
 <label>Primeiro objetivo
-<select>
+<select id="goalInput">
 <option>Fazer meus primeiros palpites da Copa</option>
 <option>Acompanhar jogos ao vivo</option>
 <option>Subir no ranking de torcedores</option>
 <option>Criar uma rotina de treino e saúde</option>
 </select>
 </label>
-<button class="cta" type="submit">Começar jornada</button>
-<small>Dados de progresso começam zerados e serão preenchidos conforme o usuário concluir missões, acertar palpites e desbloquear conquistas.</small>
+</div>
+<label>Outras modalidades que você acompanha
+<div class="chip-grid">
+<span class="chip-option"><input type="checkbox" checked value="Futebol"> Futebol</span>
+<span class="chip-option"><input type="checkbox" value="Corrida"> Corrida</span>
+<span class="chip-option"><input type="checkbox" value="Musculação"> Musculação</span>
+<span class="chip-option"><input type="checkbox" value="Basquete"> Basquete</span>
+<span class="chip-option"><input type="checkbox" value="Vôlei"> Vôlei</span>
+<span class="chip-option"><input type="checkbox" value="Tênis"> Tênis</span>
+</div>
+</label>
+</div>
+
+<button class="cta" type="submit">Entrar no app</button>
+<small>Você pode atualizar seus dados e sua foto sempre que quiser.</small>
 </form>
 </div>
 </section>
@@ -872,12 +1065,11 @@ a{color:inherit;text-decoration:none}
 <a href="#nutricao">Nutrição</a>
 <a href="#ranking">Ranking</a>
 <a href="#comunidade">Comunidade</a>
-<a href="#marketplace">Marketplace</a>
 </nav>
 <div class="top-actions">
 <button class="icon-button" type="button" aria-label="Buscar">⌕</button>
 <button class="icon-button" type="button" aria-label="Notificações">3</button>
-<div class="top-user"><div class="avatar"><img src="img/valteroficial.png" alt=""></div><div><strong data-user-name>João Silva</strong><span>Nível 1</span></div></div>
+<div class="top-user"><div class="avatar"><img src="img/app-avatar-default.png" alt=""></div><div><strong data-user-name>João Silva</strong><span>Nível 1</span></div></div>
 </div>
 </header>
 
@@ -885,20 +1077,25 @@ a{color:inherit;text-decoration:none}
 <aside class="left-column">
 <section class="panel profile-card">
 <div class="profile-head">
-<div class="avatar"><img src="img/valteroficial.png" alt=""></div>
+<div class="avatar"><img src="img/app-avatar-default.png" alt=""></div>
 <div><h2 data-user-name>João Silva</h2><span>Nível 1</span></div>
 </div>
 <div class="xp-line"><i></i></div>
 <p>0 / 100 XP</p>
 <div class="profile-stats"><div><strong>0 dias</strong><span>Sequência</span></div><div><strong>#--</strong><span>Ranking Brasil</span></div></div>
+<div class="profile-tags">
+<span>Time <b data-user-team>Brasil</b></span>
+<span>Modalidade <b data-user-sport>Futebol</b></span>
+<span>Objetivo <b data-user-goal>Fazer meus primeiros palpites da Copa</b></span>
+</div>
 </section>
 
 <section class="panel journey-panel">
-<div class="section-title"><h3>Sua sequência</h3><a href="#jogos">Continuar</a></div>
+<div class="section-title"><h3>Para hoje</h3><a href="#jogos">Continuar</a></div>
 <div class="journey-list">
-<div class="journey-step"><i>1</i><div><span>Login</span><strong>Perfil criado</strong><small>Nome, time e objetivo definidos.</small></div><a href="#inicio">OK</a></div>
-<div class="journey-step"><i>2</i><div><span>Copa</span><strong>Ver jogos da rodada</strong><small>Acompanhe agenda, placar e chaveamento.</small></div><a href="/#worldcup">Abrir</a></div>
-<div class="journey-step"><i>3</i><div><span>Missão</span><strong>Fazer primeiro palpite</strong><small>XP liberado após participação.</small></div><a href="/#palpitometro">Palpitar</a></div>
+<div class="journey-step"><i>1</i><div><span>Copa</span><strong>Ver jogos da rodada</strong><small>Acompanhe agenda, placar e chaveamento.</small></div><a href="/#worldcup">Abrir</a></div>
+<div class="journey-step"><i>2</i><div><span>Palpite</span><strong>Escolher um resultado</strong><small>Participe dos jogos que você acompanha.</small></div><a href="/#palpitometro">Palpitar</a></div>
+<div class="journey-step"><i>3</i><div><span>Nutrição</span><strong>Registrar sua hidratação</strong><small>Mantenha seu diário de saúde atualizado.</small></div><a href="#nutricao">Registrar</a></div>
 </div>
 </section>
 
@@ -938,9 +1135,9 @@ a{color:inherit;text-decoration:none}
 <section class="panel highlights" id="palpites">
 <div class="section-title"><h3>Destaques de hoje</h3></div>
 <div class="highlight-grid">
-<article class="mini-card"><span>Copa do Mundo 2026</span><div class="match-row"><div><div class="team-crest">BRA</div><strong>Brasil</strong></div><strong>VS</strong><div><div class="team-crest">JPN</div><strong>Japão</strong></div></div><a class="cta" href="/#worldcup">Abrir jogo</a></article>
+<article class="mini-card"><span>Copa do Mundo 2026</span><i class="mini-card-media" style="--card-image:url('img/app-copa-palpite.png')" aria-hidden="true"></i><div class="match-row"><div><div class="team-crest">BRA</div><strong>Brasil</strong></div><strong>VS</strong><div><div class="team-crest">JPN</div><strong>Japão</strong></div></div><a class="cta" href="/#worldcup">Abrir jogo</a></article>
 <article class="mini-card"><span>Missão especial</span><strong>Sequência vencedora</strong><p>Acerte 5 palpites seguidos e ganhe medalha exclusiva.</p><div class="xp-line"><i style="width:0%"></i></div><small>0/5</small></article>
-<article class="mini-card" id="treinos"><span>Treino do dia</span><strong>Treino A · Força</strong><p>Membros inferiores · 45 min · Intermediário</p><a class="cta" href="#treinos">Ver treino</a></article>
+<article class="mini-card" id="treinos"><span>Treino do dia</span><i class="mini-card-media" style="--card-image:url('img/app-treino-card.png')" aria-hidden="true"></i><strong>Treino A · Força</strong><p>Membros inferiores · 45 min · Intermediário</p><a class="cta" href="#treinos">Ver treino</a></article>
 </div>
 </section>
 
@@ -954,11 +1151,11 @@ a{color:inherit;text-decoration:none}
 <section class="news-activity">
 <article class="panel news-card">
 <div class="section-title"><h3>Notícias em destaque</h3><a href="/reportagens">Ver todas</a></div>
-<div class="news-grid"><img src="img/brasil-paraguai.jpg" alt=""><div><span>Futebol · há 1 hora</span><h3>Flamengo conta com retorno de titulares para clássico decisivo</h3><p>Técnico deve ter força máxima para o jogo de logo mais pelo Brasileirão.</p></div></div>
+<div class="news-grid"><img src="img/app-copa-palpite.png" alt=""><div><span>Copa · aguardando primeira análise</span><h3>Seu feed começa após o primeiro palpite</h3><p>As notícias e recomendações serão personalizadas conforme seus jogos acompanhados e missões concluídas.</p></div></div>
 </article>
 <article class="panel activity-card" id="comunidade">
 <div class="section-title"><h3>Atividade da comunidade</h3><a href="/#reportagens-home">Ver todas</a></div>
-<ul class="activity-list"><li><span class="badge">AP</span><div><strong>Ana Paula</strong><small>aguardando primeira atividade</small></div></li><li><span class="badge">CS</span><div><strong>Carlos</strong><small>aguardando primeiro palpite</small></div></li><li><span class="badge">MJ</span><div><strong>Marcos</strong><small>subiu para o nível 32</small></div></li></ul>
+<ul class="activity-list"><li><span class="badge">BE</span><div><strong>Comunidade</strong><small>aguardando primeira atividade</small></div></li><li><span class="badge">XP</span><div><strong>Ranking</strong><small>sem pontuação registrada</small></div></li><li><span class="badge">0</span><div><strong>Conquistas</strong><small>nenhuma medalha desbloqueada</small></div></li></ul>
 </article>
 </section>
 </section>
@@ -972,6 +1169,36 @@ a{color:inherit;text-decoration:none}
 
 <section class="panel nutrition-card" id="nutricao">
 <div class="section-title"><h3>Nutrição de hoje</h3><a href="#">Ver plano</a></div>
+<div class="nutrition-visual" aria-hidden="true"></div>
+<div class="form-section">
+<label>O que você comeu hoje?
+<textarea id="foodInput" placeholder="Ex.: arroz, feijão, frango, salada, banana..."></textarea>
+</label>
+<label>O que você bebeu hoje?
+<input type="text" id="drinkInput" placeholder="Ex.: água, café, suco...">
+</label>
+<div class="form-grid">
+<label>Quantas vezes tomou água?
+<input type="number" id="waterTimesInput" min="0" max="30" value="0">
+</label>
+<label>Copos ou garrafas de água
+<input type="number" id="waterAmountInput" min="0" max="20" step="0.5" value="0">
+</label>
+</div>
+<label>Objetivo de água no dia
+<select id="waterGoalInput">
+<option value="2">2 litros</option>
+<option value="2.5">2,5 litros</option>
+<option value="3" selected>3 litros</option>
+<option value="3.5">3,5 litros</option>
+</select>
+</label>
+</div>
+<div class="nutrition-log">
+<div><strong>Comidas registradas</strong><span data-food-log>Nenhum alimento registrado</span></div>
+<div><strong>Bebidas registradas</strong><span data-drink-log>Nenhuma bebida registrada</span></div>
+<div><strong>Água</strong><span data-water-log>0 vezes · 0 / 3 litros</span></div>
+</div>
 <div class="macro-list">
 <div class="macro" style="--value:0%"><label>Proteínas <b>0 / 140g</b></label><i></i></div>
 <div class="macro" style="--value:0%"><label>Carboidratos <b>0 / 230g</b></label><i></i></div>
@@ -1002,7 +1229,7 @@ a{color:inherit;text-decoration:none}
 <div class="level-shield">1</div>
 <div>
 <h2 data-user-name>João Silva</h2>
-<p>Perfil de videogame para gerar orgulho, comparação e compartilhamento.</p>
+<p>Seu histórico reúne preferências, precisão, missões e conquistas esportivas.</p>
 <div class="specialty-list">
 <div><strong>Copa do Mundo</strong><span>☆☆☆☆☆</span></div>
 <div><strong>Libertadores</strong><span>☆☆☆☆☆</span></div>
@@ -1019,8 +1246,8 @@ a{color:inherit;text-decoration:none}
 </article>
 
 <article class="feature-card" id="desafio-jogo">
-<h2>Tela de jogo como desafio</h2>
-<p>O jogo deixa de ser apenas informação e vira uma missão com recompensa clara.</p>
+<h2>Palpite do jogo</h2>
+<p>Escolha seu resultado, acompanhe a partida e veja sua evolução depois do apito final.</p>
 <div class="challenge-card">
 <div>
 <h3>Brasil x Japão</h3>
@@ -1041,16 +1268,16 @@ a{color:inherit;text-decoration:none}
 
 <div class="feature-grid">
 <article class="feature-card">
-<div class="section-title"><h3>Ranking competitivo</h3><a href="#ranking">Ranking inicial</a></div>
+<div class="section-title"><h3>Ranking competitivo</h3><a href="#ranking">Meu ranking</a></div>
 <div class="ranking-filters"><span>Brasil</span><span>Estado</span><span>Cidade</span><span>Time</span><span>Amigos</span><span>Empresa</span><span>Faculdade</span></div>
 <ol class="ranking-list" style="margin-top:16px"><li><span class="badge">--</span><strong>João</strong><em>0 XP</em></li><li><span class="badge">--</span><strong>Carlos</strong><em>0 XP</em></li><li><span class="badge">--</span><strong>Pedro</strong><em>0 XP</em></li><li><span class="badge">--</span><strong>Você</strong><em>Aguardando participação</em></li></ol>
 </article>
 
 <article class="feature-card">
 <div class="section-title"><h3>Liga dos amigos</h3><a href="#comunidade">Criar liga</a></div>
-<p>Empresas, escolas, condomínios e grupos de WhatsApp competindo por rodada.</p>
+<p>Crie uma liga com amigos, família ou colegas e acompanhe a disputa rodada a rodada.</p>
 <div class="league-list">
-<div><strong>Liga Escritório XPTO</strong><span>Próxima rodada até 18h</span></div>
+<div><strong>Minha liga</strong><span>Convide participantes para começar</span></div>
 <div><strong>Carlos</strong><span>0 XP</span></div>
 <div><strong>João</strong><span>0 XP</span></div>
 <div><strong>Ana</strong><span>0 XP</span></div>
@@ -1068,16 +1295,16 @@ a{color:inherit;text-decoration:none}
 
 <article class="feature-card ai-card" id="ia">
 <div class="ai-message">
-<h2>IA personalizada</h2>
-<p>Bom dia. Faça login, escolha seu primeiro jogo da Copa e a IA começa a montar análises a partir dos seus palpites, erros e evolução.</p>
+<h2>Assistente esportivo</h2>
+<p>Receba análises dos jogos que você acompanha e sugestões para melhorar seus palpites.</p>
 <a class="cta" href="#desafio-jogo">Ver análise antes de palpitar</a>
 </div>
 <div class="fan-id">
 <span>RG do Torcedor</span>
 <strong data-user-name>João Silva</strong>
 <span>Level 1 · Precisão 0%</span>
-<span>Especialidade: a desbloquear</span>
-<span>Ranking inicial</span>
+<span>Especialidade: em evolução</span>
+<span>Meu ranking</span>
 <div class="goat-score">GOAT Score 0</div>
 </div>
 </article>
@@ -1089,7 +1316,23 @@ a{color:inherit;text-decoration:none}
   const gate = document.getElementById('onboardingGate');
   const form = document.getElementById('loginForm');
   const nameInput = document.getElementById('userNameInput');
+  const photoInput = document.getElementById('photoInput');
+  const teamInput = document.getElementById('teamSelect');
+  const sportInput = document.getElementById('mainSportInput');
+  const goalInput = document.getElementById('goalInput');
+  const foodInput = document.getElementById('foodInput');
+  const drinkInput = document.getElementById('drinkInput');
+  const waterTimesInput = document.getElementById('waterTimesInput');
+  const waterAmountInput = document.getElementById('waterAmountInput');
+  const waterGoalInput = document.getElementById('waterGoalInput');
   const nameTargets = document.querySelectorAll('[data-user-name]');
+  const photoTargets = document.querySelectorAll('[data-user-photo], .avatar img');
+  const teamTargets = document.querySelectorAll('[data-user-team]');
+  const sportTargets = document.querySelectorAll('[data-user-sport]');
+  const goalTargets = document.querySelectorAll('[data-user-goal]');
+  const foodLog = document.querySelector('[data-food-log]');
+  const drinkLog = document.querySelector('[data-drink-log]');
+  const waterLog = document.querySelector('[data-water-log]');
 
   const updateName = () => {
     const name = (nameInput?.value || '').trim() || 'Torcedor Bem Esportivo';
@@ -1098,10 +1341,53 @@ a{color:inherit;text-decoration:none}
     });
   };
 
+  const setText = (targets, value) => {
+    targets.forEach(target => {
+      target.textContent = value;
+    });
+  };
+
+  const updateProfile = () => {
+    updateName();
+    setText(teamTargets, teamInput?.value || 'Brasil');
+    setText(sportTargets, sportInput?.value || 'Futebol');
+    setText(goalTargets, goalInput?.value || 'Fazer meus primeiros palpites da Copa');
+  };
+
+  const updateNutrition = () => {
+    const food = (foodInput?.value || '').trim();
+    const drink = (drinkInput?.value || '').trim();
+    const waterTimes = Number(waterTimesInput?.value || 0);
+    const waterAmount = Number(waterAmountInput?.value || 0);
+    const waterGoal = Number(waterGoalInput?.value || 3);
+    if(foodLog) foodLog.textContent = food || 'Nenhum alimento registrado';
+    if(drinkLog) drinkLog.textContent = drink || 'Nenhuma bebida registrada';
+    if(waterLog) waterLog.textContent = `${waterTimes || 0} vezes · ${waterAmount || 0} / ${waterGoal || 3} litros`;
+  };
+
+  photoInput?.addEventListener('change', () => {
+    const file = photoInput.files?.[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      photoTargets.forEach(img => {
+        img.src = reader.result;
+      });
+    });
+    reader.readAsDataURL(file);
+  });
+
   nameInput?.addEventListener('input', updateName);
+  [teamInput, sportInput, goalInput].forEach(input => input?.addEventListener('change', updateProfile));
+  [foodInput, drinkInput, waterTimesInput, waterAmountInput, waterGoalInput].forEach(input => {
+    input?.addEventListener('input', updateNutrition);
+    input?.addEventListener('change', updateNutrition);
+  });
+
   form?.addEventListener('submit', event => {
     event.preventDefault();
-    updateName();
+    updateProfile();
+    updateNutrition();
     gate?.classList.add('is-hidden');
     document.getElementById('jogos')?.scrollIntoView({behavior:'smooth', block:'start'});
   });
