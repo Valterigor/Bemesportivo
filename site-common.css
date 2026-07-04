@@ -548,34 +548,6 @@ span {
   border-radius: 12px;
 }
 
-.card,
-.reportagem-card,
-.home-side-post,
-.palpite-card,
-.palpite-user-card,
-.palpite-summary-item,
-.palpite-ranking-row,
-.worldcup-result-card,
-.worldcup-group-card,
-.worldcup-brazil-card,
-.match-card,
-.standings-card,
-.penalty-game-card,
-.penalty-rank-card,
-.debate-card {
-  border-radius: var(--site-radius) !important;
-}
-
-.reportagem-card,
-.palpite-card,
-.worldcup-group-card,
-.match-card,
-.standings-card,
-.penalty-game-card,
-.debate-card {
-  box-shadow: var(--site-shadow);
-}
-
 .banner-top h1,
 .hero h1,
 .section-action-head h2,
@@ -735,11 +707,6 @@ span {
 .debate-card:focus-visible {
   transform: translateY(-3px);
   box-shadow: 0 22px 55px rgba(15, 23, 42, .14);
-}
-
-.penalty-game-section,
-.worldcup-section {
-  scroll-margin-top: 90px;
 }
 
 .worldcup-tabs {
@@ -1179,17 +1146,6 @@ body {
   gap: 14px;
 }
 
-.dashboard-main-card,
-.kobem-panel,
-.dashboard-mini-grid article,
-.featured-match-card {
-  border: 1px solid var(--be-line);
-  border-radius: 8px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .035));
-  box-shadow: 0 18px 60px rgba(0, 0, 0, .34);
-  backdrop-filter: blur(18px);
-}
-
 .dashboard-main-card {
   position: relative;
   grid-column: span 8;
@@ -1246,27 +1202,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-}
-
-.dashboard-actions a,
-.kobem-panel a,
-.match-tools a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 42px;
-  padding: 0 14px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.dashboard-actions a:first-child,
-.kobem-panel a {
-  background: var(--be-orange);
-  color: #0a0a0a;
-  box-shadow: 0 0 24px rgba(252, 110, 2, .34);
 }
 
 .dashboard-actions a:last-child,
@@ -1538,38 +1473,6 @@ body {
   gap: 14px;
 }
 
-.kobem-panel {
-  min-height: 250px;
-  display: grid;
-  align-content: space-between;
-  gap: 18px;
-  padding: 20px;
-  background:
-    radial-gradient(circle at 100% 0, rgba(252, 110, 2, .34), transparent 32%),
-    linear-gradient(180deg, #181818, #0a0a0a);
-}
-
-.kobem-panel span,
-.dashboard-mini-grid span {
-  color: #ffb47b;
-  font-size: 11px;
-  font-weight: 950;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-
-.kobem-panel h2 {
-  margin: 8px 0;
-  color: #fff !important;
-  font-size: 28px !important;
-  line-height: 1.05 !important;
-}
-
-.kobem-panel p {
-  margin: 0;
-  color: #cfcfcf;
-}
-
 .dashboard-mini-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1592,24 +1495,6 @@ body {
 .dashboard-mini-grid small {
   color: #9ca3af;
   font-weight: 800;
-}
-
-.hero,
-.worldcup-section,
-.worldcup-results-section,
-.palpitometro-section,
-#reportagens-home,
-.beplay-home-callout,
-.penalty-game-card,
-.home-posts-panel,
-.reportagem-card,
-.valtinho,
-.debate-card,
-.lineup-callout {
-  background: linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .035)) !important;
-  border: 1px solid rgba(255, 255, 255, .1) !important;
-  box-shadow: 0 18px 60px rgba(0, 0, 0, .28) !important;
-  color: #fff !important;
 }
 
 .hero h1,
@@ -1681,14 +1566,5 @@ body {
 
   .dashboard-copy h1 {
     font-size: clamp(42px, 13vw, 62px) !important;
-  }
-
-  .dashboard-actions a,
-  .kobem-panel a,
-  .match-tools a {
-    flex: 1 1 auto;
-    min-width: 0;
-    padding: 0 10px;
-    font-size: 11px;
   }
 }
