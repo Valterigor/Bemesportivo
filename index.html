@@ -7865,7 +7865,7 @@ border:1px solid #e5e5e5 !important;
 color:#111 !important;
 }
 
-/* Destaque da Seleção: proximo jogo + tempo real + enquete */
+/* Destaque da Copa: jogos do dia + tempo real */
 .hero{
 background:#fff !important;
 }
@@ -8170,6 +8170,170 @@ text-align:left !important;
 
   .story-palpite-footer{
     grid-template-columns:1fr !important;
+  }
+}
+
+.today-cup-spotlight{
+display:grid !important;
+gap:18px !important;
+margin-top:22px !important;
+padding:20px !important;
+border:1px solid #202020 !important;
+border-radius:18px !important;
+background:#101010 !important;
+box-shadow:0 22px 54px rgba(0,0,0,.16) !important;
+}
+
+.today-cup-spotlight,
+.today-cup-spotlight *{
+color:#fff !important;
+}
+
+.today-cup-head{
+display:flex !important;
+align-items:end !important;
+justify-content:space-between !important;
+gap:16px !important;
+flex-wrap:wrap !important;
+}
+
+.today-cup-head span{
+display:inline-flex !important;
+align-items:center !important;
+min-height:32px !important;
+padding:0 12px !important;
+border-radius:999px !important;
+background:rgba(252,110,2,.16) !important;
+color:var(--primary) !important;
+font-size:12px !important;
+font-weight:1000 !important;
+text-transform:uppercase !important;
+}
+
+.today-cup-head strong{
+font-size:clamp(22px,3vw,36px) !important;
+font-weight:1000 !important;
+line-height:1 !important;
+letter-spacing:0 !important;
+}
+
+.today-cup-grid{
+display:grid !important;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr)) !important;
+gap:14px !important;
+}
+
+.today-cup-card{
+display:grid !important;
+gap:12px !important;
+min-height:190px !important;
+padding:16px !important;
+border:1px solid rgba(255,255,255,.12) !important;
+border-radius:14px !important;
+background:#171717 !important;
+}
+
+.today-cup-status{
+width:max-content !important;
+max-width:100% !important;
+padding:7px 10px !important;
+border-radius:999px !important;
+background:#fff !important;
+color:#111 !important;
+font-size:11px !important;
+font-weight:1000 !important;
+text-transform:uppercase !important;
+}
+
+.today-cup-status.ao-vivo,
+.today-cup-status.em-jogo,
+.today-cup-status.intervalo{
+background:var(--primary) !important;
+color:#000 !important;
+}
+
+.today-cup-match{
+display:grid !important;
+grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) !important;
+align-items:center !important;
+gap:10px !important;
+}
+
+.today-cup-match strong{
+overflow:hidden !important;
+font-size:18px !important;
+font-weight:1000 !important;
+line-height:1.05 !important;
+text-overflow:ellipsis !important;
+white-space:nowrap !important;
+}
+
+.today-cup-match strong:last-child{
+text-align:right !important;
+}
+
+.today-cup-match span,
+.today-cup-score{
+display:inline-flex !important;
+align-items:center !important;
+justify-content:center !important;
+min-width:82px !important;
+min-height:54px !important;
+padding:0 12px !important;
+border-radius:12px !important;
+background:#fff !important;
+color:#111 !important;
+font-size:24px !important;
+font-weight:1000 !important;
+line-height:1 !important;
+}
+
+.today-cup-meta{
+display:flex !important;
+gap:8px !important;
+flex-wrap:wrap !important;
+}
+
+.today-cup-meta span{
+padding:6px 8px !important;
+border:1px solid rgba(255,255,255,.12) !important;
+border-radius:8px !important;
+color:#f4f4f5 !important;
+font-size:12px !important;
+font-weight:850 !important;
+}
+
+.today-cup-card p{
+margin:0 !important;
+color:#d4d4d8 !important;
+font-size:14px !important;
+font-weight:750 !important;
+line-height:1.35 !important;
+}
+
+@media (max-width:640px){
+  .today-cup-spotlight{
+    padding:14px !important;
+    border-radius:14px !important;
+  }
+
+  .today-cup-card{
+    min-height:0 !important;
+  }
+
+  .today-cup-match{
+    grid-template-columns:1fr !important;
+  }
+
+  .today-cup-match strong,
+  .today-cup-match strong:last-child{
+    text-align:left !important;
+  }
+
+  .today-cup-match span,
+  .today-cup-score{
+    justify-content:flex-start !important;
+    width:100% !important;
   }
 }
 
@@ -8948,39 +9112,18 @@ color:#111 !important;
 
 <section class="banner-carousel">
 <div class="carousel-container">
-<!-- Banner 1: Bem Esportivo -->
+<!-- Banner 1: Rumo ao Hexa -->
 <div class="carousel-slide" data-slide="0">
-<div class="banner-top">
-<div class="banner-content">
-<h1>Bem Esportivo</h1>
-<p>Conteúdo esportivo, escalações e opinião com identidade própria</p>
-</div>
-</div>
-</div>
-
-<!-- Banner 2: Copa do Mundo 2026 -->
-<div class="carousel-slide" data-slide="1">
-<div class="banner-top banner-copa">
-<div class="banner-content">
-<h1>🏆 Copa 2026</h1>
-<p>Acompanhe a maior competição de futebol do mundo em tempo real</p>
-<a class='btn-banner' href='#worldcup'>Acompanhe tudo com a gente</a>
-</div>
-</div>
-</div>
-
-<!-- Banner 3: Rumo ao Hexa -->
-<div class="carousel-slide" data-slide="2">
 <div class="banner-top banner-art" style="--banner-image:url('img/carrossel-rumo-hexa-sem-taca-sem-linha.png')" role="img" aria-label="Rumo ao Hexa - Bem Esportivo"></div>
 </div>
 
-<!-- Banner 4: 5 + 1 = Hexa -->
-<div class="carousel-slide" data-slide="3">
+<!-- Banner 2: 5 + 1 = Hexa -->
+<div class="carousel-slide" data-slide="1">
 <div class="banner-top banner-art banner-copa" style="--banner-image:url('img/carrossel-5-1-hexa-sem-taca-sem-linha.png')" role="img" aria-label="5 + 1 igual Hexa - Bem Esportivo"></div>
 </div>
 
-<!-- Banner 5: Papo de Hexaia -->
-<div class="carousel-slide" data-slide="4">
+<!-- Banner 3: Papo de Hexaia -->
+<div class="carousel-slide" data-slide="2">
 <div class="banner-top banner-art" style="--banner-image:url('img/carrossel-papo-hexaia-sem-taca-sem-linha.png')" role="img" aria-label="Papo de Hexaia - Bem Esportivo"></div>
 </div>
 </div>
@@ -9002,8 +9145,6 @@ color:#111 !important;
 <button class="indicator active" data-slide="0" aria-label="Banner 1"></button>
 <button class="indicator" data-slide="1" aria-label="Banner 2"></button>
 <button class="indicator" data-slide="2" aria-label="Banner 3"></button>
-<button class="indicator" data-slide="3" aria-label="Banner 4"></button>
-<button class="indicator" data-slide="4" aria-label="Banner 5"></button>
 </div>
 </section>
 
@@ -9103,62 +9244,20 @@ color:#111 !important;
 
 <div class="container">
 
-<h1>Próximo jogo da Seleção</h1>
+<h1>Jogos do dia na Copa</h1>
 
-<div class="worldcup-story-wrap searchable">
-<article class="worldcup-story-card" id="worldCupStoryCard" aria-label="Card interativo Brasil x Escócia para torcedores da Copa do Mundo FIFA 2026">
-<div class="worldcup-story-lights"></div>
-<div class="worldcup-story-content">
-<div class="worldcup-story-top">
-<span>Copa do Mundo FIFA 2026</span>
-<time data-story-match-time>24/06 - 19:00</time>
+<div class="today-cup-spotlight searchable" id="todayCupSpotlight" aria-live="polite">
+<div class="today-cup-head">
+<span>Oitavas e mata-mata</span>
+<strong>Buscando placares em tempo real...</strong>
 </div>
-
-<div class="worldcup-story-title">
-<h2 data-story-match-title>Brasil x Escócia</h2>
-<p data-story-match-summary>Próximo jogo da Seleção Brasileira com placar, horário e lances ao vivo.</p>
-</div>
-
-<div class="worldcup-story-match">
-<div class="worldcup-story-team">
-<div class="worldcup-story-flag" data-story-home-flag><img src="https://flagcdn.com/w160/br.png" alt="Bandeira do Brasil" loading="lazy"></div>
-<strong data-story-home-team>Brasil</strong>
-</div>
-<div class="worldcup-story-versus">VS</div>
-<div class="worldcup-story-team is-away">
-<div class="worldcup-story-flag" data-story-away-flag><img src="https://flagcdn.com/w160/gb-sct.png" alt="Bandeira da Escócia" loading="lazy"></div>
-<strong data-story-away-team>Escócia</strong>
-</div>
-</div>
-
-<div class="worldcup-story-news" aria-live="polite">
-<div class="story-panel-title">Tempo real</div>
-<div class="story-live-scoreline" aria-label="Placar e tempo do jogo">
-<strong id="storyLiveScore">-- x --</strong>
-<span id="storyLiveClock">24/06 - 19:00</span>
-</div>
-<ul id="storyLivePlays" class="story-live-plays">
-<li><time>Info</time><span>Placar e lances entram automaticamente quando a transmissão liberar os dados.</span></li>
-</ul>
-</div>
-
-<div class="story-palpite-footer">
-<div class="story-poll-head">
-<span>Enquete da torcida</span>
-<strong>Qual é o seu palpite para o jogo?</strong>
-</div>
-<div class="story-footer-pick" data-story-group="winner">
-<button type="button" class="is-selected" data-story-value="Brasil">Brasil</button>
-<button type="button" data-story-value="Empate">Empate</button>
-<button type="button" data-story-value="Escócia">Escócia</button>
-</div>
-<div class="story-shareline" id="storyShareline" aria-live="polite">
-<strong>Vote para ver a tendência da torcida.</strong>
-<span>Resultado parcial em tempo real</span>
-</div>
-</div>
-</div>
+<div class="today-cup-grid">
+<article class="today-cup-card">
+<div class="today-cup-status">Atualizando</div>
+<div class="today-cup-score">-- x --</div>
+<p>Os jogos do dia aparecem aqui com placar, fase e tempo de jogo assim que a API liberar os dados.</p>
 </article>
+</div>
 </div>
 
 <div id="searchResults" class="search-results"></div>
@@ -10145,7 +10244,23 @@ const WORLD_CUP_MATCHES = [
   {date:'2026-06-19',time:'19:00',group:'C',home:'Brasil',away:'Haiti',venue:'Lincoln Financial Field'},
   {date:'2026-06-19',time:'22:00',group:'C',home:'Escócia',away:'Marrocos',venue:'Boston Stadium'},
   {date:'2026-06-24',time:'19:00',group:'C',home:'Brasil',away:'Escócia',venue:'Hard Rock Stadium'},
-  {date:'2026-06-24',time:'19:00',group:'C',home:'Haiti',away:'Marrocos',venue:'Mercedes-Benz Stadium'}
+  {date:'2026-06-24',time:'19:00',group:'C',home:'Haiti',away:'Marrocos',venue:'Mercedes-Benz Stadium'},
+  {date:'2026-07-03',time:'16:00',group:'Oitavas de final',home:'1º Grupo A',away:'Melhor 3º colocado',venue:'Philadelphia Stadium'},
+  {date:'2026-07-03',time:'22:00',group:'Oitavas de final',home:'1º Grupo B',away:'3º colocado',venue:'Dallas Stadium'},
+  {date:'2026-07-04',time:'13:00',group:'Oitavas de final',home:'1º Grupo C',away:'2º Grupo F',venue:'Atlanta Stadium'},
+  {date:'2026-07-04',time:'17:00',group:'Oitavas de final',home:'1º Grupo D',away:'2º Grupo E',venue:'Houston Stadium'},
+  {date:'2026-07-05',time:'16:00',group:'Oitavas de final',home:'1º Grupo E',away:'2º Grupo D',venue:'New York New Jersey Stadium'},
+  {date:'2026-07-05',time:'22:00',group:'Oitavas de final',home:'1º Grupo F',away:'2º Grupo C',venue:'Miami Stadium'},
+  {date:'2026-07-06',time:'19:00',group:'Oitavas de final',home:'1º Grupo G',away:'2º Grupo H',venue:'Seattle Stadium'},
+  {date:'2026-07-07',time:'19:00',group:'Oitavas de final',home:'1º Grupo H',away:'2º Grupo G',venue:'Los Angeles Stadium'},
+  {date:'2026-07-09',time:'16:00',group:'Quartas de final',home:'Vencedor oitavas 1',away:'Vencedor oitavas 2',venue:'Boston Stadium'},
+  {date:'2026-07-10',time:'16:00',group:'Quartas de final',home:'Vencedor oitavas 3',away:'Vencedor oitavas 4',venue:'Kansas City Stadium'},
+  {date:'2026-07-11',time:'16:00',group:'Quartas de final',home:'Vencedor oitavas 5',away:'Vencedor oitavas 6',venue:'Miami Stadium'},
+  {date:'2026-07-11',time:'22:00',group:'Quartas de final',home:'Vencedor oitavas 7',away:'Vencedor oitavas 8',venue:'Los Angeles Stadium'},
+  {date:'2026-07-14',time:'21:00',group:'Semifinal',home:'Vencedor quartas 1',away:'Vencedor quartas 2',venue:'Dallas Stadium'},
+  {date:'2026-07-15',time:'21:00',group:'Semifinal',home:'Vencedor quartas 3',away:'Vencedor quartas 4',venue:'Atlanta Stadium'},
+  {date:'2026-07-18',time:'17:00',group:'Disputa de 3º lugar',home:'Perdedor semifinal 1',away:'Perdedor semifinal 2',venue:'Miami Stadium'},
+  {date:'2026-07-19',time:'16:00',group:'Final',home:'Vencedor semifinal 1',away:'Vencedor semifinal 2',venue:'New York New Jersey Stadium'}
 ];
 
 const BRAZIL_NEXT_MATCH_FALLBACK = {
@@ -11412,6 +11527,85 @@ function renderWorldCupLiveCenter(matches){
   }).join('');
 }
 
+function getWorldCupPhaseLabel(group){
+  const label = cleanText(group || 'Copa do Mundo');
+  if(!label) return 'Copa do Mundo';
+  if(/^grupo\s/i.test(label) || label === 'Fase de grupos') return label;
+  if(/^[A-L]$/i.test(label)) return `Grupo ${label.toUpperCase()}`;
+  return label;
+}
+
+function renderTodayCupSpotlight(matches){
+  const container = document.getElementById('todayCupSpotlight');
+  if(!container) return;
+
+  const source = Array.isArray(matches) && matches.length ? matches : getFreshWorldCupBaseMatches();
+  const todayKey = getDateInSaoPaulo(new Date());
+  const sorted = [...source].sort((a,b) => getWorldCupDateTime(a) - getWorldCupDateTime(b));
+  const live = sorted.filter(match => ['AO VIVO','EM JOGO','INTERVALO'].includes(getWorldCupStatus(match)));
+  const today = sorted.filter(match => match.date === todayKey);
+  const upcoming = sorted.filter(match => getWorldCupDateTime(match) >= new Date());
+  const displayMatches = (today.length ? today : live.length ? live : upcoming).slice(0, 4);
+  const head = container.querySelector('.today-cup-head strong');
+  const kicker = container.querySelector('.today-cup-head span');
+
+  if(kicker){
+    kicker.textContent = today.length ? 'Jogos de hoje' : live.length ? 'Ao vivo agora' : 'Próximas fases';
+  }
+  if(head){
+    head.textContent = today.length
+      ? `${today.length} jogo${today.length === 1 ? '' : 's'} hoje na Copa`
+      : displayMatches[0]
+        ? `Próximo: ${getPrimaryWorldCupTeam(displayMatches[0].home)} x ${getPrimaryWorldCupTeam(displayMatches[0].away)}`
+        : 'Calendário em atualização';
+  }
+
+  const grid = container.querySelector('.today-cup-grid');
+  if(!grid) return;
+
+  if(!displayMatches.length){
+    grid.innerHTML = `
+      <article class="today-cup-card">
+        <div class="today-cup-status">Sem jogos carregados</div>
+        <div class="today-cup-score">-- x --</div>
+        <p>A central vai atualizar automaticamente quando a tabela da Copa responder.</p>
+      </article>
+    `;
+    return;
+  }
+
+  grid.innerHTML = displayMatches.map(match => {
+    const status = getWorldCupStatus(match);
+    const home = getPrimaryWorldCupTeam(match.home);
+    const away = getPrimaryWorldCupTeam(match.away);
+    const hasScore = match.homeScore != null && match.awayScore != null;
+    const score = hasScore ? `${match.homeScore} x ${match.awayScore}` : '-- x --';
+    const clock = match.liveClock
+      ? `${match.liveClock}${match.period ? ` - ${String(match.period)}T` : ''}`
+      : status === 'HOJE'
+        ? `Hoje - ${formatWorldCupTime(match)}`
+        : `${formatWorldCupDate(match)} - ${formatWorldCupTime(match)}`;
+    const phase = getWorldCupPhaseLabel(match.group);
+    const statusClass = status.toLowerCase().replace(/\s+/g, '-');
+
+    return `
+      <article class="today-cup-card" aria-label="${escapeHtml(home)} ${escapeHtml(score)} ${escapeHtml(away)}">
+        <div class="today-cup-status ${statusClass}">${escapeHtml(status)}</div>
+        <div class="today-cup-match">
+          <strong>${escapeHtml(home)}</strong>
+          <span>${escapeHtml(score)}</span>
+          <strong>${escapeHtml(away)}</strong>
+        </div>
+        <div class="today-cup-meta">
+          <span>${escapeHtml(clock)}</span>
+          <span>${escapeHtml(phase)}</span>
+        </div>
+        <p>${escapeHtml(cleanText(match.venue || 'Estádio a definir'))}</p>
+      </article>
+    `;
+  }).join('');
+}
+
 function getWorldCupGroupLabel(group){
   if(!group) return 'Grupo';
   return group === 'Fase de grupos' ? group : `Grupo ${group}`;
@@ -11552,6 +11746,86 @@ function getProjectedWorldCupBracket(standings){
   return pairings.filter(match => match.home || match.away).slice(0, 12);
 }
 
+function getKnockoutWorldCupMatches(matches){
+  const phases = [
+    'Oitavas de final',
+    'Quartas de final',
+    'Semifinal',
+    'Disputa de 3º lugar',
+    'Final'
+  ];
+  return (Array.isArray(matches) ? matches : [])
+    .filter(match => phases.includes(getWorldCupPhaseLabel(match.group)))
+    .sort((a,b) => getWorldCupDateTime(a) - getWorldCupDateTime(b));
+}
+
+function isWorldCupPlaceholderTeam(teamName){
+  const text = normalizeStr(teamName)
+    .replace(/º/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return !text ||
+    /\bgrupo\b/.test(text) ||
+    /\bvencedor\b/.test(text) ||
+    /\bperdedor\b/.test(text) ||
+    /\bmelhor\b/.test(text) ||
+    /\bcolocado\b/.test(text) ||
+    /\ba definir\b/.test(text) ||
+    /^\d/.test(text);
+}
+
+function isOfficialKnockoutWorldCupMatch(match){
+  if(match?.source === 'ESPN' || match?.espnEventId) return true;
+  return !isWorldCupPlaceholderTeam(match?.home) && !isWorldCupPlaceholderTeam(match?.away);
+}
+
+function renderWorldCupKnockoutBracket(matches, sourceLabel){
+  const container = document.getElementById('worldCupBracket');
+  if(!container) return false;
+
+  const knockout = getKnockoutWorldCupMatches(matches);
+  if(!knockout.length) return false;
+
+  container.innerHTML = `
+    <div class="worldcup-bracket-head">
+      <span>Mata-mata atual</span>
+      <strong>${knockout.length} jogo${knockout.length === 1 ? '' : 's'} de oitavas em diante · ${escapeHtml(sourceLabel)}</strong>
+    </div>
+    <div class="worldcup-bracket-grid">
+      ${knockout.map(match => {
+        const status = getWorldCupStatus(match);
+        const home = getPrimaryWorldCupTeam(match.home);
+        const away = getPrimaryWorldCupTeam(match.away);
+        const phase = getWorldCupPhaseLabel(match.group);
+        const scoreOrTime = match.homeScore != null && match.awayScore != null
+          ? `${match.homeScore} x ${match.awayScore}`
+          : `${formatWorldCupDate(match)} - ${formatWorldCupTime(match)}`;
+        const homeSeed = isWorldCupPlaceholderTeam(match.home) ? 'Classificado a definir' : 'Classificado';
+        const awaySeed = isWorldCupPlaceholderTeam(match.away) ? 'Classificado a definir' : 'Classificado';
+
+        return `
+          <article class="worldcup-bracket-match">
+            <span>${escapeHtml(phase)}</span>
+            <div class="worldcup-bracket-side">
+              <strong>${escapeHtml(home)}</strong>
+              <small>${escapeHtml(homeSeed)}</small>
+            </div>
+            <div class="worldcup-bracket-side">
+              <strong>${escapeHtml(away)}</strong>
+              <small>${escapeHtml(awaySeed)}</small>
+            </div>
+            <p class="worldcup-bracket-note">${escapeHtml(scoreOrTime)} · ${escapeHtml(status)} · ${escapeHtml(cleanText(match.venue || 'Sede a definir'))}</p>
+          </article>
+        `;
+      }).join('')}
+    </div>
+    <p class="worldcup-bracket-note">O chaveamento fica ativo para oitavas, quartas, semifinais, terceiro lugar e final. Confrontos a definir serão atualizados automaticamente quando a API liberar os classificados.</p>
+  `;
+
+  return true;
+}
+
 function renderWorldCupBracket(standings, sourceLabel){
   const container = document.getElementById('worldCupBracket');
   if(!container) return;
@@ -11597,6 +11871,14 @@ function renderWorldCupBracket(standings, sourceLabel){
 function renderWorldCupGroups(matches, sourceLabel = 'Atualizado automaticamente'){
   const updated = document.getElementById('worldCupGroupsUpdated');
   if(!updated) return;
+
+  if(renderWorldCupKnockoutBracket(matches, sourceLabel)){
+    updated.textContent = sourceLabel + ': ' + new Date().toLocaleTimeString('pt-BR', {
+      hour:'2-digit',
+      minute:'2-digit'
+    });
+    return;
+  }
 
   const standings = buildWorldCupGroupStandings(matches);
   renderWorldCupBracket(standings, sourceLabel);
@@ -12542,6 +12824,7 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   latestWorldCupSourceLabel = sourceLabel;
   const featuredMatches = getArenaStyleWorldCupMatches(normalizedMatches);
   renderWorldCupLiveCenter(normalizedMatches);
+  renderTodayCupSpotlight(normalizedMatches);
   if(groups){
     renderWorldCupGroups(normalizedMatches, sourceLabel);
   }
@@ -12577,7 +12860,7 @@ function renderWorldCupMatches(matches, sourceLabel = 'Tabela oficial da FIFA'){
   table.innerHTML = visibleMatches.map(match => {
     const status = getWorldCupStatus(match);
     const statusClass = status.toLowerCase().replace(/\s+/g, '-');
-    const groupLabel = match.group === 'Fase de grupos' ? match.group : `Grupo ${match.group}`;
+    const groupLabel = getWorldCupPhaseLabel(match.group);
 
     const homeFlag = flagForTeam(match.home, '32x24');
     const awayFlag = flagForTeam(match.away, '32x24');
@@ -12966,7 +13249,7 @@ function setupWorldCupStoryCard(){
     if(shareline){
       shareline.innerHTML = `
         <strong>${escapeHtml(getStoryVoteLabel(state.winner))}</strong>
-        <span>Vote na enquete e acompanhe a tendência da torcida em tempo real.</span>
+        <span>Acompanhe placar, tempo e principais lances em tempo real.</span>
       `;
     }
 
