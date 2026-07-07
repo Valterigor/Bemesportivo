@@ -8982,6 +8982,481 @@ color:#111 !important;
   }
 }
 
+/* Topo inspirado no modelo FIFA, com identidade Bem Esportivo */
+body{
+padding-top:0 !important;
+}
+
+.site-fifa-top.menu{
+position:sticky !important;
+top:0 !important;
+left:auto !important;
+width:100% !important;
+padding:0 !important;
+border:0 !important;
+background:transparent !important;
+box-shadow:none !important;
+z-index:1100 !important;
+}
+
+.site-utility-bar{
+display:grid !important;
+grid-template-columns:auto auto minmax(0,1fr) auto !important;
+align-items:center !important;
+gap:24px !important;
+min-height:50px !important;
+padding:0 48px !important;
+background:#075389 !important;
+color:#fff !important;
+}
+
+.site-menu-trigger{
+display:flex !important;
+order:0 !important;
+width:34px !important;
+height:34px !important;
+padding:0 !important;
+}
+
+.site-menu-trigger span{
+height:3px !important;
+background:#fff !important;
+}
+
+.site-wordmark img{
+width:auto !important;
+height:34px !important;
+object-fit:contain !important;
+filter:brightness(0) invert(1) !important;
+}
+
+.site-utility-links{
+display:flex !important;
+align-items:center !important;
+justify-content:flex-end !important;
+gap:32px !important;
+min-width:0 !important;
+}
+
+.site-utility-links a,
+.site-utility-actions a{
+color:#fff !important;
+font-size:14px !important;
+font-weight:800 !important;
+line-height:1 !important;
+text-decoration:none !important;
+white-space:nowrap !important;
+}
+
+.site-utility-actions{
+display:flex !important;
+align-items:center !important;
+gap:18px !important;
+padding-left:18px !important;
+border-left:2px solid rgba(255,255,255,.64) !important;
+}
+
+.site-event-nav{
+display:grid !important;
+grid-template-columns:auto minmax(0,1fr) !important;
+align-items:center !important;
+gap:36px !important;
+min-height:80px !important;
+padding:0 48px !important;
+background:#000 !important;
+color:#fff !important;
+}
+
+.site-event-brand{
+display:flex !important;
+align-items:center !important;
+gap:18px !important;
+min-width:0 !important;
+color:#fff !important;
+font-size:16px !important;
+font-weight:1000 !important;
+line-height:1.1 !important;
+text-decoration:none !important;
+text-transform:uppercase !important;
+white-space:nowrap !important;
+}
+
+.site-event-brand img{
+width:42px !important;
+height:58px !important;
+object-fit:contain !important;
+border-radius:8px !important;
+background:#fff !important;
+}
+
+.site-event-menu.nav-menu{
+position:static !important;
+display:flex !important;
+flex-direction:row !important;
+align-items:center !important;
+justify-content:flex-start !important;
+gap:36px !important;
+width:auto !important;
+padding:0 !important;
+border:0 !important;
+background:transparent !important;
+}
+
+.site-event-menu.nav-menu a{
+padding:0 !important;
+border:0 !important;
+color:#fff !important;
+font-size:20px !important;
+font-weight:850 !important;
+letter-spacing:0 !important;
+line-height:1 !important;
+text-transform:uppercase !important;
+}
+
+.site-event-menu.nav-menu a::after{
+display:none !important;
+}
+
+.site-event-menu.nav-menu a.active,
+.site-event-menu.nav-menu a:hover,
+.site-utility-links a:hover,
+.site-utility-actions a:hover{
+color:var(--primary) !important;
+}
+
+.fifa-model-hero.sports-dashboard-hero{
+display:block !important;
+padding:38px 48px !important;
+background:#f1f1f1 !important;
+color:#fff !important;
+}
+
+.fifa-model-hero::before{
+display:none !important;
+}
+
+.fifa-feature-card{
+position:relative !important;
+display:grid !important;
+grid-template-columns:minmax(320px,.98fr) minmax(360px,.72fr) 210px !important;
+align-items:stretch !important;
+max-width:1700px !important;
+min-height:560px !important;
+margin:0 auto !important;
+background:#000 !important;
+overflow:hidden !important;
+}
+
+.fifa-feature-copy{
+display:grid !important;
+align-content:center !important;
+gap:22px !important;
+padding:64px 60px !important;
+min-width:0 !important;
+}
+
+.fifa-feature-copy span{
+color:#fff !important;
+font-size:24px !important;
+font-weight:750 !important;
+}
+
+.fifa-feature-copy h1{
+max-width:760px !important;
+margin:0 !important;
+color:#fff !important;
+font-size:clamp(38px,4.2vw,64px) !important;
+font-weight:760 !important;
+line-height:1.16 !important;
+letter-spacing:0 !important;
+}
+
+.fifa-feature-copy p{
+max-width:760px !important;
+margin:0 !important;
+color:#fff !important;
+font-size:20px !important;
+font-weight:760 !important;
+line-height:1.45 !important;
+}
+
+.fifa-feature-copy a{
+display:inline-flex !important;
+align-items:center !important;
+justify-content:center !important;
+justify-self:start !important;
+min-height:58px !important;
+margin-top:26px !important;
+padding:0 26px !important;
+border-radius:999px !important;
+background:#fff !important;
+color:#000 !important;
+font-size:18px !important;
+font-weight:850 !important;
+text-decoration:none !important;
+}
+
+.fifa-feature-media{
+position:relative !important;
+min-width:0 !important;
+min-height:100% !important;
+margin:0 !important;
+background:#111 !important;
+}
+
+.fifa-feature-media img{
+width:100% !important;
+height:100% !important;
+min-height:560px !important;
+object-fit:cover !important;
+object-position:center !important;
+}
+
+.fifa-feature-side{
+display:grid !important;
+align-content:end !important;
+gap:12px !important;
+min-width:0 !important;
+padding:0 0 28px !important;
+background:#000 !important;
+color:#fff !important;
+}
+
+.fifa-feature-side > span,
+.fifa-feature-side > strong{
+display:block !important;
+padding:0 10px !important;
+color:#fff !important;
+font-size:20px !important;
+font-weight:850 !important;
+line-height:1.2 !important;
+}
+
+.fifa-feature-side > strong{
+font-size:18px !important;
+}
+
+.fifa-feature-side > a{
+display:inline-flex !important;
+align-items:center !important;
+justify-content:center !important;
+min-height:42px !important;
+margin:0 10px !important;
+border-radius:999px !important;
+background:#fff !important;
+color:#000 !important;
+font-size:13px !important;
+font-weight:950 !important;
+text-decoration:none !important;
+}
+
+.fifa-feature-side .live-center-list{
+display:grid !important;
+gap:8px !important;
+padding:0 10px !important;
+}
+
+.fifa-feature-side .live-center-empty{
+display:none !important;
+}
+
+.fifa-feature-side .live-center-row{
+display:grid !important;
+grid-template-columns:1fr !important;
+gap:8px !important;
+padding:10px !important;
+border:0 !important;
+border-radius:0 !important;
+background:#141414 !important;
+box-shadow:none !important;
+}
+
+.fifa-feature-side .live-team{
+display:flex !important;
+justify-content:space-between !important;
+gap:8px !important;
+}
+
+.fifa-feature-side .live-team strong,
+.fifa-feature-side .live-center-row small{
+color:#fff !important;
+font-size:12px !important;
+font-weight:850 !important;
+}
+
+.fifa-feature-side .live-score-stack{
+display:flex !important;
+align-items:center !important;
+justify-content:space-between !important;
+gap:8px !important;
+padding:8px !important;
+background:#fff !important;
+color:#000 !important;
+}
+
+.fifa-feature-side .live-score-stack strong,
+.fifa-feature-side .live-score-stack span{
+color:#000 !important;
+font-weight:1000 !important;
+}
+
+.fifa-feature-side .live-tv-badge{
+display:none !important;
+}
+
+@media (max-width:1180px){
+  .site-utility-bar,
+  .site-event-nav{
+    padding-left:24px !important;
+    padding-right:24px !important;
+  }
+
+  .site-utility-links{
+    display:none !important;
+  }
+
+  .site-utility-bar{
+    grid-template-columns:auto auto 1fr !important;
+  }
+
+  .site-utility-actions{
+    justify-self:end !important;
+  }
+
+  .site-event-nav{
+    grid-template-columns:1fr !important;
+    gap:16px !important;
+    padding-top:14px !important;
+    padding-bottom:14px !important;
+  }
+
+  .site-event-menu.nav-menu{
+    flex-wrap:wrap !important;
+    gap:18px 26px !important;
+  }
+
+  .site-event-menu.nav-menu a{
+    font-size:16px !important;
+  }
+
+  .fifa-model-hero.sports-dashboard-hero{
+    padding:26px 24px !important;
+  }
+
+  .fifa-feature-card{
+    grid-template-columns:minmax(0,1fr) minmax(320px,.86fr) !important;
+  }
+
+  .fifa-feature-side{
+    grid-column:1 / -1 !important;
+    grid-template-columns:minmax(160px,.35fr) minmax(0,1fr) auto !important;
+    align-items:center !important;
+    align-content:center !important;
+    padding:18px !important;
+  }
+
+  .fifa-feature-side .live-center-list{
+    padding:0 !important;
+  }
+}
+
+@media (max-width:768px){
+  .site-fifa-top.menu{
+    position:sticky !important;
+  }
+
+  .site-utility-bar{
+    grid-template-columns:auto 1fr auto !important;
+    gap:12px !important;
+    min-height:58px !important;
+    padding:0 16px !important;
+  }
+
+  .site-wordmark img{
+    height:30px !important;
+  }
+
+  .site-utility-actions a:not(:last-child){
+    display:none !important;
+  }
+
+  .site-utility-actions{
+    padding-left:0 !important;
+    border-left:0 !important;
+  }
+
+  .site-event-nav{
+    min-height:0 !important;
+    padding:12px 16px !important;
+  }
+
+  .site-event-brand{
+    gap:10px !important;
+    font-size:13px !important;
+    white-space:normal !important;
+  }
+
+  .site-event-brand img{
+    width:34px !important;
+    height:46px !important;
+  }
+
+  .site-event-menu.nav-menu{
+    display:none !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:0 !important;
+    padding-top:12px !important;
+  }
+
+  .site-event-menu.nav-menu.active{
+    display:flex !important;
+  }
+
+  .site-event-menu.nav-menu a{
+    min-height:42px !important;
+    display:flex !important;
+    align-items:center !important;
+    border-top:1px solid rgba(255,255,255,.14) !important;
+    font-size:14px !important;
+  }
+
+  .fifa-model-hero.sports-dashboard-hero{
+    padding:18px 0 !important;
+  }
+
+  .fifa-feature-card{
+    grid-template-columns:1fr !important;
+    min-height:0 !important;
+    width:100% !important;
+  }
+
+  .fifa-feature-copy{
+    padding:34px 22px !important;
+  }
+
+  .fifa-feature-copy span{
+    font-size:18px !important;
+  }
+
+  .fifa-feature-copy h1{
+    font-size:clamp(32px,10vw,44px) !important;
+  }
+
+  .fifa-feature-copy p{
+    font-size:16px !important;
+  }
+
+  .fifa-feature-media img{
+    min-height:300px !important;
+  }
+
+  .fifa-feature-side{
+    grid-template-columns:1fr !important;
+    padding:18px 12px 22px !important;
+  }
+}
+
 @media (max-width:820px){
   .dashboard-main-card{
     grid-template-columns:1fr !important;
@@ -9026,33 +9501,48 @@ color:#111 !important;
 
 <body>
 
-<header class="menu" id="topo">
-<div class="menu-content">
-<a class='logo' href='/'>
-<img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
-</a>
-
-<nav id="nav" class="nav-menu" aria-label="Menu principal">
-<a href='/' class="active">Início</a>
-<a href='/app'>App</a>
-<a href='/profissionais'>Profissionais</a>
-<a href='/produtos'>Produtos</a>
-<a href='/escalacao'>Escalação</a>
-<a href='/reportagens'>Reportagens</a>
-<a href='/#reportagens-home'>Comunidade</a>
-<a href='/beplay'>BEplay</a>
-<a href='/coluna-valtinho'>Fala aí Valtinho</a>
-</nav>
-
-<div class="menu-actions">
-<a href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer" class="btn-contato">Entre em contato</a>
-</div>
-
-<button id="menu-toggle" class="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">
+<header class="menu site-fifa-top" id="topo">
+<div class="site-utility-bar">
+<button id="menu-toggle" class="menu-btn site-menu-trigger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">
 <span></span>
 <span></span>
 <span></span>
 </button>
+
+<a class='logo site-wordmark' href='/'>
+<img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
+</a>
+
+<nav class="site-utility-links" aria-label="Links rápidos">
+<a href="/app">App Bem Esportivo</a>
+<a href="/profissionais">Profissionais</a>
+<a href="/produtos">Produtos</a>
+<a href="/beplay">BEplay</a>
+</nav>
+
+<div class="site-utility-actions" aria-label="Ações do site">
+<a href="/contato">Português</a>
+<a href="#reportagens-home" aria-label="Buscar notícias">Buscar</a>
+<a href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer" aria-label="Entrar em contato">Contato</a>
+</div>
+</div>
+
+<div class="site-event-nav">
+<a class="site-event-brand" href="#worldcup" data-copa-shortcut="jogos">
+<img src="img/logobemoficial.png" alt="">
+<span>Copa do Mundo 2026 no Bem Esportivo</span>
+</a>
+
+<nav id="nav" class="nav-menu site-event-menu" aria-label="Menu principal">
+<a href='/' class="active">Início</a>
+<a href="#worldcup" data-copa-shortcut="jogos">Partidas</a>
+<a href="#worldCupGroupsTitle" data-copa-shortcut="grupos">Chaveamento</a>
+<a href="/escalacao">Escalação</a>
+<a href="/reportagens">Notícias</a>
+<a href="/#reportagens-home">Comunidade</a>
+<a href="/coluna-valtinho">Fala aí Valtinho</a>
+</nav>
+</div>
 </header>
 
 <nav class="mobile-app-nav" aria-label="Navegação rápida mobile">
@@ -9064,35 +9554,22 @@ color:#111 !important;
 
 <main>
 
-<section class="sports-dashboard-hero" aria-labelledby="dashboardTitle">
-<div class="dashboard-shell">
-
-<div class="dashboard-grid">
-<article class="dashboard-main-card">
-<div class="dashboard-copy">
-<span class="dashboard-kicker">Copa do Mundo 2026 em primeiro plano</span>
-<h1 id="dashboardTitle">A Copa em tempo real, do jeito Bem Esportivo.</h1>
-<p>Jogos ao vivo, placares, agenda, estatísticas e notícias da Copa em uma central rápida, clara e feita para acompanhar cada rodada.</p>
-<div class="dashboard-trust-row" aria-label="Recursos em destaque">
-<a href="#worldcup" data-copa-shortcut="jogos">Placar ao vivo</a>
-<a href="#worldcup" data-copa-shortcut="jogos">Agenda</a>
-<a href="#worldcup" data-copa-shortcut="grupos">Chaveamento</a>
-</div>
-<div class="dashboard-actions">
-<a href="#worldcup">Ver jogos ao vivo</a>
-<a href="#worldcup">Ver central da Copa</a>
-</div>
+<section class="sports-dashboard-hero fifa-model-hero" aria-labelledby="dashboardTitle">
+<article class="fifa-feature-card">
+<div class="fifa-feature-copy">
+<span>Em foco</span>
+<h1 id="dashboardTitle">A Copa em tempo real, com o olhar Bem Esportivo.</h1>
+<p>Placares ao vivo, jogos do dia, chaveamento do mata-mata e notícias para acompanhar cada rodada com clareza.</p>
+<a href="#worldcup" data-copa-shortcut="jogos">Ver partidas</a>
 </div>
 
-<div class="live-center-card" aria-labelledby="liveCenterTitle">
-<div class="match-card-head">
-<span id="liveCenterTitle"><i></i> Ao vivo hoje na Copa</span>
-<a href="#worldcup" aria-label="Ver todos os jogos da Copa">Todos</a>
-</div>
-<div class="live-center-hero">
-<span>Radar da rodada</span>
-<strong data-live-center-headline>Buscando sinal ao vivo</strong>
-</div>
+<figure class="fifa-feature-media">
+<img src="img/destaque-brasil-marrocos.png" alt="Destaque da Seleção Brasileira na Copa">
+</figure>
+
+<aside class="fifa-feature-side" aria-labelledby="liveCenterTitle">
+<span>Central</span>
+<strong id="liveCenterTitle" data-live-center-headline>Ao vivo na Copa</strong>
 <div class="live-center-list" id="worldCupLiveCenter" aria-live="polite" aria-labelledby="liveCenterTitle">
 <article class="live-center-row">
 <div class="live-team is-home"><strong>Carregando</strong></div>
@@ -9100,14 +9577,13 @@ color:#111 !important;
 <strong>-- - --</strong>
 <span>Copa do Mundo 2026</span>
 </div>
-<div class="live-team is-away"><strong>jogos da Copa</strong></div>
-<small>Buscando jogos ao vivo de hoje...</small>
+<div class="live-team is-away"><strong>jogos</strong></div>
+<small>Buscando partidas em tempo real...</small>
 </article>
 </div>
-</div>
+<a href="#worldCupGroupsTitle" data-copa-shortcut="grupos">Ver chaveamento</a>
+</aside>
 </article>
-</div>
-</div>
 </section>
 
 <section class="banner-carousel">
