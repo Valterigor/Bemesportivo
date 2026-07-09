@@ -1,0 +1,172 @@
+body.reportagens-page {
+  background: #ffffff !important;
+  padding-top: 0 !important;
+}
+
+.reportagens-page .menu {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50 !important;
+}
+
+.reportagens-page .menu-content {
+  overflow: hidden !important;
+}
+
+.reportagens-page .nav-menu {
+  position: static !important;
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  width: auto !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  scrollbar-width: none !important;
+}
+
+.reportagens-page .nav-menu::-webkit-scrollbar {
+  display: none !important;
+}
+
+.reportagens-page .nav-menu a {
+  flex: 0 0 auto !important;
+}
+
+.reportagens-page .menu-actions,
+.reportagens-page .menu-btn,
+.reportagens-page #menu-toggle {
+  display: none !important;
+}
+
+.reportagens-page .page-hero {
+  width: min(calc(100% - 32px), 1180px);
+  margin: clamp(22px, 4vw, 42px) auto 0;
+  padding: clamp(42px, 7vw, 76px);
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, #111111, #181818 70%, #2a1607) !important;
+  text-align: left;
+  box-shadow: 0 18px 52px rgba(17, 17, 17, .12);
+}
+
+.reportagens-page .page-hero h1 {
+  color: #ffffff !important;
+}
+
+.reportagens-page .page-hero p {
+  max-width: 760px;
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, .78) !important;
+  font-size: clamp(16px, 2vw, 20px);
+}
+
+.reportagens-page main {
+  width: min(calc(100% - 32px), 1120px) !important;
+  display: grid;
+  gap: clamp(22px, 4vw, 38px);
+  padding-top: clamp(28px, 5vw, 54px) !important;
+}
+
+.reportagens-page .report-card {
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  gap: 0;
+  align-items: start;
+  margin: 0;
+  border: 1px solid #e9e9e9 !important;
+  border-radius: 24px !important;
+  background: #ffffff !important;
+  box-shadow: 0 14px 36px rgba(17, 17, 17, .08) !important;
+}
+
+.reportagens-page .report-cover {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: var(--report-cover-position, center center);
+  align-self: start;
+  background: #f2f2f2;
+}
+
+.reportagens-page .report-card:first-of-type .report-cover {
+  --report-cover-position: center 38%;
+}
+
+.reportagens-page #duda-e-o-futebol .report-cover {
+  --report-cover-position: center 28%;
+}
+
+.reportagens-page .report-body {
+  padding: clamp(22px, 4vw, 42px);
+}
+
+.reportagens-page .report-body h2 {
+  color: #111111 !important;
+  letter-spacing: 0;
+}
+
+.reportagens-page .report-body p {
+  color: #4f4f4f !important;
+}
+
+.reportagens-page .meta {
+  color: #737373 !important;
+}
+
+.reportagens-page .report-image,
+.reportagens-page .video-container,
+.reportagens-page .report-comments {
+  border-radius: 14px;
+}
+
+.reportagens-page .report-comments {
+  background: #f7f7f7 !important;
+  border-color: #e9e9e9 !important;
+}
+
+.reportagens-page .report-comments h3,
+.reportagens-page .report-comment strong {
+  color: #111111 !important;
+}
+
+.reportagens-page .report-comment {
+  background: #ffffff !important;
+  border-color: #e9e9e9 !important;
+}
+
+@media (max-width: 860px) {
+  .reportagens-page .page-hero {
+    width: min(calc(100% - 24px), 720px);
+    padding: 30px 22px;
+    border-radius: 22px;
+  }
+
+  .reportagens-page main {
+    width: min(calc(100% - 24px), 720px) !important;
+  }
+
+  .reportagens-page .report-card {
+    grid-template-columns: 1fr;
+  }
+
+  .reportagens-page .report-cover {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 520px) {
+  .reportagens-page .report-cover {
+    aspect-ratio: 1 / .78;
+  }
+}

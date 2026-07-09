@@ -513,6 +513,31 @@ body:not(.beplay-page) .hero:not(.shell):not(.sports-dashboard-hero):not(.app-he
   }
 }
 
+/* Shared quality layer */
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 3px solid rgba(255, 106, 0, .55);
+  outline-offset: 3px;
+}
+
+:where(.story-media, .video-thumb, .report-cover, .report-image, .card-cover, .produto-img) img {
+  background: #f5f5f5;
+}
+
+:where(.story-card, .video-card, .report-card, .produto-card, .professional-card, .card) {
+  contain: layout paint;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+
 /* Anti-overlap guard: legacy pages had absolute mobile dropdown menus. */
 body > header:not(.topbar) > nav,
 .menu nav,
