@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -337,15 +337,15 @@ main {
 <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
 </a>
 <nav id="menu" class="nav-menu" aria-label="Menu principal">
-<a href="/">Início</a>
-<a href="/profissionais">Profissionais</a>
-<a href="/produtos">Produtos</a>
-<a href="/escalacao">Escalação</a>
-<a href="/reportagens" class="active">Reportagens</a>
-<a href="/#reportagens-home">Comunidade</a>
-<a href="/beplay">BEplay</a>
-<a href="/coluna-valtinho">Fala aí Valtinho</a>
-</nav>
+<a href="index.html">Inicio</a>
+<a href="index.html#jogos">Partidas</a>
+<a href="index.html#posts">Posts</a>
+<a href="Reportagens.html" class="active">Reportagens</a>
+<a href="coluna-valtinho.html">Fala bem</a>
+<a href="index.html#treinos">Treinos</a>
+<a href="beplay.html">Beplay</a>
+<a href="profissionais.html">Profissionais</a>
+<a href="produtos.html">Produtos</a></nav>
 <div class="menu-actions">
 <a href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer" class="btn-contato">Entre em contato</a>
 </div>
@@ -379,8 +379,9 @@ main {
 <p>Para os próximos passos, a recomendação é manter regularidade, ampliar a vivência em jogos reduzidos e trabalhar fundamentos com os dois pés. A formação de um jovem jogador raramente acontece por salto; ela acontece por acúmulo, treino após treino, com orientação responsável e metas compatíveis com a idade.</p>
 <img class="report-image" src="img/IMG_0905.jpg" alt="Professor Bruno orientando alunos durante treino">
 <div class="video-container">
-<iframe src="https://www.youtube.com/embed/gBkon6LC2OU" title="Treino técnico e tático - Academia de Futebol Portela" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/gBkon6LC2OU?rel=0&modestbranding=1&playsinline=1" title="Treino técnico e tático - Academia de Futebol Portela" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
+<p><a class="btn" href="https://www.youtube.com/watch?v=gBkon6LC2OU" target="_blank" rel="noopener noreferrer">Assistir no YouTube</a></p>
 <section class="report-comments" data-report-comments="dedicacao-talento-mirim">
 <h3>Comentários da reportagem</h3>
 <form class="report-comment-form">
@@ -406,8 +407,9 @@ main {
 <p>O Bem Esportivo acompanha essa pauta porque a formação esportiva precisa ser contada com profundidade. Não basta registrar o gol ou o lance bonito; é preciso mostrar quem leva a atleta ao treino, quem orienta, quais barreiras aparecem e como a rotina molda comportamento. A reportagem esportiva ganha força quando aproxima o público das pessoas por trás da camisa.</p>
 <p>Para meninas que sonham com o futebol, a mensagem central é simples: constância importa. Treinar fundamentos, cuidar do corpo, estudar o jogo e buscar bons ambientes são passos que fortalecem qualquer trajetória. O talento abre portas, mas é a rotina que mantém a atleta preparada quando a oportunidade aparece.</p>
 <div class="video-container">
-<iframe src="https://www.youtube.com/embed/Qi1lRW18kvM" title="Duda e o Futebol" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/Qi1lRW18kvM?rel=0&modestbranding=1&playsinline=1" title="Duda e o Futebol" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
+<p><a class="btn" href="https://www.youtube.com/watch?v=Qi1lRW18kvM" target="_blank" rel="noopener noreferrer">Assistir no YouTube</a></p>
 <section class="report-comments" data-report-comments="duda-e-o-futebol">
 <h3>Comentários da reportagem</h3>
 <form class="report-comment-form">
@@ -483,14 +485,14 @@ function getReportClientId() {
 }
 
 async function reportCommunityRequest(path, options = {}) {
-  if (!REPORT_COMMUNITY_API) throw new Error("API comunitaria indisponivel.");
+  if (!REPORT_COMMUNITY_API) throw new Error("API comunitária indisponível.");
   const response = await fetch(`${REPORT_COMMUNITY_API}${path}`, {
     headers: { "Content-Type": "application/json", ...(options.headers || {}) },
     cache: "no-store",
     ...options
   });
   const payload = await response.json();
-  if (!response.ok || payload?.ok === false) throw new Error(payload?.error || "Falha na API comunitaria.");
+  if (!response.ok || payload?.ok === false) throw new Error(payload?.error || "Falha na API comunitária.");
   return payload;
 }
 

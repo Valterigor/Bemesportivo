@@ -1,0 +1,208 @@
+/**
+ * Main.css - Entry point para todos os estilos
+ * Importa módulos CSS organizados
+ */
+
+@import './variables.css';
+@import './base.css';
+@import './layout.css';
+@import './components.css';
+@import './responsive.css';
+
+/* ======================================================
+   CUSTOM STYLES (Site-Specific)
+   Coloque estilos específicos do seu site abaixo
+====================================================== */
+
+/* Header/Nav */
+header {
+  background: var(--bg-dark);
+  border-bottom: 2px solid var(--color-primary);
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+}
+
+header img {
+  max-height: 70px;
+  width: auto;
+}
+
+#menu-toggle {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+nav {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+nav a {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  transition: color var(--transition-base);
+}
+
+nav a:hover {
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  #menu-toggle {
+    display: block;
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    background: var(--bg-soft);
+    position: absolute;
+    top: 75px;
+    right: var(--spacing-md);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    width: calc(100% - var(--spacing-xl));
+    box-shadow: var(--shadow-lg);
+  }
+
+  nav.show {
+    display: flex;
+  }
+}
+
+/* Hero section */
+.hero {
+  padding: var(--spacing-2xl) var(--spacing-md);
+  text-align: center;
+  background: linear-gradient(160deg, var(--bg-soft), var(--bg-dark));
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero h1 {
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Footer */
+footer {
+  background: var(--bg-soft);
+  border-top: 1px solid var(--bg-card);
+  padding: var(--spacing-2xl) var(--spacing-md);
+  margin-top: var(--spacing-2xl);
+  text-align: center;
+}
+
+/* Expandable content */
+.expandido {
+  max-height: none !important;
+}
+
+.texto-expandido {
+  max-height: 200px;
+  overflow: hidden;
+  transition: max-height var(--transition-base);
+}
+
+.leia-mais {
+  color: var(--color-primary);
+  cursor: pointer;
+  font-weight: var(--font-weight-bold);
+  margin-top: var(--spacing-md);
+  display: inline-block;
+}
+
+.leia-mais:hover {
+  opacity: 0.8;
+}
+
+/* Back to top button */
+#voltar-topo {
+  position: fixed;
+  bottom: var(--spacing-lg);
+  right: var(--spacing-lg);
+  width: 50px;
+  height: 50px;
+  background-color: var(--color-primary);
+  color: var(--bg-dark);
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-lg);
+}
+
+#voltar-topo:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 640px) {
+  #voltar-topo {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+  }
+}
+
+/* Scroll animations */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
+.animate-on-scroll.animated {
+  opacity: 1;
+}

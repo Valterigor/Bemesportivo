@@ -121,6 +121,70 @@ function getParams(event){
   return new URLSearchParams(event.queryStringParameters || {});
 }
 
+function normalizeScoreboardDates(value){
+  const dates = String(value || '').replace(/[^0-9-]/g, '').slice(0, 17);
+  return /^\d{8}(-\d{8})?$/.test(dates) ? dates : '';
+}
+
+function parseDateKey(key){
+  const year = Number(key.slice(0, 4));
+  const month = Number(key.slice(4, 6)) - 1;
+  const day = Number(key.slice(6, 8));
+  return new Date(Date.UTC(year, month, day, 12, 0, 0));
+}
+
+function formatDateKey(date){
+  return [
+    date.getUTCFullYear(),
+    String(date.getUTCMonth() + 1).padStart(2, '0'),
+    String(date.getUTCDate()).padStart(2, '0')
+  ].join('');
+}
+
+function enumerateDateKeys(dates){
+  const [startKey, endKey = startKey] = dates.split('-');
+  const start = parseDateKey(startKey);
+  const end = parseDateKey(endKey);
+  if(Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || start > end){
+    throw new Error('Intervalo de datas invalido.');
+  }
+
+  const keys = [];
+  const cursor = new Date(start);
+  while(cursor <= end && keys.length < 15){
+    keys.push(formatDateKey(cursor));
+    cursor.setUTCDate(cursor.getUTCDate() + 1);
+  }
+  return keys;
+}
+
+async function fetchWorldCupScoreboards(dates){
+  const keys = enumerateDateKeys(dates);
+  const payloads = await Promise.all(keys.map(dateKey => {
+    const url = `${ESPN_WORLD_CUP_SCOREBOARD_URL}?dates=${dateKey}&limit=100`;
+    return fetchJson(url).catch(error => ({ events: [], error: error.message, dateKey }));
+  }));
+
+  const merged = payloads[0] && typeof payloads[0] === 'object' ? {...payloads[0]} : {};
+  const eventsById = new Map();
+  payloads.forEach(payload => {
+    (payload.events || []).forEach(event => {
+      eventsById.set(String(event.id || `${event.date}-${event.name}`), event);
+    });
+  });
+
+  merged.events = Array.from(eventsById.values()).sort((a, b) => {
+    return new Date(a.date || 0) - new Date(b.date || 0);
+  });
+  merged.requestedDates = dates;
+  merged.requestedDateKeys = keys;
+  merged.partialErrors = payloads.filter(payload => payload.error).map(payload => ({
+    date: payload.dateKey,
+    error: payload.error
+  }));
+  return merged;
+}
+
 export async function handler(event){
   if(event.httpMethod === 'OPTIONS'){
     return {statusCode: 204, headers: corsHeaders, body: ''};
@@ -134,15 +198,14 @@ export async function handler(event){
   const params = getParams(event);
 
   if(route === 'scoreboard'){
-    const dates = String(params.get('dates') || '').replace(/[^0-9]/g, '').slice(0, 8);
-    if(!/^\d{8}$/.test(dates)){
-      return json(400, {ok: false, error: 'Data invalida. Use YYYYMMDD.'});
+    const dates = normalizeScoreboardDates(params.get('dates'));
+    if(!dates){
+      return json(400, {ok: false, error: 'Data invalida. Use YYYYMMDD ou YYYYMMDD-YYYYMMDD.'});
     }
 
     try{
       const payload = await cachedJson(`scoreboard:${dates}`, 5000, () => {
-        const url = `${ESPN_WORLD_CUP_SCOREBOARD_URL}?dates=${dates}&limit=100`;
-        return fetchJson(url);
+        return fetchWorldCupScoreboards(dates);
       });
       return json(200, payload, 5);
     }catch(error){

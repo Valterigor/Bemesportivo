@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="BEplay Premium reune videos esportivos, bastidores, treinos e historias do Bem Esportivo em uma experiencia mobile.">
+<meta name="description" content="BEplay Premium reúne vídeos esportivos, bastidores, treinos e histórias do Bem Esportivo em uma experiência mobile.">
 <meta name="robots" content="noindex, follow">
 <link rel="canonical" href="https://bemesportivo.com/beplay.html">
 <meta name="theme-color" content="#05070c">
@@ -68,15 +68,16 @@ img{display:block;max-width:100%}
   left:0;
   z-index:80;
   width:100%;
-  padding:calc(7px + var(--safe-top)) 14px 7px;
-  border-bottom:2px solid #fc6e02;
-  background:#000;
-  box-shadow:0 4px 20px rgba(0,0,0,.5);
+  padding:calc(8px + var(--safe-top)) 16px 8px;
+  border-bottom:1px solid rgba(233,233,233,.9);
+  background:rgba(255,255,255,.92);
+  box-shadow:0 10px 32px rgba(17,17,17,.06);
+  backdrop-filter:blur(22px);
 }
 
 .site-menu-content{
-  width:min(100%, 1180px);
-  min-height:52px;
+  width:min(calc(100% - 24px), 1280px);
+  min-height:60px;
   margin:0 auto;
   display:flex;
   align-items:center;
@@ -100,38 +101,38 @@ img{display:block;max-width:100%}
   flex:1 1 auto;
   justify-content:center;
   align-items:center;
-  gap:22px;
+  gap:10px;
 }
 
 .site-nav a{
-  position:relative;
-  color:#fc6e02;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:0 14px;
+  border:1px solid #e9e9e9;
+  border-radius:999px;
+  background:#fff;
+  color:#111;
   font-size:13px;
-  font-weight:900;
-  letter-spacing:.04em;
-  text-transform:uppercase;
+  font-weight:850;
+  letter-spacing:0;
+  line-height:1;
+  text-transform:none;
+  white-space:nowrap;
   transition:.2s ease;
 }
 
 .site-nav a::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:-6px;
-  width:0;
-  height:2px;
-  background:#fc6e02;
-  transition:.2s ease;
+  display:none;
 }
 
 .site-nav a:hover,
 .site-nav a.is-active{
+  border-color:#111;
+  background:#111;
   color:#fff;
-}
-
-.site-nav a:hover::after,
-.site-nav a.is-active::after{
-  width:100%;
+  transform:translateY(-1px);
 }
 
 .site-contact{
@@ -139,22 +140,23 @@ img{display:block;max-width:100%}
   display:inline-grid;
   place-items:center;
   min-height:40px;
-  padding:10px 18px;
+  padding:0 16px;
+  border:1px solid #e9e9e9;
   border-radius:999px;
   background:#fc6e02;
   color:#000;
-  font-size:12px;
+  font-size:13px;
   font-weight:900;
-  text-transform:uppercase;
+  text-transform:none;
 }
 
 .site-menu-btn{
   display:none;
   width:42px;
   height:42px;
-  border:1px solid rgba(252,110,2,.38);
-  border-radius:8px;
-  background:transparent;
+  border:1px solid #e9e9e9;
+  border-radius:50%;
+  background:#fff;
   place-items:center;
   padding:0;
 }
@@ -165,18 +167,18 @@ img{display:block;max-width:100%}
   height:2px;
   margin:3px auto;
   border-radius:999px;
-  background:#fc6e02;
+  background:#111;
 }
 
 .app-shell{
   width:min(100%, 760px);
   margin:0 auto;
-  padding:calc(176px + var(--safe-top)) 12px 24px;
+  padding:calc(192px + var(--safe-top)) 12px 24px;
 }
 
 .topbar{
   position:fixed;
-  top:calc(66px + var(--safe-top));
+  top:calc(82px + var(--safe-top));
   left:50%;
   transform:translateX(-50%);
   z-index:40;
@@ -307,6 +309,52 @@ img{display:block;max-width:100%}
   height:100%;
   border:0;
   display:block;
+}
+
+.video-frame iframe[hidden]{
+  display:none;
+}
+
+.video-placeholder{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  background:#05070c center/cover;
+}
+
+.video-placeholder::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.78));
+}
+
+.video-placeholder-content{
+  position:relative;
+  z-index:1;
+  display:grid;
+  justify-items:center;
+  gap:12px;
+  max-width:420px;
+  text-align:center;
+}
+
+.video-placeholder-content strong{
+  font-size:clamp(20px,5vw,30px);
+  line-height:1;
+}
+
+.video-play-button{
+  min-height:54px;
+  padding:0 22px;
+  border:0;
+  border-radius:999px;
+  background:linear-gradient(135deg,var(--green),var(--blue));
+  color:#07100d;
+  font-weight:1000;
+  text-transform:uppercase;
 }
 
 .video-meta{
@@ -590,7 +638,7 @@ img{display:block;max-width:100%}
   }
 
   .site-menu-btn{
-    display:grid;
+    display:flex;
   }
 
   .site-contact{
@@ -603,28 +651,26 @@ img{display:block;max-width:100%}
     right:10px;
     top:calc(100% + 8px);
     display:none;
-    grid-template-columns:1fr;
-    gap:0;
-    padding:8px;
-    border:1px solid rgba(252,110,2,.24);
-    border-radius:8px;
-    background:#05070c;
-    box-shadow:0 18px 40px rgba(0,0,0,.38);
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    padding:12px;
+    border:1px solid #e9e9e9;
+    border-radius:24px;
+    background:rgba(255,255,255,.98);
+    box-shadow:0 14px 36px rgba(17,17,17,.08);
   }
 
   .site-nav.is-open{
-    display:grid;
+    display:flex;
   }
 
   .site-nav a{
     min-height:42px;
     display:flex;
     align-items:center;
-    border-bottom:1px solid rgba(255,255,255,.08);
-  }
-
-  .site-nav a:last-child{
-    border-bottom:0;
+    justify-content:flex-start;
+    width:100%;
   }
 
   .site-nav a::after{
@@ -656,6 +702,7 @@ img{display:block;max-width:100%}
   .related-card{grid-template-columns:92px 1fr;gap:8px}
 }
 </style>
+<link rel="stylesheet" href="site-common.css">
 </head>
 <body>
 <header class="site-menu" id="topo">
@@ -664,14 +711,15 @@ img{display:block;max-width:100%}
       <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
     </a>
     <nav id="siteNav" class="site-nav" aria-label="Menu principal">
-      <a href="/">Inicio</a>
-      <a href="/profissionais">Profissionais</a>
-      <a href="/produtos">Produtos</a>
-      <a href="/escalacao">Escalacao</a>
-      <a href="/reportagens">Reportagens</a>
-      <a class="is-active" href="/beplay">Beplay</a>
-      <a href="/coluna-valtinho">Fala ai Valtinho</a>
-    </nav>
+<a href="index.html">Inicio</a>
+<a href="index.html#jogos">Partidas</a>
+<a href="index.html#posts">Posts</a>
+<a href="Reportagens.html">Reportagens</a>
+<a href="coluna-valtinho.html">Fala bem</a>
+<a href="index.html#treinos">Treinos</a>
+<a href="beplay.html">Beplay</a>
+<a href="profissionais.html">Profissionais</a>
+<a href="produtos.html">Produtos</a></nav>
     <a class="site-contact" href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer">Entre em contato</a>
     <button class="site-menu-btn" id="siteMenuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="siteNav">
       <span></span>
@@ -685,16 +733,16 @@ img{display:block;max-width:100%}
   <div class="topline">
     <div class="brand-kicker">
       <span>Bem Esportivo</span>
-      <strong>Plataforma de Videos</strong>
+      <strong>Plataforma de Vídeos</strong>
     </div>
     <div class="round-stats" aria-label="Resumo da rodada">
       <div class="round-pill"><strong id="todayDay">--</strong><span>Hoje</span></div>
-      <div class="round-pill"><strong id="videoCount">4</strong><span>Videos</span></div>
+      <div class="round-pill"><strong id="videoCount">3</strong><span>Vídeos</span></div>
     </div>
   </div>
   <nav class="topnav" aria-label="Navegacao principal">
     <a class="is-active" href="#inicio">Inicio</a>
-    <a href="#videos">Videos</a>
+    <a href="#videos">Vídeos</a>
     <a href="#relatedVideos">Playlist</a>
     <a href="#perfil">Perfil</a>
   </nav>
@@ -703,19 +751,25 @@ img{display:block;max-width:100%}
 <main class="app-shell" id="inicio">
   <section class="section player-panel panel" id="videos" aria-labelledby="videoTitle">
     <div class="video-frame">
-      <iframe id="youtubePlayer" title="Denilson Show mandou aquele recado" src="https://www.youtube.com/embed/L7iAVQREuJA?rel=0&modestbranding=1" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+      <div class="video-placeholder" id="videoPlaceholder" style="background-image:url('https://img.youtube.com/vi/gBkon6LC2OU/hqdefault.jpg')">
+        <div class="video-placeholder-content">
+          <strong id="videoPlaceholderTitle">Treino técnico e tático</strong>
+          <button class="video-play-button" type="button" id="playInlineVideo">Assistir no site</button>
+        </div>
+      </div>
+      <iframe id="youtubePlayer" title="Treino técnico e tático" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen hidden></iframe>
     </div>
     <div class="video-meta">
-      <h1 id="videoTitle">Denilson Show mandou aquele recado</h1>
+      <h1 id="videoTitle">Treino técnico e tático</h1>
       <div class="video-facts">
-        <span id="videoDuration">8min 42s</span>
-        <span id="videoViews">12 mil visualizacoes</span>
-        <span id="videoDate">Publicado hoje</span>
+        <span id="videoDuration">6min 18s</span>
+        <span id="videoViews">8,7 mil visualizações</span>
+        <span id="videoDate">Publicado ontem</span>
       </div>
-      <p id="videoDescription">Um recado especial para quem acompanha o Bem Esportivo.</p>
+      <p id="videoDescription">Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.</p>
       <div class="primary-actions">
         <button class="action-btn" type="button" id="watchOnSite">Assistir no site</button>
-        <a class="action-btn secondary" id="watchOnYoutube" href="https://www.youtube.com/watch?v=L7iAVQREuJA" target="_blank" rel="noopener noreferrer">Assistir no YouTube</a>
+        <a class="action-btn secondary" id="watchOnYoutube" href="https://www.youtube.com/watch?v=gBkon6LC2OU" target="_blank" rel="noopener noreferrer">Assistir no YouTube</a>
         <button class="action-btn secondary" type="button" id="shareVideo">Compartilhar</button>
         <button class="action-btn secondary" type="button" id="saveVideo">Salvar</button>
       </div>
@@ -725,42 +779,42 @@ img{display:block;max-width:100%}
   <div class="content-grid">
     <section class="section panel" id="resumo" aria-labelledby="summaryTitle">
       <div class="summary-grid">
-        <div class="summary-item"><span>Categoria</span><strong id="summaryCategory">BEplay</strong></div>
-        <div class="summary-item"><span>Destaque</span><strong id="summaryHighlight">Recado especial</strong></div>
-        <div class="summary-item"><span>Tema</span><strong id="summaryContent">Bastidores e historias do esporte</strong></div>
-        <div class="summary-item"><span>Playlist</span><strong>Continue assistindo aos videos relacionados</strong></div>
+        <div class="summary-item"><span>Categoria</span><strong id="summaryCategory">Treino</strong></div>
+        <div class="summary-item"><span>Destaque</span><strong id="summaryHighlight">Evolução de jogo</strong></div>
+        <div class="summary-item"><span>Tema</span><strong id="summaryContent">Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.</strong></div>
+        <div class="summary-item"><span>Playlist</span><strong>Continue assistindo aos vídeos relacionados</strong></div>
       </div>
     </section>
   </div>
 
   <section class="section panel" id="opinioes" aria-labelledby="opinionsTitle">
     <div class="section-title" style="padding:10px 10px 0">
-      <h2 id="opinionsTitle">Opinioes do video</h2>
+      <h2 id="opinionsTitle">Opiniões do vídeo</h2>
       <span>participe</span>
     </div>
-    <div class="video-feedback" aria-label="Avaliacao do video">
+    <div class="video-feedback" aria-label="Avaliação do vídeo">
       <button class="feedback-btn" type="button" data-video-reaction="like">Gostei <span id="likeCount">0</span></button>
-      <button class="feedback-btn" type="button" data-video-reaction="dislike">Nao gostei <span id="dislikeCount">0</span></button>
+      <button class="feedback-btn" type="button" data-video-reaction="dislike">Não gostei <span id="dislikeCount">0</span></button>
     </div>
   </section>
 
   <section class="section panel" aria-labelledby="relatedTitle">
     <div class="related-list" id="relatedVideos">
-      <div class="section-title"><h2 id="relatedTitle">Videos relacionados</h2><span>continue assistindo</span></div>
+      <div class="section-title"><h2 id="relatedTitle">Vídeos relacionados</h2><span>continue assistindo</span></div>
     </div>
   </section>
 
   <section class="section panel" id="perfil" aria-labelledby="profileTitle">
     <div class="summary-grid">
-      <div class="summary-item"><span id="profileTitle">Perfil</span><strong id="profileSaved">Nenhum video salvo ainda</strong></div>
-      <div class="summary-item"><span>Historico</span><strong id="profileActions">Salve videos para montar sua lista de acompanhamento.</strong></div>
+      <div class="summary-item"><span id="profileTitle">Perfil</span><strong id="profileSaved">Nenhum vídeo salvo ainda</strong></div>
+      <div class="summary-item"><span>Histórico</span><strong id="profileActions">Salve vídeos para montar sua lista de acompanhamento.</strong></div>
     </div>
   </section>
 </main>
 
 <nav class="retention-dock" aria-label="Atalhos durante a reproducao">
   <a href="#inicio">Player</a>
-  <a href="#relatedVideos">Sugestoes</a>
+  <a href="#relatedVideos">Sugestões</a>
   <a href="#perfil">Salvos</a>
 </nav>
 
@@ -768,10 +822,9 @@ img{display:block;max-width:100%}
 
 <script>
 const videos=[
-  {id:'L7iAVQREuJA',title:'Denilson Show mandou aquele recado',duration:'8min 42s',views:'12 mil visualizacoes',date:'Publicado hoje',category:'BEplay',highlight:'Recado especial',desc:'Um recado especial para quem acompanha o Bem Esportivo.'},
-  {id:'gBkon6LC2OU',title:'Treino tecnico e tatico',duration:'6min 18s',views:'8,7 mil visualizacoes',date:'Publicado ontem',category:'Treino',highlight:'Evolucao de jogo',desc:'Leitura de jogo, ocupacao de espacos e ajustes tecnicos para evoluir em campo.'},
-  {id:'Qi1lRW18kvM',title:'Duda e o futebol',duration:'5min 02s',views:'6,1 mil visualizacoes',date:'Publicado nesta semana',category:'Historia',highlight:'Trajetoria no futebol',desc:'Historia, bastidor e inspiracao para quem acompanha o futebol por dentro.'},
-  {id:'dYiX4fvxGG8',title:'Futebol e areia',duration:'7min 33s',views:'9,4 mil visualizacoes',date:'Publicado nesta semana',category:'Performance',highlight:'Modalidades e preparo',desc:'A importancia de diferentes modalidades na evolucao fisica e tecnica.'}
+  {id:'gBkon6LC2OU',title:'Treino técnico e tático',duration:'6min 18s',views:'8,7 mil visualizações',date:'Publicado ontem',category:'Treino',highlight:'Evolução de jogo',desc:'Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.'},
+  {id:'Qi1lRW18kvM',title:'Duda e o futebol',duration:'5min 02s',views:'6,1 mil visualizações',date:'Publicado nesta semana',category:'História',highlight:'Trajetória no futebol',desc:'História, bastidor e inspiração para quem acompanha o futebol por dentro.'},
+  {id:'dYiX4fvxGG8',title:'Futebol e areia',duration:'7min 33s',views:'9,4 mil visualizações',date:'Publicado nesta semana',category:'Performance',highlight:'Modalidades e preparo',desc:'A importância de diferentes modalidades na evolução física e técnica.'}
 ];
 
 let currentVideo=videos[0];
@@ -807,7 +860,7 @@ function getClientId(){
 }
 
 async function communityRequest(path, options={}){
-  if(!COMMUNITY_ROOT) throw new Error('API indisponivel em arquivo local.');
+  if(!COMMUNITY_ROOT) throw new Error('API indisponível em arquivo local.');
   const response=await fetch(`${COMMUNITY_ROOT}${path}`,{
     headers:{'Content-Type':'application/json',...(options.headers||{})},
     cache:'no-store',
@@ -822,18 +875,47 @@ function getVideoReactionPollId(video=currentVideo){
   return `beplay-reaction-${video.id}`.toLowerCase();
 }
 
+function getYoutubeEmbedUrl(video, autoplay=false){
+  const params=new URLSearchParams({
+    rel:'0',
+    modestbranding:'1',
+    playsinline:'1'
+  });
+  if(autoplay) params.set('autoplay','1');
+  return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(video.id)}?${params.toString()}`;
+}
+
+function updateVideoPlaceholder(video){
+  const placeholder=document.getElementById('videoPlaceholder');
+  const placeholderTitle=document.getElementById('videoPlaceholderTitle');
+  const iframe=document.getElementById('youtubePlayer');
+  placeholder.style.backgroundImage=`url('https://img.youtube.com/vi/${video.id}/hqdefault.jpg')`;
+  placeholder.hidden=false;
+  placeholderTitle.textContent=video.title;
+  iframe.hidden=true;
+  iframe.src='about:blank';
+}
+
+function playCurrentVideo(){
+  const player=document.getElementById('youtubePlayer');
+  const placeholder=document.getElementById('videoPlaceholder');
+  player.src=getYoutubeEmbedUrl(currentVideo,true);
+  player.hidden=false;
+  placeholder.hidden=true;
+  player.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
 function setVideo(video){
   currentVideo=video;
-  const iframe=document.getElementById('youtubePlayer');
-  iframe.src=`https://www.youtube.com/embed/${video.id}?rel=0&modestbranding=1`;
-  iframe.title=video.title;
+  document.getElementById('youtubePlayer').title=video.title;
+  updateVideoPlaceholder(video);
   document.getElementById('videoTitle').textContent=video.title;
   document.getElementById('videoDuration').textContent=video.duration;
   document.getElementById('videoViews').textContent=video.views;
   document.getElementById('videoDate').textContent=video.date;
   document.getElementById('videoDescription').textContent=video.desc;
   document.getElementById('summaryCategory').textContent=video.category || 'BEplay';
-  document.getElementById('summaryHighlight').textContent=video.highlight || 'Video em destaque';
+  document.getElementById('summaryHighlight').textContent=video.highlight || 'Vídeo em destaque';
   document.getElementById('summaryContent').textContent=video.desc;
   document.getElementById('watchOnYoutube').href=`https://www.youtube.com/watch?v=${video.id}`;
   document.getElementById('inicio').scrollIntoView({behavior:'smooth',block:'start'});
@@ -857,11 +939,12 @@ function renderRelated(){
         <button type="button">Assistir</button>
       </div>
     `;
-    card.querySelector('button').addEventListener('click',()=>{setVideo(video);renderRelated();});
+    card.querySelector('button').addEventListener('click',()=>{setVideo(video);renderRelated();playCurrentVideo();});
     card.addEventListener('click',event=>{
       if(event.target.closest('button')) return;
       setVideo(video);
       renderRelated();
+      playCurrentVideo();
     });
     container.appendChild(card);
   });
@@ -905,16 +988,21 @@ document.querySelectorAll('[data-video-reaction]').forEach(button=>{
       });
       localStorage.setItem(`${pollId}:choice`, choiceId);
       renderReactions(payload.vote?.totals || {}, choiceId);
-      showToast(choiceId==='like' ? 'Voce gostou deste video' : 'Opiniao registrada');
+      showToast(choiceId==='like' ? 'Você gostou deste vídeo' : 'Opinião registrada');
     }catch(error){
-      showToast('Servidor de opinioes indisponivel');
+      showToast('Servidor de opiniões indisponível');
     }
   });
 });
 
 document.getElementById('watchOnSite').addEventListener('click',()=>{
-  document.getElementById('youtubePlayer').scrollIntoView({behavior:'smooth',block:'center'});
-  showToast('Video pronto para assistir');
+  playCurrentVideo();
+  showToast('Vídeo pronto para assistir');
+});
+
+document.getElementById('playInlineVideo').addEventListener('click',()=>{
+  playCurrentVideo();
+  showToast('Vídeo pronto para assistir');
 });
 
 document.getElementById('shareVideo').addEventListener('click',async()=>{
@@ -927,7 +1015,7 @@ document.getElementById('shareVideo').addEventListener('click',async()=>{
       await navigator.clipboard.writeText(url);
       showToast('Link copiado');
     }else{
-      window.prompt('Copie o link do video:', url);
+      window.prompt('Copie o link do vídeo:', url);
       showToast('Link pronto para copiar');
     }
   }catch(error){
@@ -939,7 +1027,7 @@ document.getElementById('saveVideo').addEventListener('click',()=>{
   localStorage.setItem('bemBeplaySavedVideo', JSON.stringify(currentVideo));
   document.getElementById('profileSaved').textContent=`Salvo: ${currentVideo.title}`;
   document.getElementById('saveVideo').textContent='Salvo';
-  showToast('Video salvo');
+  showToast('Vídeo salvo');
 });
 
 document.getElementById('todayDay').textContent=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
