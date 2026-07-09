@@ -194,8 +194,8 @@
       z-index: 2;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      width: min(680px, 100%);
+      justify-content: center;
+      width: 100%;
       min-height: inherit;
       padding: clamp(28px, 6vw, 72px);
       color: var(--white);
@@ -210,16 +210,16 @@
     }
 
     .hero h1 {
-      max-width: 12ch;
+      max-width: 980px;
       margin-top: 16px;
-      font-size: clamp(38px, 6vw, 78px);
+      font-size: clamp(38px, 6vw, 86px);
       font-weight: 900;
-      line-height: .94;
+      line-height: 1;
       letter-spacing: 0;
     }
 
     .hero p {
-      max-width: 650px;
+      max-width: 760px;
       margin-top: 22px;
       color: rgba(255, 255, 255, .88);
       font-size: clamp(15px, 2vw, 19px);
@@ -832,7 +832,7 @@
       }
 
       .hero h1 {
-        max-width: 9ch;
+        max-width: 100%;
       }
 
       .section-head {
@@ -871,7 +871,6 @@
       .brand-logo {
         height: 34px;
       }
-
     }
   </style>
 </head>
@@ -884,15 +883,15 @@
             <img class="brand-logo" src="img/Bem Esportivo Logo Laranja@33x.png" alt="BEM ESPORTIVO">
           </a>
           <nav class="category-nav" aria-label="Categorias">
-            <a class="nav-chip active" href="index.html"><svg class="icon" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>Inicio</a>
+            <a class='nav-chip active' href='/'><svg class="icon" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>Início</a>
             <a class="nav-chip" href="#jogos"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m12 3 3 6-3 3-3-3 3-6Z"></path><path d="m3.5 10 5.5-.8"></path><path d="m20.5 10-5.5-.8"></path><path d="m7 19 2-5"></path><path d="m17 19-2-5"></path></svg>Partidas</a>
             <a class="nav-chip" href="#posts"><svg class="icon" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h10"></path></svg>Posts</a>
-            <a class="nav-chip" href="Reportagens.html"><svg class="icon" viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>Reportagens</a>
-            <a class="nav-chip" href="coluna-valtinho.html"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"></path></svg>Fala bem</a>
+            <a class='nav-chip' href='/reportagens'><svg class="icon" viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>Reportagens</a>
+            <a class='nav-chip' href='/coluna-valtinho'><svg class="icon" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"></path></svg>Fala bem</a>
             <a class="nav-chip" href="#treinos"><svg class="icon" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M4 12h11"></path><path d="M4 17h16"></path></svg>Treinos</a>
-            <a class="nav-chip" href="beplay.html"><svg class="icon" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg>Beplay</a>
-            <a class="nav-chip" href="profissionais.html"><svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Profissionais</a>
-            <a class="nav-chip" href="produtos.html"><svg class="icon" viewBox="0 0 24 24"><path d="M20 7 12 3 4 7l8 4 8-4Z"></path><path d="M4 7v10l8 4 8-4V7"></path><path d="M12 11v10"></path></svg>Produtos</a>
+            <a class='nav-chip' href='/beplay'><svg class="icon" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg>BEplay</a>
+            <a class='nav-chip' href='/profissionais'><svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Profissionais</a>
+            <a class='nav-chip' href='/produtos'><svg class="icon" viewBox="0 0 24 24"><path d="M20 7 12 3 4 7l8 4 8-4Z"></path><path d="M4 7v10l8 4 8-4V7"></path><path d="M12 11v10"></path></svg>Produtos</a>
           </nav>
         </div>
       </div>
@@ -901,12 +900,12 @@
     <main>
       <section class="shell hero" aria-labelledby="hero-title">
         <div class="hero-content">
-          <span class="eyebrow">Especial BEM ESPORTIVO</span>
-          <h1 id="hero-title">O futebol entra em uma nova fase</h1>
-          <p>Análise premium sobre calendário, preparação física e os bastidores que moldam a temporada dos grandes clubes.</p>
+          <span class="eyebrow">Bem-vindo ao Bem Esportivo</span>
+          <h1 id="hero-title">Bem Esportivo, o seu lugar de esporte, saúde e lazer.</h1>
+          <p>Conteúdo esportivo com informação, acolhimento e movimento para acompanhar jogos, histórias, treinos e hábitos que fazem bem.</p>
           <div class="hero-meta">
-            <span>8 min de leitura</span>
-            <a class="primary-btn" href="Reportagens.html">Ler matéria</a>
+            <span>Futebol, bem-estar e comunidade</span>
+            <a class='primary-btn' href='/reportagens'>Ver reportagens</a>
           </div>
         </div>
       </section>
@@ -938,7 +937,7 @@
         </div>
         <div class="story-grid post-grid">
           <article class="story-card post-card">
-            <div class="story-media"><img src="img/posts/post-boa-alimentacao.png" alt="Post sobre boa alimentacao"></div>
+            <div class="story-media"><img src="img/posts/post-boa-alimentacao.png" alt="Post sobre boa alimentação"></div>
           </article>
           <article class="story-card post-card">
             <div class="story-media"><img src="img/posts/post-academia-transforma.png" alt="Post sobre academia"></div>
@@ -947,7 +946,7 @@
             <div class="story-media"><img src="img/posts/post-corrida-transforma.png" alt="Post sobre corrida"></div>
           </article>
           <article class="story-card post-card">
-            <div class="story-media"><img src="img/posts/post-pratica-esportes.png" alt="Post sobre pratica de esportes"></div>
+            <div class="story-media"><img src="img/posts/post-pratica-esportes.png" alt="Post sobre prática de esportes"></div>
           </article>
         </div>
       </section>
@@ -967,7 +966,7 @@
               <span><strong>Valtinho</strong><small>11/04/2026 • 5 min</small></span>
             </div>
             <p>O futebol brasileiro precisa mudar: transição, organização e leitura coletiva decidirão o próximo ciclo.</p>
-            <div class="social-actions"><span>Futebol</span><span>Análise tática</span><a href="coluna-valtinho.html">Ler coluna</a></div>
+            <div class="social-actions"><span>Futebol</span><span>Análise tática</span><a href='/coluna-valtinho'>Ler coluna</a></div>
           </article>
           <article class="social-card">
             <div class="author">
@@ -975,7 +974,7 @@
               <span><strong>Valtinho</strong><small>10/04/2026 • 4 min</small></span>
             </div>
             <p>Saúde e performance no esporte moderno: preparação física, dados e prevenção mudaram o jogo.</p>
-            <div class="social-actions"><span>Performance</span><span>Saúde</span><a href="coluna-valtinho.html">Ler coluna</a></div>
+            <div class="social-actions"><span>Performance</span><span>Saúde</span><a href='/coluna-valtinho'>Ler coluna</a></div>
           </article>
           <article class="social-card">
             <div class="author">
@@ -983,7 +982,7 @@
               <span><strong>Valtinho</strong><small>09/04/2026 • 6 min</small></span>
             </div>
             <p>Tática, pressão alta e leitura de jogo: como o futebol atual também é decidido sem a bola.</p>
-            <div class="social-actions"><span>Tática</span><span>Futebol</span><a href="coluna-valtinho.html">Ler coluna</a></div>
+            <div class="social-actions"><span>Tática</span><span>Futebol</span><a href='/coluna-valtinho'>Ler coluna</a></div>
           </article>
         </div>
       </section>
@@ -999,7 +998,7 @@
         <div class="story-grid">
           <article class="story-card">
             <div class="story-media"><img src="img/app-treino-card.png" alt="Atleta treinando"></div>
-            <div class="story-body"><span class="eyebrow">Disciplina</span><h3>Treine hoje para agradecer amanha.</h3></div>
+            <div class="story-body"><span class="eyebrow">Disciplina</span><h3>Treine hoje para agradecer amanhã.</h3></div>
           </article>
           <article class="story-card">
             <div class="story-media"><img src="img/app-treino-card.png" alt="Preparação tática"></div>
@@ -1018,18 +1017,18 @@
             <span>Play</span>
             <h2>Vídeos</h2>
           </div>
-          <p class="section-copy">Miniaturas diretas do Beplay, duracao visivel e destaque para o assunto antes do primeiro clique.</p>
+          <p class="section-copy">Miniaturas diretas do BEplay, duração visível e destaque para o assunto antes do primeiro clique.</p>
         </div>
         <div class="video-grid">
-          <a class="video-card" href="beplay.html">
+          <a class='video-card' href='/beplay'>
             <div class="video-thumb"><img src="https://img.youtube.com/vi/gBkon6LC2OU/hqdefault.jpg" alt="Treino técnico e tático"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">6min 18s</span></div>
             <div class="video-body"><span class="eyebrow">BEplay</span><h3>Treino técnico e tático</h3></div>
           </a>
-          <a class="video-card" href="beplay.html">
+          <a class='video-card' href='/beplay'>
             <div class="video-thumb"><img src="https://img.youtube.com/vi/Qi1lRW18kvM/hqdefault.jpg" alt="Duda e o futebol"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">5min 02s</span></div>
             <div class="video-body"><span class="eyebrow">História</span><h3>Duda e o futebol</h3></div>
           </a>
-          <a class="video-card" href="beplay.html">
+          <a class='video-card' href='/beplay'>
             <div class="video-thumb"><img src="https://img.youtube.com/vi/dYiX4fvxGG8/hqdefault.jpg" alt="Futebol e areia"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">7min 33s</span></div>
             <div class="video-body"><span class="eyebrow">Performance</span><h3>Futebol e areia</h3></div>
           </a>
@@ -1049,10 +1048,10 @@
         </section>
         <div class="footer-col">
           <h3>Institucional</h3>
-          <a href="sobre.html">Sobre</a>
-          <a href="contato.html">Contato</a>
-          <a href="profissionais.html">Profissionais</a>
-          <a href="produtos.html">Produtos</a>
+          <a href='/sobre'>Sobre</a>
+          <a href='/contato'>Contato</a>
+          <a href='/profissionais'>Profissionais</a>
+          <a href='/produtos'>Produtos</a>
         </div>
         <div class="footer-col">
           <h3>Instagram</h3>
@@ -1061,7 +1060,7 @@
       </div>
       <div class="shell footer-bottom">
         <span>© 2026 BEM ESPORTIVO. Todos os direitos reservados.</span>
-        <span><a href="politica-de-privacidade.html">Política de Privacidade</a> · <a href="termos.html">Termos</a> · <a href="contato.html">Contato</a></span>
+        <span><a href='/politica-de-privacidade'>Política de Privacidade</a> · <a href='/termos'>Termos</a> · <a href='/contato'>Contato</a></span>
       </div>
     </footer>
   </div>
@@ -1127,6 +1126,57 @@
       }
     ];
 
+    const TEAM_FLAG_CODES = {
+      ARG: 'ar',
+      ARGENTINA: 'ar',
+      BEL: 'be',
+      BELGICA: 'be',
+      BELGIUM: 'be',
+      BRA: 'br',
+      BRASIL: 'br',
+      BRAZIL: 'br',
+      ENG: 'gb-eng',
+      INGLATERRA: 'gb-eng',
+      ENGLAND: 'gb-eng',
+      ESP: 'es',
+      ESPANHA: 'es',
+      SPAIN: 'es',
+      FRA: 'fr',
+      FRANCA: 'fr',
+      FRANCE: 'fr',
+      ING: 'gb-eng',
+      MAR: 'ma',
+      MARROCOS: 'ma',
+      MOROCCO: 'ma',
+      NOR: 'no',
+      NORUEGA: 'no',
+      NORWAY: 'no',
+      SCO: 'gb-sct',
+      ESC: 'gb-sct',
+      ESCOCIA: 'gb-sct',
+      SCOTLAND: 'gb-sct',
+      SUI: 'ch',
+      SUICA: 'ch',
+      SWITZERLAND: 'ch'
+    };
+
+    function normalizeFlagKey(value) {
+      return String(value || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]/gi, '')
+        .toUpperCase();
+    }
+
+    function getFlagUrl(team) {
+      const flagCode = TEAM_FLAG_CODES[normalizeFlagKey(team?.code)]
+        || TEAM_FLAG_CODES[normalizeFlagKey(team?.abbreviation)]
+        || TEAM_FLAG_CODES[normalizeFlagKey(team?.displayName)]
+        || TEAM_FLAG_CODES[normalizeFlagKey(team?.shortDisplayName)]
+        || TEAM_FLAG_CODES[normalizeFlagKey(team?.name)];
+      return flagCode ? `https://flagcdn.com/${flagCode}.svg` : '';
+    }
+
     function formatWorldCupDateTime(date) {
       const dateLabel = date.toLocaleDateString('pt-BR', {
         weekday: 'short',
@@ -1174,7 +1224,7 @@
       if (!team) return '';
       if (team.logo) return team.logo;
       if (Array.isArray(team.logos) && team.logos[0]?.href) return team.logos[0].href;
-      return '';
+      return getFlagUrl(team);
     }
 
     function normalizeWorldCupEvent(event) {
@@ -1222,9 +1272,11 @@
     }
 
     function renderTeam(team, side = 'home') {
-      const flag = team.flag
-        ? `<img src="${escapeHtml(team.flag)}" alt="Bandeira de ${escapeHtml(team.name)}" loading="lazy">`
-        : escapeHtml(team.code || '---');
+      const flagUrl = team.flag || getFlagUrl(team);
+      const flagFallback = escapeHtml(team.code || '---');
+      const flag = flagUrl
+        ? `<img src="${escapeHtml(flagUrl)}" alt="Bandeira de ${escapeHtml(team.name)}" loading="lazy" onerror="this.parentElement.textContent='${flagFallback}'">`
+        : flagFallback;
       const flagHtml = `<span class="crest">${flag}</span>`;
       const nameHtml = `<span class="team-name">${escapeHtml(team.name)}</span>`;
       return side === 'away'

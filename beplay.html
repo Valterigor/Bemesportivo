@@ -703,21 +703,155 @@ img{display:block;max-width:100%}
 }
 </style>
 <link rel="stylesheet" href="site-common.css">
+<style>
+body.beplay-page {
+  background:
+    linear-gradient(180deg, #08111c 0, #05070c 360px),
+    #05070c !important;
+}
+
+.beplay-page .app-shell {
+  width: min(calc(100% - 24px), 980px) !important;
+  padding-top: calc(188px + var(--safe-top)) !important;
+}
+
+.beplay-page .topbar {
+  width: min(calc(100% - 20px), 980px) !important;
+  border-radius: 0 0 16px 16px;
+}
+
+.beplay-page .panel {
+  border: 1px solid rgba(88, 245, 255, .22) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025)),
+    linear-gradient(180deg, rgba(11, 17, 27, .94), rgba(4, 8, 13, .98)) !important;
+  color: var(--text) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 18px 44px rgba(0, 0, 0, .34) !important;
+}
+
+.beplay-page .player-panel {
+  padding: clamp(10px, 2vw, 18px);
+  border-radius: 16px !important;
+}
+
+.beplay-page .video-frame,
+.beplay-page .related-thumb {
+  border-radius: 12px;
+}
+
+.beplay-page .video-meta {
+  padding: 16px 4px 4px;
+}
+
+.beplay-page .video-meta h1 {
+  color: #ffffff !important;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.beplay-page .video-meta p,
+.beplay-page .related-body span {
+  color: #c4d4df !important;
+}
+
+.beplay-page .primary-actions {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.beplay-page .action-btn {
+  background: linear-gradient(135deg, var(--green), var(--blue)) !important;
+  color: #07100d !important;
+}
+
+.beplay-page .action-btn.secondary {
+  border: 1px solid rgba(255, 255, 255, .14) !important;
+  background: rgba(255, 255, 255, .06) !important;
+  color: #f8fbff !important;
+}
+
+.beplay-page .action-btn,
+.beplay-page .feedback-btn,
+.beplay-page .related-card button,
+.beplay-page .retention-dock a {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.beplay-page .content-grid {
+  margin-top: 14px;
+}
+
+.beplay-page .summary-grid,
+.beplay-page .video-feedback,
+.beplay-page .related-list {
+  padding: 14px;
+}
+
+.beplay-page .summary-item,
+.beplay-page .related-card {
+  background: rgba(255, 255, 255, .045) !important;
+  color: #f8fbff !important;
+  border-radius: 12px;
+}
+
+.beplay-page .summary-item strong,
+.beplay-page .section-title h2,
+.beplay-page .related-body strong {
+  color: #ffffff !important;
+}
+
+.beplay-page .related-card {
+  grid-template-columns: minmax(118px, 180px) 1fr;
+}
+
+.beplay-page .retention-dock {
+  width: min(calc(100% - 20px), 980px);
+  bottom: 10px;
+  border: 1px solid rgba(54, 213, 255, .18);
+  border-radius: 16px;
+  background: rgba(5, 7, 12, .92);
+}
+
+@media (max-width: 640px) {
+  .beplay-page .app-shell {
+    width: min(calc(100% - 18px), 620px) !important;
+    padding-top: calc(176px + var(--safe-top)) !important;
+  }
+
+  .beplay-page .brand-kicker strong {
+    font-size: 16px;
+  }
+
+  .beplay-page .topnav {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .beplay-page .primary-actions,
+  .beplay-page .summary-grid,
+  .beplay-page .video-feedback {
+    grid-template-columns: 1fr;
+  }
+
+  .beplay-page .related-card {
+    grid-template-columns: 112px 1fr;
+  }
+}
+</style>
 </head>
-<body>
+<body class="beplay-page">
 <header class="site-menu" id="topo">
   <div class="site-menu-content">
     <a class="site-logo" href="/" aria-label="Bem Esportivo">
       <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
     </a>
     <nav id="siteNav" class="site-nav" aria-label="Menu principal">
-<a href="index.html">Inicio</a>
+<a href="index.html">Início</a>
 <a href="index.html#jogos">Partidas</a>
 <a href="index.html#posts">Posts</a>
 <a href="Reportagens.html">Reportagens</a>
 <a href="coluna-valtinho.html">Fala bem</a>
 <a href="index.html#treinos">Treinos</a>
-<a href="beplay.html">Beplay</a>
+<a href="beplay.html">BEplay</a>
 <a href="profissionais.html">Profissionais</a>
 <a href="produtos.html">Produtos</a></nav>
     <a class="site-contact" href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer">Entre em contato</a>
@@ -740,8 +874,8 @@ img{display:block;max-width:100%}
       <div class="round-pill"><strong id="videoCount">3</strong><span>Vídeos</span></div>
     </div>
   </div>
-  <nav class="topnav" aria-label="Navegacao principal">
-    <a class="is-active" href="#inicio">Inicio</a>
+  <nav class="topnav" aria-label="Navegação principal">
+    <a class="is-active" href="#inicio">Início</a>
     <a href="#videos">Vídeos</a>
     <a href="#relatedVideos">Playlist</a>
     <a href="#perfil">Perfil</a>
@@ -812,7 +946,7 @@ img{display:block;max-width:100%}
   </section>
 </main>
 
-<nav class="retention-dock" aria-label="Atalhos durante a reproducao">
+<nav class="retention-dock" aria-label="Atalhos durante a reprodução">
   <a href="#inicio">Player</a>
   <a href="#relatedVideos">Sugestões</a>
   <a href="#perfil">Salvos</a>

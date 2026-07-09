@@ -585,18 +585,18 @@ nav{display:none}
 </a>
 
 <nav id="nav">
-<a href="index.html">Inicio</a>
+<a href="index.html">Início</a>
 <a href="index.html#jogos">Partidas</a>
 <a href="index.html#posts">Posts</a>
 <a href="Reportagens.html">Reportagens</a>
 <a href="coluna-valtinho.html">Fala bem</a>
 <a href="index.html#treinos">Treinos</a>
-<a href="beplay.html">Beplay</a>
+<a href="beplay.html">BEplay</a>
 <a href="profissionais.html">Profissionais</a>
 <a href="produtos.html">Produtos</a></nav>
 
 <div class="menu-actions">
-<a href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer" class="btn-contato">Fale Conosco</a>
+<a href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer" class="btn-contato">Fale conosco</a>
 </div>
 
 <button id="menu-toggle" class="menu-btn">
@@ -619,8 +619,8 @@ em uma coluna editorial feita para pensar o esporte além do placar.
 </p>
 
 <div class="hero-stats">
-<button class="filter-btn" data-filter="futebol">⚽ Futebol</button>
-<button class="filter-btn" data-filter="performance">🏃 Performance</button>
+<button class="filter-btn" data-filter="futebol">? Futebol</button>
+<button class="filter-btn" data-filter="performance">?? Performance</button>
 <button class="filter-btn" id="resetFilters">Todos</button>
 </div>
 </div>
@@ -636,7 +636,7 @@ em uma coluna editorial feita para pensar o esporte além do placar.
 <section class="feature searchable post-item" data-tags="futebol tatica analise">
 <div class="kicker">ANÁLISE ESPECIAL</div>
 <h2>O futebol brasileiro precisa evoluir taticamente</h2>
-<p>Modelos organizados estão vencendo jogos antes mesmo da bola rolar. A diferença entre competir e apenas reagir está na preparação: ocupação de espaço, pressão coordenada, saída de bola limpa e atletas capazes de entender o jogo em tempo real.</p>
+<p>Modelos organizados estão vencendo jogos antes mesmo de a bola rolar. A diferença entre competir e apenas reagir está na preparação: ocupação de espaço, pressão coordenada, saída de bola limpa e atletas capazes de entender o jogo em tempo real.</p>
 </section>
 
 <article class="post searchable post-item" data-tags="futebol analise tatica">
@@ -713,8 +713,8 @@ em uma coluna editorial feita para pensar o esporte além do placar.
 
 <div class="sidebar-box">
 <div class="sidebar-title">Temas populares</div>
-<div class="topic" onclick="filterPosts('futebol')">⚽ Futebol Brasileiro</div>
-<div class="topic" onclick="filterPosts('performance')">🏃 Performance</div>
+<div class="topic" onclick="filterPosts('futebol')">? Futebol Brasileiro</div>
+<div class="topic" onclick="filterPosts('performance')">?? Performance</div>
 <button class="clear-filter" onclick="resetAllFilters()">Mostrar todos</button>
 </div>
 
@@ -743,7 +743,7 @@ em uma coluna editorial feita para pensar o esporte além do placar.
 </div>
 </footer>
 
-<button id="backToTop">↑</button>
+<button id="backToTop">?</button>
 
 <script>
 
@@ -782,7 +782,7 @@ const search=document.getElementById('searchInput');
 let activeFilter='';
 
 function applyFilters(){
-const term=search.value.toLowerCase().trim();
+const term=search ? search.value.toLowerCase().trim() : '';
 posts.forEach(post=>{
 const text=post.innerText.toLowerCase();
 const tags=post.dataset.tags;
@@ -811,7 +811,7 @@ window.scrollTo({top:520,behavior:'smooth'});
 function resetAllFilters(){
 activeFilter='';
 filterButtons.forEach(btn=>btn.classList.remove('active'));
-search.value='';
+if(search) search.value='';
 applyFilters();
 }
 
@@ -825,7 +825,7 @@ filterPosts(this.dataset.filter);
 });
 });
 
-search.addEventListener('keyup',applyFilters);
+if(search) search.addEventListener('keyup',applyFilters);
 
 const topBtn=document.getElementById('backToTop');
 window.addEventListener('scroll',()=>{

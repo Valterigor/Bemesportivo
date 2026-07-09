@@ -346,6 +346,48 @@ body > header:not(.site-header):not(.topbar) > nav,
   }
 }
 
+/* Anti-overlap guard: legacy pages had absolute mobile dropdown menus. */
+body > header:not(.topbar) > nav,
+.menu nav,
+.nav-menu,
+.site-nav {
+  position: static !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  width: auto !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  scrollbar-width: none !important;
+}
+
+body > header:not(.topbar) > nav::-webkit-scrollbar,
+.menu nav::-webkit-scrollbar,
+.nav-menu::-webkit-scrollbar,
+.site-nav::-webkit-scrollbar {
+  display: none !important;
+}
+
+body > header:not(.topbar) > nav a,
+.menu nav a,
+.nav-menu a,
+.site-nav a {
+  flex: 0 0 auto !important;
+}
+
+.menu-btn,
+.site-menu-btn,
+#menu-toggle {
+  display: none !important;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
