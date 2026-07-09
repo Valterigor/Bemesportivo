@@ -836,6 +836,224 @@ body.beplay-page {
     grid-template-columns: 112px 1fr;
   }
 }
+
+.beplay-page .app-shell {
+  width: min(calc(100% - 24px), 1240px) !important;
+}
+
+.beplay-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+
+.beplay-intro h1 {
+  margin: 8px 0 0;
+  color: #fff;
+  font-size: clamp(34px, 6vw, 68px);
+  line-height: .96;
+  letter-spacing: 0;
+}
+
+.beplay-intro p {
+  max-width: 720px;
+  margin: 12px 0 0;
+  color: #bdd0dc;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.channel-card {
+  min-width: 220px;
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .06);
+}
+
+.channel-card strong {
+  color: #fff;
+  font-size: 18px;
+}
+
+.channel-card span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.beplay-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, .75fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.watch-column,
+.side-column {
+  display: grid;
+  gap: 14px;
+}
+
+.playlist-panel {
+  padding: 14px;
+}
+
+.playlist-tools {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.video-search {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 12px;
+  outline: 0;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, .07);
+  color: #fff;
+}
+
+.video-search::placeholder {
+  color: #8ea3b3;
+}
+
+.video-filter-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.video-filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.video-filter-tabs button {
+  flex: 0 0 auto;
+  min-height: 38px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 999px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, .06);
+  color: #dce9f2;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.video-filter-tabs button.is-active {
+  background: linear-gradient(135deg, var(--green), var(--blue));
+  color: #07100d;
+}
+
+.beplay-page .related-list {
+  max-height: 680px;
+  overflow: auto;
+  padding: 0;
+  scrollbar-width: thin;
+}
+
+.beplay-page .related-card {
+  cursor: pointer;
+}
+
+.beplay-page .related-card.is-current {
+  border-color: rgba(45, 255, 141, .58) !important;
+  background: rgba(45, 255, 141, .10) !important;
+}
+
+.related-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  color: #8ea3b3;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.comment-panel {
+  padding: 14px;
+}
+
+.comment-form {
+  display: grid;
+  gap: 10px;
+}
+
+.comment-form textarea {
+  min-height: 82px;
+  resize: vertical;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 12px;
+  outline: 0;
+  padding: 12px;
+  background: rgba(255, 255, 255, .07);
+  color: #fff;
+}
+
+.comment-form button,
+.channel-card button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--green), var(--blue));
+  color: #07100d;
+  font-weight: 950;
+}
+
+.comment-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.comment-item {
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .045);
+}
+
+.comment-item strong {
+  display: block;
+  color: #fff;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.comment-item p {
+  margin: 0;
+  color: #c4d4df;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.comment-empty {
+  color: #8ea3b3;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+@media (max-width: 960px) {
+  .beplay-intro,
+  .beplay-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .channel-card {
+    min-width: 0;
+  }
+
+  .beplay-page .related-list {
+    max-height: none;
+  }
+}
 </style>
 </head>
 <body class="beplay-page">
@@ -883,67 +1101,107 @@ body.beplay-page {
 </header>
 
 <main class="app-shell" id="inicio">
-  <section class="section player-panel panel" id="videos" aria-labelledby="videoTitle">
-    <div class="video-frame">
-      <div class="video-placeholder" id="videoPlaceholder" style="background-image:url('https://img.youtube.com/vi/gBkon6LC2OU/hqdefault.jpg')">
-        <div class="video-placeholder-content">
-          <strong id="videoPlaceholderTitle">Treino técnico e tático</strong>
-          <button class="video-play-button" type="button" id="playInlineVideo">Assistir no site</button>
+  <section class="beplay-intro" aria-labelledby="beplayTitle">
+    <div>
+      <div class="brand-kicker"><span>BEplay</span></div>
+      <h1 id="beplayTitle">Vídeos do Bem Esportivo</h1>
+      <p>Assista, salve, comente e navegue por treinos, histórias e performance em uma experiência pensada para consumir vídeo direto no site.</p>
+    </div>
+    <aside class="channel-card" aria-label="Canal BEplay">
+      <strong>Bem Esportivo</strong>
+      <span id="channelStats">3 vídeos publicados</span>
+      <button type="button" id="subscribeChannel">Inscrever-se</button>
+    </aside>
+  </section>
+
+  <div class="beplay-layout">
+    <div class="watch-column">
+      <section class="section player-panel panel" id="videos" aria-labelledby="videoTitle">
+        <div class="video-frame">
+          <div class="video-placeholder" id="videoPlaceholder" style="background-image:url('https://img.youtube.com/vi/gBkon6LC2OU/hqdefault.jpg')">
+            <div class="video-placeholder-content">
+              <strong id="videoPlaceholderTitle">Treino técnico e tático</strong>
+              <button class="video-play-button" type="button" id="playInlineVideo">Assistir no site</button>
+            </div>
+          </div>
+          <iframe id="youtubePlayer" title="Treino técnico e tático" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen hidden></iframe>
         </div>
-      </div>
-      <iframe id="youtubePlayer" title="Treino técnico e tático" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen hidden></iframe>
-    </div>
-    <div class="video-meta">
-      <h1 id="videoTitle">Treino técnico e tático</h1>
-      <div class="video-facts">
-        <span id="videoDuration">6min 18s</span>
-        <span id="videoViews">8,7 mil visualizações</span>
-        <span id="videoDate">Publicado ontem</span>
-      </div>
-      <p id="videoDescription">Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.</p>
-      <div class="primary-actions">
-        <button class="action-btn" type="button" id="watchOnSite">Assistir no site</button>
-        <a class="action-btn secondary" id="watchOnYoutube" href="https://www.youtube.com/watch?v=gBkon6LC2OU" target="_blank" rel="noopener noreferrer">Assistir no YouTube</a>
-        <button class="action-btn secondary" type="button" id="shareVideo">Compartilhar</button>
-        <button class="action-btn secondary" type="button" id="saveVideo">Salvar</button>
-      </div>
-    </div>
-  </section>
+        <div class="video-meta">
+          <h1 id="videoTitle">Treino técnico e tático</h1>
+          <div class="video-facts">
+            <span id="videoDuration">6min 18s</span>
+            <span id="videoViews">8,7 mil visualizações</span>
+            <span id="videoDate">Publicado ontem</span>
+          </div>
+          <p id="videoDescription">Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.</p>
+          <div class="primary-actions">
+            <button class="action-btn" type="button" id="watchOnSite">Assistir no site</button>
+            <a class="action-btn secondary" id="watchOnYoutube" href="https://www.youtube.com/watch?v=gBkon6LC2OU" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <button class="action-btn secondary" type="button" id="shareVideo">Compartilhar</button>
+            <button class="action-btn secondary" type="button" id="saveVideo">Salvar</button>
+          </div>
+        </div>
+      </section>
 
-  <div class="content-grid">
-    <section class="section panel" id="resumo" aria-labelledby="summaryTitle">
-      <div class="summary-grid">
-        <div class="summary-item"><span>Categoria</span><strong id="summaryCategory">Treino</strong></div>
-        <div class="summary-item"><span>Destaque</span><strong id="summaryHighlight">Evolução de jogo</strong></div>
-        <div class="summary-item"><span>Tema</span><strong id="summaryContent">Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.</strong></div>
-        <div class="summary-item"><span>Playlist</span><strong>Continue assistindo aos vídeos relacionados</strong></div>
-      </div>
-    </section>
+      <section class="section panel" id="resumo" aria-labelledby="summaryTitle">
+        <div class="summary-grid">
+          <div class="summary-item"><span>Categoria</span><strong id="summaryCategory">Treino</strong></div>
+          <div class="summary-item"><span>Destaque</span><strong id="summaryHighlight">Evolução de jogo</strong></div>
+          <div class="summary-item"><span>Tema</span><strong id="summaryContent">Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.</strong></div>
+          <div class="summary-item"><span>Playlist</span><strong id="profileSaved">Nenhum vídeo salvo ainda</strong></div>
+        </div>
+      </section>
+
+      <section class="section panel" id="opinioes" aria-labelledby="opinionsTitle">
+        <div class="section-title" style="padding:10px 10px 0">
+          <h2 id="opinionsTitle">Interação</h2>
+          <span>participe</span>
+        </div>
+        <div class="video-feedback" aria-label="Avaliação do vídeo">
+          <button class="feedback-btn" type="button" data-video-reaction="like">Gostei <span id="likeCount">0</span></button>
+          <button class="feedback-btn" type="button" data-video-reaction="dislike">Não gostei <span id="dislikeCount">0</span></button>
+        </div>
+      </section>
+
+      <section class="section panel comment-panel" aria-labelledby="commentsTitle">
+        <div class="section-title">
+          <h2 id="commentsTitle">Comentários</h2>
+          <span>comunidade</span>
+        </div>
+        <form class="comment-form" id="videoCommentForm">
+          <textarea id="videoCommentText" maxlength="280" placeholder="Escreva um comentário sobre o vídeo atual..." required></textarea>
+          <button type="submit">Publicar comentário</button>
+        </form>
+        <div class="comment-list" id="videoCommentList" aria-live="polite"></div>
+      </section>
+    </div>
+
+    <aside class="side-column">
+      <section class="section panel playlist-panel" aria-labelledby="relatedTitle">
+        <div class="section-title">
+          <h2 id="relatedTitle">Playlist</h2>
+          <span id="playlistCount">3 vídeos</span>
+        </div>
+        <div class="playlist-tools">
+          <input class="video-search" id="videoSearch" type="search" placeholder="Buscar vídeos">
+          <div class="video-filter-tabs" aria-label="Categorias de vídeo">
+            <button class="is-active" type="button" data-video-filter="all">Todos</button>
+            <button type="button" data-video-filter="Treino">Treino</button>
+            <button type="button" data-video-filter="História">História</button>
+            <button type="button" data-video-filter="Performance">Performance</button>
+          </div>
+        </div>
+        <div class="related-list" id="relatedVideos"></div>
+      </section>
+
+      <section class="section panel" id="perfil" aria-labelledby="profileTitle">
+        <div class="summary-grid">
+          <div class="summary-item"><span id="profileTitle">Perfil</span><strong id="profileActions">Salve vídeos para montar sua lista de acompanhamento.</strong></div>
+          <div class="summary-item"><span>Canal</span><strong>Novos vídeos, bastidores e treinos do Bem Esportivo.</strong></div>
+        </div>
+      </section>
+    </aside>
   </div>
-
-  <section class="section panel" id="opinioes" aria-labelledby="opinionsTitle">
-    <div class="section-title" style="padding:10px 10px 0">
-      <h2 id="opinionsTitle">Opiniões do vídeo</h2>
-      <span>participe</span>
-    </div>
-    <div class="video-feedback" aria-label="Avaliação do vídeo">
-      <button class="feedback-btn" type="button" data-video-reaction="like">Gostei <span id="likeCount">0</span></button>
-      <button class="feedback-btn" type="button" data-video-reaction="dislike">Não gostei <span id="dislikeCount">0</span></button>
-    </div>
-  </section>
-
-  <section class="section panel" aria-labelledby="relatedTitle">
-    <div class="related-list" id="relatedVideos">
-      <div class="section-title"><h2 id="relatedTitle">Vídeos relacionados</h2><span>continue assistindo</span></div>
-    </div>
-  </section>
-
-  <section class="section panel" id="perfil" aria-labelledby="profileTitle">
-    <div class="summary-grid">
-      <div class="summary-item"><span id="profileTitle">Perfil</span><strong id="profileSaved">Nenhum vídeo salvo ainda</strong></div>
-      <div class="summary-item"><span>Histórico</span><strong id="profileActions">Salve vídeos para montar sua lista de acompanhamento.</strong></div>
-    </div>
-  </section>
 </main>
 
 <nav class="retention-dock" aria-label="Atalhos durante a reprodução">
@@ -964,8 +1222,10 @@ const videos=[
 let currentVideo=videos[0];
 let toastTimer=null;
 let communityRefreshTimer=null;
+let activeVideoFilter='all';
 const COMMUNITY_ROOT=location.protocol==='file:'?'':'/api/community';
 const CLIENT_KEY='bemEsportivoCommunityClientId';
+const COMMENT_KEY='bemBeplayVideoComments';
 const siteMenuToggle=document.getElementById('siteMenuToggle');
 const siteNav=document.getElementById('siteNav');
 
@@ -1054,30 +1314,47 @@ function setVideo(video){
   document.getElementById('watchOnYoutube').href=`https://www.youtube.com/watch?v=${video.id}`;
   document.getElementById('inicio').scrollIntoView({behavior:'smooth',block:'start'});
   showToast(`Agora assistindo: ${video.title}`);
+  renderRelated();
+  renderVideoComments();
   loadVideoCommunity();
 }
 
 function renderRelated(){
   const container=document.getElementById('relatedVideos');
-  const title=container.querySelector('.section-title');
+  const searchTerm=String(document.getElementById('videoSearch')?.value || '').trim().toLowerCase();
+  const matches=videos.filter(video=>{
+    const matchesFilter=activeVideoFilter==='all' || video.category===activeVideoFilter;
+    const matchesSearch=!searchTerm || `${video.title} ${video.category} ${video.desc}`.toLowerCase().includes(searchTerm);
+    return matchesFilter && matchesSearch;
+  });
+  const playlistCount=document.getElementById('playlistCount');
+  if(playlistCount) playlistCount.textContent=`${matches.length} vídeos`;
   container.innerHTML='';
-  container.appendChild(title);
-  videos.filter(video=>video.id!==currentVideo.id).forEach(video=>{
+
+  if(!matches.length){
+    container.innerHTML='<div class="comment-empty">Nenhum vídeo encontrado nessa busca.</div>';
+    return;
+  }
+
+  matches.forEach(video=>{
     const card=document.createElement('article');
-    card.className='related-card';
+    card.className=`related-card${video.id===currentVideo.id ? ' is-current' : ''}`;
     card.innerHTML=`
       <div class="related-thumb" style="background-image:url(https://img.youtube.com/vi/${video.id}/hqdefault.jpg)"></div>
       <div class="related-body">
         <strong>${escapeHtml(video.title)}</strong>
-        <span>${escapeHtml(video.duration)} - ${escapeHtml(video.views)}</span>
-        <button type="button">Assistir</button>
+        <div class="related-card-meta">
+          <span>${escapeHtml(video.category)}</span>
+          <span>${escapeHtml(video.duration)}</span>
+          <span>${escapeHtml(video.views)}</span>
+        </div>
+        <button type="button">${video.id===currentVideo.id ? 'Assistindo' : 'Assistir'}</button>
       </div>
     `;
-    card.querySelector('button').addEventListener('click',()=>{setVideo(video);renderRelated();playCurrentVideo();});
+    card.querySelector('button').addEventListener('click',()=>{setVideo(video);playCurrentVideo();});
     card.addEventListener('click',event=>{
       if(event.target.closest('button')) return;
       setVideo(video);
-      renderRelated();
       playCurrentVideo();
     });
     container.appendChild(card);
@@ -1100,6 +1377,33 @@ function renderReactions(totals={}, selected=''){
   document.querySelectorAll('[data-video-reaction]').forEach(button=>{
     button.classList.toggle('is-active', button.dataset.videoReaction===selected);
   });
+}
+
+function getStoredComments(){
+  try{
+    const comments=JSON.parse(localStorage.getItem(COMMENT_KEY) || '{}');
+    return comments && typeof comments==='object' ? comments : {};
+  }catch(error){
+    return {};
+  }
+}
+
+function saveStoredComments(comments){
+  localStorage.setItem(COMMENT_KEY, JSON.stringify(comments));
+}
+
+function renderVideoComments(){
+  const list=document.getElementById('videoCommentList');
+  if(!list) return;
+  const comments=getStoredComments()[currentVideo.id] || [];
+  list.innerHTML=comments.length
+    ? comments.slice(-12).reverse().map(comment=>`
+      <article class="comment-item">
+        <strong>${escapeHtml(comment.name || 'Visitante')}</strong>
+        <p>${escapeHtml(comment.text)}</p>
+      </article>
+    `).join('')
+    : '<span class="comment-empty">Seja o primeiro a comentar este vídeo.</span>';
 }
 
 async function loadVideoCommunity(){
@@ -1160,19 +1464,60 @@ document.getElementById('shareVideo').addEventListener('click',async()=>{
 document.getElementById('saveVideo').addEventListener('click',()=>{
   localStorage.setItem('bemBeplaySavedVideo', JSON.stringify(currentVideo));
   document.getElementById('profileSaved').textContent=`Salvo: ${currentVideo.title}`;
+  document.getElementById('profileActions').textContent=`Último vídeo salvo: ${currentVideo.title}`;
   document.getElementById('saveVideo').textContent='Salvo';
   showToast('Vídeo salvo');
 });
 
+document.getElementById('subscribeChannel').addEventListener('click',()=>{
+  localStorage.setItem('bemBeplaySubscribed', 'true');
+  document.getElementById('subscribeChannel').textContent='Inscrito';
+  showToast('Inscrição salva neste dispositivo');
+});
+
+document.getElementById('videoSearch').addEventListener('input',renderRelated);
+
+document.querySelectorAll('[data-video-filter]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    activeVideoFilter=button.dataset.videoFilter || 'all';
+    document.querySelectorAll('[data-video-filter]').forEach(item=>item.classList.toggle('is-active', item===button));
+    renderRelated();
+  });
+});
+
+document.getElementById('videoCommentForm').addEventListener('submit',event=>{
+  event.preventDefault();
+  const textarea=document.getElementById('videoCommentText');
+  const text=String(textarea.value || '').trim();
+  if(!text) return;
+  const comments=getStoredComments();
+  comments[currentVideo.id]=Array.isArray(comments[currentVideo.id]) ? comments[currentVideo.id] : [];
+  comments[currentVideo.id].push({
+    name:'Visitante',
+    text:text.slice(0,280),
+    createdAt:new Date().toISOString()
+  });
+  saveStoredComments(comments);
+  textarea.value='';
+  renderVideoComments();
+  showToast('Comentário publicado');
+});
+
 document.getElementById('todayDay').textContent=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
 document.getElementById('videoCount').textContent=String(videos.length);
+document.getElementById('channelStats').textContent=`${videos.length} vídeos publicados`;
 try{
   const saved=JSON.parse(localStorage.getItem('bemBeplaySavedVideo') || 'null');
   if(saved?.title){
     document.getElementById('profileSaved').textContent=`Salvo: ${saved.title}`;
+    document.getElementById('profileActions').textContent=`Último vídeo salvo: ${saved.title}`;
   }
 }catch(error){}
+if(localStorage.getItem('bemBeplaySubscribed')==='true'){
+  document.getElementById('subscribeChannel').textContent='Inscrito';
+}
 renderRelated();
+renderVideoComments();
 loadVideoCommunity();
 communityRefreshTimer=window.setInterval(()=>{
   if(document.hidden) return;
