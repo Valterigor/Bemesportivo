@@ -699,20 +699,20 @@ font-size:24px;
 
 <header class="menu">
 <div class="menu-content">
-<a href="index.html" class="logo">
+<a href="/" class="logo">
 <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
 </a>
 
 <nav id="nav">
-<a href="index.html">Início</a>
-<a href="index.html#jogos">Partidas</a>
-<a href="index.html#posts">Posts</a>
-<a href="Reportagens.html">Reportagens</a>
-<a href="coluna-valtinho.html">Fala bem</a>
-<a href="index.html#treinos">Treinos</a>
-<a href="beplay.html">BEplay</a>
-<a href="profissionais.html">Profissionais</a>
-<a href="produtos.html">Produtos</a></nav>
+<a href="/">Início</a>
+<a href="/#jogos">Partidas</a>
+<a href="/#posts">Posts</a>
+<a href="/reportagens">Reportagens</a>
+<a href="/coluna-valtinho">Fala bem</a>
+<a href="/#treinos">Treinos</a>
+<a href="/beplay">BEplay</a>
+<a href="/profissionais">Profissionais</a>
+<a href="/produtos" class="active">Produtos</a></nav>
 
 <div class="menu-actions">
 <a href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer" class="btn-contato">Fale conosco</a>
@@ -840,10 +840,10 @@ Produtos escolhidos com foco em utilidade, desempenho e custo-benefício.
 <p>Conteúdo esportivo, futebol, opinião, projetos e serviços ligados ao esporte.</p>
 </div>
 <nav aria-label="Links institucionais">
-<a href="sobre.html">Sobre</a>
-<a href="contato.html">Contato</a>
-<a href="politica-de-privacidade.html">Privacidade</a>
-<a href="termos.html">Termos</a>
+<a href="/sobre">Sobre</a>
+<a href="/contato">Contato</a>
+<a href="/politica-de-privacidade">Privacidade</a>
+<a href="/termos">Termos</a>
 </nav>
 <small>© 2026 Bem Esportivo</small>
 </div>
@@ -877,12 +877,12 @@ nav.classList.toggle('active');
 }
 /* Destacar página ativa no menu */
 function setActiveNavLink() {
-const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
 const navLinks = document.querySelectorAll('nav a');
 
 navLinks.forEach(link => {
-const href = link.getAttribute('href');
-if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+const href = new URL(link.getAttribute('href'), window.location.origin).pathname.replace(/\/$/, '') || '/';
+if (href === currentPath) {
 link.classList.add('active');
 } else {
 link.classList.remove('active');
