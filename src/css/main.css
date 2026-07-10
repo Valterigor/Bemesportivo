@@ -42,18 +42,18 @@ header img {
   cursor: pointer;
 }
 
-nav {
+header nav {
   display: flex;
   gap: var(--spacing-lg);
 }
 
-nav a {
+header nav a {
   color: var(--color-primary);
   font-weight: var(--font-weight-bold);
   transition: color var(--transition-base);
 }
 
-nav a:hover {
+header nav a:hover {
   color: var(--text-primary);
 }
 
@@ -62,7 +62,7 @@ nav a:hover {
     display: block;
   }
 
-  nav {
+  header nav {
     display: none;
     flex-direction: column;
     background: var(--bg-soft);
@@ -75,7 +75,7 @@ nav a:hover {
     box-shadow: var(--shadow-lg);
   }
 
-  nav.show {
+  header nav.show {
     display: flex;
   }
 }
