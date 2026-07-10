@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -612,12 +612,17 @@
       padding: 12px;
       background: var(--soft);
       border: 1px solid transparent;
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+      cursor: pointer;
+      touch-action: manipulation;
+      will-change: transform;
     }
 
-    .post-card.active {
-      transform: scale(1.03);
-      border-color: rgba(255, 106, 0, .25);
-      box-shadow: 0 28px 46px rgba(17, 17, 17, .12);
+    .post-card.active,
+    .post-card:active {
+      transform: scale(1.06);
+      border-color: rgba(255, 106, 0, .35);
+      box-shadow: 0 32px 56px rgba(17, 17, 17, .16);
     }
 
     .post-card .story-media {
