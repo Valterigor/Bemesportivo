@@ -1194,26 +1194,68 @@ body > header:not(.site-header):not(.topbar) > nav a.active,
 }
 
 .btn,
+.btn-contato,
+.btn-banner,
 .filter-btn,
 .action-btn,
 .primary-btn,
 .buy,
 button.btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .5rem !important;
+  min-height: 46px !important;
+  padding: .85rem 1.2rem !important;
   border-radius: 999px !important;
-  background: var(--be-black) !important;
+  background: linear-gradient(135deg, var(--be-black) 0%, #1f2937 100%) !important;
   color: var(--be-white) !important;
-  border: 1px solid var(--be-black) !important;
-  font-weight: 900 !important;
+  border: 1px solid rgba(255, 255, 255, .16) !important;
+  box-shadow: 0 12px 24px rgba(17, 17, 17, .16) !important;
+  font-weight: 800 !important;
   letter-spacing: 0 !important;
   text-transform: none !important;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, border-color .18s ease !important;
+}
+
+.btn:hover,
+.btn-contato:hover,
+.btn-banner:hover,
+.filter-btn:hover,
+.action-btn:hover,
+.primary-btn:hover,
+.buy:hover,
+button.btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 16px 30px rgba(17, 17, 17, .2) !important;
+  background: linear-gradient(135deg, #1f2937 0%, var(--be-black) 100%) !important;
+}
+
+.btn:focus-visible,
+.btn-contato:focus-visible,
+.btn-banner:focus-visible,
+.filter-btn:focus-visible,
+.action-btn:focus-visible,
+.primary-btn:focus-visible,
+.buy:focus-visible,
+button.btn:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, .25), 0 12px 24px rgba(17, 17, 17, .16) !important;
 }
 
 .filter-btn.active,
 .btn.buy,
 .buy {
-  background: var(--be-orange) !important;
-  border-color: var(--be-orange) !important;
+  background: linear-gradient(135deg, var(--be-orange) 0%, #ff8a2b 100%) !important;
+  border-color: transparent !important;
   color: var(--be-black) !important;
+  box-shadow: 0 12px 24px rgba(249, 115, 22, .24) !important;
+}
+
+.filter-btn.active:hover,
+.btn.buy:hover,
+.buy:hover {
+  background: linear-gradient(135deg, #ff8a2b 0%, var(--be-orange) 100%) !important;
 }
 
 .site-footer {
@@ -2743,10 +2785,25 @@ h3 {
 .action-btn,
 .primary-btn {
   border-radius: 999px !important;
-  background: #ff6a00 !important;
+  background: linear-gradient(135deg, #ff8a00 0%, #ffb347 100%) !important;
   color: #111111 !important;
-  box-shadow: none !important;
+  border: 1px solid rgba(255, 255, 255, .18) !important;
+  box-shadow: 0 22px 42px rgba(255, 106, 0, .18) !important;
+  transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease !important;
   font-weight: 900 !important;
+}
+
+.btn:hover,
+.btn-contato:hover,
+.btn-banner:hover,
+.filter-btn:hover,
+.action-btn:hover,
+.primary-btn:hover,
+.buy:hover,
+button.btn:hover {
+  transform: translateY(-2px) scale(1.01) !important;
+  box-shadow: 0 26px 54px rgba(255, 106, 0, .24) !important;
+  background: linear-gradient(135deg, #ff9f00 0%, #ffc76d 100%) !important;
 }
 
 .site-footer {
