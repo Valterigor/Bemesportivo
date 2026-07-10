@@ -11,6 +11,8 @@ let activeVideoFilter='all';
 const COMMUNITY_ROOT=location.protocol==='file:'?'':'/api/community';
 const CLIENT_KEY='bemEsportivoCommunityClientId';
 const COMMENT_KEY='bemBeplayVideoComments';
+const COMMENT_NAME_KEY='bemBeplayCommentName';
+const HISTORY_KEY='bemBeplayWatchHistory';
 
 function escapeHtml(value){
   return String(value||'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -72,6 +74,7 @@ function playCurrentVideo(){
   player.src=getYoutubeEmbedUrl(currentVideo,true);
   player.hidden=false;
   placeholder.hidden=true;
+  recordWatchedVideo(currentVideo);
   player.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
@@ -166,6 +169,59 @@ function getStoredComments(){
 
 function saveStoredComments(comments){
   localStorage.setItem(COMMENT_KEY, JSON.stringify(comments));
+}
+
+function getWatchHistory(){
+  try{
+    const history=JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+    return Array.isArray(history) ? history : [];
+  }catch(error){
+    return [];
+  }
+}
+
+function saveWatchHistory(history){
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0,8)));
+}
+
+function recordWatchedVideo(video){
+  const history=getWatchHistory().filter(item=>item.id!==video.id);
+  history.unshift({
+    id:video.id,
+    title:video.title,
+    category:video.category,
+    watchedAt:new Date().toISOString()
+  });
+  saveWatchHistory(history);
+  renderWatchHistory();
+}
+
+function renderWatchHistory(){
+  const list=document.getElementById('watchHistory');
+  if(!list) return;
+  const history=getWatchHistory();
+  if(!history.length){
+    list.innerHTML='<span class="comment-empty">Seu histórico aparece depois que você assistir a um vídeo.</span>';
+    return;
+  }
+  list.innerHTML=history.map(item=>`
+    <button class="history-item" type="button" data-history-video="${escapeHtml(item.id)}">
+      <span class="history-item-thumb" style="background-image:url(https://img.youtube.com/vi/${encodeURIComponent(item.id)}/hqdefault.jpg)"></span>
+      <span>
+        <strong>${escapeHtml(item.title)}</strong>
+        <span>${escapeHtml(item.category || 'BEplay')}</span>
+      </span>
+    </button>
+  `).join('');
+  list.querySelectorAll('[data-history-video]').forEach(button=>{
+    button.addEventListener('click',()=>{
+      const video=videos.find(item=>item.id===button.dataset.historyVideo);
+      if(video){
+        setVideo(video);
+        playCurrentVideo();
+      }
+    });
+  });
 }
 
 function renderVideoComments(){
@@ -263,13 +319,16 @@ document.querySelectorAll('[data-video-filter]').forEach(button=>{
 
 document.getElementById('videoCommentForm').addEventListener('submit',event=>{
   event.preventDefault();
+  const nameInput=document.getElementById('videoCommentName');
   const textarea=document.getElementById('videoCommentText');
+  const name=String(nameInput?.value || '').trim().slice(0,40) || 'Visitante';
   const text=String(textarea.value || '').trim();
   if(!text) return;
+  localStorage.setItem(COMMENT_NAME_KEY, name);
   const comments=getStoredComments();
   comments[currentVideo.id]=Array.isArray(comments[currentVideo.id]) ? comments[currentVideo.id] : [];
   comments[currentVideo.id].push({
-    name:'Visitante',
+    name,
     text:text.slice(0,280),
     createdAt:new Date().toISOString()
   });
@@ -292,8 +351,13 @@ try{
 if(localStorage.getItem('bemBeplaySubscribed')==='true'){
   document.getElementById('subscribeChannel').textContent='Inscrito';
 }
+const savedCommentName=localStorage.getItem(COMMENT_NAME_KEY);
+if(savedCommentName && document.getElementById('videoCommentName')){
+  document.getElementById('videoCommentName').value=savedCommentName;
+}
 renderRelated();
 renderVideoComments();
+renderWatchHistory();
 loadVideoCommunity();
 communityRefreshTimer=window.setInterval(()=>{
   if(document.hidden) return;

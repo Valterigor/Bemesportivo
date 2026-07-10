@@ -1,0 +1,1512 @@
+﻿diff --git a/index.html b/index.html
+index 23710e4..903fc77 100644
+--- a/index.html
++++ b/index.html
+@@ -8,28 +8,921 @@
+   <meta property="og:title" content="BEM ESPORTIVO | Portal esportivo premium">
+   <meta property="og:description" content="Not├¡cias, jogos, posts, Fala Bem, treinos e v├¡deos em uma experi├¬ncia premium.">
+   <meta property="og:type" content="website">
+-  <meta property="og:url" content="https://bemesportivo.com/">
+   <meta property="og:image" content="https://bemesportivo.com/img/banner.png">
+-  <meta name="twitter:card" content="summary_large_image">
+   <title>BEM ESPORTIVO | Portal esportivo premium</title>
+-  <link rel="canonical" href="https://bemesportivo.com/">
+   <link rel="icon" href="img/logobemoficial.png">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="css/index.css">
+-  <link rel="stylesheet" href="site-common.css">
+-  <script type="application/ld+json">
+-    {
+-      "@context": "https://schema.org",
+-      "@type": "SportsActivityLocation",
+-      "name": "Bem Esportivo",
+-      "url": "https://bemesportivo.com/",
+-      "logo": "https://bemesportivo.com/img/logobemoficial.png",
+-      "sameAs": ["https://www.instagram.com/bemesportivo/"],
+-      "description": "Portal esportivo com not├¡cias, jogos, reportagens, v├¡deos, profissionais e produtos ligados ao esporte."
++  <style>
++    :root {
++      --white: #ffffff;
++      --black: #111111;
++      --orange: #ff6a00;
++      --soft: #f5f5f5;
++      --muted: #6d6d6d;
++      --line: #e9e9e9;
++      --shadow: 0 22px 60px rgba(17, 17, 17, .10);
++      --soft-shadow: 0 14px 36px rgba(17, 17, 17, .08);
++      --radius-xl: 34px;
++      --radius-lg: 26px;
++      --radius-md: 18px;
++      --max: 1280px;
+     }
+-  </script>
++
++    * {
++      box-sizing: border-box;
++      margin: 0;
++      padding: 0;
++    }
++
++    html {
++      scroll-behavior: smooth;
++      background: var(--white);
++    }
++
++    body {
++      min-width: 320px;
++      overflow-x: hidden;
++      background: var(--white);
++      color: var(--black);
++      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
++      letter-spacing: 0;
++    }
++
++    img {
++      display: block;
++      max-width: 100%;
++      height: auto;
++    }
++
++    a {
++      color: inherit;
++      text-decoration: none;
++    }
++
++    button,
++    input {
++      font: inherit;
++    }
++
++    .page {
++      background:
++        linear-gradient(180deg, rgba(245, 245, 245, .7) 0, rgba(255, 255, 255, 0) 360px),
++        var(--white);
++    }
++
++    .shell {
++      width: min(calc(100% - 32px), var(--max));
++      margin: 0 auto;
++    }
++
++    .site-header {
++      position: sticky;
++      top: 0;
++      z-index: 20;
++      background: rgba(255, 255, 255, .88);
++      border-bottom: 1px solid rgba(233, 233, 233, .88);
++      backdrop-filter: blur(24px);
++    }
++
++    .nav-row {
++      display: flex;
++      align-items: center;
++      min-height: 76px;
++      gap: 16px;
++      overflow: hidden;
++    }
++
++    .brand {
++      display: inline-flex;
++      align-items: center;
++      gap: 12px;
++      min-width: 0;
++      font-size: clamp(16px, 3vw, 22px);
++      font-weight: 900;
++      line-height: 1;
++      letter-spacing: 0;
++      white-space: nowrap;
++    }
++
++    .brand-logo {
++      width: auto;
++      height: 46px;
++      flex: 0 0 auto;
++      object-fit: contain;
++    }
++
++    .icon {
++      width: 20px;
++      height: 20px;
++      fill: none;
++      stroke: currentColor;
++      stroke-width: 2;
++      stroke-linecap: round;
++      stroke-linejoin: round;
++    }
++
++    .category-nav {
++      display: flex;
++      gap: 10px;
++      flex: 1 1 auto;
++      padding: 0;
++      overflow-x: auto;
++      scrollbar-width: none;
++    }
++
++    .category-nav::-webkit-scrollbar {
++      display: none;
++    }
++
++    .nav-chip {
++      display: inline-flex;
++      align-items: center;
++      flex: 0 0 auto;
++      gap: 9px;
++      min-height: 44px;
++      padding: 0 15px;
++      border: 1px solid var(--line);
++      border-radius: 999px;
++      background: var(--white);
++      color: var(--black);
++      font-size: 13px;
++      font-weight: 800;
++      transition: background .2s ease, color .2s ease, transform .2s ease;
++    }
++
++    .nav-chip svg {
++      width: 18px;
++      height: 18px;
++      color: var(--orange);
++    }
++
++    .nav-chip:hover,
++    .nav-chip.active {
++      background: var(--black);
++      color: var(--white);
++      transform: translateY(-1px);
++    }
++
++    main {
++      padding: 22px 0 0;
++    }
++
++    .hero {
++      position: relative;
++      min-height: clamp(500px, 72svh, 760px);
++      overflow: hidden;
++      border-radius: var(--radius-xl);
++      background: #000000;
++      box-shadow: var(--shadow);
++      isolation: isolate;
++    }
++
++    .hero::after {
++      position: absolute;
++      inset: 0;
++      z-index: 1;
++      content: "";
++      background:
++        linear-gradient(90deg, rgba(0, 0, 0, .98) 0%, rgba(0, 0, 0, .92) 44%, rgba(0, 0, 0, .76) 100%),
++        linear-gradient(0deg, rgba(0, 0, 0, .96), rgba(0, 0, 0, .82) 56%);
++    }
++
++    .hero-content {
++      position: relative;
++      z-index: 2;
++      display: flex;
++      flex-direction: column;
++      justify-content: flex-end;
++      width: min(680px, 100%);
++      min-height: inherit;
++      padding: clamp(28px, 6vw, 72px);
++      color: var(--white);
++    }
++
++    .eyebrow {
++      color: var(--orange);
++      font-size: 12px;
++      font-weight: 900;
++      letter-spacing: 0;
++      text-transform: uppercase;
++    }
++
++    .hero h1 {
++      max-width: 12ch;
++      margin-top: 16px;
++      font-size: clamp(38px, 6vw, 78px);
++      font-weight: 900;
++      line-height: .94;
++      letter-spacing: 0;
++    }
++
++    .hero p {
++      max-width: 650px;
++      margin-top: 22px;
++      color: rgba(255, 255, 255, .88);
++      font-size: clamp(15px, 2vw, 19px);
++      line-height: 1.45;
++      font-weight: 500;
++    }
++
++    .hero-meta {
++      display: flex;
++      flex-wrap: wrap;
++      align-items: center;
++      gap: 14px;
++      margin-top: 28px;
++      color: rgba(255, 255, 255, .82);
++      font-size: 13px;
++      font-weight: 800;
++    }
++
++    .primary-btn {
++      display: inline-flex;
++      align-items: center;
++      justify-content: center;
++      min-height: 52px;
++      padding: 0 24px;
++      border: 0;
++      border-radius: 999px;
++      background: linear-gradient(135deg, #ff8a00 0%, #ffb347 100%);
++      color: var(--black);
++      box-shadow: 0 22px 44px rgba(255, 106, 0, .18);
++      font-weight: 900;
++      cursor: pointer;
++      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
++    }
++
++    .primary-btn:hover {
++      transform: translateY(-2px) scale(1.02);
++      box-shadow: 0 26px 52px rgba(255, 106, 0, .24);
++      background: linear-gradient(135deg, #ff9f00 0%, #ffc76d 100%);
++    }
++
++    .section {
++      padding: clamp(58px, 8vw, 112px) 0 0;
++    }
++
++    .section-head {
++      display: flex;
++      align-items: end;
++      justify-content: space-between;
++      gap: 22px;
++      margin-bottom: clamp(22px, 4vw, 38px);
++    }
++
++    .section-title {
++      max-width: 760px;
++    }
++
++    .section-title span {
++      display: block;
++      margin-bottom: 8px;
++      color: var(--orange);
++      font-size: 13px;
++      font-weight: 900;
++      text-transform: uppercase;
++    }
++
++    .section-title h2 {
++      font-size: clamp(28px, 4vw, 48px);
++      font-weight: 900;
++      line-height: .98;
++      letter-spacing: 0;
++    }
++
++    .section-copy {
++      max-width: 380px;
++      color: var(--muted);
++      font-size: 15px;
++      line-height: 1.6;
++      font-weight: 600;
++    }
++
++    .social-grid,
++    .story-grid,
++    .video-grid {
++      display: grid;
++      grid-template-columns: repeat(3, minmax(0, 1fr));
++      gap: 18px;
++    }
++
++    .video-grid {
++      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
++    }
++
++    .social-card,
++    .match-card,
++    .story-card,
++    .video-card,
++    .newsletter {
++      border: 1px solid var(--line);
++      border-radius: var(--radius-lg);
++      background: var(--white);
++      box-shadow: var(--soft-shadow);
++    }
++
++    .social-card {
++      padding: 16px;
++    }
++
++    .author {
++      display: flex;
++      align-items: center;
++      gap: 12px;
++      margin-bottom: 14px;
++    }
++
++    .avatar {
++      width: 52px;
++      height: 52px;
++      overflow: hidden;
++      flex: 0 0 auto;
++      border-radius: 50%;
++      background: var(--soft);
++    }
++
++    .avatar img {
++      width: 100%;
++      height: 100%;
++      object-fit: cover;
++    }
++
++    .author strong {
++      display: block;
++      font-size: 14px;
++      line-height: 1.2;
++    }
++
++    .author small {
++      color: var(--muted);
++      font-weight: 700;
++    }
++
++    .social-card p {
++      min-height: 74px;
++      color: #242424;
++      font-size: 15px;
++      line-height: 1.45;
++      font-weight: 650;
++    }
++
++    .social-shot {
++      width: 100%;
++      aspect-ratio: 1 / .82;
++      margin-top: 16px;
++      overflow: hidden;
++      border-radius: 20px;
++      background: var(--soft);
++    }
++
++    .social-shot img,
++    .story-media img,
++    .video-thumb img {
++      width: 100%;
++      height: 100%;
++      object-fit: cover;
++    }
++
++    .social-actions {
++      display: flex;
++      align-items: center;
++      justify-content: space-between;
++      gap: 8px;
++      margin-top: 14px;
++      color: var(--muted);
++      font-size: 13px;
++      font-weight: 850;
++    }
++
++    .social-actions span {
++      display: inline-flex;
++      align-items: center;
++      gap: 6px;
++      white-space: nowrap;
++    }
++
++    .social-actions a {
++      display: inline-flex;
++      align-items: center;
++      justify-content: center;
++      min-height: 34px;
++      padding: 0 12px;
++      border-radius: 999px;
++      background: var(--black);
++      color: var(--white);
++      white-space: nowrap;
++    }
++
++    .matches {
++      display: grid;
++      gap: 14px;
++    }
++
++    .worldcup-livebar {
++      display: flex;
++      align-items: center;
++      justify-content: space-between;
++      gap: 14px;
++      margin-bottom: 16px;
++      padding: 14px 16px;
++      border: 1px solid var(--line);
++      border-radius: var(--radius-md);
++      background: var(--soft);
++      color: var(--muted);
++      font-size: 13px;
++      font-weight: 800;
++    }
++
++    .worldcup-livebar strong {
++      color: var(--black);
++      font-size: 14px;
++      font-weight: 900;
++    }
++
++    .match-card {
++      display: grid;
++      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
++      align-items: center;
++      gap: 18px;
++      min-height: 132px;
++      padding: clamp(16px, 3vw, 26px);
++    }
++
++    .team {
++      display: grid;
++      grid-template-columns: auto minmax(0, 1fr);
++      align-items: center;
++      gap: 14px;
++      min-width: 0;
++      font-weight: 900;
++      font-size: clamp(15px, 1.6vw, 19px);
++    }
++
++    .team.away {
++      grid-template-columns: minmax(0, 1fr) auto;
++      text-align: right;
++    }
++
++    .team-name {
++      min-width: 0;
++      overflow: hidden;
++      text-overflow: ellipsis;
++      white-space: nowrap;
++    }
++
++    .crest {
++      display: grid;
++      width: 72px;
++      height: 72px;
++      flex: 0 0 auto;
++      place-items: center;
++      border-radius: 22px;
++      background: var(--soft);
++      color: var(--black);
++      font-size: 19px;
++      font-weight: 900;
++      box-shadow: inset 0 0 0 1px var(--line);
++    }
++
++    .crest img {
++      width: 52px;
++      height: 38px;
++      object-fit: contain;
++      border-radius: 8px;
++    }
++
++    .match-center {
++      text-align: center;
++      min-width: 132px;
++    }
++
++    .time {
++      display: block;
++      font-size: clamp(22px, 3vw, 34px);
++      font-weight: 900;
++      line-height: 1;
++    }
++
++    .competition {
++      display: block;
++      margin-top: 8px;
++      color: var(--muted);
++      font-size: 13px;
++      font-weight: 800;
++      text-transform: uppercase;
++    }
++
++    .status {
++      display: inline-flex;
++      align-items: center;
++      justify-content: center;
++      min-height: 34px;
++      margin-top: 12px;
++      padding: 0 12px;
++      border-radius: 999px;
++      background: var(--soft);
++      color: var(--black);
++      font-size: 12px;
++      font-weight: 900;
++      text-transform: uppercase;
++    }
++
++    .status.live {
++      background: var(--orange);
++      color: var(--black);
++    }
++
++    .status.today {
++      background: var(--black);
++      color: var(--white);
++    }
++
++    .match-detail {
++      display: block;
++      margin-top: 8px;
++      color: var(--muted);
++      font-size: 12px;
++      font-weight: 800;
++    }
++
++    .match-empty {
++      padding: 24px;
++      border: 1px dashed var(--line);
++      border-radius: var(--radius-lg);
++      background: var(--soft);
++      color: var(--muted);
++      font-weight: 800;
++      text-align: center;
++    }
++
++    .ghost-btn {
++      display: inline-flex;
++      align-items: center;
++      justify-content: center;
++      min-height: 44px;
++      padding: 0 18px;
++      border: 1px solid var(--line);
++      border-radius: 999px;
++      background: var(--white);
++      color: var(--black);
++      font-size: 14px;
++      font-weight: 900;
++      white-space: nowrap;
++      transition: background .2s ease, color .2s ease, transform .2s ease;
++    }
++
++    .ghost-btn:hover {
++      background: var(--black);
++      color: var(--white);
++      transform: translateY(-2px);
++    }
++
++    .story-card {
++      overflow: hidden;
++      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
++      cursor: pointer;
++    }
++
++    .story-card:hover,
++    .video-card:hover {
++      transform: translateY(-4px);
++      box-shadow: var(--shadow);
++    }
++
++    .story-card.active {
++      transform: scale(1.04);
++      box-shadow: 0 32px 64px rgba(17, 17, 17, .18);
++      border-color: rgba(255, 106, 0, .2);
++    }
++
++    .story-media {
++      aspect-ratio: 1 / .72;
++      overflow: hidden;
++      background: var(--soft);
++    }
++
++    .post-grid {
++      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
++    }
++
++    .post-card {
++      overflow: hidden;
++      padding: 12px;
++      background: var(--soft);
++      border: 1px solid transparent;
++    }
++
++    .post-card.active {
++      transform: scale(1.03);
++      border-color: rgba(255, 106, 0, .25);
++      box-shadow: 0 28px 46px rgba(17, 17, 17, .12);
++    }
++
++    .post-card .story-media {
++      aspect-ratio: 1 / 1;
++      border-radius: 18px;
++      background: var(--white);
++    }
++
++    #topBtn {
++      position: fixed;
++      right: 24px;
++      bottom: 24px;
++      width: 52px;
++      height: 52px;
++      border: none;
++      border-radius: 50%;
++      background: linear-gradient(135deg, #ff8a00 0%, #ffb347 100%);
++      color: var(--black);
++      display: grid;
++      place-items: center;
++      font-size: 20px;
++      box-shadow: 0 24px 48px rgba(255, 106, 0, .22);
++      cursor: pointer;
++      opacity: 0;
++      visibility: hidden;
++      transform: translateY(10px);
++      transition: opacity .25s ease, transform .25s ease, box-shadow .25s ease;
++      z-index: 60;
++    }
++
++    #topBtn.show {
++      opacity: 1;
++      visibility: visible;
++      transform: translateY(0);
++    }
++
++    #topBtn:hover {
++      transform: translateY(-2px);
++      box-shadow: 0 30px 60px rgba(255, 106, 0, .3);
++    }
++
++    .post-card .story-media img {
++      object-fit: contain;
++    }
++
++    .story-body {
++      padding: 22px;
++    }
++
++    .story-body h3 {
++      margin-top: 10px;
++      font-size: clamp(18px, 1.9vw, 24px);
++      line-height: 1.08;
++      font-weight: 900;
++      letter-spacing: 0;
++    }
++
++    .read-time {
++      display: block;
++      margin-top: 18px;
++      color: var(--muted);
++      font-size: 13px;
++      font-weight: 850;
++    }
++
++    .video-card {
++      overflow: hidden;
++      border-radius: var(--radius-lg);
++      transition: transform .25s ease, box-shadow .25s ease;
++    }
++
++    .video-thumb {
++      position: relative;
++      aspect-ratio: 16 / 9;
++      overflow: hidden;
++      background: var(--soft);
++    }
++
++    .play {
++      position: absolute;
++      top: 50%;
++      left: 50%;
++      display: grid;
++      width: 64px;
++      height: 64px;
++      place-items: center;
++      border-radius: 50%;
++      background: rgba(255, 255, 255, .92);
++      color: var(--orange);
++      transform: translate(-50%, -50%);
++      box-shadow: 0 18px 42px rgba(17, 17, 17, .24);
++    }
++
++    .duration {
++      position: absolute;
++      right: 14px;
++      bottom: 14px;
++      padding: 7px 10px;
++      border-radius: 999px;
++      background: rgba(17, 17, 17, .88);
++      color: var(--white);
++      font-size: 12px;
++      font-weight: 900;
++    }
++
++    .video-body {
++      padding: 18px;
++    }
++
++    .video-body h3 {
++      margin-top: 8px;
++      font-size: 18px;
++      line-height: 1.15;
++      font-weight: 900;
++    }
++
++    .footer {
++      margin-top: clamp(70px, 10vw, 130px);
++      padding: clamp(42px, 7vw, 74px) 0 32px;
++      background: var(--black);
++      color: var(--white);
++    }
++
++    .footer-grid {
++      display: grid;
++      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
++      gap: 28px;
++    }
++
++    .newsletter {
++      padding: clamp(22px, 4vw, 34px);
++      border-color: rgba(255, 255, 255, .12);
++      background: #191919;
++      box-shadow: none;
++    }
++
++    .newsletter h2 {
++      max-width: 540px;
++      font-size: clamp(28px, 4vw, 44px);
++      line-height: .98;
++      font-weight: 900;
++      letter-spacing: 0;
++    }
++
++    .newsletter p {
++      max-width: 520px;
++      margin-top: 14px;
++      color: rgba(255, 255, 255, .7);
++      line-height: 1.6;
++      font-weight: 600;
++    }
++
++    .signup {
++      display: flex;
++      gap: 10px;
++      max-width: 560px;
++      margin-top: 24px;
++      padding: 8px;
++      border: 1px solid rgba(255, 255, 255, .12);
++      border-radius: 999px;
++      background: var(--white);
++    }
++
++    .signup input {
++      width: 100%;
++      min-height: 46px;
++      border: 0;
++      outline: 0;
++      padding: 0 16px;
++      background: transparent;
++      color: var(--black);
++      font-size: 16px;
++    }
++
++    .footer-col h3 {
++      margin-bottom: 18px;
++      color: var(--orange);
++      font-size: 13px;
++      font-weight: 900;
++      text-transform: uppercase;
++    }
++
++    .footer-col a {
++      display: block;
++      width: fit-content;
++      margin-bottom: 12px;
++      color: rgba(255, 255, 255, .75);
++      font-weight: 700;
++    }
++
++    .footer-bottom {
++      display: flex;
++      flex-wrap: wrap;
++      justify-content: space-between;
++      gap: 14px;
++      margin-top: 36px;
++      padding-top: 24px;
++      border-top: 1px solid rgba(255, 255, 255, .12);
++      color: rgba(255, 255, 255, .56);
++      font-size: 13px;
++      font-weight: 700;
++    }
++
++    @media (max-width: 980px) {
++      .social-grid,
++      .story-grid,
++      .video-grid,
++      .footer-grid {
++        grid-template-columns: 1fr;
++      }
++
++      .match-card {
++        grid-template-columns: 1fr;
++        text-align: center;
++      }
++
++      .team {
++        justify-content: center;
++        grid-template-columns: auto minmax(0, max-content);
++      }
++
++      .team.away {
++        grid-template-columns: minmax(0, max-content) auto;
++        justify-content: center;
++      }
++
++      .match-card .ghost-btn {
++        width: 100%;
++      }
++    }
++
++    @media (max-width: 720px) {
++      .shell {
++        width: min(calc(100% - 24px), var(--max));
++      }
++
++      .nav-row {
++        min-height: 68px;
++      }
++
++      .brand {
++        font-size: 18px;
++      }
++
++      .brand-logo {
++        height: 40px;
++      }
++
++      .hero {
++        min-height: 560px;
++        border-radius: 28px;
++      }
++
++      .hero::after {
++        background:
++          linear-gradient(0deg, rgba(0, 0, 0, .98) 0%, rgba(0, 0, 0, .94) 68%, rgba(0, 0, 0, .86) 100%);
++      }
++
++      .hero-content {
++        padding: 26px;
++      }
++
++      .hero h1 {
++        max-width: 9ch;
++      }
++
++      .section-head {
++        display: block;
++      }
++
++      .section-copy {
++        margin-top: 14px;
++      }
++
++      .social-card p {
++        min-height: 0;
++      }
++
++      .crest {
++        width: 64px;
++        height: 64px;
++      }
++
++      .signup {
++        display: grid;
++        border-radius: 24px;
++      }
++
++      .signup .primary-btn {
++        width: 100%;
++      }
++    }
++
++    @media (max-width: 390px) {
++      .brand {
++        gap: 8px;
++        font-size: 15px;
++      }
++
++      .brand-logo {
++        height: 34px;
++      }
++
++    }
++  </style>
+ </head>
+ <body>
+   <div class="page">
+@@ -40,15 +933,15 @@
+             <img class="brand-logo" src="img/Bem Esportivo Logo Laranja@33x.png" alt="BEM ESPORTIVO">
+           </a>
+           <nav class="category-nav" aria-label="Categorias">
+-            <a class='nav-chip active' href='/'><svg class="icon" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>In├¡cio</a>
++            <a class="nav-chip active" href="index.html"><svg class="icon" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>Inicio</a>
+             <a class="nav-chip" href="#jogos"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m12 3 3 6-3 3-3-3 3-6Z"></path><path d="m3.5 10 5.5-.8"></path><path d="m20.5 10-5.5-.8"></path><path d="m7 19 2-5"></path><path d="m17 19-2-5"></path></svg>Partidas</a>
+             <a class="nav-chip" href="#posts"><svg class="icon" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h10"></path></svg>Posts</a>
+-            <a class='nav-chip' href='/reportagens'><svg class="icon" viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>Reportagens</a>
+-            <a class='nav-chip' href='/coluna-valtinho'><svg class="icon" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"></path></svg>Fala bem</a>
++            <a class="nav-chip" href="Reportagens.html"><svg class="icon" viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>Reportagens</a>
++            <a class="nav-chip" href="coluna-valtinho.html"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"></path></svg>Fala bem</a>
+             <a class="nav-chip" href="#treinos"><svg class="icon" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M4 12h11"></path><path d="M4 17h16"></path></svg>Treinos</a>
+-            <a class='nav-chip' href='/beplay'><svg class="icon" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg>BEplay</a>
+-            <a class='nav-chip' href='/profissionais'><svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Profissionais</a>
+-            <a class='nav-chip' href='/produtos'><svg class="icon" viewBox="0 0 24 24"><path d="M20 7 12 3 4 7l8 4 8-4Z"></path><path d="M4 7v10l8 4 8-4V7"></path><path d="M12 11v10"></path></svg>Produtos</a>
++            <a class="nav-chip" href="beplay.html"><svg class="icon" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg>Beplay</a>
++            <a class="nav-chip" href="profissionais.html"><svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Profissionais</a>
++            <a class="nav-chip" href="produtos.html"><svg class="icon" viewBox="0 0 24 24"><path d="M20 7 12 3 4 7l8 4 8-4Z"></path><path d="M4 7v10l8 4 8-4V7"></path><path d="M12 11v10"></path></svg>Produtos</a>
+           </nav>
+         </div>
+       </div>
+@@ -57,12 +950,12 @@
+     <main>
+       <section class="shell hero" aria-labelledby="hero-title">
+         <div class="hero-content">
+-          <span class="eyebrow">Bem-vindo ao Bem Esportivo</span>
+-          <h1 id="hero-title">Bem Esportivo, o seu lugar de esporte, sa├║de e lazer.</h1>
+-          <p>Conte├║do esportivo com informa├º├úo, acolhimento e movimento para acompanhar jogos, hist├│rias, treinos e h├íbitos que fazem bem.</p>
++          <span class="eyebrow">Especial BEM ESPORTIVO</span>
++          <h1 id="hero-title">O futebol entra em uma nova fase</h1>
++          <p>An├ílise premium sobre calend├írio, prepara├º├úo f├¡sica e os bastidores que moldam a temporada dos grandes clubes.</p>
+           <div class="hero-meta">
+-            <span>Futebol, bem-estar e comunidade</span>
+-            <a class='primary-btn' href='/reportagens'>Ver reportagens</a>
++            <span>8 min de leitura</span>
++            <a class="primary-btn" href="Reportagens.html">Ler mat├®ria</a>
+           </div>
+         </div>
+       </section>
+@@ -94,16 +987,16 @@
+         </div>
+         <div class="story-grid post-grid">
+           <article class="story-card post-card">
+-            <div class="story-media"><img decoding="async" loading="lazy" src="img/posts/post-boa-alimentacao.png" alt="Post sobre boa alimenta├º├úo"></div>
++            <div class="story-media"><img src="img/posts/post-boa-alimentacao.png" alt="Post sobre boa alimentacao"></div>
+           </article>
+           <article class="story-card post-card">
+-            <div class="story-media"><img decoding="async" loading="lazy" src="img/posts/post-academia-transforma.png" alt="Post sobre academia"></div>
++            <div class="story-media"><img src="img/posts/post-academia-transforma.png" alt="Post sobre academia"></div>
+           </article>
+           <article class="story-card post-card">
+-            <div class="story-media"><img decoding="async" loading="lazy" src="img/posts/post-corrida-transforma.png" alt="Post sobre corrida"></div>
++            <div class="story-media"><img src="img/posts/post-corrida-transforma.png" alt="Post sobre corrida"></div>
+           </article>
+           <article class="story-card post-card">
+-            <div class="story-media"><img decoding="async" loading="lazy" src="img/posts/post-pratica-esportes.png" alt="Post sobre pr├ítica de esportes"></div>
++            <div class="story-media"><img src="img/posts/post-pratica-esportes.png" alt="Post sobre pratica de esportes"></div>
+           </article>
+         </div>
+       </section>
+@@ -119,27 +1012,27 @@
+         <div class="social-grid">
+           <article class="social-card">
+             <div class="author">
+-              <span class="avatar"><img decoding="async" loading="lazy" src="img/valteroficial.png" alt="Foto de Valter Igor"></span>
++              <span class="avatar"><img src="img/valteroficial.png" alt="Foto de Valter Igor"></span>
+               <span><strong>Valtinho</strong><small>11/04/2026 ÔÇó 5 min</small></span>
+             </div>
+             <p>O futebol brasileiro precisa mudar: transi├º├úo, organiza├º├úo e leitura coletiva decidir├úo o pr├│ximo ciclo.</p>
+-            <div class="social-actions"><span>Futebol</span><span>An├ílise t├ítica</span><a href='/coluna-valtinho'>Ler coluna</a></div>
++            <div class="social-actions"><span>Futebol</span><span>An├ílise t├ítica</span><a href="coluna-valtinho.html">Ler coluna</a></div>
+           </article>
+           <article class="social-card">
+             <div class="author">
+-              <span class="avatar"><img decoding="async" loading="lazy" src="img/valteroficial.png" alt="Foto de Valtinho"></span>
++              <span class="avatar"><img src="img/valteroficial.png" alt="Foto de Valtinho"></span>
+               <span><strong>Valtinho</strong><small>10/04/2026 ÔÇó 4 min</small></span>
+             </div>
+             <p>Sa├║de e performance no esporte moderno: prepara├º├úo f├¡sica, dados e preven├º├úo mudaram o jogo.</p>
+-            <div class="social-actions"><span>Performance</span><span>Sa├║de</span><a href='/coluna-valtinho'>Ler coluna</a></div>
++            <div class="social-actions"><span>Performance</span><span>Sa├║de</span><a href="coluna-valtinho.html">Ler coluna</a></div>
+           </article>
+           <article class="social-card">
+             <div class="author">
+-              <span class="avatar"><img decoding="async" loading="lazy" src="img/valteroficial.png" alt="Foto de Valtinho"></span>
++              <span class="avatar"><img src="img/valteroficial.png" alt="Foto de Valtinho"></span>
+               <span><strong>Valtinho</strong><small>09/04/2026 ÔÇó 6 min</small></span>
+             </div>
+             <p>T├ítica, press├úo alta e leitura de jogo: como o futebol atual tamb├®m ├® decidido sem a bola.</p>
+-            <div class="social-actions"><span>T├ítica</span><span>Futebol</span><a href='/coluna-valtinho'>Ler coluna</a></div>
++            <div class="social-actions"><span>T├ítica</span><span>Futebol</span><a href="coluna-valtinho.html">Ler coluna</a></div>
+           </article>
+         </div>
+       </section>
+@@ -154,15 +1047,15 @@
+         </div>
+         <div class="story-grid">
+           <article class="story-card">
+-            <div class="story-media"><img decoding="async" loading="lazy" src="img/app-treino-card.png" alt="Atleta treinando"></div>
+-            <div class="story-body"><span class="eyebrow">Disciplina</span><h3>Treine hoje para agradecer amanh├ú.</h3></div>
++            <div class="story-media"><img src="img/app-treino-card.png" alt="Atleta treinando"></div>
++            <div class="story-body"><span class="eyebrow">Disciplina</span><h3>Treine hoje para agradecer amanha.</h3></div>
+           </article>
+           <article class="story-card">
+-            <div class="story-media"><img decoding="async" loading="lazy" src="img/app-treino-card.png" alt="Prepara├º├úo t├ítica"></div>
++            <div class="story-media"><img src="img/app-treino-card.png" alt="Prepara├º├úo t├ítica"></div>
+             <div class="story-body"><span class="eyebrow">Const├óncia</span><h3>O resultado aparece quando a vontade vira rotina.</h3></div>
+           </article>
+           <article class="story-card">
+-            <div class="story-media"><img decoding="async" loading="lazy" src="img/app-treino-card.png" alt="Treino para categorias de base"></div>
++            <div class="story-media"><img src="img/app-treino-card.png" alt="Treino para categorias de base"></div>
+             <div class="story-body"><span class="eyebrow">Evolu├º├úo</span><h3>Cada repeti├º├úo bem feita aproxima voc├¬ do seu melhor n├¡vel.</h3></div>
+           </article>
+         </div>
+@@ -174,19 +1067,19 @@
+             <span>Play</span>
+             <h2>V├¡deos</h2>
+           </div>
+-          <p class="section-copy">Miniaturas diretas do BEplay, dura├º├úo vis├¡vel e destaque para o assunto antes do primeiro clique.</p>
++          <p class="section-copy">Miniaturas diretas do Beplay, duracao visivel e destaque para o assunto antes do primeiro clique.</p>
+         </div>
+         <div class="video-grid">
+-          <a class='video-card' href='/beplay'>
+-            <div class="video-thumb"><img decoding="async" loading="lazy" src="https://img.youtube.com/vi/gBkon6LC2OU/hqdefault.jpg" alt="Treino t├®cnico e t├ítico"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">6min 18s</span></div>
++          <a class="video-card" href="beplay.html">
++            <div class="video-thumb"><img src="https://img.youtube.com/vi/gBkon6LC2OU/hqdefault.jpg" alt="Treino t├®cnico e t├ítico"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">6min 18s</span></div>
+             <div class="video-body"><span class="eyebrow">BEplay</span><h3>Treino t├®cnico e t├ítico</h3></div>
+           </a>
+-          <a class='video-card' href='/beplay'>
+-            <div class="video-thumb"><img decoding="async" loading="lazy" src="https://img.youtube.com/vi/Qi1lRW18kvM/hqdefault.jpg" alt="Duda e o futebol"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">5min 02s</span></div>
++          <a class="video-card" href="beplay.html">
++            <div class="video-thumb"><img src="https://img.youtube.com/vi/Qi1lRW18kvM/hqdefault.jpg" alt="Duda e o futebol"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">5min 02s</span></div>
+             <div class="video-body"><span class="eyebrow">Hist├│ria</span><h3>Duda e o futebol</h3></div>
+           </a>
+-          <a class='video-card' href='/beplay'>
+-            <div class="video-thumb"><img decoding="async" loading="lazy" src="https://img.youtube.com/vi/dYiX4fvxGG8/hqdefault.jpg" alt="Futebol e areia"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">7min 33s</span></div>
++          <a class="video-card" href="beplay.html">
++            <div class="video-thumb"><img src="https://img.youtube.com/vi/dYiX4fvxGG8/hqdefault.jpg" alt="Futebol e areia"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">7min 33s</span></div>
+             <div class="video-body"><span class="eyebrow">Performance</span><h3>Futebol e areia</h3></div>
+           </a>
+         </div>
+@@ -195,20 +1088,12 @@
+ 
+     <footer class="footer">
+       <div class="shell footer-grid">
+-        <section class="newsletter" aria-labelledby="newsletter-title">
+-          <h2 id="newsletter-title">Receba o melhor do esporte com calma e contexto.</h2>
+-          <p>Uma sele├º├úo premium com partidas, posts, Fala Bem, treinos e v├¡deos direto no seu e-mail.</p>
+-          <form class="signup">
+-            <input type="email" placeholder="seu@email.com" aria-label="Email para newsletter">
+-            <button class="primary-btn" type="submit">Assinar</button>
+-          </form>
+-        </section>
+         <div class="footer-col">
+           <h3>Institucional</h3>
+-          <a href='/sobre'>Sobre</a>
+-          <a href='/contato'>Contato</a>
+-          <a href='/profissionais'>Profissionais</a>
+-          <a href='/produtos'>Produtos</a>
++          <a href="sobre.html">Sobre</a>
++          <a href="contato.html">Contato</a>
++          <a href="profissionais.html">Profissionais</a>
++          <a href="produtos.html">Produtos</a>
+         </div>
+         <div class="footer-col">
+           <h3>Instagram</h3>
+@@ -217,11 +1102,279 @@
+       </div>
+       <div class="shell footer-bottom">
+         <span>┬® 2026 BEM ESPORTIVO. Todos os direitos reservados.</span>
+-        <span><a href='/politica-de-privacidade'>Pol├¡tica de Privacidade</a> ┬À <a href='/termos'>Termos</a> ┬À <a href='/contato'>Contato</a></span>
++        <span><a href="politica-de-privacidade.html">Pol├¡tica de Privacidade</a> ┬À <a href="termos.html">Termos</a> ┬À <a href="contato.html">Contato</a></span>
+       </div>
+     </footer>
++    <button id="topBtn" type="button" aria-label="Voltar ao topo">Ôåæ</button>
+   </div>
+-  <script src="js/site-common.js" defer></script>
+-  <script src="js/index.js" defer></script>
++  <script>
++    function escapeHtml(value) {
++      return String(value || '').replace(/[&<>"']/g, char => ({
++        '&': '&amp;',
++        '<': '&lt;',
++        '>': '&gt;',
++        '"': '&quot;',
++        "'": '&#39;'
++      }[char]));
++    }
++
++    function getSaoPauloDateKey(date = new Date()) {
++      const parts = new Intl.DateTimeFormat('en-CA', {
++        timeZone: 'America/Sao_Paulo',
++        year: 'numeric',
++        month: '2-digit',
++        day: '2-digit'
++      }).formatToParts(date).reduce((acc, part) => {
++        acc[part.type] = part.value;
++        return acc;
++      }, {});
++      return `${parts.year}${parts.month}${parts.day}`;
++    }
++
++    function getSaoPauloDateRange(daysAhead = 10) {
++      const start = new Date();
++      const end = new Date();
++      end.setDate(end.getDate() + daysAhead);
++      return `${getSaoPauloDateKey(start)}-${getSaoPauloDateKey(end)}`;
++    }
++
++    const FALLBACK_WORLD_CUP_MATCHES = [
++      {
++        id: 'fallback-qf-1',
++        home: { name: 'Fran├ºa', code: 'FRA' },
++        away: { name: 'Marrocos', code: 'MAR' },
++        detail: 'Quartas de final',
++        date: '2026-07-09T20:00:00Z'
++      },
++      {
++        id: 'fallback-qf-2',
++        home: { name: 'Espanha', code: 'ESP' },
++        away: { name: 'B├®lgica', code: 'BEL' },
++        detail: 'Quartas de final',
++        date: '2026-07-10T19:00:00Z'
++      },
++      {
++        id: 'fallback-qf-3',
++        home: { name: 'Noruega', code: 'NOR' },
++        away: { name: 'Inglaterra', code: 'ING' },
++        detail: 'Quartas de final',
++        date: '2026-07-11T21:00:00Z'
++      },
++      {
++        id: 'fallback-qf-4',
++        home: { name: 'Argentina', code: 'ARG' },
++        away: { name: 'Su├¡├ºa', code: 'SUI' },
++        detail: 'Quartas de final',
++        date: '2026-07-12T01:00:00Z'
++      }
++    ];
++
++    function formatWorldCupDateTime(date) {
++      const dateLabel = date.toLocaleDateString('pt-BR', {
++        weekday: 'short',
++        day: '2-digit',
++        month: '2-digit',
++        timeZone: 'America/Sao_Paulo'
++      }).replace('.', '');
++      const time = date.toLocaleTimeString('pt-BR', {
++        hour: '2-digit',
++        minute: '2-digit',
++        timeZone: 'America/Sao_Paulo'
++      });
++      return { dateLabel, time };
++    }
++
++    function isSaoPauloToday(date) {
++      return getSaoPauloDateKey(date) === getSaoPauloDateKey(new Date());
++    }
++
++    function getFallbackWorldCupMatches() {
++      const now = Date.now();
++      return FALLBACK_WORLD_CUP_MATCHES
++        .map(match => {
++          const date = new Date(match.date);
++          const { dateLabel, time } = formatWorldCupDateTime(date);
++          const isToday = isSaoPauloToday(date);
++          return {
++            ...match,
++            score: '-- x --',
++            primary: time,
++            status: isToday ? 'Hoje' : 'Pre-jogo',
++            isLive: false,
++            isFinal: false,
++            isPre: true,
++            isToday,
++            startsAt: date.getTime(),
++            time: `${dateLabel} - ${time}`
++          };
++        })
++        .filter(match => match.startsAt >= now - 3 * 60 * 60 * 1000)
++        .slice(0, 8);
++    }
++
++    function getTeamLogo(team) {
++      if (!team) return '';
++      if (team.logo) return team.logo;
++      if (Array.isArray(team.logos) && team.logos[0]?.href) return team.logos[0].href;
++      return '';
++    }
++
++    function normalizeWorldCupEvent(event) {
++      const competition = event?.competitions?.[0] || {};
++      const competitors = Array.isArray(competition.competitors) ? competition.competitors : [];
++      const home = competitors.find(item => item.homeAway === 'home') || competitors[0] || {};
++      const away = competitors.find(item => item.homeAway === 'away') || competitors[1] || {};
++      const homeTeam = home.team || {};
++      const awayTeam = away.team || {};
++      const statusType = event?.status?.type || {};
++      const statusName = statusType.shortDetail || statusType.detail || statusType.description || 'Pre-jogo';
++      const isLive = statusType.state === 'in' || statusType.name === 'STATUS_IN_PROGRESS';
++      const isFinal = statusType.completed || statusType.state === 'post';
++      const isPre = statusType.state === 'pre' || (!isLive && !isFinal);
++      const date = event?.date ? new Date(event.date) : null;
++      const dateInfo = date && !Number.isNaN(date.getTime()) ? formatWorldCupDateTime(date) : null;
++      const time = dateInfo ? dateInfo.time : '--:--';
++      const dateLabel = dateInfo ? dateInfo.dateLabel : 'Data a confirmar';
++      const score = home.score != null && away.score != null ? `${home.score} x ${away.score}` : '-- x --';
++      const isToday = date ? isSaoPauloToday(date) : false;
++
++      return {
++        id: event?.id || '',
++        home: {
++          name: homeTeam.displayName || homeTeam.shortDisplayName || homeTeam.name || 'Mandante',
++          code: homeTeam.abbreviation || '---',
++          flag: getTeamLogo(homeTeam)
++        },
++        away: {
++          name: awayTeam.displayName || awayTeam.shortDisplayName || awayTeam.name || 'Visitante',
++          code: awayTeam.abbreviation || '---',
++          flag: getTeamLogo(awayTeam)
++        },
++        score,
++        primary: isPre ? time : score,
++        status: isLive ? 'Ao Vivo' : isFinal ? 'Encerrado' : isToday ? 'Hoje' : statusName,
++        isLive,
++        isFinal,
++        isPre,
++        isToday,
++        startsAt: date ? date.getTime() : 0,
++        detail: competition.notes?.[0]?.headline || competition.venue?.fullName || 'Copa do Mundo 2026',
++        time: isLive ? (event?.status?.displayClock || statusName) : `${dateLabel} - ${time}`
++      };
++    }
++
++    function renderTeam(team, side = 'home') {
++      const flag = team.flag
++        ? `<img src="${escapeHtml(team.flag)}" alt="Bandeira de ${escapeHtml(team.name)}" loading="lazy">`
++        : escapeHtml(team.code || '---');
++      const flagHtml = `<span class="crest">${flag}</span>`;
++      const nameHtml = `<span class="team-name">${escapeHtml(team.name)}</span>`;
++      return side === 'away'
++        ? `<div class="team away">${nameHtml}${flagHtml}</div>`
++        : `<div class="team">${flagHtml}${nameHtml}</div>`;
++    }
++
++    function renderWorldCupMatches(matches, sourceLabel = 'Atualizando em tempo real') {
++      const container = document.getElementById('worldCupMatches');
++      const updated = document.getElementById('worldCupUpdated');
++      const mode = document.getElementById('worldCupMode');
++      if (!container || !updated) return;
++
++      if (!matches.length) {
++        container.innerHTML = '<div class="match-empty">Nenhum jogo da Copa encontrado no calend├írio consultado.</div>';
++        updated.textContent = sourceLabel;
++        if (mode) mode.textContent = 'Pr├│ximos confrontos';
++        return;
++      }
++
++      const hasLive = matches.some(match => match.isLive);
++      const hasToday = matches.some(match => match.isToday);
++      if (mode) {
++        mode.textContent = hasLive ? 'Tempo real' : hasToday ? 'Dia de jogo' : 'Pr├│ximos confrontos';
++      }
++
++      container.innerHTML = matches.map(match => `
++        <article class="match-card">
++          ${renderTeam(match.home, 'home')}
++          <div class="match-center">
++            <span class="time">${escapeHtml(match.primary || match.score || match.time)}</span>
++            <span class="competition">${escapeHtml(match.detail || 'Copa do Mundo')}</span>
++            <span class="status${match.isLive ? ' live' : match.isToday ? ' today' : ''}">${escapeHtml(match.status)}</span>
++            <span class="match-detail">${escapeHtml(match.time)}</span>
++          </div>
++          ${renderTeam(match.away, 'away')}
++        </article>
++      `).join('');
++
++      updated.textContent = sourceLabel;
++    }
++
++    function sortWorldCupMatches(matches) {
++      const now = Date.now();
++      return [...matches].sort((a, b) => {
++        if (a.isLive !== b.isLive) return a.isLive ? -1 : 1;
++        const aUpcoming = !a.isFinal && a.startsAt >= now;
++        const bUpcoming = !b.isFinal && b.startsAt >= now;
++        if (aUpcoming !== bUpcoming) return aUpcoming ? -1 : 1;
++        return (a.startsAt || 0) - (b.startsAt || 0);
++      });
++    }
++
++    async function loadWorldCupMatches() {
++      const dates = getSaoPauloDateRange(10);
++      try {
++        const response = await fetch(`/api/worldcup/scoreboard?dates=${dates}`, { cache: 'no-store' });
++        if (!response.ok) throw new Error(`HTTP ${response.status}`);
++        const payload = await response.json();
++        const events = payload?.data?.events || payload?.events || [];
++        const apiMatches = sortWorldCupMatches(events.map(normalizeWorldCupEvent)).slice(0, 8);
++        const matches = apiMatches.length ? apiMatches : getFallbackWorldCupMatches();
++        const label = matches.some(match => match.isLive)
++          ? `Ao vivo - atualizado ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`
++          : `Confrontos com data e hor├írio - atualizado ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
++        renderWorldCupMatches(matches, label);
++      } catch (error) {
++        renderWorldCupMatches(getFallbackWorldCupMatches(), 'Agenda reserva enquanto o tempo real carrega');
++      }
++    }
++
++    renderWorldCupMatches([], 'Carregando tempo real...');
++    loadWorldCupMatches();
++    window.setInterval(() => {
++      if (!document.hidden) loadWorldCupMatches();
++    }, 30000);
++
++    document.addEventListener('DOMContentLoaded', () => {
++      const topBtn = document.getElementById('topBtn');
++      if (topBtn) {
++        topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
++      }
++
++      document.querySelectorAll('.post-card').forEach(card => {
++        card.setAttribute('tabindex', '0');
++        card.addEventListener('click', () => {
++          document.querySelectorAll('.post-card.active').forEach(activeCard => {
++            if (activeCard !== card) activeCard.classList.remove('active');
++          });
++          card.classList.toggle('active');
++        });
++        card.addEventListener('keydown', event => {
++          if (event.key === 'Enter' || event.key === ' ') {
++            event.preventDefault();
++            card.click();
++          }
++        });
++      });
++
++      window.addEventListener('scroll', () => {
++        if (!topBtn) return;
++        if (window.scrollY > 320) {
++          topBtn.classList.add('show');
++        } else {
++          topBtn.classList.remove('show');
++        }
++      });
++    });
++  </script>
+ </body>
+ </html>
+diff --git a/profissionais.html b/profissionais.html
+index 393f715..5d63c21 100644
+--- a/profissionais.html
++++ b/profissionais.html
+@@ -28,7 +28,7 @@
+ <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
+ </a>
+ 
+-<nav id="nav">
++<nav id="menu" aria-label="Menu principal">
+ <a href="/">In├¡cio</a>
+ <a href="/#jogos">Partidas</a>
+ <a href="/#posts">Posts</a>
+diff --git a/site-common.css b/site-common.css
+index a440b92..2e5da59 100644
+--- a/site-common.css
++++ b/site-common.css
+@@ -1194,26 +1194,68 @@ body > header:not(.site-header):not(.topbar) > nav a.active,
+ }
+ 
+ .btn,
++.btn-contato,
++.btn-banner,
+ .filter-btn,
+ .action-btn,
+ .primary-btn,
+ .buy,
+ button.btn {
++  display: inline-flex !important;
++  align-items: center !important;
++  justify-content: center !important;
++  gap: .5rem !important;
++  min-height: 46px !important;
++  padding: .85rem 1.2rem !important;
+   border-radius: 999px !important;
+-  background: var(--be-black) !important;
++  background: linear-gradient(135deg, var(--be-black) 0%, #1f2937 100%) !important;
+   color: var(--be-white) !important;
+-  border: 1px solid var(--be-black) !important;
+-  font-weight: 900 !important;
++  border: 1px solid rgba(255, 255, 255, .16) !important;
++  box-shadow: 0 12px 24px rgba(17, 17, 17, .16) !important;
++  font-weight: 800 !important;
+   letter-spacing: 0 !important;
+   text-transform: none !important;
++  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, border-color .18s ease !important;
++}
++
++.btn:hover,
++.btn-contato:hover,
++.btn-banner:hover,
++.filter-btn:hover,
++.action-btn:hover,
++.primary-btn:hover,
++.buy:hover,
++button.btn:hover {
++  transform: translateY(-2px) !important;
++  box-shadow: 0 16px 30px rgba(17, 17, 17, .2) !important;
++  background: linear-gradient(135deg, #1f2937 0%, var(--be-black) 100%) !important;
++}
++
++.btn:focus-visible,
++.btn-contato:focus-visible,
++.btn-banner:focus-visible,
++.filter-btn:focus-visible,
++.action-btn:focus-visible,
++.primary-btn:focus-visible,
++.buy:focus-visible,
++button.btn:focus-visible {
++  outline: none !important;
++  box-shadow: 0 0 0 3px rgba(249, 115, 22, .25), 0 12px 24px rgba(17, 17, 17, .16) !important;
+ }
+ 
+ .filter-btn.active,
+ .btn.buy,
+ .buy {
+-  background: var(--be-orange) !important;
+-  border-color: var(--be-orange) !important;
++  background: linear-gradient(135deg, var(--be-orange) 0%, #ff8a2b 100%) !important;
++  border-color: transparent !important;
+   color: var(--be-black) !important;
++  box-shadow: 0 12px 24px rgba(249, 115, 22, .24) !important;
++}
++
++.filter-btn.active:hover,
++.btn.buy:hover,
++.buy:hover {
++  background: linear-gradient(135deg, #ff8a2b 0%, var(--be-orange) 100%) !important;
+ }
+ 
+ .site-footer {
+@@ -2743,12 +2785,27 @@ h3 {
+ .action-btn,
+ .primary-btn {
+   border-radius: 999px !important;
+-  background: #ff6a00 !important;
++  background: linear-gradient(135deg, #ff8a00 0%, #ffb347 100%) !important;
+   color: #111111 !important;
+-  box-shadow: none !important;
++  border: 1px solid rgba(255, 255, 255, .18) !important;
++  box-shadow: 0 22px 42px rgba(255, 106, 0, .18) !important;
++  transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease !important;
+   font-weight: 900 !important;
+ }
+ 
++.btn:hover,
++.btn-contato:hover,
++.btn-banner:hover,
++.filter-btn:hover,
++.action-btn:hover,
++.primary-btn:hover,
++.buy:hover,
++button.btn:hover {
++  transform: translateY(-2px) scale(1.01) !important;
++  box-shadow: 0 26px 54px rgba(255, 106, 0, .24) !important;
++  background: linear-gradient(135deg, #ff9f00 0%, #ffc76d 100%) !important;
++}
++
+ .site-footer {
+   margin-top: clamp(48px, 8vw, 96px) !important;
+   padding: clamp(34px, 6vw, 64px) 18px !important;

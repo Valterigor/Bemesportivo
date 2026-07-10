@@ -280,15 +280,28 @@ body.beplay-page {
   gap: 10px;
 }
 
+.comment-form input,
 .comment-form textarea {
   min-height: 82px;
-  resize: vertical;
   border: 1px solid rgba(255, 255, 255, .12);
   border-radius: 12px;
   outline: 0;
   padding: 12px;
   background: rgba(255, 255, 255, .07);
   color: #fff;
+}
+
+.comment-form input {
+  min-height: 46px;
+}
+
+.comment-form textarea {
+  resize: vertical;
+}
+
+.comment-form input::placeholder,
+.comment-form textarea::placeholder {
+  color: #8ea3b3;
 }
 
 .comment-form button,
@@ -332,6 +345,54 @@ body.beplay-page {
   color: #8ea3b3;
   font-size: 13px;
   font-weight: 800;
+}
+
+.history-panel {
+  padding: 14px;
+}
+
+.history-list {
+  display: grid;
+  gap: 8px;
+}
+
+.history-item {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 64px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 12px;
+  padding: 8px;
+  background: rgba(255, 255, 255, .045);
+  color: #f8fbff;
+  text-align: left;
+}
+
+.history-item-thumb {
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: #0b111b center/cover;
+}
+
+.history-item strong {
+  display: block;
+  overflow: hidden;
+  color: #fff;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-item span {
+  display: block;
+  margin-top: 4px;
+  color: #8ea3b3;
+  font-size: 11px;
+  font-weight: 850;
 }
 
 @media (max-width: 960px) {

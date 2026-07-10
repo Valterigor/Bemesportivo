@@ -133,6 +133,7 @@
           <span>comunidade</span>
         </div>
         <form class="comment-form" id="videoCommentForm">
+          <input id="videoCommentName" maxlength="40" placeholder="Seu nome ou apelido">
           <textarea id="videoCommentText" maxlength="280" placeholder="Escreva um comentário sobre o vídeo atual..." required></textarea>
           <button type="submit">Publicar comentário</button>
         </form>
@@ -163,6 +164,13 @@
           <div class="summary-item"><span id="profileTitle">Perfil</span><strong id="profileActions">Salve vídeos para montar sua lista de acompanhamento.</strong></div>
           <div class="summary-item"><span>Canal</span><strong>Novos vídeos, bastidores e treinos do Bem Esportivo.</strong></div>
         </div>
+      </section>
+      <section class="section panel history-panel" aria-labelledby="historyTitle">
+        <div class="section-title">
+          <h2 id="historyTitle">Histórico</h2>
+          <span>assistidos</span>
+        </div>
+        <div class="history-list" id="watchHistory"></div>
       </section>
     </aside>
   </div>
