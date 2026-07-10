@@ -70,14 +70,14 @@ height:50px;
 width:auto;
 }
 
-nav{
+.menu nav{
 display:flex;
 gap:30px;
 flex:1;
 justify-content:center;
 }
 
-nav a{
+.menu nav a{
 color:var(--primary);
 font-weight:700;
 font-size:15px;
@@ -88,7 +88,7 @@ text-transform:uppercase;
 letter-spacing:.5px;
 }
 
-nav a::after{
+.menu nav a::after{
 content:"";
 position:absolute;
 bottom:-5px;
@@ -99,15 +99,15 @@ background:var(--primary);
 transition:width .3s;
 }
 
-nav a:hover::after{
+.menu nav a:hover::after{
 width:100%;
 }
 
-nav a:hover{
+.menu nav a:hover{
 color:#fff;
 }
 
-nav a.active{
+.menu nav a.active{
 color:#fff;
 font-weight:900;
 }
@@ -164,11 +164,11 @@ gap:20px;
 padding:0 20px;
 }
 
-nav{
+.menu nav{
 gap:20px;
 }
 
-nav a{
+.menu nav a{
 font-size:14px;
 }
 }
@@ -604,7 +604,7 @@ grid-template-columns:1fr;
 font-size:48px;
 }
 
-nav{
+.menu nav{
 display:none;
 position:absolute;
 top:80px;
@@ -615,7 +615,7 @@ padding:25px;
 flex-direction:column;
 }
 
-nav.active{display:flex}
+.menu nav.active{display:flex}
 
 .menu-btn{display:flex}
 .menu-actions{display:none}

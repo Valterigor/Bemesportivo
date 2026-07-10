@@ -69,14 +69,14 @@ height:50px;
 width:auto;
 }
 
-nav{
+.menu nav{
 display:flex;
 gap:30px;
 flex:1;
 justify-content:center;
 }
 
-nav a{
+.menu nav a{
 color:var(--primary);
 font-weight:700;
 font-size:15px;
@@ -87,7 +87,7 @@ text-transform:uppercase;
 letter-spacing:.5px;
 }
 
-nav a::after{
+.menu nav a::after{
 content:"";
 position:absolute;
 bottom:-5px;
@@ -98,15 +98,15 @@ background:var(--primary);
 transition:width .3s;
 }
 
-nav a:hover::after{
+.menu nav a:hover::after{
 width:100%;
 }
 
-nav a:hover{
+.menu nav a:hover{
 color:#fff;
 }
 
-nav a.active{
+.menu nav a.active{
 color:#fff;
 font-weight:900;
 }
@@ -163,11 +163,11 @@ gap:20px;
 padding:0 20px;
 }
 
-nav{
+.menu nav{
 gap:20px;
 }
 
-nav a{
+.menu nav a{
 font-size:14px;
 }
 }
@@ -186,7 +186,7 @@ gap:10px;
 height:40px;
 }
 
-nav{
+.menu nav{
 position:absolute;
 top:60px;
 left:0;
@@ -200,17 +200,17 @@ display:none;
 border-top:2px solid var(--primary);
 }
 
-nav.active{
+.menu nav.active{
 display:flex;
 }
 
-nav a{
+.menu nav a{
 padding:15px 20px;
 border-bottom:1px solid rgba(252,110,2,.2);
 text-align:left;
 }
 
-nav a::after{
+.menu nav a::after{
 display:none;
 }
 
@@ -626,7 +626,7 @@ display:none!important;
 }
 
 @media(max-width:900px){
-nav,
+.menu nav,
 .menu-actions{
 display:none;
 }
@@ -635,7 +635,7 @@ display:none;
 display:flex;
 }
 
-nav.active{
+.menu nav.active{
 display:flex;
 position:absolute;
 right:15px;
