@@ -240,21 +240,6 @@ body > header:not(.site-header):not(.ebook-header):not(.app-topbar):not(.topbar)
     display: none !important;
   }
 
-  body > header:not(.site-header):not(.ebook-header):not(.app-topbar):not(.topbar) > nav {
-    position: static !important;
-    display: flex !important;
-    flex: 1 1 auto !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    overflow-x: auto !important;
-    padding: 0 !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    scrollbar-width: none;
-  }
-
   body > header:not(.site-header):not(.ebook-header):not(.app-topbar):not(.topbar) > nav::-webkit-scrollbar {
     display: none;
   }
@@ -3091,24 +3076,4 @@ body > header:not(.site-header):not(.topbar) > nav,
 .site-menu-btn,
 #menu-toggle {
   display: none !important;
-}
-
-@media (max-width: 980px) {
-  body > header:not(.site-header):not(.topbar) > nav,
-  .menu nav,
-  .nav-menu,
-  .site-nav {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    overflow-x: auto !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-  }
-
-  body > header.topbar {
-    top: 68px !important;
-  }
 }
