@@ -3032,48 +3032,50 @@ body > header.topbar {
   backdrop-filter: blur(18px) !important;
 }
 
-body > header:not(.site-header):not(.topbar),
-.menu,
-.site-menu {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 1000 !important;
-  border-bottom: 1px solid rgba(233, 233, 233, .88) !important;
-  background: rgba(255, 255, 255, .9) !important;
-  box-shadow: none !important;
-}
+@media (min-width: 981px) {
+  body > header:not(.site-header):not(.topbar),
+  .menu,
+  .site-menu {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    border-bottom: 1px solid rgba(233, 233, 233, .88) !important;
+    background: rgba(255, 255, 255, .9) !important;
+    box-shadow: none !important;
+  }
 
-.menu-content,
-.site-menu-content {
-  justify-content: flex-start !important;
-  overflow: hidden !important;
-}
+  .menu-content,
+  .site-menu-content {
+    justify-content: flex-start !important;
+    overflow: hidden !important;
+  }
 
-body > header:not(.site-header):not(.topbar) > nav,
-.menu nav,
-.nav-menu,
-.site-nav {
-  position: static !important;
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: flex-start !important;
-  align-items: center !important;
-  flex: 1 1 auto !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  width: auto !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
+  body > header:not(.site-header):not(.topbar) > nav,
+  .menu nav,
+  .nav-menu,
+  .site-nav {
+    position: static !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    flex: 1 1 auto !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    width: auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
 
-.menu-actions,
-.site-actions,
-.btn-contato,
-.site-contact,
-.menu-btn,
-.site-menu-btn,
-#menu-toggle {
-  display: none !important;
+  .menu-actions,
+  .site-actions,
+  .btn-contato,
+  .site-contact,
+  .menu-btn,
+  .site-menu-btn,
+  #menu-toggle {
+    display: none !important;
+  }
 }
