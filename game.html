@@ -16,6 +16,7 @@
     .sound-button{position:fixed;z-index:7;top:18px;right:205px;width:45px;height:45px;border:1px solid #ffffff25;border-radius:50%;background:#07162de8;color:#fff;cursor:pointer;box-shadow:0 8px 30px #0007}@media(max-width:700px){.sound-button{top:auto;right:auto;left:18px;bottom:72px}}@media(max-height:520px) and (orientation:landscape){.sound-button{left:12px;bottom:66px}}
     .personal-records{display:flex;justify-content:center;gap:8px;margin:10px 0 -5px}.personal-records span{padding:7px 9px;border-radius:8px;background:#ffffff09;color:#8fa8ba;font-size:.62rem}.personal-records strong{color:#ffca45;margin-left:3px}@media(max-height:520px) and (orientation:landscape){.personal-records{margin:5px 0}}
     .player-profile{display:flex;align-items:center;gap:8px;margin:10px 0 0}.player-profile label{color:#839bad;font-size:.6rem;font-weight:800;white-space:nowrap}.player-profile input{min-width:0;flex:1;padding:8px 10px;border:1px solid #ffffff20;border-radius:8px;background:#061425;color:#fff;font:inherit;font-size:.72rem;outline:none}.player-profile input:focus{border-color:#28e89d}.local-ranking{margin:8px 0 0;padding:7px 10px;border-radius:8px;background:#ffffff07;color:#93aaba;font-size:.65rem;text-align:left}.local-ranking summary{cursor:pointer;font-weight:800;text-align:center}.local-ranking ol{margin:7px 0 0;padding-left:22px}.local-ranking li{padding:3px 0;border-bottom:1px solid #ffffff0d}.local-ranking li strong{float:right;color:#ffca45}@media(max-height:520px) and (orientation:landscape){.player-profile,.local-ranking{display:none}}
+    .achievements{margin:6px 0 0;padding:7px 10px;border-radius:8px;background:#ffffff07;color:#93aaba;font-size:.65rem;text-align:left}.achievements summary{cursor:pointer;font-weight:800;text-align:center}.achievements summary strong{color:#ffca45}.achievements #achievement-list{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:7px}.achievement-item{padding:6px;border-radius:7px;background:#061425;color:#5e7282}.achievement-item.unlocked{color:#dcebf5;border:1px solid #ffca4538}.achievement-toast{position:fixed;z-index:40;left:50%;top:22px;min-width:240px;padding:12px 18px;border:1px solid #ffca4566;border-radius:14px;background:#071522ee;color:#fff;text-align:center;font-size:.78rem;font-weight:900;box-shadow:0 15px 50px #0009;opacity:0;transform:translate(-50%,-25px);pointer-events:none;transition:.3s}.achievement-toast.show{opacity:1;transform:translate(-50%,0)}@media(max-height:520px) and (orientation:landscape){.achievements{display:none}}
   </style>
 </head>
 <body>
@@ -62,6 +63,7 @@
       <div class="personal-records"><span>🏅 Recorde <strong id="best-score">0</strong></span><span>🚩 Melhor fase <strong id="best-level">1</strong></span></div>
       <div class="player-profile"><label for="player-name">Nome do jogador</label><input id="player-name" maxlength="16" autocomplete="nickname" placeholder="Atleta BE"></div>
       <details class="local-ranking"><summary>🏆 Ranking neste aparelho</summary><ol id="ranking-list"></ol></details>
+      <details class="achievements"><summary>🎖 Conquistas <strong id="achievement-count">0/4</strong></summary><div id="achievement-list"></div></details>
       <div class="legend"><span>💧 Água +15</span><span>▰ Barra +25</span></div>
       <button id="start" type="button" onclick="document.getElementById('overlay').classList.remove('visible')">Começar partida</button>
       <small>Setas ou WASD · Espaço pausa</small>
@@ -83,8 +85,9 @@
       <a class="mission-menu" href="index.html">Voltar ao menu</a>
     </div>
   </div>
+  <div id="achievement-toast" class="achievement-toast" role="status"></div>
 
   <script src="js/vendor/three.min.js"></script>
-  <script src="js/game.js?v=16" defer></script>
+  <script src="js/game.js?v=17" defer></script>
 </body>
 </html>
