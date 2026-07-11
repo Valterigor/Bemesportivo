@@ -39,3 +39,6 @@ Thumbs.db
 # Temporary files
 *.tmp
 .temp/
+
+# Protótipos locais (não publicar sem aprovação explícita)
+testes/game-funcional/
