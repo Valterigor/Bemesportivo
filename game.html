@@ -64,7 +64,7 @@
       <div class="character-select"><p>ESCOLHA SEU ATLETA</p><div id="characters"></div><strong id="character-name">Futebol</strong></div>
       <div class="personal-records"><span>🏅 Recorde <strong id="best-score">0</strong></span><span>🚩 Melhor fase <strong id="best-level">1</strong></span></div>
       <div class="player-profile"><label for="player-name">Nome do jogador</label><input id="player-name" maxlength="16" autocomplete="nickname" placeholder="Atleta BE"></div>
-      <details class="local-ranking"><summary>🏆 Ranking neste aparelho</summary><ol id="ranking-list"></ol></details>
+      <details class="local-ranking" open><summary>🌍 Ranking global <small id="ranking-status">carregando…</small></summary><ol id="ranking-list"></ol></details>
       <details class="achievements"><summary>🎖 Conquistas <strong id="achievement-count">0/4</strong></summary><div id="achievement-list"></div></details>
       <div class="legend"><span>💧 Água +15</span><span>▰ Barra +25</span></div>
       <button id="start" type="button" onclick="document.getElementById('overlay').classList.remove('visible')">Começar partida</button>
@@ -90,6 +90,6 @@
   <div id="achievement-toast" class="achievement-toast" role="status"></div>
 
   <script src="js/vendor/three.min.js"></script>
-  <script src="js/game.js?v=18" defer></script>
+  <script src="js/game.js?v=19" defer></script>
 </body>
 </html>

@@ -6,6 +6,7 @@ const path = require('path');
 const root = __dirname;
 const port = Number(process.env.PORT || 3100);
 const communityFile = path.join(root, 'data', 'community.json');
+const gameRankingFile = path.join(root, 'data', 'game-ranking.json');
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const SELECAO_NEWS_RSS_URL = 'https://news.google.com/rss/search?q=sele%C3%A7%C3%A3o%20brasileira%20futebol%20when%3A1d&hl=pt-BR&gl=BR&ceid=BR:pt-419';
 const ESPN_WORLD_CUP_SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
@@ -664,6 +665,44 @@ function normalizeScoreboardDates(value){
   return /^\d{8}(-\d{8})?$/.test(dates) ? dates : '';
 }
 
+function readGameRanking(){
+  try{
+    const saved = JSON.parse(fs.readFileSync(gameRankingFile, 'utf8'));
+    return saved && Array.isArray(saved.entries) ? saved : {entries:[], updatedAt:null};
+  }catch(error){ return {entries:[], updatedAt:null}; }
+}
+
+function writeGameRanking(data){
+  fs.mkdirSync(path.dirname(gameRankingFile), {recursive:true});
+  data.updatedAt = new Date().toISOString();
+  fs.writeFileSync(gameRankingFile, JSON.stringify(data, null, 2));
+}
+
+async function handleGameRankingApi(request, response){
+  const data = readGameRanking();
+  const publicEntries = () => data.entries.slice(0, 100).map(({name,score,level,character,createdAt}) => ({name,score,level,character,createdAt}));
+  if(request.method === 'GET'){
+    sendJson(response, 200, {ok:true, ranking:publicEntries(), updatedAt:data.updatedAt});
+    return true;
+  }
+  if(request.method !== 'POST') return false;
+  try{
+    const input = await readJsonBody(request);
+    const name = String(input.name || 'Atleta BE').replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 16) || 'Atleta BE';
+    const deviceId = String(input.deviceId || '').replace(/[^a-zA-Z0-9-]/g, '').slice(0, 64);
+    const score = Math.floor(Number(input.score)), level = Math.floor(Number(input.level)), character = Math.floor(Number(input.character) || 0);
+    if(!deviceId || !Number.isFinite(score) || score < 0 || score > 1000000 || !Number.isFinite(level) || level < 1 || level > 100 || score > level * 10000){
+      sendJson(response, 400, {ok:false, error:'Resultado invalido.'}); return true;
+    }
+    const key = `${deviceId}:${name.toLowerCase()}`, previous = data.entries.find(entry => entry.key === key);
+    const entry = {key,name,score,level,character:Math.max(0,Math.min(5,character)),createdAt:previous?.createdAt || new Date().toISOString(),submittedAt:new Date().toISOString()};
+    data.entries = [...data.entries.filter(item => item.key !== key), previous && previous.score > score ? previous : entry].sort((a,b) => b.score-a.score || b.level-a.level).slice(0,500);
+    writeGameRanking(data);
+    sendJson(response, 200, {ok:true, ranking:publicEntries(), position:data.entries.findIndex(item => item.key === key)+1, updatedAt:data.updatedAt});
+  }catch(error){ sendJson(response, 400, {ok:false, error:'Dados invalidos.'}); }
+  return true;
+}
+
 function parseDateKey(key){
   const year = Number(key.slice(0, 4));
   const month = Number(key.slice(4, 6)) - 1;
@@ -767,6 +806,11 @@ const server = http.createServer(async (request, response) => {
 
   if(parsedUrl.pathname.startsWith('/api/community/')){
     const handled = await handleCommunityApi(request, response, parsedUrl);
+    if(handled) return;
+  }
+
+  if(parsedUrl.pathname === '/api/game-ranking'){
+    const handled = await handleGameRankingApi(request, response);
     if(handled) return;
   }
 
