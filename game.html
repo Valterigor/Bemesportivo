@@ -20,6 +20,11 @@
     #game-container,.controls,.controls button,.mobile-tools,.mobile-tools button,.round-button,.sound-button,#restart{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}.controls button{touch-action:none;-webkit-tap-highlight-color:transparent}.controls button:focus{outline:none}
     #fullscreen{border-color:#27e4a1aa;background:linear-gradient(135deg,#12795f,#1197ae);color:#fff;box-shadow:0 0 0 0 #28e89d66,0 8px 25px #0008;font-weight:900;animation:fullscreen-pulse 2.4s ease-out infinite}#fullscreen::first-letter{font-size:1.15rem}#fullscreen:active{transform:scale(.94);animation:none}@keyframes fullscreen-pulse{0%,55%,100%{box-shadow:0 0 0 0 #28e89d00,0 8px 25px #0008}75%{box-shadow:0 0 0 8px #28e89d00,0 8px 30px #18dca966}}
     .hydration-card{border-color:#4adfff66;background:radial-gradient(circle at 50% 0,#12536b,#071522 62%)}.hydration-icon{font-size:3.8rem;animation:water-bounce .8s ease-in-out infinite alternate}.hydration-card h2{margin:2px 0 10px;color:#fff;font-size:clamp(2rem,8vw,3.2rem)}.cereal-challenge{margin:18px 0;padding:12px;border:1px solid #ffbd3e55;border-radius:12px;background:#ffb52e12;color:#ffcf68;font-size:.78rem;font-weight:900}@keyframes water-bounce{to{transform:translateY(-7px);filter:drop-shadow(0 10px 14px #31cfff88)}}
+    .local-ranking summary{list-style:none;position:relative;padding-right:20px}.local-ranking summary::-webkit-details-marker{display:none}.local-ranking summary::after{content:'⌄';position:absolute;right:2px;top:50%;font-size:1rem;transform:translateY(-58%);transition:transform .2s}.local-ranking[open] summary::after{transform:translateY(-42%) rotate(180deg)}
+    .hydration-dialogue{display:flex;align-items:flex-end;gap:14px;text-align:left}.hydration-dialogue .hydration-icon{flex:0 0 64px;padding-bottom:12px}.speech-bubble{position:relative;flex:1;padding:18px 18px 16px;border-radius:22px 22px 22px 7px;background:#f2fbff;color:#092236;box-shadow:0 14px 35px #0006}.speech-bubble::before{content:'';position:absolute;left:-14px;bottom:0;border-style:solid;border-width:0 0 20px 20px;border-color:transparent transparent #f2fbff transparent}.speech-bubble .eyebrow{margin:0 0 7px;color:#0787a8}.speech-bubble h2{margin:0 0 7px;color:#08243a;font-size:clamp(1.45rem,6vw,2.25rem);line-height:1}.speech-bubble p:last-child{margin:0;color:#36566c;font-size:.82rem;line-height:1.45}@media(max-width:390px){.hydration-dialogue{gap:8px}.hydration-dialogue .hydration-icon{flex-basis:48px;font-size:2.8rem}.speech-bubble{padding:15px 14px}}
+    .recovery-preview-wrap{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid #0a7c9b24}.recovery-preview-wrap>span{color:#567388;font-size:.54rem;font-weight:900;letter-spacing:.1em}.recovery-preview{display:grid;place-items:center;min-width:58px;height:48px;border-radius:12px;font-size:2.25rem;line-height:1}.recovery-preview.bar{height:30px;border:3px solid #ffdc80;border-radius:6px;background:linear-gradient(135deg,#ff8a1d,#ffbd37);color:#fff4c4;font-size:1.35rem;box-shadow:0 5px 12px #d36d1644}.recovery-preview.fruit{background:#ffe5df}.recovery-preview.sleep{background:#dce8ff}
+    .recovery-preview-wrap{position:relative;display:grid;grid-template-columns:82px 1fr;align-items:center;gap:14px;margin-top:16px;padding:28px 14px 13px;border:1px solid #0b8eaf2e;border-radius:16px;background:linear-gradient(135deg,#dff7ff,#eefcff);overflow:hidden}.recovery-preview-wrap::after{content:'';position:absolute;width:100px;height:100px;left:-20px;bottom:-48px;border-radius:50%;background:#38d5ff20}.objective-label{position:absolute;left:12px;top:8px;padding:3px 7px;border-radius:99px;background:#0787a8;color:#fff!important;font-size:.48rem!important;letter-spacing:.12em}.item-spotlight{position:relative;display:grid;place-items:center;width:76px;height:76px;border-radius:50%;background:radial-gradient(circle,#fff 20%,#9eefff 58%,#28bfdf 100%);box-shadow:0 8px 22px #0787a844}.item-spotlight::before,.item-spotlight::after{content:'';position:absolute;border:1px solid #0799bd44;border-radius:50%;inset:-5px;animation:item-radar 2s ease-out infinite}.item-spotlight::after{animation-delay:1s}.item-spotlight .recovery-preview,.item-spotlight .recovery-preview.bar{position:relative;z-index:1;min-width:0;width:auto;height:auto;padding:0;border:0;background:none;box-shadow:none;font-size:2.8rem;animation:item-float .9s ease-in-out infinite alternate}.objective-copy{display:flex;min-width:0;flex-direction:column;gap:3px;text-align:left}.objective-copy small{color:#678397;font-size:.48rem;font-weight:900;letter-spacing:.1em}.objective-copy strong{color:#092b41;font-size:1rem;line-height:1.1}.recovery-preview-wrap:has(.fruit) .item-spotlight{background:radial-gradient(circle,#fff 20%,#ffd9cf 58%,#ff7664 100%)}.recovery-preview-wrap:has(.sleep) .item-spotlight{background:radial-gradient(circle,#fff 20%,#d9e2ff 58%,#8197ed 100%)}@keyframes item-float{to{transform:translateY(-6px) scale(1.06)}}@keyframes item-radar{from{opacity:.7;transform:scale(.85)}to{opacity:0;transform:scale(1.25)}}
+    .tutorial-link{margin-top:8px!important;padding:8px!important;border:1px solid #ffffff20!important;background:#ffffff08!important;color:#9eb5c6!important;font-size:.68rem!important}.tutorial-overlay{z-index:35}.tutorial-card{max-width:390px}.tutorial-top{display:flex;align-items:center;justify-content:space-between}.tutorial-top>span{color:#28e89d;font-size:.6rem;font-weight:900;letter-spacing:.14em}.tutorial-top #skip-tutorial{width:auto;padding:6px 10px;background:transparent;color:#8299aa;font-size:.65rem}.tutorial-icon{margin:14px 0 5px;font-size:3.7rem;filter:drop-shadow(0 10px 20px #20dca055)}.tutorial-card h2{margin:5px 0 9px;font-size:1.65rem}.tutorial-card>p{min-height:44px;margin:0;color:#aebfd0;font-size:.8rem;line-height:1.5}.tutorial-visual{display:flex;justify-content:center;gap:6px;margin:18px 0}.tutorial-visual span{display:grid;place-items:center;width:42px;height:42px;border:1px solid #ffffff24;border-radius:11px;background:#102b44;color:#fff;font-weight:900}.tutorial-dots{display:flex;justify-content:center;gap:6px;margin:4px 0 15px}.tutorial-dots span{width:7px;height:7px;border-radius:50%;background:#395064;transition:.2s}.tutorial-dots span.active{width:20px;border-radius:99px;background:#28e89d}@media(max-height:520px) and (orientation:landscape){.tutorial-card{padding:16px 24px}.tutorial-icon{margin:4px 0;font-size:2.4rem}.tutorial-card>p{min-height:0}.tutorial-visual{margin:8px 0}.tutorial-dots{margin-bottom:8px}}
   </style>
 </head>
 <body>
@@ -65,11 +70,24 @@
       <div class="character-select"><p>ESCOLHA SEU ATLETA</p><div id="characters"></div><strong id="character-name">Futebol</strong></div>
       <div class="personal-records"><span>🏅 Recorde <strong id="best-score">0</strong></span><span>🚩 Melhor fase <strong id="best-level">1</strong></span></div>
       <div class="player-profile"><label for="player-name">Nome do jogador</label><input id="player-name" maxlength="16" autocomplete="nickname" placeholder="Atleta BE"></div>
-      <details class="local-ranking" open><summary>🌍 Ranking global <small id="ranking-status">carregando…</small></summary><ol id="ranking-list"></ol></details>
       <details class="achievements"><summary>🎖 Conquistas <strong id="achievement-count">0/4</strong></summary><div id="achievement-list"></div></details>
       <div class="legend"><span>💧 Água +15</span><span>▰ Barra +25</span></div>
       <button id="start" type="button" onclick="document.getElementById('overlay').classList.remove('visible')">Começar partida</button>
+      <button id="open-tutorial" class="tutorial-link" type="button">? Como jogar</button>
+      <details class="local-ranking"><summary>🌍 Ranking global <small id="ranking-status">carregando…</small></summary><ol id="ranking-list"></ol></details>
       <small>Setas ou WASD · Espaço pausa</small>
+    </div>
+  </div>
+
+  <div id="tutorial" class="overlay tutorial-overlay" aria-live="polite">
+    <div class="card tutorial-card">
+      <div class="tutorial-top"><span id="tutorial-step-label">PASSO 1 DE 5</span><button id="skip-tutorial" type="button">Pular</button></div>
+      <div id="tutorial-icon" class="tutorial-icon">🎮</div>
+      <h2 id="tutorial-title">Movimente seu atleta</h2>
+      <p id="tutorial-description">Use as setas, WASD ou deslize o dedo pelo cenário para escolher uma direção.</p>
+      <div id="tutorial-visual" class="tutorial-visual"><span>▲</span><span>◀</span><span>▼</span><span>▶</span></div>
+      <div id="tutorial-dots" class="tutorial-dots"></div>
+      <button id="next-tutorial" type="button">Próximo →</button>
     </div>
   </div>
 
@@ -90,10 +108,19 @@
   </div>
   <div id="hydration-popup" class="overlay hydration-popup" aria-live="assertive">
     <div class="card hydration-card">
-      <div class="hydration-icon">💧</div>
-      <p class="eyebrow">MARCO DE HIDRATAÇÃO</p>
-      <h2 id="hydration-title">Parabéns!</h2>
-      <p id="hydration-text">Você se hidratou e está pronto para continuar.</p>
+      <div class="hydration-dialogue">
+        <div class="hydration-icon" aria-hidden="true">💧</div>
+        <div class="speech-bubble">
+          <p class="eyebrow">MARCO DE HIDRATAÇÃO</p>
+          <h2 id="hydration-title">Parabéns!</h2>
+          <p id="hydration-text">Você se hidratou e está pronto para continuar.</p>
+          <div class="recovery-preview-wrap">
+            <span class="objective-label">PRÓXIMO OBJETIVO</span>
+            <div class="item-spotlight"><div id="recovery-preview" class="recovery-preview bar" role="img" aria-label="Barrinha de cereal">🍫</div></div>
+            <div class="objective-copy"><small>ENCONTRE NO LABIRINTO</small><strong id="recovery-item-name">Barrinha de cereal</strong></div>
+          </div>
+        </div>
+      </div>
       <div id="recovery-challenge" class="cereal-challenge">Agora encontre e recolha uma barrinha de cereal ▰</div>
       <button id="hydration-continue" type="button">Entendi, vamos buscar!</button>
     </div>
@@ -101,6 +128,6 @@
   <div id="achievement-toast" class="achievement-toast" role="status"></div>
 
   <script src="js/vendor/three.min.js"></script>
-  <script src="js/game.js?v=21" defer></script>
+  <script src="js/game.js?v=25" defer></script>
 </body>
 </html>
