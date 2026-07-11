@@ -14,6 +14,8 @@
     .success-card{border-color:#28e89d66;background:radial-gradient(circle at 50% 0,#174b3c,#071522 58%)}.trophy{font-size:3.5rem;filter:drop-shadow(0 8px 18px #ffb01f66);animation:trophy-pop .6s cubic-bezier(.2,1.6,.4,1)}.success-card h2{margin:4px 0 12px;font-size:clamp(2.2rem,9vw,3.8rem);line-height:.9;text-transform:uppercase}.success-card h2 em{color:#28e89d;font-style:normal}.mission-results{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:20px 0}.mission-results div{padding:12px 5px;border:1px solid #ffffff18;border-radius:12px;background:#ffffff09}.mission-results small{display:block;color:#8199aa;font-size:.55rem;letter-spacing:.12em}.mission-results strong{display:block;margin-top:4px;font-size:1.25rem}.bonus{margin:-8px 0 16px;color:#ffbd3e;font-size:.75rem;font-weight:900}.mission-menu{display:block;margin-top:12px;color:#a9bfd0;font-size:.75rem;font-weight:800;text-decoration:none}@keyframes trophy-pop{from{opacity:0;transform:scale(.25) rotate(-20deg)}to{opacity:1;transform:scale(1) rotate(0)}}
     .power-status{display:flex;gap:6px;min-height:28px;margin-top:6px}.power-status span{padding:6px 9px;border:1px solid #ffffff24;border-radius:999px;background:#07162de8;font-size:.65rem;font-weight:900}.power-status .shield{color:#61eaff}.power-status .turbo{color:#ffca45}
     .sound-button{position:fixed;z-index:7;top:18px;right:205px;width:45px;height:45px;border:1px solid #ffffff25;border-radius:50%;background:#07162de8;color:#fff;cursor:pointer;box-shadow:0 8px 30px #0007}@media(max-width:700px){.sound-button{top:auto;right:auto;left:18px;bottom:72px}}@media(max-height:520px) and (orientation:landscape){.sound-button{left:12px;bottom:66px}}
+    .personal-records{display:flex;justify-content:center;gap:8px;margin:10px 0 -5px}.personal-records span{padding:7px 9px;border-radius:8px;background:#ffffff09;color:#8fa8ba;font-size:.62rem}.personal-records strong{color:#ffca45;margin-left:3px}@media(max-height:520px) and (orientation:landscape){.personal-records{margin:5px 0}}
+    .player-profile{display:flex;align-items:center;gap:8px;margin:10px 0 0}.player-profile label{color:#839bad;font-size:.6rem;font-weight:800;white-space:nowrap}.player-profile input{min-width:0;flex:1;padding:8px 10px;border:1px solid #ffffff20;border-radius:8px;background:#061425;color:#fff;font:inherit;font-size:.72rem;outline:none}.player-profile input:focus{border-color:#28e89d}.local-ranking{margin:8px 0 0;padding:7px 10px;border-radius:8px;background:#ffffff07;color:#93aaba;font-size:.65rem;text-align:left}.local-ranking summary{cursor:pointer;font-weight:800;text-align:center}.local-ranking ol{margin:7px 0 0;padding-left:22px}.local-ranking li{padding:3px 0;border-bottom:1px solid #ffffff0d}.local-ranking li strong{float:right;color:#ffca45}@media(max-height:520px) and (orientation:landscape){.player-profile,.local-ranking{display:none}}
   </style>
 </head>
 <body>
@@ -57,6 +59,9 @@
       <h1>Corrida da<br><em>Hidratação</em></h1>
       <p>Explore o labirinto 3D, colete água e energia e não deixe o marcador vermelho alcançar você.</p>
       <div class="character-select"><p>ESCOLHA SEU ATLETA</p><div id="characters"></div><strong id="character-name">Futebol</strong></div>
+      <div class="personal-records"><span>🏅 Recorde <strong id="best-score">0</strong></span><span>🚩 Melhor fase <strong id="best-level">1</strong></span></div>
+      <div class="player-profile"><label for="player-name">Nome do jogador</label><input id="player-name" maxlength="16" autocomplete="nickname" placeholder="Atleta BE"></div>
+      <details class="local-ranking"><summary>🏆 Ranking neste aparelho</summary><ol id="ranking-list"></ol></details>
       <div class="legend"><span>💧 Água +15</span><span>▰ Barra +25</span></div>
       <button id="start" type="button" onclick="document.getElementById('overlay').classList.remove('visible')">Começar partida</button>
       <small>Setas ou WASD · Espaço pausa</small>
@@ -80,6 +85,6 @@
   </div>
 
   <script src="js/vendor/three.min.js"></script>
-  <script src="js/game.js?v=14" defer></script>
+  <script src="js/game.js?v=16" defer></script>
 </body>
 </html>
