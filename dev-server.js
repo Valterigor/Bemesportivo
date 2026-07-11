@@ -2,6 +2,7 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const root = __dirname;
 const port = Number(process.env.PORT || 3100);
@@ -668,8 +669,8 @@ function normalizeScoreboardDates(value){
 function readGameRanking(){
   try{
     const saved = JSON.parse(fs.readFileSync(gameRankingFile, 'utf8'));
-    return saved && Array.isArray(saved.entries) ? saved : {entries:[], updatedAt:null};
-  }catch(error){ return {entries:[], updatedAt:null}; }
+    return saved && Array.isArray(saved.entries) ? {sessions:[], ...saved} : {entries:[], sessions:[], updatedAt:null};
+  }catch(error){ return {entries:[], sessions:[], updatedAt:null}; }
 }
 
 function writeGameRanking(data){
@@ -690,10 +691,18 @@ async function handleGameRankingApi(request, response){
     const input = await readJsonBody(request);
     const name = String(input.name || 'Atleta BE').replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 16) || 'Atleta BE';
     const deviceId = String(input.deviceId || '').replace(/[^a-zA-Z0-9-]/g, '').slice(0, 64);
+    if(input.action === 'start'){
+      if(!deviceId){ sendJson(response, 400, {ok:false, error:'Aparelho invalido.'}); return true; }
+      const now = Date.now(), runToken = crypto.randomUUID();
+      data.sessions = [...(data.sessions || []).filter(session => now-session.startedAt < 10800000), {token:runToken,deviceId,startedAt:now}].slice(-1000);
+      writeGameRanking(data); sendJson(response, 200, {ok:true,runToken,startedAt:now}); return true;
+    }
     const score = Math.floor(Number(input.score)), level = Math.floor(Number(input.level)), character = Math.floor(Number(input.character) || 0);
     if(!deviceId || !Number.isFinite(score) || score < 0 || score > 1000000 || !Number.isFinite(level) || level < 1 || level > 100 || score > level * 10000){
       sendJson(response, 400, {ok:false, error:'Resultado invalido.'}); return true;
     }
+    const session = (data.sessions || []).find(item => item.token === String(input.runToken || '') && item.deviceId === deviceId), elapsed = session ? Date.now()-session.startedAt : 0;
+    if(!session || elapsed < 3000 || elapsed > 10800000 || score > Math.floor(elapsed/1000)*200+500){ sendJson(response, 403, {ok:false,error:'Partida nao validada.'}); return true; }
     const key = `${deviceId}:${name.toLowerCase()}`, previous = data.entries.find(entry => entry.key === key);
     const entry = {key,name,score,level,character:Math.max(0,Math.min(5,character)),createdAt:previous?.createdAt || new Date().toISOString(),submittedAt:new Date().toISOString()};
     data.entries = [...data.entries.filter(item => item.key !== key), previous && previous.score > score ? previous : entry].sort((a,b) => b.score-a.score || b.level-a.level).slice(0,500);

@@ -4,3 +4,8 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
+/js/vendor/three.min.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/img/personagens-3d-chroma.png
+  Cache-Control: public, max-age=31536000, immutable

@@ -1,4 +1,5 @@
 import { getStore } from '@netlify/blobs';
+import { randomUUID } from 'node:crypto';
 
 const headers={
   'Content-Type':'application/json; charset=utf-8',
@@ -20,8 +21,8 @@ function options(){
 async function readRanking(){
   try{
     const saved=await getStore('bem-esportivo-game',options()).get('ranking',{type:'json'});
-    return saved&&Array.isArray(saved.entries)?saved:{entries:[],updatedAt:null};
-  }catch(error){return globalThis[memoryKey]||{entries:[],updatedAt:null}}
+    return saved&&Array.isArray(saved.entries)?{sessions:[],...saved}:{entries:[],sessions:[],updatedAt:null};
+  }catch(error){return globalThis[memoryKey]||{entries:[],sessions:[],updatedAt:null}}
 }
 async function writeRanking(data){
   data.updatedAt=new Date().toISOString();
@@ -37,9 +38,19 @@ export async function handler(event){
   if(event.httpMethod!=='POST')return json(405,{ok:false,error:'Método não permitido.'});
 
   const input=body(event),name=clean(input.name)||'Atleta BE',deviceId=clean(input.deviceId,64);
+  if(input.action==='start'){
+    if(!deviceId)return json(400,{ok:false,error:'Aparelho inválido.'});
+    const token=randomUUID(),now=Date.now();
+    data.sessions=[...(data.sessions||[]).filter(session=>now-session.startedAt<10800000),{token,deviceId,startedAt:now}].slice(-1000);
+    await writeRanking(data);
+    return json(200,{ok:true,runToken:token,startedAt:now});
+  }
   const score=Math.floor(Number(input.score)),level=Math.floor(Number(input.level)),character=Math.floor(Number(input.character)||0);
   if(!deviceId||!Number.isFinite(score)||score<0||score>1000000||!Number.isFinite(level)||level<1||level>100)return json(400,{ok:false,error:'Resultado inválido.'});
   if(score>level*10000)return json(400,{ok:false,error:'Pontuação incompatível com a fase.'});
+  const session=(data.sessions||[]).find(item=>item.token===clean(input.runToken,64)&&item.deviceId===deviceId),elapsed=session?Date.now()-session.startedAt:0;
+  if(!session||elapsed<3000||elapsed>10800000)return json(403,{ok:false,error:'Partida não validada.'});
+  if(score>Math.floor(elapsed/1000)*200+500)return json(400,{ok:false,error:'Pontuação incompatível com o tempo de partida.'});
 
   const now=Date.now(),key=`${deviceId}:${name.toLowerCase()}`;
   const previous=data.entries.find(entry=>entry.key===key);
