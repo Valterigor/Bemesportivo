@@ -17,6 +17,8 @@
     .personal-records{display:flex;justify-content:center;gap:8px;margin:10px 0 -5px}.personal-records span{padding:7px 9px;border-radius:8px;background:#ffffff09;color:#8fa8ba;font-size:.62rem}.personal-records strong{color:#ffca45;margin-left:3px}@media(max-height:520px) and (orientation:landscape){.personal-records{margin:5px 0}}
     .player-profile{display:flex;align-items:center;gap:8px;margin:10px 0 0}.player-profile label{color:#839bad;font-size:.6rem;font-weight:800;white-space:nowrap}.player-profile input{min-width:0;flex:1;padding:8px 10px;border:1px solid #ffffff20;border-radius:8px;background:#061425;color:#fff;font:inherit;font-size:.72rem;outline:none}.player-profile input:focus{border-color:#28e89d}.local-ranking{margin:8px 0 0;padding:7px 10px;border-radius:8px;background:#ffffff07;color:#93aaba;font-size:.65rem;text-align:left}.local-ranking summary{cursor:pointer;font-weight:800;text-align:center}.local-ranking ol{margin:7px 0 0;padding-left:22px}.local-ranking li{padding:3px 0;border-bottom:1px solid #ffffff0d}.local-ranking li strong{float:right;color:#ffca45}@media(max-height:520px) and (orientation:landscape){.player-profile,.local-ranking{display:none}}
     .achievements{margin:6px 0 0;padding:7px 10px;border-radius:8px;background:#ffffff07;color:#93aaba;font-size:.65rem;text-align:left}.achievements summary{cursor:pointer;font-weight:800;text-align:center}.achievements summary strong{color:#ffca45}.achievements #achievement-list{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:7px}.achievement-item{padding:6px;border-radius:7px;background:#061425;color:#5e7282}.achievement-item.unlocked{color:#dcebf5;border:1px solid #ffca4538}.achievement-toast{position:fixed;z-index:40;left:50%;top:22px;min-width:240px;padding:12px 18px;border:1px solid #ffca4566;border-radius:14px;background:#071522ee;color:#fff;text-align:center;font-size:.78rem;font-weight:900;box-shadow:0 15px 50px #0009;opacity:0;transform:translate(-50%,-25px);pointer-events:none;transition:.3s}.achievement-toast.show{opacity:1;transform:translate(-50%,0)}@media(max-height:520px) and (orientation:landscape){.achievements{display:none}}
+    #game-container,.controls,.controls button,.mobile-tools,.mobile-tools button,.round-button,.sound-button,#restart{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}.controls button{touch-action:none;-webkit-tap-highlight-color:transparent}.controls button:focus{outline:none}
+    #fullscreen{border-color:#27e4a1aa;background:linear-gradient(135deg,#12795f,#1197ae);color:#fff;box-shadow:0 0 0 0 #28e89d66,0 8px 25px #0008;font-weight:900;animation:fullscreen-pulse 2.4s ease-out infinite}#fullscreen::first-letter{font-size:1.15rem}#fullscreen:active{transform:scale(.94);animation:none}@keyframes fullscreen-pulse{0%,55%,100%{box-shadow:0 0 0 0 #28e89d00,0 8px 25px #0008}75%{box-shadow:0 0 0 8px #28e89d00,0 8px 30px #18dca966}}
   </style>
 </head>
 <body>
@@ -88,6 +90,6 @@
   <div id="achievement-toast" class="achievement-toast" role="status"></div>
 
   <script src="js/vendor/three.min.js"></script>
-  <script src="js/game.js?v=17" defer></script>
+  <script src="js/game.js?v=18" defer></script>
 </body>
 </html>
