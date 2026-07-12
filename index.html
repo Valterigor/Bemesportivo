@@ -181,6 +181,23 @@
       isolation: isolate;
     }
 
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .55s ease, visibility .55s ease;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .hero-slide-news {
+      background: #07111c url("img/destaque-inglaterra-semifinal.png") center / cover no-repeat;
+    }
+
     .hero::after {
       position: absolute;
       inset: 0;
@@ -189,6 +206,12 @@
       background:
         linear-gradient(90deg, rgba(0, 0, 0, .98) 0%, rgba(0, 0, 0, .92) 44%, rgba(0, 0, 0, .76) 100%),
         linear-gradient(0deg, rgba(0, 0, 0, .96), rgba(0, 0, 0, .82) 56%);
+    }
+
+    .hero.showing-news::after {
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, .94) 0%, rgba(0, 0, 0, .7) 42%, rgba(0, 0, 0, .14) 78%),
+        linear-gradient(0deg, rgba(0, 0, 0, .68), rgba(0, 0, 0, .08) 65%);
     }
 
     .hero-content {
@@ -202,6 +225,28 @@
       padding: clamp(28px, 6vw, 72px);
       color: var(--white);
     }
+
+    .hero-controls {
+      position: absolute;
+      right: clamp(20px, 4vw, 44px);
+      bottom: clamp(20px, 4vw, 40px);
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-arrow,
+    .hero-dot {
+      border: 1px solid rgba(255, 255, 255, .35);
+      background: rgba(0, 0, 0, .5);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .hero-arrow { width: 42px; height: 42px; border-radius: 50%; font-size: 20px; }
+    .hero-dot { width: 9px; height: 9px; padding: 0; border-radius: 50%; }
+    .hero-dot.active { width: 28px; border-radius: 999px; background: var(--orange); border-color: var(--orange); }
 
     .eyebrow {
       color: var(--orange);
@@ -945,7 +990,8 @@
     .game-spotlight p { max-width: 570px; margin: 0 0 24px; color: #b9ccda; line-height: 1.65; }
     .game-spotlight .primary-btn { align-self: flex-start; background: linear-gradient(135deg, #25e49d, #28bde7); color: #03271e; }
     .game-spotlight-media { position: relative; min-height: 320px; background: #07111f; }
-    .game-spotlight-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .game-spotlight-media img,
+    .game-spotlight-media video { width: 100%; height: 100%; object-fit: cover; object-position: center; }
     .game-spotlight-media::after { content: "3D"; position: absolute; right: 18px; top: 18px; padding: 8px 12px; border-radius: 999px; background: #ff8b1f; color: #111; font-weight: 900; }
     @media (max-width: 760px) {
       .game-spotlight { grid-template-columns: 1fr; }
@@ -980,14 +1026,47 @@
     </header>
 
     <main>
-      <section class="shell hero" aria-labelledby="hero-title">
-        <div class="hero-content">
-          <span class="eyebrow">Especial BEM ESPORTIVO</span>
-          <h1 id="hero-title">O futebol entra em uma nova fase</h1>
-          <p>Análise premium sobre calendário, preparação física e os bastidores que moldam a temporada dos grandes clubes.</p>
-          <div class="hero-meta">
-            <span>8 min de leitura</span>
-            <a class="primary-btn" href="Reportagens.html">Ler matéria</a>
+      <section class="shell hero" aria-label="Destaques do Bem Esportivo">
+        <article class="hero-slide active" aria-hidden="false">
+          <div class="hero-content">
+            <span class="eyebrow">Especial BEM ESPORTIVO</span>
+            <h1>O futebol entra em uma nova fase</h1>
+            <p>Análise premium sobre calendário, preparação física e os bastidores que moldam a temporada dos grandes clubes.</p>
+            <div class="hero-meta">
+              <span>8 min de leitura</span>
+              <a class="primary-btn" href="Reportagens.html">Ler matéria</a>
+            </div>
+          </div>
+        </article>
+        <article class="hero-slide hero-slide-news" aria-hidden="true">
+          <div class="hero-content">
+            <span class="eyebrow">Copa do Mundo · Semifinal</span>
+            <h1>Semifinal confirmada!</h1>
+            <p>A Inglaterra bateu a Noruega por 2 a 1 na prorrogação, com Bellingham decidindo mais uma vez. Agora é aguardar o vencedor de Argentina x Suíça.</p>
+            <div class="hero-meta"><span>Inglaterra classificada</span><a class="primary-btn" href="#jogos">Ver jogos da Copa</a></div>
+          </div>
+        </article>
+        <div class="hero-controls" aria-label="Controles dos destaques">
+          <button class="hero-arrow hero-prev" type="button" aria-label="Destaque anterior">‹</button>
+          <button class="hero-dot active" type="button" aria-label="Mostrar destaque 1" aria-current="true"></button>
+          <button class="hero-dot" type="button" aria-label="Mostrar destaque 2"></button>
+          <button class="hero-arrow hero-next" type="button" aria-label="Próximo destaque">›</button>
+        </div>
+      </section>
+
+      <section class="section shell" aria-labelledby="game-title">
+        <div class="game-spotlight">
+          <div class="game-spotlight-content">
+            <span class="eyebrow">Game 3D · Diversão e saúde</span>
+            <h2 id="game-title">Corrida da Hidratação</h2>
+            <p>Escolha seu atleta, percorra o labirinto 3D, colete água e energia e aprenda sobre hidratação enquanto se diverte.</p>
+            <a class="primary-btn" href="game.html" aria-label="Jogar Corrida da Hidratação agora">Jogar agora</a>
+          </div>
+          <div class="game-spotlight-media" aria-label="Prévia em vídeo do game Corrida da Hidratação">
+            <video autoplay muted loop playsinline preload="metadata" poster="img/personagens.jpeg" aria-label="Personagens esportivos do game Corrida da Hidratação">
+              <source src="video%20bonecos.mp4" type="video/mp4">
+              Seu navegador não consegue reproduzir este vídeo.
+            </video>
           </div>
         </div>
       </section>
@@ -1090,20 +1169,6 @@
             <div class="story-media"><img src="img/app-treino-card.png" alt="Treino para categorias de base"></div>
             <div class="story-body"><span class="eyebrow">Evolução</span><h3>Cada repetição bem feita aproxima você do seu melhor nível.</h3></div>
           </article>
-        </div>
-      </section>
-
-      <section class="section shell" aria-labelledby="game-title">
-        <div class="game-spotlight">
-          <div class="game-spotlight-content">
-            <span class="eyebrow">Novo no Bem Esportivo</span>
-            <h2 id="game-title">Corrida da Hidratação</h2>
-            <p>Escolha seu atleta, percorra o labirinto 3D, colete água e barrinhas de energia e escape do marcador.</p>
-            <a class="primary-btn" href="game.html">Jogar agora</a>
-          </div>
-          <a class="game-spotlight-media" href="game.html" aria-label="Abrir Corrida da Hidratação">
-            <img src="img/personagens.jpeg" alt="Personagens esportivos do game Corrida da Hidratação" loading="lazy">
-          </a>
         </div>
       </section>
 
@@ -1396,6 +1461,37 @@
       if (topBtn) {
         topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
       }
+
+      const hero = document.querySelector('.hero');
+      const heroSlides = [...document.querySelectorAll('.hero-slide')];
+      const heroDots = [...document.querySelectorAll('.hero-dot')];
+      let heroIndex = 0;
+      let heroTimer;
+      const showHero = index => {
+        heroIndex = (index + heroSlides.length) % heroSlides.length;
+        hero?.classList.toggle('showing-news', heroSlides[heroIndex]?.classList.contains('hero-slide-news'));
+        heroSlides.forEach((slide, position) => {
+          const active = position === heroIndex;
+          slide.classList.toggle('active', active);
+          slide.setAttribute('aria-hidden', String(!active));
+        });
+        heroDots.forEach((dot, position) => {
+          const active = position === heroIndex;
+          dot.classList.toggle('active', active);
+          if (active) dot.setAttribute('aria-current', 'true');
+          else dot.removeAttribute('aria-current');
+        });
+      };
+      const restartHero = () => {
+        clearInterval(heroTimer);
+        heroTimer = setInterval(() => showHero(heroIndex + 1), 6500);
+      };
+      document.querySelector('.hero-prev')?.addEventListener('click', () => { showHero(heroIndex - 1); restartHero(); });
+      document.querySelector('.hero-next')?.addEventListener('click', () => { showHero(heroIndex + 1); restartHero(); });
+      heroDots.forEach((dot, index) => dot.addEventListener('click', () => { showHero(index); restartHero(); }));
+      hero?.addEventListener('mouseenter', () => clearInterval(heroTimer));
+      hero?.addEventListener('mouseleave', restartHero);
+      if (heroSlides.length > 1) restartHero();
 
       document.querySelectorAll('.post-card').forEach(card => {
         card.setAttribute('tabindex', '0');
