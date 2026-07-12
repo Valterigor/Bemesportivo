@@ -993,11 +993,35 @@
     .game-spotlight-media img,
     .game-spotlight-media video { width: 100%; height: 100%; object-fit: cover; object-position: center; }
     .game-spotlight-media::after { content: "3D"; position: absolute; right: 18px; top: 18px; padding: 8px 12px; border-radius: 999px; background: #ff8b1f; color: #111; font-weight: 900; }
+    .mascot-section { position: relative; }
+    .section-mascot {
+      position: absolute;
+      z-index: 3;
+      width: clamp(120px, 14vw, 190px);
+      height: auto;
+      pointer-events: none;
+      user-select: none;
+      filter: drop-shadow(0 18px 18px rgba(17, 17, 17, .2));
+      animation: mascot-float 3.8s ease-in-out infinite alternate;
+    }
+    .mascot-football { top: -72px; right: 28px; transform: rotate(3deg); }
+    .mascot-basketball { top: -64px; left: -44px; transform: rotate(-4deg); animation-delay: -.8s; }
+    .mascot-tennis { top: -70px; right: 20px; transform: rotate(3deg); animation-delay: -1.6s; }
+    @keyframes mascot-float { to { translate: 0 -9px; } }
     @media (max-width: 760px) {
       .game-spotlight { grid-template-columns: 1fr; }
       .game-spotlight-content { order: 2; padding: 26px 22px 30px; }
       .game-spotlight-media { min-height: 230px; }
       .game-spotlight .primary-btn { width: 100%; justify-content: center; text-align: center; }
+      .section-mascot { width: 105px; opacity: .96; }
+      .mascot-football,.mascot-tennis { top: -40px; right: -12px; }
+      .mascot-basketball { top: -38px; left: -16px; }
+    }
+    @media (max-width: 480px) {
+      .section-mascot { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .section-mascot { animation: none; }
     }
   </style>
 </head>
@@ -1071,7 +1095,8 @@
         </div>
       </section>
 
-      <section class="section shell" id="jogos">
+      <section class="section shell mascot-section" id="jogos">
+        <img class="section-mascot mascot-football" src="img/mascotes/futebol.png" alt="" aria-hidden="true">
         <div class="section-head">
           <div class="section-title">
             <span>Copa do Mundo</span>
@@ -1088,7 +1113,8 @@
         </div>
       </section>
 
-      <section class="section shell" id="posts">
+      <section class="section shell mascot-section" id="posts">
+        <img class="section-mascot mascot-basketball" src="img/mascotes/basquete.png" alt="" aria-hidden="true" loading="lazy">
         <div class="section-head">
           <div class="section-title">
             <span>Saúde</span>
@@ -1148,7 +1174,8 @@
         </div>
       </section>
 
-      <section class="section shell" id="treinos">
+      <section class="section shell mascot-section" id="treinos">
+        <img class="section-mascot mascot-tennis" src="img/mascotes/tenis.png" alt="" aria-hidden="true" loading="lazy">
         <div class="section-head">
           <div class="section-title">
             <span>Performance</span>
