@@ -64,7 +64,7 @@
         <button id="rotate-screen" type="button" aria-label="Girar orientação da tela" title="Girar tela">↻</button>
         <button id="restart" type="button" aria-label="Reiniciar partida" title="Reiniciar">↻</button>
       </div>
-      <span>💧 <strong id="water-count">0</strong> · ⚡ <strong id="bar-count">0/3</strong></span>
+      <span title="Garrafas e recuperações da fase atual">💧 <strong id="water-count">0</strong> · ⚡ <strong id="bar-count">0/3</strong></span>
     </div>
     <div id="power-status" class="power-status" aria-live="polite"></div>
     <p id="message" class="message">Recolha todas as garrafas e barrinhas. Cuidado com o vilão!</p>
@@ -88,7 +88,7 @@
       <div class="player-profile"><label for="player-name">Nome do jogador</label><input id="player-name" maxlength="16" autocomplete="nickname" placeholder="Atleta BE"></div>
       <details class="achievements"><summary>🎖 Conquistas <strong id="achievement-count">0/4</strong></summary><div id="achievement-list"></div></details>
       <div class="legend"><span>💧 Água +15</span><span>▰ Barra +25</span></div>
-      <details class="rules-summary"><summary>Objetivo e regras</summary><p>Complete 3 fases. Pegue todas as garrafas e, a cada 10, encontre o item indicado: barrinha, maçã e descanso. Você começa a partida com 3 vidas e tem 2 minutos por tentativa. Se o tempo zerar, perde uma vida e reinicia a fase atual. Fuja do juiz, use escudo e turbo.</p></details>
+      <details class="rules-summary"><summary>Objetivo e regras</summary><p>Complete 3 fases. A contagem recomeça em cada circuito: colete 10 garrafas para liberar a barrinha, 20 para liberar a maçã e 30 para liberar o descanso. Você começa a partida com 3 vidas e tem 2 minutos por tentativa. Se o tempo zerar, perde uma vida e reinicia a fase atual. Fuja do juiz, use escudo e turbo.</p></details>
       <button id="start" type="button" onclick="document.getElementById('overlay').classList.remove('visible')">Começar partida</button>
       <button id="open-tutorial" class="tutorial-link" type="button">? Como jogar</button>
       <details class="local-ranking"><summary>🌍 Ranking global <small id="ranking-status">carregando…</small></summary><ol id="ranking-list"></ol></details>
@@ -163,6 +163,6 @@
   <div id="achievement-toast" class="achievement-toast" role="status"></div>
 
   <script src="js/vendor/three.min.js"></script>
-  <script src="js/game.js?v=34" defer></script>
+  <script src="js/game.js?v=35" defer></script>
 </body>
 </html>
