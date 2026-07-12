@@ -372,6 +372,30 @@ font-size:22px;
 color:#ddd;
 }
 
+/* Mantém o destaque escuro mesmo com as regras globais de cards. */
+body .feature{
+background:linear-gradient(135deg,#111,#1e1e1e 70%,#2d1707) !important;
+color:#fff !important;
+border-color:rgba(255,255,255,.08) !important;
+}
+
+body .feature h2{
+color:#fff !important;
+}
+
+body .feature p{
+color:#ddd !important;
+}
+
+.feature-link{
+display:inline-flex;
+margin-top:24px;
+}
+
+#opiniao-corinthians{
+scroll-margin-top:100px;
+}
+
 .post{
 background:#fff;
 padding:30px;
@@ -553,4 +577,10 @@ display:block;
 .feature{padding:35px}
 .feature h2{font-size:36px}
 .post h3{font-size:28px}
+}
+
+@media(max-width:520px){
+.feature{padding:26px 22px !important}
+.feature h2{font-size:32px;line-height:1.1}
+.feature p{font-size:18px;line-height:1.55}
 }
