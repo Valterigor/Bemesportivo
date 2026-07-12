@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="google-adsense-account" content="ca-pub-5105345296041597">
   <meta name="theme-color" content="#06101f">
   <title>Corrida da Hidratação | Bem Esportivo</title>
@@ -30,6 +30,9 @@
     .red-card{display:block;margin:0 auto 12px;width:70px;height:100px;border:5px solid #fff;border-radius:8px;background:#ef1529;box-shadow:0 12px 35px #000a;transform:rotate(-8deg)}.final-ranking{margin:16px 0;padding:12px 14px;border-radius:14px;background:#ffffff09;text-align:left}.final-ranking h3{margin:0 0 8px;color:#ffca45;font-size:.75rem;text-align:center}.final-ranking ol{margin:0;padding-left:24px;color:#d9e7f0;font-size:.75rem}.final-ranking li{padding:5px 0;border-bottom:1px solid #ffffff10}.final-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.final-actions a{display:grid;place-items:center;padding:13px;border-radius:12px;background:#ffffff10;color:#fff;font-size:.75rem;font-weight:900;text-decoration:none}.phase-card .phase-number{font-size:4rem;font-weight:900;color:#28e89d}.rules-summary{margin:12px 0;padding:10px 12px;border-radius:12px;background:#ffffff08;color:#aebfd0;font-size:.72rem;line-height:1.5;text-align:left}.home-fixed{position:fixed;z-index:8;top:18px;right:260px;padding:12px 14px;border:1px solid #ffffff25;border-radius:999px;background:#07162de8;color:#fff;font-size:.72rem;font-weight:900;text-decoration:none;box-shadow:0 8px 30px #0007}body.theater-mode{position:fixed;inset:0;width:100%;height:100%;background:#06101f}@media(max-width:700px){.home-fixed{top:auto;left:74px;right:auto;bottom:72px;padding:12px}.card{max-height:94dvh;overflow:auto}.final-actions{grid-template-columns:1fr}}
     @media(max-width:430px){.tutorial-card{width:calc(100vw - 24px);max-width:none;min-width:0;padding:24px 18px;overflow:hidden}.tutorial-top{min-width:0}.tutorial-card>p{overflow-wrap:anywhere}.tutorial-visual{flex-wrap:wrap}.tutorial-visual span{flex:0 0 42px}.tutorial-card #next-tutorial{max-width:100%}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+    html,body,#game-container,canvas{width:100%;height:100%;height:100dvh}button,a,input{touch-action:manipulation}.card button,.home-fixed,.game-actions a,.mobile-tools button,.controls button{min-height:44px}.card button:focus-visible,.home-fixed:focus-visible,.game-actions a:focus-visible,.mobile-tools button:focus-visible,.controls button:focus-visible,input:focus-visible{outline:3px solid #ffca45;outline-offset:2px}.overlay{padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}.overlay .card{max-width:calc(100vw - 24px)}@media(max-width:700px){.game-ui{top:max(10px,env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right))}.status{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));width:100%}.status div{min-width:0!important;padding:2px 6px}.status small{font-size:.48rem;letter-spacing:.08em}.status strong{font-size:.88rem}.controls{right:max(14px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom))}.round-button{left:max(18px,env(safe-area-inset-left));bottom:max(18px,env(safe-area-inset-bottom))}.sound-button{left:max(18px,env(safe-area-inset-left));bottom:calc(72px + env(safe-area-inset-bottom))}.home-fixed{left:calc(74px + env(safe-area-inset-left));bottom:calc(72px + env(safe-area-inset-bottom))}.mobile-tools{left:calc(74px + env(safe-area-inset-left));bottom:max(18px,env(safe-area-inset-bottom))}.game-actions{width:100%}.game-actions a,.game-actions span{padding:7px 8px}.card{width:min(430px,100%);max-height:calc(100dvh - max(24px,env(safe-area-inset-top)) - max(24px,env(safe-area-inset-bottom)));overscroll-behavior:contain}}
+    @media(max-width:370px){.status div{padding:2px 3px}.status small{font-size:.43rem}.status strong{font-size:.78rem}.game-actions a,.game-actions span{font-size:.6rem}.controls{grid-template:repeat(2,54px)/repeat(3,54px)}.mobile-tools button,.home-fixed{padding-inline:9px}}
+    @media(max-height:520px) and (orientation:landscape){.card{max-height:calc(100dvh - 12px)}.game-ui{top:max(6px,env(safe-area-inset-top));left:max(6px,env(safe-area-inset-left));right:auto;max-width:62vw}.status{display:flex;width:auto}.status div{padding:1px 6px}.game-actions{width:auto}.controls{bottom:max(8px,env(safe-area-inset-bottom));right:max(8px,env(safe-area-inset-right))}}
   </style>
 </head>
 <body>
@@ -81,7 +84,7 @@
       <div class="player-profile"><label for="player-name">Nome do jogador</label><input id="player-name" maxlength="16" autocomplete="nickname" placeholder="Atleta BE"></div>
       <details class="achievements"><summary>🎖 Conquistas <strong id="achievement-count">0/4</strong></summary><div id="achievement-list"></div></details>
       <div class="legend"><span>💧 Água +15</span><span>▰ Barra +25</span></div>
-      <div class="rules-summary"><strong>Objetivo:</strong> complete 3 fases. Pegue as garrafas e, a cada 10, encontre o item de recuperação indicado. Você tem 2 minutos e 3 vidas por fase. Fuja do juiz, use escudo e turbo e conclua todos os itens.</div>
+      <div class="rules-summary"><strong>Objetivo:</strong> complete 3 fases. Pegue todas as garrafas e, a cada 10, encontre o item indicado: barrinha, maçã e descanso. Você começa a partida com 3 vidas e tem 2 minutos por tentativa. Se o tempo zerar, perde uma vida e reinicia a fase atual. Fuja do juiz, use escudo e turbo.</div>
       <button id="start" type="button" onclick="document.getElementById('overlay').classList.remove('visible')">Começar partida</button>
       <button id="open-tutorial" class="tutorial-link" type="button">? Como jogar</button>
       <details class="local-ranking"><summary>🌍 Ranking global <small id="ranking-status">carregando…</small></summary><ol id="ranking-list"></ol></details>
@@ -156,6 +159,6 @@
   <div id="achievement-toast" class="achievement-toast" role="status"></div>
 
   <script src="js/vendor/three.min.js"></script>
-  <script src="js/game.js?v=30" defer></script>
+  <script src="js/game.js?v=33" defer></script>
 </body>
 </html>
