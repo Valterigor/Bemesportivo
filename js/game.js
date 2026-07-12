@@ -3,8 +3,9 @@ window.addEventListener('DOMContentLoaded',()=>{
  if(!window.THREE){$('message').textContent='Não foi possível carregar o motor 3D. Verifique sua conexão.';return}
  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x06101f); scene.fog=new THREE.Fog(0x06101f,42,78);
  const lowPower=matchMedia('(pointer:coarse)').matches||navigator.hardwareConcurrency<=4||innerWidth<700;
- const camera=new THREE.PerspectiveCamera(48,innerWidth/innerHeight,.1,150), renderer=new THREE.WebGLRenderer({antialias:!lowPower,powerPreference:'high-performance'});
- renderer.setPixelRatio(lowPower?1:Math.min(devicePixelRatio,1.75));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=!lowPower;renderer.outputColorSpace=THREE.SRGBColorSpace;container.appendChild(renderer.domElement);
+ const viewWidth=container.clientWidth||innerWidth,viewHeight=container.clientHeight||innerHeight,camera=new THREE.PerspectiveCamera(48,viewWidth/viewHeight,.1,150),renderer=new THREE.WebGLRenderer({antialias:!lowPower,powerPreference:'high-performance'});
+ renderer.setPixelRatio(lowPower?1:Math.min(devicePixelRatio,1.75));renderer.setSize(viewWidth,viewHeight);renderer.shadowMap.enabled=!lowPower;renderer.outputColorSpace=THREE.SRGBColorSpace;container.appendChild(renderer.domElement);
+ const fitPlayArea=()=>{const width=container.clientWidth||innerWidth,height=container.clientHeight||innerHeight;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height)};if(window.ResizeObserver)new ResizeObserver(fitPlayArea).observe(container);
  let audioContext=null,soundOn=localStorage.getItem('be-game-sound')!=='off';
  async function unlockAudio(){if(!soundOn)return;try{audioContext=audioContext||new (window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')await audioContext.resume();tone(520,.05,'sine',0,.001)}catch(error){soundOn=false;updateSoundButton()}}
  let progress={bestScore:0,bestLevel:1,character:0,playerName:'Atleta BE',ranking:[],achievements:[]};try{progress={...progress,...JSON.parse(localStorage.getItem('be-game-progress')||'{}')}}catch(error){}
