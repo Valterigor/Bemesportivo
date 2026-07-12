@@ -198,6 +198,10 @@
       background: #07111c url("img/destaque-inglaterra-semifinal.png") center / cover no-repeat;
     }
 
+    .hero-slide-opiniao {
+      background: #090909 url("img/banner-opiniao-corinthians.png") 68% center / cover no-repeat;
+    }
+
     .hero::after {
       position: absolute;
       inset: 0;
@@ -272,6 +276,11 @@
       font-size: clamp(15px, 2vw, 19px);
       line-height: 1.45;
       font-weight: 500;
+    }
+
+    .hero p .hero-question {
+      color: var(--orange);
+      font-weight: 900;
     }
 
     .hero-meta {
@@ -1066,14 +1075,23 @@
           <div class="hero-content">
             <span class="eyebrow">Copa do Mundo · Semifinal</span>
             <h1>Semifinal confirmada!</h1>
-            <p>A Inglaterra bateu a Noruega por 2 a 1 na prorrogação, com Bellingham decidindo mais uma vez. Agora é Inglaterra e Argentina, quem vai pra final?</p>
+            <p>A Inglaterra bateu a Noruega por 2 a 1 na prorrogação, com Bellingham decidindo mais uma vez. Agora é Inglaterra e Argentina, <span class="hero-question">quem vai pra final?</span></p>
             <div class="hero-meta"><span>Inglaterra classificada</span><a class="primary-btn" href="#jogos">Ver jogos da Copa</a></div>
+          </div>
+        </article>
+        <article class="hero-slide hero-slide-news hero-slide-opiniao" aria-hidden="true">
+          <div class="hero-content">
+            <span class="eyebrow">Fala Bem · Nova opinião</span>
+            <h1>O amistoso que o Corinthians precisava</h1>
+            <p>Pressão, intensidade e um ambiente hostil: contra o Cascavel, o Timão encontrou um teste que pode valer muito para a temporada.</p>
+            <div class="hero-meta"><span>4 min de leitura</span><a class="primary-btn" href="/coluna-valtinho#opiniao-corinthians">Ler opinião</a></div>
           </div>
         </article>
         <div class="hero-controls" aria-label="Controles dos destaques">
           <button class="hero-arrow hero-prev" type="button" aria-label="Destaque anterior">‹</button>
           <button class="hero-dot active" type="button" aria-label="Mostrar destaque 1" aria-current="true"></button>
           <button class="hero-dot" type="button" aria-label="Mostrar destaque 2"></button>
+          <button class="hero-dot" type="button" aria-label="Mostrar destaque 3"></button>
           <button class="hero-arrow hero-next" type="button" aria-label="Próximo destaque">›</button>
         </div>
       </section>

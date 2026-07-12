@@ -387,6 +387,22 @@ body .feature p{
 color:#ddd !important;
 }
 
+body .feature-opiniao{
+min-height:520px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:flex-start;
+background:
+linear-gradient(90deg,rgba(5,5,5,.96) 0%,rgba(5,5,5,.82) 40%,rgba(5,5,5,.18) 72%,rgba(5,5,5,.08) 100%),
+url("../img/banner-opiniao-corinthians.png") 68% center/cover no-repeat !important;
+}
+
+.feature-opiniao h2,
+.feature-opiniao p{
+max-width:58%;
+}
+
 .feature-link{
 display:inline-flex;
 margin-top:24px;
@@ -583,4 +599,8 @@ display:block;
 .feature{padding:26px 22px !important}
 .feature h2{font-size:32px;line-height:1.1}
 .feature p{font-size:18px;line-height:1.55}
+.feature-opiniao{min-height:560px;background-position:64% center !important}
+.feature-opiniao h2,.feature-opiniao p{max-width:100%}
+.feature-opiniao{background-image:linear-gradient(180deg,rgba(5,5,5,.42) 0%,rgba(5,5,5,.82) 46%,rgba(5,5,5,.98) 100%),url("../img/banner-opiniao-corinthians.png") !important}
+.feature-opiniao{justify-content:flex-end}
 }
