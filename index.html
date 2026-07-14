@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-adsense-account" content="ca-pub-5270723987412757">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757" crossorigin="anonymous"></script>
-  <meta name="description" content="BEM ESPORTIVO - portal esportivo premium com notícias, partidas, posts, Fala Bem, treinos e vídeos.">
+  <meta name="description" content="BeMEsportivo é uma comunidade para aprender, participar, inspirar e viver o esporte. O esporte começa com as pessoas.">
   <meta name="theme-color" content="#FFFFFF">
   <meta property="og:title" content="BEM ESPORTIVO | Portal esportivo premium">
-  <meta property="og:description" content="Notícias, jogos, posts, Fala Bem, treinos e vídeos em uma experiência premium.">
+  <meta property="og:description" content="Pessoas, conhecimento e incentivo para viver o esporte todos os dias.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://bemesportivo.com/img/banner.png">
   <title>BEM ESPORTIVO | Portal esportivo premium</title>
@@ -700,6 +700,39 @@
       background: var(--white);
     }
 
+    .story-grid.people-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .people-card {
+      padding: 10px;
+      background: #f7f6f2;
+    }
+
+    .people-card .story-media {
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+    }
+
+    .people-card-portrait .story-media {
+      aspect-ratio: 4 / 5;
+    }
+
+    .people-card-wide {
+      grid-column: span 2;
+    }
+
+    .people-card-wide .story-media {
+      aspect-ratio: 16 / 9;
+    }
+
+    .people-card .story-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
     #topBtn {
       position: fixed;
       right: 24px;
@@ -921,6 +954,10 @@
       .match-card .ghost-btn {
         width: 100%;
       }
+
+      .story-grid.people-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 720px) {
@@ -952,6 +989,14 @@
 
       .hero-content {
         padding: 26px;
+      }
+
+      .story-grid.people-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .people-card-wide {
+        grid-column: auto;
       }
 
       .hero-slide-opiniao {
@@ -1068,7 +1113,7 @@
           <nav class="category-nav" aria-label="Categorias">
             <a class="nav-chip active" href="index.html"><svg class="icon" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>Inicio</a>
             <a class="nav-chip" href="#jogos"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m12 3 3 6-3 3-3-3 3-6Z"></path><path d="m3.5 10 5.5-.8"></path><path d="m20.5 10-5.5-.8"></path><path d="m7 19 2-5"></path><path d="m17 19-2-5"></path></svg>Partidas</a>
-            <a class="nav-chip" href="#posts"><svg class="icon" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h10"></path></svg>Posts</a>
+            <a class="nav-chip" href="#pessoas"><svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path></svg>Pessoas</a>
             <a class="nav-chip" href="Reportagens.html"><svg class="icon" viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>Reportagens</a>
             <a class="nav-chip" href="coluna-valtinho.html"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"></path></svg>Fala bem</a>
             <a class="nav-chip" href="#treinos"><svg class="icon" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M4 12h11"></path><path d="M4 17h16"></path></svg>Treinos</a>
@@ -1154,27 +1199,30 @@
         </div>
       </section>
 
-      <section class="section shell mascot-section" id="posts">
+      <section class="section shell mascot-section people-section" id="pessoas">
         <img class="section-mascot mascot-basketball" src="img/mascotes/basquete.png" alt="" aria-hidden="true" loading="lazy">
         <div class="section-head">
           <div class="section-title">
-            <span>Saúde</span>
-            <h2>Posts</h2>
+            <span>Pessoas · Conhecimento · Movimento</span>
+            <h2>O esporte começa com as pessoas</h2>
           </div>
-          <p class="section-copy">Publicações visuais, diretas e organizadas para acompanhar saúde, rotina, treino e estilo de vida esportivo.</p>
+          <p class="section-copy">Saúde, mente, alimentação e movimento se encontram para ajudar cada pessoa a começar, continuar e evoluir no esporte.</p>
         </div>
-        <div class="story-grid post-grid">
-          <article class="story-card post-card">
-            <div class="story-media"><img src="img/posts/post-boa-alimentacao.png" alt="Post sobre boa alimentacao"></div>
+        <div class="story-grid people-grid">
+          <article class="story-card post-card people-card">
+            <div class="story-media"><img src="img/1.jpeg" alt="O esporte começa com pessoas e diferentes modalidades esportivas" loading="lazy"></div>
           </article>
-          <article class="story-card post-card">
-            <div class="story-media"><img src="img/posts/post-academia-transforma.png" alt="Post sobre academia"></div>
+          <article class="story-card post-card people-card people-card-portrait">
+            <div class="story-media"><img src="img/3.jpeg" alt="Pessoas praticando corrida, ciclismo, basquete, futebol, vôlei e natação" loading="lazy"></div>
           </article>
-          <article class="story-card post-card">
-            <div class="story-media"><img src="img/posts/post-corrida-transforma.png" alt="Post sobre corrida"></div>
+          <article class="story-card post-card people-card people-card-portrait">
+            <div class="story-media"><img src="img/2.jpeg" alt="Profissionais de saúde, nutrição, psicologia e educação física" loading="lazy"></div>
           </article>
-          <article class="story-card post-card">
-            <div class="story-media"><img src="img/posts/post-pratica-esportes.png" alt="Post sobre pratica de esportes"></div>
+          <article class="story-card post-card people-card">
+            <div class="story-media"><img src="img/5.jpeg" alt="Jornada integrada de saúde, psicologia, nutrição e educação física" loading="lazy"></div>
+          </article>
+          <article class="story-card post-card people-card people-card-wide">
+            <div class="story-media"><img src="img/4.jpeg" alt="Etapas para cuidar da saúde, fortalecer a mente, melhorar a nutrição e criar movimento" loading="lazy"></div>
           </article>
         </div>
       </section>

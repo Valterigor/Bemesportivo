@@ -4,7 +4,7 @@ el.style.display=el.style.display==='block'?'none':'block';
 }
 
 const posts=document.querySelectorAll('.post-item');
-const filterButtons=document.querySelectorAll('.filter-btn');
+const filterButtons=document.querySelectorAll('button.filter-btn');
 const search=document.getElementById('searchInput');
 let activeFilter='';
 
