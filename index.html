@@ -719,15 +719,28 @@
       aspect-ratio: 4 / 5;
     }
 
-    .people-card-wide {
-      grid-column: span 2;
-    }
-
-    .people-card-wide .story-media {
-      aspect-ratio: 16 / 9;
-    }
-
     .people-card .story-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .story-grid.training-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .training-card {
+      padding: 10px;
+      background: #0b0b0b;
+    }
+
+    .training-card .story-media {
+      aspect-ratio: 16 / 9;
+      border-radius: 18px;
+      background: #050505;
+    }
+
+    .training-card .story-media img {
       width: 100%;
       height: 100%;
       object-fit: contain;
@@ -958,6 +971,10 @@
       .story-grid.people-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .story-grid.training-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 720px) {
@@ -993,10 +1010,6 @@
 
       .story-grid.people-grid {
         grid-template-columns: 1fr;
-      }
-
-      .people-card-wide {
-        grid-column: auto;
       }
 
       .hero-slide-opiniao {
@@ -1218,12 +1231,6 @@
           <article class="story-card post-card people-card people-card-portrait">
             <div class="story-media"><img src="img/2.jpeg" alt="Profissionais de saúde, nutrição, psicologia e educação física" loading="lazy"></div>
           </article>
-          <article class="story-card post-card people-card">
-            <div class="story-media"><img src="img/5.jpeg" alt="Jornada integrada de saúde, psicologia, nutrição e educação física" loading="lazy"></div>
-          </article>
-          <article class="story-card post-card people-card people-card-wide">
-            <div class="story-media"><img src="img/4.jpeg" alt="Etapas para cuidar da saúde, fortalecer a mente, melhorar a nutrição e criar movimento" loading="lazy"></div>
-          </article>
         </div>
       </section>
 
@@ -1272,18 +1279,12 @@
           </div>
           <p class="section-copy">Frases curtas para lembrar que evolução esportiva vem de constância, foco e atitude diária.</p>
         </div>
-        <div class="story-grid">
-          <article class="story-card">
-            <div class="story-media"><img src="img/app-treino-card.png" alt="Atleta treinando"></div>
-            <div class="story-body"><span class="eyebrow">Disciplina</span><h3>Treine hoje para agradecer amanha.</h3></div>
+        <div class="story-grid training-grid">
+          <article class="story-card training-card">
+            <div class="story-media"><img src="img/treino-disciplina-frase.png" alt="Disciplina: treine hoje para agradecer amanhã" loading="lazy"></div>
           </article>
-          <article class="story-card">
-            <div class="story-media"><img src="img/app-treino-card.png" alt="Preparação tática"></div>
-            <div class="story-body"><span class="eyebrow">Constância</span><h3>O resultado aparece quando a vontade vira rotina.</h3></div>
-          </article>
-          <article class="story-card">
-            <div class="story-media"><img src="img/app-treino-card.png" alt="Treino para categorias de base"></div>
-            <div class="story-body"><span class="eyebrow">Evolução</span><h3>Cada repetição bem feita aproxima você do seu melhor nível.</h3></div>
+          <article class="story-card training-card">
+            <div class="story-media"><img src="img/treino-constancia-evolucao.png" alt="Constância: gráfico demonstrando evolução por meio da rotina" loading="lazy"></div>
           </article>
         </div>
       </section>
