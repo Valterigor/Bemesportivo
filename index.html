@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-adsense-account" content="ca-pub-5270723987412757">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757" crossorigin="anonymous"></script>
-  <meta name="description" content="BeMEsportivo é uma comunidade para aprender, participar, inspirar e viver o esporte. O esporte começa com as pessoas.">
+  <meta name="description" content="BeMEsportivo é uma comunidade para aprender, participar, inspirar e viver o esporte. O esporte começa com pessoas.">
   <meta name="theme-color" content="#FFFFFF">
   <meta property="og:title" content="BEM ESPORTIVO | Portal esportivo premium">
   <meta property="og:description" content="Pessoas, conhecimento e incentivo para viver o esporte todos os dias.">
@@ -274,6 +274,127 @@
     .hero-dot { width: 9px; height: 9px; padding: 0; border-radius: 50%; }
     .hero-dot.active { width: 28px; border-radius: 999px; background: var(--orange); border-color: var(--orange); }
 
+    .brand-film {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 368px);
+      gap: clamp(30px, 6vw, 72px);
+      align-items: center;
+      margin-top: 30px;
+      padding: clamp(28px, 5vw, 58px);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background: #fbfaf7;
+      color: #111;
+      box-shadow: 0 18px 48px rgba(17,17,17,.08);
+    }
+
+    .brand-film-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .brand-film-copy h2 {
+      max-width: 12ch;
+      margin: 12px 0 18px;
+      font-size: clamp(36px, 4.2vw, 56px);
+      line-height: 1;
+      letter-spacing: -.035em;
+    }
+
+    .brand-film-copy p {
+      max-width: 560px;
+      color: #5f5f5f;
+      font-size: clamp(15px, 1.7vw, 18px);
+      line-height: 1.6;
+    }
+
+    .brand-film-note {
+      display: block;
+      margin-top: 24px;
+      color: #7a7a7a;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .brand-film-media {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: min(100%, 368px);
+      aspect-ratio: 368 / 480;
+      margin-inline: auto;
+      overflow: hidden;
+      border-radius: 22px;
+      background: #111;
+      box-shadow: 0 20px 44px rgba(17,17,17,.18);
+    }
+
+    .brand-film-media::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .brand-film-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #111;
+      cursor: pointer;
+    }
+
+    .brand-film-media audio {
+      display: none;
+    }
+
+    .brand-film-play {
+      position: absolute;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      padding: 0;
+      border: 1px solid rgba(255,255,255,.48);
+      border-radius: 50%;
+      background: rgba(18,18,18,.48);
+      backdrop-filter: blur(6px);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+      transition: transform .2s ease, opacity .2s ease, background .2s ease;
+    }
+
+    .brand-film-play:hover,
+    .brand-film-play:focus-visible {
+      transform: scale(1.04);
+      background: rgba(18,18,18,.68);
+      outline: none;
+    }
+
+    .brand-film-play-icon {
+      width: 0;
+      height: 0;
+      margin-left: 4px;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 13px solid currentColor;
+    }
+
+    .brand-film-play.is-playing {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: scale(.86);
+    }
+
     .eyebrow {
       color: var(--orange);
       font-size: 12px;
@@ -457,10 +578,17 @@
 
     .social-shot img,
     .story-media img,
-    .video-thumb img {
+    .video-thumb img,
+    .video-thumb video {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    .video-thumb video {
+      object-fit: contain;
+      background: #050505;
+      pointer-events: none;
     }
 
     .social-actions {
@@ -1017,6 +1145,22 @@
         padding: 26px;
       }
 
+      .brand-film {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 30px 22px;
+        border-radius: 28px;
+      }
+
+      .brand-film-copy h2 {
+        max-width: 12ch;
+        font-size: clamp(36px, 11vw, 48px);
+      }
+
+      .brand-film-media {
+        width: min(100%, 320px);
+      }
+
       .story-grid.people-grid {
         grid-template-columns: 1fr;
       }
@@ -1195,6 +1339,25 @@
         </div>
       </section>
 
+      <section class="shell brand-film" aria-labelledby="brand-film-title">
+        <div class="brand-film-copy">
+          <span class="eyebrow">Filme institucional · BeMEsportivo</span>
+          <h2 id="brand-film-title">O esporte começa com pessoas.</h2>
+          <p>O esporte começa com pessoas. São elas que criam, inspiram e transformam o jogo. Isso é BeMEsportivo.</p>
+          <span class="brand-film-note">Nossa crença em 9 segundos</span>
+        </div>
+        <div class="brand-film-media" id="manifesto-video">
+          <video id="brandFilmPlayer" playsinline preload="auto" poster="img/3.jpeg" aria-label="Filme institucional O esporte começa com pessoas">
+            <source src="videos/beplay-o-esporte-comeca-nas-pessoas.mp4" type="video/mp4">
+            Seu navegador não consegue reproduzir este vídeo.
+          </video>
+          <audio id="brandFilmAudio" preload="auto" src="videos/beplay-o-esporte-comeca-nas-pessoas.mp4"></audio>
+          <button class="brand-film-play" type="button" id="playBrandFilm" aria-label="Reproduzir filme institucional com som" aria-pressed="false">
+            <span class="brand-film-play-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+
       <section class="section shell" aria-labelledby="game-title">
         <div class="game-spotlight">
           <div class="game-spotlight-content">
@@ -1235,7 +1398,7 @@
         <div class="section-head">
           <div class="section-title">
             <span>Pessoas · Conhecimento · Movimento</span>
-            <h2>O esporte começa com as pessoas</h2>
+            <h2>O esporte começa com pessoas</h2>
           </div>
           <p class="section-copy">Saúde, mente, alimentação e movimento se encontram para ajudar cada pessoa a começar, continuar e evoluir no esporte.</p>
         </div>
@@ -1316,15 +1479,15 @@
           <p class="section-copy">Miniaturas diretas do Beplay, duracao visivel e destaque para o assunto antes do primeiro clique.</p>
         </div>
         <div class="video-grid">
-          <a class="video-card" href="beplay.html">
+          <a class="video-card" href="beplay.html?video=gBkon6LC2OU">
             <div class="video-thumb"><img src="https://img.youtube.com/vi/gBkon6LC2OU/hqdefault.jpg" alt="Treino técnico e tático"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">6min 18s</span></div>
             <div class="video-body"><span class="eyebrow">BEplay</span><h3>Treino técnico e tático</h3></div>
           </a>
-          <a class="video-card" href="beplay.html">
+          <a class="video-card" href="beplay.html?video=Qi1lRW18kvM">
             <div class="video-thumb"><img src="https://img.youtube.com/vi/Qi1lRW18kvM/hqdefault.jpg" alt="Duda e o futebol"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">5min 02s</span></div>
             <div class="video-body"><span class="eyebrow">História</span><h3>Duda e o futebol</h3></div>
           </a>
-          <a class="video-card" href="beplay.html">
+          <a class="video-card" href="beplay.html?video=dYiX4fvxGG8">
             <div class="video-thumb"><img src="https://img.youtube.com/vi/dYiX4fvxGG8/hqdefault.jpg" alt="Futebol e areia"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">7min 33s</span></div>
             <div class="video-body"><span class="eyebrow">Performance</span><h3>Futebol e areia</h3></div>
           </a>
@@ -1596,6 +1759,65 @@
       if (topBtn) {
         topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
       }
+
+      const brandFilmPlayer = document.getElementById('brandFilmPlayer');
+      const brandFilmAudio = document.getElementById('brandFilmAudio');
+      const brandFilmButton = document.getElementById('playBrandFilm');
+      const setBrandFilmButtonState = (playing, label) => {
+        if (!brandFilmButton) return;
+        brandFilmButton.classList.toggle('is-playing', playing);
+        brandFilmButton.setAttribute('aria-label', label);
+        brandFilmButton.setAttribute('aria-pressed', String(playing));
+      };
+      const startBrandFilm = async () => {
+        if (!brandFilmPlayer || !brandFilmAudio || !brandFilmButton) return;
+        if (brandFilmPlayer.readyState === 0) brandFilmPlayer.load();
+        if (brandFilmAudio.readyState === 0) brandFilmAudio.load();
+        if (brandFilmPlayer.ended || brandFilmPlayer.currentTime >= brandFilmPlayer.duration - .1) {
+          brandFilmPlayer.currentTime = 0;
+          brandFilmAudio.currentTime = 0;
+        }
+        brandFilmPlayer.muted = true;
+        brandFilmAudio.defaultMuted = false;
+        brandFilmAudio.muted = false;
+        brandFilmAudio.volume = 1;
+        brandFilmAudio.currentTime = brandFilmPlayer.currentTime;
+        brandFilmPlayer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        try {
+          await Promise.all([brandFilmPlayer.play(), brandFilmAudio.play()]);
+          setBrandFilmButtonState(true, 'Pausar filme institucional');
+        } catch (error) {
+          brandFilmAudio.pause();
+          brandFilmPlayer.muted = false;
+          brandFilmPlayer.volume = 1;
+          const started = await brandFilmPlayer.play().then(() => true).catch(() => false);
+          setBrandFilmButtonState(started, started ? 'Pausar filme institucional' : 'Reproduzir filme institucional com som');
+        }
+      };
+      const toggleBrandFilm = () => {
+        if (!brandFilmPlayer || !brandFilmAudio || !brandFilmButton) return;
+        if (brandFilmPlayer.paused) {
+          startBrandFilm();
+        } else {
+          brandFilmPlayer.pause();
+          brandFilmAudio.pause();
+          setBrandFilmButtonState(false, 'Continuar filme institucional com som');
+        }
+      };
+      brandFilmButton?.setAttribute('aria-pressed', 'false');
+      brandFilmButton?.addEventListener('click', toggleBrandFilm);
+      brandFilmPlayer?.addEventListener('click', toggleBrandFilm);
+      brandFilmPlayer?.addEventListener('timeupdate', () => {
+        if (!brandFilmAudio || brandFilmAudio.paused) return;
+        if (Math.abs(brandFilmAudio.currentTime - brandFilmPlayer.currentTime) > .25) {
+          brandFilmAudio.currentTime = brandFilmPlayer.currentTime;
+        }
+      });
+      brandFilmPlayer?.addEventListener('ended', () => {
+        brandFilmAudio?.pause();
+        if (brandFilmAudio) brandFilmAudio.currentTime = 0;
+        setBrandFilmButtonState(false, 'Assistir novamente ao filme institucional com som');
+      });
 
       const hero = document.querySelector('.hero');
       const heroSlides = [...document.querySelectorAll('.hero-slide')];

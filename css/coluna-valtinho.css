@@ -448,6 +448,71 @@ font-size:15px;
 font-size:12px;
 }
 
+.fala-video{
+display:grid;
+grid-template-columns:minmax(0,.85fr) minmax(360px,1.15fr);
+gap:28px;
+align-items:center;
+margin-bottom:52px;
+padding:30px;
+border-radius:30px;
+background:linear-gradient(145deg,#111,#1c1c1c);
+color:#fff;
+box-shadow:0 18px 50px rgba(17,17,17,.14);
+}
+
+.fala-video-copy>span{
+color:var(--primary);
+font-size:12px;
+font-weight:900;
+letter-spacing:.08em;
+}
+
+.fala-video h2{
+margin:10px 0 14px;
+font-size:clamp(30px,4vw,46px);
+line-height:1.04;
+}
+
+.fala-video p{
+color:#d2d2d2;
+font-size:16px;
+line-height:1.6;
+}
+
+.fala-video-actions{
+display:flex;
+flex-wrap:wrap;
+align-items:center;
+gap:14px;
+margin-top:22px;
+}
+
+.fala-video-actions a{
+color:#fff;
+font-weight:850;
+text-decoration:underline;
+text-decoration-color:var(--primary);
+text-decoration-thickness:2px;
+text-underline-offset:5px;
+}
+
+.fala-video-media{
+aspect-ratio:16/9;
+overflow:hidden;
+border:1px solid rgba(255,255,255,.12);
+border-radius:22px;
+background:#050505;
+}
+
+.fala-video-media video{
+width:100%;
+height:100%;
+display:block;
+object-fit:contain;
+background:#050505;
+}
+
 /* Centro de participação */
 .community-hub{
 margin-bottom:52px;
@@ -1300,6 +1365,7 @@ display:block;
 .community-hub-head{grid-template-columns:1fr;gap:12px}
 .community-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .weekly-poll{grid-column:1/-1}
+.fala-video{grid-template-columns:1fr}
 .hero h1{font-size:50px}
 .hero p{font-size:20px}
 .feature{padding:35px}
@@ -1314,6 +1380,7 @@ display:block;
 .community-hub-grid{grid-template-columns:1fr}
 .weekly-poll{grid-column:auto}
 .weekly-poll,.hub-action-card{padding:22px 18px}
+.fala-video{margin-bottom:36px;padding:22px 18px;border-radius:24px}
 .article-grid{grid-template-columns:1fr}
 .article-grid .post.expanded{grid-column:auto}
 .content-search-hint{display:none}

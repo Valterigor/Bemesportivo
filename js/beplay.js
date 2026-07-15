@@ -1,4 +1,5 @@
 const videos=[
+  {id:'o-esporte-comeca-nas-pessoas',type:'local',kind:'institutional',src:'videos/beplay-o-esporte-comeca-nas-pessoas.mp4',poster:'img/3.jpeg',title:'O esporte começa com pessoas',duration:'9 segundos',views:'Filme institucional',date:'Manifesto BeMEsportivo',category:'Institucional',highlight:'Manifesto BeMEsportivo',desc:'Diferentes modalidades, uma mesma essência: o esporte nasce quando alguém decide participar.'},
   {id:'gBkon6LC2OU',title:'Treino técnico e tático',duration:'6min 18s',views:'8,7 mil visualizações',date:'Publicado ontem',category:'Treino',highlight:'Evolução de jogo',desc:'Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.'},
   {id:'Qi1lRW18kvM',title:'Duda e o futebol',duration:'5min 02s',views:'6,1 mil visualizações',date:'Publicado nesta semana',category:'História',highlight:'Trajetória no futebol',desc:'História, bastidor e inspiração para quem acompanha o futebol por dentro.'},
   {id:'dYiX4fvxGG8',title:'Futebol e areia',duration:'7min 33s',views:'9,4 mil visualizações',date:'Publicado nesta semana',category:'Performance',highlight:'Modalidades e preparo',desc:'A importância de diferentes modalidades na evolução física e técnica.'}
@@ -57,30 +58,69 @@ function getYoutubeEmbedUrl(video, autoplay=false){
   return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(video.id)}?${params.toString()}`;
 }
 
+function getVideoThumbnail(video){
+  return video.type==='local' ? video.poster : `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+}
+
+function getInternalVideoUrl(video=currentVideo){
+  const url=new URL('beplay.html',window.location.href);
+  url.searchParams.set('video',video.id);
+  return url.href;
+}
+
 function updateVideoPlaceholder(video){
   const placeholder=document.getElementById('videoPlaceholder');
   const placeholderTitle=document.getElementById('videoPlaceholderTitle');
   const iframe=document.getElementById('youtubePlayer');
-  placeholder.style.backgroundImage=`url('https://img.youtube.com/vi/${video.id}/hqdefault.jpg')`;
+  const localPlayer=document.getElementById('localPlayer');
+  placeholder.style.backgroundImage=`url('${getVideoThumbnail(video)}')`;
   placeholder.hidden=false;
   placeholderTitle.textContent=video.title;
   iframe.hidden=true;
   iframe.src='about:blank';
+  localPlayer.pause();
+  localPlayer.hidden=true;
+  localPlayer.removeAttribute('src');
+  localPlayer.removeAttribute('poster');
+  localPlayer.load();
 }
 
 function playCurrentVideo(){
-  const player=document.getElementById('youtubePlayer');
+  const youtubePlayer=document.getElementById('youtubePlayer');
+  const localPlayer=document.getElementById('localPlayer');
   const placeholder=document.getElementById('videoPlaceholder');
-  player.src=getYoutubeEmbedUrl(currentVideo,true);
-  player.hidden=false;
+  let activePlayer=youtubePlayer;
+  if(currentVideo.type==='local'){
+    youtubePlayer.hidden=true;
+    youtubePlayer.src='about:blank';
+    localPlayer.src=currentVideo.src;
+    localPlayer.poster=currentVideo.poster||'';
+    localPlayer.hidden=false;
+    localPlayer.defaultMuted=false;
+    localPlayer.muted=false;
+    localPlayer.volume=1;
+    activePlayer=localPlayer;
+    localPlayer.load();
+    localPlayer.play().catch(()=>{
+      showToast('Toque no player para iniciar o manifesto');
+      localPlayer.focus();
+    });
+  }else{
+    localPlayer.pause();
+    localPlayer.hidden=true;
+    youtubePlayer.src=getYoutubeEmbedUrl(currentVideo,true);
+    youtubePlayer.hidden=false;
+  }
   placeholder.hidden=true;
   recordWatchedVideo(currentVideo);
-  player.scrollIntoView({behavior:'smooth',block:'center'});
+  activePlayer.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
-function setVideo(video){
+function setVideo(video,options={}){
+  const {scroll=true,toast=true,updateUrl=true}=options;
   currentVideo=video;
   document.getElementById('youtubePlayer').title=video.title;
+  document.getElementById('localPlayer').title=video.title;
   updateVideoPlaceholder(video);
   document.getElementById('videoTitle').textContent=video.title;
   document.getElementById('videoDuration').textContent=video.duration;
@@ -90,9 +130,12 @@ function setVideo(video){
   document.getElementById('summaryCategory').textContent=video.category || 'BEplay';
   document.getElementById('summaryHighlight').textContent=video.highlight || 'Vídeo em destaque';
   document.getElementById('summaryContent').textContent=video.desc;
-  document.getElementById('watchOnYoutube').href=`https://www.youtube.com/watch?v=${video.id}`;
-  document.getElementById('inicio').scrollIntoView({behavior:'smooth',block:'start'});
-  showToast(`Agora assistindo: ${video.title}`);
+  const youtubeLink=document.getElementById('watchOnYoutube');
+  youtubeLink.hidden=video.type==='local';
+  youtubeLink.href=video.type==='local' ? '#' : `https://www.youtube.com/watch?v=${video.id}`;
+  if(updateUrl) history.replaceState(null,'',getInternalVideoUrl(video));
+  if(scroll) document.getElementById('inicio').scrollIntoView({behavior:'smooth',block:'start'});
+  if(toast) showToast(`Agora assistindo: ${video.title}`);
   renderRelated();
   renderVideoComments();
   loadVideoCommunity();
@@ -101,7 +144,7 @@ function setVideo(video){
 function renderRelated(){
   const container=document.getElementById('relatedVideos');
   const searchTerm=String(document.getElementById('videoSearch')?.value || '').trim().toLowerCase();
-  const matches=videos.filter(video=>{
+  const matches=videos.filter(video=>video.kind!=='institutional').filter(video=>{
     const matchesFilter=activeVideoFilter==='all' || video.category===activeVideoFilter;
     const matchesSearch=!searchTerm || `${video.title} ${video.category} ${video.desc}`.toLowerCase().includes(searchTerm);
     return matchesFilter && matchesSearch;
@@ -119,7 +162,7 @@ function renderRelated(){
     const card=document.createElement('article');
     card.className=`related-card${video.id===currentVideo.id ? ' is-current' : ''}`;
     card.innerHTML=`
-      <div class="related-thumb" style="background-image:url(https://img.youtube.com/vi/${video.id}/hqdefault.jpg)"></div>
+      <div class="related-thumb" style="background-image:url('${escapeHtml(getVideoThumbnail(video))}')"></div>
       <div class="related-body">
         <strong>${escapeHtml(video.title)}</strong>
         <div class="related-card-meta">
@@ -204,15 +247,19 @@ function renderWatchHistory(){
     list.innerHTML='<span class="comment-empty">Seu histórico aparece depois que você assistir a um vídeo.</span>';
     return;
   }
-  list.innerHTML=history.map(item=>`
-    <button class="history-item" type="button" data-history-video="${escapeHtml(item.id)}">
-      <span class="history-item-thumb" style="background-image:url(https://img.youtube.com/vi/${encodeURIComponent(item.id)}/hqdefault.jpg)"></span>
-      <span>
-        <strong>${escapeHtml(item.title)}</strong>
-        <span>${escapeHtml(item.category || 'BEplay')}</span>
-      </span>
-    </button>
-  `).join('');
+  list.innerHTML=history.map(item=>{
+    const video=videos.find(candidate=>candidate.id===item.id);
+    const thumbnail=video ? getVideoThumbnail(video) : 'img/beplay-header.jpg';
+    return `
+      <button class="history-item" type="button" data-history-video="${escapeHtml(item.id)}">
+        <span class="history-item-thumb" style="background-image:url('${escapeHtml(thumbnail)}')"></span>
+        <span>
+          <strong>${escapeHtml(item.title)}</strong>
+          <span>${escapeHtml(item.category || 'BEplay')}</span>
+        </span>
+      </button>
+    `;
+  }).join('');
   list.querySelectorAll('[data-history-video]').forEach(button=>{
     button.addEventListener('click',()=>{
       const video=videos.find(item=>item.id===button.dataset.historyVideo);
@@ -276,7 +323,7 @@ document.getElementById('playInlineVideo').addEventListener('click',()=>{
 });
 
 document.getElementById('shareVideo').addEventListener('click',async()=>{
-  const url=`https://www.youtube.com/watch?v=${currentVideo.id}`;
+  const url=getInternalVideoUrl(currentVideo);
   try{
     if(navigator.share){
       await navigator.share({title:currentVideo.title,text:'Assista no BEplay Rodada',url});
@@ -339,8 +386,9 @@ document.getElementById('videoCommentForm').addEventListener('submit',event=>{
 });
 
 document.getElementById('todayDay').textContent=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
-document.getElementById('videoCount').textContent=String(videos.length);
-document.getElementById('channelStats').textContent=`${videos.length} vídeos publicados`;
+const publishedVideos=videos.filter(video=>video.kind!=='institutional');
+document.getElementById('videoCount').textContent=String(publishedVideos.length);
+document.getElementById('channelStats').textContent=`Manifesto institucional + ${publishedVideos.length} vídeos`;
 try{
   const saved=JSON.parse(localStorage.getItem('bemBeplaySavedVideo') || 'null');
   if(saved?.title){
@@ -355,10 +403,10 @@ const savedCommentName=localStorage.getItem(COMMENT_NAME_KEY);
 if(savedCommentName && document.getElementById('videoCommentName')){
   document.getElementById('videoCommentName').value=savedCommentName;
 }
-renderRelated();
-renderVideoComments();
+const requestedVideoId=new URLSearchParams(window.location.search).get('video');
+const requestedVideo=videos.find(video=>video.id===requestedVideoId);
+setVideo(requestedVideo||videos[0],{scroll:false,toast:false,updateUrl:false});
 renderWatchHistory();
-loadVideoCommunity();
 communityRefreshTimer=window.setInterval(()=>{
   if(document.hidden) return;
   loadVideoCommunity();

@@ -126,6 +126,26 @@ window.open(`https://wa.me/5511986366965?text=${encodeURIComponent(whatsappText)
 });
 }
 
+const falaVideoPlay=document.getElementById('fala-video-play');
+const falaVideoPlayer=document.getElementById('fala-video-player');
+if(falaVideoPlay&&falaVideoPlayer){
+falaVideoPlay.addEventListener('click',async()=>{
+falaVideoPlayer.controls=true;
+falaVideoPlayer.defaultMuted=false;
+falaVideoPlayer.muted=false;
+falaVideoPlayer.volume=1;
+if(falaVideoPlayer.readyState===0) falaVideoPlayer.load();
+falaVideoPlayer.scrollIntoView({behavior:'smooth',block:'center'});
+try{
+await falaVideoPlayer.play();
+falaVideoPlay.textContent='Reproduzindo com som';
+}catch(error){
+falaVideoPlay.textContent='Toque no player para assistir';
+falaVideoPlayer.focus();
+}
+});
+}
+
 document.querySelectorAll('.post[data-post-id]').forEach(post=>{
 const postId=post.dataset.postId;
 const reactionKey=`falaBemReaction:${postId}`;

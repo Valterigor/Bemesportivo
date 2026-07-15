@@ -74,7 +74,7 @@
     </div>
     <aside class="channel-card" aria-label="Canal BEplay">
       <strong>Bem Esportivo</strong>
-      <span id="channelStats">3 vídeos publicados</span>
+      <span id="channelStats">Manifesto institucional + 3 vídeos</span>
       <button type="button" id="subscribeChannel">Inscrever-se</button>
     </aside>
   </section>
@@ -83,25 +83,26 @@
     <div class="watch-column">
       <section class="section player-panel panel" id="videos" aria-labelledby="videoTitle">
         <div class="video-frame">
-          <div class="video-placeholder" id="videoPlaceholder" style="background-image:url('https://img.youtube.com/vi/gBkon6LC2OU/hqdefault.jpg')">
+          <div class="video-placeholder" id="videoPlaceholder" style="background-image:url('img/3.jpeg')">
             <div class="video-placeholder-content">
-              <strong id="videoPlaceholderTitle">Treino técnico e tático</strong>
+              <strong id="videoPlaceholderTitle">O esporte começa com pessoas</strong>
               <button class="video-play-button" type="button" id="playInlineVideo">Assistir no site</button>
             </div>
           </div>
-          <iframe id="youtubePlayer" title="Treino técnico e tático" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen hidden></iframe>
+          <video id="localPlayer" title="O esporte começa com pessoas" controls playsinline preload="metadata" hidden></video>
+          <iframe id="youtubePlayer" title="Player do YouTube" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen hidden></iframe>
         </div>
         <div class="video-meta">
-          <h1 id="videoTitle">Treino técnico e tático</h1>
+          <h1 id="videoTitle">O esporte começa com pessoas</h1>
           <div class="video-facts">
-            <span id="videoDuration">6min 18s</span>
-            <span id="videoViews">8,7 mil visualizações</span>
-            <span id="videoDate">Publicado ontem</span>
+            <span id="videoDuration">9 segundos</span>
+            <span id="videoViews">Filme institucional</span>
+            <span id="videoDate">Manifesto BeMEsportivo</span>
           </div>
-          <p id="videoDescription">Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.</p>
+          <p id="videoDescription">Diferentes modalidades, uma mesma essência: o esporte nasce quando alguém decide participar.</p>
           <div class="primary-actions">
             <button class="action-btn" type="button" id="watchOnSite">Assistir no site</button>
-            <a class="action-btn secondary" id="watchOnYoutube" href="https://www.youtube.com/watch?v=gBkon6LC2OU" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a class="action-btn secondary" id="watchOnYoutube" href="#" target="_blank" rel="noopener noreferrer" hidden>YouTube</a>
             <button class="action-btn secondary" type="button" id="shareVideo">Compartilhar</button>
             <button class="action-btn secondary" type="button" id="saveVideo">Salvar</button>
           </div>
@@ -110,9 +111,9 @@
 
       <section class="section panel" id="resumo" aria-labelledby="summaryTitle">
         <div class="summary-grid">
-          <div class="summary-item"><span>Categoria</span><strong id="summaryCategory">Treino</strong></div>
-          <div class="summary-item"><span>Destaque</span><strong id="summaryHighlight">Evolução de jogo</strong></div>
-          <div class="summary-item"><span>Tema</span><strong id="summaryContent">Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.</strong></div>
+          <div class="summary-item"><span>Categoria</span><strong id="summaryCategory">Institucional</strong></div>
+          <div class="summary-item"><span>Destaque</span><strong id="summaryHighlight">Manifesto BeMEsportivo</strong></div>
+          <div class="summary-item"><span>Tema</span><strong id="summaryContent">Diferentes modalidades, uma mesma essência: o esporte nasce quando alguém decide participar.</strong></div>
           <div class="summary-item"><span>Playlist</span><strong id="profileSaved">Nenhum vídeo salvo ainda</strong></div>
         </div>
       </section>
