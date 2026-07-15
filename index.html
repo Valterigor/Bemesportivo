@@ -198,6 +198,14 @@
       background: #07111c url("img/destaque-inglaterra-semifinal.png") center / cover no-repeat;
     }
 
+    .hero-slide-espanha {
+      background: #080d12 url("img/app-copa-hero.png") center / cover no-repeat;
+    }
+
+    .hero-slide-espanha h1 {
+      font-size: clamp(38px, 5vw, 68px);
+    }
+
     .hero-slide-opiniao {
       background-color: #090909;
       background-image: url("img/banner-opiniao-corinthians.png");
@@ -220,6 +228,7 @@
       inset: 0;
       z-index: 1;
       content: "";
+      pointer-events: none;
       background:
         linear-gradient(90deg, rgba(0, 0, 0, .98) 0%, rgba(0, 0, 0, .92) 44%, rgba(0, 0, 0, .76) 100%),
         linear-gradient(0deg, rgba(0, 0, 0, .96), rgba(0, 0, 0, .82) 56%);
@@ -1168,11 +1177,20 @@
             <div class="hero-meta"><span>4 min de leitura</span><a class="primary-btn" href="/coluna-valtinho#opiniao-corinthians">Ler opinião</a></div>
           </div>
         </article>
+        <article class="hero-slide hero-slide-news hero-slide-espanha" aria-hidden="true">
+          <div class="hero-content">
+            <span class="eyebrow">Fala Bem · Copa do Mundo</span>
+            <h1>Espanha domina e vai à final</h1>
+            <p>La Roja venceu a França por 2 a 0 com autoridade, organização e inteligência tática. Os franceses agora disputarão o terceiro lugar.</p>
+            <div class="hero-meta"><span>Nova opinião · 4 min</span><a class="primary-btn" href="coluna-valtinho.html#espanha-franca-semifinal">Ler opinião</a></div>
+          </div>
+        </article>
         <div class="hero-controls" aria-label="Controles dos destaques">
           <button class="hero-arrow hero-prev" type="button" aria-label="Destaque anterior">‹</button>
           <button class="hero-dot active" type="button" aria-label="Mostrar destaque 1" aria-current="true"></button>
           <button class="hero-dot" type="button" aria-label="Mostrar destaque 2"></button>
           <button class="hero-dot" type="button" aria-label="Mostrar destaque 3"></button>
+          <button class="hero-dot" type="button" aria-label="Mostrar destaque 4"></button>
           <button class="hero-arrow hero-next" type="button" aria-label="Próximo destaque">›</button>
         </div>
       </section>

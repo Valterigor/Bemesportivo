@@ -76,17 +76,58 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 </section>
 
 <div class="container page">
-<section class="belief-block" aria-labelledby="belief-title">
+<section class="community-hub" id="participe-agora" aria-labelledby="community-hub-title">
+<div class="community-hub-head">
+<div>
+<span>AGORA NO FALA BEM</span>
+<h2 id="community-hub-title">Aqui você não vem apenas para ler. Vem para participar.</h2>
+</div>
+<p>Vote, envie sua pergunta e ajude a escolher as próximas conversas da comunidade.</p>
+</div>
+
+<div class="community-hub-grid">
+<article class="weekly-poll" aria-labelledby="weekly-poll-title">
+<span class="hub-card-label">PERGUNTA DA SEMANA</span>
+<h3 id="weekly-poll-title">O que mais dificulta manter uma rotina esportiva?</h3>
+<div class="poll-options" role="group" aria-label="Opções da enquete">
+<button type="button" class="poll-option" data-poll-option="tempo">Falta de tempo <span>Votar</span></button>
+<button type="button" class="poll-option" data-poll-option="motivacao">Falta de motivação <span>Votar</span></button>
+<button type="button" class="poll-option" data-poll-option="orientacao">Falta de orientação <span>Votar</span></button>
+<button type="button" class="poll-option" data-poll-option="acesso">Falta de acesso <span>Votar</span></button>
+</div>
+<p class="poll-feedback" id="poll-feedback" aria-live="polite">Escolha uma opção para participar.</p>
+</article>
+
+<article class="hub-action-card">
+<span class="hub-card-label">SUA VOZ CONTA</span>
+<h3>Qual pergunta um profissional deveria responder?</h3>
+<p>As dúvidas mais relevantes da comunidade viram pauta, entrevista ou artigo.</p>
+<a class="hub-link" href="#participe">Enviar minha pergunta</a>
+</article>
+
+<article class="hub-action-card hub-rhythm">
+<span class="hub-card-label">MOTIVOS PARA VOLTAR</span>
+<h3>Uma conversa nova durante a semana</h3>
+<ul>
+<li><strong>Terça:</strong> pergunta da comunidade</li>
+<li><strong>Quinta:</strong> voz do profissional</li>
+<li><strong>Fim de semana:</strong> opinião e debate</li>
+</ul>
+</article>
+</div>
+</section>
+
+<section class="belief-block belief-block-compact" aria-labelledby="belief-title">
 <div class="belief-copy">
 <span>NOSSA CRENÇA</span>
-<h2 id="belief-title">Antes das medalhas, das competições e dos recordes, existem pessoas.</h2>
-<p>O esporte nasce quando alguém decide dar o primeiro passo. É essa pessoa que o BeMEsportivo quer acolher, informar e incentivar.</p>
+<h2 id="belief-title">Antes dos resultados, existem pessoas.</h2>
+<p>O esporte nasce quando alguém decide dar o primeiro passo. O BeMEsportivo existe para acolher, informar e incentivar essa pessoa.</p>
 </div>
 <div class="belief-pillars" aria-label="Pilares do Fala Bem">
-<div><strong>Pessoas</strong><span>O esporte existe para melhorar vidas.</span></div>
-<div><strong>Comunidade</strong><span>O conhecimento cresce quando é compartilhado.</span></div>
-<div><strong>Conhecimento</strong><span>Informação simples, útil e responsável.</span></div>
-<div><strong>Incentivo</strong><span>Mais importante que assistir é praticar.</span></div>
+<div><strong>Pessoas</strong><span>Melhorar vidas.</span></div>
+<div><strong>Comunidade</strong><span>Compartilhar conhecimento.</span></div>
+<div><strong>Conhecimento</strong><span>Informação útil.</span></div>
+<div><strong>Incentivo</strong><span>Praticar e recomeçar.</span></div>
 </div>
 </section>
 
@@ -99,14 +140,60 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 <p class="search-note">Opiniões e análises que ajudam a entender, praticar e transformar o esporte.</p>
 </div>
 
-<section class="feature feature-opiniao searchable post-item" data-tags="futebol corinthians opiniao amistoso">
+<label class="content-search" for="searchInput">
+<span class="content-search-icon" aria-hidden="true">⌕</span>
+<input type="search" id="searchInput" placeholder="Busque por assunto, time ou palavra-chave" autocomplete="off">
+<span class="content-search-hint">Buscar</span>
+</label>
+
+<div class="content-channels" aria-label="Escolha um tema">
+<button type="button" class="community-channel active" data-filter="">Todos</button>
+<button type="button" class="community-channel" data-filter="copa-do-mundo">Copa do Mundo</button>
+<button type="button" class="community-channel" data-filter="futebol">Futebol</button>
+<button type="button" class="community-channel" data-filter="performance">Performance</button>
+<button type="button" class="community-channel" data-filter="saude">Saúde</button>
+<button type="button" class="community-channel" data-filter="tatica">Tática</button>
+</div>
+<p class="content-results" id="content-results" aria-live="polite">5 conversas encontradas</p>
+
+<section class="feature feature-opiniao searchable post-item" data-tags="copa-do-mundo futebol espanha franca semifinal opiniao">
 <div class="kicker">NOVA OPINIÃO</div>
-<h2>O Corinthians precisava exatamente de um amistoso como esse</h2>
-<p>Contra o Cascavel, o Timão encontrou intensidade, pressão e um ambiente hostil — um teste que pode valer mais para a temporada do que uma vitória fácil.</p>
-<a class="btn feature-link" href="#opiniao-corinthians">Leia a nova opinião</a>
+<h2>Espanha domina a França e garante vaga na final</h2>
+<p>Com uma atuação madura, intensa e taticamente impecável, a Espanha venceu por 2 a 0 e deixou os franceses na disputa pelo terceiro lugar.</p>
+<a class="btn feature-link" href="#espanha-franca-semifinal">Leia a nova opinião</a>
 </section>
 
-<article id="opiniao-corinthians" class="post searchable post-item" data-tags="futebol corinthians opiniao amistoso cascavel">
+<div class="article-grid" id="article-list">
+<article id="espanha-franca-semifinal" class="post searchable post-item" data-post-id="espanha-franca-semifinal" data-tags="copa-do-mundo futebol espanha franca semifinal opiniao">
+<div class="post-badges"><span>Copa do Mundo</span><span class="post-badge-hot">Nova opinião</span></div>
+<div class="author-line">
+<img decoding="async" loading="lazy" src="img/valter-logo-oficial.png" alt="Foto de Valtinho com a marca BeMEsportivo">
+<div>
+<strong>Valtinho</strong><br>
+<span class="meta">14/07/2026 • 4 min</span>
+</div>
+</div>
+
+<h3>Espanha domina a França, garante vaga na final e deixa os franceses na disputa pelo terceiro lugar</h3>
+<p class="excerpt">Com autoridade, organização e inteligência tática, a Espanha venceu por 2 a 0 e confirmou sua presença na grande decisão.</p>
+<button class="btn read-toggle" onclick="toggleTexto('t5', this)" aria-expanded="false">Ler opinião completa</button>
+<div id="t5" class="full-text">
+<p>A Espanha mostrou, mais uma vez, por que é uma das seleções mais consistentes desta Copa do Mundo. Com uma atuação madura, intensa e taticamente impecável, venceu a França por 2 a 0 e garantiu presença na grande final do torneio.</p>
+<p>O resultado foi construído com autoridade. Desde os primeiros minutos, a equipe comandada por Luis de la Fuente controlou a posse de bola, marcou pressão e praticamente anulou o principal ponto forte da seleção francesa: a velocidade de seu ataque. Mbappé, Olise e companhia encontraram enormes dificuldades para criar oportunidades diante de uma defesa extremamente organizada.</p>
+<p>A França, que chegou à semifinal embalada por uma campanha sólida, esteve longe de repetir suas melhores atuações. Faltou criatividade no meio-campo, intensidade na recuperação da bola e poder de reação depois de sair atrás no placar. O sistema ofensivo, que havia sido decisivo durante o torneio, pouco produziu e foi neutralizado durante praticamente toda a partida.</p>
+<p>Já a Espanha fez exatamente o contrário. Demonstrou personalidade, inteligência tática e muita eficiência. Sem se desesperar em nenhum momento, soube controlar o ritmo do jogo, aproveitou as oportunidades criadas e confirmou sua superioridade com um futebol coletivo que vem sendo sua principal marca nesta Copa.</p>
+<p>Agora, a seleção francesa precisa virar a chave. A equipe está oficialmente fora da disputa pelo título e aguardará o vencedor da semifinal entre Inglaterra e Argentina para conhecer seu adversário na disputa pelo terceiro lugar. A missão será recuperar o aspecto emocional e encerrar a campanha de forma digna, conquistando um lugar no pódio.</p>
+<p>Enquanto isso, a Espanha chega à decisão como uma das grandes favoritas ao título. Com um futebol equilibrado, uma defesa extremamente sólida e um meio-campo dominante, La Roja transmite a sensação de que cresce justamente nos momentos mais decisivos da competição.</p>
+<p>Se mantiver o nível apresentado diante da França, a seleção espanhola terá grandes chances de levantar a taça e confirmar a excelente geração que vem encantando o futebol mundial.</p>
+</div>
+<div class="post-engagement" aria-label="Reaja ou compartilhe este conteúdo">
+<span>Como você avalia a atuação da Espanha?</span>
+<div><button type="button" class="reaction-btn" data-reaction="concordo">Concordo</button><button type="button" class="reaction-btn" data-reaction="quero-saber">Quero saber mais</button><button type="button" class="share-post">Compartilhar</button></div>
+</div>
+</article>
+
+<article id="opiniao-corinthians" class="post searchable post-item" data-post-id="corinthians-cascavel" data-tags="futebol corinthians opiniao amistoso cascavel">
+<div class="post-badges"><span>Opinião</span><span class="post-badge-hot">Em destaque</span></div>
 <div class="author-line">
 <img decoding="async" loading="lazy" src="img/valter-logo-oficial.png" alt="Foto de Valtinho com a marca BeMEsportivo">
 <div>
@@ -117,7 +204,7 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 
 <h3>Opinião: O Corinthians precisava exatamente de um amistoso como esse</h3>
 <p class="excerpt">O jogo contra o Cascavel tirou o Timão da zona de conforto e entregou um teste importante para a sequência da temporada.</p>
-<button class="btn" onclick="toggleTexto('t4')">Ler opinião completa</button>
+<button class="btn read-toggle" onclick="toggleTexto('t4', this)" aria-expanded="false">Ler opinião completa</button>
 <div id="t4" class="full-text">
 <p>Na minha visão, o amistoso contra o Cascavel foi a melhor escolha possível para marcar a volta do Corinthians após as férias. Pode até não ter sido um grande espetáculo, mas foi exatamente o tipo de jogo que a equipe precisava.</p>
 <p>O Timão foi tirado da zona de conforto. Encontrou um gramado em condições ruins, um calor intenso e um adversário que, em nenhum momento, encarou a partida como um simples amistoso. Pelo contrário: o Cascavel disputou cada lance com intensidade, elevando a temperatura do confronto e transformando a primeira etapa em um jogo de muita disputa, entradas fortes e discussões.</p>
@@ -126,9 +213,14 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 <p>É verdade que, tecnicamente, o futebol apresentado voltou a ficar abaixo do esperado. A equipe ainda demonstra dificuldades na criação de jogadas e pouco poder ofensivo, problemas que já vinham aparecendo antes da pausa. Mas nem todo amistoso precisa ser bonito. Alguns servem para testar o caráter, a concentração e a capacidade de reação do grupo.</p>
 <p>Por isso, apesar das limitações técnicas e do placar, considero que o amistoso foi válido. O Corinthians ganhou um teste que dificilmente teria enfrentado em um jogo preparatório tradicional. Em certos momentos da temporada, esse tipo de experiência vale mais do que uma goleada sobre um adversário que pouco oferece resistência.</p>
 </div>
+<div class="post-engagement" aria-label="Reaja ou compartilhe este conteúdo">
+<span>Essa conversa ajudou?</span>
+<div><button type="button" class="reaction-btn" data-reaction="concordo">Concordo</button><button type="button" class="reaction-btn" data-reaction="quero-saber">Quero saber mais</button><button type="button" class="share-post">Compartilhar</button></div>
+</div>
 </article>
 
-<article class="post searchable post-item" data-tags="futebol analise tatica">
+<article class="post searchable post-item" data-post-id="futebol-brasileiro-mudar" data-tags="futebol analise tatica">
+<div class="post-badges"><span>Análise</span><span class="post-badge-discussion">Para debater</span></div>
 <div class="author-line">
 <img decoding="async" loading="lazy" src="img/valter-logo-oficial.png" alt="Foto de Valtinho com a marca BeMEsportivo">
 <div>
@@ -139,7 +231,7 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 
 <h3>O futebol brasileiro precisa mudar</h3>
 <p class="excerpt">Transição, organização e leitura coletiva decidirão o próximo ciclo.</p>
-<button class="btn" onclick="toggleTexto('t1')">Ler análise completa</button>
+<button class="btn read-toggle" onclick="toggleTexto('t1', this)" aria-expanded="false">Ler análise completa</button>
 <div id="t1" class="full-text">
 <p>O futebol brasileiro sempre produziu jogadores criativos, fortes no improviso e capazes de decidir partidas em um lance. Esse talento continua sendo uma vantagem, mas já não basta quando o adversário controla espaços, pressiona em bloco e reduz o tempo de decisão. O jogo ficou mais rápido e menos tolerante ao erro.</p>
 <p>Hoje, uma equipe competitiva precisa saber como sair jogando, quando acelerar, onde pressionar e como se proteger após perder a bola. Esses mecanismos não tiram liberdade do atleta; pelo contrário, criam condições para que o talento apareça em zonas mais perigosas do campo.</p>
@@ -147,9 +239,14 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 <p>Na base, isso precisa começar cedo. Crianças e adolescentes devem aprender fundamentos, mas também precisam entender largura, profundidade, apoio, cobertura e tomada de decisão. O futebol do futuro será vencido por quem formar jogadores inteligentes, não apenas habilidosos.</p>
 <p>A mudança não depende de copiar modelos europeus. O Brasil precisa criar sua própria síntese: manter criatividade, coragem e improviso, mas acrescentar método, análise e continuidade. Quando talento encontra estrutura, o jogo cresce.</p>
 </div>
+<div class="post-engagement" aria-label="Reaja ou compartilhe este conteúdo">
+<span>Qual é a sua visão?</span>
+<div><button type="button" class="reaction-btn" data-reaction="concordo">Concordo</button><button type="button" class="reaction-btn" data-reaction="quero-saber">Quero saber mais</button><button type="button" class="share-post">Compartilhar</button></div>
+</div>
 </article>
 
-<article class="post searchable post-item" data-tags="performance saude analise">
+<article class="post searchable post-item" data-post-id="saude-performance" data-tags="performance saude analise">
+<div class="post-badges"><span>Saúde</span><span>Performance</span></div>
 <div class="author-line">
 <img decoding="async" loading="lazy" src="img/valter-logo-oficial.png" alt="Foto de Valtinho com a marca BeMEsportivo">
 <div>
@@ -160,7 +257,7 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 
 <h3>Saúde e performance no esporte moderno</h3>
 <p class="excerpt">Preparação física, dados e prevenção mudaram o jogo.</p>
-<button class="btn" onclick="toggleTexto('t2')">Ler análise completa</button>
+<button class="btn read-toggle" onclick="toggleTexto('t2', this)" aria-expanded="false">Ler análise completa</button>
 <div id="t2" class="full-text">
 <p>Performance não é apenas correr mais. No esporte moderno, desempenho nasce da integração entre preparação física, recuperação, alimentação, sono, prevenção de lesões e equilíbrio emocional. Um atleta pode estar tecnicamente pronto e, ainda assim, render abaixo se a carga estiver mal controlada.</p>
 <p>Os dados mudaram a rotina dos clubes e projetos esportivos. Distância percorrida, acelerações, zonas de esforço, frequência cardíaca e histórico de lesões ajudam a comissão técnica a tomar decisões mais responsáveis. A informação não substitui o olhar humano, mas evita que decisões importantes sejam tomadas apenas pela impressão do momento.</p>
@@ -168,9 +265,14 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 <p>Também é preciso falar sobre mente. Pressão por resultado, comparação nas redes sociais e expectativa familiar afetam o atleta. Preparação esportiva séria precisa incluir conversa, orientação e ambiente de confiança. O corpo responde melhor quando a cabeça não está em alerta constante.</p>
 <p>Performance de verdade é sustentável. O melhor projeto não é aquele que extrai tudo do atleta hoje, mas aquele que permite evolução consistente ao longo do tempo.</p>
 </div>
+<div class="post-engagement" aria-label="Reaja ou compartilhe este conteúdo">
+<span>Esse tema é importante?</span>
+<div><button type="button" class="reaction-btn" data-reaction="concordo">Concordo</button><button type="button" class="reaction-btn" data-reaction="quero-saber">Quero saber mais</button><button type="button" class="share-post">Compartilhar</button></div>
+</div>
 </article>
 
-<article class="post searchable post-item" data-tags="tatica analise futebol">
+<article class="post searchable post-item" data-post-id="tatica-pressao-alta" data-tags="tatica analise futebol">
+<div class="post-badges"><span>Tática</span><span>Leitura de jogo</span></div>
 <div class="author-line">
 <img decoding="async" loading="lazy" src="img/valter-logo-oficial.png" alt="Foto de Valtinho com a marca BeMEsportivo">
 <div>
@@ -181,7 +283,7 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 
 <h3>Tática, pressão alta e leitura de jogo</h3>
 <p class="excerpt">Como o futebol atual é decidido sem a bola.</p>
-<button class="btn" onclick="toggleTexto('t3')">Ler análise completa</button>
+<button class="btn read-toggle" onclick="toggleTexto('t3', this)" aria-expanded="false">Ler análise completa</button>
 <div id="t3" class="full-text">
 <p>Pressionar melhor é jogar melhor porque a recuperação da bola deixou de ser apenas uma ação defensiva. Quando uma equipe rouba a posse perto da área adversária, ela ataca um rival desorganizado, com menos tempo para recompor e mais vulnerável ao erro.</p>
 <p>Mas pressão alta não é sair correndo atrás da bola. Ela exige gatilhos: passe para trás, domínio ruim, jogador de costas, lateral encurralado ou goleiro pressionado. Sem esses sinais, o time se desgasta, quebra linhas e oferece espaço para o adversário atacar.</p>
@@ -189,7 +291,13 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 <p>Times bem treinados entendem quando pressionar, quando temporizar e quando baixar bloco. Essa alternância define maturidade competitiva. A equipe que só sabe atacar sofre quando perde a bola; a equipe que só sabe defender sofre quando precisa propor. O equilíbrio está na leitura.</p>
 <p>No futebol brasileiro, melhorar a pressão passa por treino coletivo e comunicação. O atleta precisa saber sua função, mas também precisa confiar que o companheiro vai fechar o espaço seguinte. Pressão é coragem organizada.</p>
 </div>
+<div class="post-engagement" aria-label="Reaja ou compartilhe este conteúdo">
+<span>Quer mais conteúdos assim?</span>
+<div><button type="button" class="reaction-btn" data-reaction="concordo">Concordo</button><button type="button" class="reaction-btn" data-reaction="quero-saber">Quero saber mais</button><button type="button" class="share-post">Compartilhar</button></div>
+</div>
 </article>
+
+</div>
 
 <section class="professional-voice" id="voz-do-profissional" aria-labelledby="professional-voice-title">
 <div class="professional-voice-head">
@@ -228,10 +336,26 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 <span>ESSA CONVERSA TAMBÉM É SUA</span>
 <h2 id="community-invite-title">Quem pratica, ensina, aprende ou recomeça tem algo para compartilhar.</h2>
 <p>Envie uma pergunta, proponha um tema, conte uma experiência ou apresente um projeto que aproxima pessoas do esporte.</p>
-<div class="community-actions">
-<a class="btn" href="/contato">Quero participar</a>
-<a class="community-secondary" href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer">Conversar pelo WhatsApp</a>
+<form class="community-form" id="community-form">
+<label>
+<span>Quero falar sobre</span>
+<select id="community-topic" required>
+<option value="">Escolha um tema</option>
+<option value="uma dúvida">Uma dúvida</option>
+<option value="uma sugestão de pauta">Sugestão de pauta</option>
+<option value="uma experiência esportiva">Minha experiência</option>
+<option value="um projeto social ou esportivo">Um projeto</option>
+</select>
+</label>
+<label>
+<span>Escreva sua mensagem</span>
+<textarea id="community-message" rows="4" maxlength="500" placeholder="Conte para a gente. Sua pergunta pode inspirar o próximo conteúdo." required></textarea>
+</label>
+<div class="community-form-footer">
+<button class="btn" type="submit">Enviar para o Fala Bem</button>
+<small>O envio será concluído com segurança pelo WhatsApp.</small>
 </div>
+</form>
 </section>
 
 </main>
@@ -246,10 +370,18 @@ e incentivar mais pessoas a viver o esporte todos os dias.
 
 <div class="sidebar-box">
 <div class="sidebar-title">Temas populares</div>
+<div class="topic" onclick="filterPosts('copa-do-mundo')">Copa do Mundo</div>
 <div class="topic" onclick="filterPosts('futebol')">? Futebol Brasileiro</div>
 <div class="topic" onclick="filterPosts('performance')">?? Performance</div>
 <a class="topic topic-link" href="#voz-do-profissional">A Voz do Profissional</a>
 <button class="clear-filter" onclick="resetAllFilters()">Mostrar todos</button>
+</div>
+
+<div class="sidebar-box sidebar-community">
+<span class="sidebar-eyebrow">ENTRE NA CONVERSA</span>
+<h3>Receba as novas pautas e participe primeiro.</h3>
+<p>Entre no canal do BeMEsportivo para acompanhar perguntas, artigos e debates.</p>
+<a class="btn sidebar-cta" href="https://wa.me/5511986366965?text=Quero%20acompanhar%20as%20novidades%20do%20Fala%20Bem" target="_blank" rel="noopener noreferrer">Quero acompanhar</a>
 </div>
 
 <div class="highlight">

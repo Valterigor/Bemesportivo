@@ -413,6 +413,192 @@ font-size:14px;
 line-height:1.5;
 }
 
+.belief-block-compact{
+grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+gap:28px;
+margin-bottom:52px;
+padding:28px 34px;
+}
+
+.belief-block-compact .belief-copy h2{
+font-size:clamp(27px,3vw,38px);
+}
+
+.belief-block-compact .belief-copy p{
+font-size:15px;
+}
+
+.belief-block-compact .belief-pillars{
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:8px;
+}
+
+.belief-block-compact .belief-pillars div{
+min-height:0;
+padding:14px;
+border-radius:15px;
+}
+
+.belief-block-compact .belief-pillars strong{
+margin-bottom:3px;
+font-size:15px;
+}
+
+.belief-block-compact .belief-pillars span{
+font-size:12px;
+}
+
+/* Centro de participação */
+.community-hub{
+margin-bottom:52px;
+padding:clamp(28px,4vw,44px);
+border:1px solid #e8e8e8;
+border-radius:30px;
+background:#fff;
+box-shadow:0 18px 50px rgba(17,17,17,.08);
+scroll-margin-top:100px;
+}
+
+.community-hub-head{
+display:grid;
+grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);
+gap:32px;
+align-items:end;
+margin-bottom:28px;
+}
+
+.community-hub-head span,
+.hub-card-label{
+display:inline-block;
+color:var(--primary);
+font-size:12px;
+font-weight:900;
+letter-spacing:.08em;
+}
+
+.community-hub-head h2{
+max-width:760px;
+margin-top:9px;
+font-size:clamp(30px,4vw,48px);
+line-height:1.06;
+}
+
+.community-hub-head>p{
+color:#626262;
+font-size:17px;
+line-height:1.55;
+}
+
+.community-hub-grid{
+display:grid;
+grid-template-columns:minmax(0,1.35fr) repeat(2,minmax(0,.825fr));
+gap:16px;
+}
+
+.weekly-poll,
+.hub-action-card{
+padding:26px;
+border-radius:24px;
+}
+
+.weekly-poll{
+background:#111;
+color:#fff;
+}
+
+.weekly-poll h3,
+.hub-action-card h3{
+margin:10px 0 18px;
+font-size:clamp(22px,2.4vw,30px);
+line-height:1.15;
+}
+
+.poll-options{
+display:grid;
+gap:9px;
+}
+
+.poll-option{
+position:relative;
+display:flex;
+justify-content:space-between;
+align-items:center;
+width:100%;
+padding:13px 15px;
+overflow:hidden;
+border:1px solid rgba(255,255,255,.14);
+border-radius:14px;
+background:rgba(255,255,255,.06);
+color:#fff;
+font:inherit;
+font-size:14px;
+font-weight:800;
+text-align:left;
+cursor:pointer;
+transition:.2s;
+}
+
+.poll-option:hover,
+.poll-option.selected{
+border-color:var(--primary);
+background:rgba(255,106,0,.16);
+}
+
+.poll-option span{
+color:#ffb27a;
+font-size:12px;
+}
+
+.poll-feedback{
+margin-top:14px;
+color:#bcbcbc;
+font-size:12px;
+line-height:1.45;
+}
+
+.hub-action-card{
+display:flex;
+flex-direction:column;
+background:#fff6ef;
+border:1px solid #ffd9bd;
+}
+
+.hub-action-card p,
+.hub-rhythm li{
+color:#5e5e5e;
+font-size:14px;
+line-height:1.55;
+}
+
+.hub-link{
+display:inline-flex;
+align-self:flex-start;
+margin-top:auto;
+padding-top:22px;
+color:#111;
+font-weight:900;
+text-decoration:underline;
+text-decoration-color:var(--primary);
+text-decoration-thickness:3px;
+text-underline-offset:5px;
+}
+
+.hub-rhythm{
+background:#f6f6f6;
+border-color:#e7e7e7;
+}
+
+.hub-rhythm ul{
+display:grid;
+gap:10px;
+padding:0;
+list-style:none;
+}
+
+.hub-rhythm strong{
+color:#111;
+}
+
 .layout{
 display:grid;
 grid-template-columns:2.1fr 1fr;
@@ -431,6 +617,84 @@ scroll-margin-top:100px;
 
 .section-intro .section-title{
 margin:8px 0 10px;
+}
+
+.content-channels{
+display:flex;
+gap:9px;
+margin:0 0 24px;
+padding-bottom:4px;
+overflow-x:auto;
+scrollbar-width:thin;
+}
+
+.content-search{
+display:grid;
+grid-template-columns:auto minmax(0,1fr) auto;
+align-items:center;
+gap:10px;
+margin:0 0 14px;
+padding:0 17px;
+border:1px solid #dedede;
+border-radius:18px;
+background:#fff;
+box-shadow:0 7px 20px rgba(17,17,17,.05);
+transition:.2s;
+}
+
+.content-search:focus-within{
+border-color:var(--primary);
+box-shadow:0 0 0 4px rgba(255,106,0,.11);
+}
+
+.content-search input{
+height:54px;
+border:0;
+background:transparent;
+color:#111;
+font:inherit;
+font-size:15px;
+outline:0;
+}
+
+.content-search-icon{
+color:var(--primary);
+font-size:24px;
+font-weight:900;
+}
+
+.content-search-hint{
+color:#888;
+font-size:12px;
+font-weight:800;
+}
+
+.community-channel{
+flex:0 0 auto;
+padding:10px 16px;
+border:1px solid #dedede;
+border-radius:999px;
+background:#fff;
+color:#222;
+font:inherit;
+font-size:13px;
+font-weight:850;
+cursor:pointer;
+transition:.2s;
+}
+
+.community-channel:hover,
+.community-channel.active{
+border-color:var(--primary);
+background:var(--primary);
+color:#fff;
+}
+
+.content-results{
+margin:-10px 0 18px;
+color:#777;
+font-size:12px;
+font-weight:750;
 }
 
 .feature{
@@ -488,7 +752,7 @@ justify-content:center;
 align-items:flex-start;
 background:
 linear-gradient(90deg,rgba(5,5,5,.96) 0%,rgba(5,5,5,.82) 40%,rgba(5,5,5,.18) 72%,rgba(5,5,5,.08) 100%),
-url("../img/banner-opiniao-corinthians.png") 68% center/cover no-repeat !important;
+url("../img/app-copa-hero.png") 68% center/cover no-repeat !important;
 }
 
 .feature-opiniao h2,
@@ -505,13 +769,30 @@ margin-top:24px;
 scroll-margin-top:100px;
 }
 
+.article-grid{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:18px;
+align-items:start;
+}
+
 .post{
 background:#fff;
 padding:30px;
 border-radius:24px;
-margin-bottom:24px;
+margin-bottom:0;
 box-shadow:0 8px 25px rgba(0,0,0,.05);
 transition:.3s;
+}
+
+.article-grid .post{
+display:flex;
+flex-direction:column;
+min-height:100%;
+}
+
+.article-grid .post.expanded{
+grid-column:1/-1;
 }
 
 .post:hover{
@@ -533,8 +814,36 @@ object-fit:cover;
 }
 
 .post h3{
-font-size:34px;
+font-size:clamp(25px,2.5vw,32px);
 margin-bottom:12px;
+}
+
+.post-badges{
+display:flex;
+flex-wrap:wrap;
+gap:7px;
+margin-bottom:16px;
+}
+
+.post-badges span{
+padding:7px 10px;
+border-radius:999px;
+background:#f1f1f1;
+color:#444;
+font-size:11px;
+font-weight:900;
+letter-spacing:.03em;
+text-transform:uppercase;
+}
+
+.post-badges .post-badge-hot{
+background:#fff0e5;
+color:#b74c00;
+}
+
+.post-badges .post-badge-discussion{
+background:#111;
+color:#fff;
 }
 
 .meta{
@@ -567,6 +876,47 @@ border-top:1px solid #eee;
 
 .full-text p{
 margin-bottom:14px;
+}
+
+.post-engagement{
+margin-top:auto;
+padding-top:22px;
+}
+
+.post-engagement>span{
+display:block;
+margin-bottom:10px;
+color:#666;
+font-size:12px;
+font-weight:800;
+}
+
+.post-engagement>div{
+display:flex;
+flex-wrap:wrap;
+gap:7px;
+}
+
+.reaction-btn,
+.share-post{
+padding:8px 11px;
+border:1px solid #dedede;
+border-radius:999px;
+background:#fff;
+color:#444;
+font:inherit;
+font-size:11px;
+font-weight:850;
+cursor:pointer;
+transition:.2s;
+}
+
+.reaction-btn:hover,
+.reaction-btn.selected,
+.share-post:hover{
+border-color:var(--primary);
+background:#fff4eb;
+color:#b74c00;
 }
 
 /* A Voz do Profissional */
@@ -744,6 +1094,67 @@ font-weight:850;
 text-decoration:none;
 }
 
+.community-form{
+display:grid;
+grid-template-columns:minmax(180px,.65fr) minmax(0,1.35fr);
+gap:16px;
+margin-top:26px;
+}
+
+.community-form label,
+.community-form label>span{
+display:block;
+}
+
+.community-form label>span{
+margin-bottom:8px;
+color:#333;
+font-size:13px;
+font-weight:850;
+}
+
+.community-form select,
+.community-form textarea{
+width:100%;
+border:1px solid #d8d8d8;
+border-radius:15px;
+background:#fff;
+color:#111;
+font:inherit;
+font-size:15px;
+outline:none;
+transition:.2s;
+}
+
+.community-form select{
+height:50px;
+padding:0 14px;
+}
+
+.community-form textarea{
+min-height:120px;
+padding:14px;
+resize:vertical;
+}
+
+.community-form select:focus,
+.community-form textarea:focus{
+border-color:var(--primary);
+box-shadow:0 0 0 4px rgba(255,106,0,.12);
+}
+
+.community-form-footer{
+grid-column:1/-1;
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.community-form-footer small{
+color:#777;
+font-size:12px;
+}
+
 .sidebar-box{
 background:#fff;
 padding:28px;
@@ -756,6 +1167,28 @@ box-shadow:0 8px 25px rgba(0,0,0,.05);
 font-size:24px;
 font-weight:900;
 margin-bottom:20px;
+}
+
+.sidebar-community{
+background:linear-gradient(145deg,#fff7f0,#fff);
+border:1px solid #ffd8bc;
+}
+
+.sidebar-community h3{
+margin:8px 0 10px;
+font-size:25px;
+line-height:1.12;
+}
+
+.sidebar-community p{
+color:#666;
+font-size:14px;
+line-height:1.55;
+}
+
+.sidebar-cta{
+display:inline-flex;
+margin-top:18px;
 }
 
 .author-mini{
@@ -864,6 +1297,9 @@ display:block;
 .menu-actions{width:100%}
 .search{width:100%}
 .layout{grid-template-columns:1fr}
+.community-hub-head{grid-template-columns:1fr;gap:12px}
+.community-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.weekly-poll{grid-column:1/-1}
 .hero h1{font-size:50px}
 .hero p{font-size:20px}
 .feature{padding:35px}
@@ -874,12 +1310,22 @@ display:block;
 }
 
 @media(max-width:520px){
+.community-hub{margin-bottom:36px;padding:24px 18px;border-radius:24px}
+.community-hub-grid{grid-template-columns:1fr}
+.weekly-poll{grid-column:auto}
+.weekly-poll,.hub-action-card{padding:22px 18px}
+.article-grid{grid-template-columns:1fr}
+.article-grid .post.expanded{grid-column:auto}
+.content-search-hint{display:none}
+.community-form{grid-template-columns:1fr}
+.community-form-footer{align-items:stretch;flex-direction:column}
+.community-form-footer .btn{width:100%}
 .feature{padding:26px 22px !important}
 .feature h2{font-size:32px;line-height:1.1}
 .feature p{font-size:18px;line-height:1.55}
 .feature-opiniao{min-height:560px;background-position:64% center !important}
 .feature-opiniao h2,.feature-opiniao p{max-width:100%}
-.feature-opiniao{background-image:linear-gradient(180deg,rgba(5,5,5,.42) 0%,rgba(5,5,5,.82) 46%,rgba(5,5,5,.98) 100%),url("../img/banner-opiniao-corinthians.png") !important}
+.feature-opiniao{background-image:linear-gradient(180deg,rgba(5,5,5,.42) 0%,rgba(5,5,5,.82) 46%,rgba(5,5,5,.98) 100%),url("../img/app-copa-hero.png") !important}
 .feature-opiniao{justify-content:flex-end}
 .professional-voice{margin-top:34px;padding:24px 20px;border-radius:24px}
 .professional-voice-head{grid-template-columns:1fr}
