@@ -129,6 +129,11 @@ window.open(`https://wa.me/5511986366965?text=${encodeURIComponent(whatsappText)
 const falaVideoPlay=document.getElementById('fala-video-play');
 const falaVideoPlayer=document.getElementById('fala-video-player');
 if(falaVideoPlay&&falaVideoPlayer){
+const setFalaVideoState=(playing,label)=>{
+falaVideoPlay.classList.toggle('is-playing',playing);
+falaVideoPlay.setAttribute('aria-pressed',String(playing));
+falaVideoPlay.setAttribute('aria-label',label);
+};
 falaVideoPlay.addEventListener('click',async()=>{
 falaVideoPlayer.controls=true;
 falaVideoPlayer.defaultMuted=false;
@@ -138,12 +143,17 @@ if(falaVideoPlayer.readyState===0) falaVideoPlayer.load();
 falaVideoPlayer.scrollIntoView({behavior:'smooth',block:'center'});
 try{
 await falaVideoPlayer.play();
-falaVideoPlay.textContent='Reproduzindo com som';
+setFalaVideoState(true,'Vídeo institucional em reprodução');
 }catch(error){
-falaVideoPlay.textContent='Toque no player para assistir';
+setFalaVideoState(false,'Reproduzir filme institucional com som');
 falaVideoPlayer.focus();
 }
 });
+falaVideoPlayer.addEventListener('play',()=>setFalaVideoState(true,'Vídeo institucional em reprodução'));
+falaVideoPlayer.addEventListener('pause',()=>{
+if(!falaVideoPlayer.ended) setFalaVideoState(false,'Continuar filme institucional com som');
+});
+falaVideoPlayer.addEventListener('ended',()=>setFalaVideoState(false,'Assistir novamente ao filme institucional com som'));
 }
 
 document.querySelectorAll('.post[data-post-id]').forEach(post=>{
