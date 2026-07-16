@@ -282,8 +282,8 @@ margin-bottom:30px;
 }
 
 .hero h1{
-max-width:1000px;
-font-size:clamp(52px,7vw,88px);
+max-width:1120px;
+font-size:clamp(46px,6.2vw,78px);
 line-height:1;
 font-weight:900;
 margin-bottom:22px;
@@ -291,7 +291,7 @@ margin-bottom:22px;
 
 .hero p{
 font-size:24px;
-max-width:760px;
+max-width:850px;
 line-height:1.5;
 color:#ddd;
 margin-bottom:30px;
@@ -339,7 +339,14 @@ color:#111;
 }
 
 .page{
+width:100%;
+min-width:0;
 margin-top:35px;
+}
+
+.page>*{
+width:100%;
+min-width:0;
 }
 
 /* Manifesto do novo conceito */
@@ -446,6 +453,106 @@ font-size:15px;
 
 .belief-block-compact .belief-pillars span{
 font-size:12px;
+}
+
+/* Entrada por objetivo */
+.journey-paths{
+margin-bottom:52px;
+padding:clamp(28px,4vw,44px);
+border:1px solid #e8e8e8;
+border-radius:30px;
+background:#fff;
+box-shadow:0 18px 50px rgba(17,17,17,.07);
+scroll-margin-top:100px;
+}
+
+.journey-head{
+display:grid;
+grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);
+gap:32px;
+align-items:end;
+margin-bottom:28px;
+}
+
+.journey-head>div>span{
+color:var(--primary);
+font-size:12px;
+font-weight:900;
+letter-spacing:.08em;
+}
+
+.journey-head h2{
+margin-top:9px;
+font-size:clamp(30px,4vw,48px);
+line-height:1.05;
+}
+
+.journey-head>p{
+color:#626262;
+font-size:16px;
+line-height:1.6;
+}
+
+.journey-grid{
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:14px;
+}
+
+.journey-card{
+display:flex;
+flex-direction:column;
+align-items:flex-start;
+min-height:250px;
+padding:26px;
+border:1px solid #e7e7e7;
+border-radius:22px;
+background:#f8f8f8;
+color:#111;
+font:inherit;
+text-align:left;
+cursor:pointer;
+transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease;
+}
+
+.journey-card:hover,
+.journey-card:focus-visible{
+border-color:#cfcfcf;
+background:#fff;
+box-shadow:0 14px 34px rgba(17,17,17,.09);
+outline:none;
+transform:translateY(-3px);
+}
+
+.journey-number{
+margin-bottom:28px;
+color:var(--primary);
+font-size:13px;
+font-weight:900;
+letter-spacing:.1em;
+}
+
+.journey-card strong{
+margin-bottom:10px;
+font-size:clamp(22px,2.4vw,30px);
+line-height:1.08;
+}
+
+.journey-card small{
+color:#666;
+font-size:14px;
+line-height:1.55;
+}
+
+.journey-link{
+margin-top:auto;
+padding-top:24px;
+font-size:13px;
+font-weight:900;
+text-decoration:underline;
+text-decoration-color:var(--primary);
+text-decoration-thickness:2px;
+text-underline-offset:5px;
 }
 
 .fala-video{
@@ -712,6 +819,12 @@ color:#111;
 display:grid;
 grid-template-columns:2.1fr 1fr;
 gap:30px;
+min-width:0;
+}
+
+.layout main,
+.layout aside{
+min-width:0;
 }
 
 .section-title{
@@ -1406,6 +1519,9 @@ display:block;
 .menu-actions{width:100%}
 .search{width:100%}
 .layout{grid-template-columns:1fr}
+.journey-head{grid-template-columns:1fr;gap:12px}
+.journey-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.journey-card:last-child{grid-column:1/-1;min-height:210px}
 .community-hub-head{grid-template-columns:1fr;gap:12px}
 .community-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .weekly-poll{grid-column:1/-1}
@@ -1420,10 +1536,17 @@ display:block;
 }
 
 @media(max-width:520px){
+.hero{padding:62px 18px 54px}
+.hero h1{font-size:clamp(36px,11vw,44px)}
+.hero p{font-size:17px;line-height:1.55}
+.hero-label{padding:8px 12px;font-size:11px}
 .community-hub{margin-bottom:36px;padding:24px 18px;border-radius:24px}
 .community-hub-grid{grid-template-columns:1fr}
 .weekly-poll{grid-column:auto}
 .weekly-poll,.hub-action-card{padding:22px 18px}
+.journey-paths{margin-bottom:36px;padding:24px 18px;border-radius:24px}
+.journey-grid{grid-template-columns:1fr}
+.journey-card,.journey-card:last-child{grid-column:auto;min-height:220px;padding:22px 20px}
 .fala-video{margin-bottom:36px;padding:22px 18px;border-radius:24px}
 .article-grid{grid-template-columns:1fr}
 .article-grid .post.expanded{grid-column:auto}
@@ -1445,7 +1568,7 @@ display:block;
 .professional-launch{grid-template-columns:1fr;padding:24px 20px}
 .professional-launch-mark{width:96px;height:96px}
 .belief-block{margin-bottom:36px;padding:26px 20px;border-radius:24px}
-.belief-pillars{grid-template-columns:1fr}
+.belief-block-compact .belief-pillars{grid-template-columns:1fr}
 .belief-pillars div{min-height:0}
 .community-invite{padding:28px 20px;border-radius:24px}
 .community-actions{align-items:stretch;flex-direction:column}

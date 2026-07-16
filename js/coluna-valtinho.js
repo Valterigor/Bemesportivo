@@ -14,6 +14,7 @@ const posts=document.querySelectorAll('.post-item');
 const articlePosts=document.querySelectorAll('.article-grid .post-item');
 const filterButtons=document.querySelectorAll('button.filter-btn');
 const communityChannels=document.querySelectorAll('.community-channel');
+const journeyButtons=document.querySelectorAll('.journey-card[data-journey-filter]');
 const search=document.getElementById('searchInput');
 const contentResults=document.getElementById('content-results');
 let activeFilter='';
@@ -75,6 +76,10 @@ if(search) search.addEventListener('keyup',applyFilters);
 
 communityChannels.forEach(channel=>{
 channel.addEventListener('click',()=>filterPosts(channel.dataset.filter||''));
+});
+
+journeyButtons.forEach(button=>{
+button.addEventListener('click',()=>filterPosts(button.dataset.journeyFilter||''));
 });
 
 const pollOptions=document.querySelectorAll('.poll-option');
