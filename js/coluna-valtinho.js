@@ -17,7 +17,18 @@ const communityChannels=document.querySelectorAll('.community-channel');
 const journeyButtons=document.querySelectorAll('.journey-card[data-journey-filter]');
 const search=document.getElementById('searchInput');
 const contentResults=document.getElementById('content-results');
+const journeyGuidance=document.getElementById('journey-guidance');
+const journeyContents=document.querySelectorAll('[data-journey-content]');
 let activeFilter='';
+
+function updateJourneyGuidance(tag){
+const hasGuidance=['comecar','evoluir','permanecer'].includes(tag);
+if(journeyGuidance) journeyGuidance.hidden=!hasGuidance;
+journeyContents.forEach(content=>{
+content.hidden=!hasGuidance||content.dataset.journeyContent!==tag;
+});
+return hasGuidance;
+}
 
 function applyFilters(){
 const term=search ? search.value.toLowerCase().trim() : '';
@@ -49,9 +60,10 @@ btn.classList.add('active');
 communityChannels.forEach(channel=>{
 channel.classList.toggle('active',channel.dataset.filter===tag);
 });
+const hasGuidance=updateJourneyGuidance(tag);
 applyFilters();
-const ideas=document.getElementById('ideias');
-if(ideas) ideas.scrollIntoView({behavior:'smooth',block:'start'});
+const destination=hasGuidance ? journeyGuidance : document.getElementById('ideias');
+if(destination) destination.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function resetAllFilters(){
@@ -59,6 +71,7 @@ activeFilter='';
 filterButtons.forEach(btn=>btn.classList.remove('active'));
 communityChannels.forEach(channel=>channel.classList.toggle('active',channel.dataset.filter===''));
 if(search) search.value='';
+updateJourneyGuidance('');
 applyFilters();
 }
 
