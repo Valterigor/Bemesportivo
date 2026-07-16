@@ -1574,3 +1574,291 @@ display:block;
 .community-actions{align-items:stretch;flex-direction:column}
 .community-actions .btn,.community-secondary{justify-content:center;width:100%}
 }
+
+/* Ajustes finais de layout da pagina Fala Bem.
+   Este arquivo e carregado depois do CSS global para evitar que regras genericas
+   alterem novamente as margens e o comportamento dos cards. */
+.fala-bem-page{
+padding-top:0 !important;
+}
+
+.fala-bem-page .container.page{
+padding-top:0 !important;
+}
+
+.fala-bem-page :where(h1,h2,h3,h4,p,span,small,a,button,li){
+overflow-wrap:break-word;
+}
+
+.fala-bem-page :where(.journey-card,.weekly-poll,.hub-action-card,.post,.sidebar-box,.professional-launch,.highlight){
+min-width:0;
+}
+
+.fala-bem-page .post,
+.fala-bem-page .sidebar-box{
+padding:30px !important;
+}
+
+.fala-bem-page .full-text p{
+color:#343434 !important;
+font-size:16px;
+line-height:1.75;
+}
+
+.fala-bem-page .read-toggle,
+.fala-bem-page .professional-launch .btn,
+.fala-bem-page .sidebar-cta{
+max-width:100%;
+white-space:normal;
+text-align:center;
+}
+
+@media(max-width:768px){
+.fala-bem-page .menu-content{
+width:100% !important;
+min-height:60px !important;
+}
+
+.fala-bem-page .menu nav{
+position:absolute !important;
+top:68px !important;
+left:12px !important;
+right:12px !important;
+display:none !important;
+flex-direction:column !important;
+align-items:stretch !important;
+gap:6px !important;
+width:auto !important;
+max-height:calc(100vh - 84px);
+padding:12px !important;
+overflow-y:auto !important;
+border:1px solid #e8e8e8 !important;
+border-radius:18px !important;
+background:#fff !important;
+box-shadow:0 18px 45px rgba(17,17,17,.16) !important;
+}
+
+.fala-bem-page .menu nav.active{
+display:flex !important;
+}
+
+.fala-bem-page .menu nav a{
+justify-content:flex-start !important;
+width:100%;
+min-height:42px !important;
+}
+
+.fala-bem-page .menu-btn{
+display:flex !important;
+flex:0 0 40px;
+}
+
+.fala-bem-page .container.page{
+width:calc(100% - 32px) !important;
+margin-top:24px;
+padding-bottom:52px !important;
+}
+
+.fala-bem-page .hero{
+padding:54px 20px 48px !important;
+border-right:0 !important;
+border-left:0 !important;
+border-radius:0 !important;
+}
+
+.fala-bem-page .hero h1{
+font-size:clamp(34px,10vw,50px);
+line-height:1.04;
+}
+
+.fala-bem-page .hero p{
+font-size:17px;
+line-height:1.6;
+}
+
+.fala-bem-page .hero-stats{
+display:grid;
+grid-template-columns:1fr;
+}
+
+.fala-bem-page .hero-stats .filter-btn{
+justify-content:center;
+width:100%;
+text-align:center;
+}
+
+.fala-bem-page .belief-block,
+.fala-bem-page .journey-paths,
+.fala-bem-page .fala-video,
+.fala-bem-page .community-hub,
+.fala-bem-page .professional-voice,
+.fala-bem-page .community-invite{
+padding:24px 20px;
+border-radius:22px;
+}
+
+.fala-bem-page .journey-head,
+.fala-bem-page .community-hub-head{
+grid-template-columns:1fr;
+gap:12px;
+}
+
+.fala-bem-page .journey-grid,
+.fala-bem-page .community-hub-grid,
+.fala-bem-page .article-grid{
+grid-template-columns:1fr;
+}
+
+.fala-bem-page .journey-card,
+.fala-bem-page .journey-card:last-child,
+.fala-bem-page .weekly-poll{
+grid-column:auto;
+}
+
+.fala-bem-page .journey-card,
+.fala-bem-page .journey-card:last-child{
+min-height:0;
+padding:22px 20px;
+}
+
+.fala-bem-page .journey-number{
+margin-bottom:20px;
+}
+
+.fala-bem-page .journey-link{
+margin-top:22px;
+padding-top:0;
+}
+
+.fala-bem-page .weekly-poll,
+.fala-bem-page .hub-action-card{
+padding:22px 18px;
+}
+
+.fala-bem-page .poll-option{
+gap:12px;
+}
+
+.fala-bem-page .poll-option span{
+flex:0 0 auto;
+}
+
+.fala-bem-page .feature{
+padding:28px 22px !important;
+}
+
+.fala-bem-page .feature h2{
+font-size:clamp(30px,8.5vw,38px);
+}
+
+.fala-bem-page .post,
+.fala-bem-page .sidebar-box{
+padding:22px !important;
+}
+
+.fala-bem-page .post h3{
+font-size:clamp(23px,7vw,28px);
+line-height:1.18;
+}
+
+.fala-bem-page .excerpt{
+font-size:16px;
+line-height:1.6;
+}
+
+.fala-bem-page .professional-voice-head,
+.fala-bem-page .professional-launch,
+.fala-bem-page .community-form{
+grid-template-columns:1fr;
+}
+
+.fala-bem-page .professional-launch{
+gap:20px;
+padding:22px 20px;
+}
+
+.fala-bem-page .community-form-footer{
+align-items:stretch;
+flex-direction:column;
+}
+
+.fala-bem-page .community-form-footer .btn{
+width:100%;
+}
+
+.fala-bem-page aside{
+display:grid;
+grid-template-columns:1fr;
+gap:18px;
+}
+
+.fala-bem-page aside :where(.sidebar-box,.highlight){
+margin:0;
+}
+}
+
+@media(max-width:520px){
+.fala-bem-page .menu-actions{
+display:none;
+}
+
+.fala-bem-page .content-search{
+padding:0 13px;
+}
+
+.fala-bem-page .content-search input{
+min-width:0;
+font-size:14px;
+}
+
+.fala-bem-page .feature-opiniao{
+min-height:500px;
+}
+
+.fala-bem-page .post-engagement>div{
+display:grid;
+grid-template-columns:1fr;
+}
+
+.fala-bem-page .reaction-btn,
+.fala-bem-page .share-post{
+width:100%;
+min-height:40px;
+}
+
+.fala-bem-page .professional-voice-topics span{
+flex:1 1 calc(50% - 9px);
+text-align:center;
+}
+
+.fala-bem-page .highlight{
+padding:28px 22px;
+}
+
+.fala-bem-page .highlight h4{
+font-size:28px;
+line-height:1.14;
+}
+}
+
+@media(max-width:360px){
+.fala-bem-page .container.page{
+width:calc(100% - 24px) !important;
+}
+
+.fala-bem-page .belief-block,
+.fala-bem-page .journey-paths,
+.fala-bem-page .fala-video,
+.fala-bem-page .community-hub,
+.fala-bem-page .professional-voice,
+.fala-bem-page .community-invite,
+.fala-bem-page .post,
+.fala-bem-page .sidebar-box{
+padding-right:17px !important;
+padding-left:17px !important;
+}
+
+.fala-bem-page .author-line{
+align-items:flex-start;
+}
+}
