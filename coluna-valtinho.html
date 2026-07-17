@@ -21,6 +21,7 @@
 
 <link rel="stylesheet" href="site-common.css">
 <link rel="stylesheet" href="css/coluna-valtinho.css">
+<link rel="stylesheet" href="css/fala-bem-platform.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757"
      crossorigin="anonymous"></script>
 </head>
@@ -56,23 +57,31 @@
 </div>
 </header>
 
-<section class="hero">
-<div class="hero-grid">
-<div class="hero-label">ESPORTE • CIÊNCIA • PESSOAS</div>
-<div class="hero-divider"></div>
-<h1>O lugar onde esporte, ciência e pessoas evoluem juntas.</h1>
+<section class="hero platform-hero" aria-labelledby="platform-hero-title">
+<div class="platform-hero-copy">
+<span class="platform-eyebrow">FALA BEM · BEMESPORTIVO</span>
+<h1 id="platform-hero-title">O esporte<br><em>começa com pessoas.</em></h1>
+<p>Conhecimento, especialistas e histórias para ajudar você a descobrir, praticar e permanecer no esporte.</p>
 
-<p>
-O Fala Bem transforma conhecimento esportivo em orientação simples, confiável e humana
-para ajudar você a descobrir, praticar e permanecer no esporte.
-</p>
+<form class="platform-search" id="platform-search" role="search">
+<label class="sr-only" for="platform-search-input">O que você procura hoje?</label>
+<input id="platform-search-input" type="search" placeholder="O que você procura hoje?" autocomplete="off">
+<button type="submit" aria-label="Buscar na página">
+<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+</button>
+</form>
+<div class="platform-search-suggestions" id="platform-search-suggestions" aria-live="polite"></div>
 
-<div class="hero-stats">
-<a class="filter-btn professional-link hero-participate" href="#minha-jornada">Encontre seu caminho</a>
-<a class="filter-btn professional-link" href="#ideias">Explore o conhecimento</a>
-<a class="filter-btn professional-link" href="#participe-agora">Participe da comunidade</a>
+<nav class="platform-quick-actions" aria-label="Acessos rápidos">
+<button type="button" data-platform-target="minha-jornada"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 20V5m0 1h10l-2 3 2 3H5"></path></svg><span>Quero<br>começar</span></button>
+<button type="button" data-platform-target="trilhas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 17 5-5 4 3 7-8m-4 0h4v4"></path></svg><span>Quero<br>evoluir</span></button>
+<button type="button" data-platform-target="especialistas"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"></circle><path d="M6 20c.5-4 2.5-6 6-6s5.5 2 6 6"></path></svg><span>Encontrar um<br>especialista</span></button>
+<button type="button" data-platform-target="modalidades"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m15 9-2 4-4 2 2-4 4-2Z"></path></svg><span>Explorar<br>modalidades</span></button>
+</nav>
 </div>
-</div>
+<figure class="platform-hero-media">
+<img src="img/fala-bem-hero-pessoas.png" alt="Duas pessoas correndo juntas ao ar livre ao nascer do sol">
+</figure>
 </section>
 
 <div class="container page">
@@ -93,31 +102,180 @@ para ajudar você a descobrir, praticar e permanecer no esporte.
 <section class="journey-paths" id="minha-jornada" aria-labelledby="journey-title">
 <div class="journey-head">
 <div>
-<span>COMECE PELO SEU MOMENTO</span>
-<h2 id="journey-title">O que você precisa hoje?</h2>
+<span>TRAJETÓRIA PERSONALIZADA</span>
+<h2 id="journey-title">Descubra seu caminho</h2>
 </div>
-<p>Cada pessoa vive uma etapa diferente. Escolha seu objetivo para encontrar conversas mais úteis para a sua jornada.</p>
+<p>Responda três perguntas rápidas e receba uma orientação inicial pensada para o seu momento.</p>
 </div>
-<div class="journey-grid">
-<button type="button" class="journey-card" data-journey-filter="comecar">
-<span class="journey-number">01</span>
-<strong>Quero começar</strong>
-<small>Orientação para escolher uma prática e dar o primeiro passo com segurança.</small>
-<span class="journey-link">Ver conteúdos para começar</span>
-</button>
-<button type="button" class="journey-card" data-journey-filter="evoluir">
-<span class="journey-number">02</span>
-<strong>Quero evoluir</strong>
-<small>Ciência aplicada, treinamento e conhecimento para melhorar com equilíbrio.</small>
-<span class="journey-link">Ver conteúdos para evoluir</span>
-</button>
-<button type="button" class="journey-card" data-journey-filter="permanecer">
-<span class="journey-number">03</span>
-<strong>Quero permanecer</strong>
-<small>Saúde, constância e apoio para fazer do esporte parte da vida.</small>
-<span class="journey-link">Ver conteúdos para permanecer</span>
-</button>
+<div class="journey-assistant" id="journey-assistant">
+<ol class="journey-progress" aria-label="Progresso da descoberta do seu caminho">
+<li class="active" data-step-indicator="1"><span>1</span><small>Objetivo</small></li>
+<li data-step-indicator="2"><span>2</span><small>Seu momento</small></li>
+<li data-step-indicator="3"><span>3</span><small>Disponibilidade</small></li>
+<li data-step-indicator="4"><span>4</span><small>Seu caminho</small></li>
+</ol>
+
+<div class="journey-stage" data-journey-step="1" aria-labelledby="journey-step-1-title">
+<span class="journey-stage-kicker">ETAPA 1 DE 4</span>
+<h3 id="journey-step-1-title">Qual é o seu principal objetivo?</h3>
+<p>Não existe resposta certa. Escolha o que mais representa seu momento agora.</p>
+<div class="journey-options journey-options-goals" role="group" aria-label="Escolha seu objetivo">
+<button type="button" class="journey-option" data-journey-field="objective" data-journey-value="comecar" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 20V5m0 1h10l-2 3 2 3H5"></path></svg><strong>Quero começar</strong><small>Dar o primeiro passo com segurança.</small></button>
+<button type="button" class="journey-option" data-journey-field="objective" data-journey-value="saude" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20.8 5.8a5.5 5.5 0 0 0-7.8 0L12 6.9l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 22l8.8-8.4a5.5 5.5 0 0 0 0-7.8Z"></path></svg><strong>Melhorar minha saúde</strong><small>Criar uma rotina ativa e equilibrada.</small></button>
+<button type="button" class="journey-option" data-journey-field="objective" data-journey-value="emagrecer" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 20h14l-1.4-12H6.4L5 20Zm4-12a3 3 0 0 1 6 0m-3 3 2 2"></path></svg><strong>Emagrecer</strong><small>Combinar movimento e constância.</small></button>
+<button type="button" class="journey-option" data-journey-field="objective" data-journey-value="performance" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 17 5-5 4 3 7-8m-4 0h4v4"></path></svg><strong>Buscar performance</strong><small>Evoluir treino, técnica e recuperação.</small></button>
+<button type="button" class="journey-option" data-journey-field="objective" data-journey-value="modalidade" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m15 9-2 4-4 2 2-4 4-2Z"></path></svg><strong>Encontrar um esporte</strong><small>Descobrir uma prática que combine comigo.</small></button>
+<button type="button" class="journey-option" data-journey-field="objective" data-journey-value="recuperacao" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.6 2.9 8 7 10 4.1-2 7-5.4 7-10V6l-7-3Zm0 5v6m-3-3h6"></path></svg><strong>Voltar com segurança</strong><small>Retomar após uma pausa ou recuperação.</small></button>
 </div>
+</div>
+
+<div class="journey-stage" data-journey-step="2" aria-labelledby="journey-step-2-title" hidden>
+<span class="journey-stage-kicker">ETAPA 2 DE 4</span>
+<h3 id="journey-step-2-title">Em qual momento da vida você está?</h3>
+<p>A faixa etária ajuda a tornar a orientação mais adequada ao seu contexto.</p>
+<div class="journey-options journey-options-compact" role="group" aria-label="Escolha sua faixa etária">
+<button type="button" class="journey-option" data-journey-field="age" data-journey-value="ate-17" aria-pressed="false"><strong>Até 17 anos</strong></button>
+<button type="button" class="journey-option" data-journey-field="age" data-journey-value="18-29" aria-pressed="false"><strong>18 a 29 anos</strong></button>
+<button type="button" class="journey-option" data-journey-field="age" data-journey-value="30-44" aria-pressed="false"><strong>30 a 44 anos</strong></button>
+<button type="button" class="journey-option" data-journey-field="age" data-journey-value="45-59" aria-pressed="false"><strong>45 a 59 anos</strong></button>
+<button type="button" class="journey-option" data-journey-field="age" data-journey-value="60-mais" aria-pressed="false"><strong>60 anos ou mais</strong></button>
+</div>
+</div>
+
+<div class="journey-stage" data-journey-step="3" aria-labelledby="journey-step-3-title" hidden>
+<span class="journey-stage-kicker">ETAPA 3 DE 4</span>
+<h3 id="journey-step-3-title">Quanto tempo cabe na sua rotina?</h3>
+<p>Pense em um tempo realista para cada prática, mesmo nos dias mais corridos.</p>
+<div class="journey-options journey-options-availability" role="group" aria-label="Escolha sua disponibilidade">
+<button type="button" class="journey-option" data-journey-field="availability" data-journey-value="15" aria-pressed="false"><strong>Até 15 minutos</strong><small>Uma entrada simples e possível.</small></button>
+<button type="button" class="journey-option" data-journey-field="availability" data-journey-value="30" aria-pressed="false"><strong>Cerca de 30 minutos</strong><small>Tempo para construir consistência.</small></button>
+<button type="button" class="journey-option" data-journey-field="availability" data-journey-value="45" aria-pressed="false"><strong>45 minutos ou mais</strong><small>Espaço para uma prática completa.</small></button>
+</div>
+</div>
+
+<div class="journey-stage journey-result" data-journey-step="4" aria-labelledby="journey-result-title" aria-live="polite" hidden>
+<span class="journey-stage-kicker">SEU CAMINHO</span>
+<div class="journey-result-heading">
+<div>
+<h3 id="journey-result-title">Seu próximo passo está pronto.</h3>
+<p id="journey-result-summary"></p>
+</div>
+<span class="journey-result-profile" id="journey-result-profile"></span>
+</div>
+<div class="journey-result-grid">
+<div><span>COMECE ASSIM</span><strong id="journey-result-start"></strong></div>
+<div><span>RITMO SUGERIDO</span><strong id="journey-result-rhythm"></strong></div>
+<div><span>LEMBRETE</span><strong id="journey-result-reminder"></strong></div>
+</div>
+<div class="journey-result-actions">
+<button type="button" class="btn" id="journey-see-content">Ver conteúdos para meu caminho</button>
+<button type="button" class="journey-restart" id="journey-restart">Refazer trajetória</button>
+</div>
+</div>
+
+<div class="journey-navigation">
+<button type="button" class="journey-back" id="journey-back" hidden>Voltar</button>
+<span id="journey-status" aria-live="polite">Etapa 1 de 4</span>
+<button type="button" class="journey-next" id="journey-next" disabled>Continuar</button>
+</div>
+</div>
+</section>
+
+<section class="platform-section platform-trails" id="trilhas" aria-labelledby="trails-title">
+<header class="platform-section-head">
+<div><span>CONTINUE EM MOVIMENTO</span><h2 id="trails-title">Trilhas para sua jornada</h2></div>
+<p>Caminhos simples com conteúdos essenciais para você começar e continuar.</p>
+</header>
+<div class="trail-grid">
+<article class="trail-card trail-running">
+<span>COMEÇAR</span><h3>Minha primeira corrida</h3><small>6 passos</small><div class="trail-progress"><i style="width:18%"></i></div><button type="button" data-platform-target="minha-jornada">Começar trilha</button>
+</article>
+<article class="trail-card trail-football">
+<span>APRENDER</span><h3>Futebol com inteligência</h3><small>5 passos</small><div class="trail-progress"><i style="width:34%"></i></div><button type="button" data-platform-target="ideias">Continuar</button>
+</article>
+<article class="trail-card trail-performance">
+<span>EVOLUIR</span><h3>Performance sustentável</h3><small>7 passos</small><div class="trail-progress"><i style="width:12%"></i></div><button type="button" data-platform-target="ferramentas">Começar trilha</button>
+</article>
+<article class="trail-card trail-health">
+<span>PERMANECER</span><h3>Vida mais saudável</h3><small>5 passos</small><div class="trail-progress"><i style="width:42%"></i></div><button type="button" data-platform-target="ferramentas">Continuar</button>
+</article>
+</div>
+</section>
+
+<section class="platform-section platform-tools" id="ferramentas" aria-labelledby="tools-title">
+<header class="platform-section-head platform-section-head-inline">
+<div><span>RECURSOS PRÁTICOS</span><h2 id="tools-title">Ferramentas</h2></div>
+<p>Calcule referências simples para compreender melhor sua rotina esportiva.</p>
+</header>
+<div class="tool-grid">
+<button type="button" class="tool-card" data-tool="imc"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 20h14l-1.4-12H6.4L5 20Zm4-12a3 3 0 0 1 6 0m-3 3 2 2"></path></svg><strong>Calculadora IMC</strong><span>Peso e altura</span></button>
+<button type="button" class="tool-card" data-tool="pace"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l3 2M9 2h6"></path></svg><strong>Calculadora Pace</strong><span>Ritmo por km</span></button>
+<button type="button" class="tool-card" data-tool="calorias"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 22c4 0 7-3 7-7 0-5-4-8-6-12 0 4-2 6-4 8-2 2-3 4-3 6 0 3 2 5 6 5Z"></path></svg><strong>Gasto calórico</strong><span>Estimativa do treino</span></button>
+<button type="button" class="tool-card" data-tool="agua"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2S5 10 5 15a7 7 0 0 0 14 0c0-5-7-13-7-13Z"></path></svg><strong>Água diária</strong><span>Meta de hidratação</span></button>
+<button type="button" class="tool-card" data-tool="cardiaca"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"></path></svg><strong>Zona cardíaca</strong><span>Faixa de treino</span></button>
+<button type="button" class="tool-card" data-tool="proteina"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 3v7m3-7v7M5 7h7m-2 3v11M17 3v18m0-18c3 2 3 7 0 9"></path></svg><strong>Proteína diária</strong><span>Referência por objetivo</span></button>
+</div>
+<p class="tool-disclaimer">As ferramentas oferecem estimativas educativas e não substituem avaliação profissional.</p>
+</section>
+
+<section class="platform-section platform-specialists" id="especialistas" aria-labelledby="specialists-title">
+<header class="platform-section-head">
+<div><span>FALA BEM</span><h2 id="specialists-title">Conhecimento de quem vive o esporte</h2></div>
+<p>Opinião, ciência e experiência traduzidas para decisões mais simples.</p>
+</header>
+<div class="specialist-track">
+<article class="specialist-card"><img src="img/valter-logo-oficial.png" alt="Valtinho"><div><h3>Valtinho</h3><p>Futebol e opinião</p><small>Análise do jogo e da vida real</small><button type="button" data-platform-target="ideias">Ver conteúdos</button></div></article>
+<article class="specialist-card"><span class="specialist-avatar">BE</span><div><h3>Be Saúde</h3><p>Saúde esportiva</p><small>Prevenção, rotina e bem-estar</small><button type="button" data-platform-target="ferramentas">Ver ferramentas</button></div></article>
+<article class="specialist-card"><span class="specialist-avatar">BE</span><div><h3>Be Performance</h3><p>Treinamento</p><small>Preparação, dados e evolução</small><button type="button" data-platform-target="trilhas">Ver trilhas</button></div></article>
+<article class="specialist-card"><span class="specialist-avatar">+</span><div><h3>Novas vozes</h3><p>Profissionais convidados</p><small>Nutrição, psicologia e fisioterapia</small><a href="/contato">Quero participar</a></div></article>
+</div>
+</section>
+
+<section class="platform-section platform-stories" id="historias" aria-labelledby="stories-title">
+<header class="platform-section-head">
+<div><span>PESSOAS REAIS</span><h2 id="stories-title">Histórias que inspiram</h2></div>
+<p>Experiências que lembram por que vale a pena começar e continuar.</p>
+</header>
+<div class="story-grid">
+<article class="story-card"><img loading="lazy" src="img/fala-bem-hero-pessoas.png" alt="Pessoas correndo juntas"><div><span>COMEÇAR</span><h3>Quando o primeiro passo vira parte da vida</h3><p>Constância nasce de escolhas possíveis.</p></div></article>
+<article class="story-card"><img loading="lazy" src="img/destaque-final-espanha-argentina.png" alt="Jogadores antes de uma grande partida"><div><span>PERFORMANCE</span><h3>O equilíbrio por trás dos grandes momentos</h3><p>Preparação física, mente e leitura do jogo.</p></div></article>
+<article class="story-card"><img loading="lazy" src="img/app-nutricao-card.png" alt="Conteúdo sobre nutrição esportiva"><div><span>PERMANECER</span><h3>Saúde e performance caminham juntas</h3><p>Evoluir sem perder o cuidado com o corpo.</p></div></article>
+</div>
+</section>
+
+<div class="platform-duo">
+<section class="platform-section platform-modalities" id="modalidades" aria-labelledby="modalities-title">
+<header class="platform-section-head"><div><span>ENCONTRE SUA PRÁTICA</span><h2 id="modalities-title">Modalidades</h2></div></header>
+<div class="modality-grid">
+<button type="button" data-modality="futebol"><span>⚽</span>Futebol</button><button type="button" data-modality="corrida"><span>◇</span>Corrida</button><button type="button" data-modality="basquete"><span>◉</span>Basquete</button><button type="button" data-modality="bike"><span>◎</span>Bike</button><button type="button" data-modality="natacao"><span>≈</span>Natação</button><button type="button" data-modality="musculacao"><span>⌁</span>Musculação</button>
+</div>
+</section>
+
+<section class="platform-section platform-discoveries" id="ideias" aria-labelledby="discoveries-title">
+<header class="platform-section-head"><div><span>CIÊNCIA E CONHECIMENTO</span><h2 id="discoveries-title">Descobertas</h2></div></header>
+<div class="discovery-list">
+<button type="button" data-discovery-filter="evoluir"><span>Análise</span><strong>O futebol brasileiro precisa mudar</strong><small>Organização, transição e leitura coletiva.</small></button>
+<button type="button" data-discovery-filter="saude"><span>Ciência</span><strong>Saúde e performance no esporte moderno</strong><small>Dados, prevenção e equilíbrio emocional.</small></button>
+<button type="button" data-discovery-filter="futebol"><span>Tática</span><strong>Pressão alta e leitura de jogo</strong><small>Como o futebol atual é decidido sem a bola.</small></button>
+</div>
+</section>
+</div>
+
+<div class="platform-engagement" id="participe-agora">
+<section class="platform-question" aria-labelledby="question-title">
+<span class="platform-round-icon">?</span><div><small>PERGUNTE AO BE</small><h2 id="question-title">Faça sua pergunta.</h2><p>Uma dúvida pode iniciar a próxima conversa.</p></div>
+<form id="platform-question-form"><label class="sr-only" for="platform-question-input">Escreva sua pergunta</label><input id="platform-question-input" maxlength="240" placeholder="Ex.: Posso começar depois dos 40?"><button type="submit">Enviar pergunta</button></form>
+</section>
+<section class="platform-community" aria-labelledby="platform-community-title">
+<span class="platform-round-icon">+</span><div><small>COMUNIDADE</small><h2 id="platform-community-title">Participe do movimento.</h2><p>Compartilhe o que aproxima pessoas do esporte.</p></div>
+<div class="community-shortcuts"><button type="button" data-community-topic="uma experiência esportiva">Compartilhar história</button><button type="button" data-community-topic="uma sugestão de pauta">Sugerir tema</button><button type="button" data-community-topic="um profissional">Indicar profissional</button></div>
+</section>
+</div>
+
+<section class="platform-newsletter" aria-labelledby="newsletter-title">
+<div><span>CONHECIMENTO SEM EXCESSO</span><h2 id="newsletter-title">Receba uma dose semanal de conhecimento esportivo.</h2><p>Conteúdos selecionados, dicas práticas e novas conversas.</p></div>
+<form id="platform-newsletter-form"><label class="sr-only" for="newsletter-name">Nome</label><input id="newsletter-name" placeholder="Seu nome" required><label class="sr-only" for="newsletter-email">Email</label><input id="newsletter-email" type="email" placeholder="Seu e-mail" required><button type="submit">Quero receber</button></form>
+<p class="platform-form-feedback" id="newsletter-feedback" aria-live="polite"></p>
 </section>
 
 <section class="fala-video" aria-labelledby="fala-video-title">
@@ -469,6 +627,18 @@ Seu navegador não consegue reproduzir este vídeo.
 
 </div>
 </div>
+
+<dialog class="tool-dialog" id="tool-dialog" aria-labelledby="tool-dialog-title">
+<div class="tool-dialog-head"><div><span>FERRAMENTA BEMESPORTIVO</span><h2 id="tool-dialog-title">Calculadora</h2></div><button type="button" id="tool-dialog-close" aria-label="Fechar ferramenta">×</button></div>
+<p id="tool-dialog-description"></p>
+<form id="tool-form"></form>
+<div class="tool-result" id="tool-result" aria-live="polite" hidden></div>
+</dialog>
+
+<dialog class="tool-dialog discovery-dialog" id="discovery-dialog" aria-labelledby="discovery-dialog-title">
+<div class="tool-dialog-head"><div><span>DESCOBERTA FALA BEM</span><h2 id="discovery-dialog-title">Conteúdo</h2></div><button type="button" id="discovery-dialog-close" aria-label="Fechar conteúdo">×</button></div>
+<div class="discovery-dialog-content" id="discovery-dialog-content"></div>
+</dialog>
 
 <footer class="site-footer">
 <div class="site-footer-inner">

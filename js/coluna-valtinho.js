@@ -14,12 +14,22 @@ const posts=document.querySelectorAll('.post-item');
 const articlePosts=document.querySelectorAll('.article-grid .post-item');
 const filterButtons=document.querySelectorAll('button.filter-btn');
 const communityChannels=document.querySelectorAll('.community-channel');
-const journeyButtons=document.querySelectorAll('.journey-card[data-journey-filter]');
 const search=document.getElementById('searchInput');
 const contentResults=document.getElementById('content-results');
 const journeyGuidance=document.getElementById('journey-guidance');
 const journeyContents=document.querySelectorAll('[data-journey-content]');
+const journeyAssistant=document.getElementById('journey-assistant');
+const journeyStages=document.querySelectorAll('[data-journey-step]');
+const journeyIndicators=document.querySelectorAll('[data-step-indicator]');
+const journeyOptions=document.querySelectorAll('.journey-option[data-journey-field]');
+const journeyBack=document.getElementById('journey-back');
+const journeyNext=document.getElementById('journey-next');
+const journeyStatus=document.getElementById('journey-status');
+const journeySeeContent=document.getElementById('journey-see-content');
+const journeyRestart=document.getElementById('journey-restart');
 let activeFilter='';
+let journeyStep=1;
+const journeyState={objective:'',age:'',availability:''};
 
 function updateJourneyGuidance(tag){
 const hasGuidance=['comecar','evoluir','permanecer'].includes(tag);
@@ -91,9 +101,154 @@ communityChannels.forEach(channel=>{
 channel.addEventListener('click',()=>filterPosts(channel.dataset.filter||''));
 });
 
-journeyButtons.forEach(button=>{
-button.addEventListener('click',()=>filterPosts(button.dataset.journeyFilter||''));
+const journeyRecommendations={
+comecar:{
+filter:'comecar',
+title:'Comece leve, com confiança e curiosidade.',
+summary:'Seu melhor caminho agora é experimentar uma prática simples, sem pressão por desempenho. O objetivo inicial é criar familiaridade e vontade de repetir.',
+start:'Escolha uma atividade acessível e marque o primeiro dia.',
+reminder:'Começar pequeno também é começar.'
+},
+saude:{
+filter:'permanecer',
+title:'Transforme movimento em parte da sua semana.',
+summary:'Uma rotina sustentável pode melhorar disposição e bem-estar. Priorize regularidade, prazer e uma intensidade que permita continuar.',
+start:'Escolha horários possíveis e uma prática que você goste.',
+reminder:'Regularidade vale mais do que excesso.'
+},
+emagrecer:{
+filter:'permanecer',
+title:'Construa hábitos que possam acompanhar você.',
+summary:'Movimento regular, alimentação equilibrada e metas realistas formam um caminho mais sustentável do que mudanças intensas e passageiras.',
+start:'Escolha uma atividade prazerosa e organize uma semana possível.',
+reminder:'Resultados duradouros começam com hábitos que você consegue manter.'
+},
+performance:{
+filter:'evoluir',
+title:'Evolua com método, recuperação e medida.',
+summary:'Seu caminho pede um objetivo claro e acompanhamento do progresso. Treino, descanso e alimentação precisam trabalhar juntos.',
+start:'Defina uma meta mensurável para as próximas quatro semanas.',
+reminder:'Aumente apenas uma variável de cada vez.'
+},
+modalidade:{
+filter:'comecar',
+title:'Descubra pelo movimento, não apenas pela teoria.',
+summary:'Experimente modalidades diferentes até encontrar uma combinação de ambiente, desafio e convivência que faça sentido para você.',
+start:'Selecione duas modalidades e faça uma aula experimental.',
+reminder:'O esporte certo é aquele que convida você a voltar.'
+},
+recuperacao:{
+filter:'permanecer',
+title:'Volte com calma e construa confiança novamente.',
+summary:'Retomar é uma nova etapa. Reduza expectativas no início, observe as respostas do corpo e procure orientação profissional quando necessário.',
+start:'Crie uma versão mais leve da prática que deseja retomar.',
+reminder:'Dor persistente é sinal para buscar avaliação profissional.'
+}
+};
+
+const journeyAgeLabels={
+'ate-17':'Até 17 anos',
+'18-29':'18 a 29 anos',
+'30-44':'30 a 44 anos',
+'45-59':'45 a 59 anos',
+'60-mais':'60 anos ou mais'
+};
+
+const journeyAvailability={
+'15':{label:'Até 15 min',rhythm:'Blocos de 10 a 15 minutos, de 2 a 3 vezes por semana.'},
+'30':{label:'Cerca de 30 min',rhythm:'Sessões de 20 a 30 minutos, de 3 a 4 vezes por semana.'},
+'45':{label:'45 min ou mais',rhythm:'Sessões completas com dias de recuperação entre os estímulos.'}
+};
+
+function getJourneyField(step){
+return step===1?'objective':step===2?'age':step===3?'availability':'';
+}
+
+function renderJourneyResult(){
+const recommendation=journeyRecommendations[journeyState.objective];
+const availability=journeyAvailability[journeyState.availability];
+if(!recommendation||!availability) return;
+document.getElementById('journey-result-title').textContent=recommendation.title;
+document.getElementById('journey-result-summary').textContent=recommendation.summary;
+document.getElementById('journey-result-start').textContent=recommendation.start;
+document.getElementById('journey-result-rhythm').textContent=availability.rhythm;
+let reminder=recommendation.reminder;
+if(journeyState.age==='ate-17') reminder='Conte com a orientação de um responsável e de profissionais preparados.';
+if(journeyState.age==='60-mais'&&journeyState.objective!=='performance') reminder='Respeite seu histórico e avance de forma gradual.';
+document.getElementById('journey-result-reminder').textContent=reminder;
+document.getElementById('journey-result-profile').textContent=`${journeyAgeLabels[journeyState.age]} · ${availability.label}`;
+journeySeeContent.dataset.resultFilter=recommendation.filter;
+}
+
+function renderJourneyStep(step,focusHeading=true){
+journeyStep=Math.max(1,Math.min(4,step));
+if(journeyStep===4) renderJourneyResult();
+journeyStages.forEach(stage=>{
+stage.hidden=Number(stage.dataset.journeyStep)!==journeyStep;
 });
+journeyIndicators.forEach(indicator=>{
+const indicatorStep=Number(indicator.dataset.stepIndicator);
+indicator.classList.toggle('active',indicatorStep===journeyStep);
+indicator.classList.toggle('complete',indicatorStep<journeyStep);
+if(indicatorStep===journeyStep) indicator.setAttribute('aria-current','step');
+else indicator.removeAttribute('aria-current');
+});
+const field=getJourneyField(journeyStep);
+journeyBack.hidden=journeyStep===1;
+journeyNext.hidden=journeyStep===4;
+journeyNext.disabled=field ? !journeyState[field] : true;
+journeyNext.textContent=journeyStep===1?'Começar agora':'Continuar';
+journeyStatus.textContent=journeyStep===4?'Trajetória concluída':`Etapa ${journeyStep} de 4`;
+if(focusHeading){
+const heading=document.querySelector(`[data-journey-step="${journeyStep}"] h3`);
+if(heading){
+heading.setAttribute('tabindex','-1');
+heading.focus({preventScroll:true});
+}
+}
+}
+
+journeyOptions.forEach(option=>{
+option.addEventListener('click',()=>{
+const field=option.dataset.journeyField;
+journeyState[field]=option.dataset.journeyValue;
+document.querySelectorAll(`[data-journey-field="${field}"]`).forEach(candidate=>{
+const selected=candidate===option;
+candidate.classList.toggle('selected',selected);
+candidate.setAttribute('aria-pressed',String(selected));
+});
+journeyNext.disabled=false;
+});
+});
+
+if(journeyNext){
+journeyNext.addEventListener('click',()=>{
+const field=getJourneyField(journeyStep);
+if(field&&!journeyState[field]) return;
+renderJourneyStep(journeyStep+1);
+});
+}
+
+if(journeyBack){
+journeyBack.addEventListener('click',()=>renderJourneyStep(journeyStep-1));
+}
+
+if(journeySeeContent){
+journeySeeContent.addEventListener('click',()=>filterPosts(journeySeeContent.dataset.resultFilter||''));
+}
+
+if(journeyRestart){
+journeyRestart.addEventListener('click',()=>{
+Object.keys(journeyState).forEach(key=>{journeyState[key]='';});
+journeyOptions.forEach(option=>{
+option.classList.remove('selected');
+option.setAttribute('aria-pressed','false');
+});
+renderJourneyStep(1);
+});
+}
+
+if(journeyAssistant) renderJourneyStep(1,false);
 
 const pollOptions=document.querySelectorAll('.poll-option');
 const pollFeedback=document.getElementById('poll-feedback');
@@ -247,6 +402,231 @@ window.setTimeout(()=>linkedPost.scrollIntoView({behavior:'smooth',block:'start'
 // Ignora fragmentos que não correspondam a um seletor válido.
 }
 }
+
+const platformTargets=document.querySelectorAll('[data-platform-target]');
+platformTargets.forEach(button=>{
+button.addEventListener('click',()=>{
+const destination=document.getElementById(button.dataset.platformTarget);
+if(destination) destination.scrollIntoView({behavior:'smooth',block:'start'});
+});
+});
+
+const platformSearch=document.getElementById('platform-search');
+const platformSearchInput=document.getElementById('platform-search-input');
+const platformSuggestions=document.getElementById('platform-search-suggestions');
+const platformSearchIndex=[
+{terms:'começar inicio começar esporte objetivo trajetória',label:'Descobrir meu caminho',target:'minha-jornada'},
+{terms:'evoluir treino trilha corrida futebol performance',label:'Explorar trilhas',target:'trilhas'},
+{terms:'imc pace calorias água hidratacao hidratação cardíaca proteina proteína calculadora',label:'Abrir ferramentas',target:'ferramentas'},
+{terms:'especialista profissional saúde nutricao nutrição psicologia fisioterapia',label:'Encontrar especialistas',target:'especialistas'},
+{terms:'historia história inspiração pessoas',label:'Ver histórias',target:'historias'},
+{terms:'modalidade futebol corrida basquete bike natação musculação',label:'Explorar modalidades',target:'modalidades'},
+{terms:'ciência tatica tática análise descoberta conhecimento',label:'Ler descobertas',target:'ideias'},
+{terms:'pergunta comunidade participar dúvida duvida',label:'Participar da comunidade',target:'participe-agora'}
+];
+
+function normalizePlatformTerm(value){
+return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+}
+
+function showPlatformSuggestions(value){
+if(!platformSuggestions) return [];
+const term=normalizePlatformTerm(value);
+const matches=term ? platformSearchIndex.filter(item=>normalizePlatformTerm(item.terms).includes(term)||normalizePlatformTerm(item.label).includes(term)).slice(0,4) : [];
+platformSuggestions.replaceChildren(...matches.map(item=>{
+const button=document.createElement('button');
+button.type='button';
+button.textContent=item.label;
+button.addEventListener('click',()=>{
+document.getElementById(item.target)?.scrollIntoView({behavior:'smooth',block:'start'});
+platformSuggestions.replaceChildren();
+});
+return button;
+}));
+return matches;
+}
+
+if(platformSearchInput){
+platformSearchInput.addEventListener('input',()=>showPlatformSuggestions(platformSearchInput.value));
+}
+
+if(platformSearch){
+platformSearch.addEventListener('submit',event=>{
+event.preventDefault();
+const matches=showPlatformSuggestions(platformSearchInput.value);
+const destination=document.getElementById(matches[0]?.target||'minha-jornada');
+if(destination) destination.scrollIntoView({behavior:'smooth',block:'start'});
+});
+}
+
+const toolDialog=document.getElementById('tool-dialog');
+const toolDialogTitle=document.getElementById('tool-dialog-title');
+const toolDialogDescription=document.getElementById('tool-dialog-description');
+const toolForm=document.getElementById('tool-form');
+const toolResult=document.getElementById('tool-result');
+const toolDefinitions={
+imc:{
+title:'Calculadora de IMC',
+description:'Uma referência simples da relação entre peso e altura.',
+fields:[['peso','Peso (kg)','number','70','0.1'],['altura','Altura (cm)','number','170','0.1']],
+calculate:data=>{
+const height=Number(data.altura)/100;
+const value=Number(data.peso)/(height*height);
+const range=value<18.5?'abaixo da faixa de referência':value<25?'na faixa de referência':value<30?'acima da faixa de referência':'em uma faixa elevada';
+return [`IMC ${value.toFixed(1)}`,`O resultado está ${range}. Use este número apenas como ponto de partida para uma avaliação individual.`];
+}
+},
+pace:{
+title:'Calculadora de pace',
+description:'Descubra seu ritmo médio por quilômetro.',
+fields:[['distancia','Distância (km)','number','5','0.01'],['minutos','Tempo — minutos','number','30','1'],['segundos','Segundos adicionais','number','0','1']],
+calculate:data=>{
+const pace=(Number(data.minutos)*60+Number(data.segundos))/Number(data.distancia);
+const minutes=Math.floor(pace/60),seconds=Math.round(pace%60);
+return [`${minutes}:${String(seconds).padStart(2,'0')} min/km`,`Este é o ritmo médio estimado para a distância informada.`];
+}
+},
+calorias:{
+title:'Estimativa de gasto calórico',
+description:'Calcule uma referência aproximada para uma sessão de atividade.',
+fields:[['peso','Peso (kg)','number','70','0.1'],['duracao','Duração (min)','number','30','1'],['intensidade','Intensidade','select','Moderada','']],
+options:{intensidade:[['4','Leve'],['7','Moderada'],['10','Intensa']]},
+calculate:data=>{
+const kcal=Number(data.intensidade)*3.5*Number(data.peso)/200*Number(data.duracao);
+return [`Aproximadamente ${Math.round(kcal)} kcal`,`O gasto real varia conforme atividade, condicionamento, composição corporal e intensidade.`];
+}
+},
+agua:{
+title:'Meta diária de água',
+description:'Uma referência inicial de hidratação baseada no peso corporal.',
+fields:[['peso','Peso (kg)','number','70','0.1']],
+calculate:data=>{
+const liters=Number(data.peso)*35/1000;
+return [`Cerca de ${liters.toFixed(1)} litros/dia`,`Calor, duração do treino e suor podem aumentar essa necessidade.`];
+}
+},
+cardiaca:{
+title:'Zona cardíaca de treino',
+description:'Estime uma faixa moderada usando a frequência cardíaca máxima prevista pela idade.',
+fields:[['idade','Idade','number','35','1']],
+calculate:data=>{
+const maximum=220-Number(data.idade),low=Math.round(maximum*.6),high=Math.round(maximum*.8);
+return [`${low} a ${high} bpm`,`Faixa aproximada entre 60% e 80% da frequência máxima estimada (${maximum} bpm).`];
+}
+},
+proteina:{
+title:'Referência diária de proteína',
+description:'Estime uma faixa conforme seu peso e objetivo principal.',
+fields:[['peso','Peso (kg)','number','70','0.1'],['objetivo','Objetivo','select','Saúde','']],
+options:{objetivo:[['1.2','Saúde e rotina ativa'],['1.6','Evolução e força'],['2','Performance intensa']]},
+calculate:data=>{
+const grams=Math.round(Number(data.peso)*Number(data.objetivo));
+return [`Cerca de ${grams} g/dia`,`Distribua a referência ao longo do dia e procure orientação nutricional para individualizar sua alimentação.`];
+}
+}
+};
+
+function openTool(toolKey){
+const tool=toolDefinitions[toolKey];
+if(!tool||!toolDialog||!toolForm) return;
+toolDialogTitle.textContent=tool.title;
+toolDialogDescription.textContent=tool.description;
+toolResult.hidden=true;
+toolResult.replaceChildren();
+toolForm.replaceChildren(...tool.fields.map(([name,label,type,placeholder,step])=>{
+const wrapper=document.createElement('label');
+wrapper.append(document.createTextNode(label));
+let field;
+if(type==='select'){
+field=document.createElement('select');
+(tool.options[name]||[]).forEach(([value,text])=>field.add(new Option(text,value)));
+}else{
+field=document.createElement('input');
+field.type=type;
+field.placeholder=placeholder;
+field.step=step;
+field.min=step==='1'?'0':step==='0.01'?'0.01':'0.1';
+}
+field.name=name;
+field.required=true;
+wrapper.append(field);
+return wrapper;
+}),(()=>{
+const submit=document.createElement('button');
+submit.type='submit';
+submit.textContent='Calcular';
+return submit;
+})());
+toolForm.onsubmit=event=>{
+event.preventDefault();
+const data=Object.fromEntries(new FormData(toolForm));
+const values=tool.calculate(data);
+if(values.some(value=>String(value).includes('NaN')||String(value).includes('Infinity'))) return;
+const strong=document.createElement('strong');
+strong.textContent=values[0];
+const detail=document.createElement('span');
+detail.textContent=values[1];
+toolResult.replaceChildren(strong,detail);
+toolResult.hidden=false;
+};
+toolDialog.showModal();
+}
+
+document.querySelectorAll('[data-tool]').forEach(button=>button.addEventListener('click',()=>openTool(button.dataset.tool)));
+document.getElementById('tool-dialog-close')?.addEventListener('click',()=>toolDialog.close());
+toolDialog?.addEventListener('click',event=>{if(event.target===toolDialog) toolDialog.close();});
+
+document.querySelectorAll('[data-modality]').forEach(button=>{
+button.addEventListener('click',()=>{
+const modalityOption=document.querySelector('[data-journey-field="objective"][data-journey-value="modalidade"]');
+if(modalityOption) modalityOption.click();
+document.getElementById('minha-jornada')?.scrollIntoView({behavior:'smooth',block:'start'});
+});
+});
+
+const discoveryDialog=document.getElementById('discovery-dialog');
+const discoveryDialogTitle=document.getElementById('discovery-dialog-title');
+const discoveryDialogContent=document.getElementById('discovery-dialog-content');
+document.querySelectorAll('[data-discovery-filter]').forEach((button,index)=>{
+button.addEventListener('click',()=>{
+const sourcePosts=document.querySelectorAll('.article-grid .post');
+const source=Array.from(sourcePosts).find(post=>(post.dataset.tags||'').includes(button.dataset.discoveryFilter))||sourcePosts[index];
+if(!source||!discoveryDialog) return;
+discoveryDialogTitle.textContent=source.querySelector('h3')?.textContent||'Conteúdo Fala Bem';
+const paragraphs=source.querySelectorAll('.full-text p');
+discoveryDialogContent.replaceChildren(...Array.from(paragraphs).map(paragraph=>{
+const copy=document.createElement('p');
+copy.textContent=paragraph.textContent;
+return copy;
+}));
+discoveryDialog.showModal();
+});
+});
+document.getElementById('discovery-dialog-close')?.addEventListener('click',()=>discoveryDialog.close());
+discoveryDialog?.addEventListener('click',event=>{if(event.target===discoveryDialog) discoveryDialog.close();});
+
+function openWhatsAppMessage(message){
+window.open(`https://wa.me/5511986366965?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');
+}
+
+document.getElementById('platform-question-form')?.addEventListener('submit',event=>{
+event.preventDefault();
+const question=document.getElementById('platform-question-input').value.trim();
+if(question) openWhatsAppMessage(`Olá, BeMEsportivo! Minha pergunta para o Fala Bem é:\n\n${question}`);
+});
+
+document.querySelectorAll('[data-community-topic]').forEach(button=>button.addEventListener('click',()=>{
+openWhatsAppMessage(`Olá, BeMEsportivo! Quero conversar sobre ${button.dataset.communityTopic} no Fala Bem.`);
+}));
+
+document.getElementById('platform-newsletter-form')?.addEventListener('submit',event=>{
+event.preventDefault();
+const name=document.getElementById('newsletter-name').value.trim();
+const email=document.getElementById('newsletter-email').value.trim();
+try{localStorage.setItem('bemNewsletterInterest',JSON.stringify({name,email,date:new Date().toISOString()}));}catch(error){}
+document.getElementById('newsletter-feedback').textContent=`Obrigado, ${name}! Seu interesse foi registrado.`;
+event.currentTarget.reset();
+});
 
 const topBtn=document.getElementById('backToTop');
 window.addEventListener('scroll',()=>{

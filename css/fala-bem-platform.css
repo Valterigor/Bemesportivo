@@ -1,0 +1,1012 @@
+:root{
+--fb-orange:#ff6a00;
+--fb-ink:#151515;
+--fb-muted:#696969;
+--fb-soft:#f7f7f5;
+--fb-line:#e9e9e6;
+--fb-radius:20px;
+--fb-shadow:0 12px 36px rgba(17,17,17,.06);
+}
+
+.sr-only{
+position:absolute!important;
+width:1px!important;
+height:1px!important;
+padding:0!important;
+margin:-1px!important;
+overflow:hidden!important;
+clip:rect(0,0,0,0)!important;
+white-space:nowrap!important;
+border:0!important;
+}
+
+.fala-bem-page{
+background:#fff!important;
+}
+
+.fala-bem-page .belief-block,
+.fala-bem-page .fala-video,
+.fala-bem-page .community-hub,
+.fala-bem-page .layout{
+display:none!important;
+}
+
+.fala-bem-page .container.page{
+width:min(calc(100% - 32px),1220px)!important;
+margin-top:18px;
+padding-top:0!important;
+padding-bottom:28px!important;
+}
+
+body.fala-bem-page .hero.platform-hero:not(.sports-dashboard-hero):not(.app-hero){
+display:grid!important;
+grid-template-columns:minmax(0,.9fr) minmax(420px,1.1fr);
+width:min(calc(100% - 32px),1220px)!important;
+min-height:500px;
+margin:28px auto 0!important;
+padding:0!important;
+overflow:hidden!important;
+border:1px solid var(--fb-line)!important;
+border-radius:24px!important;
+background:#fff!important;
+color:var(--fb-ink)!important;
+box-shadow:var(--fb-shadow)!important;
+}
+
+body.fala-bem-page .hero.platform-hero::before,
+body.fala-bem-page .hero.platform-hero::after{
+display:none!important;
+}
+
+.platform-hero-copy{
+position:relative;
+z-index:2;
+display:flex;
+flex-direction:column;
+justify-content:center;
+min-width:0;
+padding:48px clamp(32px,4vw,58px);
+}
+
+.platform-eyebrow,
+.platform-section-head span,
+.platform-newsletter>div>span{
+display:inline-block;
+margin-bottom:8px;
+color:var(--fb-orange);
+font-size:11px;
+font-weight:900;
+letter-spacing:.08em;
+}
+
+body.fala-bem-page .hero.platform-hero:not(.shell):not(.sports-dashboard-hero):not(.app-hero) h1{
+max-width:570px!important;
+margin:0 0 16px!important;
+color:var(--fb-ink)!important;
+font-size:clamp(46px,5.3vw,76px)!important;
+font-weight:900;
+line-height:.92!important;
+letter-spacing:-.055em!important;
+}
+
+.platform-hero h1 em{
+display:inline;
+color:var(--fb-orange);
+font-style:normal;
+}
+
+body.fala-bem-page .hero.platform-hero:not(.shell):not(.sports-dashboard-hero):not(.app-hero) .platform-hero-copy>p{
+max-width:500px!important;
+margin:0 0 22px!important;
+color:var(--fb-muted)!important;
+font-size:15px!important;
+line-height:1.55!important;
+}
+
+.platform-hero-media{
+position:relative;
+min-width:0;
+margin:0;
+overflow:hidden;
+background:#eee;
+}
+
+.platform-hero-media::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(90deg,rgba(255,255,255,.26),transparent 22%);
+pointer-events:none;
+}
+
+.platform-hero-media img{
+width:100%;
+height:100%;
+object-fit:cover;
+object-position:center;
+}
+
+.platform-search{
+display:grid;
+grid-template-columns:minmax(0,1fr) 46px;
+width:min(100%,500px);
+overflow:hidden;
+border:1px solid #dededb;
+border-radius:12px;
+background:#fff;
+box-shadow:0 8px 26px rgba(17,17,17,.07);
+}
+
+.platform-search input{
+min-width:0;
+height:48px;
+padding:0 15px;
+border:0;
+background:transparent;
+color:var(--fb-ink);
+font:inherit;
+font-size:13px;
+outline:0;
+}
+
+.platform-search button{
+display:grid;
+place-items:center;
+border:0;
+background:var(--fb-orange);
+color:#fff;
+cursor:pointer;
+}
+
+.platform-search button svg{
+width:20px;
+fill:none;
+stroke:currentColor;
+stroke-width:2;
+stroke-linecap:round;
+}
+
+.platform-search-suggestions{
+display:flex;
+flex-wrap:wrap;
+gap:6px;
+min-height:0;
+margin-top:8px;
+}
+
+.platform-search-suggestions:empty{
+display:none;
+}
+
+.platform-search-suggestions button{
+padding:6px 9px;
+border:1px solid var(--fb-line);
+border-radius:999px;
+background:#fff;
+color:#555;
+font:inherit;
+font-size:10px;
+cursor:pointer;
+}
+
+.platform-quick-actions{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:8px;
+margin-top:20px;
+}
+
+.platform-quick-actions button{
+display:flex;
+flex-direction:column;
+align-items:flex-start;
+gap:7px;
+min-width:0;
+padding:0;
+border:0;
+background:transparent;
+color:#333;
+font:inherit;
+font-size:10px;
+font-weight:800;
+line-height:1.3;
+text-align:left;
+cursor:pointer;
+}
+
+.platform-quick-actions svg{
+width:22px;
+height:22px;
+fill:none;
+stroke:var(--fb-orange);
+stroke-width:1.7;
+stroke-linecap:round;
+stroke-linejoin:round;
+transition:transform .2s ease;
+}
+
+.platform-quick-actions button:hover svg{
+transform:translateY(-2px);
+}
+
+.fala-bem-page .journey-paths,
+.platform-section,
+.platform-engagement,
+.platform-newsletter{
+margin:0 0 16px;
+padding:26px!important;
+border:1px solid var(--fb-line);
+border-radius:var(--fb-radius);
+background:#fff;
+box-shadow:0 8px 28px rgba(17,17,17,.04);
+}
+
+.fala-bem-page .journey-paths{
+scroll-margin-top:88px;
+}
+
+.platform-section-head{
+display:grid;
+grid-template-columns:minmax(0,1fr) minmax(240px,.72fr);
+gap:24px;
+align-items:end;
+margin-bottom:18px;
+}
+
+.platform-section-head-inline{
+grid-template-columns:minmax(0,.6fr) minmax(280px,1.4fr);
+}
+
+.platform-section-head h2,
+.platform-question h2,
+.platform-community h2,
+.platform-newsletter h2{
+margin:0;
+color:var(--fb-ink);
+font-size:clamp(25px,3vw,38px);
+line-height:1.02;
+letter-spacing:-.035em;
+}
+
+.platform-section-head p,
+.platform-question p,
+.platform-community p,
+.platform-newsletter p{
+margin:0;
+color:var(--fb-muted);
+font-size:12px;
+line-height:1.55;
+}
+
+.trail-grid{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:10px;
+}
+
+.trail-card{
+position:relative;
+display:flex;
+flex-direction:column;
+justify-content:flex-end;
+min-height:230px;
+padding:18px;
+overflow:hidden;
+border-radius:14px;
+background:linear-gradient(0deg,rgba(10,10,10,.9),rgba(10,10,10,.05) 72%),var(--trail-image) center/cover;
+color:#fff;
+isolation:isolate;
+}
+
+.trail-running{--trail-image:url("../img/fala-bem-hero-pessoas.png")}
+.trail-football{--trail-image:url("../img/destaque-final-espanha-argentina.png")}
+.trail-performance{--trail-image:url("../img/app-treino-card.png")}
+.trail-health{--trail-image:url("../img/app-nutricao-card.png")}
+
+.trail-card::before{
+content:"";
+position:absolute;
+inset:0;
+z-index:-1;
+background:linear-gradient(135deg,rgba(255,106,0,.15),transparent 45%);
+}
+
+.trail-card>span{
+color:#ffb077;
+font-size:9px;
+font-weight:900;
+letter-spacing:.08em;
+}
+
+.trail-card h3{
+margin:5px 0;
+color:#fff;
+font-size:18px;
+line-height:1.08;
+}
+
+.trail-card small{
+color:rgba(255,255,255,.75);
+font-size:10px;
+}
+
+.trail-progress{
+height:3px;
+margin:13px 0 12px;
+overflow:hidden;
+border-radius:999px;
+background:rgba(255,255,255,.25);
+}
+
+.trail-progress i{
+display:block;
+height:100%;
+border-radius:inherit;
+background:var(--fb-orange);
+}
+
+.trail-card button{
+align-self:flex-start;
+padding:0;
+border:0;
+background:transparent;
+color:#fff;
+font:inherit;
+font-size:10px;
+font-weight:900;
+cursor:pointer;
+}
+
+.tool-grid{
+display:grid;
+grid-template-columns:repeat(6,minmax(0,1fr));
+gap:8px;
+}
+
+.tool-card{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:7px;
+min-width:0;
+min-height:110px;
+padding:16px 8px;
+border:1px solid var(--fb-line);
+border-radius:12px;
+background:#fff;
+color:var(--fb-ink);
+font:inherit;
+text-align:center;
+cursor:pointer;
+transition:.2s ease;
+}
+
+.tool-card:hover,
+.tool-card:focus-visible{
+border-color:#ffc69e;
+box-shadow:0 10px 24px rgba(255,106,0,.09);
+outline:0;
+transform:translateY(-2px);
+}
+
+.tool-card svg{
+width:27px;
+height:27px;
+fill:none;
+stroke:var(--fb-orange);
+stroke-width:1.6;
+stroke-linecap:round;
+stroke-linejoin:round;
+}
+
+.tool-card strong{
+font-size:11px;
+line-height:1.25;
+}
+
+.tool-card span,
+.tool-disclaimer{
+color:#858585;
+font-size:9px;
+}
+
+.tool-disclaimer{
+margin:12px 0 0;
+}
+
+.specialist-track{
+display:grid;
+grid-template-columns:repeat(4,minmax(240px,1fr));
+gap:10px;
+overflow-x:auto;
+scrollbar-width:thin;
+}
+
+.specialist-card{
+display:grid;
+grid-template-columns:62px minmax(0,1fr);
+gap:13px;
+align-items:center;
+min-width:0;
+padding:15px;
+border:1px solid var(--fb-line);
+border-radius:14px;
+background:var(--fb-soft);
+}
+
+.specialist-card img,
+.specialist-avatar{
+display:grid;
+place-items:center;
+width:62px;
+height:62px;
+border:3px solid #fff;
+border-radius:50%;
+background:#111;
+color:var(--fb-orange);
+object-fit:cover;
+font-size:16px;
+font-weight:900;
+box-shadow:0 4px 14px rgba(17,17,17,.1);
+}
+
+.specialist-card h3{
+margin:0 0 2px;
+font-size:14px;
+}
+
+.specialist-card p{
+margin:0;
+color:#555;
+font-size:10px;
+font-weight:800;
+}
+
+.specialist-card small{
+display:block;
+margin:5px 0 9px;
+color:#888;
+font-size:9px;
+}
+
+.specialist-card button,
+.specialist-card a{
+padding:0;
+border:0;
+background:transparent;
+color:var(--fb-orange);
+font:inherit;
+font-size:9px;
+font-weight:900;
+cursor:pointer;
+}
+
+.story-grid{
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:10px;
+}
+
+.story-card{
+overflow:hidden;
+border:1px solid var(--fb-line);
+border-radius:14px;
+background:#fff;
+}
+
+.story-card img{
+width:100%;
+height:175px;
+object-fit:cover;
+}
+
+.story-card div{
+padding:14px;
+}
+
+.story-card span{
+color:var(--fb-orange);
+font-size:9px;
+font-weight:900;
+}
+
+.story-card h3{
+margin:5px 0;
+font-size:16px;
+line-height:1.15;
+}
+
+.story-card p{
+margin:0;
+color:#777;
+font-size:10px;
+}
+
+.platform-duo,
+.platform-engagement{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+.platform-duo>.platform-section{
+min-width:0;
+}
+
+.platform-section-head:has(+ .modality-grid),
+.platform-section-head:has(+ .discovery-list){
+grid-template-columns:1fr;
+}
+
+.modality-grid{
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:8px;
+}
+
+.modality-grid button{
+display:flex;
+align-items:center;
+gap:8px;
+min-width:0;
+padding:11px;
+border:1px solid var(--fb-line);
+border-radius:10px;
+background:#fff;
+color:#333;
+font:inherit;
+font-size:10px;
+font-weight:800;
+cursor:pointer;
+}
+
+.modality-grid span{
+display:grid;
+place-items:center;
+width:24px;
+height:24px;
+border-radius:50%;
+background:#fff3ea;
+color:var(--fb-orange);
+}
+
+.discovery-list{
+display:grid;
+gap:7px;
+}
+
+.discovery-list button{
+display:grid;
+grid-template-columns:62px minmax(0,1fr);
+gap:2px 10px;
+padding:10px;
+border:1px solid var(--fb-line);
+border-radius:10px;
+background:#fff;
+color:#222;
+font:inherit;
+text-align:left;
+cursor:pointer;
+}
+
+.discovery-list span{
+grid-row:1/3;
+align-self:center;
+color:var(--fb-orange);
+font-size:9px;
+font-weight:900;
+}
+
+.discovery-list strong{
+font-size:11px;
+}
+
+.discovery-list small{
+color:#888;
+font-size:9px;
+}
+
+.platform-engagement{
+padding:0!important;
+border:0;
+background:transparent;
+box-shadow:none;
+}
+
+.platform-question,
+.platform-community{
+display:grid;
+grid-template-columns:42px minmax(0,1fr);
+gap:14px;
+align-items:start;
+padding:24px!important;
+border:1px solid var(--fb-line);
+border-radius:var(--fb-radius);
+background:#fff;
+}
+
+.platform-round-icon{
+display:grid;
+place-items:center;
+width:42px;
+height:42px;
+border-radius:50%;
+background:var(--fb-orange);
+color:#fff;
+font-weight:900;
+}
+
+.platform-question small,
+.platform-community small{
+color:var(--fb-orange);
+font-size:9px;
+font-weight:900;
+}
+
+.platform-question h2,
+.platform-community h2{
+margin:4px 0 5px;
+font-size:24px;
+}
+
+.platform-question form{
+grid-column:1/-1;
+display:grid;
+grid-template-columns:minmax(0,1fr) auto;
+gap:8px;
+margin-top:4px;
+}
+
+.platform-question input,
+.platform-newsletter input{
+min-width:0;
+height:42px;
+padding:0 13px;
+border:1px solid #dededb;
+border-radius:9px;
+background:#fff;
+font:inherit;
+font-size:11px;
+outline:0;
+}
+
+.platform-question button,
+.platform-newsletter button{
+min-height:42px;
+padding:0 16px;
+border:0;
+border-radius:9px;
+background:var(--fb-orange);
+color:#fff;
+font:inherit;
+font-size:10px;
+font-weight:900;
+cursor:pointer;
+}
+
+.community-shortcuts{
+grid-column:1/-1;
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:7px;
+margin-top:4px;
+}
+
+.community-shortcuts button{
+min-height:42px;
+padding:7px;
+border:1px solid var(--fb-line);
+border-radius:9px;
+background:var(--fb-soft);
+color:#444;
+font:inherit;
+font-size:9px;
+font-weight:800;
+cursor:pointer;
+}
+
+.platform-newsletter{
+display:grid;
+grid-template-columns:minmax(0,1.1fr) minmax(430px,.9fr);
+gap:24px;
+align-items:center;
+background:var(--fb-soft);
+}
+
+.platform-newsletter h2{
+max-width:610px;
+font-size:25px;
+}
+
+.platform-newsletter form{
+display:grid;
+grid-template-columns:.7fr 1fr auto;
+gap:8px;
+}
+
+.platform-form-feedback{
+grid-column:1/-1;
+color:#39754a!important;
+font-size:10px!important;
+font-weight:800;
+}
+
+.tool-dialog{
+width:min(calc(100% - 28px),520px);
+padding:0;
+overflow:hidden;
+border:1px solid var(--fb-line);
+border-radius:18px;
+background:#fff;
+color:#111;
+box-shadow:0 30px 90px rgba(17,17,17,.24);
+}
+
+.tool-dialog::backdrop{
+background:rgba(17,17,17,.48);
+backdrop-filter:blur(4px);
+}
+
+.tool-dialog-head{
+display:flex;
+align-items:flex-start;
+justify-content:space-between;
+gap:20px;
+padding:22px 22px 12px;
+}
+
+.tool-dialog-head span{
+color:var(--fb-orange);
+font-size:9px;
+font-weight:900;
+}
+
+.tool-dialog-head h2{
+margin:4px 0 0;
+font-size:26px;
+}
+
+.tool-dialog-head button{
+display:grid;
+place-items:center;
+width:34px;
+height:34px;
+border:1px solid var(--fb-line);
+border-radius:50%;
+background:#fff;
+font-size:22px;
+cursor:pointer;
+}
+
+.tool-dialog>p{
+margin:0;
+padding:0 22px 16px;
+color:#6b6b6b;
+font-size:12px;
+line-height:1.5;
+}
+
+.tool-dialog form{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:12px;
+padding:0 22px 22px;
+}
+
+.tool-dialog label{
+display:grid;
+gap:6px;
+color:#444;
+font-size:10px;
+font-weight:800;
+}
+
+.tool-dialog input,
+.tool-dialog select{
+width:100%;
+height:44px;
+padding:0 12px;
+border:1px solid #dcdcdc;
+border-radius:9px;
+background:#fff;
+font:inherit;
+outline:0;
+}
+
+.tool-dialog form button{
+grid-column:1/-1;
+min-height:44px;
+border:0;
+border-radius:9px;
+background:var(--fb-orange);
+color:#fff;
+font:inherit;
+font-weight:900;
+cursor:pointer;
+}
+
+.tool-result{
+margin:0 22px 22px;
+padding:16px;
+border-radius:12px;
+background:#fff3ea;
+color:#6f3106;
+font-size:13px;
+line-height:1.5;
+}
+
+.tool-result strong{
+display:block;
+margin-bottom:4px;
+color:#111;
+font-size:22px;
+}
+
+.discovery-dialog-content{
+max-height:min(62vh,620px);
+padding:0 22px 24px;
+overflow-y:auto;
+color:#555;
+font-size:13px;
+line-height:1.7;
+}
+
+.discovery-dialog-content p{
+margin:0 0 13px;
+color:#555!important;
+}
+
+@media(max-width:980px){
+body.fala-bem-page .hero.platform-hero:not(.sports-dashboard-hero):not(.app-hero){
+grid-template-columns:1fr 1fr;
+min-height:440px;
+}
+
+.platform-hero-copy{
+padding:36px 28px;
+}
+
+.platform-quick-actions{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.trail-grid{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.tool-grid{
+grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.specialist-track{
+grid-template-columns:repeat(4,260px);
+}
+
+.platform-newsletter{
+grid-template-columns:1fr;
+}
+}
+
+@media(max-width:760px){
+body.fala-bem-page .menu .menu-btn#menu-toggle{
+display:flex!important;
+margin-left:auto;
+}
+
+.fala-bem-page .container.page,
+body.fala-bem-page .hero.platform-hero:not(.sports-dashboard-hero):not(.app-hero){
+width:calc(100% - 24px)!important;
+}
+
+body.fala-bem-page .hero.platform-hero:not(.sports-dashboard-hero):not(.app-hero){
+grid-template-columns:1fr;
+margin-top:14px!important;
+border-radius:20px!important;
+}
+
+.platform-hero-copy{
+padding:34px 22px 28px;
+}
+
+body.fala-bem-page .hero.platform-hero:not(.shell):not(.sports-dashboard-hero):not(.app-hero) h1{
+font-size:clamp(43px,13vw,62px)!important;
+}
+
+.platform-hero-media{
+min-height:320px;
+}
+
+.platform-section-head,
+.platform-section-head-inline,
+.platform-duo,
+.platform-engagement{
+grid-template-columns:1fr;
+}
+
+.platform-section-head{
+gap:8px;
+}
+
+.story-grid{
+grid-template-columns:1fr;
+}
+
+.story-card{
+display:grid;
+grid-template-columns:132px minmax(0,1fr);
+}
+
+.story-card img{
+height:100%;
+min-height:130px;
+}
+
+.platform-question form,
+.platform-newsletter form{
+grid-template-columns:1fr;
+}
+
+.community-shortcuts{
+grid-template-columns:1fr;
+}
+}
+
+@media(max-width:520px){
+.fala-bem-page .journey-paths,
+.platform-section,
+.platform-newsletter{
+padding:20px!important;
+border-radius:16px;
+}
+
+.platform-engagement{
+padding:0!important;
+}
+
+.platform-question,
+.platform-community{
+padding:20px!important;
+border-radius:16px;
+}
+
+.platform-quick-actions{
+gap:14px;
+}
+
+.trail-grid{
+display:flex;
+gap:10px;
+margin-right:-20px;
+padding-right:20px;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
+}
+
+.trail-card{
+flex:0 0 78%;
+scroll-snap-align:start;
+}
+
+.tool-grid{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.modality-grid{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.tool-dialog form{
+grid-template-columns:1fr;
+}
+
+.tool-dialog form button{
+grid-column:auto;
+}
+}
+
+@media(prefers-reduced-motion:reduce){
+*,*::before,*::after{
+scroll-behavior:auto!important;
+transition:none!important;
+}
+}
