@@ -178,6 +178,19 @@ if(journeyState.age==='60-mais'&&journeyState.objective!=='performance') reminde
 document.getElementById('journey-result-reminder').textContent=reminder;
 document.getElementById('journey-result-profile').textContent=`${journeyAgeLabels[journeyState.age]} · ${availability.label}`;
 journeySeeContent.dataset.resultFilter=recommendation.filter;
+window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated',{detail:{
+objective:journeyState.objective,
+age:journeyState.age,
+ageLabel:journeyAgeLabels[journeyState.age],
+availability:journeyState.availability,
+availabilityLabel:availability.label,
+title:recommendation.title,
+summary:recommendation.summary,
+nextAction:recommendation.start,
+rhythm:availability.rhythm,
+reminder,
+filter:recommendation.filter
+}}));
 }
 
 function renderJourneyStep(step,focusHeading=true){
@@ -294,7 +307,7 @@ event.preventDefault();
 const topic=document.getElementById('community-topic').value;
 const message=document.getElementById('community-message').value.trim();
 if(!topic||!message) return;
-const whatsappText=`Olá, BeMEsportivo! Quero compartilhar ${topic} no Fala Bem:\n\n${message}`;
+const whatsappText=`Olá, BeMEsportivo! Quero compartilhar ${topic} no Meu Caminho Be:\n\n${message}`;
 window.open(`https://wa.me/5511986366965?text=${encodeURIComponent(whatsappText)}`,'_blank','noopener,noreferrer');
 });
 }
@@ -370,7 +383,7 @@ const title=post.querySelector('h3')?.textContent.trim()||document.title;
 const url=`${window.location.href.split('#')[0]}#${post.id||'ideias'}`;
 if(navigator.share){
 try{
-await navigator.share({title,text:'Veja esta conversa no Fala Bem:',url});
+await navigator.share({title,text:'Veja esta conversa no Meu Caminho Be:',url});
 }catch(error){
 return;
 }
@@ -406,58 +419,11 @@ window.setTimeout(()=>linkedPost.scrollIntoView({behavior:'smooth',block:'start'
 const platformTargets=document.querySelectorAll('[data-platform-target]');
 platformTargets.forEach(button=>{
 button.addEventListener('click',()=>{
+if(window.falaBemOpenTarget?.(button.dataset.platformTarget)) return;
 const destination=document.getElementById(button.dataset.platformTarget);
 if(destination) destination.scrollIntoView({behavior:'smooth',block:'start'});
 });
 });
-
-const platformSearch=document.getElementById('platform-search');
-const platformSearchInput=document.getElementById('platform-search-input');
-const platformSuggestions=document.getElementById('platform-search-suggestions');
-const platformSearchIndex=[
-{terms:'começar inicio começar esporte objetivo trajetória',label:'Descobrir meu caminho',target:'minha-jornada'},
-{terms:'evoluir treino trilha corrida futebol performance',label:'Explorar trilhas',target:'trilhas'},
-{terms:'imc pace calorias água hidratacao hidratação cardíaca proteina proteína calculadora',label:'Abrir ferramentas',target:'ferramentas'},
-{terms:'especialista profissional saúde nutricao nutrição psicologia fisioterapia',label:'Encontrar especialistas',target:'especialistas'},
-{terms:'historia história inspiração pessoas',label:'Ver histórias',target:'historias'},
-{terms:'modalidade futebol corrida basquete bike natação musculação',label:'Explorar modalidades',target:'modalidades'},
-{terms:'ciência tatica tática análise descoberta conhecimento',label:'Ler descobertas',target:'ideias'},
-{terms:'pergunta comunidade participar dúvida duvida',label:'Participar da comunidade',target:'participe-agora'}
-];
-
-function normalizePlatformTerm(value){
-return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
-}
-
-function showPlatformSuggestions(value){
-if(!platformSuggestions) return [];
-const term=normalizePlatformTerm(value);
-const matches=term ? platformSearchIndex.filter(item=>normalizePlatformTerm(item.terms).includes(term)||normalizePlatformTerm(item.label).includes(term)).slice(0,4) : [];
-platformSuggestions.replaceChildren(...matches.map(item=>{
-const button=document.createElement('button');
-button.type='button';
-button.textContent=item.label;
-button.addEventListener('click',()=>{
-document.getElementById(item.target)?.scrollIntoView({behavior:'smooth',block:'start'});
-platformSuggestions.replaceChildren();
-});
-return button;
-}));
-return matches;
-}
-
-if(platformSearchInput){
-platformSearchInput.addEventListener('input',()=>showPlatformSuggestions(platformSearchInput.value));
-}
-
-if(platformSearch){
-platformSearch.addEventListener('submit',event=>{
-event.preventDefault();
-const matches=showPlatformSuggestions(platformSearchInput.value);
-const destination=document.getElementById(matches[0]?.target||'minha-jornada');
-if(destination) destination.scrollIntoView({behavior:'smooth',block:'start'});
-});
-}
 
 const toolDialog=document.getElementById('tool-dialog');
 const toolDialogTitle=document.getElementById('tool-dialog-title');
@@ -592,7 +558,7 @@ button.addEventListener('click',()=>{
 const sourcePosts=document.querySelectorAll('.article-grid .post');
 const source=Array.from(sourcePosts).find(post=>(post.dataset.tags||'').includes(button.dataset.discoveryFilter))||sourcePosts[index];
 if(!source||!discoveryDialog) return;
-discoveryDialogTitle.textContent=source.querySelector('h3')?.textContent||'Conteúdo Fala Bem';
+discoveryDialogTitle.textContent=source.querySelector('h3')?.textContent||'Conteúdo Meu Caminho Be';
 const paragraphs=source.querySelectorAll('.full-text p');
 discoveryDialogContent.replaceChildren(...Array.from(paragraphs).map(paragraph=>{
 const copy=document.createElement('p');
@@ -612,11 +578,11 @@ window.open(`https://wa.me/5511986366965?text=${encodeURIComponent(message)}`,'_
 document.getElementById('platform-question-form')?.addEventListener('submit',event=>{
 event.preventDefault();
 const question=document.getElementById('platform-question-input').value.trim();
-if(question) openWhatsAppMessage(`Olá, BeMEsportivo! Minha pergunta para o Fala Bem é:\n\n${question}`);
+if(question) openWhatsAppMessage(`Olá, BeMEsportivo! Minha pergunta para o Meu Caminho Be é:\n\n${question}`);
 });
 
 document.querySelectorAll('[data-community-topic]').forEach(button=>button.addEventListener('click',()=>{
-openWhatsAppMessage(`Olá, BeMEsportivo! Quero conversar sobre ${button.dataset.communityTopic} no Fala Bem.`);
+openWhatsAppMessage(`Olá, BeMEsportivo! Quero conversar sobre ${button.dataset.communityTopic} no Meu Caminho Be.`);
 }));
 
 document.getElementById('platform-newsletter-form')?.addEventListener('submit',event=>{
