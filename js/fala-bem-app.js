@@ -799,7 +799,16 @@ function getJourneySteps(profile = currentProfile) {
 }
 
 function getCompletedSteps(profile = currentProfile) {
-  return Math.max(1, Math.min(5, Number(profile?.progress) || 1));
+  const requestedProgress = Math.max(1, Math.min(5, Number(profile?.progress) || 1));
+  const checkins = Array.isArray(profile?.checkins) ? profile.checkins : [];
+  const requiredSteps = getJourneySteps(profile).slice(1);
+  let verifiedProgress = 1;
+  for (const step of requiredSteps) {
+    const hasValidRecord = checkins.some(item => item?.step === step && item?.status && String(item?.note || '').trim().length >= 3);
+    if (!hasValidRecord) break;
+    verifiedProgress += 1;
+  }
+  return Math.min(requestedProgress, verifiedProgress);
 }
 
 function updateProgressActionState() {
@@ -807,10 +816,15 @@ function updateProgressActionState() {
   const checkin = document.getElementById('fb-progress-checkin');
   const status = document.getElementById('fb-checkin-status');
   const note = document.getElementById('fb-checkin-note');
+  const form = document.getElementById('fb-progress-checkin');
   if (!button) return;
   const cycleComplete = currentProfile?.objective && getCompletedSteps() >= getJourneySteps().length;
   if (checkin) checkin.hidden = !currentProfile?.objective || cycleComplete;
-  button.disabled = !currentProfile?.objective || (!cycleComplete && (!status?.value || (note?.value.trim().length || 0) < 3));
+  const requiresCheckin = Boolean(currentProfile?.objective && !cycleComplete);
+  if (status) status.disabled = !requiresCheckin;
+  if (note) note.disabled = !requiresCheckin;
+  const hasValidData = Boolean(form?.checkValidity() && status?.value && (note?.value.trim().length || 0) >= 3);
+  button.disabled = !currentProfile?.objective || (requiresCheckin && !hasValidData);
 }
 
 function renderProfileSummary() {
@@ -970,7 +984,8 @@ window.addEventListener('meuCaminhoBe:profile-updated', event => {
   });
 });
 
-document.getElementById('fb-complete-step')?.addEventListener('click', () => {
+document.getElementById('fb-progress-checkin')?.addEventListener('submit', event => {
+  event.preventDefault();
   if (!currentProfile?.objective) {
     openView('jornada');
     return;
@@ -979,9 +994,11 @@ document.getElementById('fb-complete-step')?.addEventListener('click', () => {
   const steps = getJourneySteps();
   const status = document.getElementById('fb-checkin-status');
   const note = document.getElementById('fb-checkin-note');
+  const form = document.getElementById('fb-progress-checkin');
   const cycleComplete = completed >= steps.length;
-  if (!cycleComplete && (!status?.value || (note?.value.trim().length || 0) < 3)) {
+  if (!cycleComplete && (!form?.checkValidity() || !status?.value || (note?.value.trim().length || 0) < 3)) {
     document.getElementById('fb-progress-feedback').textContent = 'Preencha os dois pontos importantes antes de concluir esta etapa.';
+    form?.reportValidity();
     (!status?.value ? status : note)?.focus();
     updateProgressActionState();
     return;
