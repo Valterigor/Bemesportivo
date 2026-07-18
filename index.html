@@ -1280,6 +1280,252 @@
     @media (prefers-reduced-motion: reduce) {
       .section-mascot { animation: none; }
     }
+
+    /* Lancamento Meu Caminho Be */
+    .path-launch {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(380px, .96fr);
+      min-height: 540px;
+      margin-top: 28px;
+      overflow: hidden;
+      border: 1px solid #e8ded5;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 8% 5%, rgba(255, 106, 0, .14), transparent 29%),
+        linear-gradient(135deg, #fffaf6 0%, #fff 56%, #f2eee9 100%);
+      box-shadow: 0 28px 70px rgba(48, 33, 24, .13);
+      isolation: isolate;
+    }
+    .path-launch::before {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      left: -130px;
+      bottom: -150px;
+      border: 46px solid rgba(255, 106, 0, .08);
+      border-radius: 50%;
+      z-index: -1;
+    }
+    .path-launch-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(38px, 5.2vw, 72px);
+      padding-right: clamp(24px, 3.4vw, 48px);
+    }
+    .path-launch-badge {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 22px;
+      padding: 9px 13px;
+      border: 1px solid rgba(255, 106, 0, .23);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .78);
+      color: #9b3f00;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 22px rgba(94, 46, 14, .08);
+    }
+    .path-launch-badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 0 5px rgba(255, 106, 0, .13);
+    }
+    .path-launch h2 {
+      max-width: 760px;
+      margin: 0;
+      color: #171412;
+      font-size: clamp(42px, 5.2vw, 72px);
+      line-height: .94;
+      letter-spacing: -.062em;
+    }
+    .path-launch h2 span { color: var(--orange); }
+    .path-launch-lead {
+      max-width: 600px;
+      margin: 24px 0 0;
+      color: #625a54;
+      font-size: clamp(17px, 1.55vw, 20px);
+      line-height: 1.55;
+    }
+    .path-launch-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+    .path-launch-action {
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 21px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      font-weight: 900;
+      text-decoration: none;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .path-launch-action:hover { transform: translateY(-2px); }
+    .path-launch-action-primary {
+      background: var(--orange);
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(255, 106, 0, .27);
+    }
+    .path-launch-action-primary:hover { box-shadow: 0 18px 34px rgba(255, 106, 0, .35); }
+    .path-launch-action-secondary {
+      border-color: #ded4cb;
+      background: rgba(255, 255, 255, .72);
+      color: #2c2723;
+    }
+    .path-launch-benefits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 25px;
+      color: #655d57;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .path-launch-benefits span { display: inline-flex; align-items: center; gap: 7px; }
+    .path-launch-benefits svg { width: 17px; height: 17px; fill: none; stroke: #17844b; stroke-width: 2.4; }
+    .path-launch-signature {
+      margin: 19px 0 0;
+      color: #8a817a;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .path-launch-visual {
+      position: relative;
+      min-width: 0;
+      min-height: 540px;
+      background: #211d1a;
+    }
+    .path-launch-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 58% center;
+      opacity: .88;
+    }
+    .path-launch-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(20, 17, 15, .04) 30%, rgba(20, 17, 15, .72) 100%);
+    }
+    .path-launch-new {
+      position: absolute;
+      z-index: 2;
+      top: 25px;
+      right: 25px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: #171412;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, .23);
+    }
+    .path-launch-app {
+      position: absolute;
+      z-index: 3;
+      left: 28px;
+      right: 28px;
+      bottom: 28px;
+      padding: 21px;
+      border: 1px solid rgba(255, 255, 255, .8);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .94);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, .25);
+      backdrop-filter: blur(14px);
+    }
+    .path-launch-app-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+    .path-launch-app-brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .path-launch-app-icon {
+      display: grid;
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--orange);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(255, 106, 0, .27);
+    }
+    .path-launch-app-icon svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .path-launch-app-brand strong { display: block; color: #1d1916; font-size: 16px; }
+    .path-launch-app-brand small { display: block; margin-top: 2px; color: #81776f; font-size: 11px; }
+    .path-launch-percent { color: #1d1916; font-size: 21px; font-weight: 950; }
+    .path-launch-progress { height: 7px; margin-top: 16px; overflow: hidden; border-radius: 999px; background: #eae4df; }
+    .path-launch-progress span { display: block; width: 42%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ff5a1f, #ff8b1f); }
+    .path-launch-step {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-top: 16px;
+      padding: 12px 13px;
+      border: 1px solid #eee5de;
+      border-radius: 14px;
+      background: #fff;
+    }
+    .path-launch-step-number {
+      display: grid;
+      flex: 0 0 auto;
+      width: 31px;
+      height: 31px;
+      place-items: center;
+      border-radius: 50%;
+      background: #fff1e8;
+      color: #df4e00;
+      font-size: 13px;
+      font-weight: 950;
+    }
+    .path-launch-step strong { display: block; color: #2b2521; font-size: 13px; }
+    .path-launch-step small { display: block; margin-top: 3px; color: #847a72; font-size: 11px; }
+    .path-launch-pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 10px; }
+    .path-launch-pills span { padding: 8px 6px; border-radius: 9px; background: #f5f1ee; color: #716861; font-size: 10px; font-weight: 850; text-align: center; }
+    .path-launch-pills span:first-child { background: #201c19; color: #fff; }
+    @media (max-width: 900px) {
+      .path-launch { grid-template-columns: 1fr; }
+      .path-launch-copy { padding-right: clamp(28px, 7vw, 62px); }
+      .path-launch h2 { max-width: 680px; }
+      .path-launch-visual { min-height: 470px; }
+      .path-launch-photo { object-position: center 35%; }
+    }
+    @media (max-width: 560px) {
+      .path-launch { margin-top: 16px; border-radius: 25px; }
+      .path-launch-copy { padding: 30px 20px 32px; }
+      .path-launch-badge { margin-bottom: 18px; font-size: 10px; }
+      .path-launch h2 {
+        font-size: clamp(34px, 9.8vw, 46px);
+        letter-spacing: -.052em;
+        overflow-wrap: anywhere;
+      }
+      .path-launch-lead { margin-top: 19px; font-size: 16px; }
+      .path-launch-actions { display: grid; margin-top: 25px; }
+      .path-launch-action { width: 100%; }
+      .path-launch-benefits { display: grid; gap: 10px; }
+      .path-launch-visual { min-height: 390px; }
+      .path-launch-new { top: 18px; right: 18px; }
+      .path-launch-app { left: 14px; right: 14px; bottom: 14px; padding: 16px; border-radius: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .path-launch-action { transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -1350,6 +1596,43 @@
           <button class="hero-dot" type="button" aria-label="Mostrar destaque 3"></button>
           <button class="hero-dot" type="button" aria-label="Mostrar destaque 4"></button>
           <button class="hero-arrow hero-next" type="button" aria-label="Próximo destaque">›</button>
+        </div>
+      </section>
+
+      <section class="shell path-launch" aria-labelledby="path-launch-title">
+        <div class="path-launch-copy">
+          <span class="path-launch-badge">Nova experiência · lançamento</span>
+          <h2 id="path-launch-title">Vontade você já tem. Agora existe um <span>caminho.</span></h2>
+          <p class="path-launch-lead">Conheça o <strong>Meu Caminho Be</strong>: uma jornada pessoal que entende seu momento, organiza seus próximos passos e acompanha cada conquista no esporte.</p>
+          <div class="path-launch-actions">
+            <a class="path-launch-action path-launch-action-primary" href="/coluna-valtinho.html#minha-jornada">Criar meu caminho agora <span aria-hidden="true">→</span></a>
+            <a class="path-launch-action path-launch-action-secondary" href="/coluna-valtinho.html">Conhecer a ferramenta</a>
+          </div>
+          <div class="path-launch-benefits" aria-label="Benefícios da ferramenta">
+            <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>Perfil em poucos passos</span>
+            <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>Sem senha</span>
+            <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>No seu ritmo</span>
+          </div>
+          <p class="path-launch-signature">Uma conquista BeMEsportivo criada para transformar vontade em movimento.</p>
+        </div>
+        <div class="path-launch-visual" aria-label="Prévia da experiência Meu Caminho Be">
+          <img class="path-launch-photo" src="img/fala-bem-hero-pessoas.png" alt="Pessoas correndo e vivendo diferentes momentos da prática esportiva">
+          <span class="path-launch-new">Novo</span>
+          <div class="path-launch-app" aria-hidden="true">
+            <div class="path-launch-app-head">
+              <div class="path-launch-app-brand">
+                <span class="path-launch-app-icon"><svg viewBox="0 0 24 24"><path d="M4 18c4-1 5-4 6-8s3-6 7-6h3"></path><path d="m16 2 4 2-2 4"></path><circle cx="5" cy="18" r="2"></circle></svg></span>
+                <span><strong>Meu Caminho Be</strong><small>Sua jornada em movimento</small></span>
+              </div>
+              <span class="path-launch-percent">42%</span>
+            </div>
+            <div class="path-launch-progress"><span></span></div>
+            <div class="path-launch-step">
+              <span class="path-launch-step-number">2</span>
+              <span><strong>Seu próximo passo está pronto</strong><small>Uma ação possível, pensada para o seu momento.</small></span>
+            </div>
+            <div class="path-launch-pills"><span>Descobrir</span><span>Começar</span><span>Evoluir</span></div>
+          </div>
         </div>
       </section>
 
