@@ -1082,6 +1082,8 @@ function updateProgressActionState() {
 
 function renderProfileSummary() {
   const container = document.getElementById('fb-profile-summary');
+  const nextStep = document.getElementById('fb-profile-next-step');
+  if (nextStep) nextStep.hidden = !isSafetyRestricted();
   if (!container) return;
   if (!currentProfile?.objective) {
     const message = document.createElement('p');
@@ -1211,11 +1213,13 @@ function renderProgress() {
   const list = document.getElementById('fb-progress-steps');
   const checkin = document.getElementById('fb-progress-checkin');
   const checkinHost = document.getElementById('fb-progress-checkin-host');
+  const nextMission = document.getElementById('fb-next-mission');
   if (!list) return;
   if (checkin && checkinHost && checkin.parentElement !== checkinHost) checkinHost.append(checkin);
   if (!currentProfile?.objective) {
+    if (nextMission) nextMission.hidden = true;
     list.replaceChildren();
-    document.getElementById('fb-progress-summary').textContent = 'Crie seu perfil para iniciar uma jornada personalizada.';
+    document.getElementById('fb-progress-summary').textContent = 'Crie seu perfil para iniciar sua Jornada da Semana.';
     const safetyStatus = document.getElementById('fb-safety-status');
     if (safetyStatus) { safetyStatus.hidden = true; safetyStatus.replaceChildren(); }
     renderCycleSummary([], 0, []);
@@ -1225,13 +1229,13 @@ function renderProgress() {
 
   const steps = getJourneySteps();
   const completed = getCompletedSteps();
+  const safetyPending = isSafetyPending();
+  const safetyRestricted = isSafetyRestricted();
   const savedCheckins = Array.isArray(currentProfile.checkins) ? currentProfile.checkins : [];
   const checkinStatusLabels = { concluida: 'Realizada', parcial: 'Realizada parcialmente', ajustar: 'Caminho ajustado' };
   const percent = completed * 20;
   const safetyStatus = document.getElementById('fb-safety-status');
   if (safetyStatus) {
-    const safetyPending = isSafetyPending();
-    const safetyRestricted = isSafetyRestricted();
     safetyStatus.hidden = !safetyPending && !safetyRestricted;
     if (safetyPending || safetyRestricted) {
       const strong = document.createElement('strong');
@@ -1253,6 +1257,15 @@ function renderProgress() {
   document.getElementById('fb-progress-summary').textContent = currentProfile.rhythm || 'Avance uma etapa por vez.';
   document.getElementById('fb-progress-percent').textContent = `${percent}%`;
   document.getElementById('fb-progress-bar').style.width = `${percent}%`;
+  if (nextMission) {
+    const showFirstMission = completed === 1 && !safetyPending && !safetyRestricted;
+    nextMission.hidden = !showFirstMission;
+    if (showFirstMission) {
+      const guidance = getStepGuidance(completed);
+      document.getElementById('fb-next-mission-title').textContent = `Sua primeira missão: ${steps[completed]}`;
+      document.getElementById('fb-next-mission-summary').textContent = guidance?.task || currentProfile.nextAction || 'Comece no seu ritmo e registre como foi para liberar o próximo passo.';
+    }
+  }
   renderCycleSummary(steps, completed, savedCheckins);
 
   list.replaceChildren(...steps.map((step, index) => {
@@ -1272,7 +1285,7 @@ function renderProgress() {
         ? `${checkinStatusLabels[savedCheckin.status] || 'Registrada'}: ${savedCheckin.note}`
       : index === 1 && currentProfile.nextAction
         ? currentProfile.nextAction
-        : isComplete ? 'Etapa concluída.' : isCurrent ? 'Este é o seu próximo passo.' : 'Será liberada na sequência da jornada.';
+        : isComplete ? 'Etapa concluída.' : isCurrent ? 'Este é o seu próximo passo.' : 'Será liberada na sequência da Jornada da Semana.';
     if (isCurrent && index === 1) {
       const cycleNote = getAdaptiveStepNote(index, savedCheckins);
       if (cycleNote) detail.textContent = `${detail.textContent} ${cycleNote}`;
@@ -1538,7 +1551,7 @@ function renderPersonalizedExperience() {
     const displayName = currentProfile.name?.trim();
     pathEntry.hidden = true;
     todayCard.hidden = false;
-    appTitle.textContent = displayName ? `Olá, ${displayName}.` : 'Sua jornada continua.';
+    appTitle.textContent = displayName ? `Olá, ${displayName}.` : 'Sua semana continua em movimento.';
     appSubtitle.textContent = 'Um próximo passo de cada vez, no seu ritmo.';
     kicker.textContent = displayName ? `OLÁ, ${displayName.toLocaleUpperCase('pt-BR')}` : 'MEU HOJE';
     title.textContent = objectiveLabels[currentProfile.objective] || 'Seu caminho está pronto.';
@@ -1549,10 +1562,10 @@ function renderPersonalizedExperience() {
     document.getElementById('fb-today-next-action').textContent = completed >= steps.length
       ? 'Ciclo concluído. Você pode iniciar uma nova sequência.'
       : `Próxima missão: ${steps[completed]}`;
-    primary.textContent = completed >= steps.length ? 'Ver jornada concluída' : 'Continuar jornada';
+    primary.textContent = completed >= steps.length ? 'Ver semana concluída' : 'Continuar Jornada da Semana';
     primary.dataset.fbView = 'progresso';
     if (heroAction) {
-      heroAction.textContent = completed >= steps.length ? 'Rever minha jornada' : 'Continuar jornada';
+      heroAction.textContent = completed >= steps.length ? 'Rever semana concluída' : 'Continuar Jornada da Semana';
       heroAction.dataset.fbView = 'progresso';
     }
     if (heroStatus) heroStatus.textContent = completed >= steps.length ? 'Ciclo concluído. Celebre sua evolução.' : `Próximo: ${steps[completed]}`;
@@ -1642,6 +1655,14 @@ document.getElementById('fb-sport-finder')?.addEventListener('submit', event => 
   document.getElementById('fb-sport-result')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 
+document.getElementById('fb-next-mission-action')?.addEventListener('click', () => {
+  const mission = document.querySelector('#fb-progress-steps li.current');
+  mission?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  window.setTimeout(() => mission?.querySelector('select, input, button')?.focus(), 320);
+});
+
+document.getElementById('fb-profile-next-professionals')?.addEventListener('click', () => openView('especialistas'));
+
 document.getElementById('fb-progress-checkin')?.addEventListener('submit', event => {
   event.preventDefault();
   if (!currentProfile?.objective) {
@@ -1714,7 +1735,7 @@ document.getElementById('fb-calendar-next')?.addEventListener('click', () => {
   const formatIcsDate = date => date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
   const escapeIcs = value => String(value || '').replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
   const description = guidance?.task || currentProfile.nextAction || 'Reserve um momento possível para continuar sua jornada.';
-  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//BeMEsportivo//Meu Caminho Be//PT-BR','BEGIN:VEVENT',`UID:${Date.now()}@bemesportivo.com`,`DTSTAMP:${formatIcsDate(new Date())}`,`DTSTART:${formatIcsDate(start)}`,`DTEND:${formatIcsDate(end)}`,`SUMMARY:${escapeIcs(`Meu Caminho Be: ${step}`)}`,`DESCRIPTION:${escapeIcs(description)}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//BeMEsportivo//Meu Caminho Be//PT-BR','BEGIN:VEVENT',`UID:${Date.now()}@bemesportivo.com`,`DTSTAMP:${formatIcsDate(new Date())}`,`DTSTART:${formatIcsDate(start)}`,`DTEND:${formatIcsDate(end)}`,`SUMMARY:${escapeIcs(`Jornada da Semana: ${step}`)}`,`DESCRIPTION:${escapeIcs(description)}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
   const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -1917,10 +1938,13 @@ document.getElementById('fb-safety-form')?.addEventListener('submit', event => {
   pendingProfileUpdate = null;
   closeDialog(document.getElementById('fb-safety-dialog'));
   openView(restricted ? 'perfil' : 'progresso');
-  const feedback = document.getElementById('fb-profile-feedback');
+  const feedback = document.getElementById(restricted ? 'fb-profile-feedback' : 'fb-progress-feedback');
   if (feedback) feedback.textContent = restricted
-    ? 'Perfil salvo. Antes de iniciar ou retomar exercícios, procure avaliação profissional para revisar os sinais informados.'
-    : 'Triagem concluída. Seu primeiro passo já está disponível.';
+    ? 'Perfil salvo. Siga a indicação acima para revisar os sinais informados antes de começar.'
+    : 'Perfil e triagem concluídos. Sua primeira missão está pronta.';
+  window.setTimeout(() => {
+    document.getElementById(restricted ? 'fb-profile-next-step' : 'fb-next-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 220);
 });
 
 document.getElementById('fb-safety-later')?.addEventListener('click', () => {
@@ -1935,7 +1959,7 @@ function updateConnectivityStatus() {
   const status = document.getElementById('fb-connectivity-status');
   if (!status) return;
   status.classList.toggle('offline', !navigator.onLine);
-  status.lastChild.textContent = navigator.onLine ? 'Dados ficam neste aparelho' : 'Modo offline · jornada disponível';
+  status.lastChild.textContent = navigator.onLine ? 'Dados ficam neste aparelho' : 'Modo offline · Jornada da Semana disponível';
 }
 
 window.addEventListener('online', updateConnectivityStatus);
