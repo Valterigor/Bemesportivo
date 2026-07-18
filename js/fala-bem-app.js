@@ -36,6 +36,39 @@ const journeyStepTemplates = {
   recuperacao: ['Perfil esportivo definido','Planejar uma retomada gradual','Realizar uma prática mais leve','Observar as respostas do corpo','Revisar a retomada com segurança']
 };
 
+const journeyStepGuidance = {
+  comecar: {
+    2: { message: 'A primeira experiência não precisa ser um teste. Ela serve para você conhecer a prática sem cobrança.', actions: ['Escolha um local, aula ou atividade que pareça acolhedora.', 'Separe de 20 a 40 minutos e vá em intensidade leve.', 'Ao terminar, observe como seu corpo e sua vontade responderam.'], question: 'O que tornou essa primeira experiência mais fácil ou mais difícil?', placeholder: 'Ex.: caminhei 25 minutos e me senti bem, mas cansei no final' },
+    3: { message: 'Agora vamos transformar uma tentativa em começo de rotina, repetindo apenas o que foi possível.', actions: ['Escolha um dia realista nos próximos 7 dias.', 'Repita a atividade com tempo e intensidade parecidos.', 'Se algo incomodou, reduza o ritmo em vez de abandonar.'], question: 'O que ajudou ou atrapalhou você a repetir?', placeholder: 'Ex.: deixei a roupa pronta e consegui repetir na quinta-feira' },
+    4: { message: 'Você já tem experiência suficiente para decidir o próximo ciclo sem aumentar tudo de uma vez.', actions: ['Compare como se sentiu na primeira e na segunda vez.', 'Escolha manter, reduzir ou aumentar apenas um ponto.', 'Defina dois dias possíveis para a próxima semana.'], question: 'Qual ajuste deixa seu próximo ciclo realmente possível?', placeholder: 'Ex.: vou manter 25 minutos, às terças e sábados' }
+  },
+  saude: {
+    2: { message: 'O objetivo agora é terminar melhor do que começou, sem buscar cansaço máximo.', actions: ['Faça a atividade leve que você escolheu.', 'Mantenha um ritmo em que ainda consiga conversar.', 'Pare e procure orientação se sentir dor, tontura ou mal-estar.'], question: 'Como ficaram sua disposição, respiração e bem-estar depois?', placeholder: 'Ex.: respirei bem e terminei com mais disposição' },
+    3: { message: 'Saúde melhora com regularidade. Vamos repetir de um jeito que caiba na vida real.', actions: ['Use um dos horários reservados no seu plano.', 'Repita a prática leve, sem compensar dias perdidos.', 'Marque qual horário foi mais fácil de cumprir.'], question: 'Qual horário e condição facilitaram sua regularidade?', placeholder: 'Ex.: de manhã foi mais fácil porque tive menos imprevistos' },
+    4: { message: 'É hora de olhar para o efeito da rotina, não apenas para o número de sessões.', actions: ['Compare energia, sono e disposição com o início.', 'Identifique o horário que funcionou melhor.', 'Escolha a frequência que consegue manter no próximo ciclo.'], question: 'O que melhorou e o que precisa mudar na próxima semana?', placeholder: 'Ex.: dormi melhor; vou trocar o treino de sexta por sábado' }
+  },
+  emagrecer: {
+    2: { message: 'Uma semana possível vale mais do que um plano perfeito que não cabe na rotina.', actions: ['Escolha de dois a três momentos disponíveis na semana.', 'Comece pela atividade prazerosa que você definiu.', 'Evite compensações: alimentação e treino não são punição.'], question: 'Quais momentos você conseguiu reservar de verdade?', placeholder: 'Ex.: consegui caminhar na terça e no sábado' },
+    3: { message: 'Vamos observar constância, não apenas peso ou calorias.', actions: ['Conte quantas vezes você se movimentou nesta semana.', 'Registre também sessões curtas ou realizadas parcialmente.', 'Perceba qual escolha ajudou você a continuar.'], question: 'O que mais contribuiu para você manter a constância?', placeholder: 'Ex.: fiz 2 sessões; ter companhia ajudou bastante' },
+    4: { message: 'O próximo ciclo deve preservar o que funcionou e ajustar somente o necessário.', actions: ['Revise atividade, sono, fome e disposição sem julgamento.', 'Mantenha o hábito mais fácil de repetir.', 'Escolha uma única mudança para a próxima semana.'], question: 'Qual hábito você mantém e qual pequeno ajuste fará agora?', placeholder: 'Ex.: mantenho as caminhadas e vou organizar o horário do jantar' }
+  },
+  performance: {
+    2: { message: 'Antes de evoluir, precisamos de uma referência honesta do seu momento atual.', actions: ['Repita um treino conhecido, sem buscar recorde.', 'Registre tempo, distância, carga ou percepção de esforço.', 'Anote também sono, dor e recuperação do dia seguinte.'], question: 'Qual foi seu ponto de partida e como seu corpo respondeu?', placeholder: 'Ex.: corri 5 km em 31 min, esforço 7/10 e sem dor' },
+    3: { message: 'Performance sustentável equilibra estímulo e recuperação. Os dois contam como treino.', actions: ['Cumpra as sessões previstas sem adicionar volume por impulso.', 'Após cada treino, registre esforço de 0 a 10.', 'Observe sono, dor persistente e vontade de treinar.'], question: 'Qual padrão você percebeu entre treino e recuperação?', placeholder: 'Ex.: rendi melhor após 8 horas de sono; esforço médio 6/10' },
+    4: { message: 'Agora compare o ciclo com a referência inicial antes de decidir aumentar a carga.', actions: ['Compare a mesma medida usada no ponto de partida.', 'Valorize evolução técnica e recuperação, não só números.', 'Altere apenas volume, intensidade ou frequência — um por vez.'], question: 'O que evoluiu e qual variável você ajustará no próximo ciclo?', placeholder: 'Ex.: mantive o ritmo com menos esforço; aumentarei 5 minutos' }
+  },
+  modalidade: {
+    2: { message: 'A primeira experiência é uma descoberta, não uma decisão definitiva.', actions: ['Faça uma aula experimental ou prática introdutória.', 'Observe acesso, acolhimento, diversão e exigência física.', 'Dê uma nota de 0 a 10 para sua vontade de voltar.'], question: 'Como foi a primeira opção e qual foi sua vontade de voltar?', placeholder: 'Ex.: gostei do ambiente e minha vontade de voltar é 8/10' },
+    3: { message: 'Experimente a segunda opção com os mesmos critérios para comparar com justiça.', actions: ['Faça uma aula ou sessão de nível iniciante.', 'Observe custo, deslocamento, ambiente e prazer.', 'Dê uma nota de 0 a 10 para sua vontade de voltar.'], question: 'Como a segunda opção se compara à primeira?', placeholder: 'Ex.: foi mais divertida, mas o horário é menos acessível' },
+    4: { message: 'A melhor modalidade é aquela que combina interesse com possibilidade de continuar.', actions: ['Compare prazer, acesso, segurança e vontade de voltar.', 'Escolha a opção que cabe melhor na sua vida atual.', 'Defina quando será a próxima prática.'], question: 'Qual prática você escolheu e quando pretende voltar?', placeholder: 'Ex.: escolhi natação e marquei a próxima aula para quarta' }
+  },
+  recuperacao: {
+    2: { message: 'Retomar é testar tolerância com cuidado, não provar que você voltou ao nível anterior.', actions: ['Siga os limites dados pelo profissional que acompanha você.', 'Reduza tempo, carga ou intensidade em relação ao habitual.', 'Interrompa diante de dor aguda, piora importante ou insegurança.'], question: 'Como seu corpo respondeu durante e após a prática leve?', placeholder: 'Ex.: fiz 20 minutos sem dor; senti apenas cansaço leve' },
+    3: { message: 'A resposta nas horas seguintes ajuda a decidir se o ritmo está adequado.', actions: ['Observe dor, inchaço, fadiga e confiança por até 24 horas.', 'Compare os sinais com os de antes da atividade.', 'Se houver piora importante, não avance e procure orientação.'], question: 'O que mudou no seu corpo nas horas seguintes?', placeholder: 'Ex.: não houve dor; a fadiga passou após algumas horas' },
+    4: { message: 'Vamos escolher o próximo passo pelo que seu corpo mostrou, não pela pressa de voltar.', actions: ['Mantenha o nível se a resposta foi boa e estável.', 'Reduza ou pause se houve piora relevante.', 'Combine qualquer progressão com o profissional responsável.'], question: 'Qual decisão é mais segura para o próximo ciclo?', placeholder: 'Ex.: vou repetir a mesma carga e conversar com meu fisioterapeuta' }
+  }
+};
+
 function readStoredProfile() {
   try {
     const profile = JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) || 'null');
@@ -886,6 +919,33 @@ function getJourneySteps(profile = currentProfile) {
   return journeyStepTemplates[profile?.objective] || journeyStepTemplates.comecar;
 }
 
+function getStepGuidance(stepIndex, profile = currentProfile) {
+  const objective = journeyStepGuidance[profile?.objective] || journeyStepGuidance.comecar;
+  return objective?.[stepIndex] || null;
+}
+
+function createCurrentStepGuide(guidance) {
+  const guide = document.createElement('section');
+  const kicker = document.createElement('span');
+  const heading = document.createElement('h4');
+  const message = document.createElement('p');
+  const actions = document.createElement('ol');
+  const prompt = document.createElement('p');
+  guide.className = 'fb-current-step-guide';
+  kicker.textContent = 'VAMOS FAZER JUNTOS';
+  heading.textContent = currentProfile?.name ? `${currentProfile.name}, seu passo a passo é este:` : 'Seu passo a passo é este:';
+  message.textContent = guidance.message;
+  guidance.actions.forEach(action => {
+    const item = document.createElement('li');
+    item.textContent = action;
+    actions.append(item);
+  });
+  prompt.className = 'fb-current-step-prompt';
+  prompt.textContent = 'Depois de tentar, conte como foi logo abaixo. Não existe resposta perfeita: seu relato ajuda a ajustar o próximo passo.';
+  guide.append(kicker, heading, message, actions, prompt);
+  return guide;
+}
+
 function getCompletedSteps(profile = currentProfile) {
   const requestedProgress = Math.max(1, Math.min(5, Number(profile?.progress) || 1));
   const checkins = Array.isArray(profile?.checkins) ? profile.checkins : [];
@@ -995,6 +1055,8 @@ function renderProgress() {
         ? currentProfile.nextAction
         : isComplete ? 'Etapa concluída.' : isCurrent ? 'Este é o seu próximo passo.' : 'Será liberada na sequência da jornada.';
     content.append(title, detail);
+    const guidance = isCurrent ? getStepGuidance(index) : null;
+    if (guidance) content.append(createCurrentStepGuide(guidance));
     item.append(content);
     return item;
   }));
@@ -1003,9 +1065,18 @@ function renderProgress() {
   if (currentStepItem && checkin) currentStepItem.append(checkin);
 
   const completeButton = document.getElementById('fb-complete-step');
-  completeButton.textContent = 'Registrar e concluir esta etapa';
+  completeButton.textContent = getStepGuidance(completed) ? 'Salvar meu relato e ver o próximo passo' : 'Salvar meu relato e seguir';
   const checkinStep = document.getElementById('fb-checkin-step');
+  const checkinTitle = document.getElementById('fb-checkin-title');
+  const statusLabel = document.getElementById('fb-checkin-status-label');
+  const noteLabel = document.getElementById('fb-checkin-note-label');
+  const noteInput = document.getElementById('fb-checkin-note');
+  const currentGuidance = completed < steps.length ? getStepGuidance(completed) : null;
   if (checkinStep && completed < steps.length) checkinStep.textContent = steps[completed];
+  if (checkinTitle) checkinTitle.textContent = currentGuidance ? 'Agora me conte como foi.' : 'Me conte como foi para seguirmos.';
+  if (statusLabel) statusLabel.textContent = currentGuidance ? 'Você conseguiu realizar este passo?' : 'Você conseguiu fazer o passo combinado?';
+  if (noteLabel) noteLabel.textContent = currentGuidance?.question || 'O que aconteceu na prática?';
+  if (noteInput) noteInput.placeholder = currentGuidance?.placeholder || 'Escreva uma observação curta';
   updateProgressActionState();
 }
 
@@ -1125,6 +1196,7 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
     return;
   }
   const nextProgress = completed + 1;
+  const nextStep = steps[nextProgress];
   const checkins = [...(currentProfile.checkins || []), {
     step: steps[completed],
     status: status.value,
@@ -1134,7 +1206,10 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
   if (status) status.value = '';
   if (note) note.value = '';
   saveProfile({ progress: nextProgress, checkins });
-  document.getElementById('fb-progress-feedback').textContent = 'Etapa registrada. Seu próximo passo já está disponível.';
+  const feedbackName = currentProfile?.name ? `${currentProfile.name}, ` : '';
+  document.getElementById('fb-progress-feedback').textContent = nextStep
+    ? `${feedbackName}obrigado por contar como foi. Registrei sua experiência e preparei o próximo passo: ${nextStep}.`
+    : `${feedbackName}você concluiu este ciclo. Sua experiência está registrada e já pode orientar sua próxima escolha.`;
 });
 
 document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
