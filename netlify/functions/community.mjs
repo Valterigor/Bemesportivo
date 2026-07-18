@@ -1,7 +1,5 @@
 import { getStore } from '@netlify/blobs';
 
-const MEMORY_STATE_KEY = '__bemEsportivoCommunityState';
-
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
@@ -121,30 +119,26 @@ function publicCommunityState(state){
 }
 
 async function readState(){
-  try{
-    const store = getStore('bem-esportivo-community', getStoreOptions());
-    const saved = await store.get('state', { type: 'json' });
-    return {
-      ...getDefaultCommunityState(),
-      ...(saved && typeof saved === 'object' ? saved : {})
-    };
-  }catch(error){
-    globalThis[MEMORY_STATE_KEY] = {
-      ...getDefaultCommunityState(),
-      ...(globalThis[MEMORY_STATE_KEY] && typeof globalThis[MEMORY_STATE_KEY] === 'object' ? globalThis[MEMORY_STATE_KEY] : {})
-    };
-    return globalThis[MEMORY_STATE_KEY];
-  }
+  const store = getCommunityStore();
+  const saved = await store.get('state', { type: 'json', consistency: 'strong' });
+  return {
+    ...getDefaultCommunityState(),
+    ...(saved && typeof saved === 'object' ? saved : {})
+  };
 }
 
 async function writeState(state){
   state.updatedAt = new Date().toISOString();
-  try{
-    const store = getStore('bem-esportivo-community', getStoreOptions());
-    await store.setJSON('state', state);
-  }catch(error){
-    globalThis[MEMORY_STATE_KEY] = state;
-  }
+  const store = getCommunityStore();
+  await store.setJSON('state', state);
+}
+
+function getCommunityStore(){
+  return getStore({
+    name: 'bem-esportivo-community',
+    consistency: 'strong',
+    ...(getStoreOptions() || {})
+  });
 }
 
 function getStoreOptions(){

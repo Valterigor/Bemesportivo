@@ -74,11 +74,16 @@ O BEplay usa:
 
 - player principal com YouTube embed sob demanda;
 - playlist com busca e filtros;
-- comentarios locais;
+- comentarios globais persistidos pela API `/api/community`;
 - nome salvo do visitante;
 - historico local de videos assistidos;
 - salvar video e inscricao local;
-- integracao com `/api/community` quando disponivel.
+- armazenamento local apenas para nome, historico, videos salvos e inscricao.
+
+As reportagens e o BEplay usam a mesma API de comentarios. Em producao, a funcao
+`netlify/functions/community.mjs` persiste os dados no Netlify Blobs com leitura
+fortemente consistente; em desenvolvimento, `dev-server.js` usa
+`data/community.json`.
 
 ## Teste local
 

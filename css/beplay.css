@@ -341,6 +341,13 @@ body.beplay-page {
   line-height: 1.45;
 }
 
+.comment-item time {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
 .comment-empty {
   color: #8ea3b3;
   font-size: 13px;

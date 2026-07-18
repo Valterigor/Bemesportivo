@@ -235,32 +235,29 @@ function normalizeReportComment(comment) {
 }
 
 function getReportComments(reportId) {
-  try {
-    if (Array.isArray(reportCommentCache[reportId])) {
-      return reportCommentCache[reportId].map(normalizeReportComment);
-    }
-    const comments = JSON.parse(localStorage.getItem(`bemEsportivoReportComments:${reportId}`) || "[]");
-    return Array.isArray(comments) ? comments : [];
-  } catch (error) {
-    return [];
-  }
-}
-
-function saveReportComments(reportId, comments) {
-  localStorage.setItem(`bemEsportivoReportComments:${reportId}`, JSON.stringify(comments.slice(-50)));
+  return Array.isArray(reportCommentCache[reportId])
+    ? reportCommentCache[reportId].map(normalizeReportComment)
+    : [];
 }
 
 async function loadReportComments(reportId) {
   try {
     const payload = await reportCommunityRequest(`/comments?scope=report&id=${encodeURIComponent(reportId)}`);
     reportCommentCache[reportId] = payload.comments || [];
-  } catch (error) {}
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 async function renderReportComments(section, forceOnline = false) {
   const reportId = section.dataset.reportComments;
   const list = section.querySelector(".report-comments-list");
-  if (forceOnline) await loadReportComments(reportId);
+  const loaded = forceOnline ? await loadReportComments(reportId) : true;
+  if (!loaded && !Array.isArray(reportCommentCache[reportId])) {
+    list.innerHTML = '<span class="report-comments-empty">Não foi possível carregar os comentários globais agora.</span>';
+    return;
+  }
   const comments = getReportComments(reportId);
   if (!list) return;
 
@@ -277,44 +274,44 @@ async function renderReportComments(section, forceOnline = false) {
 
 document.querySelectorAll("[data-report-comments]").forEach(section => {
   const form = section.querySelector(".report-comment-form");
+  const feedback = document.createElement("p");
+  feedback.className = "report-comment-feedback";
+  feedback.setAttribute("role", "status");
+  feedback.setAttribute("aria-live", "polite");
+  form?.insertAdjacentElement("afterend", feedback);
   renderReportComments(section, true);
 
-  form?.addEventListener("submit", event => {
+  form?.addEventListener("submit", async event => {
     event.preventDefault();
     const reportId = section.dataset.reportComments;
     const formData = new FormData(form);
     const texto = String(formData.get("texto") || "").trim();
+    const button = form.querySelector('button[type="submit"]');
     if (!texto) return;
-
-    const comments = getReportComments(reportId);
-    comments.push({
-      nome: String(formData.get("nome") || "Visitante").trim().slice(0, 40) || "Visitante",
-      texto: texto.slice(0, 500),
-      data: new Date().toLocaleString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-      })
-    });
-
-    saveReportComments(reportId, comments);
-    reportCommunityRequest("/comment", {
-      method: "POST",
-      body: JSON.stringify({
-        scope: "report",
-        id: reportId,
-        name: String(formData.get("nome") || "Visitante").trim().slice(0, 40) || "Visitante",
-        text: texto.slice(0, 500),
-        clientId: getReportClientId()
-      })
-    }).then(payload => {
+    button.disabled = true;
+    button.textContent = "Publicando...";
+    feedback.textContent = "";
+    try {
+      const payload = await reportCommunityRequest("/comment", {
+        method: "POST",
+        body: JSON.stringify({
+          scope: "report",
+          id: reportId,
+          name: String(formData.get("nome") || "Visitante").trim().slice(0, 40) || "Visitante",
+          text: texto.slice(0, 500),
+          clientId: getReportClientId()
+        })
+      });
       reportCommentCache[reportId] = payload.comments || [];
       renderReportComments(section);
-    }).catch(error => console.warn("Comentário salvo localmente:", error));
-    form.reset();
-    renderReportComments(section);
+      form.reset();
+      feedback.textContent = "Comentário publicado para todos os visitantes.";
+    } catch (error) {
+      feedback.textContent = "Não foi possível salvar globalmente. Tente novamente em alguns instantes.";
+    } finally {
+      button.disabled = false;
+      button.textContent = "Publicar comentário";
+    }
   });
 });
 

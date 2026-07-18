@@ -9,9 +9,9 @@ let currentVideo=videos[0];
 let toastTimer=null;
 let communityRefreshTimer=null;
 let activeVideoFilter='all';
+const videoCommentCache={};
 const COMMUNITY_ROOT=location.protocol==='file:'?'':'/api/community';
 const CLIENT_KEY='bemEsportivoCommunityClientId';
-const COMMENT_KEY='bemBeplayVideoComments';
 const COMMENT_NAME_KEY='bemBeplayCommentName';
 const HISTORY_KEY='bemBeplayWatchHistory';
 
@@ -201,19 +201,6 @@ function renderReactions(totals={}, selected=''){
   });
 }
 
-function getStoredComments(){
-  try{
-    const comments=JSON.parse(localStorage.getItem(COMMENT_KEY) || '{}');
-    return comments && typeof comments==='object' ? comments : {};
-  }catch(error){
-    return {};
-  }
-}
-
-function saveStoredComments(comments){
-  localStorage.setItem(COMMENT_KEY, JSON.stringify(comments));
-}
-
 function getWatchHistory(){
   try{
     const history=JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
@@ -274,24 +261,50 @@ function renderWatchHistory(){
 function renderVideoComments(){
   const list=document.getElementById('videoCommentList');
   if(!list) return;
-  const comments=getStoredComments()[currentVideo.id] || [];
+  const comments=videoCommentCache[currentVideo.id];
+  if(!Array.isArray(comments)){
+    list.innerHTML='<span class="comment-empty">Carregando comentários da comunidade...</span>';
+    return;
+  }
   list.innerHTML=comments.length
     ? comments.slice(-12).reverse().map(comment=>`
       <article class="comment-item">
         <strong>${escapeHtml(comment.name || 'Visitante')}</strong>
         <p>${escapeHtml(comment.text)}</p>
+        <time>${escapeHtml(formatCommentDate(comment.createdAt))}</time>
       </article>
     `).join('')
     : '<span class="comment-empty">Seja o primeiro a comentar este vídeo.</span>';
 }
 
-async function loadVideoCommunity(){
+function formatCommentDate(value){
+  const date=new Date(value || Date.now());
+  if(Number.isNaN(date.getTime())) return '';
+  return date.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+async function loadVideoComments(video=currentVideo){
+  const videoId=video.id;
+  const payload=await communityRequest(`/comments?scope=beplay&id=${encodeURIComponent(videoId)}`);
+  videoCommentCache[videoId]=Array.isArray(payload.comments) ? payload.comments : [];
+  if(currentVideo.id===videoId) renderVideoComments();
+}
+
+async function loadVideoCommunity(video=currentVideo){
   try{
     const state=await communityRequest('/state');
-    renderReactions(state?.votes?.[getVideoReactionPollId()]?.totals || {}, localStorage.getItem(`${getVideoReactionPollId()}:choice`) || '');
+    const pollId=getVideoReactionPollId(video);
+    if(currentVideo.id===video.id){
+      renderReactions(state?.votes?.[pollId]?.totals || {}, localStorage.getItem(`${pollId}:choice`) || '');
+    }
   }catch(error){
-    renderReactions({}, '');
+    if(currentVideo.id===video.id) renderReactions({}, '');
   }
+  loadVideoComments(video).catch(()=>{
+    if(currentVideo.id===video.id && !Array.isArray(videoCommentCache[video.id])){
+      document.getElementById('videoCommentList').innerHTML='<span class="comment-empty">Não foi possível carregar os comentários globais agora.</span>';
+    }
+  });
 }
 
 document.querySelectorAll('[data-video-reaction]').forEach(button=>{
@@ -364,25 +377,33 @@ document.querySelectorAll('[data-video-filter]').forEach(button=>{
   });
 });
 
-document.getElementById('videoCommentForm').addEventListener('submit',event=>{
+document.getElementById('videoCommentForm').addEventListener('submit',async event=>{
   event.preventDefault();
   const nameInput=document.getElementById('videoCommentName');
   const textarea=document.getElementById('videoCommentText');
+  const button=event.currentTarget.querySelector('button[type="submit"]');
   const name=String(nameInput?.value || '').trim().slice(0,40) || 'Visitante';
   const text=String(textarea.value || '').trim();
   if(!text) return;
   localStorage.setItem(COMMENT_NAME_KEY, name);
-  const comments=getStoredComments();
-  comments[currentVideo.id]=Array.isArray(comments[currentVideo.id]) ? comments[currentVideo.id] : [];
-  comments[currentVideo.id].push({
-    name,
-    text:text.slice(0,280),
-    createdAt:new Date().toISOString()
-  });
-  saveStoredComments(comments);
-  textarea.value='';
-  renderVideoComments();
-  showToast('Comentário publicado');
+  button.disabled=true;
+  button.textContent='Publicando...';
+  try{
+    const videoId=currentVideo.id;
+    const payload=await communityRequest('/comment',{
+      method:'POST',
+      body:JSON.stringify({scope:'beplay',id:videoId,name,text:text.slice(0,280),clientId:getClientId()})
+    });
+    videoCommentCache[videoId]=Array.isArray(payload.comments) ? payload.comments : [];
+    textarea.value='';
+    if(currentVideo.id===videoId) renderVideoComments();
+    showToast('Comentário publicado para todos');
+  }catch(error){
+    showToast('Não foi possível salvar o comentário global');
+  }finally{
+    button.disabled=false;
+    button.textContent='Publicar comentário';
+  }
 });
 
 document.getElementById('todayDay').textContent=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
