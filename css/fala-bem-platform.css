@@ -455,6 +455,10 @@ margin:0 0 2px;
 font-size:14px;
 }
 .specialist-area{display:inline-flex;width:max-content;margin-bottom:6px;padding:4px 7px;border-radius:999px;background:#fff0e9;color:#d5410b;font-size:.6rem;font-weight:900;letter-spacing:.06em}
+.fb-bottom-specialists{width:min(calc(100% - 32px),1220px);margin:18px auto 22px!important}
+.specialist-card-featured{border-color:#f0c6b4;background:linear-gradient(145deg,#fff8f4,#fff)}
+.specialist-card-join{border-style:dashed;background:#fffaf7}.specialist-card-join .specialist-avatar{flex:0 0 auto}
+.specialist-contact-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}.specialist-contact-actions a{padding:7px 9px!important;border:1px solid #ff5a1f!important;border-radius:8px!important}.specialist-contact-actions a:last-child{background:#ff5a1f!important;color:#fff!important}
 
 .specialist-card p{
 margin:0;

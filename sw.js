@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v5';
+const CACHE_NAME = 'meu-caminho-be-v7';
 const APP_SHELL = [
   '/coluna-valtinho.html',
   '/site-common.css',
