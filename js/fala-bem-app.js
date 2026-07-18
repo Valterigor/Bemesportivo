@@ -1098,6 +1098,7 @@ function renderProfileSummary() {
     ['TEMPO', currentProfile.availabilityLabel || 'Não informado'],
     ['SEGURANÇA', isSafetyRestricted() ? 'Revisão profissional recomendada' : currentProfile.safety?.consent ? 'Triagem concluída' : 'Triagem pendente']
   ];
+  if (currentProfile.preferredSport?.name) fields.splice(2, 0, ['ESPORTE ESCOLHIDO', currentProfile.preferredSport.name]);
   container.replaceChildren(...fields.map(([label, value]) => {
     const item = document.createElement('div');
     const span = document.createElement('span');
@@ -1262,8 +1263,19 @@ function renderProgress() {
     nextMission.hidden = !showFirstMission;
     if (showFirstMission) {
       const guidance = getStepGuidance(completed);
-      document.getElementById('fb-next-mission-title').textContent = `Sua primeira missão: ${steps[completed]}`;
-      document.getElementById('fb-next-mission-summary').textContent = guidance?.task || currentProfile.nextAction || 'Comece no seu ritmo e registre como foi para liberar o próximo passo.';
+      const preferredSport = currentProfile?.preferredSport?.name;
+      const needsDiscovery = currentProfile?.objective === 'modalidade' && !preferredSport;
+      document.getElementById('fb-next-mission-title').textContent = needsDiscovery
+        ? 'Sua primeira missão: descobrir esportes compatíveis'
+        : preferredSport && currentProfile?.objective === 'modalidade'
+          ? `Sua primeira missão: experimentar ${preferredSport}`
+          : `Sua primeira missão: ${steps[completed]}`;
+      document.getElementById('fb-next-mission-summary').textContent = needsDiscovery
+        ? 'Responda três preferências para comparar modalidades e escolher uma experiência para esta semana.'
+        : preferredSport && currentProfile?.objective === 'modalidade'
+          ? `Faça uma primeira experiência com ${preferredSport}, observando acesso, acolhimento, diversão e vontade de voltar.`
+          : guidance?.task || currentProfile.nextAction || 'Comece no seu ritmo e registre como foi para liberar o próximo passo.';
+      document.getElementById('fb-next-mission-action').textContent = needsDiscovery ? 'Descobrir meu esporte' : 'Ver minha primeira missão';
     }
   }
   renderCycleSummary(steps, completed, savedCheckins);
@@ -1354,7 +1366,7 @@ const dashboardRecommendationMap = {
 function getDashboardRecommendations(profile = currentProfile) {
   const recommendation = dashboardRecommendationMap[profile?.objective] || dashboardRecommendationMap.comecar;
   const availableTime = profile?.availabilityLabel ? ` Considerando ${profile.availabilityLabel.toLocaleLowerCase('pt-BR')} por prática.` : '';
-  const discoveredSport = profile?.sportDiscovery?.results?.[0]?.name;
+  const discoveredSport = profile?.preferredSport?.name || profile?.sportDiscovery?.results?.[0]?.name;
   const content = [...recommendation.content];
   const professional = [...recommendation.professional];
   if (profile?.practice === 'returning') {
@@ -1377,6 +1389,15 @@ function getDashboardRecommendations(profile = currentProfile) {
     professional
   };
 }
+
+window.falaBemGetRecommendationContext = () => {
+  const recommendation = getDashboardRecommendations();
+  return {
+    contentTitle: recommendation.content[0],
+    contentTag: recommendation.content[2],
+    professionalTitle: recommendation.professional[0]
+  };
+};
 
 function formatHistoryDate(value) {
   if (!value) return '';
@@ -1430,7 +1451,11 @@ function renderTrails() {
   const completed = currentProfile?.objective ? getCompletedSteps() : 0;
   const percent = completed * 20;
   document.querySelectorAll('[data-trail-objectives]').forEach(card => {
-    const matches = String(card.dataset.trailObjectives || '').split(',').includes(currentProfile?.objective || '');
+    let matches = String(card.dataset.trailObjectives || '').split(',').includes(currentProfile?.objective || '');
+    if (currentProfile?.objective === 'modalidade') {
+      const sportTrail = { corrida: 'trail-running', futebol: 'trail-football' }[currentProfile?.preferredSport?.id];
+      matches = Boolean(sportTrail && card.classList.contains(sportTrail));
+    }
     const trailPercent = matches ? percent : 0;
     const status = card.querySelector(':scope > span');
     const detail = card.querySelector(':scope > small');
@@ -1494,11 +1519,35 @@ function renderSportDiscovery() {
     const title = document.createElement('strong');
     const reason = document.createElement('span');
     const score = document.createElement('b');
+    const action = document.createElement('button');
+    const selected = currentProfile?.preferredSport?.id === result.id;
     title.textContent = result.name;
     reason.textContent = result.reason;
     score.textContent = `${result.compatibility}% compatível`;
+    action.type = 'button';
+    action.textContent = selected ? 'Escolhido para minha semana' : 'Escolher para minha semana';
+    action.setAttribute('aria-pressed', String(selected));
+    action.addEventListener('click', () => {
+      const nextAction = currentProfile?.objective === 'modalidade'
+        ? `Experimente ${result.name} nesta semana e registre sua vontade de voltar.`
+        : currentProfile?.nextAction;
+      saveProfile({
+        preferredSport: { id: result.id, name: result.name, compatibility: result.compatibility, selectedAt: new Date().toISOString() },
+        nextAction
+      });
+      if (currentProfile?.objective) {
+        openView(currentProfile.objective === 'modalidade' ? 'progresso' : 'inicio');
+      } else {
+        openView('jornada');
+        window.setTimeout(() => {
+          document.querySelector('[data-journey-field="objective"][data-journey-value="modalidade"]')?.click();
+        }, 180);
+      }
+      const feedback = document.getElementById('fb-progress-feedback');
+      if (feedback && currentProfile?.objective === 'modalidade') feedback.textContent = `${result.name} foi incluído na sua Jornada da Semana.`;
+    });
     copy.append(title, reason);
-    item.append(copy, score);
+    item.append(copy, score, action);
     list.append(item);
   });
   container.replaceChildren(heading, intro, list);
@@ -1651,11 +1700,16 @@ document.getElementById('fb-sport-finder')?.addEventListener('submit', event => 
   }
   const preferences = Object.fromEntries(new FormData(form));
   const results = calculateSportCompatibility(preferences);
-  saveProfile({ sportDiscovery: { preferences, results, completedAt: new Date().toISOString() } });
+  saveProfile({ sportDiscovery: { preferences, results, completedAt: new Date().toISOString() }, preferredSport: null });
   document.getElementById('fb-sport-result')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 
 document.getElementById('fb-next-mission-action')?.addEventListener('click', () => {
+  if (currentProfile?.objective === 'modalidade' && !currentProfile?.preferredSport) {
+    openView('modalidades');
+    window.setTimeout(() => document.getElementById('fb-sport-finder')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 220);
+    return;
+  }
   const mission = document.querySelector('#fb-progress-steps li.current');
   mission?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   window.setTimeout(() => mission?.querySelector('select, input, button')?.focus(), 320);

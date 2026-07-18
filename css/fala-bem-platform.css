@@ -1662,6 +1662,8 @@ background:#fff;
 .fb-sport-result li div{display:grid;gap:3px}
 .fb-sport-result li span{color:#d8d0ca;font-size:.74rem;line-height:1.4}
 .fb-sport-result li b{flex:0 0 auto;color:#ff8b61;font-size:.75rem}
+.fb-sport-result li button{flex:0 0 auto;min-height:38px;padding:0 12px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:#fff;color:#211d1a;font:inherit;font-size:.68rem;font-weight:900;cursor:pointer}
+.fb-sport-result li button[aria-pressed="true"]{border-color:#78c798;background:#dff8e8;color:#174b2b}
 
 .tool-result-kicker{margin-bottom:5px;color:#d94b17;font-size:.64rem!important;font-weight:900;letter-spacing:.09em}
 .tool-result-guidance{display:grid;gap:5px;margin-top:14px;padding:12px;border-radius:11px;background:#fff8f3}

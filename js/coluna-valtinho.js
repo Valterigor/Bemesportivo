@@ -718,6 +718,7 @@ event.preventDefault();
 const data=Object.fromEntries(new FormData(toolForm));
 const result=tool.calculate(data);
 const guidance=toolGuidance[toolKey];
+const recommendationContext=window.falaBemGetRecommendationContext?.();
 const values=[result.headline,result.detail,result.caution];
 if(values.some(value=>String(value||'').includes('NaN')||String(value||'').includes('Infinity'))) return;
 const strong=document.createElement('strong');
@@ -763,12 +764,12 @@ const content=document.createElement('button');
 const professional=document.createElement('button');
 content.type='button';
 professional.type='button';
-content.textContent='Ver conteúdo recomendado';
-professional.textContent=`Ver ${guidance.professional}`;
+content.textContent=recommendationContext?.contentTitle?`Ver: ${recommendationContext.contentTitle}`:'Ver conteúdo recomendado';
+professional.textContent=`Ver ${recommendationContext?.professionalTitle||guidance.professional}`;
 content.addEventListener('click',()=>{
 toolDialog.close();
 window.falaBemOpenView?.('conteudos');
-if(typeof filterPosts==='function') window.setTimeout(()=>filterPosts(guidance.content),120);
+if(typeof filterPosts==='function') window.setTimeout(()=>filterPosts(recommendationContext?.contentTag||guidance.content),120);
 });
 professional.addEventListener('click',()=>{
 toolDialog.close();
