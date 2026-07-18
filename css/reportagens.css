@@ -72,7 +72,7 @@ body.reportagens-page {
 
 .reportagens-page .report-card {
   display: grid;
-  grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  grid-template-columns: minmax(320px, .82fr) minmax(0, 1.18fr);
   gap: 0;
   align-items: start;
   margin: 0;
@@ -93,10 +93,6 @@ body.reportagens-page {
   background: #f2f2f2;
 }
 
-.reportagens-page #treino-funcional-br-assessoria {
-  grid-template-columns: minmax(320px, .82fr) minmax(0, 1.18fr);
-}
-
 .reportagens-page .report-media-stack {
   display: grid;
   align-content: start;
@@ -107,6 +103,11 @@ body.reportagens-page {
   background: #f5f3f0;
 }
 
+.reportagens-page .report-media-stack:focus-visible {
+  outline: 3px solid rgba(250, 138, 1, .48);
+  outline-offset: -3px;
+}
+
 .reportagens-page .report-media-stack > img,
 .reportagens-page .report-media-stack figure > img {
   display: block;
@@ -114,6 +115,12 @@ body.reportagens-page {
   height: auto;
   border-radius: 14px;
   object-fit: cover;
+}
+
+.reportagens-page .report-media-stack > .video-container {
+  width: 100%;
+  margin: 0;
+  border-radius: 14px;
 }
 
 .reportagens-page .report-media-stack > .report-cover {
@@ -357,7 +364,7 @@ body.reportagens-page {
     box-shadow: 0 9px 28px rgba(17, 17, 17, .08) !important;
   }
 
-  .reportagens-page #treino-funcional-br-assessoria .report-media-stack {
+  .reportagens-page .report-media-stack {
     display: flex;
     gap: 9px;
     padding: 10px 10px 14px;
@@ -371,12 +378,12 @@ body.reportagens-page {
     scrollbar-width: none;
   }
 
-  .reportagens-page #treino-funcional-br-assessoria .report-media-stack::-webkit-scrollbar {
+  .reportagens-page .report-media-stack::-webkit-scrollbar {
     display: none;
   }
 
-  .reportagens-page #treino-funcional-br-assessoria .report-media-stack > img,
-  .reportagens-page #treino-funcional-br-assessoria .report-media-stack > figure {
+  .reportagens-page .report-media-stack > img,
+  .reportagens-page .report-media-stack > figure {
     flex: 0 0 88%;
     width: 88%;
     min-height: 310px;
@@ -385,13 +392,22 @@ body.reportagens-page {
     scroll-snap-stop: always;
   }
 
-  .reportagens-page #treino-funcional-br-assessoria .report-media-stack > img {
+  .reportagens-page .report-media-stack > img {
     aspect-ratio: 4 / 5;
     object-fit: cover;
   }
 
-  .reportagens-page #treino-funcional-br-assessoria .report-media-stack > .report-cover {
+  .reportagens-page .report-media-stack > .report-cover {
     aspect-ratio: 4 / 5;
+  }
+
+  .reportagens-page .report-media-stack > .video-container {
+    flex: 0 0 88%;
+    width: 88%;
+    align-self: center;
+    margin: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
   .reportagens-page .report-professors-photo {
