@@ -21,7 +21,7 @@
 
 <link rel="stylesheet" href="site-common.css">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-3">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-3">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-4">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757"
      crossorigin="anonymous"></script>
 </head>
@@ -165,7 +165,7 @@
 <p>Etapa atual: <strong id="fb-checkin-step"></strong></p>
 <div class="fb-checkin-fields">
 <label for="fb-checkin-status">Como foi esta etapa?
-<select id="fb-checkin-status" required>
+<select id="fb-checkin-status" aria-describedby="fb-checkin-help" required>
 <option value="">Selecione uma resposta</option>
 <option value="concluida">Consegui realizar</option>
 <option value="parcial">Realizei parcialmente</option>
@@ -173,11 +173,11 @@
 </select>
 </label>
 <label for="fb-checkin-note">O que você percebeu?
-<input id="fb-checkin-note" type="text" minlength="3" maxlength="120" placeholder="Escreva uma observação curta" required>
+<input id="fb-checkin-note" type="text" minlength="3" maxlength="120" aria-describedby="fb-checkin-help" placeholder="Escreva uma observação curta" required>
 </label>
 </div>
-<small>Os dois campos são necessários para registrar o progresso neste navegador.</small>
-<button type="submit" class="fb-primary-action" id="fb-complete-step" disabled>Registrar e concluir esta etapa</button>
+<small class="fb-checkin-help" id="fb-checkin-help" aria-live="polite">Para liberar o botão, selecione uma resposta e escreva uma observação.</small>
+<button type="submit" class="fb-primary-action" id="fb-complete-step" aria-describedby="fb-checkin-help" aria-disabled="true" disabled>Registrar e concluir esta etapa</button>
 </form>
 </div>
 <div class="fb-progress-actions">
@@ -827,7 +827,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script src="js/site-common.js" defer></script>
 <script src="js/coluna-valtinho.js?v=20260718-3" defer></script>
-<script src="js/fala-bem-app.js?v=20260718-3" defer></script>
+<script src="js/fala-bem-app.js?v=20260718-4" defer></script>
 
 </body>
 </html>

@@ -906,6 +906,7 @@ function updateProgressActionState() {
   const status = document.getElementById('fb-checkin-status');
   const note = document.getElementById('fb-checkin-note');
   const form = document.getElementById('fb-progress-checkin');
+  const help = document.getElementById('fb-checkin-help');
   if (!button) return;
   const cycleComplete = currentProfile?.objective && getCompletedSteps() >= getJourneySteps().length;
   if (checkin) checkin.hidden = !currentProfile?.objective || cycleComplete;
@@ -915,6 +916,15 @@ function updateProgressActionState() {
   if (note) note.disabled = !requiresCheckin;
   const hasValidData = Boolean(form?.checkValidity() && status?.value && (note?.value.trim().length || 0) >= 3);
   button.disabled = !currentProfile?.objective || (requiresCheckin && !hasValidData);
+  button.setAttribute('aria-disabled', String(button.disabled));
+  if (help && requiresCheckin) {
+    help.classList.toggle('ready', hasValidData);
+    help.textContent = !status?.value
+      ? 'Selecione como foi esta etapa para continuar.'
+      : (note?.value.trim().length || 0) < 3
+        ? 'Agora escreva uma observação com pelo menos 3 caracteres.'
+        : 'Tudo certo. O botão está liberado para registrar e concluir.';
+  }
 }
 
 function renderProfileSummary() {

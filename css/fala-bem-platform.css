@@ -1089,6 +1089,8 @@ padding:11px 16px;border:1px solid rgba(255,255,255,.22);border-radius:10px;back
 .fb-checkin-fields select,.fb-checkin-fields input{min-width:0;width:100%;min-height:44px;padding:10px 11px;border:1px solid #ded6cf;border-radius:10px;background:#fff;color:#292522;font:inherit;font-size:.82rem;outline:0}
 .fb-checkin-fields select:focus,.fb-checkin-fields input:focus{border-color:#ff5a1f;box-shadow:0 0 0 3px rgba(255,90,31,.12)}
 .fb-progress-checkin>small{display:block;margin-top:10px;color:#827a73;font-size:.68rem;line-height:1.4}
+.fb-checkin-help{padding-left:17px;background:radial-gradient(circle at 5px 50%,#e45a25 0 3px,transparent 4px)}
+.fb-checkin-help.ready{color:#157442;background:radial-gradient(circle at 5px 50%,#1a9256 0 3px,transparent 4px)}
 .fb-progress-checkin>.fb-primary-action{width:100%;min-height:44px;margin-top:13px}
 .fb-progress-actions{display:flex;gap:9px;margin-top:18px}
 .fb-progress-actions button{border-color:#d8d1ca;color:#332f2c}
