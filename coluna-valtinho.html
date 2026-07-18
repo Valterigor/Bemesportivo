@@ -21,7 +21,7 @@
 
 <link rel="stylesheet" href="site-common.css">
 <link rel="stylesheet" href="css/coluna-valtinho.css">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260717-2">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260717-3">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757"
      crossorigin="anonymous"></script>
 </head>
@@ -67,10 +67,21 @@
 <footer><a href="game.html">Abrir Game 3D</a><a href="/">Ir para o BeMEsportivo</a></footer>
 </aside>
 <header class="fb-app-intro">
-<div>
+<div class="fb-app-intro-copy">
 <span>MEU CAMINHO BE</span>
 <h1 id="fb-app-title">Existe um jeito de viver o esporte que combina com você.</h1>
 <p id="fb-app-subtitle">Encontre seu ponto de partida e construa uma jornada possível.</p>
+<div class="fb-hero-actions">
+<button type="button" class="fb-primary-action" id="fb-hero-action" data-fb-view="jornada">Montar meu caminho</button>
+<button type="button" class="fb-quiet-action" data-fb-view="perguntar">Tirar uma dúvida</button>
+</div>
+</div>
+<div class="fb-intro-visual" aria-label="Pessoas vivendo o esporte ao ar livre">
+<img src="img/fala-bem-hero-pessoas.png" alt="Um homem e uma mulher correndo juntos ao ar livre">
+<div class="fb-visual-message"><span>SEU RITMO</span><strong id="fb-hero-status">Comece de onde você está.</strong></div>
+<div class="fb-hero-progress" id="fb-hero-progress" style="--fb-hero-progress:0%">
+<strong id="fb-hero-progress-value">0%</strong><span>da jornada</span>
+</div>
 </div>
 </header>
 
@@ -87,10 +98,10 @@
 <span>POR ONDE VOCÊ QUER COMEÇAR?</span>
 <h2 id="fb-path-title">Escolha o momento que mais combina com você agora.</h2>
 <div class="fb-path-options">
-<button type="button" data-fb-start-objective="modalidade"><i>01</i><strong>Descobrir</strong><small>Encontrar meu esporte</small></button>
-<button type="button" data-fb-start-objective="comecar"><i>02</i><strong>Começar</strong><small>Dar o primeiro passo</small></button>
-<button type="button" data-fb-start-objective="performance"><i>03</i><strong>Evoluir</strong><small>Melhorar minha prática</small></button>
-<button type="button" data-fb-start-objective="saude"><i>04</i><strong>Viver melhor</strong><small>Esporte para a vida</small></button>
+<button type="button" class="fb-path-discover" data-fb-start-objective="modalidade"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"></path></svg></span><i>01</i><strong>Descobrir</strong><small>Encontrar meu esporte</small><b>Explorar →</b></button>
+<button type="button" class="fb-path-start" data-fb-start-objective="comecar"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 20V5m0 1h10l-2 3 2 3H5"></path></svg></span><i>02</i><strong>Começar</strong><small>Dar o primeiro passo</small><b>Iniciar →</b></button>
+<button type="button" class="fb-path-evolve" data-fb-start-objective="performance"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 17 5-5 4 3 7-8m-4 0h4v4"></path></svg></span><i>03</i><strong>Evoluir</strong><small>Melhorar minha prática</small><b>Avançar →</b></button>
+<button type="button" class="fb-path-wellbeing" data-fb-start-objective="saude"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-8-8c2.5 0 4.2 1 5.5 2.4"></path><path d="M9 12.5 11.5 15 20 6.5"></path></svg></span><i>04</i><strong>Viver melhor</strong><small>Esporte para a vida</small><b>Cuidar →</b></button>
 </div>
 </section>
 <section class="fb-today-card" id="fb-today-card" aria-labelledby="fb-today-title" hidden>
@@ -111,11 +122,19 @@
 </section>
 <div class="fb-ecosystem-head"><span>SEU ECOSSISTEMA</span><h2>Tudo o que ajuda sua jornada a continuar.</h2></div>
 <div class="fb-app-menu fb-ecosystem-menu" aria-label="Explore o ecossistema Meu Caminho Be">
-<button type="button" data-fb-view="conteudos"><span>01</span><strong>Conhecimento</strong><small>Conteúdos para entender</small></button>
-<button type="button" data-fb-view="ferramentas"><span>02</span><strong>Ferramentas</strong><small>Recursos para praticar</small></button>
-<button type="button" data-fb-view="especialistas"><span>03</span><strong>Especialistas</strong><small>Orientação de pessoas</small></button>
-<button type="button" data-fb-view="comunidade"><span>04</span><strong>Comunidade</strong><small>Experiências para conectar</small></button>
+<button type="button" data-fb-view="conteudos"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h4"></path></svg></span><strong>Conhecimento</strong><small>Conteúdos para entender</small><i>Explorar</i></button>
+<button type="button" data-fb-view="ferramentas"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg></span><strong>Ferramentas</strong><small>Recursos para praticar</small><i>Abrir</i></button>
+<button type="button" data-fb-view="especialistas"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg></span><strong>Especialistas</strong><small>Orientação de pessoas</small><i>Conhecer</i></button>
+<button type="button" data-fb-view="comunidade"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"></circle><circle cx="17" cy="8" r="2.5"></circle><path d="M2.5 20a5.5 5.5 0 0 1 11 0M13 20a4.5 4.5 0 0 1 9 0"></path></svg></span><strong>Comunidade</strong><small>Experiências para conectar</small><i>Participar</i></button>
 </div>
+<section class="fb-smart-recommendations" aria-labelledby="fb-recommendations-title">
+<div class="fb-recommendations-head"><div><span>INSPIRAÇÃO PARA AGORA</span><h2 id="fb-recommendations-title">Um próximo passo pode ser simples.</h2></div><button type="button" data-fb-view="conteudos">Ver todos</button></div>
+<div class="fb-recommendation-grid">
+<button type="button" class="fb-recommendation-card fb-recommendation-featured" data-fb-view="conteudos"><img src="img/fala-bem-hero-pessoas.png" alt="Pessoas correndo juntas"><span><small>HISTÓRIA</small><strong>Movimento combina com companhia.</strong><i>Ler conteúdo →</i></span></button>
+<button type="button" class="fb-recommendation-card" data-fb-view="ferramentas"><img src="img/app-treino-card.png" alt="Pessoa treinando com pesos"><span><small>FERRAMENTA</small><strong>Organize sua próxima prática.</strong><i>Abrir recursos →</i></span></button>
+<button type="button" class="fb-recommendation-card" data-fb-view="especialistas"><img src="img/profissionais/valter.jpg" alt="Profissional do BeMEsportivo"><span><small>ORIENTAÇÃO</small><strong>Encontre quem pode ajudar.</strong><i>Ver especialistas →</i></span></button>
+</div>
+</section>
 <form class="fb-app-search-shortcut" data-fb-open-search role="search">
 <label class="sr-only" for="fb-home-question">Pergunte ao Be</label>
 <div><input id="fb-home-question" type="search" placeholder="Ainda tem uma dúvida? Pergunte ao Be..." autocomplete="off"><button type="submit">Perguntar</button></div>
@@ -753,7 +772,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script src="js/site-common.js" defer></script>
 <script src="js/coluna-valtinho.js" defer></script>
-<script src="js/fala-bem-app.js?v=20260717-2" defer></script>
+<script src="js/fala-bem-app.js?v=20260717-3" defer></script>
 
 </body>
 </html>

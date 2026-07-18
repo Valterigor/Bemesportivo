@@ -449,6 +449,10 @@ function renderPersonalizedExperience() {
   const todayCard = document.getElementById('fb-today-card');
   const appTitle = document.getElementById('fb-app-title');
   const appSubtitle = document.getElementById('fb-app-subtitle');
+  const heroAction = document.getElementById('fb-hero-action');
+  const heroStatus = document.getElementById('fb-hero-status');
+  const heroProgress = document.getElementById('fb-hero-progress');
+  const heroProgressValue = document.getElementById('fb-hero-progress-value');
 
   if (!currentProfile?.objective) {
     pathEntry.hidden = false;
@@ -461,6 +465,13 @@ function renderPersonalizedExperience() {
     progress.hidden = true;
     primary.textContent = 'Criar meu caminho';
     primary.dataset.fbView = 'jornada';
+    if (heroAction) {
+      heroAction.textContent = 'Montar meu caminho';
+      heroAction.dataset.fbView = 'jornada';
+    }
+    if (heroStatus) heroStatus.textContent = 'Comece de onde você está.';
+    if (heroProgress) heroProgress.style.setProperty('--fb-hero-progress', '0%');
+    if (heroProgressValue) heroProgressValue.textContent = '0%';
     if (avatar) avatar.textContent = 'BE';
   } else {
     const completed = getCompletedSteps();
@@ -482,6 +493,13 @@ function renderPersonalizedExperience() {
       : `Próximo passo: ${steps[completed]}`;
     primary.textContent = completed >= steps.length ? 'Ver jornada concluída' : 'Continuar jornada';
     primary.dataset.fbView = 'progresso';
+    if (heroAction) {
+      heroAction.textContent = completed >= steps.length ? 'Rever minha jornada' : 'Continuar jornada';
+      heroAction.dataset.fbView = 'progresso';
+    }
+    if (heroStatus) heroStatus.textContent = completed >= steps.length ? 'Ciclo concluído. Celebre sua evolução.' : `Próximo: ${steps[completed]}`;
+    if (heroProgress) heroProgress.style.setProperty('--fb-hero-progress', `${percent}%`);
+    if (heroProgressValue) heroProgressValue.textContent = `${percent}%`;
     if (avatar) avatar.textContent = displayName ? displayName.charAt(0).toLocaleUpperCase('pt-BR') : 'BE';
   }
 
