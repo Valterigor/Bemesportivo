@@ -203,7 +203,7 @@ const normalize = value => String(value || '')
   .replace(/\s+/g, ' ')
   .trim();
 
-const stopWords = new Set(['a','ao','aos','as','com','como','da','das','de','do','dos','e','em','eu','me','na','nas','no','nos','o','os','para','por','que','se','um','uma','qual','quais','quanto','quantos','quando','onde','porque']);
+const stopWords = new Set(['a','ao','aos','anos','as','com','como','da','das','de','devo','depois','dia','dias','do','dos','durante','e','em','eu','fazer','idade','me','melhor','na','nas','no','nos','o','os','para','pode','posso','por','qual','quais','quando','quantas','quanto','quantos','que','se','semana','tenho','um','uma','vez','vezes','onde','porque']);
 const searchTokens = query => [...new Set(normalize(query).split(' ').filter(token => token.length > 2 && !stopWords.has(token)))];
 
 function buildLocalIndex() {
@@ -272,7 +272,7 @@ const scientificVocabulary = {
   sono: 'sleep', dormir: 'sleep', ansiedade: 'anxiety', depressao: 'depression', estresse: 'stress', motivacao: 'motivation', constancia: 'adherence',
   dor: 'pain', lesao: 'injury', joelho: 'knee', coluna: 'spine', ombro: 'shoulder', tornozelo: 'ankle', tendinite: 'tendinopathy',
   coracao: 'cardiovascular', cardiaco: 'cardiac', pressao: 'blood pressure', hipertensao: 'hypertension', diabetes: 'diabetes', obesidade: 'obesity',
-  gestante: 'pregnancy', gravidez: 'pregnancy', idoso: 'older adults', idosos: 'older adults', crianca: 'children', criancas: 'children'
+  gestante: 'pregnancy', gravidez: 'pregnancy', idoso: 'older adults', idosos: 'older adults', crianca: 'children', criancas: 'children', adolescente: 'adolescents', adolescentes: 'adolescents', sedentario: 'physically inactive'
 };
 
 const evidenceDomains = [
@@ -280,26 +280,64 @@ const evidenceDomains = [
   { id: 'clinical', label: 'Exercício e saúde', patterns: ['saude','hipertens','diabetes','obesidade','cardiac','coracao','pressao','doenca','asma','colesterol'], terms: ['exercise therapy','physical activity','clinical guideline'] },
   { id: 'running', label: 'Corrida', patterns: ['corrida','correr','trote','maratona'], terms: ['running','running training','aerobic exercise'] },
   { id: 'strength', label: 'Força e hipertrofia', patterns: ['musculacao','hipertrofia','massa muscular','forca','academia'], terms: ['resistance training','strength training','muscle hypertrophy'] },
-  { id: 'weight', label: 'Emagrecimento', patterns: ['emagrec','perder peso','gordura','peso corporal'], terms: ['weight loss','body composition','physical activity'] },
+  { id: 'weight', label: 'Emagrecimento', patterns: ['para emagrecer','emagrec','perder peso','perda de peso','gordura','peso corporal'], terms: ['weight loss','body composition','physical activity'] },
   { id: 'recovery', label: 'Recuperação', patterns: ['recuper','descanso','fadiga','cansaco','pos treino'], terms: ['exercise recovery','muscle soreness','training load'] },
   { id: 'hydration', label: 'Hidratação', patterns: ['hidrat','agua','desidrat'], terms: ['hydration','exercise fluid replacement','dehydration'] },
   { id: 'nutrition', label: 'Nutrição esportiva', patterns: ['aliment','nutri','proteina','creatina','suplement','carboidrato'], terms: ['sports nutrition','exercise nutrition','dietary supplement'] },
   { id: 'sleep', label: 'Sono', patterns: ['sono','dormir','insonia'], terms: ['sleep','exercise recovery','physical activity'] },
   { id: 'mental', label: 'Saúde mental', patterns: ['ansiedade','depressao','estresse','autoestima','saude mental'], terms: ['mental health','exercise','physical activity'] },
   { id: 'adherence', label: 'Constância', patterns: ['constancia','habito','motivacao','desistir','rotina'], terms: ['exercise adherence','behavior change','physical activity'] },
-  { id: 'special-population', label: 'Prática segura', patterns: ['gestante','gravidez','idoso','idosos','crianca','criancas','adolescente'], terms: ['exercise prescription','physical activity guideline','safety'] }
+  { id: 'special-population', label: 'Prática segura', patterns: ['gestante','gravidez','idoso','idosos','terceira idade','60 anos','crianca','criancas','adolescente'], terms: ['exercise prescription','physical activity guideline','safety'] }
 ];
+
+const questionIntents = [
+  { id: 'safety', label: 'segurança', patterns: ['posso','seguro','seguranca','risco','contraindic','cuidado','perigoso'], terms: ['safety','contraindications'] },
+  { id: 'frequency', label: 'frequência e volume', patterns: ['quantas vezes','frequencia','por semana','quanto tempo','quantos minutos','todo dia','todos os dias'], terms: ['frequency','dose response'] },
+  { id: 'start', label: 'como começar', patterns: ['como comecar','quero comecar','iniciar','iniciante','primeiro passo','voltar a'], terms: ['beginner','exercise prescription'] },
+  { id: 'performance', label: 'como evoluir', patterns: ['melhorar','evoluir','aumentar','desempenho','performance','mais rapido','mais forte'], terms: ['performance','progression'] },
+  { id: 'choice', label: 'escolha', patterns: ['qual melhor','melhor exercicio','o que escolher','qual esporte','vale mais','ou'], terms: ['comparison','recommendation'] },
+  { id: 'recovery', label: 'recuperação', patterns: ['recuperar','recuperacao','depois do treino','pos treino','descansar'], terms: ['recovery','training load'] }
+];
+
+const populationPatterns = [
+  { id: 'child', label: 'crianças e adolescentes', patterns: ['crianca','criancas','adolescente','ate 17'], terms: ['children','adolescents'] },
+  { id: 'older', label: 'pessoas com 60 anos ou mais', patterns: ['idoso','idosos','terceira idade','60 anos','depois dos 60'], terms: ['older adults'] },
+  { id: 'pregnancy', label: 'gestantes', patterns: ['gestante','gravidez','gravida'], terms: ['pregnancy'] },
+  { id: 'beginner', label: 'iniciantes', patterns: ['iniciante','comecar','primeiro passo','sedentario'], terms: ['beginner'] }
+];
+
+function matchesPattern(text, pattern) {
+  if (pattern.includes(' ') || pattern.length > 3) return text.includes(pattern);
+  const escaped = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(?:^|\\s)${escaped}(?:$|\\s)`).test(text);
+}
 
 function classifyQuestion(query) {
   const normalized = normalize(query);
-  const domains = evidenceDomains.filter(domain => domain.patterns.some(pattern => normalized.includes(pattern)));
-  return { normalized, domains, primary: domains[0] || { id: 'general', label: 'Atividade física', terms: ['physical activity','exercise'] } };
+  const domains = evidenceDomains.map(domain => ({
+    ...domain,
+    score: domain.patterns.reduce((score, pattern) => score + (matchesPattern(normalized, pattern) ? Math.max(2, pattern.split(' ').length * 2) : 0), 0)
+  })).filter(domain => domain.score > 0).sort((a, b) => b.score - a.score);
+  const primary = domains[0] || { id: 'general', label: 'Atividade física', terms: ['physical activity','exercise'] };
+  let intent = questionIntents.map(item => ({
+    ...item,
+    score: item.patterns.reduce((score, pattern) => score + (matchesPattern(normalized, pattern) ? Math.max(2, pattern.split(' ').length * 2) : 0), 0)
+  })).filter(item => item.score > 0).sort((a, b) => b.score - a.score)[0] || { id: 'general', label: 'orientação', terms: [] };
+  const explicitPerformance = ['desempenho','performance','evoluir','mais rapido','mais forte'].some(pattern => normalized.includes(pattern));
+  if (intent.id === 'performance' && ['injury','clinical','sleep','mental','adherence'].includes(primary.id) && !explicitPerformance) {
+    intent = { id: 'general', label: 'orientação', terms: [] };
+  }
+  if (primary.id === 'recovery' && ['general','performance'].includes(intent.id) && !explicitPerformance) {
+    intent = questionIntents.find(item => item.id === 'recovery');
+  }
+  const population = populationPatterns.find(item => item.patterns.some(pattern => matchesPattern(normalized, pattern))) || null;
+  return { normalized, domains, intent, population, primary };
 }
 
 function buildScientificQuery(query, classification) {
   const translatedTokens = searchTokens(query).map(token => scientificVocabulary[token] || token).filter(Boolean);
   const concepts = classification.domains.flatMap(domain => domain.terms);
-  const terms = [...new Set([...translatedTokens, ...concepts])].slice(0, 10);
+  const terms = [...new Set([...translatedTokens, ...concepts, ...(classification.intent.terms || []), ...(classification.population?.terms || [])])].slice(0, 12);
   return terms.join(' ');
 }
 
@@ -525,9 +563,65 @@ const guidanceByDomain = {
   }
 };
 
-function buildGuidance(classification, evidenceCount) {
-  const guidance = guidanceByDomain[classification.primary.id] || guidanceByDomain.general;
-  return { ...guidance, domain: classification.primary.label, evidenceCount };
+const intentGuidance = {
+  start: {
+    title: domain => `Um começo possível em ${domain.toLocaleLowerCase('pt-BR')}.`,
+    lead: 'O melhor primeiro passo é aquele que cabe na rotina, pode ser repetido e permite observar a resposta do corpo.',
+    action: 'Comece com uma versão curta e confortável e só progrida quando conseguir repeti-la bem.'
+  },
+  frequency: {
+    title: domain => `A quantidade adequada em ${domain.toLocaleLowerCase('pt-BR')} depende do seu momento.`,
+    lead: 'Frequência e duração não têm um único número ideal: experiência, intensidade, recuperação e objetivo mudam a recomendação.',
+    action: 'Distribua a prática na semana e ajuste uma variável por vez: frequência, duração ou intensidade.'
+  },
+  safety: {
+    title: domain => `Segurança vem antes da progressão em ${domain.toLocaleLowerCase('pt-BR')}.`,
+    lead: 'A resposta depende do histórico, dos sintomas atuais e da intensidade pretendida; uma busca não substitui avaliação individual.',
+    action: 'Interrompa a prática e procure avaliação diante de dor forte, falta de ar incomum, desmaio ou piora progressiva.'
+  },
+  performance: {
+    title: domain => `Para evoluir em ${domain.toLocaleLowerCase('pt-BR')}, acompanhe o processo.`,
+    lead: 'Melhora consistente costuma vir de estímulo progressivo, recuperação suficiente e uma meta que possa ser medida.',
+    action: 'Escolha um indicador de evolução e revise-o após algumas semanas, sem aumentar tudo ao mesmo tempo.'
+  },
+  choice: {
+    title: domain => `A melhor escolha em ${domain.toLocaleLowerCase('pt-BR')} precisa combinar com você.`,
+    lead: 'A opção mais útil não é apenas a mais eficiente no papel: segurança, acesso, preferência e possibilidade de manter a prática também contam.',
+    action: 'Compare as opções por objetivo, prazer, acesso e tolerância; experimente antes de decidir quando for seguro.'
+  },
+  recovery: {
+    title: () => 'Recuperação faz parte do resultado.',
+    lead: 'A resposta ao treino depende do equilíbrio entre esforço e recuperação, e não apenas da quantidade de atividade realizada.',
+    action: 'Observe sono, disposição, dor e desempenho antes de repetir uma sessão exigente.'
+  }
+};
+
+function objectiveForGuidance(classification) {
+  if (classification.primary.id === 'injury' || classification.intent.id === 'recovery') return 'recuperacao';
+  if (classification.primary.id === 'weight') return 'emagrecer';
+  if (classification.intent.id === 'start' || classification.population?.id === 'beginner') return 'comecar';
+  if (classification.intent.id === 'performance') return 'performance';
+  if (['clinical','mental','sleep','adherence','special-population'].includes(classification.primary.id)) return 'saude';
+  return 'comecar';
+}
+
+function buildGuidance(classification, evidenceCount, query) {
+  const domainGuidance = guidanceByDomain[classification.primary.id] || guidanceByDomain.general;
+  const intent = intentGuidance[classification.intent.id];
+  const populationNote = classification.population
+    ? ` A orientação deve considerar especificamente ${classification.population.label}.`
+    : '';
+  return {
+    ...domainGuidance,
+    title: intent ? intent.title(classification.primary.label) : domainGuidance.title,
+    intro: `${intent?.lead || domainGuidance.intro}${populationNote}`,
+    actions: intent ? [intent.action, ...domainGuidance.actions.slice(0, 2)] : domainGuidance.actions,
+    domain: classification.primary.label,
+    intent: classification.intent.label,
+    evidenceCount,
+    query,
+    objective: objectiveForGuidance(classification)
+  };
 }
 
 function createGuidanceCard(guidance) {
@@ -537,7 +631,7 @@ function createGuidanceCard(guidance) {
   const label = document.createElement('span');
   label.textContent = 'ORIENTAÇÃO INICIAL';
   const domain = document.createElement('span');
-  domain.textContent = guidance.domain;
+  domain.textContent = `${guidance.domain} · ${guidance.intent}`;
   header.append(label, domain);
   const title = document.createElement('h3');
   title.textContent = guidance.title;
@@ -553,7 +647,19 @@ function createGuidanceCard(guidance) {
   footer.textContent = guidance.evidenceCount
     ? `A busca encontrou ${guidance.evidenceCount} fonte${guidance.evidenceCount > 1 ? 's' : ''} científica${guidance.evidenceCount > 1 ? 's' : ''} relacionada${guidance.evidenceCount > 1 ? 's' : ''}.`
     : 'Orientação educativa geral; nenhuma fonte científica específica foi recuperada agora.';
-  article.append(header, title, intro, list, footer);
+  const nextStep = document.createElement('button');
+  nextStep.type = 'button';
+  nextStep.className = 'fb-guidance-next';
+  nextStep.textContent = 'Levar para minha trajetória →';
+  nextStep.addEventListener('click', () => {
+    openView('jornada');
+    const option = document.querySelector(`[data-journey-field="objective"][data-journey-value="${guidance.objective}"]`);
+    window.setTimeout(() => {
+      option?.click();
+      document.getElementById('journey-assistant')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 220);
+  });
+  article.append(header, title, intro, list, footer, nextStep);
   return article;
 }
 
@@ -661,7 +767,7 @@ async function answerQuestion(query) {
   if (requestId !== answerRequestId) return;
   const scientificResults = rankScientificResults(externalData.scientific, scientificQuery, classification, cleanQuery);
   const contextResults = externalData.context.slice(0, scientificResults.length ? 1 : 2);
-  const guidance = buildGuidance(classification, scientificResults.length);
+  const guidance = buildGuidance(classification, scientificResults.length, cleanQuery);
   const output = [createGuidanceCard(guidance)];
 
   if (localResults.length) {
@@ -680,7 +786,7 @@ async function answerQuestion(query) {
   resultsContainer.replaceChildren(...output);
   const sources = [...new Set(scientificResults.map(result => result.source))];
   if (scientificResults.length) {
-    answerStatus.textContent = `Pergunta classificada como “${classification.primary.label}”. ${scientificResults.length} evidência${scientificResults.length > 1 ? 's' : ''} selecionada${scientificResults.length > 1 ? 's' : ''} em ${sources.join(' e ')}.`;
+    answerStatus.textContent = `Entendemos sua pergunta como “${classification.primary.label}” com foco em ${classification.intent.label}. ${scientificResults.length} evidência${scientificResults.length > 1 ? 's' : ''} selecionada${scientificResults.length > 1 ? 's' : ''} em ${sources.join(' e ')}.`;
   } else if (localResults.length || contextResults.length) {
     answerStatus.textContent = `Encontramos conteúdo relacionado a “${classification.primary.label}”, mas nenhuma evidência científica específica foi recuperada agora.`;
   } else {
@@ -694,6 +800,17 @@ function getJourneySteps(profile = currentProfile) {
 
 function getCompletedSteps(profile = currentProfile) {
   return Math.max(1, Math.min(5, Number(profile?.progress) || 1));
+}
+
+function updateProgressActionState() {
+  const button = document.getElementById('fb-complete-step');
+  const checkin = document.getElementById('fb-progress-checkin');
+  const status = document.getElementById('fb-checkin-status');
+  const note = document.getElementById('fb-checkin-note');
+  if (!button) return;
+  const cycleComplete = currentProfile?.objective && getCompletedSteps() >= getJourneySteps().length;
+  if (checkin) checkin.hidden = !currentProfile?.objective || cycleComplete;
+  button.disabled = !currentProfile?.objective || (!cycleComplete && (!status?.value || (note?.value.trim().length || 0) < 3));
 }
 
 function renderProfileSummary() {
@@ -727,11 +844,14 @@ function renderProgress() {
   if (!currentProfile?.objective) {
     list.replaceChildren();
     document.getElementById('fb-progress-summary').textContent = 'Crie seu perfil para iniciar uma jornada personalizada.';
+    updateProgressActionState();
     return;
   }
 
   const steps = getJourneySteps();
   const completed = getCompletedSteps();
+  const savedCheckins = Array.isArray(currentProfile.checkins) ? currentProfile.checkins : [];
+  const checkinStatusLabels = { concluida: 'Realizada', parcial: 'Realizada parcialmente', ajustar: 'Caminho ajustado' };
   const percent = completed * 20;
   document.getElementById('fb-progress-title').textContent = currentProfile.title || 'Seu caminho continua aqui.';
   document.getElementById('fb-progress-summary').textContent = currentProfile.rhythm || 'Avance uma etapa por vez.';
@@ -745,11 +865,14 @@ function renderProgress() {
     const detail = document.createElement('small');
     const isComplete = index < completed;
     const isCurrent = index === completed && completed < steps.length;
+    const savedCheckin = [...savedCheckins].reverse().find(item => item.step === step);
     item.classList.toggle('complete', isComplete);
     item.classList.toggle('current', isCurrent);
     title.textContent = step;
     detail.textContent = index === 0
       ? 'Definido pelas respostas do seu perfil.'
+      : isComplete && savedCheckin
+        ? `${checkinStatusLabels[savedCheckin.status] || 'Registrada'}: ${savedCheckin.note}`
       : index === 1 && currentProfile.nextAction
         ? currentProfile.nextAction
         : isComplete ? 'Etapa concluída.' : isCurrent ? 'Este é o seu próximo passo.' : 'Será liberada na sequência da jornada.';
@@ -760,6 +883,9 @@ function renderProgress() {
 
   const completeButton = document.getElementById('fb-complete-step');
   completeButton.textContent = completed >= steps.length ? 'Iniciar novo ciclo' : 'Concluir etapa atual';
+  const checkinStep = document.getElementById('fb-checkin-step');
+  if (checkinStep && completed < steps.length) checkinStep.textContent = steps[completed];
+  updateProgressActionState();
 }
 
 function renderPersonalizedExperience() {
@@ -839,7 +965,8 @@ window.addEventListener('meuCaminhoBe:profile-updated', event => {
   saveProfile({
     ...details,
     name: currentProfile?.name || '',
-    progress: sameObjective ? getCompletedSteps() : 1
+    progress: sameObjective ? getCompletedSteps() : 1,
+    checkins: sameObjective ? (currentProfile?.checkins || []) : []
   });
 });
 
@@ -849,12 +976,33 @@ document.getElementById('fb-complete-step')?.addEventListener('click', () => {
     return;
   }
   const completed = getCompletedSteps();
-  const nextProgress = completed >= 5 ? 1 : completed + 1;
-  saveProfile({ progress: nextProgress });
+  const steps = getJourneySteps();
+  const status = document.getElementById('fb-checkin-status');
+  const note = document.getElementById('fb-checkin-note');
+  const cycleComplete = completed >= steps.length;
+  if (!cycleComplete && (!status?.value || (note?.value.trim().length || 0) < 3)) {
+    document.getElementById('fb-progress-feedback').textContent = 'Preencha os dois pontos importantes antes de concluir esta etapa.';
+    (!status?.value ? status : note)?.focus();
+    updateProgressActionState();
+    return;
+  }
+  const nextProgress = cycleComplete ? 1 : completed + 1;
+  const checkins = cycleComplete ? [] : [...(currentProfile.checkins || []), {
+    step: steps[completed],
+    status: status.value,
+    note: note.value.trim(),
+    completedAt: new Date().toISOString()
+  }];
+  if (status) status.value = '';
+  if (note) note.value = '';
+  saveProfile({ progress: nextProgress, checkins });
   document.getElementById('fb-progress-feedback').textContent = completed >= 5
     ? 'Novo ciclo iniciado. O primeiro passo já está concluído.'
-    : 'Etapa concluída. Seu próximo passo já está disponível.';
+    : 'Etapa registrada. Seu próximo passo já está disponível.';
 });
+
+document.getElementById('fb-checkin-status')?.addEventListener('change', updateProgressActionState);
+document.getElementById('fb-checkin-note')?.addEventListener('input', updateProgressActionState);
 
 document.getElementById('fb-profile-form')?.addEventListener('submit', event => {
   event.preventDefault();
@@ -900,6 +1048,15 @@ document.querySelector('[data-fb-open-search]')?.addEventListener('submit', even
 
 document.getElementById('journey-see-content')?.addEventListener('click', () => {
   window.setTimeout(() => openView('conteudos'), 0);
+});
+
+document.getElementById('journey-ask-next')?.addEventListener('click', () => {
+  if (!currentProfile?.objective) return;
+  const action = currentProfile.nextAction || objectiveLabels[currentProfile.objective] || 'meu próximo passo';
+  const query = `Como fazer com segurança este próximo passo: ${action}`.slice(0, 180);
+  openView('perguntar', { focus: false });
+  answerInput.value = query;
+  answerForm.requestSubmit();
 });
 
 document.querySelectorAll('[data-modality]').forEach(button => {

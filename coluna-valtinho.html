@@ -21,7 +21,7 @@
 
 <link rel="stylesheet" href="site-common.css">
 <link rel="stylesheet" href="css/coluna-valtinho.css">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260717-5">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260717-8">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757"
      crossorigin="anonymous"></script>
 </head>
@@ -127,14 +127,6 @@
 <button type="button" data-fb-view="especialistas"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg></span><strong>Especialistas</strong><small>Orientação de pessoas</small><i>Conhecer</i></button>
 <button type="button" data-fb-view="comunidade"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"></circle><circle cx="17" cy="8" r="2.5"></circle><path d="M2.5 20a5.5 5.5 0 0 1 11 0M13 20a4.5 4.5 0 0 1 9 0"></path></svg></span><strong>Comunidade</strong><small>Experiências para conectar</small><i>Participar</i></button>
 </div>
-<section class="fb-smart-recommendations" aria-labelledby="fb-recommendations-title">
-<div class="fb-recommendations-head"><div><span>INSPIRAÇÃO PARA AGORA</span><h2 id="fb-recommendations-title">Um próximo passo pode ser simples.</h2></div><button type="button" data-fb-view="conteudos">Ver todos</button></div>
-<div class="fb-recommendation-grid">
-<button type="button" class="fb-recommendation-card fb-recommendation-featured" data-fb-view="conteudos"><img src="img/fala-bem-hero-pessoas.png" alt="Pessoas correndo juntas"><span><small>HISTÓRIA</small><strong>Movimento combina com companhia.</strong><i>Ler conteúdo →</i></span></button>
-<button type="button" class="fb-recommendation-card" data-fb-view="ferramentas"><img src="img/app-treino-card.png" alt="Pessoa treinando com pesos"><span><small>FERRAMENTA</small><strong>Organize sua próxima prática.</strong><i>Abrir recursos →</i></span></button>
-<button type="button" class="fb-recommendation-card" data-fb-view="especialistas"><img src="img/profissionais/valter.jpg" alt="Profissional do BeMEsportivo"><span><small>ORIENTAÇÃO</small><strong>Encontre quem pode ajudar.</strong><i>Ver especialistas →</i></span></button>
-</div>
-</section>
 <form class="fb-app-search-shortcut" data-fb-open-search role="search">
 <label class="sr-only" for="fb-home-question">Pergunte ao Be</label>
 <div><input id="fb-home-question" type="search" placeholder="Ainda tem uma dúvida? Pergunte ao Be..." autocomplete="off"><button type="submit">Perguntar</button></div>
@@ -151,8 +143,27 @@
 <div class="fb-progress-track" aria-hidden="true"><i id="fb-progress-bar"></i></div>
 </div>
 <ol class="fb-progress-steps" id="fb-progress-steps"></ol>
+<section class="fb-progress-checkin" id="fb-progress-checkin" aria-labelledby="fb-checkin-title">
+<span>PONTOS IMPORTANTES</span>
+<h3 id="fb-checkin-title">Registre esta etapa antes de avançar.</h3>
+<p>Etapa atual: <strong id="fb-checkin-step"></strong></p>
+<div class="fb-checkin-fields">
+<label for="fb-checkin-status">Como foi esta etapa?
+<select id="fb-checkin-status" required>
+<option value="">Selecione uma resposta</option>
+<option value="concluida">Consegui realizar</option>
+<option value="parcial">Realizei parcialmente</option>
+<option value="ajustar">Preciso ajustar o caminho</option>
+</select>
+</label>
+<label for="fb-checkin-note">O que você percebeu?
+<input id="fb-checkin-note" type="text" minlength="3" maxlength="120" placeholder="Escreva uma observação curta" required>
+</label>
+</div>
+<small>Os dois campos são necessários para registrar o progresso neste navegador.</small>
+</section>
 <div class="fb-progress-actions">
-<button type="button" class="fb-primary-action" id="fb-complete-step">Concluir etapa atual</button>
+<button type="button" class="fb-primary-action" id="fb-complete-step" disabled>Concluir etapa atual</button>
 <button type="button" data-fb-view="jornada">Ajustar meu caminho</button>
 </div>
 <p class="fb-progress-feedback" id="fb-progress-feedback" aria-live="polite"></p>
@@ -270,12 +281,13 @@
 <span class="journey-result-profile" id="journey-result-profile"></span>
 </div>
 <div class="journey-result-grid">
-<div><span>COMECE ASSIM</span><strong id="journey-result-start"></strong></div>
+<div><span>SEU PRÓXIMO PASSO</span><strong id="journey-result-start"></strong></div>
 <div><span>RITMO SUGERIDO</span><strong id="journey-result-rhythm"></strong></div>
 <div><span>LEMBRETE</span><strong id="journey-result-reminder"></strong></div>
 </div>
 <div class="journey-result-actions">
 <button type="button" class="btn" id="journey-see-content">Ver conteúdos para meu caminho</button>
+<button type="button" class="journey-ask-next" id="journey-ask-next">Tirar uma dúvida sobre este passo</button>
 <button type="button" class="journey-restart" id="journey-restart">Refazer trajetória</button>
 </div>
 </div>
@@ -771,8 +783,8 @@ Seu navegador não consegue reproduzir este vídeo.
 </button>
 
 <script src="js/site-common.js" defer></script>
-<script src="js/coluna-valtinho.js" defer></script>
-<script src="js/fala-bem-app.js?v=20260717-6" defer></script>
+<script src="js/coluna-valtinho.js?v=20260717-2" defer></script>
+<script src="js/fala-bem-app.js?v=20260717-7" defer></script>
 
 </body>
 </html>

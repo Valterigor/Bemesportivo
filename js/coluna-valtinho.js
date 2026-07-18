@@ -107,6 +107,16 @@ filter:'comecar',
 title:'Comece leve, com confiança e curiosidade.',
 summary:'Seu melhor caminho agora é experimentar uma prática simples, sem pressão por desempenho. O objetivo inicial é criar familiaridade e vontade de repetir.',
 start:'Escolha uma atividade acessível e marque o primeiro dia.',
+starts:{
+'15':'Escolha uma prática simples e reserve 10 minutos para experimentá-la.',
+'30':'Escolha uma prática acessível e marque uma primeira sessão de 20 minutos.',
+'45':'Agende uma aula experimental ou uma sessão leve de até 40 minutos.'
+},
+rhythms:{
+'15':'Comece com 2 blocos de 10 a 15 minutos na semana.',
+'30':'Faça 2 a 3 sessões de 20 a 30 minutos, com intervalo entre elas.',
+'45':'Faça 2 a 3 sessões completas e mantenha ao menos um dia leve entre estímulos.'
+},
 reminder:'Começar pequeno também é começar.'
 },
 saude:{
@@ -114,6 +124,16 @@ filter:'permanecer',
 title:'Transforme movimento em parte da sua semana.',
 summary:'Uma rotina sustentável pode melhorar disposição e bem-estar. Priorize regularidade, prazer e uma intensidade que permita continuar.',
 start:'Escolha horários possíveis e uma prática que você goste.',
+starts:{
+'15':'Reserve dois blocos curtos da semana para caminhar, pedalar ou se movimentar.',
+'30':'Escolha dois horários fixos e uma atividade em intensidade confortável.',
+'45':'Monte uma semana com atividade aeróbica, força e espaço para recuperação.'
+},
+rhythms:{
+'15':'Some blocos de 10 a 15 minutos e aumente quando a rotina estiver estável.',
+'30':'Pratique 3 vezes por semana e mantenha intensidade que permita conversar.',
+'45':'Alterne 3 a 4 sessões de força e atividade aeróbica ao longo da semana.'
+},
 reminder:'Regularidade vale mais do que excesso.'
 },
 emagrecer:{
@@ -121,6 +141,16 @@ filter:'permanecer',
 title:'Construa hábitos que possam acompanhar você.',
 summary:'Movimento regular, alimentação equilibrada e metas realistas formam um caminho mais sustentável do que mudanças intensas e passageiras.',
 start:'Escolha uma atividade prazerosa e organize uma semana possível.',
+starts:{
+'15':'Faça um bloco ativo de 10 a 15 minutos e registre que conseguiu cumprir.',
+'30':'Marque três sessões possíveis e comece pela atividade de que mais gosta.',
+'45':'Combine uma sessão aeróbica com exercícios de força em dias alternados.'
+},
+rhythms:{
+'15':'Repita 3 a 5 blocos curtos ao longo da semana.',
+'30':'Busque 3 a 4 sessões semanais, alternando esforço e recuperação.',
+'45':'Combine força e atividade aeróbica em 4 sessões, sem compensações extremas.'
+},
 reminder:'Resultados duradouros começam com hábitos que você consegue manter.'
 },
 performance:{
@@ -128,6 +158,16 @@ filter:'evoluir',
 title:'Evolua com método, recuperação e medida.',
 summary:'Seu caminho pede um objetivo claro e acompanhamento do progresso. Treino, descanso e alimentação precisam trabalhar juntos.',
 start:'Defina uma meta mensurável para as próximas quatro semanas.',
+starts:{
+'15':'Escolha uma habilidade e faça um bloco técnico curto, registrando o resultado.',
+'30':'Registre seu ponto de partida e execute uma sessão focada em uma única meta.',
+'45':'Defina uma meta de quatro semanas e planeje treino, recuperação e aferição.'
+},
+rhythms:{
+'15':'Use 3 a 4 blocos técnicos curtos e evite transformar todos em alta intensidade.',
+'30':'Alterne 3 a 4 sessões focadas, com ao menos um dia de recuperação.',
+'45':'Organize carga e recuperação em um ciclo semanal e revise os dados a cada 7 dias.'
+},
 reminder:'Aumente apenas uma variável de cada vez.'
 },
 modalidade:{
@@ -135,6 +175,16 @@ filter:'comecar',
 title:'Descubra pelo movimento, não apenas pela teoria.',
 summary:'Experimente modalidades diferentes até encontrar uma combinação de ambiente, desafio e convivência que faça sentido para você.',
 start:'Selecione duas modalidades e faça uma aula experimental.',
+starts:{
+'15':'Liste duas modalidades próximas e assista ou experimente uma atividade curta.',
+'30':'Marque uma experiência de 30 minutos em uma das duas modalidades escolhidas.',
+'45':'Faça uma aula experimental completa e registre como se sentiu antes e depois.'
+},
+rhythms:{
+'15':'Explore uma opção por semana, sem obrigação de decidir imediatamente.',
+'30':'Teste cada modalidade ao menos duas vezes antes de comparar.',
+'45':'Reserve uma sessão semanal para cada opção e escolha pela vontade de voltar.'
+},
 reminder:'O esporte certo é aquele que convida você a voltar.'
 },
 recuperacao:{
@@ -142,6 +192,16 @@ filter:'permanecer',
 title:'Volte com calma e construa confiança novamente.',
 summary:'Retomar é uma nova etapa. Reduza expectativas no início, observe as respostas do corpo e procure orientação profissional quando necessário.',
 start:'Crie uma versão mais leve da prática que deseja retomar.',
+starts:{
+'15':'Teste por 10 minutos uma versão leve da prática e observe a resposta nas horas seguintes.',
+'30':'Retome com metade da duração habitual e encerre se o movimento piorar sintomas.',
+'45':'Planeje uma sessão controlada, com aquecimento e volume abaixo do que fazia antes.'
+},
+rhythms:{
+'15':'Faça 2 retomadas curtas, separadas por tempo suficiente para observar o corpo.',
+'30':'Comece com 2 a 3 sessões leves e só aumente após boa recuperação.',
+'45':'Alterne sessões leves e descanso; progrida uma variável por semana.'
+},
 reminder:'Dor persistente é sinal para buscar avaliação profissional.'
 }
 };
@@ -170,11 +230,13 @@ const availability=journeyAvailability[journeyState.availability];
 if(!recommendation||!availability) return;
 document.getElementById('journey-result-title').textContent=recommendation.title;
 document.getElementById('journey-result-summary').textContent=recommendation.summary;
-document.getElementById('journey-result-start').textContent=recommendation.start;
-document.getElementById('journey-result-rhythm').textContent=availability.rhythm;
+const personalizedStart=recommendation.starts?.[journeyState.availability]||recommendation.start;
+const personalizedRhythm=recommendation.rhythms?.[journeyState.availability]||availability.rhythm;
+document.getElementById('journey-result-start').textContent=personalizedStart;
+document.getElementById('journey-result-rhythm').textContent=personalizedRhythm;
 let reminder=recommendation.reminder;
 if(journeyState.age==='ate-17') reminder='Conte com a orientação de um responsável e de profissionais preparados.';
-if(journeyState.age==='60-mais'&&journeyState.objective!=='performance') reminder='Respeite seu histórico e avance de forma gradual.';
+if(journeyState.age==='60-mais') reminder='Considere seu histórico de saúde, priorize adaptação gradual e busque orientação quando necessário.';
 document.getElementById('journey-result-reminder').textContent=reminder;
 document.getElementById('journey-result-profile').textContent=`${journeyAgeLabels[journeyState.age]} · ${availability.label}`;
 journeySeeContent.dataset.resultFilter=recommendation.filter;
@@ -186,8 +248,8 @@ availability:journeyState.availability,
 availabilityLabel:availability.label,
 title:recommendation.title,
 summary:recommendation.summary,
-nextAction:recommendation.start,
-rhythm:availability.rhythm,
+nextAction:personalizedStart,
+rhythm:personalizedRhythm,
 reminder,
 filter:recommendation.filter
 }}));
