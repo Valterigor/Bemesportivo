@@ -10,6 +10,7 @@ const appNavButtons = [...shell.querySelectorAll('.fb-app-nav [data-fb-view]')];
 const mobileDrawerViewButtons = [...shell.querySelectorAll('.fb-mobile-drawer [data-fb-view]')];
 const managedSections = [...document.querySelectorAll('.container.page > :not(.fb-app-shell)')];
 const PROFILE_STORAGE_KEY = 'meuCaminhoBeProfileV1';
+const ACCESS_STORAGE_KEY = 'meuCaminhoBeAccessV1';
 let currentProfile = readStoredProfile();
 const viewTargets = {
   jornada: ['#minha-jornada'],
@@ -27,12 +28,12 @@ const objectiveLabels = {
 };
 
 const journeyStepTemplates = {
-  comecar: ['Perfil e objetivo definidos','Escolher uma prática acessível','Realizar a primeira experiência','Repetir em um dia possível','Revisar e escolher o próximo ciclo'],
-  saude: ['Perfil e objetivo definidos','Reservar horários possíveis','Fazer uma prática leve','Repetir com regularidade','Revisar disposição e rotina'],
-  emagrecer: ['Perfil e objetivo definidos','Escolher uma atividade prazerosa','Organizar uma semana possível','Registrar sua constância','Revisar hábitos e próximo ciclo'],
-  performance: ['Perfil e objetivo definidos','Definir uma meta mensurável','Registrar o ponto de partida','Acompanhar treino e recuperação','Revisar a evolução do ciclo'],
-  modalidade: ['Perfil e objetivo definidos','Selecionar duas modalidades','Experimentar a primeira opção','Experimentar a segunda opção','Escolher a prática que convida a voltar'],
-  recuperacao: ['Perfil e objetivo definidos','Planejar uma retomada gradual','Realizar uma prática mais leve','Observar as respostas do corpo','Revisar a retomada com segurança']
+  comecar: ['Perfil esportivo definido','Escolher uma prática acessível','Realizar a primeira experiência','Repetir em um dia possível','Revisar e escolher o próximo ciclo'],
+  saude: ['Perfil esportivo definido','Reservar horários possíveis','Fazer uma prática leve','Repetir com regularidade','Revisar disposição e rotina'],
+  emagrecer: ['Perfil esportivo definido','Escolher uma atividade prazerosa','Organizar uma semana possível','Registrar sua constância','Revisar hábitos e próximo ciclo'],
+  performance: ['Perfil esportivo definido','Definir uma meta mensurável','Registrar o ponto de partida','Acompanhar treino e recuperação','Revisar a evolução do ciclo'],
+  modalidade: ['Perfil esportivo definido','Selecionar duas modalidades','Experimentar a primeira opção','Experimentar a segunda opção','Escolher a prática que convida a voltar'],
+  recuperacao: ['Perfil esportivo definido','Planejar uma retomada gradual','Realizar uma prática mais leve','Observar as respostas do corpo','Revisar a retomada com segurança']
 };
 
 function readStoredProfile() {
@@ -49,6 +50,60 @@ function saveProfile(updates) {
   try { localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(currentProfile)); } catch (error) {}
   renderPersonalizedExperience();
   return currentProfile;
+}
+
+function readAccessState() {
+  try {
+    const state = JSON.parse(localStorage.getItem(ACCESS_STORAGE_KEY) || 'null');
+    return state && typeof state === 'object' ? state : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function saveAccessState(state) {
+  try { localStorage.setItem(ACCESS_STORAGE_KEY, JSON.stringify(state)); } catch (error) {}
+}
+
+function localDayKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function registerFirstIdentityAccess() {
+  if (readAccessState()) return;
+  saveAccessState({ accessCount: 1, firstAccessAt: new Date().toISOString(), lastGreetingDate: '' });
+}
+
+function showDailyWelcome(name) {
+  const dialog = document.getElementById('fb-daily-welcome');
+  const nameTarget = document.getElementById('fb-welcome-name');
+  if (!dialog || !nameTarget || dialog.open) return;
+  nameTarget.textContent = name;
+  try { dialog.showModal(); } catch (error) { dialog.setAttribute('open', ''); }
+}
+
+function registerDailyAccess() {
+  const name = currentProfile?.name?.trim();
+  if (!name) return;
+  const now = new Date();
+  const today = localDayKey(now);
+  const previous = readAccessState();
+  if (!previous) {
+    registerFirstIdentityAccess();
+    return;
+  }
+  const shouldWelcome = Number(previous.accessCount || 0) >= 1 && previous.lastGreetingDate !== today;
+  const nextState = {
+    ...previous,
+    accessCount: Number(previous.accessCount || 0) + 1,
+    lastAccessAt: now.toISOString(),
+    lastGreetingDate: shouldWelcome ? today : previous.lastGreetingDate
+  };
+  saveAccessState(nextState);
+  if (shouldWelcome) window.setTimeout(() => showDailyWelcome(name), 350);
 }
 
 function resolveView(view) {
@@ -129,7 +184,7 @@ navigationButtons.forEach(button => {
   button.addEventListener('click', () => {
     const requestedView = button.dataset.fbView;
     const isContinueControl = button.closest('.fb-app-nav,.fb-mobile-drawer');
-    const view = requestedView === 'jornada' && currentProfile && isContinueControl ? 'progresso' : requestedView;
+    const view = requestedView === 'jornada' && currentProfile?.objective && isContinueControl ? 'progresso' : requestedView;
     openView(view);
   });
 });
@@ -813,6 +868,7 @@ function getCompletedSteps(profile = currentProfile) {
 
 function updateProgressActionState() {
   const button = document.getElementById('fb-complete-step');
+  const newCycleButton = document.getElementById('fb-new-cycle');
   const checkin = document.getElementById('fb-progress-checkin');
   const status = document.getElementById('fb-checkin-status');
   const note = document.getElementById('fb-checkin-note');
@@ -820,6 +876,7 @@ function updateProgressActionState() {
   if (!button) return;
   const cycleComplete = currentProfile?.objective && getCompletedSteps() >= getJourneySteps().length;
   if (checkin) checkin.hidden = !currentProfile?.objective || cycleComplete;
+  if (newCycleButton) newCycleButton.hidden = !cycleComplete;
   const requiresCheckin = Boolean(currentProfile?.objective && !cycleComplete);
   if (status) status.disabled = !requiresCheckin;
   if (note) note.disabled = !requiresCheckin;
@@ -838,6 +895,7 @@ function renderProfileSummary() {
   }
   const fields = [
     ['OBJETIVO', objectiveLabels[currentProfile.objective] || 'Seu caminho'],
+    ['PRÁTICA ATUAL', currentProfile.practiceName || currentProfile.practiceLabel || 'Não informado'],
     ['MOMENTO', currentProfile.ageLabel || 'Não informado'],
     ['TEMPO', currentProfile.availabilityLabel || 'Não informado']
   ];
@@ -854,7 +912,10 @@ function renderProfileSummary() {
 
 function renderProgress() {
   const list = document.getElementById('fb-progress-steps');
+  const checkin = document.getElementById('fb-progress-checkin');
+  const checkinHost = document.getElementById('fb-progress-checkin-host');
   if (!list) return;
+  if (checkin && checkinHost && checkin.parentElement !== checkinHost) checkinHost.append(checkin);
   if (!currentProfile?.objective) {
     list.replaceChildren();
     document.getElementById('fb-progress-summary').textContent = 'Crie seu perfil para iniciar uma jornada personalizada.';
@@ -895,8 +956,11 @@ function renderProgress() {
     return item;
   }));
 
+  const currentStepItem = list.querySelector('li.current');
+  if (currentStepItem && checkin) currentStepItem.append(checkin);
+
   const completeButton = document.getElementById('fb-complete-step');
-  completeButton.textContent = completed >= steps.length ? 'Iniciar novo ciclo' : 'Concluir etapa atual';
+  completeButton.textContent = 'Registrar e concluir esta etapa';
   const checkinStep = document.getElementById('fb-checkin-step');
   if (checkinStep && completed < steps.length) checkinStep.textContent = steps[completed];
   updateProgressActionState();
@@ -909,7 +973,9 @@ function renderPersonalizedExperience() {
   const progress = document.getElementById('fb-today-progress');
   const primary = document.getElementById('fb-today-primary');
   const avatar = shell.querySelector('.fb-app-avatar');
+  const profileTriggerLabel = shell.querySelector('.fb-profile-trigger>span:last-child');
   const nameInput = document.getElementById('fb-profile-name');
+  const journeyNameInput = document.getElementById('journey-name');
   const pathEntry = document.getElementById('fb-path-entry');
   const todayCard = document.getElementById('fb-today-card');
   const appTitle = document.getElementById('fb-app-title');
@@ -920,13 +986,14 @@ function renderPersonalizedExperience() {
   const heroProgressValue = document.getElementById('fb-hero-progress-value');
 
   if (!currentProfile?.objective) {
+    const displayName = currentProfile?.name?.trim();
     pathEntry.hidden = false;
     todayCard.hidden = true;
-    appTitle.textContent = 'Existe um jeito de viver o esporte que combina com você.';
+    appTitle.textContent = displayName ? `${displayName}, vamos encontrar seu caminho no esporte.` : 'Existe um jeito de viver o esporte que combina com você.';
     appSubtitle.textContent = 'Encontre seu ponto de partida e construa uma jornada possível.';
     kicker.textContent = 'SEU PRIMEIRO PASSO';
     title.textContent = 'Crie seu perfil esportivo.';
-    summary.textContent = '3 perguntas · menos de 1 minuto';
+    summary.textContent = 'Perfil rápido · dados salvos neste aparelho';
     progress.hidden = true;
     primary.textContent = 'Criar meu caminho';
     primary.dataset.fbView = 'jornada';
@@ -937,7 +1004,7 @@ function renderPersonalizedExperience() {
     if (heroStatus) heroStatus.textContent = 'Comece de onde você está.';
     if (heroProgress) heroProgress.style.setProperty('--fb-hero-progress', '0%');
     if (heroProgressValue) heroProgressValue.textContent = '0%';
-    if (avatar) avatar.textContent = 'BE';
+    if (avatar) avatar.textContent = displayName ? displayName.charAt(0).toLocaleUpperCase('pt-BR') : 'BE';
   } else {
     const completed = getCompletedSteps();
     const steps = getJourneySteps();
@@ -969,6 +1036,11 @@ function renderPersonalizedExperience() {
   }
 
   if (nameInput && document.activeElement !== nameInput) nameInput.value = currentProfile?.name || '';
+  if (profileTriggerLabel) profileTriggerLabel.textContent = currentProfile?.name?.trim() || 'Meu perfil';
+  if (journeyNameInput && document.activeElement !== journeyNameInput && currentProfile?.name && !journeyNameInput.value) {
+    journeyNameInput.value = currentProfile.name;
+    journeyNameInput.dispatchEvent(new Event('input', { bubbles: true }));
+  }
   renderProfileSummary();
   renderProgress();
 }
@@ -978,10 +1050,17 @@ window.addEventListener('meuCaminhoBe:profile-updated', event => {
   const sameObjective = currentProfile?.objective === details.objective;
   saveProfile({
     ...details,
-    name: currentProfile?.name || '',
+    name: details.name || currentProfile?.name || '',
     progress: sameObjective ? getCompletedSteps() : 1,
     checkins: sameObjective ? (currentProfile?.checkins || []) : []
   });
+});
+
+window.addEventListener('meuCaminhoBe:identity-captured', event => {
+  const name = String(event.detail?.name || '').trim().slice(0, 40);
+  if (name.length < 2) return;
+  saveProfile({ name, identityCreatedAt: currentProfile?.identityCreatedAt || new Date().toISOString() });
+  registerFirstIdentityAccess();
 });
 
 document.getElementById('fb-progress-checkin')?.addEventListener('submit', event => {
@@ -995,16 +1074,15 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
   const status = document.getElementById('fb-checkin-status');
   const note = document.getElementById('fb-checkin-note');
   const form = document.getElementById('fb-progress-checkin');
-  const cycleComplete = completed >= steps.length;
-  if (!cycleComplete && (!form?.checkValidity() || !status?.value || (note?.value.trim().length || 0) < 3)) {
+  if (!form?.checkValidity() || !status?.value || (note?.value.trim().length || 0) < 3) {
     document.getElementById('fb-progress-feedback').textContent = 'Preencha os dois pontos importantes antes de concluir esta etapa.';
     form?.reportValidity();
     (!status?.value ? status : note)?.focus();
     updateProgressActionState();
     return;
   }
-  const nextProgress = cycleComplete ? 1 : completed + 1;
-  const checkins = cycleComplete ? [] : [...(currentProfile.checkins || []), {
+  const nextProgress = completed + 1;
+  const checkins = [...(currentProfile.checkins || []), {
     step: steps[completed],
     status: status.value,
     note: note.value.trim(),
@@ -1013,9 +1091,12 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
   if (status) status.value = '';
   if (note) note.value = '';
   saveProfile({ progress: nextProgress, checkins });
-  document.getElementById('fb-progress-feedback').textContent = completed >= 5
-    ? 'Novo ciclo iniciado. O primeiro passo já está concluído.'
-    : 'Etapa registrada. Seu próximo passo já está disponível.';
+  document.getElementById('fb-progress-feedback').textContent = 'Etapa registrada. Seu próximo passo já está disponível.';
+});
+
+document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
+  saveProfile({ progress: 1, checkins: [] });
+  document.getElementById('fb-progress-feedback').textContent = 'Novo ciclo iniciado. Seu próximo passo já está disponível.';
 });
 
 document.getElementById('fb-checkin-status')?.addEventListener('change', updateProgressActionState);
@@ -1025,6 +1106,7 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
   event.preventDefault();
   const name = document.getElementById('fb-profile-name').value.trim();
   saveProfile({ name });
+  if (name) registerFirstIdentityAccess();
   document.getElementById('fb-profile-feedback').textContent = name
     ? `Perfil salvo, ${name}.` : 'Perfil salvo neste navegador.';
 });
@@ -1082,6 +1164,13 @@ document.querySelectorAll('[data-modality]').forEach(button => {
 
 renderPersonalizedExperience();
 openView('inicio', { scroll: false, focus: false, instant: true });
+registerDailyAccess();
+document.getElementById('fb-welcome-close')?.addEventListener('click', () => document.getElementById('fb-daily-welcome')?.close());
+document.getElementById('fb-welcome-later')?.addEventListener('click', () => document.getElementById('fb-daily-welcome')?.close());
+document.getElementById('fb-welcome-continue')?.addEventListener('click', () => {
+  document.getElementById('fb-daily-welcome')?.close();
+  openView(currentProfile?.objective ? 'progresso' : 'jornada');
+});
 const sharedQuestion = new URLSearchParams(window.location.search).get('pergunta')?.trim();
 if (sharedQuestion && sharedQuestion.length >= 3) {
   openView('perguntar', { scroll: false, focus: false, instant: true });

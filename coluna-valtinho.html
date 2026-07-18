@@ -20,8 +20,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="site-common.css">
-<link rel="stylesheet" href="css/coluna-valtinho.css">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260717-8">
+<link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-1">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-1">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757"
      crossorigin="anonymous"></script>
 </head>
@@ -40,6 +40,14 @@
 <button type="button" class="fb-profile-trigger" data-fb-view="perfil" aria-label="Abrir meu perfil"><span class="fb-app-avatar" aria-hidden="true">BE</span><span>Meu perfil</span></button>
 </div>
 </header>
+<dialog class="fb-daily-welcome" id="fb-daily-welcome" aria-labelledby="fb-welcome-title">
+<button type="button" class="fb-welcome-close" id="fb-welcome-close" aria-label="Fechar saudação">×</button>
+<span>SEU ACESSO NESTE DISPOSITIVO</span>
+<h2 id="fb-welcome-title">Seja bem-vindo, <strong id="fb-welcome-name"></strong>.</h2>
+<p>Bora continuar nossa jornada?</p>
+<small>Seu perfil e seu progresso continuam salvos somente neste aparelho.</small>
+<div><button type="button" class="fb-primary-action" id="fb-welcome-continue">Continuar minha jornada</button><button type="button" id="fb-welcome-later">Agora não</button></div>
+</dialog>
 <div class="fb-mobile-drawer-overlay" id="fb-mobile-drawer-overlay" hidden></div>
 <aside class="fb-mobile-drawer" id="fb-mobile-drawer" role="dialog" aria-modal="true" aria-labelledby="fb-mobile-drawer-title" hidden>
 <header><div><span>MEU CAMINHO BE</span><h2 id="fb-mobile-drawer-title">Navegue pelo seu caminho</h2></div><button type="button" id="fb-mobile-drawer-close" aria-label="Fechar menu">×</button></header>
@@ -143,6 +151,7 @@
 <div class="fb-progress-track" aria-hidden="true"><i id="fb-progress-bar"></i></div>
 </div>
 <ol class="fb-progress-steps" id="fb-progress-steps"></ol>
+<div id="fb-progress-checkin-host">
 <form class="fb-progress-checkin" id="fb-progress-checkin" aria-labelledby="fb-checkin-title">
 <span>PONTOS IMPORTANTES</span>
 <h3 id="fb-checkin-title">Registre esta etapa antes de avançar.</h3>
@@ -161,9 +170,11 @@
 </label>
 </div>
 <small>Os dois campos são necessários para registrar o progresso neste navegador.</small>
+<button type="submit" class="fb-primary-action" id="fb-complete-step" disabled>Registrar e concluir esta etapa</button>
 </form>
+</div>
 <div class="fb-progress-actions">
-<button type="submit" form="fb-progress-checkin" class="fb-primary-action" id="fb-complete-step" disabled>Concluir etapa atual</button>
+<button type="button" class="fb-primary-action" id="fb-new-cycle" hidden>Iniciar novo ciclo</button>
 <button type="button" data-fb-view="jornada">Ajustar meu caminho</button>
 </div>
 <p class="fb-progress-feedback" id="fb-progress-feedback" aria-live="polite"></p>
@@ -223,19 +234,28 @@
 <span>TRAJETÓRIA PERSONALIZADA</span>
 <h2 id="journey-title">Descubra seu caminho</h2>
 </div>
-<p>Responda três perguntas rápidas e receba uma orientação inicial pensada para o seu momento.</p>
+<p>Conte um pouco sobre você e receba uma orientação inicial pensada para o seu momento.</p>
 </div>
 <div class="journey-assistant" id="journey-assistant">
 <ol class="journey-progress" aria-label="Progresso da descoberta do seu caminho">
-<li class="active" data-step-indicator="1"><span>1</span><small>Objetivo</small></li>
-<li data-step-indicator="2"><span>2</span><small>Seu momento</small></li>
-<li data-step-indicator="3"><span>3</span><small>Disponibilidade</small></li>
-<li data-step-indicator="4"><span>4</span><small>Seu caminho</small></li>
+<li class="active" data-step-indicator="1"><span>1</span><small>Você</small></li>
+<li data-step-indicator="2"><span>2</span><small>Objetivo</small></li>
+<li data-step-indicator="3"><span>3</span><small>Prática atual</small></li>
+<li data-step-indicator="4"><span>4</span><small>Seu momento</small></li>
+<li data-step-indicator="5"><span>5</span><small>Tempo</small></li>
+<li data-step-indicator="6"><span>6</span><small>Seu caminho</small></li>
 </ol>
 
 <div class="journey-stage" data-journey-step="1" aria-labelledby="journey-step-1-title">
-<span class="journey-stage-kicker">ETAPA 1 DE 4</span>
-<h3 id="journey-step-1-title">Qual é o seu principal objetivo?</h3>
+<span class="journey-stage-kicker">ETAPA 1 DE 6</span>
+<h3 id="journey-step-1-title">Como você quer ser chamado?</h3>
+<p>Este nome será usado para tornar sua experiência mais pessoal neste dispositivo.</p>
+<label class="journey-text-field" for="journey-name"><span>Seu nome ou apelido</span><input id="journey-name" type="text" minlength="2" maxlength="40" autocomplete="given-name" placeholder="Ex.: Valter" required></label>
+</div>
+
+<div class="journey-stage" data-journey-step="2" aria-labelledby="journey-step-2-title" hidden>
+<span class="journey-stage-kicker">ETAPA 2 DE 6</span>
+<h3 id="journey-step-2-title">Qual é o seu principal objetivo?</h3>
 <p>Não existe resposta certa. Escolha o que mais representa seu momento agora.</p>
 <div class="journey-options journey-options-goals" role="group" aria-label="Escolha seu objetivo">
 <button type="button" class="journey-option" data-journey-field="objective" data-journey-value="comecar" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 20V5m0 1h10l-2 3 2 3H5"></path></svg><strong>Quero começar</strong><small>Dar o primeiro passo com segurança.</small></button>
@@ -247,9 +267,22 @@
 </div>
 </div>
 
-<div class="journey-stage" data-journey-step="2" aria-labelledby="journey-step-2-title" hidden>
-<span class="journey-stage-kicker">ETAPA 2 DE 4</span>
-<h3 id="journey-step-2-title">Em qual momento da vida você está?</h3>
+<div class="journey-stage" data-journey-step="3" aria-labelledby="journey-step-3-title" hidden>
+<span class="journey-stage-kicker">ETAPA 3 DE 6</span>
+<h3 id="journey-step-3-title">Você pratica alguma modalidade ou atividade física hoje?</h3>
+<p>Isso nos ajuda a diferenciar um primeiro passo, uma retomada e uma evolução.</p>
+<div class="journey-options journey-options-practice" role="group" aria-label="Informe sua prática atual">
+<button type="button" class="journey-option" data-journey-field="practice" data-journey-value="none" aria-pressed="false"><strong>Ainda não pratico</strong><small>Quero encontrar um começo possível.</small></button>
+<button type="button" class="journey-option" data-journey-field="practice" data-journey-value="returning" aria-pressed="false"><strong>Estou voltando</strong><small>Já pratiquei e quero retomar.</small></button>
+<button type="button" class="journey-option" data-journey-field="practice" data-journey-value="occasional" aria-pressed="false"><strong>Pratico às vezes</strong><small>Ainda não tenho regularidade.</small></button>
+<button type="button" class="journey-option" data-journey-field="practice" data-journey-value="regular" aria-pressed="false"><strong>Pratico com frequência</strong><small>Quero manter ou evoluir.</small></button>
+</div>
+<label class="journey-text-field journey-practice-detail" id="journey-practice-detail" for="journey-practice-name" hidden><span>Qual modalidade ou atividade?</span><input id="journey-practice-name" type="text" minlength="2" maxlength="50" placeholder="Ex.: corrida, futebol, musculação"></label>
+</div>
+
+<div class="journey-stage" data-journey-step="4" aria-labelledby="journey-step-4-title" hidden>
+<span class="journey-stage-kicker">ETAPA 4 DE 6</span>
+<h3 id="journey-step-4-title">Em qual momento da vida você está?</h3>
 <p>A faixa etária ajuda a tornar a orientação mais adequada ao seu contexto.</p>
 <div class="journey-options journey-options-compact" role="group" aria-label="Escolha sua faixa etária">
 <button type="button" class="journey-option" data-journey-field="age" data-journey-value="ate-17" aria-pressed="false"><strong>Até 17 anos</strong></button>
@@ -260,9 +293,9 @@
 </div>
 </div>
 
-<div class="journey-stage" data-journey-step="3" aria-labelledby="journey-step-3-title" hidden>
-<span class="journey-stage-kicker">ETAPA 3 DE 4</span>
-<h3 id="journey-step-3-title">Quanto tempo cabe na sua rotina?</h3>
+<div class="journey-stage" data-journey-step="5" aria-labelledby="journey-step-5-title" hidden>
+<span class="journey-stage-kicker">ETAPA 5 DE 6</span>
+<h3 id="journey-step-5-title">Quanto tempo cabe na sua rotina?</h3>
 <p>Pense em um tempo realista para cada prática, mesmo nos dias mais corridos.</p>
 <div class="journey-options journey-options-availability" role="group" aria-label="Escolha sua disponibilidade">
 <button type="button" class="journey-option" data-journey-field="availability" data-journey-value="15" aria-pressed="false"><strong>Até 15 minutos</strong><small>Uma entrada simples e possível.</small></button>
@@ -271,7 +304,7 @@
 </div>
 </div>
 
-<div class="journey-stage journey-result" data-journey-step="4" aria-labelledby="journey-result-title" aria-live="polite" hidden>
+<div class="journey-stage journey-result" data-journey-step="6" aria-labelledby="journey-result-title" aria-live="polite" hidden>
 <span class="journey-stage-kicker">SEU CAMINHO</span>
 <div class="journey-result-heading">
 <div>
@@ -294,7 +327,7 @@
 
 <div class="journey-navigation">
 <button type="button" class="journey-back" id="journey-back" hidden>Voltar</button>
-<span id="journey-status" aria-live="polite">Etapa 1 de 4</span>
+<span id="journey-status" aria-live="polite">Etapa 1 de 6</span>
 <button type="button" class="journey-next" id="journey-next" disabled>Continuar</button>
 </div>
 </div>
@@ -783,8 +816,8 @@ Seu navegador não consegue reproduzir este vídeo.
 </button>
 
 <script src="js/site-common.js" defer></script>
-<script src="js/coluna-valtinho.js?v=20260717-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260717-8" defer></script>
+<script src="js/coluna-valtinho.js?v=20260718-1" defer></script>
+<script src="js/fala-bem-app.js?v=20260718-1" defer></script>
 
 </body>
 </html>

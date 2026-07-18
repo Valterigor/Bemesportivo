@@ -27,9 +27,12 @@ const journeyNext=document.getElementById('journey-next');
 const journeyStatus=document.getElementById('journey-status');
 const journeySeeContent=document.getElementById('journey-see-content');
 const journeyRestart=document.getElementById('journey-restart');
+const journeyNameInput=document.getElementById('journey-name');
+const journeyPracticeName=document.getElementById('journey-practice-name');
+const journeyPracticeDetail=document.getElementById('journey-practice-detail');
 let activeFilter='';
 let journeyStep=1;
-const journeyState={objective:'',age:'',availability:''};
+const journeyState={name:'',objective:'',practice:'',practiceName:'',age:'',availability:''};
 
 function updateJourneyGuidance(tag){
 const hasGuidance=['comecar','evoluir','permanecer'].includes(tag);
@@ -220,34 +223,71 @@ const journeyAvailability={
 '45':{label:'45 min ou mais',rhythm:'Sessões completas com dias de recuperação entre os estímulos.'}
 };
 
+const journeyPracticeLabels={
+none:'Ainda não pratica',
+returning:'Em retomada',
+occasional:'Prática ocasional',
+regular:'Prática frequente'
+};
+
 function getJourneyField(step){
-return step===1?'objective':step===2?'age':step===3?'availability':'';
+return step===1?'name':step===2?'objective':step===3?'practice':step===4?'age':step===5?'availability':'';
+}
+
+function isJourneyStepComplete(step){
+if(step===1) return journeyState.name.trim().length>=2;
+if(step===3) return Boolean(journeyState.practice&&(journeyState.practice==='none'||journeyState.practiceName.trim().length>=2));
+const field=getJourneyField(step);
+return field ? Boolean(journeyState[field]) : false;
+}
+
+function updateJourneyNextState(){
+if(!journeyNext) return;
+journeyNext.disabled=!isJourneyStepComplete(journeyStep);
 }
 
 function renderJourneyResult(){
 const recommendation=journeyRecommendations[journeyState.objective];
 const availability=journeyAvailability[journeyState.availability];
 if(!recommendation||!availability) return;
-document.getElementById('journey-result-title').textContent=recommendation.title;
-document.getElementById('journey-result-summary').textContent=recommendation.summary;
-const personalizedStart=recommendation.starts?.[journeyState.availability]||recommendation.start;
-const personalizedRhythm=recommendation.rhythms?.[journeyState.availability]||availability.rhythm;
+const personalTitle=recommendation.title.charAt(0).toLocaleLowerCase('pt-BR')+recommendation.title.slice(1);
+document.getElementById('journey-result-title').textContent=`${journeyState.name}, ${personalTitle}`;
+let personalizedSummary=recommendation.summary;
+let personalizedStart=recommendation.starts?.[journeyState.availability]||recommendation.start;
+let personalizedRhythm=recommendation.rhythms?.[journeyState.availability]||availability.rhythm;
+if(journeyState.practice==='none'&&journeyState.objective==='performance'){
+personalizedSummary='Seu objetivo é evoluir, mas o primeiro ciclo precisa construir uma base segura e regular antes de buscar desempenho.';
+personalizedStart=journeyRecommendations.comecar.starts[journeyState.availability];
+personalizedRhythm=journeyRecommendations.comecar.rhythms[journeyState.availability];
+}
+if(journeyState.practice==='returning'){
+personalizedStart=`Retome abaixo do ritmo que fazia antes. ${personalizedStart}`;
+}
+if(journeyState.practice==='occasional'){
+personalizedRhythm=`Priorize dias fixos para ganhar regularidade. ${personalizedRhythm}`;
+}
+document.getElementById('journey-result-summary').textContent=personalizedSummary;
 document.getElementById('journey-result-start').textContent=personalizedStart;
 document.getElementById('journey-result-rhythm').textContent=personalizedRhythm;
 let reminder=recommendation.reminder;
 if(journeyState.age==='ate-17') reminder='Conte com a orientação de um responsável e de profissionais preparados.';
 if(journeyState.age==='60-mais') reminder='Considere seu histórico de saúde, priorize adaptação gradual e busque orientação quando necessário.';
 document.getElementById('journey-result-reminder').textContent=reminder;
-document.getElementById('journey-result-profile').textContent=`${journeyAgeLabels[journeyState.age]} · ${availability.label}`;
+const practiceLabel=journeyState.practiceName||journeyPracticeLabels[journeyState.practice];
+document.getElementById('journey-result-profile').textContent=`${practiceLabel} · ${journeyAgeLabels[journeyState.age]} · ${availability.label}`;
 journeySeeContent.dataset.resultFilter=recommendation.filter;
 window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated',{detail:{
+name:journeyState.name,
 objective:journeyState.objective,
+practice:journeyState.practice,
+practiceLabel:journeyPracticeLabels[journeyState.practice],
+practiceName:journeyState.practiceName,
 age:journeyState.age,
 ageLabel:journeyAgeLabels[journeyState.age],
 availability:journeyState.availability,
 availabilityLabel:availability.label,
 title:recommendation.title,
-summary:recommendation.summary,
+summary:personalizedSummary,
 nextAction:personalizedStart,
 rhythm:personalizedRhythm,
 reminder,
@@ -256,8 +296,8 @@ filter:recommendation.filter
 }
 
 function renderJourneyStep(step,focusHeading=true){
-journeyStep=Math.max(1,Math.min(4,step));
-if(journeyStep===4) renderJourneyResult();
+journeyStep=Math.max(1,Math.min(6,step));
+if(journeyStep===6) renderJourneyResult();
 journeyStages.forEach(stage=>{
 stage.hidden=Number(stage.dataset.journeyStep)!==journeyStep;
 });
@@ -270,10 +310,10 @@ else indicator.removeAttribute('aria-current');
 });
 const field=getJourneyField(journeyStep);
 journeyBack.hidden=journeyStep===1;
-journeyNext.hidden=journeyStep===4;
-journeyNext.disabled=field ? !journeyState[field] : true;
-journeyNext.textContent=journeyStep===1?'Começar agora':'Continuar';
-journeyStatus.textContent=journeyStep===4?'Trajetória concluída':`Etapa ${journeyStep} de 4`;
+journeyNext.hidden=journeyStep===6;
+journeyNext.disabled=field ? !isJourneyStepComplete(journeyStep) : true;
+journeyNext.textContent=journeyStep===5?'Ver meu caminho':'Continuar';
+journeyStatus.textContent=journeyStep===6?'Trajetória concluída':`Etapa ${journeyStep} de 6`;
 if(focusHeading){
 const heading=document.querySelector(`[data-journey-step="${journeyStep}"] h3`);
 if(heading){
@@ -292,14 +332,40 @@ const selected=candidate===option;
 candidate.classList.toggle('selected',selected);
 candidate.setAttribute('aria-pressed',String(selected));
 });
-journeyNext.disabled=false;
+if(field==='practice'){
+const needsPracticeName=journeyState.practice!=='none';
+journeyPracticeDetail.hidden=!needsPracticeName;
+journeyPracticeName.required=needsPracticeName;
+if(!needsPracticeName){
+journeyPracticeName.value='';
+journeyState.practiceName='';
+}
+}
+updateJourneyNextState();
 });
 });
+
+if(journeyNameInput){
+journeyNameInput.addEventListener('input',()=>{
+journeyState.name=journeyNameInput.value.trim();
+updateJourneyNextState();
+});
+}
+
+if(journeyPracticeName){
+journeyPracticeName.addEventListener('input',()=>{
+journeyState.practiceName=journeyPracticeName.value.trim();
+updateJourneyNextState();
+});
+}
 
 if(journeyNext){
 journeyNext.addEventListener('click',()=>{
 const field=getJourneyField(journeyStep);
-if(field&&!journeyState[field]) return;
+if(field&&!isJourneyStepComplete(journeyStep)) return;
+if(journeyStep===1){
+window.dispatchEvent(new CustomEvent('meuCaminhoBe:identity-captured',{detail:{name:journeyState.name}}));
+}
 renderJourneyStep(journeyStep+1);
 });
 }
@@ -314,7 +380,12 @@ journeySeeContent.addEventListener('click',()=>filterPosts(journeySeeContent.dat
 
 if(journeyRestart){
 journeyRestart.addEventListener('click',()=>{
+const savedName=journeyState.name;
 Object.keys(journeyState).forEach(key=>{journeyState[key]='';});
+journeyState.name=savedName;
+if(journeyNameInput) journeyNameInput.value=savedName;
+if(journeyPracticeName){journeyPracticeName.value='';journeyPracticeName.required=false;}
+if(journeyPracticeDetail) journeyPracticeDetail.hidden=true;
 journeyOptions.forEach(option=>{
 option.classList.remove('selected');
 option.setAttribute('aria-pressed','false');

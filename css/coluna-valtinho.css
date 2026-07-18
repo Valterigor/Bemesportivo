@@ -502,7 +502,7 @@ background:#fafafa;
 
 .journey-progress{
 display:grid;
-grid-template-columns:repeat(4,minmax(0,1fr));
+grid-template-columns:repeat(6,minmax(0,1fr));
 margin:0 0 20px;
 padding:0;
 list-style:none;
@@ -616,6 +616,42 @@ grid-template-columns:repeat(5,minmax(0,1fr));
 
 .journey-options-availability{
 grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.journey-options-practice{
+grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+.journey-text-field{
+display:grid;
+gap:7px;
+max-width:520px;
+margin-top:18px;
+color:#3f3934;
+font-size:12px;
+font-weight:850;
+}
+
+.journey-text-field[hidden]{
+display:none!important;
+}
+
+.journey-text-field input{
+width:100%;
+min-height:48px;
+padding:11px 13px;
+border:1px solid #ded8d2;
+border-radius:11px;
+background:#fff;
+color:#211d1a;
+font:inherit;
+font-size:14px;
+outline:0;
+}
+
+.journey-text-field input:focus{
+border-color:var(--primary);
+box-shadow:0 0 0 3px rgba(255,106,0,.12);
 }
 
 .journey-option{
@@ -2244,7 +2280,8 @@ padding:14px 0 0;
 }
 
 .journey-options-compact,
-.journey-options-availability{
+.journey-options-availability,
+.journey-options-practice{
 grid-template-columns:repeat(2,minmax(0,1fr));
 }
 
