@@ -203,7 +203,7 @@ const normalize = value => String(value || '')
   .replace(/\s+/g, ' ')
   .trim();
 
-const stopWords = new Set(['a','ao','aos','as','com','como','da','das','de','do','dos','e','em','eu','me','na','nas','no','nos','o','os','para','por','que','se','um','uma']);
+const stopWords = new Set(['a','ao','aos','as','com','como','da','das','de','do','dos','e','em','eu','me','na','nas','no','nos','o','os','para','por','que','se','um','uma','qual','quais','quanto','quantos','quando','onde','porque']);
 const searchTokens = query => [...new Set(normalize(query).split(' ').filter(token => token.length > 2 && !stopWords.has(token)))];
 
 function buildLocalIndex() {
@@ -262,6 +262,144 @@ async function fetchWithTimeout(url, timeout = 9000) {
   }
 }
 
+const scientificVocabulary = {
+  exercicio: 'exercise', exercicios: 'exercise', esporte: 'sport', esportiva: 'sports', esportivo: 'sports',
+  correr: 'running', corrida: 'running', caminhada: 'walking', caminhar: 'walking', iniciante: 'beginner', comecar: 'beginner',
+  treino: 'training', treinar: 'training', musculacao: 'resistance training', forca: 'strength', hipertrofia: 'muscle hypertrophy', massa: 'muscle mass',
+  emagrecer: 'weight loss', emagrecimento: 'weight loss', gordura: 'body fat', recuperacao: 'recovery', descanso: 'recovery',
+  hidratacao: 'hydration', agua: 'hydration', alimentacao: 'nutrition', nutricao: 'nutrition', proteina: 'protein', creatina: 'creatine',
+  saude: 'health', melhorar: 'improve', desempenho: 'performance', velocidade: 'speed', resistencia: 'endurance', flexibilidade: 'flexibility', mobilidade: 'mobility',
+  sono: 'sleep', dormir: 'sleep', ansiedade: 'anxiety', depressao: 'depression', estresse: 'stress', motivacao: 'motivation', constancia: 'adherence',
+  dor: 'pain', lesao: 'injury', joelho: 'knee', coluna: 'spine', ombro: 'shoulder', tornozelo: 'ankle', tendinite: 'tendinopathy',
+  coracao: 'cardiovascular', cardiaco: 'cardiac', pressao: 'blood pressure', hipertensao: 'hypertension', diabetes: 'diabetes', obesidade: 'obesity',
+  gestante: 'pregnancy', gravidez: 'pregnancy', idoso: 'older adults', idosos: 'older adults', crianca: 'children', criancas: 'children'
+};
+
+const evidenceDomains = [
+  { id: 'injury', label: 'Dor e lesões', patterns: ['dor','lesao','machuc','tendinite','entorse','joelho','ombro','coluna','tornozelo'], terms: ['sports injury','exercise related pain','rehabilitation'] },
+  { id: 'clinical', label: 'Exercício e saúde', patterns: ['saude','hipertens','diabetes','obesidade','cardiac','coracao','pressao','doenca','asma','colesterol'], terms: ['exercise therapy','physical activity','clinical guideline'] },
+  { id: 'running', label: 'Corrida', patterns: ['corrida','correr','trote','maratona'], terms: ['running','running training','aerobic exercise'] },
+  { id: 'strength', label: 'Força e hipertrofia', patterns: ['musculacao','hipertrofia','massa muscular','forca','academia'], terms: ['resistance training','strength training','muscle hypertrophy'] },
+  { id: 'weight', label: 'Emagrecimento', patterns: ['emagrec','perder peso','gordura','peso corporal'], terms: ['weight loss','body composition','physical activity'] },
+  { id: 'recovery', label: 'Recuperação', patterns: ['recuper','descanso','fadiga','cansaco','pos treino'], terms: ['exercise recovery','muscle soreness','training load'] },
+  { id: 'hydration', label: 'Hidratação', patterns: ['hidrat','agua','desidrat'], terms: ['hydration','exercise fluid replacement','dehydration'] },
+  { id: 'nutrition', label: 'Nutrição esportiva', patterns: ['aliment','nutri','proteina','creatina','suplement','carboidrato'], terms: ['sports nutrition','exercise nutrition','dietary supplement'] },
+  { id: 'sleep', label: 'Sono', patterns: ['sono','dormir','insonia'], terms: ['sleep','exercise recovery','physical activity'] },
+  { id: 'mental', label: 'Saúde mental', patterns: ['ansiedade','depressao','estresse','autoestima','saude mental'], terms: ['mental health','exercise','physical activity'] },
+  { id: 'adherence', label: 'Constância', patterns: ['constancia','habito','motivacao','desistir','rotina'], terms: ['exercise adherence','behavior change','physical activity'] },
+  { id: 'special-population', label: 'Prática segura', patterns: ['gestante','gravidez','idoso','idosos','crianca','criancas','adolescente'], terms: ['exercise prescription','physical activity guideline','safety'] }
+];
+
+function classifyQuestion(query) {
+  const normalized = normalize(query);
+  const domains = evidenceDomains.filter(domain => domain.patterns.some(pattern => normalized.includes(pattern)));
+  return { normalized, domains, primary: domains[0] || { id: 'general', label: 'Atividade física', terms: ['physical activity','exercise'] } };
+}
+
+function buildScientificQuery(query, classification) {
+  const translatedTokens = searchTokens(query).map(token => scientificVocabulary[token] || token).filter(Boolean);
+  const concepts = classification.domains.flatMap(domain => domain.terms);
+  const terms = [...new Set([...translatedTokens, ...concepts])].slice(0, 10);
+  return terms.join(' ');
+}
+
+function reconstructAbstract(invertedIndex) {
+  if (!invertedIndex || typeof invertedIndex !== 'object') return '';
+  const words = [];
+  Object.entries(invertedIndex).forEach(([word, positions]) => {
+    (positions || []).forEach(position => { words[position] = word; });
+  });
+  return words.filter(Boolean).join(' ');
+}
+
+function evidenceTypeLabel(value) {
+  const text = normalize(Array.isArray(value) ? value.join(' ') : value);
+  if (text.includes('meta-analysis') || text.includes('meta analysis')) return 'Meta-análise';
+  if (text.includes('systematic review')) return 'Revisão sistemática';
+  if (text.includes('guideline')) return 'Diretriz';
+  if (text.includes('randomized') || text.includes('clinical trial')) return 'Ensaio clínico';
+  if (text.includes('review')) return 'Revisão';
+  return 'Estudo científico';
+}
+
+function evidenceBonus(result) {
+  const label = normalize(result.evidenceType || '');
+  if (label.includes('meta-analise') || label.includes('revisao sistematica') || label.includes('diretriz')) return 8;
+  if (label.includes('ensaio clinico')) return 5;
+  if (label.includes('revisao')) return 3;
+  return 1;
+}
+
+function containsConcept(text, term) {
+  if (text.includes(term)) return true;
+  const roots = {
+    running: 'runn', runner: 'runn', runners: 'runn',
+    injury: 'injur', injuries: 'injur',
+    hydration: 'hydrat', hydrated: 'hydrat',
+    recovery: 'recover', recovered: 'recover',
+    hypertension: 'hypertens', hypertensive: 'hypertens',
+    strength: 'strength', hypertrophy: 'hypertroph',
+    adherence: 'adher', motivation: 'motivat'
+  };
+  const root = roots[term];
+  return root ? text.includes(root) : false;
+}
+
+function rankScientificResults(results, scientificQuery, classification, originalQuery = '') {
+  const terms = [...new Set(searchTokens(scientificQuery))];
+  const domainTerms = (classification.domains.length ? classification.domains : [classification.primary]).flatMap(domain => domain.terms).map(normalize);
+  const broadTerms = new Set(['exercise','training','sport','sports','physical','activity','therapy','guideline','beginner','best','better','improve','melhor']);
+  const focusTerms = [...new Set(searchTokens(originalQuery).flatMap(token => searchTokens(scientificVocabulary[token] || token)))].filter(term => !broadTerms.has(term));
+  const scored = results.map(result => {
+    const title = normalize(result.title);
+    const summary = normalize(result.summary);
+    let relevance = evidenceBonus(result);
+    let focusMatches = 0;
+    let focusTitleMatches = 0;
+    let domainMatches = 0;
+    terms.forEach(term => {
+      if (containsConcept(title, term)) {
+        relevance += 5;
+        if (focusTerms.includes(term)) {
+          focusMatches += 2;
+          focusTitleMatches += 1;
+        }
+      } else if (containsConcept(summary, term)) {
+        relevance += 1;
+        if (focusTerms.includes(term)) focusMatches += 1;
+      }
+    });
+    domainTerms.forEach(term => {
+      if (containsConcept(title, term)) {
+        relevance += 6;
+        domainMatches += 2;
+      } else if (containsConcept(summary, term)) {
+        relevance += 2;
+        domainMatches += 1;
+      }
+    });
+    relevance += Math.min(4, Math.log10((result.citations || 0) + 1));
+    if (Number(result.date) >= new Date().getFullYear() - 7) relevance += 1;
+    return { ...result, relevance, focusMatches, focusTitleMatches, domainMatches };
+  });
+  const hasFocusedTitles = focusTerms.length && scored.some(result => result.focusTitleMatches > 0);
+  const ranked = scored.filter(result => {
+    const topicMatch = focusTerms.length
+      ? (hasFocusedTitles ? result.focusTitleMatches > 0 : result.focusMatches > 0)
+      : result.domainMatches > 0;
+    return topicMatch && result.relevance >= 6;
+  })
+    .sort((a, b) => b.relevance - a.relevance);
+
+  const seen = new Set();
+  return ranked.filter(result => {
+    const key = normalize(result.doi || result.title).slice(0, 160);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, 6);
+}
+
 async function searchWikipedia(query) {
   const params = new URLSearchParams({
     action: 'query', generator: 'search', gsrsearch: query, gsrnamespace: '0', gsrlimit: '4',
@@ -278,20 +416,167 @@ async function searchWikipedia(query) {
 }
 
 async function searchEuropePmc(query) {
-  const params = new URLSearchParams({ query, format: 'json', pageSize: '3', resultType: 'core' });
+  const params = new URLSearchParams({ query, format: 'json', pageSize: '8', resultType: 'core' });
   const data = await fetchWithTimeout(`https://www.ebi.ac.uk/europepmc/webservices/rest/search?${params}`);
   return (data.resultList?.result || []).map(item => {
     const articleId = item.pmid || item.pmcid || item.id;
     const sourceId = item.source || (item.pmcid ? 'PMC' : 'MED');
     const details = [item.authorString, item.journalTitle, item.pubYear].filter(Boolean).join(' · ');
+    const publicationTypes = item.pubTypeList?.pubType || [];
     return {
-      source: 'Europe PMC',
+      source: item.pmid ? 'PubMed / Europe PMC' : 'Europe PMC',
       title: plainText(item.title),
       summary: plainText(item.abstractText || details || 'Registro científico relacionado à sua busca.'),
       date: item.pubYear || '',
+      evidenceType: evidenceTypeLabel(publicationTypes),
+      doi: item.doi || '',
+      citations: Number(item.citedByCount) || 0,
       url: `https://europepmc.org/article/${encodeURIComponent(sourceId)}/${encodeURIComponent(articleId)}`
     };
   }).filter(item => item.title && item.url);
+}
+
+async function searchOpenAlex(query) {
+  const params = new URLSearchParams({ search: query, 'per-page': '8', filter: 'has_abstract:true' });
+  const data = await fetchWithTimeout(`https://api.openalex.org/works?${params}`, 10000);
+  return (data.results || []).map(work => {
+    const authors = (work.authorships || []).slice(0, 3).map(item => item.author?.display_name).filter(Boolean).join(', ');
+    const venue = work.primary_location?.source?.display_name || '';
+    const details = [authors, venue, work.publication_year].filter(Boolean).join(' · ');
+    const abstract = reconstructAbstract(work.abstract_inverted_index);
+    return {
+      source: 'OpenAlex',
+      title: plainText(work.display_name || work.title),
+      summary: plainText(abstract || details || 'Registro acadêmico relacionado à sua busca.'),
+      date: work.publication_year || '',
+      evidenceType: evidenceTypeLabel(work.type_crossref || work.type),
+      doi: work.doi || '',
+      citations: Number(work.cited_by_count) || 0,
+      url: work.doi || work.primary_location?.landing_page_url || work.id
+    };
+  }).filter(item => item.title && item.url);
+}
+
+const guidanceByDomain = {
+  running: {
+    title: 'Comece pela regularidade, não pela velocidade.',
+    intro: 'Para iniciar ou evoluir na corrida, a orientação mais segura é aumentar o esforço gradualmente e observar como o corpo responde entre as sessões.',
+    actions: ['Alterne caminhada e corrida em intensidade confortável.', 'Mantenha dias de recuperação e aumente o volume aos poucos.', 'Dor persistente ou que altera o movimento precisa de avaliação profissional.']
+  },
+  strength: {
+    title: 'Técnica, progressão e recuperação constroem resultado.',
+    intro: 'Treinos de força funcionam melhor quando a carga evolui de forma planejada, os movimentos são bem executados e há tempo suficiente para recuperação.',
+    actions: ['Priorize movimentos que você consegue executar com controle.', 'Registre carga, repetições e percepção de esforço.', 'Sono e alimentação fazem parte da adaptação ao treino.']
+  },
+  injury: {
+    title: 'Dor relacionada ao esporte precisa de contexto.',
+    intro: 'Uma busca online não consegue diagnosticar uma lesão. A conduta depende do local, intensidade, duração, mecanismo e impacto da dor no movimento.',
+    actions: ['Reduza ou interrompa a atividade que piora os sintomas.', 'Observe inchaço, perda de força, limitação ou dor progressiva.', 'Procure avaliação qualificada se a dor persistir ou houver trauma importante.']
+  },
+  clinical: {
+    title: 'Exercício pode ajudar, mas a prescrição deve respeitar sua condição.',
+    intro: 'Atividade física costuma integrar o cuidado de diversas condições de saúde, porém tipo, intensidade e progressão precisam considerar sintomas, tratamento e histórico individual.',
+    actions: ['Confirme restrições e sinais de alerta com a equipe de saúde.', 'Comece em intensidade tolerável e acompanhe a resposta do organismo.', 'Não altere medicamentos ou tratamento com base apenas nesta busca.']
+  },
+  weight: {
+    title: 'Emagrecimento sustentável combina movimento e rotina.',
+    intro: 'O exercício contribui para gasto energético, condicionamento e manutenção de massa muscular, mas resultados duradouros dependem do conjunto de hábitos.',
+    actions: ['Escolha atividades que você consiga repetir semanalmente.', 'Combine exercícios aeróbicos e de força quando possível.', 'Evite metas extremas e acompanhe indicadores além do peso.']
+  },
+  recovery: {
+    title: 'Recuperar também é parte do treinamento.',
+    intro: 'A recuperação depende da carga realizada, sono, alimentação, hidratação e intervalo entre estímulos. Mais treino nem sempre significa mais evolução.',
+    actions: ['Alterne dias mais exigentes e mais leves.', 'Observe fadiga, queda de desempenho e qualidade do sono.', 'Ajuste a carga antes que o cansaço se transforme em interrupção.']
+  },
+  hydration: {
+    title: 'A necessidade de hidratação muda com esforço e ambiente.',
+    intro: 'Duração, intensidade, temperatura, suor e características individuais influenciam a reposição de líquidos durante a prática esportiva.',
+    actions: ['Comece a atividade já hidratado.', 'Em sessões longas ou muito quentes, planeje a reposição.', 'Evite tanto a desidratação quanto o consumo excessivo de água.']
+  },
+  nutrition: {
+    title: 'Nutrição esportiva deve acompanhar objetivo e rotina.',
+    intro: 'Alimentação, quantidade de treino, recuperação e contexto de saúde precisam ser analisados em conjunto antes de recomendar suplementos ou estratégias específicas.',
+    actions: ['Priorize uma alimentação adequada antes de buscar suplementos.', 'Considere dose, segurança e evidência de cada produto.', 'Condições clínicas exigem orientação individualizada.']
+  },
+  sleep: {
+    title: 'Sono influencia recuperação, disposição e desempenho.',
+    intro: 'Regularidade, duração e qualidade do sono afetam a adaptação ao exercício e a capacidade de manter uma rotina ativa.',
+    actions: ['Mantenha horários consistentes sempre que possível.', 'Evite treinos intensos muito próximos do sono se isso atrapalhar você.', 'Insônia persistente merece avaliação profissional.']
+  },
+  mental: {
+    title: 'Movimento pode apoiar o bem-estar mental.',
+    intro: 'Atividade física regular pode contribuir para humor, sono e qualidade de vida, mas não substitui cuidado psicológico ou médico quando necessário.',
+    actions: ['Comece com uma prática possível e de que você goste.', 'Use metas pequenas para favorecer continuidade.', 'Procure ajuda se os sintomas forem intensos ou persistentes.']
+  },
+  adherence: {
+    title: 'Constância nasce de uma rotina possível.',
+    intro: 'Planos simples, metas específicas e atividades prazerosas tendem a ser mais sustentáveis do que mudanças grandes e difíceis de repetir.',
+    actions: ['Defina dias e horários realistas.', 'Reduza a meta nos dias difíceis em vez de abandonar o plano.', 'Registre pequenas vitórias para enxergar evolução.']
+  },
+  'special-population': {
+    title: 'A prática deve respeitar fase de vida e necessidades individuais.',
+    intro: 'Crianças, gestantes e pessoas idosas podem se beneficiar do movimento, mas recomendações e cuidados mudam conforme desenvolvimento, saúde e experiência.',
+    actions: ['Escolha atividades adequadas à condição e ao nível atual.', 'Priorize supervisão quando houver risco ou pouca experiência.', 'Use diretrizes específicas para a população pesquisada.']
+  },
+  general: {
+    title: 'A melhor orientação depende do seu objetivo e do seu momento.',
+    intro: 'Selecionamos conteúdos e estudos diretamente relacionados aos termos da pergunta para você comparar orientações e entender a qualidade das fontes.',
+    actions: ['Observe se a fonte responde à mesma população e objetivo.', 'Dê preferência a revisões, diretrizes e estudos bem descritos.', 'Em decisões de saúde, confirme a orientação com um profissional.']
+  }
+};
+
+function buildGuidance(classification, evidenceCount) {
+  const guidance = guidanceByDomain[classification.primary.id] || guidanceByDomain.general;
+  return { ...guidance, domain: classification.primary.label, evidenceCount };
+}
+
+function createGuidanceCard(guidance) {
+  const article = document.createElement('article');
+  article.className = 'fb-evidence-summary';
+  const header = document.createElement('header');
+  const label = document.createElement('span');
+  label.textContent = 'ORIENTAÇÃO INICIAL';
+  const domain = document.createElement('span');
+  domain.textContent = guidance.domain;
+  header.append(label, domain);
+  const title = document.createElement('h3');
+  title.textContent = guidance.title;
+  const intro = document.createElement('p');
+  intro.textContent = guidance.intro;
+  const list = document.createElement('ul');
+  guidance.actions.forEach(action => {
+    const item = document.createElement('li');
+    item.textContent = action;
+    list.append(item);
+  });
+  const footer = document.createElement('footer');
+  footer.textContent = guidance.evidenceCount
+    ? `A busca encontrou ${guidance.evidenceCount} fonte${guidance.evidenceCount > 1 ? 's' : ''} científica${guidance.evidenceCount > 1 ? 's' : ''} relacionada${guidance.evidenceCount > 1 ? 's' : ''}.`
+    : 'Orientação educativa geral; nenhuma fonte científica específica foi recuperada agora.';
+  article.append(header, title, intro, list, footer);
+  return article;
+}
+
+function createResultsHeading(title, detail = '') {
+  const header = document.createElement('header');
+  header.className = 'fb-results-heading';
+  const heading = document.createElement('h3');
+  heading.textContent = title;
+  header.append(heading);
+  if (detail) {
+    const paragraph = document.createElement('p');
+    paragraph.textContent = detail;
+    header.append(paragraph);
+  }
+  return header;
+}
+
+function resultExcerpt(value, limit = 520) {
+  const text = plainText(value);
+  if (text.length <= limit) return text;
+  const shortened = text.slice(0, limit);
+  const sentenceEnd = Math.max(shortened.lastIndexOf('. '), shortened.lastIndexOf('; '));
+  return `${shortened.slice(0, sentenceEnd > 260 ? sentenceEnd + 1 : limit).trim()}…`;
 }
 
 const resultsContainer = document.getElementById('fb-answer-results');
@@ -307,6 +592,12 @@ function createResultCard(result, local = false) {
   source.className = 'fb-answer-source';
   source.textContent = local ? 'NO BEMESPORTIVO' : result.source.toLocaleUpperCase('pt-BR');
   header.append(source);
+  if (!local && result.evidenceType) {
+    const evidenceType = document.createElement('span');
+    evidenceType.className = 'fb-evidence-type';
+    evidenceType.textContent = result.evidenceType;
+    header.append(evidenceType);
+  }
   if (result.date) {
     const time = document.createElement('time');
     time.textContent = result.date;
@@ -315,7 +606,7 @@ function createResultCard(result, local = false) {
   const title = document.createElement('h3');
   title.textContent = result.title;
   const summary = document.createElement('p');
-  summary.textContent = result.summary;
+  summary.textContent = resultExcerpt(result.summary);
   const action = document.createElement(local ? 'button' : 'a');
   action.textContent = local ? 'Ler no Meu Caminho Be →' : 'Consultar fonte →';
   if (local) {
@@ -337,30 +628,64 @@ function createResultCard(result, local = false) {
   return article;
 }
 
+const evidenceCache = new Map();
+let answerRequestId = 0;
+
 async function answerQuestion(query) {
   const cleanQuery = query.trim();
   if (cleanQuery.length < 3) return;
+  const requestId = ++answerRequestId;
   resultsContainer.replaceChildren();
-  answerStatus.textContent = 'Procurando primeiro no conteúdo do BeMEsportivo…';
-
+  answerStatus.textContent = 'Entendendo sua pergunta e procurando evidências relacionadas…';
+  const classification = classifyQuestion(cleanQuery);
+  const scientificQuery = buildScientificQuery(cleanQuery, classification);
   const localResults = searchLocal(cleanQuery);
+  const cacheKey = normalize(`${cleanQuery} ${scientificQuery}`);
+  let externalData = evidenceCache.get(cacheKey);
+
+  if (!externalData) {
+    const settled = await Promise.allSettled([
+      searchEuropePmc(scientificQuery),
+      searchOpenAlex(scientificQuery),
+      searchWikipedia(cleanQuery)
+    ]);
+    externalData = {
+      scientific: settled.slice(0, 2).flatMap(result => result.status === 'fulfilled' ? result.value : []),
+      context: settled[2]?.status === 'fulfilled' ? settled[2].value : [],
+      failed: settled.filter(result => result.status === 'rejected').length
+    };
+    evidenceCache.set(cacheKey, externalData);
+    if (evidenceCache.size > 12) evidenceCache.delete(evidenceCache.keys().next().value);
+  }
+
+  if (requestId !== answerRequestId) return;
+  const scientificResults = rankScientificResults(externalData.scientific, scientificQuery, classification, cleanQuery);
+  const contextResults = externalData.context.slice(0, scientificResults.length ? 1 : 2);
+  const guidance = buildGuidance(classification, scientificResults.length);
+  const output = [createGuidanceCard(guidance)];
+
   if (localResults.length) {
-    resultsContainer.replaceChildren(...localResults.map(result => createResultCard(result, true)));
-    answerStatus.textContent = `${localResults.length} resposta${localResults.length > 1 ? 's' : ''} encontrada${localResults.length > 1 ? 's' : ''} no próprio site.`;
-    return;
+    output.push(createResultsHeading('No BeMEsportivo', 'Conteúdos do próprio site que correspondem ao tema da pergunta.'));
+    output.push(...localResults.slice(0, 3).map(result => createResultCard(result, true)));
+  }
+  if (scientificResults.length) {
+    output.push(createResultsHeading('Evidências científicas', 'Priorizamos revisões, diretrizes e estudos com maior relação com o tema.'));
+    output.push(...scientificResults.map(result => createResultCard(result)));
+  }
+  if (contextResults.length) {
+    output.push(createResultsHeading('Contexto geral', 'Material introdutório para compreender conceitos; não substitui evidência científica.'));
+    output.push(...contextResults.map(result => createResultCard(result)));
   }
 
-  answerStatus.textContent = 'Não encontramos no site. Consultando bases externas…';
-  const settled = await Promise.allSettled([searchWikipedia(cleanQuery), searchEuropePmc(cleanQuery)]);
-  const externalResults = settled.flatMap(result => result.status === 'fulfilled' ? result.value : []).slice(0, 6);
-
-  if (!externalResults.length) {
-    answerStatus.textContent = 'Não foi possível encontrar uma resposta agora. Tente usar outras palavras.';
-    return;
+  resultsContainer.replaceChildren(...output);
+  const sources = [...new Set(scientificResults.map(result => result.source))];
+  if (scientificResults.length) {
+    answerStatus.textContent = `Pergunta classificada como “${classification.primary.label}”. ${scientificResults.length} evidência${scientificResults.length > 1 ? 's' : ''} selecionada${scientificResults.length > 1 ? 's' : ''} em ${sources.join(' e ')}.`;
+  } else if (localResults.length || contextResults.length) {
+    answerStatus.textContent = `Encontramos conteúdo relacionado a “${classification.primary.label}”, mas nenhuma evidência científica específica foi recuperada agora.`;
+  } else {
+    answerStatus.textContent = 'Não encontramos fontes específicas agora. Reformule a pergunta incluindo atividade, objetivo e população.';
   }
-  resultsContainer.replaceChildren(...externalResults.map(result => createResultCard(result)));
-  const sources = [...new Set(externalResults.map(result => result.source))].join(' e ');
-  answerStatus.textContent = `Resultados externos encontrados em ${sources}. Confira a fonte antes de tomar decisões.`;
 }
 
 function getJourneySteps(profile = currentProfile) {
@@ -583,4 +908,12 @@ document.querySelectorAll('[data-modality]').forEach(button => {
 
 renderPersonalizedExperience();
 openView('inicio', { scroll: false, focus: false, instant: true });
+const sharedQuestion = new URLSearchParams(window.location.search).get('pergunta')?.trim();
+if (sharedQuestion && sharedQuestion.length >= 3) {
+  openView('perguntar', { scroll: false, focus: false, instant: true });
+  answerInput.value = sharedQuestion.slice(0, 180);
+  answerQuestion(answerInput.value).catch(() => {
+    answerStatus.textContent = 'A busca externa está indisponível no momento. Tente novamente mais tarde.';
+  });
+}
 })();
