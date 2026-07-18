@@ -1,0 +1,5 @@
+@import url("./core/tokens.css");
+@import url("./core/primitives.css");
+@import url("./components/ui.css");
+
+/* Stable public entry point for the Bem Esportivo design system. */

@@ -1,57 +1,27 @@
 #!/usr/bin/env node
 
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 
 const rootDir = __dirname;
-const srcDir = path.join(rootDir, 'src');
 const distDir = path.join(rootDir, 'dist');
 
-function localBin(name){
-  const extension = process.platform === 'win32' ? '.cmd' : '';
-  return path.join(rootDir, 'node_modules', '.bin', `${name}${extension}`);
-}
+console.log('Build de validação iniciado');
+execFileSync(process.execPath, [path.join(rootDir, 'scripts', 'quality-check.js')], { stdio: 'inherit' });
 
-function fileSizeKb(filePath){
-  return (fs.statSync(filePath).size / 1024).toFixed(1);
-}
+const pages = fs.readdirSync(rootDir)
+  .filter(fileName => fileName.toLowerCase().endsWith('.html'))
+  .sort();
 
-function ensureDist(){
-  if(!fs.existsSync(distDir)){
-    fs.mkdirSync(distDir, { recursive: true });
-    console.log('OK dist directory created');
-  }
-}
+fs.mkdirSync(distDir, { recursive: true });
+fs.writeFileSync(path.join(distDir, 'build-manifest.json'), `${JSON.stringify({
+  generatedAt: new Date().toISOString(),
+  deployment: 'static-root',
+  pages,
+  sharedEntries: ['site-common.css', 'js/site-common.js', 'css/design-system.css']
+}, null, 2)}\n`);
 
-function runMinifier(label, binName, args, outputFile){
-  const binPath = localBin(binName);
-  if(!fs.existsSync(binPath)){
-    console.warn(`SKIP ${label}: ${binName} is not installed locally. Run npm install first.`);
-    return;
-  }
-
-  execFileSync(binPath, args, { stdio: 'inherit' });
-  console.log(`OK ${label}: ${fileSizeKb(outputFile)} KB`);
-}
-
-console.log('Build started');
-ensureDist();
-
-const cssFile = path.join(srcDir, 'css', 'main.css');
-const minCssFile = path.join(distDir, 'main.min.css');
-if(fs.existsSync(cssFile)){
-  runMinifier('CSS minified', 'csso', [cssFile, '-o', minCssFile], minCssFile);
-}else{
-  console.warn('SKIP CSS: src/css/main.css not found.');
-}
-
-const jsFile = path.join(srcDir, 'js', 'main.js');
-const minJsFile = path.join(distDir, 'main.min.js');
-if(fs.existsSync(jsFile)){
-  runMinifier('JS minified', 'uglifyjs', [jsFile, '-o', minJsFile], minJsFile);
-}else{
-  console.warn('SKIP JS: src/js/main.js not found.');
-}
-
-console.log('Build finished');
+console.log(`Build aprovado: ${pages.length} páginas; manifesto em dist/build-manifest.json`);

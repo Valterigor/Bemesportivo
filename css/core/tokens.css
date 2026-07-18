@@ -1,0 +1,55 @@
+:root {
+  /* Brand */
+  --be-ds-color-brand: #ff6a00;
+  --be-ds-color-brand-strong: #db4d00;
+  --be-ds-color-ink: #171717;
+  --be-ds-color-text: #3f3b37;
+  --be-ds-color-muted: #716b65;
+  --be-ds-color-surface: #ffffff;
+  --be-ds-color-surface-soft: #f7f5f2;
+  --be-ds-color-border: #e8e1da;
+  --be-ds-color-success: #168653;
+  --be-ds-color-warning: #9b6100;
+  --be-ds-color-danger: #b42318;
+  --be-ds-color-focus: #1f6feb;
+
+  /* Typography */
+  --be-ds-font-display: "Rubik", "Inter", system-ui, sans-serif;
+  --be-ds-font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --be-ds-text-xs: 0.75rem;
+  --be-ds-text-sm: 0.875rem;
+  --be-ds-text-md: 1rem;
+  --be-ds-text-lg: 1.125rem;
+  --be-ds-text-xl: clamp(1.35rem, 2vw, 1.75rem);
+  --be-ds-text-2xl: clamp(1.75rem, 4vw, 3rem);
+  --be-ds-leading-tight: 1.12;
+  --be-ds-leading-body: 1.6;
+
+  /* Spacing: 4px base scale */
+  --be-ds-space-1: 0.25rem;
+  --be-ds-space-2: 0.5rem;
+  --be-ds-space-3: 0.75rem;
+  --be-ds-space-4: 1rem;
+  --be-ds-space-5: 1.25rem;
+  --be-ds-space-6: 1.5rem;
+  --be-ds-space-8: 2rem;
+  --be-ds-space-10: 2.5rem;
+  --be-ds-space-12: 3rem;
+  --be-ds-space-16: 4rem;
+
+  /* Shape, depth and motion */
+  --be-ds-radius-sm: 0.5rem;
+  --be-ds-radius-md: 0.875rem;
+  --be-ds-radius-lg: 1.25rem;
+  --be-ds-radius-pill: 999px;
+  --be-ds-shadow-sm: 0 6px 18px rgb(23 23 23 / 7%);
+  --be-ds-shadow-md: 0 16px 42px rgb(23 23 23 / 11%);
+  --be-ds-duration-fast: 160ms;
+  --be-ds-duration-base: 240ms;
+  --be-ds-ease: cubic-bezier(.2, .8, .2, 1);
+  --be-ds-content-width: 1180px;
+  --be-ds-reading-width: 760px;
+  --be-ds-z-header: 1000;
+  --be-ds-z-overlay: 1100;
+  --be-ds-z-modal: 1200;
+}

@@ -1,0 +1,115 @@
+.be-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--be-ds-space-2);
+  padding: 0.7rem 1.15rem;
+  border: 1px solid transparent;
+  border-radius: var(--be-ds-radius-pill);
+  background: var(--be-ds-color-brand);
+  color: var(--be-ds-color-ink);
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--be-ds-duration-fast) var(--be-ds-ease),
+    background-color var(--be-ds-duration-fast) var(--be-ds-ease),
+    box-shadow var(--be-ds-duration-fast) var(--be-ds-ease);
+}
+
+.be-button:hover {
+  background: #ff811f;
+  box-shadow: var(--be-ds-shadow-sm);
+  transform: translateY(-1px);
+}
+
+.be-button:active {
+  transform: translateY(0);
+}
+
+.be-button--secondary {
+  border-color: var(--be-ds-color-border);
+  background: var(--be-ds-color-surface);
+}
+
+.be-button--ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--be-ds-color-brand-strong);
+}
+
+.be-button[disabled],
+.be-button[aria-disabled="true"] {
+  opacity: 0.5;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.be-card {
+  overflow: hidden;
+  border: 1px solid var(--be-ds-color-border);
+  border-radius: var(--be-ds-radius-lg);
+  background: var(--be-ds-color-surface);
+  box-shadow: var(--be-ds-shadow-sm);
+}
+
+.be-card__body {
+  padding: clamp(var(--be-ds-space-4), 3vw, var(--be-ds-space-6));
+}
+
+.be-card__title {
+  margin: 0 0 var(--be-ds-space-2);
+  color: var(--be-ds-color-ink);
+  font-family: var(--be-ds-font-display);
+  font-size: var(--be-ds-text-xl);
+  line-height: var(--be-ds-leading-tight);
+}
+
+.be-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.be-modal {
+  width: min(calc(100% - 2rem), 640px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--be-ds-radius-lg);
+  background: var(--be-ds-color-surface);
+  color: var(--be-ds-color-text);
+  box-shadow: var(--be-ds-shadow-md);
+}
+
+.be-modal::backdrop {
+  background: rgb(17 17 17 / 68%);
+  backdrop-filter: blur(4px);
+}
+
+.be-modal__body {
+  padding: clamp(var(--be-ds-space-5), 4vw, var(--be-ds-space-8));
+}
+
+.be-state-message {
+  padding: var(--be-ds-space-4);
+  border: 1px solid var(--be-ds-color-border);
+  border-radius: var(--be-ds-radius-md);
+  background: var(--be-ds-color-surface-soft);
+}
+
+.be-state-message--success {
+  border-color: color-mix(in srgb, var(--be-ds-color-success) 35%, white);
+  color: var(--be-ds-color-success);
+}
+
+.be-state-message--error {
+  border-color: color-mix(in srgb, var(--be-ds-color-danger) 35%, white);
+  color: var(--be-ds-color-danger);
+}

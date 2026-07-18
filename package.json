@@ -9,8 +9,10 @@
   "scripts": {
     "dev": "node dev-server.js",
     "start": "node dev-server.js",
-    "check": "node --check dev-server.js",
+    "lint": "node scripts/quality-check.js",
+    "check": "npm run lint",
     "build": "node build.js",
+    "verify": "npm run check && npm run build",
     "images:optimize": "node scripts/optimize-images.js",
     "watch": "node dev-server.js --watch"
   },
