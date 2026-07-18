@@ -76,10 +76,11 @@ function readStoredProfile() {
     if (!profile || typeof profile !== 'object') return null;
     return {
       ...profile,
-      schemaVersion: 3,
+      schemaVersion: 4,
       checkins: Array.isArray(profile.checkins) ? profile.checkins : [],
       cycles: Array.isArray(profile.cycles) ? profile.cycles : [],
-      activityHistory: Array.isArray(profile.activityHistory) ? profile.activityHistory : []
+      activityHistory: Array.isArray(profile.activityHistory) ? profile.activityHistory : [],
+      gamificationStats: profile.gamificationStats && typeof profile.gamificationStats === 'object' ? profile.gamificationStats : {}
     };
   } catch (error) {
     return null;
@@ -91,7 +92,7 @@ function saveProfile(updates) {
   currentProfile = {
     ...(currentProfile || {}),
     ...updates,
-    schemaVersion: 3,
+    schemaVersion: 4,
     createdAt: currentProfile?.createdAt || updates.createdAt || now,
     updatedAt: now
   };
@@ -189,6 +190,7 @@ function resetLocalJourney() {
   try {
     localStorage.removeItem(PROFILE_STORAGE_KEY);
     localStorage.removeItem(ACCESS_STORAGE_KEY);
+    localStorage.removeItem('meuCaminhoBeCommunityName');
   } catch (error) {}
   currentProfile = null;
   const status = document.getElementById('fb-checkin-status');
@@ -1363,12 +1365,25 @@ const dashboardRecommendationMap = {
   }
 };
 
+const trailRecommendationMap = {
+  comecar: ['Minha primeira corrida', 'Uma trilha prática para transformar intenção em uma primeira experiência possível.', 'trail-running'],
+  saude: ['Vida mais saudável', 'Organize movimento leve, rotina e observação do bem-estar sem buscar extremos.', 'trail-health'],
+  emagrecer: ['Vida mais saudável', 'Construa hábitos que possam ser repetidos e avaliados sem usar exercício como punição.', 'trail-health'],
+  performance: ['Performance sustentável', 'Evolua uma variável por vez, acompanhando técnica, carga e recuperação.', 'trail-performance'],
+  modalidade: ['Descobrir minha prática', 'Compare modalidades por acesso, prazer, segurança e vontade de voltar.', 'trail-running'],
+  recuperacao: ['Performance sustentável', 'Retome com progressão cuidadosa e critérios claros para manter, reduzir ou pausar.', 'trail-performance']
+};
+
 function getDashboardRecommendations(profile = currentProfile) {
   const recommendation = dashboardRecommendationMap[profile?.objective] || dashboardRecommendationMap.comecar;
   const availableTime = profile?.availabilityLabel ? ` Considerando ${profile.availabilityLabel.toLocaleLowerCase('pt-BR')} por prática.` : '';
   const discoveredSport = profile?.preferredSport?.name || profile?.sportDiscovery?.results?.[0]?.name;
   const content = [...recommendation.content];
   const professional = [...recommendation.professional];
+  if (profile?.objective !== 'recuperacao') {
+    professional[0] = 'Bruno Rezende · Personal Trainer';
+    professional[1] = 'Atua com treinamento funcional, condicionamento e performance em formatos online e presencial.';
+  }
   if (profile?.practice === 'returning') {
     content[0] = 'Volte com consistência, não com pressa';
     content[1] = 'Sua experiência anterior ajuda, mas a carga atual precisa respeitar o momento de retomada.';
@@ -1382,11 +1397,20 @@ function getDashboardRecommendations(profile = currentProfile) {
     professional[0] = 'Profissional com experiência em pessoas 60+';
     professional[1] = 'Pode adaptar intensidade, equilíbrio, força e progressão ao seu contexto atual.';
   }
-  if (discoveredSport) professional[1] += ` Sua descoberta atual aponta maior compatibilidade com ${discoveredSport}.`;
+  if (profile?.preferredSport?.id === 'futebol' && profile?.age !== '60-mais') {
+    professional[0] = 'Luciano · Personal Soccer';
+    professional[1] = 'Atua com técnica individual, fundamentos e desenvolvimento esportivo no futebol presencial.';
+  } else if (discoveredSport) {
+    professional[1] += ` Sua descoberta atual aponta maior compatibilidade com ${discoveredSport}.`;
+  }
+  const trail = [...(trailRecommendationMap[profile?.objective] || trailRecommendationMap.comecar)];
+  if (profile?.preferredSport?.id === 'futebol') trail.splice(0, 3, 'Futebol com inteligência', 'Use leitura de jogo, técnica e constância para orientar sua evolução.', 'trail-football');
+  if (profile?.preferredSport?.id === 'corrida') trail.splice(0, 3, 'Minha primeira corrida', 'Comece ou evolua com ritmo controlado, repetição e recuperação.', 'trail-running');
   return {
     content,
     tool: [recommendation.tool[0], `${recommendation.tool[1]}${availableTime}`],
-    professional
+    professional,
+    trail
   };
 }
 
@@ -1437,14 +1461,117 @@ function renderDashboardRecommendations() {
   const toolSummary = document.getElementById('fb-recommended-tool-summary');
   const professionalTitle = document.getElementById('fb-recommended-professional-title');
   const professionalSummary = document.getElementById('fb-recommended-professional-summary');
+  const trailTitle = document.getElementById('fb-recommended-trail-title');
+  const trailSummary = document.getElementById('fb-recommended-trail-summary');
   contentTitle.textContent = recommendation.content[0];
   contentSummary.textContent = recommendation.content[1];
   toolTitle.textContent = document.querySelector(`[data-tool="${recommendation.tool[0]}"] strong`)?.textContent || 'Ferramenta recomendada';
   toolSummary.textContent = recommendation.tool[1];
   professionalTitle.textContent = recommendation.professional[0];
   professionalSummary.textContent = recommendation.professional[1];
+  trailTitle.textContent = recommendation.trail[0];
+  trailSummary.textContent = recommendation.trail[1];
   dashboard.dataset.contentTag = recommendation.content[2];
   dashboard.dataset.tool = recommendation.tool[0];
+  dashboard.dataset.trail = recommendation.trail[2];
+}
+
+function startOfLocalWeek(date = new Date()) {
+  const start = new Date(date);
+  const day = start.getDay() || 7;
+  start.setDate(start.getDate() - day + 1);
+  start.setHours(0, 0, 0, 0);
+  return start;
+}
+
+function getActivityDates(profile = currentProfile) {
+  const dates = [profile?.createdAt, profile?.sportDiscovery?.completedAt];
+  (profile?.checkins || []).forEach(item => dates.push(item?.completedAt));
+  (profile?.cycles || []).forEach(item => {
+    dates.push(item?.completedAt);
+    (item?.checkins || []).forEach(checkin => dates.push(checkin?.completedAt));
+  });
+  (profile?.activityHistory || []).forEach(item => dates.push(item?.occurredAt));
+  return dates.map(value => new Date(value)).filter(date => !Number.isNaN(date.getTime()));
+}
+
+function calculateActivityStreak(profile = currentProfile) {
+  const keys = [...new Set(getActivityDates(profile).map(date => localDayKey(date)))].sort().reverse();
+  if (!keys.length) return 0;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const latest = new Date(`${keys[0]}T00:00:00`);
+  const gap = Math.round((today - latest) / 86400000);
+  if (gap > 1) return 0;
+  let streak = 1;
+  let cursor = latest;
+  for (let index = 1; index < keys.length; index += 1) {
+    const expected = new Date(cursor);
+    expected.setDate(expected.getDate() - 1);
+    if (keys[index] !== localDayKey(expected)) break;
+    streak += 1;
+    cursor = expected;
+  }
+  return streak;
+}
+
+function getGamificationState(profile = currentProfile) {
+  const history = Array.isArray(profile?.activityHistory) ? profile.activityHistory : [];
+  const checkins = Array.isArray(profile?.checkins) ? profile.checkins : [];
+  const cycles = Array.isArray(profile?.cycles) ? profile.cycles : [];
+  const allCheckins = [...cycles.flatMap(cycle => Array.isArray(cycle?.checkins) ? cycle.checkins : []), ...checkins];
+  const stats = profile?.gamificationStats || {};
+  const toolCount = Math.max(new Set(history.filter(item => item?.type === 'tool').map(item => item.key)).size, Array.isArray(stats.tools) ? stats.tools.length : 0);
+  const contentCount = Math.max(new Set(history.filter(item => item?.type === 'content').map(item => item.key)).size, Array.isArray(stats.contents) ? stats.contents.length : 0);
+  const communityCount = Math.max(history.filter(item => item?.type === 'community').length, Number(stats.communityActions || 0));
+  const totalCheckins = Math.max(allCheckins.length, Number(stats.completedCheckins || 0));
+  const totalCycles = Math.max(cycles.length, Number(stats.completedCycles || 0));
+  const xp = (profile?.name ? 10 : 0) + (profile?.objective ? 40 : 0) + (profile?.safety?.consent ? 20 : 0)
+    + totalCheckins * 50 + totalCycles * 100 + toolCount * 25 + contentCount * 20
+    + (profile?.sportDiscovery?.completedAt ? 60 : 0) + (profile?.preferredSport ? 30 : 0) + communityCount * 25;
+  const level = Math.floor(xp / 250) + 1;
+  const levelNames = ['Primeiro passo', 'Em movimento', 'Criando constância', 'Evolução consciente', 'Jornada ativa'];
+  const weekStart = startOfLocalWeek();
+  const weeklyActions = getActivityDates(profile).filter(date => date >= weekStart).length;
+  const medals = [
+    ['Primeiro passo', Boolean(profile?.objective)],
+    ['Em movimento', totalCheckins >= 2],
+    ['Explorador', Boolean(profile?.sportDiscovery?.completedAt)],
+    ['Conhecimento aplicado', toolCount >= 3],
+    ['Leitor ativo', contentCount >= 3],
+    ['Ciclo concluído', totalCycles >= 1 || getCompletedSteps() >= 5]
+  ];
+  return { xp, level, levelName: levelNames[Math.min(level - 1, levelNames.length - 1)], streak: calculateActivityStreak(profile), weeklyActions, medals };
+}
+
+function renderGamification() {
+  const section = document.getElementById('fb-gamification');
+  if (!section) return;
+  section.hidden = !currentProfile?.objective;
+  if (!currentProfile?.objective) return;
+  const game = getGamificationState();
+  const levelXp = game.xp % 250;
+  const percent = Math.round(levelXp / 250 * 100);
+  document.getElementById('fb-game-xp').textContent = String(game.xp);
+  document.getElementById('fb-game-xp-next').textContent = `${250 - levelXp} XP para o próximo nível`;
+  document.getElementById('fb-game-level').textContent = String(game.level);
+  document.getElementById('fb-game-level-name').textContent = game.levelName;
+  document.getElementById('fb-game-streak').textContent = `${game.streak} dia${game.streak === 1 ? '' : 's'}`;
+  document.getElementById('fb-game-level-progress-label').textContent = `${levelXp} de 250 XP`;
+  document.getElementById('fb-game-level-progress-percent').textContent = `${percent}%`;
+  document.getElementById('fb-game-level-progress-bar').style.width = `${percent}%`;
+  document.getElementById('fb-weekly-challenge-progress').textContent = `${Math.min(3, game.weeklyActions)}/3`;
+  const nextAction = currentProfile?.nextAction ? `${currentProfile.nextAction} ` : '';
+  document.getElementById('fb-weekly-challenge-summary').textContent = `${nextAction}Some três ações registradas nesta semana, no seu ritmo.`;
+  const medalList = document.getElementById('fb-medal-list');
+  medalList.replaceChildren(...game.medals.map(([label, unlocked]) => {
+    const item = document.createElement('li');
+    item.textContent = label;
+    item.classList.toggle('locked', !unlocked);
+    item.title = unlocked ? 'Medalha conquistada' : 'Ainda não conquistada';
+    item.setAttribute('aria-label', `${label}: ${unlocked ? 'conquistada' : 'a conquistar'}`);
+    return item;
+  }));
 }
 
 function renderTrails() {
@@ -1632,6 +1759,7 @@ function renderPersonalizedExperience() {
   renderProfileSummary();
   renderProgress();
   renderDashboardRecommendations();
+  renderGamification();
   renderHistory();
   renderTrails();
   renderSportDiscovery();
@@ -1657,7 +1785,7 @@ window.addEventListener('meuCaminhoBe:identity-captured', event => {
 
 window.addEventListener('meuCaminhoBe:activity', event => {
   const detail = event.detail || {};
-  if (!['tool', 'content'].includes(detail.type) || !String(detail.label || '').trim()) return;
+  if (!['tool', 'content', 'community'].includes(detail.type) || !String(detail.label || '').trim()) return;
   const activityHistory = [...(currentProfile?.activityHistory || []), {
     type: detail.type,
     key: String(detail.key || '').slice(0, 80),
@@ -1665,7 +1793,17 @@ window.addEventListener('meuCaminhoBe:activity', event => {
     result: String(detail.result || '').trim().slice(0, 160),
     occurredAt: new Date().toISOString()
   }].slice(-40);
-  saveProfile({ activityHistory });
+  const previousStats = currentProfile?.gamificationStats || {};
+  const knownTools = [...new Set((currentProfile?.activityHistory || []).filter(item => item?.type === 'tool').map(item => String(item.key || '').slice(0, 80)))];
+  const knownContents = [...new Set((currentProfile?.activityHistory || []).filter(item => item?.type === 'content').map(item => String(item.key || '').slice(0, 80)))];
+  const knownCommunityActions = (currentProfile?.activityHistory || []).filter(item => item?.type === 'community').length;
+  const gamificationStats = {
+    ...previousStats,
+    tools: [...new Set([...(previousStats.tools || []), ...knownTools, ...(detail.type === 'tool' ? [String(detail.key || '').slice(0, 80)] : [])])],
+    contents: [...new Set([...(previousStats.contents || []), ...knownContents, ...(detail.type === 'content' ? [String(detail.key || '').slice(0, 80)] : [])])],
+    communityActions: Math.max(Number(previousStats.communityActions || 0), knownCommunityActions) + (detail.type === 'community' ? 1 : 0)
+  };
+  saveProfile({ activityHistory, gamificationStats });
 });
 
 document.querySelectorAll('[data-dashboard-action]').forEach(button => {
@@ -1685,6 +1823,12 @@ document.querySelectorAll('[data-dashboard-action]').forEach(button => {
       openView('ferramentas');
       const tool = dashboard?.dataset.tool;
       window.setTimeout(() => document.querySelector(`[data-tool="${tool}"]`)?.click(), 180);
+      return;
+    }
+    if (button.dataset.dashboardAction === 'trilha') {
+      openView('trilhas');
+      const trail = dashboard?.dataset.trail;
+      window.setTimeout(() => document.querySelector(`.${trail}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 220);
       return;
     }
     openView('especialistas');
@@ -1745,7 +1889,9 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
   }];
   if (status) status.value = '';
   if (note) note.value = '';
-  saveProfile({ progress: nextProgress, checkins });
+  const archivedCheckinCount = (currentProfile?.cycles || []).reduce((total, cycle) => total + (Array.isArray(cycle?.checkins) ? cycle.checkins.length : 0), 0);
+  const previousCheckinTotal = Math.max(Number(currentProfile?.gamificationStats?.completedCheckins || 0), archivedCheckinCount + (currentProfile?.checkins || []).length);
+  saveProfile({ progress: nextProgress, checkins, gamificationStats: { ...(currentProfile?.gamificationStats || {}), completedCheckins: previousCheckinTotal + 1 } });
   const feedbackName = currentProfile?.name ? `${currentProfile.name}, ` : '';
   document.getElementById('fb-progress-feedback').textContent = nextStep
     ? `${feedbackName}obrigado por contar como foi. Registrei sua experiência e preparei o próximo passo: ${nextStep}.`
@@ -1764,7 +1910,8 @@ document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
   };
   const cycles = [...(Array.isArray(currentProfile?.cycles) ? currentProfile.cycles : []), archive].slice(-6);
   const cycleAdjustment = adjustCount >= 2 ? 'reduce' : (adjustCount || partialCount ? 'maintain' : 'progress');
-  saveProfile({ progress: 1, checkins: [], cycles, cycleAdjustment });
+  const previousCycleTotal = Math.max(Number(currentProfile?.gamificationStats?.completedCycles || 0), (currentProfile?.cycles || []).length);
+  saveProfile({ progress: 1, checkins: [], cycles, cycleAdjustment, gamificationStats: { ...(currentProfile?.gamificationStats || {}), completedCycles: previousCycleTotal + 1 } });
   document.getElementById('fb-progress-feedback').textContent = cycleAdjustment === 'reduce'
     ? 'Novo ciclo iniciado com uma versão menor e mais segura do caminho anterior.'
     : cycleAdjustment === 'maintain'
@@ -1817,7 +1964,7 @@ document.getElementById('fb-export-profile')?.addEventListener('click', () => {
     document.getElementById('fb-profile-feedback').textContent = 'Ainda não há um perfil para exportar.';
     return;
   }
-  const payload = JSON.stringify({ schemaVersion: 3, exportedAt: new Date().toISOString(), profile: currentProfile }, null, 2);
+  const payload = JSON.stringify({ schemaVersion: 4, exportedAt: new Date().toISOString(), profile: currentProfile }, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -1841,12 +1988,19 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
     if (!profile || typeof profile !== 'object' || !allowedObjectives.includes(profile.objective) || typeof profile.name !== 'string') throw new Error('invalid');
     const sanitized = {
       ...profile,
-      schemaVersion: 3,
+      schemaVersion: 4,
       createdAt: profile.createdAt || new Date().toISOString(),
       name: profile.name.trim().slice(0, 40),
       checkins: Array.isArray(profile.checkins) ? profile.checkins.slice(-10) : [],
       cycles: Array.isArray(profile.cycles) ? profile.cycles.slice(-6) : [],
       activityHistory: Array.isArray(profile.activityHistory) ? profile.activityHistory.slice(-40) : [],
+      gamificationStats: profile.gamificationStats && typeof profile.gamificationStats === 'object' ? {
+        completedCheckins: Math.max(0, Number(profile.gamificationStats.completedCheckins || 0)),
+        completedCycles: Math.max(0, Number(profile.gamificationStats.completedCycles || 0)),
+        communityActions: Math.max(0, Number(profile.gamificationStats.communityActions || 0)),
+        tools: Array.isArray(profile.gamificationStats.tools) ? profile.gamificationStats.tools.slice(-20).map(value => String(value).slice(0, 80)) : [],
+        contents: Array.isArray(profile.gamificationStats.contents) ? profile.gamificationStats.contents.slice(-40).map(value => String(value).slice(0, 80)) : []
+      } : {},
       sportDiscovery: profile.sportDiscovery && typeof profile.sportDiscovery === 'object' ? profile.sportDiscovery : undefined
     };
     currentProfile = sanitized;

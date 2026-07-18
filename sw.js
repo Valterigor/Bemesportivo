@@ -1,14 +1,14 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v10';
+const CACHE_NAME = 'meu-caminho-be-v11';
 const APP_SHELL = [
   '/meu-caminho-be',
   '/site-common.css?v=20260718-3',
-  '/css/coluna-valtinho.css?v=20260718-3',
-  '/css/fala-bem-platform.css?v=20260718-15',
+  '/css/coluna-valtinho.css?v=20260718-4',
+  '/css/fala-bem-platform.css?v=20260718-16',
   '/js/site-common.js?v=20260718-3',
-  '/js/coluna-valtinho.js?v=20260718-6',
-  '/js/fala-bem-app.js?v=20260718-14',
+  '/js/coluna-valtinho.js?v=20260718-7',
+  '/js/fala-bem-app.js?v=20260718-15',
   '/img/logobemoficial.png',
   '/img/Bem%20Esportivo%20Logo%20Laranja@33x.png',
   '/img/fala-bem-hero-pessoas-optimized.jpg'

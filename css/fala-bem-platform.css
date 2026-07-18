@@ -1624,12 +1624,29 @@ background:#fff;
 .fb-dashboard-recommendations>header span,.fb-sport-finder>div>span,.fb-profile-history>div>span{display:block;margin-bottom:6px;color:#e94b14;font-size:.68rem;font-weight:900;letter-spacing:.09em}
 .fb-dashboard-recommendations>header h2,.fb-sport-finder h3,.fb-profile-history h3{margin:0;color:#211d1a;letter-spacing:-.035em}
 .fb-dashboard-recommendations>header p{max-width:470px;margin:0;color:#6d655f;font-size:.84rem;line-height:1.5}
-.fb-dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fb-dashboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .fb-dashboard-grid article{display:flex;flex-direction:column;min-width:0;padding:18px;border:1px solid #eee5df;border-radius:16px;background:#fbf8f5}
 .fb-dashboard-grid article>span{color:#e94b14;font-size:.64rem;font-weight:900;letter-spacing:.08em}
 .fb-dashboard-grid h3{margin:8px 0 6px;font-size:1rem;line-height:1.25}
 .fb-dashboard-grid p{margin:0 0 16px;color:#69615b;font-size:.8rem;line-height:1.5}
 .fb-dashboard-grid button{align-self:flex-start;margin-top:auto;min-height:40px;padding:0 14px;border:0;border-radius:999px;background:#211d1a;color:#fff;font:inherit;font-size:.75rem;font-weight:850;cursor:pointer}
+
+.fb-gamification{margin:0 0 24px;padding:clamp(20px,3vw,30px);border:1px solid #e5dccf;border-radius:22px;background:linear-gradient(145deg,#211d1a,#33261f);color:#fff}
+.fb-gamification[hidden]{display:none!important}
+.fb-gamification>header{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:18px}
+.fb-gamification>header span,.fb-weekly-challenge span,.fb-medals>div>span{display:block;margin-bottom:6px;color:#ff8c61;font-size:.66rem;font-weight:950;letter-spacing:.1em}
+.fb-gamification>header h2,.fb-weekly-challenge h3,.fb-medals h3{margin:0;color:#fff;letter-spacing:-.035em}
+.fb-gamification>header p{max-width:470px;margin:0;color:#d6ccc6;font-size:.82rem;line-height:1.5}
+.fb-game-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.fb-game-stats article{display:grid;gap:4px;padding:15px;border:1px solid rgba(255,255,255,.1);border-radius:15px;background:rgba(255,255,255,.06)}
+.fb-game-stats span{color:#c9bbb3;font-size:.62rem;font-weight:900;letter-spacing:.08em}
+.fb-game-stats strong{font-size:1.45rem;line-height:1}.fb-game-stats small{color:#e2d8d2;font-size:.69rem;line-height:1.35}
+.fb-game-level-progress{margin-top:12px;padding:13px 15px;border-radius:14px;background:rgba(255,255,255,.055)}
+.fb-game-level-progress>div:first-child{display:flex;justify-content:space-between;gap:12px;color:#e9dfd9;font-size:.7rem}.fb-game-level-progress .fb-progress-track{background:rgba(255,255,255,.13)}.fb-game-level-progress .fb-progress-track i{background:linear-gradient(90deg,#ff5a1f,#ffac62)}
+.fb-weekly-challenge{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:12px;padding:16px;border:1px solid rgba(255,153,105,.24);border-radius:15px;background:rgba(255,90,31,.09)}
+.fb-weekly-challenge h3{font-size:1rem}.fb-weekly-challenge p{margin:5px 0 0;color:#d9cec8;font-size:.75rem;line-height:1.4}.fb-weekly-challenge>strong{flex:0 0 auto;font-size:1.25rem;color:#ff9a6f}
+.fb-medals{margin-top:17px}.fb-medals>div{margin-bottom:10px}.fb-medals h3{font-size:.95rem}.fb-medals ul{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.fb-medals li{display:flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.055);color:#eee5df;font-size:.68rem;font-weight:800}.fb-medals li::before{content:'◆';color:#ff8c61}.fb-medals li.locked{opacity:.42}.fb-medals li.locked::before{color:#8f837c}
 
 .fb-next-mission{margin:18px 0;padding:20px;border:1px solid #ffb28f;border-radius:17px;background:linear-gradient(135deg,#fff3ec,#fff);box-shadow:0 12px 28px rgba(220,70,18,.08)}
 .fb-next-mission[hidden],.fb-profile-next-step[hidden]{display:none!important}
@@ -1682,6 +1699,7 @@ background:#fff;
 .fb-app-nav button{min-width:0;font-size:.54rem!important}.fb-app-nav button svg{width:17px!important;height:17px!important}
 .fb-dashboard-recommendations>header{display:block}.fb-dashboard-recommendations>header p{margin-top:8px}
 .fb-dashboard-grid,.fb-profile-history dl{grid-template-columns:1fr}
+.fb-gamification>header{display:block}.fb-gamification>header p{margin-top:8px}.fb-game-stats{grid-template-columns:1fr 1fr}.fb-game-stats article:last-child{grid-column:1/-1}.fb-weekly-challenge{align-items:flex-start}
 .fb-sport-finder{grid-template-columns:1fr}.fb-sport-finder>div{grid-column:auto}.fb-sport-finder>button{width:100%}
 .fb-sport-result li{align-items:flex-start;flex-direction:column}
 }

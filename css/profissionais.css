@@ -555,6 +555,29 @@ line-height:1.7;
 margin-bottom:18px;
 }
 
+.profile-specialties{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin:10px 0 16px;
+padding:0;
+list-style:none;
+}
+
+.profile-specialties li{
+padding:7px 10px;
+border-radius:999px;
+background:#fff2e8;
+color:#8f3d00;
+font-size:12px;
+font-weight:800;
+}
+
+.profile-schedule{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0;padding:15px;border:1px solid #eadfd8;border-radius:15px;background:#fbf8f5;text-align:left}
+.profile-schedule>strong,.profile-schedule>small{grid-column:1/-1}.profile-schedule label{display:grid;gap:5px;color:#4e4641;font-size:12px;font-weight:800}.profile-schedule input,.profile-schedule select{width:100%;height:42px;padding:0 9px;border:1px solid #d8ccc4;border-radius:9px;background:#fff;font:inherit}.profile-schedule button{grid-column:1/-1}.profile-schedule small{color:#746b65;font-size:11px;line-height:1.4}
+
+@media(max-width:520px){.profile-schedule{grid-template-columns:1fr}.profile-schedule>strong,.profile-schedule>small,.profile-schedule button{grid-column:auto}}
+
 .modal-actions{
 display:flex;
 gap:14px;

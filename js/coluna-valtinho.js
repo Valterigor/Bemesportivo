@@ -439,6 +439,110 @@ if(journeyAssistant) renderJourneyStep(1,false);
 const pollOptions=document.querySelectorAll('.poll-option');
 const pollFeedback=document.getElementById('poll-feedback');
 const pollStorageKey='falaBemWeeklyPollRoutine';
+const pathCommunityApi=location.protocol==='file:'?'':'/api/community';
+const pathCommunityScope='path';
+const pathCommunityId='meu-caminho-be';
+
+function getPathCommunityClientId(){
+try{
+let id=localStorage.getItem('bemEsportivoCommunityClientId');
+if(!id){
+id=window.crypto?.randomUUID?window.crypto.randomUUID():`be-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+localStorage.setItem('bemEsportivoCommunityClientId',id);
+}
+return id;
+}catch(error){return `be-${Date.now()}-${Math.random().toString(16).slice(2)}`;}
+}
+
+function getPathProfileName(){
+try{return String(JSON.parse(localStorage.getItem('meuCaminhoBeProfileV1')||'null')?.name||localStorage.getItem('meuCaminhoBeCommunityName')||'').trim().slice(0,40);}catch(error){return '';}
+}
+
+async function pathCommunityRequest(path,options={}){
+if(!pathCommunityApi) throw new Error('Comunidade indisponível em arquivo local.');
+const response=await fetch(`${pathCommunityApi}${path}`,{headers:{'Content-Type':'application/json',...(options.headers||{})},cache:'no-store',...options});
+const payload=await response.json();
+if(!response.ok||payload?.ok===false) throw new Error(payload?.error||'Não foi possível acessar a comunidade.');
+return payload;
+}
+
+function formatCommunityDate(value){
+const date=new Date(value||Date.now());
+return Number.isNaN(date.getTime())?'':date.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+function createCommunityReply(reply){
+const item=document.createElement('article');
+const author=document.createElement('strong');
+const text=document.createElement('p');
+author.textContent=reply.name||'Visitante';
+text.textContent=reply.text||'';
+item.className='community-feed-reply';
+item.append(author,text);
+return item;
+}
+
+function renderPathCommunity(comments){
+const list=document.getElementById('community-feed-list');
+if(!list) return;
+if(!comments?.length){list.innerHTML='<span>Ainda não há conversas. Publique a primeira pergunta ou experiência.</span>';return;}
+list.replaceChildren(...[...comments].reverse().map(comment=>{
+const item=document.createElement('article');
+const header=document.createElement('header');
+const author=document.createElement('strong');
+const topic=document.createElement('span');
+const text=document.createElement('p');
+const time=document.createElement('time');
+const replies=document.createElement('div');
+const replyForm=document.createElement('form');
+const replyLabel=document.createElement('label');
+const replyInput=document.createElement('input');
+const replyButton=document.createElement('button');
+item.className='community-feed-item';
+author.textContent=comment.name||'Visitante';
+topic.textContent=comment.team||'Conversa';
+text.textContent=comment.text||'';
+time.dateTime=comment.createdAt||'';
+time.textContent=formatCommunityDate(comment.createdAt);
+header.append(author,topic);
+replies.className='community-feed-replies';
+(comment.replies||[]).forEach(reply=>replies.append(createCommunityReply(reply)));
+replies.hidden=!comment.replies?.length;
+replyForm.className='community-reply-form';
+replyLabel.className='sr-only';
+replyLabel.textContent=`Responder a ${comment.name||'esta conversa'}`;
+replyInput.id=`community-reply-${comment.id}`;
+replyLabel.htmlFor=replyInput.id;
+replyInput.maxLength=400;
+replyInput.placeholder='Escreva uma resposta';
+replyInput.required=true;
+replyButton.type='submit';
+replyButton.textContent='Responder';
+replyForm.append(replyLabel,replyInput,replyButton);
+replyForm.addEventListener('submit',async event=>{
+event.preventDefault();
+const replyText=replyInput.value.trim();
+if(!replyText) return;
+replyButton.disabled=true;
+replyButton.textContent='Enviando...';
+try{
+const payload=await pathCommunityRequest('/comment-action',{method:'POST',body:JSON.stringify({scope:pathCommunityScope,id:pathCommunityId,commentId:comment.id,action:'reply',clientId:getPathCommunityClientId(),name:getPathProfileName()||'Visitante',text:replyText})});
+renderPathCommunity(payload.comments||[]);
+window.dispatchEvent(new CustomEvent('meuCaminhoBe:activity',{detail:{type:'community',key:`reply:${comment.id}`,label:'Resposta na comunidade'}}));
+}catch(error){replyButton.textContent='Tentar novamente';replyButton.disabled=false;}
+});
+item.append(header,text,time,replies,replyForm);
+return item;
+}));
+}
+
+async function loadPathCommunity(){
+const list=document.getElementById('community-feed-list');
+try{
+const payload=await pathCommunityRequest(`/comments?scope=${encodeURIComponent(pathCommunityScope)}&id=${encodeURIComponent(pathCommunityId)}`);
+renderPathCommunity(payload.comments||[]);
+}catch(error){if(list) list.innerHTML='<span>Não foi possível carregar as conversas agora.</span>';}
+}
 
 function showPollVote(option){
 pollOptions.forEach(button=>{
@@ -460,7 +564,7 @@ savedPollVote='';
 
 pollOptions.forEach(option=>{
 option.setAttribute('aria-pressed','false');
-option.addEventListener('click',()=>{
+option.addEventListener('click',async()=>{
 const vote=option.dataset.pollOption;
 try{
 localStorage.setItem(pollStorageKey,vote);
@@ -468,6 +572,10 @@ localStorage.setItem(pollStorageKey,vote);
 // A votação continua funcionando durante a visita mesmo sem armazenamento local.
 }
 showPollVote(vote);
+try{
+await pathCommunityRequest('/vote',{method:'POST',body:JSON.stringify({pollId:'meu-caminho-be-rotina',choiceId:vote,clientId:getPathCommunityClientId()})});
+if(pollFeedback) pollFeedback.textContent='Voto registrado para toda a comunidade. Obrigado por participar.';
+}catch(error){if(pollFeedback) pollFeedback.textContent='Voto salvo neste aparelho. A sincronização global está indisponível agora.';}
 });
 });
 
@@ -475,15 +583,34 @@ if(savedPollVote) showPollVote(savedPollVote);
 
 const communityForm=document.getElementById('community-form');
 if(communityForm){
-communityForm.addEventListener('submit',event=>{
+const communityName=document.getElementById('community-name');
+if(communityName&&!communityName.value) communityName.value=getPathProfileName();
+communityForm.addEventListener('submit',async event=>{
 event.preventDefault();
 const topic=document.getElementById('community-topic').value;
 const message=document.getElementById('community-message').value.trim();
-if(!topic||!message) return;
-const whatsappText=`Olá, BeMEsportivo! Quero compartilhar ${topic} no Meu Caminho Be:\n\n${message}`;
-window.open(`https://wa.me/5511986366965?text=${encodeURIComponent(whatsappText)}`,'_blank','noopener,noreferrer');
+const name=communityName?.value.trim();
+const status=document.getElementById('community-form-status');
+const button=communityForm.querySelector('button[type="submit"]');
+if(!topic||!message||!name){communityForm.reportValidity();return;}
+button.disabled=true;
+button.textContent='Publicando...';
+if(status) status.textContent='';
+try{
+try{localStorage.setItem('meuCaminhoBeCommunityName',name);}catch(storageError){}
+const payload=await pathCommunityRequest('/comment',{method:'POST',body:JSON.stringify({scope:pathCommunityScope,id:pathCommunityId,name,team:topic,text:message,clientId:getPathCommunityClientId()})});
+renderPathCommunity(payload.comments||[]);
+document.getElementById('community-topic').value='';
+document.getElementById('community-message').value='';
+if(status) status.textContent='Mensagem publicada para todos os visitantes.';
+window.dispatchEvent(new CustomEvent('meuCaminhoBe:activity',{detail:{type:'community',key:payload.comment?.id||topic,label:'Participação na comunidade'}}));
+}catch(error){if(status) status.textContent='Não foi possível publicar agora. Tente novamente em alguns instantes.';}
+finally{button.disabled=false;button.textContent='Publicar na comunidade';}
 });
 }
+
+document.getElementById('community-feed-refresh')?.addEventListener('click',loadPathCommunity);
+loadPathCommunity();
 
 const falaVideoPlay=document.getElementById('fala-video-play');
 const falaVideoPlayer=document.getElementById('fala-video-player');
@@ -818,18 +945,24 @@ discoveryDialog.showModal();
 document.getElementById('discovery-dialog-close')?.addEventListener('click',()=>discoveryDialog.close());
 discoveryDialog?.addEventListener('click',event=>{if(event.target===discoveryDialog) discoveryDialog.close();});
 
-function openWhatsAppMessage(message){
-window.open(`https://wa.me/5511986366965?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');
-}
-
 document.getElementById('platform-question-form')?.addEventListener('submit',event=>{
 event.preventDefault();
 const question=document.getElementById('platform-question-input').value.trim();
-if(question) openWhatsAppMessage(`Olá, BeMEsportivo! Minha pergunta para o Meu Caminho Be é:\n\n${question}`);
+if(!question) return;
+const topic=document.getElementById('community-topic');
+const message=document.getElementById('community-message');
+if(topic) topic.value='uma dúvida';
+if(message) message.value=question;
+document.getElementById('community-name').value=getPathProfileName()||document.getElementById('community-name').value;
+document.getElementById('participe')?.scrollIntoView({behavior:'smooth',block:'start'});
+window.setTimeout(()=>document.getElementById('community-name')?.focus(),320);
 });
 
 document.querySelectorAll('[data-community-topic]').forEach(button=>button.addEventListener('click',()=>{
-openWhatsAppMessage(`Olá, BeMEsportivo! Quero conversar sobre ${button.dataset.communityTopic} no Meu Caminho Be.`);
+const topic=document.getElementById('community-topic');
+if(topic) topic.value=button.dataset.communityTopic;
+document.getElementById('participe')?.scrollIntoView({behavior:'smooth',block:'start'});
+window.setTimeout(()=>document.getElementById('community-message')?.focus(),320);
 }));
 
 

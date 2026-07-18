@@ -23,8 +23,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="site-common.css?v=20260718-3">
-<link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-3">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-15">
+<link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-4">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-16">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -164,12 +164,24 @@
 <button type="button" id="fb-today-profile" data-fb-view="perfil">Meu perfil</button>
 </div>
 </section>
+<section class="fb-gamification" id="fb-gamification" aria-labelledby="fb-gamification-title" hidden>
+<header><div><span>SUAS CONQUISTAS</span><h2 id="fb-gamification-title">Evolução que valoriza constância.</h2></div><p>Você ganha experiência por aprender, experimentar e registrar — nunca por exagerar no esforço.</p></header>
+<div class="fb-game-stats">
+<article><span>XP</span><strong id="fb-game-xp">0</strong><small id="fb-game-xp-next">Comece seu perfil</small></article>
+<article><span>NÍVEL</span><strong id="fb-game-level">1</strong><small id="fb-game-level-name">Primeiro passo</small></article>
+<article><span>SEQUÊNCIA</span><strong id="fb-game-streak">0 dias</strong><small>Atividade em dias seguidos</small></article>
+</div>
+<div class="fb-game-level-progress"><div><span id="fb-game-level-progress-label">0 de 250 XP</span><strong id="fb-game-level-progress-percent">0%</strong></div><div class="fb-progress-track" aria-hidden="true"><i id="fb-game-level-progress-bar"></i></div></div>
+<section class="fb-weekly-challenge" aria-labelledby="fb-weekly-challenge-title"><div><span>DESAFIO DA SEMANA</span><h3 id="fb-weekly-challenge-title">Complete três ações possíveis.</h3><p id="fb-weekly-challenge-summary">Registre um passo, use uma ferramenta ou leia um conteúdo recomendado.</p></div><strong id="fb-weekly-challenge-progress">0/3</strong></section>
+<div class="fb-medals"><div><span>MEDALHAS</span><h3>Marcos da sua jornada</h3></div><ul id="fb-medal-list" aria-label="Medalhas da jornada"></ul></div>
+</section>
 <section class="fb-dashboard-recommendations" id="fb-dashboard-recommendations" aria-labelledby="fb-dashboard-title" hidden>
 <header><div><span>RECOMENDADO PARA VOCÊ</span><h2 id="fb-dashboard-title">Seu painel para o próximo passo.</h2></div><p>As indicações mudam conforme seu objetivo, momento, tempo disponível e preferências.</p></header>
 <div class="fb-dashboard-grid">
 <article><span>CONTEÚDO</span><h3 id="fb-recommended-content-title">Conteúdo recomendado</h3><p id="fb-recommended-content-summary"></p><button type="button" data-dashboard-action="conteudo">Ler conteúdo</button></article>
 <article><span>FERRAMENTA</span><h3 id="fb-recommended-tool-title">Ferramenta recomendada</h3><p id="fb-recommended-tool-summary"></p><button type="button" data-dashboard-action="ferramenta">Usar ferramenta</button></article>
 <article><span>PROFISSIONAL</span><h3 id="fb-recommended-professional-title">Profissional recomendado</h3><p id="fb-recommended-professional-summary"></p><button type="button" data-dashboard-action="profissional">Ver profissionais</button></article>
+<article><span>TRILHA</span><h3 id="fb-recommended-trail-title">Trilha recomendada</h3><p id="fb-recommended-trail-summary"></p><button type="button" data-dashboard-action="trilha">Abrir trilha</button></article>
 </div>
 </section>
 <div class="fb-ecosystem-head"><span>SEU ECOSSISTEMA</span><h2>Tudo o que ajuda sua jornada a continuar.</h2></div>
@@ -483,7 +495,7 @@
 <div class="platform-engagement" id="ecossistema-comunidade">
 <section class="platform-question" aria-labelledby="question-title">
 <span class="platform-round-icon">?</span><div><small>PERGUNTE AO BE</small><h2 id="question-title">Faça sua pergunta.</h2><p>Uma dúvida pode iniciar a próxima conversa.</p></div>
-<form id="platform-question-form"><label class="sr-only" for="platform-question-input">Escreva sua pergunta</label><input id="platform-question-input" maxlength="240" placeholder="Ex.: Posso começar depois dos 40?"><button type="submit">Enviar pergunta</button></form>
+<form id="platform-question-form"><label class="sr-only" for="platform-question-input">Escreva sua pergunta</label><input id="platform-question-input" maxlength="240" placeholder="Ex.: Posso começar depois dos 40?" required><button type="submit">Enviar pergunta</button></form>
 </section>
 <section class="platform-community" aria-labelledby="platform-community-title">
 <span class="platform-round-icon">+</span><div><small>COMUNIDADE</small><h2 id="platform-community-title">Participe do movimento.</h2><p>Compartilhe o que aproxima pessoas do esporte.</p></div>
@@ -790,6 +802,10 @@ Seu navegador não consegue reproduzir este vídeo.
 <p>Envie uma pergunta, proponha um tema, conte uma experiência ou apresente um projeto que aproxima pessoas do esporte.</p>
 <form class="community-form" id="community-form">
 <label>
+<span>Como podemos identificar você?</span>
+<input id="community-name" maxlength="40" autocomplete="nickname" placeholder="Seu nome ou apelido" required>
+</label>
+<label>
 <span>Quero falar sobre</span>
 <select id="community-topic" required>
 <option value="">Escolha um tema</option>
@@ -797,17 +813,24 @@ Seu navegador não consegue reproduzir este vídeo.
 <option value="uma sugestão de pauta">Sugestão de pauta</option>
 <option value="uma experiência esportiva">Minha experiência</option>
 <option value="um projeto social ou esportivo">Um projeto</option>
+<option value="um profissional">Indicação de profissional</option>
 </select>
 </label>
-<label>
+<label class="community-message-field">
 <span>Escreva sua mensagem</span>
 <textarea id="community-message" rows="4" maxlength="500" placeholder="Conte para a gente. Sua pergunta pode inspirar o próximo conteúdo." required></textarea>
 </label>
 <div class="community-form-footer">
-<button class="btn" type="submit">Enviar para o Meu Caminho Be</button>
-<small>O envio será concluído com segurança pelo WhatsApp.</small>
+<button class="btn" type="submit">Publicar na comunidade</button>
+<small>Sua mensagem ficará visível para visitantes do Meu Caminho Be. Não publique dados pessoais ou informações clínicas.</small>
 </div>
+<p class="community-form-status" id="community-form-status" role="status" aria-live="polite"></p>
 </form>
+<section class="community-feed" aria-labelledby="community-feed-title">
+<header><div><span>CONVERSAS DA COMUNIDADE</span><h3 id="community-feed-title">Perguntas, experiências e respostas.</h3></div><button type="button" id="community-feed-refresh">Atualizar</button></header>
+<p>Especialistas podem contribuir com conteúdo e orientação geral. Uma resposta só será identificada como profissional após validação editorial.</p>
+<div id="community-feed-list" aria-live="polite"><span>Carregando conversas...</span></div>
+</section>
 </section>
 
 </main>
@@ -897,8 +920,8 @@ Seu navegador não consegue reproduzir este vídeo.
 </button>
 
 <script src="js/site-common.js?v=20260718-3" defer></script>
-<script src="js/coluna-valtinho.js?v=20260718-6" defer></script>
-<script src="js/fala-bem-app.js?v=20260718-14" defer></script>
+<script src="js/coluna-valtinho.js?v=20260718-7" defer></script>
+<script src="js/fala-bem-app.js?v=20260718-15" defer></script>
 
 </body>
 </html>

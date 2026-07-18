@@ -220,6 +220,19 @@ export async function handler(event){
       }else{
         comment.likedBy[clientId] = true;
       }
+    }else if(actionId === 'reply'){
+      const text = cleanText(body.text || body.texto, 400);
+      if(!text) return json(400, { ok: false, error: 'Resposta vazia.' });
+      comment.replies = Array.isArray(comment.replies) ? comment.replies : [];
+      comment.replies = [
+        ...comment.replies,
+        {
+          id: `reply-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+          name: cleanText(body.name || body.nome || 'Visitante', 40) || 'Visitante',
+          text,
+          createdAt: new Date().toISOString()
+        }
+      ].slice(-50);
     }else if(actionId === 'report'){
       comment.reports = Array.isArray(comment.reports) ? comment.reports : [];
       if(!comment.reports.includes(clientId)) comment.reports.push(clientId);
