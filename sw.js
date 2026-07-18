@@ -1,12 +1,12 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v11';
+const CACHE_NAME = 'meu-caminho-be-v13';
 const APP_SHELL = [
   '/meu-caminho-be',
-  '/site-common.css?v=20260718-3',
+  '/site-common.css?v=20260718-5',
   '/css/coluna-valtinho.css?v=20260718-4',
   '/css/fala-bem-platform.css?v=20260718-16',
-  '/js/site-common.js?v=20260718-3',
+  '/js/site-common.js?v=20260718-5',
   '/js/coluna-valtinho.js?v=20260718-7',
   '/js/fala-bem-app.js?v=20260718-15',
   '/img/logobemoficial.png',

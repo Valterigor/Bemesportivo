@@ -74,12 +74,3 @@ if(e.target===modal){
 modal.style.display='none';
 }
 }
-
-const topBtn=document.getElementById('topBtn');
-window.addEventListener('scroll',()=>{
-topBtn.style.display=window.scrollY>450?'block':'none';
-})
-
-topBtn.onclick=()=>{
-window.scrollTo({top:0,behavior:'smooth'});
-}
