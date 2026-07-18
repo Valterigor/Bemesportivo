@@ -8,6 +8,13 @@ if(button){
 button.setAttribute('aria-expanded',String(willOpen));
 button.textContent=willOpen?'Fechar conteúdo':'Ler conteúdo completo';
 }
+if(willOpen&&post){
+window.dispatchEvent(new CustomEvent('meuCaminhoBe:activity',{detail:{
+type:'content',
+key:post.dataset.postId||post.id||id,
+label:post.querySelector('h3')?.textContent||'Conteúdo Meu Caminho Be'
+}}));
+}
 }
 
 const posts=document.querySelectorAll('.post-item');
@@ -665,6 +672,15 @@ return {headline:`Faixa de ${Math.round(Number(data.peso)*low)} a ${Math.round(N
 }
 };
 
+const toolGuidance={
+imc:{meaning:'É uma referência de triagem populacional, não uma avaliação de composição corporal ou diagnóstico.',next:'Observe o resultado junto de hábitos, medidas e contexto de saúde; evite decisões isoladas.',content:'saude',professional:'Nutricionista ou profissional de saúde'},
+pace:{meaning:'Mostra o tempo médio necessário para percorrer um quilômetro no percurso informado.',next:'Repita a medição em condições parecidas e acompanhe tendência, esforço percebido e recuperação.',content:'evoluir',professional:'Treinador ou profissional de Educação Física'},
+calorias:{meaning:'É uma faixa aproximada baseada em valores metabólicos médios, não o gasto exato do seu corpo.',next:'Use a estimativa para compreender a atividade, sem compensar alimentação ou treino apenas por calorias.',content:'saude',professional:'Nutricionista esportivo'},
+agua:{meaning:'É um ponto de partida geral; suor, clima, alimentação, treino e saúde alteram a necessidade.',next:'Observe sede, cor da urina e condições do treino; ajuste com orientação em situações especiais.',content:'saude',professional:'Nutricionista ou profissional de saúde'},
+cardiaca:{meaning:'É uma estimativa populacional de intensidade moderada, e não a sua frequência máxima medida.',next:'Compare a faixa com percepção de esforço e interrompa diante de sintomas incomuns.',content:'evoluir',professional:'Profissional de Educação Física ou médico do esporte'},
+proteina:{meaning:'É uma faixa educativa para adultos ativos; distribuição e alimentação total também importam.',next:'Planeje fontes de proteína ao longo do dia e individualize necessidades com acompanhamento.',content:'saude',professional:'Nutricionista esportivo'}
+};
+
 function openTool(toolKey){
 const tool=toolDefinitions[toolKey];
 if(!tool||!toolDialog||!toolForm) return;
@@ -701,13 +717,31 @@ toolForm.onsubmit=event=>{
 event.preventDefault();
 const data=Object.fromEntries(new FormData(toolForm));
 const result=tool.calculate(data);
+const guidance=toolGuidance[toolKey];
 const values=[result.headline,result.detail,result.caution];
 if(values.some(value=>String(value||'').includes('NaN')||String(value||'').includes('Infinity'))) return;
 const strong=document.createElement('strong');
 strong.textContent=result.headline;
 const detail=document.createElement('span');
 detail.textContent=result.detail;
-const output=[strong,detail];
+const resultLabel=document.createElement('span');
+resultLabel.className='tool-result-kicker';
+resultLabel.textContent='SEU RESULTADO';
+const output=[resultLabel,strong,detail];
+if(guidance){
+const meaning=document.createElement('div');
+meaning.className='tool-result-guidance';
+const meaningTitle=document.createElement('b');
+meaningTitle.textContent='O que significa';
+const meaningText=document.createElement('span');
+meaningText.textContent=guidance.meaning;
+const nextTitle=document.createElement('b');
+nextTitle.textContent='Próximo passo';
+const nextText=document.createElement('span');
+nextText.textContent=guidance.next;
+meaning.append(meaningTitle,meaningText,nextTitle,nextText);
+output.push(meaning);
+}
 if(result.caution){
 const caution=document.createElement('small');
 caution.className='tool-result-caution';
@@ -722,8 +756,30 @@ source.rel='noopener noreferrer';
 source.textContent=`Metodologia: ${tool.source[0]} →`;
 output.push(source);
 }
+if(guidance){
+const actions=document.createElement('div');
+actions.className='tool-result-actions';
+const content=document.createElement('button');
+const professional=document.createElement('button');
+content.type='button';
+professional.type='button';
+content.textContent='Ver conteúdo recomendado';
+professional.textContent=`Ver ${guidance.professional}`;
+content.addEventListener('click',()=>{
+toolDialog.close();
+window.falaBemOpenView?.('conteudos');
+if(typeof filterPosts==='function') window.setTimeout(()=>filterPosts(guidance.content),120);
+});
+professional.addEventListener('click',()=>{
+toolDialog.close();
+window.falaBemOpenView?.('especialistas');
+});
+actions.append(content,professional);
+output.push(actions);
+}
 toolResult.replaceChildren(...output);
 toolResult.hidden=false;
+window.dispatchEvent(new CustomEvent('meuCaminhoBe:activity',{detail:{type:'tool',key:toolKey,label:tool.title,result:result.headline}}));
 };
 toolDialog.showModal();
 }

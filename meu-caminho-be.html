@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260718-2">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-3">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-12">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-13">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -129,11 +129,12 @@
 </header>
 
 <nav class="fb-app-nav" aria-label="Navegação do Meu Caminho Be">
-<button type="button" class="active" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg>Início</button>
+<button type="button" class="active" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg>Meu Hoje</button>
 <button type="button" data-fb-view="jornada"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="6" r="2"></circle><path d="M8 18h3a3 3 0 0 0 3-3v-6a3 3 0 0 1 3-3"></path></svg>Jornada</button>
-<button type="button" data-fb-view="dicas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12.5 9.2 17 19 7"></path><path d="M5 5h14v14H5z"></path></svg>Dicas</button>
+<button type="button" data-fb-view="perfil"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg>Perfil</button>
 <button type="button" data-fb-view="ferramentas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg>Ferramentas</button>
 <button type="button" data-fb-view="conteudos"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h4"></path></svg>Conteúdos</button>
+<button type="button" data-fb-view="especialistas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 7a4 4 0 1 0 8 0M5 21a7 7 0 0 1 14 0M18 4v6M15 7h6"></path></svg>Profissionais</button>
 </nav>
 
 <div class="fb-app-panel active" data-fb-panel="inicio">
@@ -161,6 +162,14 @@
 <div class="fb-today-actions">
 <button type="button" class="fb-primary-action" id="fb-today-primary" data-fb-view="jornada">Criar meu caminho</button>
 <button type="button" id="fb-today-profile" data-fb-view="perfil">Meu perfil</button>
+</div>
+</section>
+<section class="fb-dashboard-recommendations" id="fb-dashboard-recommendations" aria-labelledby="fb-dashboard-title" hidden>
+<header><div><span>RECOMENDADO PARA VOCÊ</span><h2 id="fb-dashboard-title">Seu painel para o próximo passo.</h2></div><p>As indicações mudam conforme seu objetivo, momento, tempo disponível e preferências.</p></header>
+<div class="fb-dashboard-grid">
+<article><span>CONTEÚDO</span><h3 id="fb-recommended-content-title">Conteúdo recomendado</h3><p id="fb-recommended-content-summary"></p><button type="button" data-dashboard-action="conteudo">Ler conteúdo</button></article>
+<article><span>FERRAMENTA</span><h3 id="fb-recommended-tool-title">Ferramenta recomendada</h3><p id="fb-recommended-tool-summary"></p><button type="button" data-dashboard-action="ferramenta">Usar ferramenta</button></article>
+<article><span>PROFISSIONAL</span><h3 id="fb-recommended-professional-title">Profissional recomendado</h3><p id="fb-recommended-professional-summary"></p><button type="button" data-dashboard-action="profissional">Ver profissionais</button></article>
 </div>
 </section>
 <div class="fb-ecosystem-head"><span>SEU ECOSSISTEMA</span><h2>Tudo o que ajuda sua jornada a continuar.</h2></div>
@@ -236,6 +245,14 @@
 <p class="fb-profile-feedback" id="fb-profile-feedback" aria-live="polite"></p>
 <button type="button" class="fb-profile-edit" data-fb-edit-onboarding>Editar minhas respostas iniciais</button>
 <button type="button" class="fb-profile-edit" id="fb-review-safety">Revisar minha triagem de segurança</button>
+<section class="fb-profile-history" id="fb-profile-history" aria-labelledby="fb-history-title">
+<div><span>HISTÓRICO</span><h3 id="fb-history-title">Sua atividade neste aparelho</h3></div>
+<dl>
+<div><dt>Última visita</dt><dd id="fb-history-last-visit">Primeiro acesso</dd></div>
+<div><dt>Ferramentas usadas</dt><dd id="fb-history-tools">Nenhuma registrada</dd></div>
+<div><dt>Conteúdos lidos</dt><dd id="fb-history-content">Nenhum registrado</dd></div>
+</dl>
+</section>
 <div class="fb-profile-data"><strong>Seus dados, sob seu controle</strong><span>Baixe uma cópia ou restaure seu caminho neste navegador.</span><div><button type="button" id="fb-export-profile">Exportar meus dados</button><label for="fb-import-profile">Importar backup<input type="file" id="fb-import-profile" accept="application/json,.json" hidden></label></div><small>O arquivo pode conter informações pessoais e relatos da sua jornada. Guarde-o em local seguro.</small></div>
 <div class="fb-profile-reset"><strong>Quer começar novamente?</strong><span>Apague os dados locais e refaça sua trajetória desde o nome.</span><button type="button" data-fb-reset>Zerar meu processo</button></div>
 </div>
@@ -382,17 +399,17 @@
 <p>Caminhos simples com conteúdos essenciais para você começar e continuar.</p>
 </header>
 <div class="trail-grid">
-<article class="trail-card trail-running">
-<span>COMEÇAR</span><h3>Minha primeira corrida</h3><small>6 passos</small><div class="trail-progress"><i style="width:18%"></i></div><button type="button" data-platform-target="minha-jornada">Começar trilha</button>
+<article class="trail-card trail-running" data-trail-objectives="comecar,modalidade">
+<span>COMEÇAR</span><h3>Minha primeira corrida</h3><small>6 passos</small><div class="trail-progress"><i style="width:0%"></i></div><button type="button" data-platform-target="minha-jornada">Começar trilha</button>
 </article>
-<article class="trail-card trail-football">
-<span>APRENDER</span><h3>Futebol com inteligência</h3><small>5 passos</small><div class="trail-progress"><i style="width:34%"></i></div><button type="button" data-platform-target="ideias">Continuar</button>
+<article class="trail-card trail-football" data-trail-objectives="performance,modalidade">
+<span>COMEÇAR</span><h3>Futebol com inteligência</h3><small>5 passos</small><div class="trail-progress"><i style="width:0%"></i></div><button type="button" data-platform-target="ideias">Começar trilha</button>
 </article>
-<article class="trail-card trail-performance">
-<span>EVOLUIR</span><h3>Performance sustentável</h3><small>7 passos</small><div class="trail-progress"><i style="width:12%"></i></div><button type="button" data-platform-target="ferramentas">Começar trilha</button>
+<article class="trail-card trail-performance" data-trail-objectives="performance,recuperacao">
+<span>COMEÇAR</span><h3>Performance sustentável</h3><small>7 passos</small><div class="trail-progress"><i style="width:0%"></i></div><button type="button" data-platform-target="ferramentas">Começar trilha</button>
 </article>
-<article class="trail-card trail-health">
-<span>PERMANECER</span><h3>Vida mais saudável</h3><small>5 passos</small><div class="trail-progress"><i style="width:42%"></i></div><button type="button" data-platform-target="ferramentas">Continuar</button>
+<article class="trail-card trail-health" data-trail-objectives="saude,emagrecer,recuperacao">
+<span>COMEÇAR</span><h3>Vida mais saudável</h3><small>5 passos</small><div class="trail-progress"><i style="width:0%"></i></div><button type="button" data-platform-target="ferramentas">Começar trilha</button>
 </article>
 </div>
 </section>
@@ -428,6 +445,14 @@
 <div class="platform-duo">
 <section class="platform-section platform-modalities" id="modalidades" aria-labelledby="modalities-title">
 <header class="platform-section-head"><div><span>ENCONTRE SUA PRÁTICA</span><h2 id="modalities-title">Modalidades</h2></div></header>
+<form class="fb-sport-finder" id="fb-sport-finder" aria-labelledby="fb-sport-finder-title">
+<div><span>DESCUBRA SEU ESPORTE</span><h3 id="fb-sport-finder-title">Qual prática combina mais com você?</h3><p>Responda três preferências. Seu perfil, objetivo, idade e tempo disponível completam a análise.</p></div>
+<label>Onde você prefere praticar?<select name="environment" required><option value="">Selecione</option><option value="outdoor">Ao ar livre</option><option value="indoor">Em espaço fechado</option><option value="water">Na água</option><option value="any">Tanto faz</option></select></label>
+<label>Como você gosta de se movimentar?<select name="social" required><option value="">Selecione</option><option value="individual">No meu ritmo</option><option value="team">Com outras pessoas</option><option value="any">Gosto das duas formas</option></select></label>
+<label>Qual intensidade parece mais possível hoje?<select name="intensity" required><option value="">Selecione</option><option value="light">Leve</option><option value="moderate">Moderada</option><option value="vigorous">Intensa</option></select></label>
+<button type="submit">Ver minha compatibilidade</button>
+</form>
+<section class="fb-sport-result" id="fb-sport-result" aria-live="polite" hidden></section>
 <div class="modality-grid">
 <button type="button" data-modality="futebol"><span>⚽</span>Futebol</button><button type="button" data-modality="corrida"><span>◇</span>Corrida</button><button type="button" data-modality="basquete"><span>◉</span>Basquete</button><button type="button" data-modality="bike"><span>◎</span>Bike</button><button type="button" data-modality="natacao"><span>≈</span>Natação</button><button type="button" data-modality="musculacao"><span>⌁</span>Musculação</button>
 </div>
@@ -860,8 +885,8 @@ Seu navegador não consegue reproduzir este vídeo.
 </button>
 
 <script src="js/site-common.js?v=20260718-2" defer></script>
-<script src="js/coluna-valtinho.js?v=20260718-4" defer></script>
-<script src="js/fala-bem-app.js?v=20260718-9" defer></script>
+<script src="js/coluna-valtinho.js?v=20260718-5" defer></script>
+<script src="js/fala-bem-app.js?v=20260718-11" defer></script>
 
 </body>
 </html>

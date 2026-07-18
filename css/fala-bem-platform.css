@@ -1608,6 +1608,70 @@ body.fala-bem-app-page .container.page{width:100%!important;padding:18px 22px 72
 .fb-safety-status button{justify-self:start;margin-top:5px;padding:8px 11px;border:1px solid #c6802e;border-radius:9px;background:#fff;color:#8d4d0a;font:inherit;font-size:.72rem;font-weight:900;cursor:pointer}
 @media(max-width:560px){.fb-safety-dialog form{padding:21px 17px}.fb-safety-dialog form>div{display:grid}.fb-safety-dialog button{width:100%}}
 @media(max-width:760px){.fb-app-nav button{font-size:.68rem}.fb-app-nav button svg{width:19px;height:19px}.platform-newsletter{grid-template-columns:1fr}.platform-newsletter-action>a{width:100%}}
+
+/* Sprint 2/3: dashboard and integrated intelligence */
+.fb-app-nav{grid-template-columns:repeat(6,minmax(0,1fr))}
+
+.fb-dashboard-recommendations{
+margin:0 0 24px;
+padding:clamp(20px,3vw,30px);
+border:1px solid #eadfd8;
+border-radius:22px;
+background:#fff;
+}
+.fb-dashboard-recommendations[hidden]{display:none!important}
+.fb-dashboard-recommendations>header{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:18px}
+.fb-dashboard-recommendations>header span,.fb-sport-finder>div>span,.fb-profile-history>div>span{display:block;margin-bottom:6px;color:#e94b14;font-size:.68rem;font-weight:900;letter-spacing:.09em}
+.fb-dashboard-recommendations>header h2,.fb-sport-finder h3,.fb-profile-history h3{margin:0;color:#211d1a;letter-spacing:-.035em}
+.fb-dashboard-recommendations>header p{max-width:470px;margin:0;color:#6d655f;font-size:.84rem;line-height:1.5}
+.fb-dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fb-dashboard-grid article{display:flex;flex-direction:column;min-width:0;padding:18px;border:1px solid #eee5df;border-radius:16px;background:#fbf8f5}
+.fb-dashboard-grid article>span{color:#e94b14;font-size:.64rem;font-weight:900;letter-spacing:.08em}
+.fb-dashboard-grid h3{margin:8px 0 6px;font-size:1rem;line-height:1.25}
+.fb-dashboard-grid p{margin:0 0 16px;color:#69615b;font-size:.8rem;line-height:1.5}
+.fb-dashboard-grid button{align-self:flex-start;margin-top:auto;min-height:40px;padding:0 14px;border:0;border-radius:999px;background:#211d1a;color:#fff;font:inherit;font-size:.75rem;font-weight:850;cursor:pointer}
+
+.fb-profile-history{margin-top:18px;padding:18px;border:1px solid #eadfd8;border-radius:16px;background:#fbf8f5}
+.fb-profile-history dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:15px 0 0}
+.fb-profile-history dl>div{padding:12px;border-radius:12px;background:#fff}
+.fb-profile-history dt{color:#7a716a;font-size:.67rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+.fb-profile-history dd{margin:6px 0 0;color:#27221f;font-size:.78rem;font-weight:750;line-height:1.4}
+
+.fb-sport-finder{display:grid;grid-template-columns:1.25fr repeat(3,minmax(130px,1fr)) auto;gap:12px;align-items:end;margin:18px 0;padding:18px;border:1px solid #e8ddd5;border-radius:18px;background:#fbf8f5}
+.fb-sport-finder>div p{margin:7px 0 0;color:#6d655f;font-size:.78rem;line-height:1.45}
+.fb-sport-finder label{display:grid;gap:6px;color:#544c46;font-size:.7rem;font-weight:850;line-height:1.3}
+.fb-sport-finder select{width:100%;min-height:44px;padding:0 10px;border:1px solid #ddd1c8;border-radius:10px;background:#fff;color:#211d1a;font:inherit;font-size:.78rem}
+.fb-sport-finder>button{min-height:44px;padding:0 16px;border:0;border-radius:999px;background:#ff5a1f;color:#fff;font:inherit;font-size:.76rem;font-weight:900;cursor:pointer}
+.fb-sport-result{margin:0 0 18px;padding:20px;border-radius:18px;background:#211d1a;color:#fff}
+.fb-sport-result[hidden]{display:none!important}
+.fb-sport-result h3{margin:0;font-size:1.2rem}
+.fb-sport-result>p{margin:7px 0 15px;color:#d6cec8;font-size:.8rem;line-height:1.5}
+.fb-sport-result ol{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.fb-sport-result li{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.06)}
+.fb-sport-result li div{display:grid;gap:3px}
+.fb-sport-result li span{color:#d8d0ca;font-size:.74rem;line-height:1.4}
+.fb-sport-result li b{flex:0 0 auto;color:#ff8b61;font-size:.75rem}
+
+.tool-result-kicker{margin-bottom:5px;color:#d94b17;font-size:.64rem!important;font-weight:900;letter-spacing:.09em}
+.tool-result-guidance{display:grid;gap:5px;margin-top:14px;padding:12px;border-radius:11px;background:#fff8f3}
+.tool-result-guidance b{font-size:.72rem}
+.tool-result-guidance span{margin-bottom:5px;color:#5f554e;font-size:.76rem;line-height:1.45}
+.tool-result-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.tool-result-actions button{min-height:38px;padding:0 12px;border:1px solid #d7c9c0;border-radius:999px;background:#fff;color:#322b27;font:inherit;font-size:.69rem;font-weight:850;cursor:pointer}
+.trail-card[data-state="active"]{border-color:#ff9b76;box-shadow:0 12px 30px rgba(233,75,20,.12)}
+.trail-card[data-state="complete"]{border-color:#77b993;background:#f6fff9}
+
+@media(max-width:1050px){
+.fb-sport-finder{grid-template-columns:repeat(2,minmax(0,1fr))}.fb-sport-finder>div{grid-column:1/-1}.fb-sport-finder>button{align-self:end}
+}
+@media(max-width:760px){
+.fb-app-nav{grid-template-columns:repeat(6,minmax(0,1fr))}
+.fb-app-nav button{min-width:0;font-size:.54rem!important}.fb-app-nav button svg{width:17px!important;height:17px!important}
+.fb-dashboard-recommendations>header{display:block}.fb-dashboard-recommendations>header p{margin-top:8px}
+.fb-dashboard-grid,.fb-profile-history dl{grid-template-columns:1fr}
+.fb-sport-finder{grid-template-columns:1fr}.fb-sport-finder>div{grid-column:auto}.fb-sport-finder>button{width:100%}
+.fb-sport-result li{align-items:flex-start;flex-direction:column}
+}
 .fb-results-heading{display:block!important;margin:16px 0 -2px!important;padding:2px 2px 0!important;border:0!important;background:transparent!important}
 .fb-results-heading h3{margin:0;color:#25211e;font-size:1rem;line-height:1.25}
 .fb-results-heading p{margin:4px 0 0;color:#7b736c;font-size:.73rem;line-height:1.4}
