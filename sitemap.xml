@@ -2,38 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bemesportivo.com/</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://bemesportivo.com/meu-caminho-be</loc>
+    <lastmod>2026-07-18</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bemesportivo.com/reportagens</loc>
+    <lastmod>2026-07-18</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bemesportivo.com/beplay</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://bemesportivo.com/Reportagens.html</loc>
+    <loc>https://bemesportivo.com/game.html</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://bemesportivo.com/noticia1.html</loc>
+    <loc>https://bemesportivo.com/profissionais</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://bemesportivo.com/sobre.html</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://bemesportivo.com/contato.html</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://bemesportivo.com/politica-de-privacidade.html</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://bemesportivo.com/politica-de-valores.html</loc>
+    <loc>https://bemesportivo.com/produtos</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://bemesportivo.com/termos.html</loc>
+    <loc>https://bemesportivo.com/sobre</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bemesportivo.com/contato</loc>
+    <lastmod>2026-07-18</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bemesportivo.com/politica-de-valores</loc>
+    <lastmod>2026-07-18</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bemesportivo.com/politica-de-privacidade</loc>
+    <lastmod>2026-07-18</lastmod>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://bemesportivo.com/termos</loc>
+    <lastmod>2026-07-18</lastmod>
+    <priority>0.4</priority>
   </url>
 </urlset>

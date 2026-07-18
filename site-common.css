@@ -3186,3 +3186,87 @@ body > header.topbar {
     display: none !important;
   }
 }
+
+/* Sprint 1: canonical design foundations. Zero-specificity component rules
+   preserve intentional page variants while sharing the same visual grammar. */
+:root {
+  --be-color-ink: #111111;
+  --be-color-muted: #6d6d6d;
+  --be-color-surface: #ffffff;
+  --be-color-soft: #f5f5f5;
+  --be-color-line: #e9e9e9;
+  --be-color-brand: #ff6a00;
+  --be-space-1: 4px;
+  --be-space-2: 8px;
+  --be-space-3: 12px;
+  --be-space-4: 16px;
+  --be-space-5: 24px;
+  --be-space-6: 32px;
+  --be-space-7: 48px;
+  --be-space-8: 64px;
+  --be-radius-control: 999px;
+  --be-radius-card: 18px;
+  --be-radius-section: 26px;
+  --be-shadow-card: 0 14px 36px rgba(17, 17, 17, .08);
+  --be-motion-fast: 180ms;
+  --be-motion-base: 240ms;
+  --be-ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+:where(body) {
+  color: var(--be-color-ink);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:where(.btn, .primary-btn, .btn-contato, .site-contact, button[type="submit"]) {
+  min-height: 44px;
+  border-radius: var(--be-radius-control);
+  transition: transform var(--be-motion-fast) var(--be-ease), box-shadow var(--be-motion-base) var(--be-ease), background-color var(--be-motion-base) var(--be-ease);
+}
+
+:where(.story-card, .video-card, .report-card, .produto-card, .professional-card, .card) {
+  border-radius: var(--be-radius-card);
+  transition: transform var(--be-motion-base) var(--be-ease), box-shadow var(--be-motion-base) var(--be-ease), border-color var(--be-motion-base) var(--be-ease);
+}
+
+:where(.icon) {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.site-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: min(calc(100% - 32px), 1280px);
+  min-height: 44px;
+  margin: 10px auto 0;
+  color: var(--be-color-muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.site-breadcrumb a {
+  color: var(--be-color-ink);
+  text-decoration: none;
+}
+
+.site-breadcrumb a:hover {
+  color: var(--be-color-brand);
+}
+
+.site-breadcrumb span[aria-current="page"] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 820px) {
+  .site-breadcrumb {
+    width: calc(100% - 24px);
+    margin-top: 6px;
+  }
+}

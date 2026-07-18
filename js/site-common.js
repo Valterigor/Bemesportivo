@@ -3,8 +3,6 @@
     ['/', 'Início'],
     ['/meu-caminho-be', 'Meu Caminho Be'],
     ['/game.html', 'Game 3D'],
-    ['/#jogos', 'Partidas'],
-    ['/#pessoas', 'Pessoas'],
     ['/reportagens', 'Reportagens'],
     ['/#treinos', 'Treinos'],
     ['/beplay', 'BEplay'],
@@ -36,6 +34,48 @@
       return link;
     }));
   });
+
+  const breadcrumbPages = {
+    '/reportagens': 'Reportagens',
+    '/beplay': 'BEplay',
+    '/produtos': 'Produtos',
+    '/profissionais': 'Profissionais',
+    '/sobre': 'Sobre',
+    '/contato': 'Contato',
+    '/politica-de-valores': 'Política de Valores',
+    '/politica-de-privacidade': 'Política de Privacidade',
+    '/termos': 'Termos de Uso'
+  };
+
+  const breadcrumbPath = normalizePath(window.location.pathname);
+  const breadcrumbLabel = breadcrumbPages[breadcrumbPath];
+  if (breadcrumbLabel && !document.querySelector('.site-breadcrumb')) {
+    const pagesWithVisualBreadcrumb = new Set([
+      '/reportagens', '/produtos', '/profissionais', '/sobre', '/contato',
+      '/politica-de-valores', '/politica-de-privacidade', '/termos'
+    ]);
+    if (pagesWithVisualBreadcrumb.has(breadcrumbPath)) {
+      const breadcrumb = document.createElement('nav');
+      breadcrumb.className = 'site-breadcrumb';
+      breadcrumb.setAttribute('aria-label', 'Navegação estrutural');
+      breadcrumb.innerHTML = `<a href="/">Início</a><span aria-hidden="true">/</span><span aria-current="page">${breadcrumbLabel}</span>`;
+      const headers = [...document.querySelectorAll('body > header')];
+      const anchor = headers[headers.length - 1];
+      if (anchor) anchor.insertAdjacentElement('afterend', breadcrumb);
+    }
+
+    const structuredData = document.createElement('script');
+    structuredData.type = 'application/ld+json';
+    structuredData.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Início', item: 'https://bemesportivo.com/' },
+        { '@type': 'ListItem', position: 2, name: breadcrumbLabel }
+      ]
+    });
+    document.head.appendChild(structuredData);
+  }
 
   document.querySelectorAll('.site-footer').forEach(footer => {
     const inner = footer.querySelector('.site-footer-inner');
