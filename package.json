@@ -11,6 +11,7 @@
     "start": "node dev-server.js",
     "check": "node --check dev-server.js",
     "build": "node build.js",
+    "images:optimize": "node scripts/optimize-images.js",
     "watch": "node dev-server.js --watch"
   },
   "keywords": [
@@ -21,5 +22,8 @@
     "comunidade"
   ],
   "author": "Valterigor",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "sharp": "^0.35.3"
+  }
 }

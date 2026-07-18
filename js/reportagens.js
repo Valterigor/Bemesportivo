@@ -55,7 +55,7 @@ async function imageFromBlob(blob) {
   }
 }
 
-async function createStoryCover(blob, title) {
+async function createStoryCover(blob, title, articleUrl) {
   const image = await imageFromBlob(blob);
   const canvas = document.createElement("canvas");
   canvas.width = 1080;
@@ -102,8 +102,9 @@ async function createStoryCover(blob, title) {
   context.fillStyle = "#111111";
   context.font = "900 38px Rubik, Arial, sans-serif";
   context.fillText("ACESSE A REPORTAGEM", 108, 1554);
-  context.font = "800 29px Inter, Arial, sans-serif";
-  context.fillText("bemesportivo.com/reportagens", 108, 1603);
+  context.font = "800 24px Inter, Arial, sans-serif";
+  const storyAddress = `bemesportivo.com${new URL(articleUrl).pathname}`;
+  context.fillText(storyAddress, 108, 1603);
 
   context.fillStyle = "rgba(255, 255, 255, .78)";
   context.font = "600 26px Inter, Arial, sans-serif";
@@ -119,8 +120,9 @@ function initReportSharing() {
     const reportId = section.dataset.reportId || "";
     const title = section.dataset.shareTitle || document.title;
     const coverPath = section.dataset.shareCover || "";
-    const articleUrl = new URL("/reportagens?ref=compartilhar-treino-funcional", location.origin);
-    articleUrl.hash = reportId;
+    const articlePath = section.dataset.shareUrl || `/reportagens/${reportId}`;
+    const articleUrl = new URL(articlePath, location.origin);
+    articleUrl.searchParams.set("ref", "compartilhar");
     const shareUrl = articleUrl.href;
     const shareText = `${title} | Bem Esportivo`;
     const whatsapp = section.querySelector("[data-share-whatsapp]");
@@ -142,7 +144,7 @@ function initReportSharing() {
       : Promise.resolve(null);
 
     const storyFilePromise = coverBlobPromise
-      .then(blob => blob ? createStoryCover(blob, title) : null)
+      .then(blob => blob ? createStoryCover(blob, title, shareUrl) : null)
       .catch(() => null);
 
     storyFilePromise.then(file => {

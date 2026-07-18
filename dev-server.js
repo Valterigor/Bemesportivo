@@ -777,7 +777,12 @@ function resolveRequest(urlPath){
   if(cleanPath === 'data' || cleanPath.startsWith('data/')){
     return null;
   }
-  const route = cleanPath || 'index';
+  const cleanRoutes = {
+    'reportagens/treino-funcional-br-assessoria':'reportagem-treino-funcional',
+    'reportagens/dedicacao-talento-mirim':'reportagem-dedicacao-talento-mirim',
+    'reportagens/duda-e-o-futebol':'reportagem-duda-e-o-futebol'
+  };
+  const route = cleanRoutes[cleanPath] || cleanPath || 'index';
   const candidates = [
     path.join(root, route),
     path.join(root, `${route}.html`),
@@ -853,5 +858,6 @@ if(require.main === module){
 }
 
 module.exports = {
-  server
+  server,
+  resolveRequest
 };

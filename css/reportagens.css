@@ -117,6 +117,24 @@ body.reportagens-page {
   object-fit: cover;
 }
 
+.reportagens-page .report-picture {
+  display: block;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.reportagens-page .report-picture > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.reportagens-page .report-picture-cover > img {
+  aspect-ratio: 16 / 10;
+}
+
 .reportagens-page .report-media-stack > .video-container {
   width: 100%;
   margin: 0;
@@ -167,9 +185,23 @@ body.reportagens-page {
   padding: clamp(22px, 4vw, 42px);
 }
 
+.reportagens-page .report-body h1,
 .reportagens-page .report-body h2 {
   color: #111111 !important;
   letter-spacing: 0;
+}
+
+.reportagens-page .report-body h1 a,
+.reportagens-page .report-body h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.reportagens-page .report-body h1 a:hover,
+.reportagens-page .report-body h2 a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: .08em;
+  text-underline-offset: .14em;
 }
 
 .reportagens-page .report-body p {
@@ -451,6 +483,7 @@ body.reportagens-page {
   }
 
   .reportagens-page .report-media-stack > img,
+  .reportagens-page .report-media-stack > picture,
   .reportagens-page .report-media-stack > figure {
     flex: 0 0 88%;
     width: 88%;
@@ -461,6 +494,13 @@ body.reportagens-page {
   }
 
   .reportagens-page .report-media-stack > img {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .reportagens-page .report-media-stack > picture > img {
+    height: 100%;
+    min-height: 310px;
     aspect-ratio: 4 / 5;
     object-fit: cover;
   }
@@ -519,6 +559,7 @@ body.reportagens-page {
     padding: 22px 18px 24px;
   }
 
+  .reportagens-page .report-body h1,
   .reportagens-page .report-body h2 {
     margin-bottom: 11px;
     font-size: clamp(1.55rem, 8vw, 2rem);

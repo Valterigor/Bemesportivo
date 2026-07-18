@@ -1,14 +1,14 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v9';
+const CACHE_NAME = 'meu-caminho-be-v10';
 const APP_SHELL = [
   '/meu-caminho-be',
-  '/site-common.css',
-  '/css/coluna-valtinho.css',
-  '/css/fala-bem-platform.css',
-  '/js/site-common.js',
-  '/js/coluna-valtinho.js',
-  '/js/fala-bem-app.js',
+  '/site-common.css?v=20260718-3',
+  '/css/coluna-valtinho.css?v=20260718-3',
+  '/css/fala-bem-platform.css?v=20260718-15',
+  '/js/site-common.js?v=20260718-3',
+  '/js/coluna-valtinho.js?v=20260718-6',
+  '/js/fala-bem-app.js?v=20260718-14',
   '/img/logobemoficial.png',
   '/img/Bem%20Esportivo%20Logo%20Laranja@33x.png',
   '/img/fala-bem-hero-pessoas-optimized.jpg'
@@ -39,8 +39,11 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  event.respondWith(caches.match(request).then(cached => cached || fetch(request).then(response => {
-    if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
-    return response;
-  })));
+  event.respondWith(caches.match(request).then(cached => {
+    const networkUpdate = fetch(request).then(response => {
+      if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
+      return response;
+    });
+    return cached || networkUpdate;
+  }));
 });

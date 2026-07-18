@@ -163,6 +163,7 @@ main {
   padding: 26px;
 }
 
+.report-body h1,
 .report-body h2 {
   color: #fa8a01;
   font-family: "Rubik", sans-serif;
