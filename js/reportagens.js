@@ -12,12 +12,114 @@ const REPORT_COMMUNITY_API = location.protocol === "file:" ? "" : "/api/communit
 const REPORT_CLIENT_KEY = "bemEsportivoCommunityClientId";
 const reportCommentCache = {};
 
+function drawCoverImage(context, image, x, y, width, height) {
+  const imageWidth = image.width || image.naturalWidth;
+  const imageHeight = image.height || image.naturalHeight;
+  const scale = Math.max(width / imageWidth, height / imageHeight);
+  const sourceWidth = width / scale;
+  const sourceHeight = height / scale;
+  const sourceX = (imageWidth - sourceWidth) / 2;
+  const sourceY = (imageHeight - sourceHeight) / 2;
+  context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+}
+
+function wrapCanvasText(context, text, maxWidth) {
+  const words = text.split(/\s+/);
+  const lines = [];
+  let line = "";
+  words.forEach(word => {
+    const testLine = line ? `${line} ${word}` : word;
+    if (context.measureText(testLine).width > maxWidth && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = testLine;
+    }
+  });
+  if (line) lines.push(line);
+  return lines;
+}
+
+async function imageFromBlob(blob) {
+  if (window.createImageBitmap) return createImageBitmap(blob);
+  const objectUrl = URL.createObjectURL(blob);
+  try {
+    return await new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+      image.src = objectUrl;
+    });
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+}
+
+async function createStoryCover(blob, title) {
+  const image = await imageFromBlob(blob);
+  const canvas = document.createElement("canvas");
+  canvas.width = 1080;
+  canvas.height = 1920;
+  const context = canvas.getContext("2d");
+
+  context.fillStyle = "#090909";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.save();
+  context.filter = "blur(28px) brightness(.42)";
+  drawCoverImage(context, image, -45, -45, 1170, 2010);
+  context.restore();
+  context.fillStyle = "rgba(0, 0, 0, .34)";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  context.fillStyle = "#fa8a01";
+  context.font = "900 42px Rubik, Arial, sans-serif";
+  context.fillText("BEM ESPORTIVO", 64, 106);
+  context.fillStyle = "#ffffff";
+  context.font = "700 25px Inter, Arial, sans-serif";
+  context.fillText("REPORTAGEM · MOVIMENTO E SAÚDE", 64, 151);
+
+  context.save();
+  context.beginPath();
+  context.roundRect(64, 205, 952, 536, 28);
+  context.clip();
+  drawCoverImage(context, image, 64, 205, 952, 536);
+  context.restore();
+
+  context.fillStyle = "#ffffff";
+  context.font = "900 70px Rubik, Arial, sans-serif";
+  const titleLines = wrapCanvasText(context, title, 920).slice(0, 5);
+  titleLines.forEach((line, index) => context.fillText(line, 64, 855 + (index * 82)));
+
+  context.fillStyle = "rgba(255, 255, 255, .82)";
+  context.font = "500 31px Inter, Arial, sans-serif";
+  context.fillText("Bruno e Rafael Resende comandam uma manhã", 64, 1320);
+  context.fillText("de treino, orientação e energia coletiva.", 64, 1364);
+
+  context.fillStyle = "#fa8a01";
+  context.beginPath();
+  context.roundRect(64, 1490, 952, 154, 25);
+  context.fill();
+  context.fillStyle = "#111111";
+  context.font = "900 38px Rubik, Arial, sans-serif";
+  context.fillText("ACESSE A REPORTAGEM", 108, 1554);
+  context.font = "800 29px Inter, Arial, sans-serif";
+  context.fillText("bemesportivo.com/reportagens", 108, 1603);
+
+  context.fillStyle = "rgba(255, 255, 255, .78)";
+  context.font = "600 26px Inter, Arial, sans-serif";
+  context.fillText("No Instagram, cole o link na figurinha “Link”.", 64, 1756);
+
+  const storyBlob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", .92));
+  if (!storyBlob) throw new Error("Não foi possível gerar a capa.");
+  return new File([storyBlob], "story-treino-funcional-bem-esportivo.jpg", { type: "image/jpeg" });
+}
+
 function initReportSharing() {
   document.querySelectorAll("[data-report-share]").forEach(section => {
     const reportId = section.dataset.reportId || "";
     const title = section.dataset.shareTitle || document.title;
     const coverPath = section.dataset.shareCover || "";
-    const articleUrl = new URL("/reportagens", location.origin);
+    const articleUrl = new URL("/reportagens?ref=compartilhar-treino-funcional", location.origin);
     articleUrl.hash = reportId;
     const shareUrl = articleUrl.href;
     const shareText = `${title} | Bem Esportivo`;
@@ -30,30 +132,39 @@ function initReportSharing() {
       whatsapp.href = `https://wa.me/?text=${encodeURIComponent(`${shareText}\n${shareUrl}`)}`;
     }
 
-    const coverFilePromise = coverPath
+    const coverBlobPromise = coverPath
       ? fetch(new URL(coverPath, location.href))
           .then(response => {
             if (!response.ok) throw new Error("Capa indisponível");
             return response.blob();
           })
-          .then(blob => new File([blob], "treino-funcional-bem-esportivo.jpg", {
-            type: blob.type || "image/jpeg"
-          }))
           .catch(() => null)
       : Promise.resolve(null);
 
+    const storyFilePromise = coverBlobPromise
+      .then(blob => blob ? createStoryCover(blob, title) : null)
+      .catch(() => null);
+
+    storyFilePromise.then(file => {
+      if (!file || !download) return;
+      download.href = URL.createObjectURL(file);
+      download.download = file.name;
+    });
+
     coverButton?.addEventListener("click", async () => {
       if (status) status.textContent = "Preparando a capa...";
-      const coverFile = await coverFilePromise;
 
       try {
+        navigator.clipboard?.writeText(shareUrl).catch(() => {});
+        const coverFile = await storyFilePromise;
+
         if (coverFile && navigator.share && navigator.canShare?.({ files: [coverFile] })) {
           await navigator.share({
             files: [coverFile],
             title,
             text: `${shareText}\n${shareUrl}`
           });
-          if (status) status.textContent = "Capa compartilhada.";
+          if (status) status.textContent = "Capa compartilhada e link copiado. No Instagram, adicione a figurinha Link e cole o endereço.";
           return;
         }
 
