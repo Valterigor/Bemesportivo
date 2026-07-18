@@ -69,8 +69,11 @@ function checkHtml() {
     if (duplicates.length) failures.push(`IDs duplicados em ${relative(filePath)}: ${duplicates.join(', ')}`);
     if (!/<html\b[^>]*\blang=["']pt-BR["']/i.test(source)) failures.push(`Idioma pt-BR ausente em ${relative(filePath)}`);
     if (!/<meta\b[^>]*\bname=["']viewport["']/i.test(source)) failures.push(`Viewport ausente em ${relative(filePath)}`);
-    if (/site-common\.js/.test(source) && !/<script\b[^>]*\btype=["']module["'][^>]*\bsrc=["'][^"']*site-common\.js\?v=20260718-7["']/i.test(source)) {
+    if (/site-common\.js/.test(source) && !/<script\b[^>]*\btype=["']module["'][^>]*\bsrc=["'][^"']*site-common\.js\?v=20260718-8["']/i.test(source)) {
       failures.push(`Contrato do JavaScript compartilhado desatualizado em ${relative(filePath)}`);
+    }
+    if (/site-common\.js/.test(source) && !/<footer\b[^>]*\bclass=["'][^"']*\bsite-footer\b[^"']*["'][^>]*>[\s\S]*?<div\b[^>]*\bclass=["'][^"']*\bsite-footer-inner\b/i.test(source)) {
+      failures.push(`Estrutura do rodapé compartilhado ausente em ${relative(filePath)}`);
     }
   });
   console.log(`OK HTML: ${files.length} páginas verificadas`);

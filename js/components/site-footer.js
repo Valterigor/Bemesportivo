@@ -19,9 +19,13 @@ const footerContent = `
       <a href="/sobre">Sobre</a><a href="/contato">Contato</a>
       <a href="/politica-de-valores">Política de Valores</a>
       <a href="/politica-de-privacidade">Privacidade</a><a href="/termos">Termos</a>
+      <a href="https://www.instagram.com/bemesportivo/" target="_blank" rel="noopener noreferrer">Instagram @bemesportivo</a>
     </nav>
   </div>
-  <small>© 2026 Bem Esportivo. Todos os direitos reservados.</small>`;
+  <div class="site-footer-bottom">
+    <span>© 2026 BEM ESPORTIVO. Todos os direitos reservados.</span>
+    <span>Esporte, saúde, informação e comunidade.</span>
+  </div>`;
 
 export function initSiteFooter() {
   document.querySelectorAll('.site-footer-inner').forEach(inner => { inner.innerHTML = footerContent; });
