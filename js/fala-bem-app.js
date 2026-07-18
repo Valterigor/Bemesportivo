@@ -250,7 +250,7 @@ function openView(requestedView, options = {}) {
     const selected = buttonView === view ||
       (view === 'progresso' && buttonView === 'jornada') ||
       (view === 'perfil' && buttonView === 'inicio') ||
-      (view === 'comunidade' && buttonView === 'perguntar') ||
+      (view === 'comunidade' && buttonView === 'dicas') ||
       (view === 'especialistas' && buttonView === 'conteudos') ||
       (view === 'modalidades' && buttonView === 'conteudos') ||
       (view === 'trilhas' && buttonView === 'jornada');
@@ -274,9 +274,6 @@ function openView(requestedView, options = {}) {
     destination?.scrollIntoView({ behavior: options.instant ? 'auto' : 'smooth', block: 'start' });
   }
 
-  if (view === 'perguntar' && options.focus !== false) {
-    window.setTimeout(() => document.getElementById('fb-answer-input')?.focus(), 260);
-  }
   return true;
 }
 
@@ -285,7 +282,7 @@ window.falaBemOpenTarget = target => {
   const targetViews = {
     'minha-jornada': 'jornada', trilhas: 'trilhas', ferramentas: 'ferramentas',
     especialistas: 'especialistas', modalidades: 'modalidades', ideias: 'conteudos',
-    historias: 'conteudos', 'participe-agora': 'perguntar'
+    historias: 'conteudos', 'participe-agora': 'comunidade'
   };
   const view = targetViews[target];
   if (!view) return false;
@@ -1558,14 +1555,52 @@ document.querySelectorAll('[data-fb-start-objective]').forEach(button => {
   });
 });
 
-document.querySelector('[data-fb-open-search]')?.addEventListener('submit', event => {
-  event.preventDefault();
-  const query = document.getElementById('fb-home-question').value.trim();
-  openView('perguntar', { focus: false });
-  answerInput.value = query;
-  if (query) answerForm.requestSubmit();
-  else answerInput.focus();
-});
+const practicalTips = {
+  correr: { kicker: 'COMEÇAR A CORRER', title: 'Alterne caminhada e corrida para construir sua base.', intro: 'O começo deve parecer controlado o suficiente para você conseguir repetir, não uma prova de velocidade.', steps: ['Escolha um percurso plano e seguro.', 'Faça 5 minutos de caminhada leve para aquecer.', 'Alterne 1 minuto de corrida confortável com 2 minutos de caminhada por 18 a 24 minutos.', 'Descanse ou faça uma atividade leve no dia seguinte e repita de 2 a 3 vezes na semana.'], next: 'Quando completar duas semanas sem dor persistente e recuperando-se bem, aumente primeiro os minutos correndo — não a velocidade.', specialist: 'Um profissional de Educação Física pode avaliar seu nível atual, organizar a progressão e ajustar técnica, volume e intensidade.' },
+  recuperacao: { kicker: 'RECUPERAÇÃO', title: 'Recuperar também faz parte do treino.', intro: 'Sono, alimentação, hidratação e intervalo entre sessões ajudam o corpo a responder ao estímulo recebido.', steps: ['Observe como estão energia, sono, dor e vontade de treinar.', 'Após uma sessão exigente, faça descanso ou movimento leve antes de repetir a mesma carga.', 'Mantenha hidratação e refeições regulares, sem tentar compensar o treino.', 'Se o desempenho cair ou o desconforto aumentar por vários dias, reduza a carga e procure orientação.'], next: 'Volte ao treino intenso quando as atividades do dia a dia estiverem confortáveis e sua disposição tiver retornado.', specialist: 'Em caso de dor, lesão ou retorno após afastamento, procure fisioterapeuta ou médico do esporte. Para recuperação entre treinos, Educação Física e Nutrição também podem ajudar.' },
+  constancia: { kicker: 'CRIAR CONSTÂNCIA', title: 'Faça o esporte caber na semana real.', intro: 'Uma rotina pequena e repetível costuma ser mais útil do que um plano perfeito que depende de motivação todos os dias.', steps: ['Escolha dois dias e horários que normalmente estão livres.', 'Defina uma versão mínima de 10 a 20 minutos para dias difíceis.', 'Deixe roupa, local ou equipamento preparados com antecedência.', 'Ao terminar, registre apenas: fiz, fiz parcialmente ou preciso ajustar.'], next: 'Mantenha os mesmos horários por duas semanas antes de acrescentar um terceiro dia.', specialist: 'Um profissional de Educação Física pode transformar sua disponibilidade em um plano realista. Se barreiras emocionais dificultarem a continuidade, a Psicologia pode complementar esse cuidado.' },
+  evoluir: { kicker: 'EVOLUIR', title: 'Mude uma variável por vez e acompanhe a resposta.', intro: 'Evolução sustentável combina estímulo progressivo, técnica, recuperação e uma medida simples de acompanhamento.', steps: ['Escolha uma meta para as próximas quatro semanas.', 'Registre seu ponto de partida: tempo, distância, carga, repetições ou esforço de 0 a 10.', 'Ajuste somente duração, frequência ou intensidade — nunca tudo de uma vez.', 'Compare o resultado e a recuperação ao final de cada semana.'], next: 'Se você manteve boa técnica e recuperação, faça um pequeno avanço; se não, mantenha ou reduza a carga.', specialist: 'Procure um profissional de Educação Física ou treinador da modalidade para avaliar sua técnica e planejar a progressão; Nutrição e Medicina do Esporte podem complementar conforme a necessidade.' }
+};
+
+function showPracticalTip(topic, options = {}) {
+  const guide = practicalTips[topic] || practicalTips.constancia;
+  const host = document.getElementById('fb-practical-guide');
+  if (!host) return;
+  if (options.open !== false) openView('dicas', { focus: false });
+  const kicker = document.createElement('span');
+  const title = document.createElement('h3');
+  const intro = document.createElement('p');
+  const list = document.createElement('ol');
+  const next = document.createElement('div');
+  const specialist = document.createElement('aside');
+  const nextLabel = document.createElement('strong');
+  const nextText = document.createElement('p');
+  kicker.textContent = guide.kicker;
+  title.textContent = guide.title;
+  intro.textContent = guide.intro;
+  guide.steps.forEach(step => { const item = document.createElement('li'); item.textContent = step; list.append(item); });
+  nextLabel.textContent = 'QUANDO AVANÇAR';
+  nextText.textContent = guide.next;
+  next.append(nextLabel, nextText);
+  const specialistLabel = document.createElement('strong');
+  const specialistText = document.createElement('p');
+  const specialistButton = document.createElement('button');
+  specialistLabel.textContent = 'ORIENTAÇÃO PROFISSIONAL';
+  specialistText.textContent = guide.specialist;
+  specialistButton.type = 'button';
+  specialistButton.textContent = 'Conhecer especialistas →';
+  specialistButton.addEventListener('click', () => openView('especialistas'));
+  specialist.append(specialistLabel, specialistText, specialistButton);
+  host.replaceChildren(kicker, title, intro, list, next, specialist);
+  document.querySelectorAll('[data-fb-tip]').forEach(button => {
+    const selected = button.dataset.fbTip === topic;
+    button.classList.toggle('active', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+  window.setTimeout(() => host.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 180);
+}
+
+document.querySelectorAll('[data-fb-tip]').forEach(button => button.addEventListener('click', () => showPracticalTip(button.dataset.fbTip)));
 
 document.getElementById('journey-see-content')?.addEventListener('click', () => {
   window.setTimeout(() => openView('conteudos'), 0);
@@ -1573,11 +1608,8 @@ document.getElementById('journey-see-content')?.addEventListener('click', () => 
 
 document.getElementById('journey-ask-next')?.addEventListener('click', () => {
   if (!currentProfile?.objective) return;
-  const action = currentProfile.nextAction || objectiveLabels[currentProfile.objective] || 'meu próximo passo';
-  const query = `Como fazer com segurança este próximo passo: ${action}`.slice(0, 180);
-  openView('perguntar', { focus: false });
-  answerInput.value = query;
-  answerForm.requestSubmit();
+  const tipByObjective = { comecar: 'constancia', saude: 'constancia', emagrecer: 'constancia', performance: 'evoluir', modalidade: 'constancia', recuperacao: 'recuperacao' };
+  showPracticalTip(tipByObjective[currentProfile.objective] || 'constancia');
 });
 
 document.querySelectorAll('[data-modality]').forEach(button => {
@@ -1697,12 +1729,9 @@ document.querySelectorAll('[data-fb-reset]').forEach(button => {
 });
 document.getElementById('fb-reset-cancel')?.addEventListener('click', () => closeDialog(document.getElementById('fb-reset-dialog')));
 document.getElementById('fb-reset-confirm')?.addEventListener('click', resetLocalJourney);
+showPracticalTip('correr', { open: false });
 const sharedQuestion = new URLSearchParams(window.location.search).get('pergunta')?.trim();
 if (sharedQuestion && sharedQuestion.length >= 3) {
-  openView('perguntar', { scroll: false, focus: false, instant: true });
-  answerInput.value = sharedQuestion.slice(0, 180);
-  answerQuestion(answerInput.value).catch(() => {
-    answerStatus.textContent = 'A busca externa está indisponível no momento. Tente novamente mais tarde.';
-  });
+  showPracticalTip('constancia');
 }
 })();

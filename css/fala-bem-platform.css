@@ -454,6 +454,7 @@ box-shadow:0 4px 14px rgba(17,17,17,.1);
 margin:0 0 2px;
 font-size:14px;
 }
+.specialist-area{display:inline-flex;width:max-content;margin-bottom:6px;padding:4px 7px;border-radius:999px;background:#fff0e9;color:#d5410b;font-size:.6rem;font-weight:900;letter-spacing:.06em}
 
 .specialist-card p{
 margin:0;
@@ -1484,6 +1485,28 @@ padding:24px 0 20px;
 .fb-ecosystem-menu>button:hover i,.fb-ecosystem-menu>button:focus-visible i{color:#e94b14}
 
 .fb-app-panel[data-fb-panel="inicio"]>.fb-app-search-shortcut{margin-top:22px}
+.fb-practical-shortcuts{margin-top:22px;padding:20px;border:1px solid #e5ded8;border-radius:18px;background:linear-gradient(145deg,#fff 25%,#fff8f4)}
+.fb-practical-shortcuts>div:first-child>span{color:#e94b14;font-size:.68rem;font-weight:900;letter-spacing:.08em}
+.fb-practical-shortcuts h2{max-width:620px;margin:5px 0 0;font-size:1.25rem;line-height:1.2;letter-spacing:-.025em}
+.fb-practical-shortcut-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:16px}
+.fb-practical-shortcut-grid button{display:flex;min-height:118px;flex-direction:column;align-items:flex-start;padding:15px;border:1px solid #e3ddd7;border-radius:14px;background:#fff;color:#25211e;font:inherit;text-align:left;cursor:pointer;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.fb-practical-shortcut-grid button:hover,.fb-practical-shortcut-grid button:focus-visible,.fb-practical-shortcut-grid button.active{transform:translateY(-2px);border-color:#ff5a1f;box-shadow:0 9px 20px rgba(255,90,31,.1)}
+.fb-practical-shortcut-grid strong{font-size:.9rem}.fb-practical-shortcut-grid small{margin-top:5px;color:#706963;font-size:.72rem;line-height:1.35}.fb-practical-shortcut-grid b{margin-top:auto;padding-top:12px;color:#e94b14;font-size:.68rem}
+.fb-tip-choices button.active{border-color:#ff5a1f;background:#fff1ea;color:#c93d0b}
+.fb-practical-guide{margin-top:22px;padding:22px;border:1px solid #e4ddd7;border-radius:18px;background:#fff;box-shadow:0 12px 30px rgba(42,30,23,.05)}
+.fb-practical-guide>span{color:#e94b14;font-size:.7rem;font-weight:900;letter-spacing:.08em}
+.fb-practical-guide h3{margin:7px 0 8px;font-size:1.35rem;line-height:1.15;letter-spacing:-.025em}
+.fb-practical-guide>p{margin:0;color:#625b55;line-height:1.55}
+.fb-practical-guide ol{display:grid;gap:10px;margin:18px 0;padding:0;list-style:none;counter-reset:tip-step}
+.fb-practical-guide li{position:relative;min-height:38px;padding:9px 10px 9px 48px;border-radius:11px;background:#faf8f6;color:#39342f;font-size:.88rem;line-height:1.45;counter-increment:tip-step}
+.fb-practical-guide li::before{content:counter(tip-step);position:absolute;left:10px;top:8px;display:grid;width:28px;height:28px;place-items:center;border-radius:50%;background:#ff5a1f;color:#fff;font-size:.75rem;font-weight:900}
+.fb-practical-guide>div{padding:14px;border-radius:12px;background:#f1f8f4;color:#234c34}.fb-practical-guide>div strong{font-size:.68rem;letter-spacing:.07em}.fb-practical-guide>div p{margin:5px 0 0;font-size:.85rem;line-height:1.45}
+.fb-practical-guide>aside{margin-top:12px;padding:15px;border:1px solid #f0d8cc;border-radius:12px;background:#fff8f4;color:#4f3529}
+.fb-practical-guide>aside strong{font-size:.68rem;letter-spacing:.07em}.fb-practical-guide>aside p{margin:5px 0 11px;font-size:.84rem;line-height:1.5}
+.fb-practical-guide>aside button{padding:9px 12px;border:0;border-radius:9px;background:#ff5a1f;color:#fff;font:inherit;font-size:.76rem;font-weight:900;cursor:pointer}
+.fb-practical-guide>aside button:hover,.fb-practical-guide>aside button:focus-visible{background:#d9430f}
+@media (max-width:760px){.fb-practical-shortcut-grid{grid-template-columns:1fr 1fr}.fb-practical-shortcut-grid button{min-height:108px}.fb-practical-shortcuts{padding:16px}.fb-practical-guide{padding:17px}}
+@media (max-width:420px){.fb-practical-shortcut-grid{grid-template-columns:1fr}.fb-practical-shortcut-grid button{min-height:94px}}
 
 @media(max-width:900px){
 .fb-app-intro{grid-template-columns:minmax(0,1fr) 250px}.fb-path-entry>h2,.fb-ecosystem-head>h2{font-size:1.18rem!important;line-height:1.24!important}.fb-path-options{grid-template-columns:repeat(2,minmax(0,1fr))}.fb-path-options button{min-height:145px}
