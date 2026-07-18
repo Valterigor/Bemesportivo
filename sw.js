@@ -1,12 +1,12 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v13';
+const CACHE_NAME = 'meu-caminho-be-v14';
 const APP_SHELL = [
   '/meu-caminho-be',
-  '/site-common.css?v=20260718-5',
+  '/site-common.css?v=20260718-6',
   '/css/coluna-valtinho.css?v=20260718-4',
   '/css/fala-bem-platform.css?v=20260718-16',
-  '/js/site-common.js?v=20260718-5',
+  '/js/site-common.js?v=20260718-6',
   '/js/coluna-valtinho.js?v=20260718-7',
   '/js/fala-bem-app.js?v=20260718-15',
   '/img/logobemoficial.png',
@@ -36,6 +36,15 @@ self.addEventListener('fetch', event => {
       caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
       return response;
     }).catch(() => caches.match(request).then(cached => cached || caches.match('/meu-caminho-be'))));
+    return;
+  }
+
+  const isCriticalAsset = url.pathname.endsWith('.css') || url.pathname.endsWith('.js');
+  if (isCriticalAsset) {
+    event.respondWith(fetch(request).then(response => {
+      if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
+      return response;
+    }).catch(() => caches.match(request)));
     return;
   }
 
