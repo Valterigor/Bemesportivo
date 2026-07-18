@@ -12,6 +12,7 @@ const managedSections = [...document.querySelectorAll('.container.page > :not(.f
 const PROFILE_STORAGE_KEY = 'meuCaminhoBeProfileV1';
 const ACCESS_STORAGE_KEY = 'meuCaminhoBeAccessV1';
 let currentProfile = readStoredProfile();
+let pendingProfileUpdate = null;
 const viewTargets = {
   jornada: ['#minha-jornada'],
   ferramentas: ['#ferramentas'],
@@ -72,14 +73,20 @@ const journeyStepGuidance = {
 function readStoredProfile() {
   try {
     const profile = JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) || 'null');
-    return profile && typeof profile === 'object' ? profile : null;
+    if (!profile || typeof profile !== 'object') return null;
+    return {
+      ...profile,
+      schemaVersion: 2,
+      checkins: Array.isArray(profile.checkins) ? profile.checkins : [],
+      cycles: Array.isArray(profile.cycles) ? profile.cycles : []
+    };
   } catch (error) {
     return null;
   }
 }
 
 function saveProfile(updates) {
-  currentProfile = { ...(currentProfile || {}), ...updates, updatedAt: new Date().toISOString() };
+  currentProfile = { ...(currentProfile || {}), ...updates, schemaVersion: 2, updatedAt: new Date().toISOString() };
   try { localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(currentProfile)); } catch (error) {}
   renderPersonalizedExperience();
   return currentProfile;
@@ -122,6 +129,46 @@ function closeDialog(dialog) {
   if (!dialog) return;
   if (dialog.open && typeof dialog.close === 'function') dialog.close();
   else dialog.removeAttribute('open');
+}
+
+function safetyScreeningIsCurrent(profile = currentProfile, details = profile) {
+  return Boolean(profile?.safety?.consent
+    && profile.safety.objective === details?.objective
+    && profile.safety.age === details?.age);
+}
+
+function openSafetyDialog(details = currentProfile, force = false) {
+  const dialog = document.getElementById('fb-safety-dialog');
+  const form = document.getElementById('fb-safety-form');
+  if (!dialog || !form || !details?.objective) return;
+  pendingProfileUpdate = { ...details };
+  if (force || !safetyScreeningIsCurrent(currentProfile, details)) form.reset();
+  const savedSafety = !force && safetyScreeningIsCurrent(currentProfile, details) ? currentProfile.safety : null;
+  if (savedSafety) {
+    form.elements.symptoms.value = savedSafety.symptoms || '';
+    form.elements.condition.value = savedSafety.condition || '';
+    form.elements.clearance.value = savedSafety.clearance || '';
+    document.getElementById('fb-safety-consent').checked = true;
+  }
+  const condition = form.elements.condition.value;
+  const clearanceGroup = document.getElementById('fb-safety-clearance-group');
+  if (clearanceGroup) clearanceGroup.hidden = condition !== 'yes';
+  const clearanceInputs = [...form.querySelectorAll('[name="clearance"]')];
+  clearanceInputs.forEach(input => { input.required = condition === 'yes'; });
+  const guardianWrap = document.getElementById('fb-safety-guardian-wrap');
+  const guardian = document.getElementById('fb-safety-guardian');
+  const needsGuardian = details.age === 'ate-17';
+  if (guardianWrap) guardianWrap.hidden = !needsGuardian;
+  if (guardian) guardian.required = needsGuardian;
+  try { dialog.showModal(); } catch (error) { dialog.setAttribute('open', ''); }
+}
+
+function isSafetyRestricted(profile = currentProfile) {
+  return Boolean(profile?.safety?.restricted);
+}
+
+function isSafetyPending(profile = currentProfile) {
+  return Boolean(profile?.objective && !safetyScreeningIsCurrent(profile, profile));
 }
 
 function openResetDialog() {
@@ -750,7 +797,7 @@ function createGuidanceCard(guidance) {
   article.className = 'fb-evidence-summary';
   const header = document.createElement('header');
   const label = document.createElement('span');
-  label.textContent = 'ORIENTAÇÃO INICIAL';
+  label.textContent = 'ORIENTAÇÃO EDUCATIVA GERAL';
   const domain = document.createElement('span');
   domain.textContent = `${guidance.domain} · ${guidance.intent}`;
   header.append(label, domain);
@@ -766,8 +813,8 @@ function createGuidanceCard(guidance) {
   });
   const footer = document.createElement('footer');
   footer.textContent = guidance.evidenceCount
-    ? `A busca encontrou ${guidance.evidenceCount} fonte${guidance.evidenceCount > 1 ? 's' : ''} científica${guidance.evidenceCount > 1 ? 's' : ''} relacionada${guidance.evidenceCount > 1 ? 's' : ''}.`
-    : 'Orientação educativa geral; nenhuma fonte científica específica foi recuperada agora.';
+    ? `Este texto é uma orientação geral do Meu Caminho Be, não uma síntese clínica. Abaixo estão ${guidance.evidenceCount} fonte${guidance.evidenceCount > 1 ? 's' : ''} científica${guidance.evidenceCount > 1 ? 's' : ''} relacionada${guidance.evidenceCount > 1 ? 's' : ''} para consulta.`
+    : 'Orientação educativa geral, não derivada de uma avaliação clínica. Nenhuma fonte científica específica foi recuperada agora.';
   const nextStep = document.createElement('button');
   nextStep.type = 'button';
   nextStep.className = 'fb-guidance-next';
@@ -924,7 +971,7 @@ function getStepGuidance(stepIndex, profile = currentProfile) {
   return objective?.[stepIndex] || null;
 }
 
-function createCurrentStepGuide(guidance) {
+function createCurrentStepGuide(guidance, adaptiveNote = '') {
   const guide = document.createElement('section');
   const kicker = document.createElement('span');
   const heading = document.createElement('h4');
@@ -947,6 +994,12 @@ function createCurrentStepGuide(guidance) {
   } else {
     guide.append(kicker, heading);
   }
+  if (adaptiveNote) {
+    const adaptation = document.createElement('p');
+    adaptation.className = 'fb-current-step-adaptation';
+    adaptation.textContent = adaptiveNote;
+    guide.append(adaptation);
+  }
   guide.append(message);
   guidance.actions.forEach(action => {
     const item = document.createElement('li');
@@ -959,6 +1012,18 @@ function createCurrentStepGuide(guidance) {
     : 'Depois de tentar, conte como foi logo abaixo. Não existe resposta perfeita: seu relato ajuda a ajustar o próximo passo.';
   guide.append(actions, prompt);
   return guide;
+}
+
+function getAdaptiveStepNote(stepIndex, savedCheckins = [], profile = currentProfile) {
+  if (stepIndex === 1 && profile?.cycleAdjustment === 'reduce') return 'Ajuste deste novo ciclo: comece com metade do tempo ou da carga anterior e observe a resposta antes de aumentar.';
+  if (stepIndex === 1 && profile?.cycleAdjustment === 'maintain') return 'Ajuste deste novo ciclo: mantenha o nível anterior. O objetivo agora é tornar a repetição mais estável.';
+  if (stepIndex < 2) return '';
+  const previousStep = getJourneySteps(profile)[stepIndex - 1];
+  const previous = [...savedCheckins].reverse().find(item => item?.step === previousStep);
+  if (previous?.status === 'ajustar') return 'Você pediu um ajuste no passo anterior. Faça uma versão menor: reduza tempo, intensidade ou dificuldade e preserve apenas o que foi confortável.';
+  if (previous?.status === 'parcial') return 'Você realizou parte do passo anterior. Continue a partir do que funcionou, sem compensar o que ficou faltando.';
+  if (previous?.status === 'concluida') return 'O passo anterior foi realizado. Mantenha a base e, se estiver se sentindo bem, altere somente uma variável por vez.';
+  return '';
 }
 
 function getCompletedSteps(profile = currentProfile) {
@@ -977,6 +1042,7 @@ function getCompletedSteps(profile = currentProfile) {
 function updateProgressActionState() {
   const button = document.getElementById('fb-complete-step');
   const newCycleButton = document.getElementById('fb-new-cycle');
+  const calendarButton = document.getElementById('fb-calendar-next');
   const checkin = document.getElementById('fb-progress-checkin');
   const status = document.getElementById('fb-checkin-status');
   const note = document.getElementById('fb-checkin-note');
@@ -984,13 +1050,16 @@ function updateProgressActionState() {
   const help = document.getElementById('fb-checkin-help');
   if (!button) return;
   const cycleComplete = currentProfile?.objective && getCompletedSteps() >= getJourneySteps().length;
-  if (checkin) checkin.hidden = !currentProfile?.objective || cycleComplete;
+  const safetyRestricted = isSafetyRestricted();
+  const safetyPending = isSafetyPending();
+  if (checkin) checkin.hidden = !currentProfile?.objective || cycleComplete || safetyRestricted || safetyPending;
   if (newCycleButton) newCycleButton.hidden = !cycleComplete;
-  const requiresCheckin = Boolean(currentProfile?.objective && !cycleComplete);
+  if (calendarButton) calendarButton.hidden = !currentProfile?.objective || cycleComplete || safetyRestricted || safetyPending;
+  const requiresCheckin = Boolean(currentProfile?.objective && !cycleComplete && !safetyRestricted && !safetyPending);
   if (status) status.disabled = !requiresCheckin;
   if (note) note.disabled = !requiresCheckin;
   const hasValidData = Boolean(form?.checkValidity() && status?.value && (note?.value.trim().length || 0) >= 3);
-  button.disabled = !currentProfile?.objective || (requiresCheckin && !hasValidData);
+  button.disabled = !currentProfile?.objective || cycleComplete || safetyRestricted || safetyPending || !hasValidData;
   button.setAttribute('aria-disabled', String(button.disabled));
   if (help && requiresCheckin) {
     help.classList.toggle('ready', hasValidData);
@@ -1015,7 +1084,8 @@ function renderProfileSummary() {
     ['OBJETIVO', objectiveLabels[currentProfile.objective] || 'Seu caminho'],
     ['PRÁTICA ATUAL', currentProfile.practiceName || currentProfile.practiceLabel || 'Não informado'],
     ['MOMENTO', currentProfile.ageLabel || 'Não informado'],
-    ['TEMPO', currentProfile.availabilityLabel || 'Não informado']
+    ['TEMPO', currentProfile.availabilityLabel || 'Não informado'],
+    ['SEGURANÇA', isSafetyRestricted() ? 'Revisão profissional recomendada' : currentProfile.safety?.consent ? 'Triagem concluída' : 'Triagem pendente']
   ];
   container.replaceChildren(...fields.map(([label, value]) => {
     const item = document.createElement('div');
@@ -1137,6 +1207,8 @@ function renderProgress() {
   if (!currentProfile?.objective) {
     list.replaceChildren();
     document.getElementById('fb-progress-summary').textContent = 'Crie seu perfil para iniciar uma jornada personalizada.';
+    const safetyStatus = document.getElementById('fb-safety-status');
+    if (safetyStatus) { safetyStatus.hidden = true; safetyStatus.replaceChildren(); }
     renderCycleSummary([], 0, []);
     updateProgressActionState();
     return;
@@ -1147,6 +1219,27 @@ function renderProgress() {
   const savedCheckins = Array.isArray(currentProfile.checkins) ? currentProfile.checkins : [];
   const checkinStatusLabels = { concluida: 'Realizada', parcial: 'Realizada parcialmente', ajustar: 'Caminho ajustado' };
   const percent = completed * 20;
+  const safetyStatus = document.getElementById('fb-safety-status');
+  if (safetyStatus) {
+    const safetyPending = isSafetyPending();
+    const safetyRestricted = isSafetyRestricted();
+    safetyStatus.hidden = !safetyPending && !safetyRestricted;
+    if (safetyPending || safetyRestricted) {
+      const strong = document.createElement('strong');
+      const text = document.createElement('span');
+      const action = document.createElement('button');
+      strong.textContent = safetyPending ? 'Complete a triagem antes de continuar.' : 'Sua segurança vem antes do progresso.';
+      text.textContent = safetyPending
+        ? 'São três pontos rápidos para adaptar sua jornada e verificar se existe algum sinal que exige orientação profissional.'
+        : 'Os sinais informados pedem avaliação profissional antes de iniciar ou retomar exercícios. Sua jornada está preservada e poderá continuar depois da revisão.';
+      action.type = 'button';
+      action.textContent = safetyPending ? 'Fazer triagem de segurança' : 'Revisar minha triagem';
+      action.addEventListener('click', () => openSafetyDialog(currentProfile, true));
+      safetyStatus.replaceChildren(strong, text, action);
+    } else {
+      safetyStatus.replaceChildren();
+    }
+  }
   document.getElementById('fb-progress-title').textContent = currentProfile.title || 'Seu caminho continua aqui.';
   document.getElementById('fb-progress-summary').textContent = currentProfile.rhythm || 'Avance uma etapa por vez.';
   document.getElementById('fb-progress-percent').textContent = `${percent}%`;
@@ -1171,9 +1264,13 @@ function renderProgress() {
       : index === 1 && currentProfile.nextAction
         ? currentProfile.nextAction
         : isComplete ? 'Etapa concluída.' : isCurrent ? 'Este é o seu próximo passo.' : 'Será liberada na sequência da jornada.';
+    if (isCurrent && index === 1) {
+      const cycleNote = getAdaptiveStepNote(index, savedCheckins);
+      if (cycleNote) detail.textContent = `${detail.textContent} ${cycleNote}`;
+    }
     content.append(title, detail);
     const guidance = isCurrent ? getStepGuidance(index) : null;
-    if (guidance) content.append(createCurrentStepGuide(guidance));
+    if (guidance) content.append(createCurrentStepGuide(guidance, getAdaptiveStepNote(index, savedCheckins)));
     item.append(content);
     return item;
   }));
@@ -1280,13 +1377,13 @@ function renderPersonalizedExperience() {
 
 window.addEventListener('meuCaminhoBe:profile-updated', event => {
   const details = event.detail || {};
-  const sameObjective = currentProfile?.objective === details.objective;
-  saveProfile({
-    ...details,
-    name: details.name || currentProfile?.name || '',
-    progress: sameObjective ? getCompletedSteps() : 1,
-    checkins: sameObjective ? (currentProfile?.checkins || []) : []
-  });
+  const normalizedDetails = { ...details, name: details.name || currentProfile?.name || '' };
+  if (!safetyScreeningIsCurrent(currentProfile, normalizedDetails)) {
+    openSafetyDialog(normalizedDetails);
+    return;
+  }
+  const sameObjective = currentProfile?.objective === normalizedDetails.objective;
+  saveProfile({ ...normalizedDetails, progress: sameObjective ? getCompletedSteps() : 1, checkins: sameObjective ? (currentProfile?.checkins || []) : [] });
 });
 
 window.addEventListener('meuCaminhoBe:identity-captured', event => {
@@ -1332,8 +1429,51 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
 });
 
 document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
-  saveProfile({ progress: 1, checkins: [] });
-  document.getElementById('fb-progress-feedback').textContent = 'Novo ciclo iniciado. Seu próximo passo já está disponível.';
+  const records = Array.isArray(currentProfile?.checkins) ? currentProfile.checkins : [];
+  const adjustCount = records.filter(item => item?.status === 'ajustar').length;
+  const partialCount = records.filter(item => item?.status === 'parcial').length;
+  const archive = {
+    objective: currentProfile?.objective,
+    startedAt: records[0]?.completedAt || currentProfile?.updatedAt,
+    completedAt: new Date().toISOString(),
+    checkins: records
+  };
+  const cycles = [...(Array.isArray(currentProfile?.cycles) ? currentProfile.cycles : []), archive].slice(-6);
+  const cycleAdjustment = adjustCount >= 2 ? 'reduce' : (adjustCount || partialCount ? 'maintain' : 'progress');
+  saveProfile({ progress: 1, checkins: [], cycles, cycleAdjustment });
+  document.getElementById('fb-progress-feedback').textContent = cycleAdjustment === 'reduce'
+    ? 'Novo ciclo iniciado com uma versão menor e mais segura do caminho anterior.'
+    : cycleAdjustment === 'maintain'
+      ? 'Novo ciclo iniciado mantendo o que foi possível no ciclo anterior.'
+      : 'Novo ciclo iniciado. Você poderá evoluir uma variável por vez.';
+});
+
+document.getElementById('fb-calendar-next')?.addEventListener('click', () => {
+  const feedback = document.getElementById('fb-progress-feedback');
+  if (!currentProfile?.objective || isSafetyRestricted() || isSafetyPending()) {
+    if (feedback) feedback.textContent = currentProfile?.objective ? 'Conclua ou revise a triagem de segurança antes de agendar uma prática.' : 'Crie seu caminho antes de adicionar um lembrete.';
+    return;
+  }
+  const completed = getCompletedSteps();
+  const steps = getJourneySteps();
+  const step = steps[Math.min(completed, steps.length - 1)];
+  const guidance = getStepGuidance(Math.min(completed, steps.length - 1));
+  const start = new Date();
+  start.setDate(start.getDate() + 2);
+  start.setHours(18, 0, 0, 0);
+  const end = new Date(start.getTime() + 45 * 60 * 1000);
+  const formatIcsDate = date => date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  const escapeIcs = value => String(value || '').replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
+  const description = guidance?.task || currentProfile.nextAction || 'Reserve um momento possível para continuar sua jornada.';
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//BeMEsportivo//Meu Caminho Be//PT-BR','BEGIN:VEVENT',`UID:${Date.now()}@bemesportivo.com`,`DTSTAMP:${formatIcsDate(new Date())}`,`DTSTART:${formatIcsDate(start)}`,`DTEND:${formatIcsDate(end)}`,`SUMMARY:${escapeIcs(`Meu Caminho Be: ${step}`)}`,`DESCRIPTION:${escapeIcs(description)}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'meu-proximo-passo.ics';
+  link.click();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  if (feedback) feedback.textContent = 'Lembrete criado para daqui a dois dias, às 18h. Você pode ajustar o horário no seu calendário.';
 });
 
 document.getElementById('fb-checkin-status')?.addEventListener('change', updateProgressActionState);
@@ -1346,6 +1486,51 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
   if (name) registerFirstIdentityAccess();
   document.getElementById('fb-profile-feedback').textContent = name
     ? `Perfil salvo, ${name}.` : 'Perfil salvo neste navegador.';
+});
+
+document.getElementById('fb-export-profile')?.addEventListener('click', () => {
+  if (!currentProfile) {
+    document.getElementById('fb-profile-feedback').textContent = 'Ainda não há um perfil para exportar.';
+    return;
+  }
+  const payload = JSON.stringify({ schemaVersion: 2, exportedAt: new Date().toISOString(), profile: currentProfile }, null, 2);
+  const blob = new Blob([payload], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  const safeName = String(currentProfile.name || 'meu-caminho').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase();
+  link.href = url;
+  link.download = `${safeName || 'meu-caminho'}-backup.json`;
+  link.click();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  document.getElementById('fb-profile-feedback').textContent = 'Cópia dos seus dados criada. Guarde o arquivo em local seguro.';
+});
+
+document.getElementById('fb-import-profile')?.addEventListener('change', async event => {
+  const input = event.currentTarget;
+  const file = input.files?.[0];
+  if (!file) return;
+  try {
+    if (file.size > 1024 * 1024) throw new Error('too-large');
+    const parsed = JSON.parse(await file.text());
+    const profile = parsed?.profile;
+    const allowedObjectives = Object.keys(journeyStepTemplates);
+    if (!profile || typeof profile !== 'object' || !allowedObjectives.includes(profile.objective) || typeof profile.name !== 'string') throw new Error('invalid');
+    const sanitized = {
+      ...profile,
+      name: profile.name.trim().slice(0, 40),
+      checkins: Array.isArray(profile.checkins) ? profile.checkins.slice(-10) : [],
+      cycles: Array.isArray(profile.cycles) ? profile.cycles.slice(-6) : []
+    };
+    currentProfile = sanitized;
+    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(sanitized));
+    renderPersonalizedExperience();
+    document.getElementById('fb-profile-feedback').textContent = 'Backup restaurado neste aparelho.';
+    window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-onboarding', { detail: { ...sanitized } }));
+  } catch (error) {
+    document.getElementById('fb-profile-feedback').textContent = 'Não foi possível importar. Escolha um backup válido do Meu Caminho Be.';
+  } finally {
+    input.value = '';
+  }
 });
 
 answerForm?.addEventListener('submit', event => {
@@ -1397,6 +1582,95 @@ document.getElementById('journey-ask-next')?.addEventListener('click', () => {
 
 document.querySelectorAll('[data-modality]').forEach(button => {
   button.addEventListener('click', () => window.setTimeout(() => openView('jornada'), 0));
+});
+
+document.querySelectorAll('#fb-safety-form [name="condition"]').forEach(input => {
+  input.addEventListener('change', () => {
+    const form = document.getElementById('fb-safety-form');
+    const hasCondition = form?.elements.condition.value === 'yes';
+    const group = document.getElementById('fb-safety-clearance-group');
+    if (group) group.hidden = !hasCondition;
+    form?.querySelectorAll('[name="clearance"]').forEach(field => {
+      field.required = hasCondition;
+      if (!hasCondition) field.checked = false;
+    });
+  });
+});
+
+document.getElementById('fb-safety-form')?.addEventListener('submit', event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  if (!form.checkValidity() || !pendingProfileUpdate?.objective) {
+    form.reportValidity();
+    return;
+  }
+  const data = new FormData(form);
+  const symptoms = String(data.get('symptoms') || '');
+  const condition = String(data.get('condition') || '');
+  const clearance = condition === 'yes' ? String(data.get('clearance') || '') : 'not-needed';
+  const restricted = symptoms === 'yes' || (condition === 'yes' && clearance !== 'yes');
+  const sameObjective = currentProfile?.objective === pendingProfileUpdate.objective;
+  const safety = {
+    consent: true,
+    symptoms,
+    condition,
+    clearance,
+    restricted,
+    objective: pendingProfileUpdate.objective,
+    age: pendingProfileUpdate.age,
+    screenedAt: new Date().toISOString()
+  };
+  saveProfile({
+    ...pendingProfileUpdate,
+    safety,
+    progress: sameObjective ? getCompletedSteps() : 1,
+    checkins: sameObjective ? (currentProfile?.checkins || []) : []
+  });
+  pendingProfileUpdate = null;
+  closeDialog(document.getElementById('fb-safety-dialog'));
+  openView(restricted ? 'perfil' : 'progresso');
+  const feedback = document.getElementById('fb-profile-feedback');
+  if (feedback) feedback.textContent = restricted
+    ? 'Perfil salvo. Antes de iniciar ou retomar exercícios, procure avaliação profissional para revisar os sinais informados.'
+    : 'Triagem concluída. Seu primeiro passo já está disponível.';
+});
+
+document.getElementById('fb-safety-later')?.addEventListener('click', () => {
+  closeDialog(document.getElementById('fb-safety-dialog'));
+  openView('jornada');
+  window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-onboarding', { detail: { ...(pendingProfileUpdate || currentProfile || {}) } }));
+});
+
+document.getElementById('fb-review-safety')?.addEventListener('click', () => openSafetyDialog(currentProfile, true));
+
+function updateConnectivityStatus() {
+  const status = document.getElementById('fb-connectivity-status');
+  if (!status) return;
+  status.classList.toggle('offline', !navigator.onLine);
+  status.lastChild.textContent = navigator.onLine ? 'Dados ficam neste aparelho' : 'Modo offline · jornada disponível';
+}
+
+window.addEventListener('online', updateConnectivityStatus);
+window.addEventListener('offline', updateConnectivityStatus);
+updateConnectivityStatus();
+
+if ('serviceWorker' in navigator && window.isSecureContext) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+}
+
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  const installButton = document.getElementById('fb-install-app');
+  if (installButton) installButton.hidden = false;
+});
+document.getElementById('fb-install-app')?.addEventListener('click', async () => {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  document.getElementById('fb-install-app').hidden = true;
 });
 
 renderPersonalizedExperience();

@@ -599,61 +599,68 @@ const toolResult=document.getElementById('tool-result');
 const toolDefinitions={
 imc:{
 title:'Calculadora de IMC',
-description:'Uma referência simples da relação entre peso e altura.',
-fields:[['peso','Peso (kg)','number','70','0.1'],['altura','Altura (cm)','number','170','0.1']],
+description:'Referência de triagem para adultos; não mede composição corporal nem define saúde.',
+source:['Critérios de IMC para adultos — OMS','https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight'],
+fields:[['idade','Idade (uso adulto)','number','30','1','20','120'],['peso','Peso (kg)','number','70','0.1','20','350'],['altura','Altura (cm)','number','170','0.1','100','230']],
 calculate:data=>{
 const height=Number(data.altura)/100;
 const value=Number(data.peso)/(height*height);
 const range=value<18.5?'abaixo da faixa de referência':value<25?'na faixa de referência':value<30?'acima da faixa de referência':'em uma faixa elevada';
-return [`IMC ${value.toFixed(1)}`,`O resultado está ${range}. Use este número apenas como ponto de partida para uma avaliação individual.`];
+return {headline:`IMC ${value.toFixed(1)}`,detail:`Para adultos, o resultado está ${range}. Atletas, idosos e diferentes composições corporais exigem interpretação individual.`,caution:'Não utilizar esta classificação para menores de 20 anos ou durante a gestação.'};
 }
 },
 pace:{
 title:'Calculadora de pace',
 description:'Descubra seu ritmo médio por quilômetro.',
-fields:[['distancia','Distância (km)','number','5','0.01'],['minutos','Tempo — minutos','number','30','1'],['segundos','Segundos adicionais','number','0','1']],
+source:['Cálculo matemático de ritmo médio','https://worldathletics.org/about-iaaf/documents/technical-information'],
+fields:[['distancia','Distância (km)','number','5','0.01','0.1','500'],['minutos','Tempo — minutos','number','30','1','0','10000'],['segundos','Segundos adicionais','number','0','1','0','59']],
 calculate:data=>{
 const pace=(Number(data.minutos)*60+Number(data.segundos))/Number(data.distancia);
 const minutes=Math.floor(pace/60),seconds=Math.round(pace%60);
-return [`${minutes}:${String(seconds).padStart(2,'0')} min/km`,`Este é o ritmo médio estimado para a distância informada.`];
+return {headline:`${minutes}:${String(seconds).padStart(2,'0')} min/km`,detail:'Ritmo médio da distância informada. Variações de terreno, clima e percurso não aparecem neste cálculo.'};
 }
 },
 calorias:{
 title:'Estimativa de gasto calórico',
-description:'Calcule uma referência aproximada para uma sessão de atividade.',
-fields:[['peso','Peso (kg)','number','70','0.1'],['duracao','Duração (min)','number','30','1'],['intensidade','Intensidade','select','Moderada','']],
-options:{intensidade:[['4','Leve'],['7','Moderada'],['10','Intensa']]},
+description:'Estime uma faixa usando o tipo de atividade e valores metabólicos de referência.',
+source:['Compendium of Physical Activities','https://pacompendium.com/'],
+fields:[['peso','Peso (kg)','number','70','0.1','20','350'],['duracao','Duração (min)','number','30','1','1','600'],['intensidade','Atividade aproximada','select','','']],
+options:{intensidade:[['3.5','Caminhada confortável'],['5','Treino de força geral'],['6.8','Bicicleta moderada'],['8','Corrida leve'],['10','Atividade vigorosa']]},
 calculate:data=>{
 const kcal=Number(data.intensidade)*3.5*Number(data.peso)/200*Number(data.duracao);
-return [`Aproximadamente ${Math.round(kcal)} kcal`,`O gasto real varia conforme atividade, condicionamento, composição corporal e intensidade.`];
+const margin=Math.round(kcal*.2);
+return {headline:`Cerca de ${Math.max(0,Math.round(kcal)-margin)} a ${Math.round(kcal)+margin} kcal`,detail:'Faixa educativa com margem de 20%. O gasto real varia com técnica, condicionamento, composição corporal e intensidade.'};
 }
 },
 agua:{
-title:'Meta diária de água',
-description:'Uma referência inicial de hidratação baseada no peso corporal.',
-fields:[['peso','Peso (kg)','number','70','0.1']],
+title:'Faixa inicial de hidratação',
+description:'Uma faixa educativa para organizar a rotina, nunca uma prescrição individual.',
+source:['Referências de ingestão de água — National Academies','https://nap.nationalacademies.org/catalog/10925/dietary-reference-intakes-for-water-potassium-sodium-chloride-and-sulfate'],
+fields:[['peso','Peso (kg)','number','70','0.1','20','350']],
 calculate:data=>{
-const liters=Number(data.peso)*35/1000;
-return [`Cerca de ${liters.toFixed(1)} litros/dia`,`Calor, duração do treino e suor podem aumentar essa necessidade.`];
+const low=Number(data.peso)*30/1000,high=Number(data.peso)*35/1000;
+return {headline:`Faixa inicial de ${low.toFixed(1)} a ${high.toFixed(1)} litros/dia`,detail:'Inclui uma referência geral para líquidos. Calor, suor, alimentação e duração do treino alteram a necessidade.',caution:'Doenças cardíacas, renais ou orientação de restrição hídrica exigem acompanhamento profissional.'};
 }
 },
 cardiaca:{
 title:'Zona cardíaca de treino',
-description:'Estime uma faixa moderada usando a frequência cardíaca máxima prevista pela idade.',
-fields:[['idade','Idade','number','35','1']],
+description:'Estime uma faixa moderada; relógios e fórmulas não substituem avaliação clínica.',
+source:['Equação de frequência máxima de Tanaka et al.','https://pubmed.ncbi.nlm.nih.gov/11153730/'],
+fields:[['idade','Idade (uso adulto)','number','35','1','20','100']],
 calculate:data=>{
-const maximum=220-Number(data.idade),low=Math.round(maximum*.6),high=Math.round(maximum*.8);
-return [`${low} a ${high} bpm`,`Faixa aproximada entre 60% e 80% da frequência máxima estimada (${maximum} bpm).`];
+const maximum=Math.round(208-.7*Number(data.idade)),low=Math.round(maximum*.64),high=Math.round(maximum*.76);
+return {headline:`Faixa moderada estimada: ${low} a ${high} bpm`,detail:`Cálculo populacional com frequência máxima prevista de ${maximum} bpm. A resposta individual pode ser diferente.`,caution:'Sintomas, uso de medicamentos cardíacos ou condições clínicas exigem orientação profissional.'};
 }
 },
 proteina:{
 title:'Referência diária de proteína',
-description:'Estime uma faixa conforme seu peso e objetivo principal.',
-fields:[['peso','Peso (kg)','number','70','0.1'],['objetivo','Objetivo','select','Saúde','']],
-options:{objetivo:[['1.2','Saúde e rotina ativa'],['1.6','Evolução e força'],['2','Performance intensa']]},
+description:'Estime uma faixa para adultos fisicamente ativos conforme o objetivo.',
+source:['Position stand sobre proteína e exercício — ISSN','https://pmc.ncbi.nlm.nih.gov/articles/PMC5477153/'],
+fields:[['peso','Peso (kg)','number','70','0.1','20','350'],['objetivo','Objetivo','select','','']],
+options:{objetivo:[['1.0-1.2','Saúde e rotina ativa'],['1.4-1.8','Evolução e força'],['1.6-2.0','Performance intensa']]},
 calculate:data=>{
-const grams=Math.round(Number(data.peso)*Number(data.objetivo));
-return [`Cerca de ${grams} g/dia`,`Distribua a referência ao longo do dia e procure orientação nutricional para individualizar sua alimentação.`];
+const [low,high]=String(data.objetivo).split('-').map(Number);
+return {headline:`Faixa de ${Math.round(Number(data.peso)*low)} a ${Math.round(Number(data.peso)*high)} g/dia`,detail:'Referência geral para adultos ativos. Alimentação total, objetivo, tolerância e treino precisam ser considerados.',caution:'Doença renal, gestação, adolescência ou necessidades clínicas exigem nutricionista ou equipe de saúde.'};
 }
 }
 };
@@ -665,7 +672,7 @@ toolDialogTitle.textContent=tool.title;
 toolDialogDescription.textContent=tool.description;
 toolResult.hidden=true;
 toolResult.replaceChildren();
-toolForm.replaceChildren(...tool.fields.map(([name,label,type,placeholder,step])=>{
+toolForm.replaceChildren(...tool.fields.map(([name,label,type,placeholder,step,min,max])=>{
 const wrapper=document.createElement('label');
 wrapper.append(document.createTextNode(label));
 let field;
@@ -677,7 +684,8 @@ field=document.createElement('input');
 field.type=type;
 field.placeholder=placeholder;
 field.step=step;
-field.min=step==='1'?'0':step==='0.01'?'0.01':'0.1';
+if(min!==undefined) field.min=min;
+if(max!==undefined) field.max=max;
 }
 field.name=name;
 field.required=true;
@@ -692,13 +700,29 @@ return submit;
 toolForm.onsubmit=event=>{
 event.preventDefault();
 const data=Object.fromEntries(new FormData(toolForm));
-const values=tool.calculate(data);
-if(values.some(value=>String(value).includes('NaN')||String(value).includes('Infinity'))) return;
+const result=tool.calculate(data);
+const values=[result.headline,result.detail,result.caution];
+if(values.some(value=>String(value||'').includes('NaN')||String(value||'').includes('Infinity'))) return;
 const strong=document.createElement('strong');
-strong.textContent=values[0];
+strong.textContent=result.headline;
 const detail=document.createElement('span');
-detail.textContent=values[1];
-toolResult.replaceChildren(strong,detail);
+detail.textContent=result.detail;
+const output=[strong,detail];
+if(result.caution){
+const caution=document.createElement('small');
+caution.className='tool-result-caution';
+caution.textContent=result.caution;
+output.push(caution);
+}
+if(tool.source){
+const source=document.createElement('a');
+source.href=tool.source[1];
+source.target='_blank';
+source.rel='noopener noreferrer';
+source.textContent=`Metodologia: ${tool.source[0]} →`;
+output.push(source);
+}
+toolResult.replaceChildren(...output);
 toolResult.hidden=false;
 };
 toolDialog.showModal();
@@ -751,14 +775,6 @@ document.querySelectorAll('[data-community-topic]').forEach(button=>button.addEv
 openWhatsAppMessage(`Olá, BeMEsportivo! Quero conversar sobre ${button.dataset.communityTopic} no Meu Caminho Be.`);
 }));
 
-document.getElementById('platform-newsletter-form')?.addEventListener('submit',event=>{
-event.preventDefault();
-const name=document.getElementById('newsletter-name').value.trim();
-const email=document.getElementById('newsletter-email').value.trim();
-try{localStorage.setItem('bemNewsletterInterest',JSON.stringify({name,email,date:new Date().toISOString()}));}catch(error){}
-document.getElementById('newsletter-feedback').textContent=`Obrigado, ${name}! Seu interesse foi registrado.`;
-event.currentTarget.reset();
-});
 
 const topBtn=document.getElementById('backToTop');
 window.addEventListener('scroll',()=>{

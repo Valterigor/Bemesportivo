@@ -11,21 +11,23 @@
 <meta property="og:description" content="Conhecimento esportivo simples, ciência aplicada, profissionais e comunidade para ajudar mais pessoas a viver o esporte.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://bemesportivo.com/coluna-valtinho.html">
-<meta property="og:image" content="https://bemesportivo.com/img/valter-logo-oficial.png">
+<meta property="og:image" content="https://bemesportivo.com/img/valter-logo-oficial-optimized.jpg">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#fffdfa">
 <title>Meu Caminho Be | BeMEsportivo</title>
 
 <link rel="icon" href="img/logobemoficial.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/logobemoficial.png">
 <link rel="canonical" href="https://bemesportivo.com/coluna-valtinho.html">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="site-common.css">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-3">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-6">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757"
-     crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-7">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
+<a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
 
 <div class="container page">
 <section class="fb-app-shell" id="fala-bem-app" aria-labelledby="fb-app-title">
@@ -35,7 +37,7 @@
 <span><strong>Meu Caminho Be</strong><small>por BeMEsportivo</small></span>
 </a>
 <div class="fb-app-topbar-actions">
-<span class="fb-app-saved-status"><i aria-hidden="true"></i>Dados ficam neste aparelho</span>
+<span class="fb-app-saved-status" id="fb-connectivity-status"><i aria-hidden="true"></i>Dados ficam neste aparelho</span>
 <button type="button" class="fb-mobile-menu-toggle" id="fb-mobile-menu-toggle" aria-label="Abrir menu" aria-controls="fb-mobile-drawer" aria-expanded="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
 <button type="button" class="fb-profile-trigger" data-fb-view="perfil" aria-label="Abrir meu perfil"><span class="fb-app-avatar" aria-hidden="true">BE</span><span>Meu perfil</span></button>
 </div>
@@ -53,6 +55,32 @@
 <h2 id="fb-reset-title">Zerar todo o processo?</h2>
 <p>Isso apagará deste aparelho seu nome, respostas, trajetória e progresso. Essa ação não afeta nenhum outro usuário.</p>
 <div><button type="button" id="fb-reset-cancel">Manter meu caminho</button><button type="button" class="fb-reset-confirm" id="fb-reset-confirm">Sim, zerar e recomeçar</button></div>
+</dialog>
+<dialog class="fb-safety-dialog" id="fb-safety-dialog" aria-labelledby="fb-safety-title">
+<form id="fb-safety-form">
+<span>ANTES DE MONTAR SEU CAMINHO</span>
+<h2 id="fb-safety-title">Vamos começar com segurança.</h2>
+<p>Responda três pontos rápidos. Não pedimos diagnóstico e as respostas ficam somente neste aparelho.</p>
+<fieldset>
+<legend>Ao fazer esforço, você sente desconforto no peito, falta de ar fora do comum, tontura, desmaio ou palpitações fortes?</legend>
+<label><input type="radio" name="symptoms" value="no" required> Não</label>
+<label><input type="radio" name="symptoms" value="yes"> Sim</label>
+</fieldset>
+<fieldset>
+<legend>Você possui alguma condição de saúde conhecida ou está retornando após lesão, cirurgia ou tratamento?</legend>
+<label><input type="radio" name="condition" value="no" required> Não</label>
+<label><input type="radio" name="condition" value="yes"> Sim</label>
+</fieldset>
+<fieldset id="fb-safety-clearance-group" hidden>
+<legend>Um profissional responsável já orientou ou liberou essa retomada?</legend>
+<label><input type="radio" name="clearance" value="yes"> Sim</label>
+<label><input type="radio" name="clearance" value="no"> Ainda não</label>
+</fieldset>
+<label class="fb-safety-consent"><input type="checkbox" id="fb-safety-consent" required> Autorizo salvar neste aparelho meu perfil, minha triagem e meus relatos para personalizar a jornada. Posso exportar ou apagar tudo quando quiser.</label>
+<label class="fb-safety-guardian" id="fb-safety-guardian-wrap" hidden><input type="checkbox" id="fb-safety-guardian"> Confirmo que esta jornada será usada com conhecimento e acompanhamento de um responsável.</label>
+<p class="fb-safety-note">Esta triagem é educativa, baseada em sinais de atenção usados na <a href="https://www.exerciseismedicine.org/wp-content/uploads/2021/04/EIM-exercise-preparticipation-screening.pdf" target="_blank" rel="noopener noreferrer">triagem de pré-participação Exercise is Medicine/ACSM</a>, e não substitui avaliação profissional.</p>
+<div><button type="button" id="fb-safety-later">Revisar respostas</button><button type="submit" class="fb-primary-action">Salvar e continuar</button></div>
+</form>
 </dialog>
 <div class="fb-mobile-drawer-overlay" id="fb-mobile-drawer-overlay" hidden></div>
 <aside class="fb-mobile-drawer" id="fb-mobile-drawer" role="dialog" aria-modal="true" aria-labelledby="fb-mobile-drawer-title" hidden>
@@ -79,7 +107,7 @@
 </nav>
 </section>
 </div>
-<footer><a href="game.html">Abrir Game 3D</a><a href="/">Ir para o BeMEsportivo</a></footer>
+<footer><button type="button" id="fb-install-app" hidden>Instalar Meu Caminho Be</button><a href="game.html">Abrir Game 3D</a><a href="/">Ir para o BeMEsportivo</a></footer>
 </aside>
 <header class="fb-app-intro">
 <div class="fb-app-intro-copy">
@@ -92,7 +120,7 @@
 </div>
 </div>
 <div class="fb-intro-visual" aria-label="Pessoas vivendo o esporte ao ar livre">
-<img src="img/fala-bem-hero-pessoas.png" alt="Um homem e uma mulher correndo juntos ao ar livre">
+<img src="img/fala-bem-hero-pessoas-optimized.jpg" alt="Um homem e uma mulher correndo juntos ao ar livre" decoding="async" fetchpriority="high" width="1200" height="800">
 <div class="fb-visual-message"><span>SEU RITMO</span><strong id="fb-hero-status">Comece de onde você está.</strong></div>
 <div class="fb-hero-progress" id="fb-hero-progress" style="--fb-hero-progress:0%">
 <strong id="fb-hero-progress-value">0%</strong><span>da jornada</span>
@@ -157,6 +185,7 @@
 <div><span>PROGRESSO</span><strong id="fb-progress-percent">20%</strong></div>
 <div class="fb-progress-track" aria-hidden="true"><i id="fb-progress-bar"></i></div>
 </div>
+<div class="fb-safety-status" id="fb-safety-status" role="status" hidden></div>
 <ol class="fb-progress-steps" id="fb-progress-steps"></ol>
 <div id="fb-progress-checkin-host">
 <form class="fb-progress-checkin" id="fb-progress-checkin" aria-labelledby="fb-checkin-title">
@@ -183,6 +212,7 @@
 <section class="fb-cycle-summary" id="fb-cycle-summary" aria-labelledby="fb-cycle-summary-title" aria-live="polite" hidden></section>
 <div class="fb-progress-actions">
 <button type="button" class="fb-primary-action" id="fb-new-cycle" hidden>Iniciar novo ciclo</button>
+<button type="button" id="fb-calendar-next">Adicionar próximo passo ao calendário</button>
 <button type="button" data-fb-edit-onboarding>Editar respostas iniciais</button>
 </div>
 <p class="fb-progress-feedback" id="fb-progress-feedback" aria-live="polite"></p>
@@ -200,6 +230,8 @@
 </form>
 <p class="fb-profile-feedback" id="fb-profile-feedback" aria-live="polite"></p>
 <button type="button" class="fb-profile-edit" data-fb-edit-onboarding>Editar minhas respostas iniciais</button>
+<button type="button" class="fb-profile-edit" id="fb-review-safety">Revisar minha triagem de segurança</button>
+<div class="fb-profile-data"><strong>Seus dados, sob seu controle</strong><span>Baixe uma cópia ou restaure seu caminho neste navegador.</span><div><button type="button" id="fb-export-profile">Exportar meus dados</button><label for="fb-import-profile">Importar backup<input type="file" id="fb-import-profile" accept="application/json,.json" hidden></label></div><small>O arquivo pode conter informações pessoais e relatos da sua jornada. Guarde-o em local seguro.</small></div>
 <div class="fb-profile-reset"><strong>Quer começar novamente?</strong><span>Apague os dados locais e refaça sua trajetória desde o nome.</span><button type="button" data-fb-reset>Zerar meu processo</button></div>
 </div>
 
@@ -207,7 +239,7 @@
 <button type="button" class="fb-panel-back" data-fb-view="inicio">← Voltar ao menu</button>
 <span class="fb-panel-kicker">PERGUNTE AO BE</span>
 <h2>Encontre uma resposta sem sair do seu caminho.</h2>
-<p>Buscamos no BeMEsportivo e cruzamos o tema com PubMed/Europe PMC e OpenAlex. Você recebe uma orientação inicial e pode conferir as fontes.</p>
+<p>Buscamos no BeMEsportivo, Europe PMC/PubMed e OpenAlex. A orientação geral e os estudos encontrados aparecem separados para você conferir a origem de cada informação.</p>
 <form id="fb-answer-form" class="fb-answer-form" role="search">
 <label class="sr-only" for="fb-answer-input">Digite sua pergunta</label>
 <input id="fb-answer-input" type="search" minlength="3" placeholder="Digite sua dúvida sobre esporte" autocomplete="off" required>
@@ -387,7 +419,7 @@
 <p>Opinião, ciência e experiência traduzidas para decisões mais simples.</p>
 </header>
 <div class="specialist-track">
-<article class="specialist-card"><img src="img/valter-logo-oficial.png" alt="Valtinho"><div><h3>Valtinho</h3><p>Futebol e opinião</p><small>Análise do jogo e da vida real</small><button type="button" data-platform-target="ideias">Ver conteúdos</button></div></article>
+<article class="specialist-card"><img src="img/valter-logo-oficial-optimized.jpg" alt="Valtinho" loading="lazy" decoding="async" width="800" height="800"><div><h3>Valtinho</h3><p>Futebol e opinião</p><small>Análise do jogo e da vida real</small><button type="button" data-platform-target="ideias">Ver conteúdos</button></div></article>
 <article class="specialist-card"><span class="specialist-avatar">BE</span><div><h3>Be Saúde</h3><p>Saúde esportiva</p><small>Prevenção, rotina e bem-estar</small><button type="button" data-platform-target="ferramentas">Ver ferramentas</button></div></article>
 <article class="specialist-card"><span class="specialist-avatar">BE</span><div><h3>Be Performance</h3><p>Treinamento</p><small>Preparação, dados e evolução</small><button type="button" data-platform-target="trilhas">Ver trilhas</button></div></article>
 <article class="specialist-card"><span class="specialist-avatar">+</span><div><h3>Novas vozes</h3><p>Profissionais convidados</p><small>Nutrição, psicologia e fisioterapia</small><a href="/contato">Quero participar</a></div></article>
@@ -400,7 +432,7 @@
 <p>Experiências que lembram por que vale a pena começar e continuar.</p>
 </header>
 <div class="story-grid">
-<article class="story-card"><img loading="lazy" src="img/fala-bem-hero-pessoas.png" alt="Pessoas correndo juntas"><div><span>COMEÇAR</span><h3>Quando o primeiro passo vira parte da vida</h3><p>Constância nasce de escolhas possíveis.</p></div></article>
+<article class="story-card"><img loading="lazy" decoding="async" src="img/fala-bem-hero-pessoas-optimized.jpg" alt="Pessoas correndo juntas" width="1200" height="800"><div><span>COMEÇAR</span><h3>Quando o primeiro passo vira parte da vida</h3><p>Constância nasce de escolhas possíveis.</p></div></article>
 <article class="story-card"><img loading="lazy" src="img/destaque-final-espanha-argentina.png" alt="Jogadores antes de uma grande partida"><div><span>PERFORMANCE</span><h3>O equilíbrio por trás dos grandes momentos</h3><p>Preparação física, mente e leitura do jogo.</p></div></article>
 <article class="story-card"><img loading="lazy" src="img/app-nutricao-card.png" alt="Conteúdo sobre nutrição esportiva"><div><span>PERMANECER</span><h3>Saúde e performance caminham juntas</h3><p>Evoluir sem perder o cuidado com o corpo.</p></div></article>
 </div>
@@ -437,8 +469,7 @@
 
 <section class="platform-newsletter" aria-labelledby="newsletter-title">
 <div><span>CONHECIMENTO SEM EXCESSO</span><h2 id="newsletter-title">Receba uma dose semanal de conhecimento esportivo.</h2><p>Conteúdos selecionados, dicas práticas e novas conversas.</p></div>
-<form id="platform-newsletter-form"><label class="sr-only" for="newsletter-name">Nome</label><input id="newsletter-name" placeholder="Seu nome" required><label class="sr-only" for="newsletter-email">Email</label><input id="newsletter-email" type="email" placeholder="Seu e-mail" required><button type="submit">Quero receber</button></form>
-<p class="platform-form-feedback" id="newsletter-feedback" aria-live="polite"></p>
+<div class="platform-newsletter-action"><a href="https://wa.me/5511986366965?text=Ol%C3%A1%2C%20BeMEsportivo!%20Quero%20receber%20a%20dose%20semanal%20de%20conhecimento%20esportivo." target="_blank" rel="noopener noreferrer">Receber pelo WhatsApp</a><small>Você poderá revisar a mensagem antes de enviá-la.</small></div>
 </section>
 
 <section class="fala-video" aria-labelledby="fala-video-title">
@@ -564,7 +595,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <article id="espanha-franca-semifinal" class="post searchable post-item" data-post-id="espanha-franca-semifinal" data-tags="copa-do-mundo futebol espanha franca semifinal opiniao evoluir">
 <div class="post-badges"><span>Copa do Mundo</span><span class="post-badge-hot">Nova opinião</span></div>
 <div class="author-line">
-<img decoding="async" loading="lazy" src="img/valter-logo-oficial.png" alt="Foto de Valtinho com a marca BeMEsportivo">
+<img decoding="async" loading="lazy" src="img/valter-logo-oficial-optimized.jpg" alt="Foto de Valtinho com a marca BeMEsportivo" width="800" height="800">
 <div>
 <strong>Valtinho</strong><br>
 <span class="meta">14/07/2026 • 4 min</span>
@@ -573,7 +604,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <h3>Espanha domina a França, garante vaga na final e deixa os franceses na disputa pelo terceiro lugar</h3>
 <p class="excerpt">Com autoridade, organização e inteligência tática, a Espanha venceu por 2 a 0 e confirmou sua presença na grande decisão.</p>
-<button class="btn read-toggle" onclick="toggleTexto('t5', this)" aria-expanded="false">Ler opinião completa</button>
+<button type="button" class="btn read-toggle" onclick="toggleTexto('t5', this)" aria-expanded="false">Ler opinião completa</button>
 <div id="t5" class="full-text">
 <p>A Espanha mostrou, mais uma vez, por que é uma das seleções mais consistentes desta Copa do Mundo. Com uma atuação madura, intensa e taticamente impecável, venceu a França por 2 a 0 e garantiu presença na grande final do torneio.</p>
 <p>O resultado foi construído com autoridade. Desde os primeiros minutos, a equipe comandada por Luis de la Fuente controlou a posse de bola, marcou pressão e praticamente anulou o principal ponto forte da seleção francesa: a velocidade de seu ataque. Mbappé, Olise e companhia encontraram enormes dificuldades para criar oportunidades diante de uma defesa extremamente organizada.</p>
@@ -592,7 +623,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <article id="opiniao-corinthians" class="post searchable post-item" data-post-id="corinthians-cascavel" data-tags="futebol corinthians opiniao amistoso cascavel evoluir permanecer">
 <div class="post-badges"><span>Opinião</span><span class="post-badge-hot">Em destaque</span></div>
 <div class="author-line">
-<img decoding="async" loading="lazy" src="img/valter-logo-oficial.png" alt="Foto de Valtinho com a marca BeMEsportivo">
+<img decoding="async" loading="lazy" src="img/valter-logo-oficial-optimized.jpg" alt="Foto de Valtinho com a marca BeMEsportivo" width="800" height="800">
 <div>
 <strong>Valtinho</strong><br>
 <span class="meta">12/07/2026 • 4 min</span>
@@ -601,7 +632,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <h3>Opinião: O Corinthians precisava exatamente de um amistoso como esse</h3>
 <p class="excerpt">O jogo contra o Cascavel tirou o Timão da zona de conforto e entregou um teste importante para a sequência da temporada.</p>
-<button class="btn read-toggle" onclick="toggleTexto('t4', this)" aria-expanded="false">Ler opinião completa</button>
+<button type="button" class="btn read-toggle" onclick="toggleTexto('t4', this)" aria-expanded="false">Ler opinião completa</button>
 <div id="t4" class="full-text">
 <p>Na minha visão, o amistoso contra o Cascavel foi a melhor escolha possível para marcar a volta do Corinthians após as férias. Pode até não ter sido um grande espetáculo, mas foi exatamente o tipo de jogo que a equipe precisava.</p>
 <p>O Timão foi tirado da zona de conforto. Encontrou um gramado em condições ruins, um calor intenso e um adversário que, em nenhum momento, encarou a partida como um simples amistoso. Pelo contrário: o Cascavel disputou cada lance com intensidade, elevando a temperatura do confronto e transformando a primeira etapa em um jogo de muita disputa, entradas fortes e discussões.</p>
@@ -619,7 +650,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <article class="post searchable post-item" data-post-id="futebol-brasileiro-mudar" data-tags="futebol analise tatica evoluir">
 <div class="post-badges"><span>Análise</span><span class="post-badge-discussion">Para debater</span></div>
 <div class="author-line">
-<img decoding="async" loading="lazy" src="img/valter-logo-oficial.png" alt="Foto de Valtinho com a marca BeMEsportivo">
+<img decoding="async" loading="lazy" src="img/valter-logo-oficial-optimized.jpg" alt="Foto de Valtinho com a marca BeMEsportivo" width="800" height="800">
 <div>
 <strong>Valtinho</strong><br>
 <span class="meta">11/04/2026 • 5 min</span>
@@ -628,7 +659,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <h3>O futebol brasileiro precisa mudar</h3>
 <p class="excerpt">Transição, organização e leitura coletiva decidirão o próximo ciclo.</p>
-<button class="btn read-toggle" onclick="toggleTexto('t1', this)" aria-expanded="false">Ler análise completa</button>
+<button type="button" class="btn read-toggle" onclick="toggleTexto('t1', this)" aria-expanded="false">Ler análise completa</button>
 <div id="t1" class="full-text">
 <p>O futebol brasileiro sempre produziu jogadores criativos, fortes no improviso e capazes de decidir partidas em um lance. Esse talento continua sendo uma vantagem, mas já não basta quando o adversário controla espaços, pressiona em bloco e reduz o tempo de decisão. O jogo ficou mais rápido e menos tolerante ao erro.</p>
 <p>Hoje, uma equipe competitiva precisa saber como sair jogando, quando acelerar, onde pressionar e como se proteger após perder a bola. Esses mecanismos não tiram liberdade do atleta; pelo contrário, criam condições para que o talento apareça em zonas mais perigosas do campo.</p>
@@ -645,7 +676,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <article class="post searchable post-item" data-post-id="saude-performance" data-tags="performance saude analise comecar evoluir permanecer">
 <div class="post-badges"><span>Saúde</span><span>Performance</span></div>
 <div class="author-line">
-<img decoding="async" loading="lazy" src="img/valter-logo-oficial.png" alt="Foto de Valtinho com a marca BeMEsportivo">
+<img decoding="async" loading="lazy" src="img/valter-logo-oficial-optimized.jpg" alt="Foto de Valtinho com a marca BeMEsportivo" width="800" height="800">
 <div>
 <strong>Valtinho</strong><br>
 <span class="meta">10/04/2026 • 4 min</span>
@@ -654,7 +685,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <h3>Saúde e performance no esporte moderno</h3>
 <p class="excerpt">Preparação física, dados e prevenção mudaram o jogo.</p>
-<button class="btn read-toggle" onclick="toggleTexto('t2', this)" aria-expanded="false">Ler análise completa</button>
+<button type="button" class="btn read-toggle" onclick="toggleTexto('t2', this)" aria-expanded="false">Ler análise completa</button>
 <div id="t2" class="full-text">
 <p>Performance não é apenas correr mais. No esporte moderno, desempenho nasce da integração entre preparação física, recuperação, alimentação, sono, prevenção de lesões e equilíbrio emocional. Um atleta pode estar tecnicamente pronto e, ainda assim, render abaixo se a carga estiver mal controlada.</p>
 <p>Os dados mudaram a rotina dos clubes e projetos esportivos. Distância percorrida, acelerações, zonas de esforço, frequência cardíaca e histórico de lesões ajudam a comissão técnica a tomar decisões mais responsáveis. A informação não substitui o olhar humano, mas evita que decisões importantes sejam tomadas apenas pela impressão do momento.</p>
@@ -671,7 +702,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <article class="post searchable post-item" data-post-id="tatica-pressao-alta" data-tags="tatica analise futebol evoluir">
 <div class="post-badges"><span>Tática</span><span>Leitura de jogo</span></div>
 <div class="author-line">
-<img decoding="async" loading="lazy" src="img/valter-logo-oficial.png" alt="Foto de Valtinho com a marca BeMEsportivo">
+<img decoding="async" loading="lazy" src="img/valter-logo-oficial-optimized.jpg" alt="Foto de Valtinho com a marca BeMEsportivo" width="800" height="800">
 <div>
 <strong>Valtinho</strong><br>
 <span class="meta">09/04/2026 • 6 min</span>
@@ -680,7 +711,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <h3>Tática, pressão alta e leitura de jogo</h3>
 <p class="excerpt">Como o futebol atual é decidido sem a bola.</p>
-<button class="btn read-toggle" onclick="toggleTexto('t3', this)" aria-expanded="false">Ler análise completa</button>
+<button type="button" class="btn read-toggle" onclick="toggleTexto('t3', this)" aria-expanded="false">Ler análise completa</button>
 <div id="t3" class="full-text">
 <p>Pressionar melhor é jogar melhor porque a recuperação da bola deixou de ser apenas uma ação defensiva. Quando uma equipe rouba a posse perto da área adversária, ela ataca um rival desorganizado, com menos tempo para recompor e mais vulnerável ao erro.</p>
 <p>Mas pressão alta não é sair correndo atrás da bola. Ela exige gatilhos: passe para trás, domínio ruim, jogador de costas, lateral encurralado ou goleiro pressionado. Sem esses sinais, o time se desgasta, quebra linhas e oferece espaço para o adversário atacar.</p>
@@ -719,7 +750,7 @@ Seu navegador não consegue reproduzir este vídeo.
 </div>
 
 <div class="professional-launch">
-<div class="professional-launch-mark" aria-hidden="true"><img src="img/logobemoficial.png" alt=""></div>
+<div class="professional-launch-mark" aria-hidden="true"><img src="img/logobemoficial.png" alt="" loading="lazy" decoding="async"></div>
 <div class="professional-launch-content">
 <span class="professional-launch-status">ESTREIA EM BREVE</span>
 <h3>Conhecimento de quem entende e vive o esporte</h3>
@@ -759,7 +790,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <aside>
 <div class="sidebar-box author-mini">
-<img decoding="async" loading="lazy" src="img/valter-logo-oficial.png" alt="Foto de Valtinho com a marca BeMEsportivo">
+<img decoding="async" loading="lazy" src="img/valter-logo-oficial-optimized.jpg" alt="Foto de Valtinho com a marca BeMEsportivo" width="800" height="800">
 <span class="sidebar-eyebrow">QUEM ABRE A CONVERSA</span>
 <h3>Valtinho</h3>
 <p>Compartilha opiniões e experiências para aproximar o futebol, a saúde e a performance da vida real de quem pratica e acompanha o esporte.</p>
@@ -771,7 +802,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <div class="topic" onclick="filterPosts('evoluir')">Quero evoluir</div>
 <div class="topic" onclick="filterPosts('permanecer')">Quero permanecer</div>
 <a class="topic topic-link" href="#voz-do-profissional">A Voz do Profissional</a>
-<button class="clear-filter" onclick="resetAllFilters()">Mostrar todos</button>
+<button type="button" class="clear-filter" onclick="resetAllFilters()">Mostrar todos</button>
 </div>
 
 <div class="sidebar-box sidebar-community">
@@ -827,8 +858,8 @@ Seu navegador não consegue reproduzir este vídeo.
 </button>
 
 <script src="js/site-common.js" defer></script>
-<script src="js/coluna-valtinho.js?v=20260718-3" defer></script>
-<script src="js/fala-bem-app.js?v=20260718-6" defer></script>
+<script src="js/coluna-valtinho.js?v=20260718-4" defer></script>
+<script src="js/fala-bem-app.js?v=20260718-7" defer></script>
 
 </body>
 </html>

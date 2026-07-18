@@ -1,0 +1,19 @@
+{
+  "name": "Meu Caminho Be",
+  "short_name": "Caminho Be",
+  "description": "Uma jornada pessoal para descobrir, começar e evoluir no esporte.",
+  "lang": "pt-BR",
+  "start_url": "/coluna-valtinho.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fffdfa",
+  "theme_color": "#ff5a1f",
+  "icons": [
+    {
+      "src": "/img/logobemoficial.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
