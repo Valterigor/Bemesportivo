@@ -20,8 +20,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="site-common.css">
-<link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-1">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-1">
+<link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-3">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-3">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757"
      crossorigin="anonymous"></script>
 </head>
@@ -48,6 +48,12 @@
 <small>Seu perfil e seu progresso continuam salvos somente neste aparelho.</small>
 <div><button type="button" class="fb-primary-action" id="fb-welcome-continue">Continuar minha jornada</button><button type="button" id="fb-welcome-later">Agora não</button></div>
 </dialog>
+<dialog class="fb-reset-dialog" id="fb-reset-dialog" aria-labelledby="fb-reset-title">
+<span>RECOMEÇAR COM SEGURANÇA</span>
+<h2 id="fb-reset-title">Zerar todo o processo?</h2>
+<p>Isso apagará deste aparelho seu nome, respostas, trajetória e progresso. Essa ação não afeta nenhum outro usuário.</p>
+<div><button type="button" id="fb-reset-cancel">Manter meu caminho</button><button type="button" class="fb-reset-confirm" id="fb-reset-confirm">Sim, zerar e recomeçar</button></div>
+</dialog>
 <div class="fb-mobile-drawer-overlay" id="fb-mobile-drawer-overlay" hidden></div>
 <aside class="fb-mobile-drawer" id="fb-mobile-drawer" role="dialog" aria-modal="true" aria-labelledby="fb-mobile-drawer-title" hidden>
 <header><div><span>MEU CAMINHO BE</span><h2 id="fb-mobile-drawer-title">Navegue pelo seu caminho</h2></div><button type="button" id="fb-mobile-drawer-close" aria-label="Fechar menu">×</button></header>
@@ -59,6 +65,7 @@
 <button type="button" data-fb-view="jornada"><span>◇</span>Continuar jornada</button>
 <button type="button" data-fb-view="perguntar"><span>?</span>Perguntar ao Be</button>
 <button type="button" data-fb-view="perfil"><span>○</span>Meu perfil</button>
+<button type="button" data-fb-reset><span>↺</span>Zerar processo</button>
 </nav>
 </section>
 <section aria-labelledby="fb-drawer-ecosystem-title">
@@ -175,7 +182,7 @@
 </div>
 <div class="fb-progress-actions">
 <button type="button" class="fb-primary-action" id="fb-new-cycle" hidden>Iniciar novo ciclo</button>
-<button type="button" data-fb-view="jornada">Ajustar meu caminho</button>
+<button type="button" data-fb-edit-onboarding>Editar respostas iniciais</button>
 </div>
 <p class="fb-progress-feedback" id="fb-progress-feedback" aria-live="polite"></p>
 </div>
@@ -191,6 +198,8 @@
 <button type="submit" class="fb-primary-action">Salvar perfil</button>
 </form>
 <p class="fb-profile-feedback" id="fb-profile-feedback" aria-live="polite"></p>
+<button type="button" class="fb-profile-edit" data-fb-edit-onboarding>Editar minhas respostas iniciais</button>
+<div class="fb-profile-reset"><strong>Quer começar novamente?</strong><span>Apague os dados locais e refaça sua trajetória desde o nome.</span><button type="button" data-fb-reset>Zerar meu processo</button></div>
 </div>
 
 <div class="fb-app-panel fb-answer-panel" data-fb-panel="perguntar" hidden>
@@ -245,6 +254,7 @@
 <li data-step-indicator="5"><span>5</span><small>Tempo</small></li>
 <li data-step-indicator="6"><span>6</span><small>Seu caminho</small></li>
 </ol>
+<div class="journey-reset-bar"><span>Suas respostas ficam somente neste aparelho.</span><button type="button" data-fb-reset>↺ Recomeçar do zero</button></div>
 
 <div class="journey-stage" data-journey-step="1" aria-labelledby="journey-step-1-title">
 <span class="journey-stage-kicker">ETAPA 1 DE 6</span>
@@ -321,7 +331,7 @@
 <div class="journey-result-actions">
 <button type="button" class="btn" id="journey-see-content">Ver conteúdos para meu caminho</button>
 <button type="button" class="journey-ask-next" id="journey-ask-next">Tirar uma dúvida sobre este passo</button>
-<button type="button" class="journey-restart" id="journey-restart">Refazer trajetória</button>
+<button type="button" class="journey-restart" id="journey-restart">Revisar minhas respostas</button>
 </div>
 </div>
 
@@ -816,8 +826,8 @@ Seu navegador não consegue reproduzir este vídeo.
 </button>
 
 <script src="js/site-common.js" defer></script>
-<script src="js/coluna-valtinho.js?v=20260718-1" defer></script>
-<script src="js/fala-bem-app.js?v=20260718-1" defer></script>
+<script src="js/coluna-valtinho.js?v=20260718-3" defer></script>
+<script src="js/fala-bem-app.js?v=20260718-3" defer></script>
 
 </body>
 </html>

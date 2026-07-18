@@ -244,6 +244,42 @@ return field ? Boolean(journeyState[field]) : false;
 function updateJourneyNextState(){
 if(!journeyNext) return;
 journeyNext.disabled=!isJourneyStepComplete(journeyStep);
+journeyNext.setAttribute('aria-disabled',String(journeyNext.disabled));
+}
+
+function resetJourneyForm(keepName=false){
+const savedName=keepName?journeyState.name:'';
+Object.keys(journeyState).forEach(key=>{journeyState[key]='';});
+journeyState.name=savedName;
+if(journeyNameInput) journeyNameInput.value=savedName;
+if(journeyPracticeName){journeyPracticeName.value='';journeyPracticeName.required=false;}
+if(journeyPracticeDetail) journeyPracticeDetail.hidden=true;
+journeyOptions.forEach(option=>{
+option.classList.remove('selected');
+option.setAttribute('aria-pressed','false');
+});
+renderJourneyStep(1);
+}
+
+function loadJourneyAnswers(profile={}){
+journeyState.name=String(profile.name||'').trim();
+journeyState.objective=profile.objective||'';
+journeyState.practice=profile.practice||(profile.practiceName?'regular':'');
+journeyState.practiceName=String(profile.practiceName||'').trim();
+journeyState.age=profile.age||'';
+journeyState.availability=profile.availability||'';
+if(journeyNameInput) journeyNameInput.value=journeyState.name;
+if(journeyPracticeName){
+journeyPracticeName.value=journeyState.practiceName;
+journeyPracticeName.required=Boolean(journeyState.practice&&journeyState.practice!=='none');
+}
+if(journeyPracticeDetail) journeyPracticeDetail.hidden=!journeyPracticeName.required;
+journeyOptions.forEach(option=>{
+const selected=journeyState[option.dataset.journeyField]===option.dataset.journeyValue;
+option.classList.toggle('selected',selected);
+option.setAttribute('aria-pressed',String(selected));
+});
+renderJourneyStep(1);
 }
 
 function renderJourneyResult(){
@@ -312,6 +348,7 @@ const field=getJourneyField(journeyStep);
 journeyBack.hidden=journeyStep===1;
 journeyNext.hidden=journeyStep===6;
 journeyNext.disabled=field ? !isJourneyStepComplete(journeyStep) : true;
+journeyNext.setAttribute('aria-disabled',String(journeyNext.disabled));
 journeyNext.textContent=journeyStep===5?'Ver meu caminho':'Continuar';
 journeyStatus.textContent=journeyStep===6?'Trajetória concluída':`Etapa ${journeyStep} de 6`;
 if(focusHeading){
@@ -342,6 +379,9 @@ journeyState.practiceName='';
 }
 }
 updateJourneyNextState();
+if(field==='age'&&journeyStep===4){
+journeyStatus.textContent='Faixa etária registrada. Você já pode continuar.';
+}
 });
 });
 
@@ -380,19 +420,12 @@ journeySeeContent.addEventListener('click',()=>filterPosts(journeySeeContent.dat
 
 if(journeyRestart){
 journeyRestart.addEventListener('click',()=>{
-const savedName=journeyState.name;
-Object.keys(journeyState).forEach(key=>{journeyState[key]='';});
-journeyState.name=savedName;
-if(journeyNameInput) journeyNameInput.value=savedName;
-if(journeyPracticeName){journeyPracticeName.value='';journeyPracticeName.required=false;}
-if(journeyPracticeDetail) journeyPracticeDetail.hidden=true;
-journeyOptions.forEach(option=>{
-option.classList.remove('selected');
-option.setAttribute('aria-pressed','false');
-});
 renderJourneyStep(1);
 });
 }
+
+window.addEventListener('meuCaminhoBe:reset',()=>resetJourneyForm(false));
+window.addEventListener('meuCaminhoBe:edit-onboarding',event=>loadJourneyAnswers(event.detail||{}));
 
 if(journeyAssistant) renderJourneyStep(1,false);
 

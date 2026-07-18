@@ -560,6 +560,33 @@ color:#fff;
 background:var(--primary);
 }
 
+.journey-reset-bar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin:-4px 0 16px;
+padding:9px 11px;
+border:1px solid #e8e2dc;
+border-radius:10px;
+background:#fff;
+color:#756e68;
+font-size:10px;
+font-weight:750;
+}
+
+.journey-reset-bar button{
+flex:0 0 auto;
+padding:6px 8px;
+border:0;
+background:transparent;
+color:#c73c12;
+font:inherit;
+font-size:10px;
+font-weight:900;
+cursor:pointer;
+}
+
 .journey-stage{
 min-height:0;
 padding:14px 0 0;
@@ -2326,6 +2353,15 @@ white-space:nowrap;
 .journey-progress li:not(:last-child)::after{
 left:calc(50% + 20px);
 right:calc(-50% + 20px);
+}
+
+.journey-reset-bar{
+align-items:flex-start;
+}
+
+.journey-reset-bar span{
+max-width:170px;
+line-height:1.35;
 }
 
 .journey-stage{

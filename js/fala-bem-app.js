@@ -85,6 +85,39 @@ function showDailyWelcome(name) {
   try { dialog.showModal(); } catch (error) { dialog.setAttribute('open', ''); }
 }
 
+function closeDialog(dialog) {
+  if (!dialog) return;
+  if (dialog.open && typeof dialog.close === 'function') dialog.close();
+  else dialog.removeAttribute('open');
+}
+
+function openResetDialog() {
+  const dialog = document.getElementById('fb-reset-dialog');
+  if (!dialog || dialog.open) return;
+  try { dialog.showModal(); } catch (error) { dialog.setAttribute('open', ''); }
+}
+
+function resetLocalJourney() {
+  try {
+    localStorage.removeItem(PROFILE_STORAGE_KEY);
+    localStorage.removeItem(ACCESS_STORAGE_KEY);
+  } catch (error) {}
+  currentProfile = null;
+  const status = document.getElementById('fb-checkin-status');
+  const note = document.getElementById('fb-checkin-note');
+  if (status) status.value = '';
+  if (note) note.value = '';
+  resultsContainer?.replaceChildren();
+  if (answerStatus) answerStatus.textContent = '';
+  window.dispatchEvent(new CustomEvent('meuCaminhoBe:reset'));
+  renderPersonalizedExperience();
+  closeDialog(document.getElementById('fb-daily-welcome'));
+  closeDialog(document.getElementById('fb-reset-dialog'));
+  closeMobileDrawer(false);
+  openView('jornada');
+  window.setTimeout(() => document.getElementById('journey-name')?.focus(), 280);
+}
+
 function registerDailyAccess() {
   const name = currentProfile?.name?.trim();
   if (!name) return;
@@ -1171,6 +1204,21 @@ document.getElementById('fb-welcome-continue')?.addEventListener('click', () => 
   document.getElementById('fb-daily-welcome')?.close();
   openView(currentProfile?.objective ? 'progresso' : 'jornada');
 });
+document.querySelectorAll('[data-fb-edit-onboarding]').forEach(button => {
+  button.addEventListener('click', () => {
+    openView('jornada');
+    window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-onboarding', { detail: { ...(currentProfile || {}) } }));
+    window.setTimeout(() => document.getElementById('journey-assistant')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+  });
+});
+document.querySelectorAll('[data-fb-reset]').forEach(button => {
+  button.addEventListener('click', () => {
+    closeMobileDrawer(false);
+    openResetDialog();
+  });
+});
+document.getElementById('fb-reset-cancel')?.addEventListener('click', () => closeDialog(document.getElementById('fb-reset-dialog')));
+document.getElementById('fb-reset-confirm')?.addEventListener('click', resetLocalJourney);
 const sharedQuestion = new URLSearchParams(window.location.search).get('pergunta')?.trim();
 if (sharedQuestion && sharedQuestion.length >= 3) {
   openView('perguntar', { scroll: false, focus: false, instant: true });

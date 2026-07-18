@@ -1494,6 +1494,21 @@ body.fala-bem-app-page .container.page{width:100%!important;padding:18px 22px 72
 .fb-daily-welcome>div button{min-height:44px;padding:10px 15px;border:1px solid #ded6cf;border-radius:11px;background:#fff;color:#3f3934;font:inherit;font-size:.8rem;font-weight:900;cursor:pointer}
 .fb-welcome-close{position:absolute;top:16px;right:16px;display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:50%;background:#f5eee9;color:#4f4741;font-size:1.25rem;cursor:pointer}
 @media(max-width:520px){.fb-daily-welcome{padding:22px 18px}.fb-daily-welcome>div{display:grid}.fb-daily-welcome>div button{width:100%}}
+
+.fb-reset-dialog{width:min(92vw,480px);padding:27px;border:1px solid #eadfd7;border-radius:20px;background:#fff;color:#211d1a;box-shadow:0 28px 80px rgba(32,23,18,.24)}
+.fb-reset-dialog::backdrop{background:rgba(25,20,17,.58);backdrop-filter:blur(5px)}
+.fb-reset-dialog>span{display:block;color:#c63b12;font-size:.65rem;font-weight:950;letter-spacing:.1em}
+.fb-reset-dialog h2{margin:9px 0 0;font-size:1.65rem;line-height:1.08;letter-spacing:-.04em}
+.fb-reset-dialog p{margin:11px 0 0;color:#655d57;line-height:1.55}
+.fb-reset-dialog>div{display:flex;justify-content:flex-end;gap:9px;margin-top:22px}
+.fb-reset-dialog button{min-height:42px;padding:9px 13px;border:1px solid #ddd5ce;border-radius:10px;background:#fff;color:#403934;font:inherit;font-size:.78rem;font-weight:900;cursor:pointer}
+.fb-reset-dialog .fb-reset-confirm{border-color:#bd3510;background:#bd3510;color:#fff}
+.fb-profile-reset{display:grid;gap:5px;margin-top:20px;padding:16px;border:1px solid #eadfd7;border-radius:14px;background:#fffaf7}
+.fb-profile-reset strong,.fb-profile-reset span{display:block}.fb-profile-reset strong{font-size:.86rem}.fb-profile-reset span{color:#776f69;font-size:.74rem;line-height:1.45}
+.fb-profile-reset button{justify-self:start;margin-top:7px;padding:8px 10px;border:1px solid #e1b7a8;border-radius:9px;background:#fff;color:#b93610;font:inherit;font-size:.72rem;font-weight:900;cursor:pointer}
+.fb-profile-edit{width:100%;min-height:44px;margin-top:16px;padding:10px 14px;border:1px solid #ffd0bc;border-radius:11px;background:#fff5ef;color:#cc400f;font:inherit;font-size:.78rem;font-weight:900;cursor:pointer}
+.fb-profile-edit:hover,.fb-profile-edit:focus-visible{border-color:#ff5a1f;background:#ffede4}
+@media(max-width:520px){.fb-reset-dialog{padding:22px 18px}.fb-reset-dialog>div{display:grid}.fb-reset-dialog button{width:100%}}
 .fb-results-heading{display:block!important;margin:16px 0 -2px!important;padding:2px 2px 0!important;border:0!important;background:transparent!important}
 .fb-results-heading h3{margin:0;color:#25211e;font-size:1rem;line-height:1.25}
 .fb-results-heading p{margin:4px 0 0;color:#7b736c;font-size:.73rem;line-height:1.4}
