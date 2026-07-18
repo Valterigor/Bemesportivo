@@ -3,3 +3,6 @@
 /api/worldcup/* /.netlify/functions/worldcup/:splat 200
 /api/brasileirao/* /.netlify/functions/brasileirao/:splat 200
 /api/selecaobrasileira/* /.netlify/functions/selecaobrasileira/:splat 200
+/coluna-valtinho /meu-caminho-be 301
+/coluna-valtinho.html /meu-caminho-be 301
+/meucaminhobe /meu-caminho-be 301

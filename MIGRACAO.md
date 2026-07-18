@@ -228,7 +228,7 @@ Após build, usar versão minificada:
 Priorize nesta ordem:
 1. `index.html` (principal)
 2. `beplay.html`
-3. `coluna-valtinho.html`
+3. `meu-caminho-be.html`
 4. `profissionais.html`
 5. ... outras páginas
 

@@ -3,7 +3,7 @@
   "short_name": "Caminho Be",
   "description": "Uma jornada pessoal para descobrir, começar e evoluir no esporte.",
   "lang": "pt-BR",
-  "start_url": "/coluna-valtinho.html",
+  "start_url": "/meu-caminho-be",
   "scope": "/",
   "display": "standalone",
   "background_color": "#fffdfa",

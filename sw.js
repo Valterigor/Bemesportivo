@@ -1,8 +1,8 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v7';
+const CACHE_NAME = 'meu-caminho-be-v9';
 const APP_SHELL = [
-  '/coluna-valtinho.html',
+  '/meu-caminho-be',
   '/site-common.css',
   '/css/coluna-valtinho.css',
   '/css/fala-bem-platform.css',
@@ -35,7 +35,7 @@ self.addEventListener('fetch', event => {
       const copy = response.clone();
       caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
       return response;
-    }).catch(() => caches.match(request).then(cached => cached || caches.match('/coluna-valtinho.html'))));
+    }).catch(() => caches.match(request).then(cached => cached || caches.match('/meu-caminho-be'))));
     return;
   }
 

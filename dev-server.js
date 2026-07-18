@@ -793,6 +793,12 @@ function resolveRequest(urlPath){
 const server = http.createServer(async (request, response) => {
   const parsedUrl = new URL(request.url || '/', `http://${request.headers.host || 'localhost'}`);
 
+  if(parsedUrl.pathname === '/coluna-valtinho' || parsedUrl.pathname === '/coluna-valtinho.html' || parsedUrl.pathname === '/meucaminhobe'){
+    response.writeHead(301, {Location:'/meu-caminho-be'});
+    response.end();
+    return;
+  }
+
   if(request.method === 'OPTIONS'){
     response.writeHead(204, corsHeaders);
     response.end();

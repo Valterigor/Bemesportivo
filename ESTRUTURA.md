@@ -9,7 +9,7 @@ meu-site/
 ├── index.html
 ├── Reportagens.html
 ├── beplay.html
-├── coluna-valtinho.html
+├── meu-caminho-be.html
 ├── produtos.html
 ├── profissionais.html
 ├── sobre.html
@@ -92,7 +92,7 @@ Rotas principais para conferir:
 - `/`
 - `/reportagens`
 - `/beplay`
-- `/coluna-valtinho`
+- `/meu-caminho-be`
 - `/produtos`
 - `/profissionais`
 - `/sobre`
