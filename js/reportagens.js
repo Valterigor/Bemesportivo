@@ -12,6 +12,72 @@ const REPORT_COMMUNITY_API = location.protocol === "file:" ? "" : "/api/communit
 const REPORT_CLIENT_KEY = "bemEsportivoCommunityClientId";
 const reportCommentCache = {};
 
+function initReportSharing() {
+  document.querySelectorAll("[data-report-share]").forEach(section => {
+    const reportId = section.dataset.reportId || "";
+    const title = section.dataset.shareTitle || document.title;
+    const coverPath = section.dataset.shareCover || "";
+    const articleUrl = new URL("/reportagens", location.origin);
+    articleUrl.hash = reportId;
+    const shareUrl = articleUrl.href;
+    const shareText = `${title} | Bem Esportivo`;
+    const whatsapp = section.querySelector("[data-share-whatsapp]");
+    const coverButton = section.querySelector("[data-share-cover-button]");
+    const download = section.querySelector("[data-share-download]");
+    const status = section.querySelector("[data-share-status]");
+
+    if (whatsapp) {
+      whatsapp.href = `https://wa.me/?text=${encodeURIComponent(`${shareText}\n${shareUrl}`)}`;
+    }
+
+    const coverFilePromise = coverPath
+      ? fetch(new URL(coverPath, location.href))
+          .then(response => {
+            if (!response.ok) throw new Error("Capa indisponível");
+            return response.blob();
+          })
+          .then(blob => new File([blob], "treino-funcional-bem-esportivo.jpg", {
+            type: blob.type || "image/jpeg"
+          }))
+          .catch(() => null)
+      : Promise.resolve(null);
+
+    coverButton?.addEventListener("click", async () => {
+      if (status) status.textContent = "Preparando a capa...";
+      const coverFile = await coverFilePromise;
+
+      try {
+        if (coverFile && navigator.share && navigator.canShare?.({ files: [coverFile] })) {
+          await navigator.share({
+            files: [coverFile],
+            title,
+            text: `${shareText}\n${shareUrl}`
+          });
+          if (status) status.textContent = "Capa compartilhada.";
+          return;
+        }
+
+        if (navigator.share) {
+          await navigator.share({ title, text: shareText, url: shareUrl });
+          if (status) status.textContent = "Reportagem compartilhada. Para publicar a imagem no Stories, use Baixar capa.";
+          return;
+        }
+
+        download?.click();
+        if (status) status.textContent = "Capa baixada. Abra o Instagram e selecione a imagem no Stories.";
+      } catch (error) {
+        if (error?.name !== "AbortError" && status) {
+          status.textContent = "Não foi possível abrir o compartilhamento. Use Baixar capa para publicar no Stories.";
+        } else if (status) {
+          status.textContent = "";
+        }
+      }
+    });
+  });
+}
+
+initReportSharing();
+
 function getReportClientId() {
   try {
     let id = localStorage.getItem(REPORT_CLIENT_KEY);

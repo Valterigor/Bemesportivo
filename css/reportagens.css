@@ -193,6 +193,74 @@ body.reportagens-page {
   color: #737373 !important;
 }
 
+.reportagens-page .report-share {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #e7e0d9;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fff8ef, #ffffff);
+}
+
+.reportagens-page .report-share h3 {
+  margin: 0 0 5px;
+  color: #111111;
+  font-family: "Rubik", sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.reportagens-page .report-share p {
+  margin: 0;
+  color: #625b55 !important;
+  font-size: .88rem;
+  line-height: 1.5;
+}
+
+.reportagens-page .report-share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  align-items: center;
+}
+
+.reportagens-page .report-share-button {
+  display: inline-grid;
+  min-height: 44px;
+  place-items: center;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
+  font: 800 .88rem/1 "Inter", sans-serif;
+  text-decoration: none;
+}
+
+.reportagens-page .report-share-whatsapp {
+  background: #168b46;
+}
+
+.reportagens-page .report-share-cover {
+  background: #111111;
+}
+
+.reportagens-page .report-share-download {
+  color: #bd5200;
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.reportagens-page .report-share-status:empty {
+  display: none;
+}
+
+.reportagens-page .report-share-status {
+  padding-top: 2px;
+  font-weight: 700;
+}
+
 .reportagens-page .report-image,
 .reportagens-page .video-container,
 .reportagens-page .report-comments {
@@ -425,6 +493,28 @@ body.reportagens-page {
     font-size: .78rem;
   }
 
+  /* Nesta reportagem as fotos tem formatos diferentes. Empilhar e preservar
+     a proporcao original evita cortes de rostos, professores e participantes. */
+  .reportagens-page #treino-funcional-br-assessoria .report-media-stack {
+    display: grid;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .reportagens-page #treino-funcional-br-assessoria .report-media-stack > img,
+  .reportagens-page #treino-funcional-br-assessoria .report-media-stack > figure {
+    width: 100%;
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+
+  .reportagens-page #treino-funcional-br-assessoria .report-media-stack > img,
+  .reportagens-page #treino-funcional-br-assessoria .report-professors-photo > img {
+    height: auto;
+    object-fit: contain;
+  }
+
   .reportagens-page .report-body {
     padding: 22px 18px 24px;
   }
@@ -468,6 +558,25 @@ body.reportagens-page {
     border-radius: 11px;
     text-align: center;
     text-decoration: none;
+  }
+
+  .reportagens-page .report-share {
+    margin-top: 20px;
+    padding: 17px;
+  }
+
+  .reportagens-page .report-share-actions {
+    display: grid;
+  }
+
+  .reportagens-page .report-share-button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .reportagens-page .report-share-download {
+    padding: 8px 4px 2px;
+    text-align: center;
   }
 
   .reportagens-page .report-comments {
