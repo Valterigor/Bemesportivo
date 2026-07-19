@@ -1,4 +1,4 @@
-import { getStore } from '@netlify/blobs';
+import { connectLambda, getStore } from '@netlify/blobs';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -172,7 +172,14 @@ export async function handler(event){
 
   const action = getApiPath(event);
   const params = new URLSearchParams(event.rawQuery || '');
-  const state = await readState();
+  let state;
+  try{
+    connectLambda(event);
+    state = await readState();
+  }catch(error){
+    console.error('Falha ao acessar o armazenamento comunitario:', error);
+    return json(503, { ok: false, error: 'Comentarios temporariamente indisponiveis.' });
+  }
 
   if(event.httpMethod === 'GET' && action === 'state'){
     return json(200, publicCommunityState(state));
@@ -199,7 +206,7 @@ export async function handler(event){
       replies: [],
       reports: []
     };
-    state.comments[key] = [...(state.comments[key] || []), comment].slice(-100);
+    state.comments[key] = [...(state.comments[key] || []), comment];
     await writeState(state);
     return json(200, { ok: true, comments: publicComments(state.comments[key]), comment: publicComment(comment), updatedAt: state.updatedAt });
   }

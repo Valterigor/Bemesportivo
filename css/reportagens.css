@@ -644,3 +644,260 @@ body.reportagens-page {
     border-radius: 10px;
   }
 }
+
+/* Vitrine de reportagens: os textos completos permanecem nas paginas individuais. */
+.reportagens-page .page-hero-kicker {
+  margin: 0 0 8px;
+  color: #ff9418 !important;
+  font: 800 .78rem/1 "Inter", sans-serif;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.reportagens-page .report-listing {
+  display: grid;
+  gap: clamp(44px, 7vw, 72px);
+  width: min(calc(100% - 32px), 1120px) !important;
+  padding-bottom: clamp(54px, 8vw, 86px) !important;
+}
+
+.reportagens-page .report-featured,
+.reportagens-page .report-more {
+  min-width: 0;
+}
+
+.reportagens-page .report-preview {
+  overflow: hidden;
+  border: 1px solid #e9e5e1;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 14px 36px rgba(17, 17, 17, .07);
+}
+
+.reportagens-page .report-preview-featured {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(340px, .82fr);
+}
+
+.reportagens-page .report-preview-media {
+  display: block;
+  min-height: 0;
+  overflow: hidden;
+  background: #ece9e5;
+}
+
+.reportagens-page .report-preview-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.reportagens-page .report-preview-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 270px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+
+.reportagens-page .report-preview-media:hover img {
+  transform: scale(1.025);
+}
+
+.reportagens-page .report-preview-featured .report-preview-media img {
+  min-height: 100%;
+  aspect-ratio: auto;
+  object-position: center 40%;
+}
+
+.reportagens-page .report-preview-media .report-preview-duda {
+  object-position: center 24%;
+}
+
+.reportagens-page .report-preview-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(22px, 4vw, 38px);
+}
+
+.reportagens-page .report-category,
+.reportagens-page .report-section-eyebrow {
+  color: #cf5700;
+  font: 800 .76rem/1.2 "Inter", sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.reportagens-page .report-preview h2,
+.reportagens-page .report-preview h3,
+.reportagens-page .report-section-heading h2 {
+  margin: 10px 0 0;
+  color: #111111;
+  font-family: "Rubik", sans-serif;
+  letter-spacing: -.035em;
+}
+
+.reportagens-page .report-preview h2 {
+  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+  line-height: 1.05;
+}
+
+.reportagens-page .report-preview h3 {
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  line-height: 1.12;
+}
+
+.reportagens-page .report-preview h2 a,
+.reportagens-page .report-preview h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.reportagens-page .report-preview h2 a:hover,
+.reportagens-page .report-preview h3 a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: .08em;
+  text-underline-offset: .14em;
+}
+
+.reportagens-page .report-preview .report-preview-meta {
+  margin: 14px 0 0;
+  color: #76716c !important;
+  font-size: .78rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.reportagens-page .report-preview-body > p:not(.report-preview-meta) {
+  margin: 16px 0 0;
+  color: #514d49 !important;
+  font-size: .96rem;
+  line-height: 1.65;
+}
+
+.reportagens-page .report-read-button,
+.reportagens-page .report-read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  margin-top: 22px;
+  color: #111111;
+  font-size: .9rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.reportagens-page .report-read-button {
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: #ff9418;
+}
+
+.reportagens-page .report-read-link {
+  margin-top: auto;
+  padding-top: 22px;
+  color: #c65300;
+}
+
+.reportagens-page .report-read-button:hover,
+.reportagens-page .report-read-link:hover {
+  transform: translateY(-1px);
+}
+
+.reportagens-page .report-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 22px;
+}
+
+.reportagens-page .report-section-heading h2 {
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  line-height: 1.08;
+}
+
+.reportagens-page .report-section-heading > p {
+  max-width: 480px;
+  margin: 0;
+  color: #68635e !important;
+  font-size: .9rem;
+  line-height: 1.6;
+}
+
+.reportagens-page .report-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.reportagens-page .report-grid .report-preview {
+  display: flex;
+  flex-direction: column;
+}
+
+.reportagens-page .report-grid .report-preview-body {
+  flex: 1;
+}
+
+@media (max-width: 800px) {
+  .reportagens-page .report-preview-featured {
+    grid-template-columns: 1fr;
+  }
+
+  .reportagens-page .report-preview-featured .report-preview-media img {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 640px) {
+  .reportagens-page .report-listing {
+    width: 100% !important;
+    gap: 38px;
+    padding: 20px 10px 54px !important;
+  }
+
+  .reportagens-page .report-preview {
+    border-radius: 18px;
+  }
+
+  .reportagens-page .report-preview-body {
+    padding: 21px 18px 23px;
+  }
+
+  .reportagens-page .report-preview h2 {
+    font-size: 1.65rem;
+  }
+
+  .reportagens-page .report-section-heading {
+    display: grid;
+    gap: 12px;
+    padding-inline: 6px;
+  }
+
+  .reportagens-page .report-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .reportagens-page .report-preview-media img {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .reportagens-page .report-read-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reportagens-page .report-preview-media img {
+    transition: none;
+  }
+}

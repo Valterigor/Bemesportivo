@@ -318,5 +318,6 @@ document.querySelectorAll("[data-report-comments]").forEach(section => {
 });
 
 window.setInterval(() => {
+  if (document.hidden) return;
   document.querySelectorAll("[data-report-comments]").forEach(section => renderReportComments(section, true));
-}, 15000);
+}, 60000);
