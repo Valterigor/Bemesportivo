@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260719-1">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-4">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-21">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-22">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -191,7 +191,7 @@
 <p>Cada registro ajuda o sistema a criar resumos mais úteis. Dias de pausa também podem ser registrados.</p>
 </section>
 <div class="fb-daily-overview" aria-live="polite">
-<article class="fb-daily-summary-card"><span>RESUMO DO DIA</span><h3 id="fb-daily-summary-title">Seu dia ainda está em aberto.</h3><p id="fb-daily-summary-text">Faça um registro rápido para visualizar atividade, alimentação, hidratação e descanso.</p><small id="fb-daily-next-step">Próximo passo: conte como foi seu dia.</small></article>
+<article class="fb-daily-summary-card"><span>RESUMO DO DIA</span><h3 id="fb-daily-summary-title">Seu dia ainda está em aberto.</h3><p id="fb-daily-summary-text">Faça um registro rápido para visualizar atividade, alimentação, hidratação e descanso.</p><div class="fb-daily-guidance" id="fb-daily-guidance" hidden><div><span>O QUE ESSE DIA MOSTRA</span><p id="fb-daily-insight"></p></div><div><span>PRÓXIMO PASSO</span><p id="fb-daily-guidance-next"></p></div><button type="button" id="fb-daily-recommendation-action"></button></div><small id="fb-daily-next-step">Próximo passo: conte como foi seu dia.</small></article>
 </div>
 <div class="fb-daily-form-wrap" id="fb-daily-form-wrap" hidden>
 <form class="fb-daily-form" id="fb-daily-form">
@@ -201,15 +201,20 @@
 <label for="fb-daily-date">Data<input type="date" id="fb-daily-date" name="date" required></label>
 <label for="fb-daily-activity">O que você fez?<select id="fb-daily-activity" name="activity"><option value="none">Não treinei hoje</option><option value="caminhada">Caminhada</option><option value="corrida">Corrida</option><option value="musculacao">Musculação</option><option value="funcional">Treino funcional</option><option value="futebol">Futebol</option><option value="ciclismo">Ciclismo</option><option value="natacao">Natação</option><option value="outra">Outra atividade</option></select></label>
 <label for="fb-daily-minutes">Quanto tempo?<span class="fb-input-suffix"><input type="number" id="fb-daily-minutes" name="minutes" min="0" max="600" step="1" inputmode="numeric" value="0"><small>min</small></span></label>
+<label for="fb-daily-feeling">Como você se sentiu?<select id="fb-daily-feeling" name="feeling"><option value="">Não informar</option><option value="1">Muito indisposto</option><option value="2">Pouco disposto</option><option value="3">Regular</option><option value="4">Bem</option><option value="5">Muito bem</option></select></label>
+</div>
+<details class="fb-daily-optional" id="fb-daily-optional">
+<summary><span>Completar meu registro</span><small>Opcional: intensidade, água, sono, refeições e observações</small></summary>
+<div class="fb-daily-optional-fields">
 <label for="fb-daily-intensity">Como foi a intensidade?<select id="fb-daily-intensity" name="intensity"><option value="">Não informar</option><option value="leve">Leve</option><option value="moderada">Moderada</option><option value="intensa">Intensa</option></select></label>
 <label for="fb-daily-water">Quanto bebeu de água?<span class="fb-input-suffix"><input type="number" id="fb-daily-water" name="water" min="0" max="15" step="0.1" inputmode="decimal" placeholder="Ex.: 2"><small>litros</small></span></label>
 <label for="fb-daily-sleep">Quanto dormiu?<span class="fb-input-suffix"><input type="number" id="fb-daily-sleep" name="sleep" min="0" max="24" step="0.5" inputmode="decimal" placeholder="Ex.: 7.5"><small>horas</small></span></label>
-<label for="fb-daily-feeling">Como você se sentiu?<select id="fb-daily-feeling" name="feeling"><option value="">Não informar</option><option value="1">Muito indisposto</option><option value="2">Pouco disposto</option><option value="3">Regular</option><option value="4">Bem</option><option value="5">Muito bem</option></select></label>
 </div>
 <fieldset class="fb-daily-meals"><legend>O que você comeu?</legend><p>Um registro simples, sem contar calorias ou julgar suas escolhas.</p><div><label for="fb-daily-breakfast">Café da manhã<textarea id="fb-daily-breakfast" name="breakfast" maxlength="240" rows="2" placeholder="Ex.: pão, fruta e café"></textarea></label><label for="fb-daily-lunch">Almoço<textarea id="fb-daily-lunch" name="lunch" maxlength="240" rows="2" placeholder="Conte brevemente"></textarea></label><label for="fb-daily-snacks">Durante o dia<textarea id="fb-daily-snacks" name="snacks" maxlength="240" rows="2" placeholder="Lanches e outras refeições"></textarea></label><label for="fb-daily-dinner">Jantar<textarea id="fb-daily-dinner" name="dinner" maxlength="240" rows="2" placeholder="Conte brevemente"></textarea></label></div></fieldset>
 <label class="fb-daily-note" for="fb-daily-note">Algo importante sobre seu dia?<textarea id="fb-daily-note" name="note" maxlength="300" rows="2" placeholder="Opcional: disposição, rotina, desconforto ou uma conquista"></textarea></label>
+</details>
 <p class="fb-daily-privacy">Este diário é privado e fica somente neste aparelho. Ele também será incluído quando você exportar seus dados.</p>
-<div class="fb-daily-form-actions"><button type="submit" class="fb-primary-action">Salvar meu dia</button><button type="button" id="fb-delete-daily-log" hidden>Excluir este registro</button></div>
+<div class="fb-daily-form-actions"><button type="submit" class="fb-primary-action">Salvar Meu Hoje</button><button type="button" id="fb-delete-daily-log" hidden>Excluir este registro</button></div>
 <p class="fb-daily-feedback" id="fb-daily-feedback" role="status" aria-live="polite"></p>
 </form>
 </div>
@@ -985,7 +990,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script type="module" src="js/site-common.js?v=20260718-8"></script>
 <script src="js/coluna-valtinho.js?v=20260718-7" defer></script>
-<script src="js/fala-bem-app.js?v=20260719-20" defer></script>
+<script src="js/fala-bem-app.js?v=20260719-21" defer></script>
 
 </body>
 </html>

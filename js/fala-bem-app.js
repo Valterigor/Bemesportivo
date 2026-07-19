@@ -1667,17 +1667,47 @@ function fillDailyForm(log = null) {
   form.elements.snacks.value = log?.meals?.snacks || '';
   form.elements.dinner.value = log?.meals?.dinner || '';
   form.elements.note.value = log?.note || '';
+  const optional = document.getElementById('fb-daily-optional');
+  if (optional) optional.open = Boolean(log && (log.intensity || log.water !== null || log.sleep !== null || Object.values(log.meals || {}).some(Boolean) || log.note));
   const deleteButton = document.getElementById('fb-delete-daily-log');
   if (deleteButton) deleteButton.hidden = !log;
 }
 
 function dailyNextStep(log) {
   if (!log) return 'Próximo passo: conte como foi seu dia.';
-  if (log.activity === 'none') return 'Próximo passo: amanhã pode ser um novo começo, sem precisar compensar hoje.';
-  if (log.sleep === null) return 'Próximo passo: registre também seu sono para observar a relação com sua disposição.';
-  if (log.water === null) return 'Próximo passo: registre também sua hidratação para completar a visão do dia.';
-  if (!Object.values(log.meals || {}).some(Boolean)) return 'Próximo passo: anote ao menos uma refeição para completar o contexto do dia.';
-  return 'Próximo passo: volte amanhã e observe o que ajuda sua constância.';
+  return 'Registro salvo neste aparelho. Você pode atualizá-lo quando quiser.';
+}
+
+function getDailyGuidance(log) {
+  if (!log) return null;
+  const feeling = Number(log.feeling || 0);
+  const mealCount = Object.values(log.meals || {}).filter(Boolean).length;
+  const missingDetails = log.water === null || log.sleep === null || mealCount === 0;
+  if (feeling > 0 && feeling <= 2) return {
+    insight: 'Você registrou disposição abaixo do habitual. Esse dado ganha valor quando observado junto com sono, rotina e atividade.',
+    next: 'Evite compensações. Observe como você se sente nas próximas horas e ajuste o ritmo se precisar.',
+    action: 'tip', topic: 'recuperacao', label: 'Ver orientação de recuperação'
+  };
+  if (log.sleep !== null && log.sleep < 6) return {
+    insight: 'Seu registro mostra uma noite mais curta. Sono e recuperação ajudam a contextualizar disposição e resposta ao esforço.',
+    next: 'Considere um próximo passo compatível com sua energia e observe como seu corpo responde.',
+    action: 'tip', topic: 'recuperacao', label: 'Ver orientação de recuperação'
+  };
+  if (log.activity === 'none') return {
+    insight: 'Hoje ficou registrado como dia sem treino. Pausas também fazem parte de uma rotina sustentável.',
+    next: missingDetails ? 'Complete sono, água ou refeições se quiser entender melhor o contexto deste dia.' : 'Amanhã pode ser um novo começo, sem necessidade de compensar hoje.',
+    action: missingDetails ? 'complete' : 'tip', topic: 'constancia', label: missingDetails ? 'Completar meu registro' : 'Ver dica de constância'
+  };
+  if (missingDetails) return {
+    insight: `Você registrou ${dailyActivityLabels[log.activity].toLocaleLowerCase('pt-BR')} por ${log.minutes} minutos. Seu movimento de hoje já faz parte do histórico.`,
+    next: 'Complete água, sono ou refeições quando puder para enriquecer a leitura do dia.',
+    action: 'complete', label: 'Completar meu registro'
+  };
+  return {
+    insight: `Seu dia reuniu ${log.minutes} minutos de ${dailyActivityLabels[log.activity].toLocaleLowerCase('pt-BR')} e informações de rotina.`,
+    next: 'Volte amanhã e observe quais condições ajudam você a continuar com equilíbrio.',
+    action: 'tip', topic: currentProfile?.objective === 'performance' ? 'evoluir' : 'constancia', label: 'Ver próximo passo recomendado'
+  };
 }
 
 function renderDailyJournal() {
@@ -1715,6 +1745,19 @@ function renderDailyJournal() {
     summaryText.textContent = 'Faça um registro rápido para visualizar atividade, alimentação, hidratação e descanso.';
   }
   document.getElementById('fb-daily-next-step').textContent = dailyNextStep(todayLog);
+  const guidance = getDailyGuidance(todayLog);
+  const guidanceBox = document.getElementById('fb-daily-guidance');
+  if (guidanceBox) {
+    guidanceBox.hidden = !guidance;
+    if (guidance) {
+      document.getElementById('fb-daily-insight').textContent = guidance.insight;
+      document.getElementById('fb-daily-guidance-next').textContent = guidance.next;
+      const action = document.getElementById('fb-daily-recommendation-action');
+      action.textContent = guidance.label;
+      action.dataset.dailyRecommendation = guidance.action;
+      action.dataset.topic = guidance.topic || '';
+    }
+  }
 
   const weekStart = startOfLocalWeek();
   const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 7);
@@ -2214,12 +2257,13 @@ function setDailyFormVisibility(open) {
   if (open) window.setTimeout(() => document.getElementById('fb-daily-date')?.focus(), 50);
 }
 
-function openDailyJournal() {
+function openDailyJournal(options = {}) {
   openView('inicio');
   const todayLog = getDailyLogs().find(item => item.date === localDayKey()) || null;
   fillDailyForm(todayLog);
+  if (options.details) document.getElementById('fb-daily-optional').open = true;
   setDailyFormVisibility(true);
-  window.setTimeout(() => document.getElementById('fb-daily-journal')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 220);
+  window.setTimeout(() => document.getElementById(options.details ? 'fb-daily-optional' : 'fb-daily-journal')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 220);
 }
 
 document.getElementById('fb-open-daily-form')?.addEventListener('click', () => {
@@ -2229,6 +2273,14 @@ document.getElementById('fb-open-daily-form')?.addEventListener('click', () => {
   setDailyFormVisibility(Boolean(wrap?.hidden));
 });
 document.getElementById('fb-daily-view-mission')?.addEventListener('click', () => openView('progresso'));
+document.getElementById('fb-daily-recommendation-action')?.addEventListener('click', event => {
+  const action = event.currentTarget.dataset.dailyRecommendation;
+  if (action === 'complete') {
+    openDailyJournal({ details: true });
+    return;
+  }
+  if (action === 'tip') showPracticalTip(event.currentTarget.dataset.topic || 'constancia');
+});
 document.getElementById('fb-close-daily-form')?.addEventListener('click', () => setDailyFormVisibility(false));
 document.getElementById('fb-daily-date')?.addEventListener('change', event => {
   const log = getDailyLogs().find(item => item.date === event.currentTarget.value) || null;
@@ -2268,6 +2320,9 @@ document.getElementById('fb-daily-form')?.addEventListener('submit', event => {
   saveProfile({ dailyLogs });
   fillDailyForm(log);
   feedback.textContent = `${formatDailyDate(log.date, { day: '2-digit', month: 'long' })} foi salvo. Seus resumos já foram atualizados.`;
+  setDailyFormVisibility(false);
+  const resultTarget = log.date === localDayKey() ? '.fb-daily-overview' : '.fb-daily-history';
+  window.setTimeout(() => document.querySelector(resultTarget)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 180);
   showCelebration(
     log.activity === 'none' ? 'Dia registrado!' : 'Muito bem!',
     log.activity === 'none' ? 'Reconhecer um dia de pausa também faz parte de uma jornada equilibrada.' : 'Seu dia foi salvo e os resumos já mostram seu progresso.'
