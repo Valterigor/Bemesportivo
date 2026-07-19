@@ -1758,3 +1758,10 @@ background:#fff;
 .fb-daily-history li{align-items:flex-start}.fb-daily-history li button{min-height:38px}
 .fb-next-mission-actions{display:grid}.fb-next-mission-actions button{width:100%}
 }
+
+/* Confirmação positiva após salvamentos importantes */
+.fb-celebration-toast{position:fixed;z-index:120;top:20px;right:20px;display:grid;grid-template-columns:42px minmax(0,1fr) 28px;gap:11px;align-items:center;width:min(390px,calc(100vw - 32px));padding:14px;border:1px solid #bde2ca;border-radius:17px;background:#f4fff7;color:#183c26;box-shadow:0 18px 48px rgba(24,60,38,.18);opacity:0;transform:translateY(-12px);transition:opacity .22s ease,transform .22s ease}
+.fb-celebration-toast[hidden]{display:none!important}.fb-celebration-toast.show{opacity:1;transform:translateY(0)}
+.fb-celebration-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:#2fa866;color:#fff;font-size:1.15rem;font-weight:950}.fb-celebration-toast>div{min-width:0}.fb-celebration-toast strong{display:block;font-size:.84rem}.fb-celebration-toast p{margin:3px 0 0;color:#4c6956;font-size:.7rem;line-height:1.4}.fb-celebration-toast button{align-self:start;width:28px;height:28px;padding:0;border:0;border-radius:8px;background:transparent;color:#52705d;font:inherit;font-size:1.2rem;line-height:1;cursor:pointer}.fb-celebration-toast button:hover{background:#e2f5e8}
+@media(max-width:760px){.fb-celebration-toast{top:auto;right:12px;bottom:calc(82px + env(safe-area-inset-bottom));left:12px;width:auto}}
+@media(prefers-reduced-motion:reduce){.fb-celebration-toast{transition:none}}

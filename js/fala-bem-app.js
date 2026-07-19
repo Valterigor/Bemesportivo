@@ -106,6 +106,37 @@ function saveProfile(updates) {
   return currentProfile;
 }
 
+let celebrationTimer = null;
+let celebrationHideTimer = null;
+
+function hideCelebration() {
+  const toast = document.getElementById('fb-celebration-toast');
+  if (!toast) return;
+  window.clearTimeout(celebrationTimer);
+  window.clearTimeout(celebrationHideTimer);
+  toast.classList.remove('show');
+  celebrationHideTimer = window.setTimeout(() => { toast.hidden = true; }, 240);
+}
+
+function showCelebration(title, message) {
+  const toast = document.getElementById('fb-celebration-toast');
+  const titleTarget = document.getElementById('fb-celebration-title');
+  const messageTarget = document.getElementById('fb-celebration-message');
+  if (!toast || !titleTarget || !messageTarget) return;
+  window.clearTimeout(celebrationTimer);
+  window.clearTimeout(celebrationHideTimer);
+  titleTarget.textContent = title;
+  messageTarget.textContent = message;
+  toast.hidden = false;
+  toast.classList.remove('show');
+  window.requestAnimationFrame(() => {
+    toast.classList.add('show');
+    celebrationTimer = window.setTimeout(hideCelebration, 4800);
+  });
+}
+
+document.getElementById('fb-celebration-close')?.addEventListener('click', hideCelebration);
+
 function readAccessState() {
   try {
     const state = JSON.parse(localStorage.getItem(ACCESS_STORAGE_KEY) || 'null');
@@ -1986,6 +2017,7 @@ document.getElementById('fb-sport-finder')?.addEventListener('submit', event => 
   const preferences = Object.fromEntries(new FormData(form));
   const results = calculateSportCompatibility(preferences);
   saveProfile({ sportDiscovery: { preferences, results, completedAt: new Date().toISOString() }, preferredSport: null });
+  showCelebration('Descoberta concluída!', 'Suas preferências foram salvas e já ajudam a personalizar seu caminho.');
   document.getElementById('fb-sport-result')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 
@@ -2039,6 +2071,7 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
   document.getElementById('fb-progress-feedback').textContent = nextStep
     ? `${feedbackName}obrigado por contar como foi. Registrei sua experiência e preparei o próximo passo: ${nextStep}.`
     : `${feedbackName}você concluiu este ciclo. Sua experiência está registrada e já pode orientar sua próxima escolha.`;
+  showCelebration(nextStep ? 'Passo registrado!' : 'Ciclo concluído!', nextStep ? 'Muito bem por acompanhar sua jornada. Seu próximo passo já está preparado.' : 'Parabéns por concluir este ciclo no seu ritmo.');
 });
 
 document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
@@ -2060,6 +2093,7 @@ document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
     : cycleAdjustment === 'maintain'
       ? 'Novo ciclo iniciado mantendo o que foi possível no ciclo anterior.'
       : 'Novo ciclo iniciado. Você poderá evoluir uma variável por vez.';
+  showCelebration('Novo ciclo iniciado!', 'Seu progresso anterior foi preservado e um novo caminho já está disponível.');
 });
 
 document.getElementById('fb-calendar-next')?.addEventListener('click', () => {
@@ -2100,6 +2134,7 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
   if (name) registerFirstIdentityAccess();
   document.getElementById('fb-profile-feedback').textContent = name
     ? `Perfil salvo, ${name}.` : 'Perfil salvo neste navegador.';
+  showCelebration('Perfil atualizado!', name ? `Muito bem, ${name}. Suas informações foram salvas neste aparelho.` : 'Suas informações foram salvas neste aparelho.');
 });
 
 function setDailyFormVisibility(open) {
@@ -2167,6 +2202,10 @@ document.getElementById('fb-daily-form')?.addEventListener('submit', event => {
   saveProfile({ dailyLogs });
   fillDailyForm(log);
   feedback.textContent = `${formatDailyDate(log.date, { day: '2-digit', month: 'long' })} foi salvo. Seus resumos já foram atualizados.`;
+  showCelebration(
+    log.activity === 'none' ? 'Dia registrado!' : 'Muito bem!',
+    log.activity === 'none' ? 'Reconhecer um dia de pausa também faz parte de uma jornada equilibrada.' : 'Seu dia foi salvo e os resumos já mostram seu progresso.'
+  );
 });
 document.getElementById('fb-delete-daily-log')?.addEventListener('click', () => {
   const date = document.getElementById('fb-daily-date')?.value;
@@ -2369,6 +2408,10 @@ document.getElementById('fb-safety-form')?.addEventListener('submit', event => {
   if (feedback) feedback.textContent = restricted
     ? 'Perfil salvo. Siga a indicação acima para revisar os sinais informados antes de começar.'
     : 'Perfil e triagem concluídos. Escolha realizar seu próximo passo agora ou começar o registro no Meu Hoje.';
+  showCelebration(
+    restricted ? 'Perfil salvo com segurança.' : 'Perfil esportivo concluído!',
+    restricted ? 'Obrigado por registrar essas informações. Confira a orientação indicada antes de continuar.' : 'Muito bem! Agora escolha seu próximo passo ou comece a preencher o Meu Hoje.'
+  );
   window.setTimeout(() => {
     document.getElementById(restricted ? 'fb-profile-next-step' : 'fb-next-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 220);
