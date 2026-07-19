@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-adsense-account" content="ca-pub-5270723987412757">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5270723987412757" crossorigin="anonymous"></script>
-  <meta name="description" content="BeMEsportivo é uma comunidade para aprender, participar, inspirar e viver o esporte. O esporte começa com pessoas.">
+  <meta name="description" content="Bem Esportivo é um ecossistema com jornada personalizada, ferramentas, profissionais, conteúdos e comunidade para ajudar você a viver o esporte.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#FFFFFF">
-  <meta property="og:title" content="Bem Esportivo | Esporte, saúde e informação">
-  <meta property="og:description" content="Pessoas, conhecimento e incentivo para viver o esporte todos os dias.">
+  <meta property="og:title" content="Bem Esportivo | Seu esporte, seu caminho, sua comunidade">
+  <meta property="og:description" content="Conteúdo, ferramentas e profissionais conectados para ajudar você a descobrir, começar, evoluir e permanecer no esporte.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://bemesportivo.com/">
   <meta property="og:image" content="https://bemesportivo.com/img/banner.png">
   <meta property="og:image:alt" content="Bem Esportivo: esporte, saúde, informação e comunidade">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Bem Esportivo | Esporte, saúde e informação">
-  <meta name="twitter:description" content="Pessoas, conhecimento e incentivo para viver o esporte todos os dias.">
+  <meta name="twitter:title" content="Bem Esportivo | Seu esporte, seu caminho, sua comunidade">
+  <meta name="twitter:description" content="Conteúdo, ferramentas e profissionais conectados para ajudar você a viver o esporte.">
   <meta name="twitter:image" content="https://bemesportivo.com/img/banner.png">
   <link rel="canonical" href="https://bemesportivo.com/">
-  <title>Bem Esportivo | Esporte, saúde e informação</title>
+  <title>Bem Esportivo | Seu esporte, seu caminho, sua comunidade</title>
   <link rel="icon" href="img/logobemoficial.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -130,6 +130,7 @@
     .brand {
       display: inline-flex;
       align-items: center;
+      flex: 0 0 auto;
       gap: 12px;
       min-width: 0;
       font-size: clamp(16px, 3vw, 22px);
@@ -162,6 +163,7 @@
       display: flex;
       gap: 10px;
       flex: 1 1 auto;
+      min-width: 0;
       padding: 0;
       overflow-x: auto;
       overscroll-behavior-inline: contain;
@@ -1736,6 +1738,281 @@
     @media (prefers-reduced-motion: reduce) {
       .path-launch-action { transition: none; }
     }
+
+    /* Home como porta de entrada do ecossistema */
+    .ecosystem-hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(420px, .98fr);
+      align-items: center;
+      gap: clamp(34px, 6vw, 82px);
+      min-height: clamp(570px, 72svh, 720px);
+      padding: clamp(38px, 6vw, 78px);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(255, 106, 0, .24), transparent 31%),
+        radial-gradient(circle at 92% 92%, rgba(255, 151, 61, .12), transparent 28%),
+        linear-gradient(135deg, #0d0d0d 0%, #151515 58%, #241305 100%);
+      color: #ffffff;
+      box-shadow: 0 30px 76px rgba(17, 17, 17, .2);
+      isolation: isolate;
+    }
+    .ecosystem-hero::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      opacity: .22;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .055) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(90deg, #000, transparent 58%);
+    }
+    .ecosystem-hero-copy {
+      position: relative;
+      z-index: 2;
+      min-width: 0;
+    }
+    .ecosystem-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffad52;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .ecosystem-kicker i {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #ff7a00;
+      box-shadow: 0 0 0 6px rgba(255, 122, 0, .14);
+    }
+    .ecosystem-hero h1 {
+      max-width: 10.5ch;
+      margin: 20px 0 0;
+      color: #ffffff;
+      font-size: clamp(46px, 5.8vw, 80px);
+      line-height: .93;
+      letter-spacing: -.055em;
+      text-wrap: balance;
+    }
+    .ecosystem-hero h1 span { color: #ff8a18; }
+    .ecosystem-hero-copy > p {
+      max-width: 620px;
+      margin: 25px 0 0;
+      color: rgba(255, 255, 255, .76);
+      font-size: clamp(16px, 1.55vw, 20px);
+      line-height: 1.58;
+    }
+    .ecosystem-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 11px;
+      margin-top: 30px;
+    }
+    .ecosystem-primary-action,
+    .ecosystem-secondary-action {
+      display: inline-flex;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 21px;
+      border: 1px solid transparent;
+      border-radius: 13px;
+      font-size: 14px;
+      font-weight: 900;
+      text-decoration: none;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .ecosystem-primary-action {
+      background: #ff8616;
+      color: #111111;
+      box-shadow: 0 18px 38px rgba(255, 112, 0, .24);
+    }
+    .ecosystem-primary-action span {
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border-radius: 8px;
+      background: #111111;
+      color: #ffffff;
+    }
+    .ecosystem-secondary-action {
+      border-color: rgba(255, 255, 255, .22);
+      background: rgba(255, 255, 255, .07);
+      color: #ffffff;
+      backdrop-filter: blur(12px);
+    }
+    .ecosystem-primary-action:hover,
+    .ecosystem-secondary-action:hover { transform: translateY(-2px); }
+    .ecosystem-secondary-action:hover { border-color: rgba(255, 255, 255, .48); background: rgba(255, 255, 255, .12); }
+    .ecosystem-stages {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 11px;
+      margin-top: 30px;
+      color: rgba(255, 255, 255, .55);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .ecosystem-stages span { color: rgba(255, 255, 255, .76); }
+    .ecosystem-stages i { color: #ff8a18; font-style: normal; }
+    .ecosystem-hub {
+      position: relative;
+      z-index: 2;
+      padding: clamp(20px, 3vw, 30px);
+      border: 1px solid rgba(255, 255, 255, .82);
+      border-radius: 26px;
+      background: rgba(255, 255, 255, .94);
+      color: #171717;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, .32);
+      backdrop-filter: blur(18px);
+    }
+    .ecosystem-hub-head {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding-bottom: 19px;
+      border-bottom: 1px solid #ebe7e3;
+    }
+    .ecosystem-hub-mark {
+      display: grid;
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border-radius: 14px;
+      background: #ff8616;
+      color: #ffffff;
+      font: 900 17px/1 Rubik, sans-serif;
+      box-shadow: 0 10px 24px rgba(255, 112, 0, .22);
+    }
+    .ecosystem-hub-head small,
+    .ecosystem-hub-head strong { display: block; }
+    .ecosystem-hub-head small { color: #877d75; font-size: 10px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+    .ecosystem-hub-head strong { margin-top: 3px; color: #1b1816; font-size: 18px; }
+    .ecosystem-hub-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .ecosystem-hub-card {
+      display: flex;
+      min-width: 0;
+      min-height: 92px;
+      align-items: center;
+      gap: 11px;
+      padding: 13px;
+      border: 1px solid #e9e3de;
+      border-radius: 15px;
+      background: #ffffff;
+      color: #211d1a;
+      text-decoration: none;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .ecosystem-hub-card-main {
+      grid-column: 1 / -1;
+      min-height: 102px;
+      border-color: #1c1917;
+      background: #1c1917;
+      color: #ffffff;
+    }
+    .ecosystem-hub-card:hover {
+      transform: translateY(-2px);
+      border-color: #ff8616;
+      box-shadow: 0 12px 25px rgba(37, 25, 17, .1);
+    }
+    .ecosystem-hub-icon {
+      display: grid;
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 11px;
+      background: #fff0e4;
+      color: #c84e00;
+      font-size: 13px;
+      font-weight: 950;
+    }
+    .ecosystem-hub-card-main .ecosystem-hub-icon { background: #ff8616; color: #111111; }
+    .ecosystem-hub-card > span:nth-child(2) { min-width: 0; }
+    .ecosystem-hub-card strong,
+    .ecosystem-hub-card small { display: block; }
+    .ecosystem-hub-card strong { color: inherit; font-size: 13px; line-height: 1.25; }
+    .ecosystem-hub-card small { margin-top: 4px; color: #857b74; font-size: 10px; line-height: 1.35; }
+    .ecosystem-hub-card-main small { color: rgba(255, 255, 255, .62); }
+    .ecosystem-hub-card b { margin-left: auto; color: #ff8616; font-size: 20px; }
+    .ecosystem-hub-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 16px 2px 0;
+      color: #776e68;
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .ecosystem-hub-note span { width: 7px; height: 7px; border-radius: 50%; background: #2aaa68; box-shadow: 0 0 0 4px rgba(42, 170, 104, .12); }
+    .ecosystem-highlights { margin-top: clamp(58px, 8vw, 96px); }
+    .ecosystem-section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 24px;
+    }
+    .ecosystem-section-head span { color: #d75a00; font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .ecosystem-section-head h2 { margin: 7px 0 0; color: #111111; font-size: clamp(32px, 4vw, 52px); line-height: 1; letter-spacing: -.04em; }
+    .ecosystem-section-head p { max-width: 500px; margin: 0; color: #68625e; font-size: 14px; line-height: 1.55; }
+
+    @media (max-width: 980px) {
+      .ecosystem-hero { grid-template-columns: 1fr; min-height: 0; }
+      .ecosystem-hero h1 { max-width: 12ch; }
+      .ecosystem-hub { width: min(100%, 680px); }
+    }
+    @media (max-width: 720px) {
+      .ecosystem-hero {
+        gap: 34px;
+        padding: 32px 22px 24px;
+        border-radius: 27px;
+      }
+      .ecosystem-hero h1 { margin-top: 17px; font-size: clamp(39px, 12vw, 56px); }
+      .ecosystem-hero-copy > p { margin-top: 19px; font-size: 16px; }
+      .ecosystem-hero-actions { display: grid; margin-top: 24px; }
+      .ecosystem-primary-action,
+      .ecosystem-secondary-action { width: 100%; }
+      .ecosystem-stages { gap: 7px; margin-top: 22px; font-size: 9px; }
+      .ecosystem-hub { padding: 17px; border-radius: 21px; }
+      .ecosystem-hub-grid { gap: 8px; }
+      .ecosystem-hub-card { min-height: 88px; padding: 11px; }
+      .ecosystem-hub-card-main { min-height: 96px; }
+      .ecosystem-hub-icon { width: 34px; height: 34px; }
+      .ecosystem-section-head { display: grid; gap: 12px; margin-bottom: 19px; }
+      .ecosystem-highlights { margin-top: 58px; }
+    }
+    @media (max-width: 390px) {
+      .ecosystem-hero { padding-inline: 18px; }
+      .ecosystem-hero h1 { font-size: clamp(35px, 11vw, 43px); }
+      .ecosystem-hub-card { gap: 8px; padding: 9px; }
+      .ecosystem-hub-card strong { font-size: 12px; }
+      .ecosystem-hub-card small { font-size: 9px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ecosystem-primary-action,
+      .ecosystem-secondary-action,
+      .ecosystem-hub-card { transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -1761,53 +2038,52 @@
     </header>
 
     <main>
-      <section class="shell hero showing-football" aria-label="Destaques do Bem Esportivo">
-        <article class="hero-slide hero-slide-football active" aria-hidden="false">
-          <div class="hero-content">
-            <span class="eyebrow">Bem Esportivo · Informação que movimenta</span>
-            <h1>Viva o esporte por inteiro.</h1>
-            <p>Conteúdo, orientação e experiências para ajudar você a começar, continuar e evoluir no esporte.</p>
-            <div class="hero-meta">
-              <a class="primary-btn" href="/meu-caminho-be">Começar meu caminho</a>
-              <a class="hero-secondary-btn" href="/reportagens">Explorar reportagens</a>
-            </div>
+      <section class="shell ecosystem-hero" aria-labelledby="ecosystem-hero-title">
+        <div class="ecosystem-hero-copy">
+          <span class="ecosystem-kicker"><i aria-hidden="true"></i> Ecossistema Bem Esportivo</span>
+          <h1 id="ecosystem-hero-title">Seu esporte. Seu caminho. <span>Sua comunidade.</span></h1>
+          <p>Conteúdo, ferramentas e profissionais conectados para ajudar você a descobrir, começar, evoluir e permanecer no esporte.</p>
+          <div class="ecosystem-hero-actions">
+            <a class="ecosystem-primary-action" href="/meu-caminho-be">Começar meu caminho <span aria-hidden="true">→</span></a>
+            <a class="ecosystem-secondary-action" href="#meu-caminho">Explorar o ecossistema</a>
           </div>
-        </article>
-        <article class="hero-slide hero-slide-news" aria-hidden="true">
-          <div class="hero-content">
-            <span class="eyebrow">Copa do Mundo · Grande final</span>
-            <h1>Espanha e Argentina valendo a taça</h1>
-            <p>Duas potências frente a frente no jogo mais esperado da competição. Técnica, tradição e grandes estrelas em campo: <span class="hero-question">quem será campeão?</span></p>
-            <div class="hero-meta"><span>Final confirmada</span><a class="primary-btn" href="#jogos">Ver jogos da Copa</a></div>
+          <div class="ecosystem-stages" aria-label="Etapas da experiência">
+            <span>Descobrir</span><i aria-hidden="true">→</i><span>Começar</span><i aria-hidden="true">→</i><span>Evoluir</span><i aria-hidden="true">→</i><span>Permanecer</span>
           </div>
-        </article>
-        <article class="hero-slide hero-slide-news hero-slide-funcional" aria-hidden="true">
-          <div class="hero-content">
-            <span class="eyebrow">Reportagem · Movimento e saúde</span>
-            <h1>Um dia de treino funcional na quadra</h1>
-            <p>Bruno Resende e Rafael Resende conduzem uma manhã de exercícios, orientação profissional e energia coletiva com a BR Assessoria.</p>
-            <div class="hero-meta"><span>Nova reportagem · 6 min</span><a class="primary-btn" href="/reportagens/treino-funcional-br-assessoria">Ler reportagem</a></div>
+        </div>
+        <div class="ecosystem-hub" id="como-funciona" aria-label="Áreas conectadas do Bem Esportivo">
+          <div class="ecosystem-hub-head">
+            <span class="ecosystem-hub-mark" aria-hidden="true">Be</span>
+            <span><small>Seu ponto de partida</small><strong>Tudo conversa entre si.</strong></span>
           </div>
-        </article>
-        <article class="hero-slide hero-slide-news hero-slide-opiniao" aria-hidden="true">
-          <div class="hero-content">
-            <span class="eyebrow">Meu Caminho Be · Nova opinião</span>
-            <h1>O amistoso que o Corinthians precisava</h1>
-            <p>Pressão, intensidade e um ambiente hostil: contra o Cascavel, o Timão encontrou um teste que pode valer muito para a temporada.</p>
-            <div class="hero-meta"><span>4 min de leitura</span><a class="primary-btn" href="/meu-caminho-be#opiniao-corinthians">Ler opinião</a></div>
+          <div class="ecosystem-hub-grid">
+            <a class="ecosystem-hub-card ecosystem-hub-card-main" href="/meu-caminho-be">
+              <span class="ecosystem-hub-icon" aria-hidden="true">01</span>
+              <span><strong>Meu Caminho Be</strong><small>Jornada e recomendações para você</small></span>
+              <b aria-hidden="true">→</b>
+            </a>
+            <a class="ecosystem-hub-card" href="/meu-caminho-be#ferramentas">
+              <span class="ecosystem-hub-icon" aria-hidden="true">＋</span>
+              <span><strong>Ferramentas</strong><small>Entenda seus resultados</small></span>
+            </a>
+            <a class="ecosystem-hub-card" href="/profissionais">
+              <span class="ecosystem-hub-icon" aria-hidden="true">◎</span>
+              <span><strong>Profissionais</strong><small>Encontre orientação humana</small></span>
+            </a>
+            <a class="ecosystem-hub-card" href="/reportagens">
+              <span class="ecosystem-hub-icon" aria-hidden="true">▤</span>
+              <span><strong>Conteúdos</strong><small>Informação para avançar</small></span>
+            </a>
+            <a class="ecosystem-hub-card" href="/meu-caminho-be#participe">
+              <span class="ecosystem-hub-icon" aria-hidden="true">◇</span>
+              <span><strong>Comunidade</strong><small>Pergunte e compartilhe</small></span>
+            </a>
           </div>
-        </article>
-        <div class="hero-controls" aria-label="Controles dos destaques">
-          <button class="hero-arrow hero-prev" type="button" aria-label="Destaque anterior">‹</button>
-          <button class="hero-dot active" type="button" aria-label="Mostrar destaque 1" aria-current="true"></button>
-          <button class="hero-dot" type="button" aria-label="Mostrar destaque 2"></button>
-          <button class="hero-dot" type="button" aria-label="Mostrar destaque 3"></button>
-          <button class="hero-dot" type="button" aria-label="Mostrar destaque 4"></button>
-          <button class="hero-arrow hero-next" type="button" aria-label="Próximo destaque">›</button>
+          <p class="ecosystem-hub-note"><span aria-hidden="true"></span> Uma experiência que aprende com cada passo.</p>
         </div>
       </section>
 
-      <section class="shell path-launch" aria-labelledby="path-launch-title">
+      <section class="shell path-launch" id="meu-caminho" aria-labelledby="path-launch-title">
         <div class="path-launch-copy">
           <span class="path-launch-badge">Nova experiência · lançamento</span>
           <h2 id="path-launch-title">Vontade você já tem. Agora existe um <span>caminho.</span></h2>
@@ -1840,6 +2116,58 @@
               <span><strong>Seu próximo passo está pronto</strong><small>Uma ação possível, pensada para o seu momento.</small></span>
             </div>
             <div class="path-launch-pills"><span>Descobrir</span><span>Começar</span><span>Evoluir</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell ecosystem-highlights" id="destaques" aria-labelledby="ecosystem-highlights-title">
+        <div class="ecosystem-section-head">
+          <div><span>Conteúdo que movimenta</span><h2 id="ecosystem-highlights-title">Em destaque agora</h2></div>
+          <p>Notícias, histórias e opiniões continuam presentes — agora conectadas a uma jornada maior.</p>
+        </div>
+        <div class="hero showing-football" aria-label="Destaques do Bem Esportivo">
+          <article class="hero-slide hero-slide-football active" aria-hidden="false">
+            <div class="hero-content">
+              <span class="eyebrow">Bem Esportivo · Informação que movimenta</span>
+              <h1>Viva o esporte por inteiro.</h1>
+              <p>Conteúdo, orientação e experiências para ajudar você a começar, continuar e evoluir no esporte.</p>
+              <div class="hero-meta">
+                <a class="primary-btn" href="/meu-caminho-be">Começar meu caminho</a>
+                <a class="hero-secondary-btn" href="/reportagens">Explorar reportagens</a>
+              </div>
+            </div>
+          </article>
+          <article class="hero-slide hero-slide-news" aria-hidden="true">
+            <div class="hero-content">
+              <span class="eyebrow">Copa do Mundo · Grande final</span>
+              <h1>Espanha e Argentina valendo a taça</h1>
+              <p>Duas potências frente a frente no jogo mais esperado da competição. Técnica, tradição e grandes estrelas em campo: <span class="hero-question">quem será campeão?</span></p>
+              <div class="hero-meta"><span>Final confirmada</span><a class="primary-btn" href="#jogos">Ver jogos da Copa</a></div>
+            </div>
+          </article>
+          <article class="hero-slide hero-slide-news hero-slide-funcional" aria-hidden="true">
+            <div class="hero-content">
+              <span class="eyebrow">Reportagem · Movimento e saúde</span>
+              <h1>Um dia de treino funcional na quadra</h1>
+              <p>Bruno Resende e Rafael Resende conduzem uma manhã de exercícios, orientação profissional e energia coletiva com a BR Assessoria.</p>
+              <div class="hero-meta"><span>Nova reportagem · 6 min</span><a class="primary-btn" href="/reportagens/treino-funcional-br-assessoria">Ler reportagem</a></div>
+            </div>
+          </article>
+          <article class="hero-slide hero-slide-news hero-slide-opiniao" aria-hidden="true">
+            <div class="hero-content">
+              <span class="eyebrow">Meu Caminho Be · Nova opinião</span>
+              <h1>O amistoso que o Corinthians precisava</h1>
+              <p>Pressão, intensidade e um ambiente hostil: contra o Cascavel, o Timão encontrou um teste que pode valer muito para a temporada.</p>
+              <div class="hero-meta"><span>4 min de leitura</span><a class="primary-btn" href="/meu-caminho-be#opiniao-corinthians">Ler opinião</a></div>
+            </div>
+          </article>
+          <div class="hero-controls" aria-label="Controles dos destaques">
+            <button class="hero-arrow hero-prev" type="button" aria-label="Destaque anterior">‹</button>
+            <button class="hero-dot active" type="button" aria-label="Mostrar destaque 1" aria-current="true"></button>
+            <button class="hero-dot" type="button" aria-label="Mostrar destaque 2"></button>
+            <button class="hero-dot" type="button" aria-label="Mostrar destaque 3"></button>
+            <button class="hero-dot" type="button" aria-label="Mostrar destaque 4"></button>
+            <button class="hero-arrow hero-next" type="button" aria-label="Próximo destaque">›</button>
           </div>
         </div>
       </section>
