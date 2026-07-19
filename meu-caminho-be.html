@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260719-1">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-4">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-17">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-18">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -169,6 +169,11 @@
 <div><span>MEU REGISTRO</span><h2 id="fb-daily-journal-title">Como foi seu dia?</h2><p>Registre o que fez, sem cobrança. O resumo se atualiza conforme sua rotina.</p></div>
 <button type="button" id="fb-open-daily-form" aria-expanded="false" aria-controls="fb-daily-form-wrap">Registrar meu dia</button>
 </header>
+<ol class="fb-daily-guide" aria-label="Como usar o Meu Hoje">
+<li><span>1</span><div><strong>Faça seu próximo passo</strong><small>Siga a missão preparada para sua jornada.</small></div><button type="button" id="fb-daily-view-mission">Ver próximo passo</button></li>
+<li><span>2</span><div><strong>Registre quando preferir</strong><small>Na hora da atividade ou ao final do dia.</small></div></li>
+<li><span>3</span><div><strong>Acompanhe sua evolução</strong><small>Os resumos do dia e da semana se atualizam sozinhos.</small></div></li>
+</ol>
 <div class="fb-daily-overview" aria-live="polite">
 <article class="fb-daily-summary-card"><span>RESUMO DO DIA</span><h3 id="fb-daily-summary-title">Seu dia ainda está em aberto.</h3><p id="fb-daily-summary-text">Faça um registro rápido para visualizar atividade, alimentação, hidratação e descanso.</p><small id="fb-daily-next-step">Próximo passo: conte como foi seu dia.</small></article>
 <article class="fb-week-summary-card"><span>JORNADA DA SEMANA</span><h3 id="fb-week-summary-title">Sua semana começa com o primeiro registro.</h3><dl><div><dt>Dias registrados</dt><dd id="fb-week-days">0/7</dd></div><div><dt>Tempo ativo</dt><dd id="fb-week-minutes">0 min</dd></div><div><dt>Água</dt><dd id="fb-week-water">—</dd></div><div><dt>Sono</dt><dd id="fb-week-sleep">—</dd></div></dl><p id="fb-week-summary-text">Os indicadores serão atualizados a cada registro.</p></article>
@@ -245,10 +250,11 @@
 <div class="fb-progress-track" aria-hidden="true"><i id="fb-progress-bar"></i></div>
 </div>
 <section class="fb-next-mission" id="fb-next-mission" aria-labelledby="fb-next-mission-title" hidden>
-<span>PERFIL CONCLUÍDO</span>
+<span>PERFIL CONCLUÍDO · ESCOLHA COMO CONTINUAR</span>
 <h3 id="fb-next-mission-title">Seu caminho está pronto.</h3>
 <p id="fb-next-mission-summary">Veja sua primeira missão e comece no seu ritmo.</p>
-<button type="button" id="fb-next-mission-action">Ver minha primeira missão</button>
+<div class="fb-next-mission-actions"><button type="button" id="fb-next-mission-action">Realizar próximo passo agora</button><button type="button" id="fb-next-mission-today">Preencher Meu Hoje</button></div>
+<small>Você pode registrar o que fez na hora ou voltar ao Meu Hoje no final do dia.</small>
 </section>
 <div class="fb-safety-status" id="fb-safety-status" role="status" hidden></div>
 <ol class="fb-progress-steps" id="fb-progress-steps"></ol>
@@ -954,7 +960,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script type="module" src="js/site-common.js?v=20260718-8"></script>
 <script src="js/coluna-valtinho.js?v=20260718-7" defer></script>
-<script src="js/fala-bem-app.js?v=20260719-16" defer></script>
+<script src="js/fala-bem-app.js?v=20260719-17" defer></script>
 
 </body>
 </html>

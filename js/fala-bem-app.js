@@ -1305,7 +1305,8 @@ function renderProgress() {
         : preferredSport && currentProfile?.objective === 'modalidade'
           ? `Faça uma primeira experiência com ${preferredSport}, observando acesso, acolhimento, diversão e vontade de voltar.`
           : guidance?.task || currentProfile.nextAction || 'Comece no seu ritmo e registre como foi para liberar o próximo passo.';
-      document.getElementById('fb-next-mission-action').textContent = needsDiscovery ? 'Descobrir meu esporte' : 'Ver minha primeira missão';
+      document.getElementById('fb-next-mission-action').textContent = needsDiscovery ? 'Descobrir meu esporte agora' : 'Realizar próximo passo agora';
+      document.getElementById('fb-next-mission-today').textContent = getDailyLogs().some(item => item.date === localDayKey()) ? 'Atualizar Meu Hoje' : 'Preencher Meu Hoje';
     }
   }
   renderCycleSummary(steps, completed, savedCheckins);
@@ -1655,6 +1656,8 @@ function renderDailyJournal() {
   if (!form.elements.date.value) form.elements.date.value = today;
   const logs = getDailyLogs().slice().sort((a, b) => a.date.localeCompare(b.date));
   const todayLog = logs.find(item => item.date === today);
+  const dailyTrigger = document.getElementById('fb-open-daily-form');
+  if (dailyTrigger && dailyTrigger.getAttribute('aria-expanded') !== 'true') dailyTrigger.textContent = todayLog ? 'Atualizar meu dia' : 'Registrar meu dia';
   const summaryTitle = document.getElementById('fb-daily-summary-title');
   const summaryText = document.getElementById('fb-daily-summary-text');
   if (todayLog) {
@@ -1997,6 +2000,8 @@ document.getElementById('fb-next-mission-action')?.addEventListener('click', () 
   window.setTimeout(() => mission?.querySelector('select, input, button')?.focus(), 320);
 });
 
+document.getElementById('fb-next-mission-today')?.addEventListener('click', () => openDailyJournal());
+
 document.getElementById('fb-profile-next-professionals')?.addEventListener('click', () => openView('especialistas'));
 
 document.getElementById('fb-progress-checkin')?.addEventListener('submit', event => {
@@ -2103,8 +2108,17 @@ function setDailyFormVisibility(open) {
   if (!wrap || !trigger) return;
   wrap.hidden = !open;
   trigger.setAttribute('aria-expanded', String(open));
-  trigger.textContent = open ? 'Registro aberto' : 'Registrar meu dia';
+  const hasTodayLog = getDailyLogs().some(item => item.date === localDayKey());
+  trigger.textContent = open ? 'Registro aberto' : hasTodayLog ? 'Atualizar meu dia' : 'Registrar meu dia';
   if (open) window.setTimeout(() => document.getElementById('fb-daily-date')?.focus(), 50);
+}
+
+function openDailyJournal() {
+  openView('inicio');
+  const todayLog = getDailyLogs().find(item => item.date === localDayKey()) || null;
+  fillDailyForm(todayLog);
+  setDailyFormVisibility(true);
+  window.setTimeout(() => document.getElementById('fb-daily-journal')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 220);
 }
 
 document.getElementById('fb-open-daily-form')?.addEventListener('click', () => {
@@ -2113,6 +2127,7 @@ document.getElementById('fb-open-daily-form')?.addEventListener('click', () => {
   fillDailyForm(todayLog);
   setDailyFormVisibility(Boolean(wrap?.hidden));
 });
+document.getElementById('fb-daily-view-mission')?.addEventListener('click', () => openView('progresso'));
 document.getElementById('fb-close-daily-form')?.addEventListener('click', () => setDailyFormVisibility(false));
 document.getElementById('fb-daily-date')?.addEventListener('change', event => {
   const log = getDailyLogs().find(item => item.date === event.currentTarget.value) || null;
@@ -2353,7 +2368,7 @@ document.getElementById('fb-safety-form')?.addEventListener('submit', event => {
   const feedback = document.getElementById(restricted ? 'fb-profile-feedback' : 'fb-progress-feedback');
   if (feedback) feedback.textContent = restricted
     ? 'Perfil salvo. Siga a indicação acima para revisar os sinais informados antes de começar.'
-    : 'Perfil e triagem concluídos. Sua primeira missão está pronta.';
+    : 'Perfil e triagem concluídos. Escolha realizar seu próximo passo agora ou começar o registro no Meu Hoje.';
   window.setTimeout(() => {
     document.getElementById(restricted ? 'fb-profile-next-step' : 'fb-next-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 220);
