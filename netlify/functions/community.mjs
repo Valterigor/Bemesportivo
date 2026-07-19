@@ -1,4 +1,4 @@
-import { connectLambda, getStore } from '@netlify/blobs';
+import { getStore } from '@netlify/blobs';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,16 +8,15 @@ const corsHeaders = {
 };
 
 function json(statusCode, payload){
-  return {
-    statusCode,
+  return new Response(JSON.stringify(payload), {
+    status: statusCode,
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': 'no-store',
       'X-Content-Type-Options': 'nosniff',
       ...corsHeaders
-    },
-    body: JSON.stringify(payload)
-  };
+    }
+  });
 }
 
 function getDefaultCommunityState(){
@@ -147,8 +146,8 @@ function getStoreOptions(){
   return siteID && token ? { siteID, token } : undefined;
 }
 
-function getApiPath(event){
-  const raw = event.path || '';
+function getApiPath(request){
+  const raw = new URL(request.url).pathname;
   return raw
     .replace(/^\/api\/community\/?/, '')
     .replace(/^\/\.netlify\/functions\/community\/?/, '')
@@ -156,42 +155,40 @@ function getApiPath(event){
     .split('/')[0];
 }
 
-function parseBody(event){
-  if(!event.body) return {};
+async function parseBody(request){
   try{
-    return JSON.parse(event.isBase64Encoded ? Buffer.from(event.body, 'base64').toString('utf8') : event.body);
+    return await request.json();
   }catch(error){
     return {};
   }
 }
 
-export async function handler(event){
-  if(event.httpMethod === 'OPTIONS'){
-    return { statusCode: 204, headers: corsHeaders, body: '' };
+export default async function handler(request){
+  if(request.method === 'OPTIONS'){
+    return new Response(null, { status: 204, headers: corsHeaders });
   }
 
-  const action = getApiPath(event);
-  const params = new URLSearchParams(event.rawQuery || '');
+  const action = getApiPath(request);
+  const params = new URL(request.url).searchParams;
   let state;
   try{
-    connectLambda(event);
     state = await readState();
   }catch(error){
     console.error('Falha ao acessar o armazenamento comunitario:', error);
     return json(503, { ok: false, error: 'Comentarios temporariamente indisponiveis.' });
   }
 
-  if(event.httpMethod === 'GET' && action === 'state'){
+  if(request.method === 'GET' && action === 'state'){
     return json(200, publicCommunityState(state));
   }
 
-  if(event.httpMethod === 'GET' && action === 'comments'){
+  if(request.method === 'GET' && action === 'comments'){
     const key = getCommunityCommentKey(params.get('scope'), params.get('id'));
     return json(200, { ok: true, comments: publicComments(state.comments[key] || []), updatedAt: state.updatedAt });
   }
 
-  if(event.httpMethod === 'POST' && action === 'comment'){
-    const body = parseBody(event);
+  if(request.method === 'POST' && action === 'comment'){
+    const body = await parseBody(request);
     const key = getCommunityCommentKey(body.scope, body.id);
     const text = cleanText(body.text || body.texto, 500);
     if(!text) return json(400, { ok: false, error: 'Comentario vazio.' });
@@ -211,8 +208,8 @@ export async function handler(event){
     return json(200, { ok: true, comments: publicComments(state.comments[key]), comment: publicComment(comment), updatedAt: state.updatedAt });
   }
 
-  if(event.httpMethod === 'POST' && action === 'comment-action'){
-    const body = parseBody(event);
+  if(request.method === 'POST' && action === 'comment-action'){
+    const body = await parseBody(request);
     const key = getCommunityCommentKey(body.scope, body.id);
     const comments = Array.isArray(state.comments[key]) ? state.comments[key] : [];
     const comment = comments.find(item => item.id === cleanText(body.commentId, 120));
@@ -252,8 +249,8 @@ export async function handler(event){
     return json(200, { ok: true, comments: publicComments(comments), comment: publicComment(comment), updatedAt: state.updatedAt });
   }
 
-  if(event.httpMethod === 'POST' && action === 'vote'){
-    const body = parseBody(event);
+  if(request.method === 'POST' && action === 'vote'){
+    const body = await parseBody(request);
     const pollId = cleanId(body.pollId, 'poll');
     const choiceId = cleanId(body.choiceId, '');
     const clientId = cleanId(body.clientId, '');
@@ -273,8 +270,8 @@ export async function handler(event){
     return json(200, { ok: true, pollId, vote: { totals: poll.totals, selected: choiceId }, updatedAt: state.updatedAt });
   }
 
-  if(event.httpMethod === 'POST' && action === 'palpite'){
-    const body = parseBody(event);
+  if(request.method === 'POST' && action === 'palpite'){
+    const body = await parseBody(request);
     const item = body.palpite || body;
     const matchId = cleanText(item.matchId, 120);
     const userId = cleanText(item.userId, 120);
@@ -306,8 +303,8 @@ export async function handler(event){
     return json(200, { ok: true, palpites: state.palpites, updatedAt: state.updatedAt });
   }
 
-  if(event.httpMethod === 'POST' && action === 'interaction'){
-    const body = parseBody(event);
+  if(request.method === 'POST' && action === 'interaction'){
+    const body = await parseBody(request);
     const type = cleanText(body.type, 40);
     const target = cleanText(body.target, 120);
     const value = cleanText(body.value, 120);
