@@ -1683,6 +1683,12 @@ function renderDailyJournal() {
   section.hidden = !currentProfile?.objective;
   if (!currentProfile?.objective) return;
   const today = localDayKey();
+  const todayContext = document.getElementById('fb-today-context-date');
+  if (todayContext) {
+    const formattedToday = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date());
+    todayContext.dateTime = today;
+    todayContext.textContent = formattedToday.charAt(0).toLocaleUpperCase('pt-BR') + formattedToday.slice(1);
+  }
   form.elements.date.max = today;
   if (!form.elements.date.value) form.elements.date.value = today;
   const logs = getDailyLogs().slice().sort((a, b) => a.date.localeCompare(b.date));
@@ -1708,6 +1714,14 @@ function renderDailyJournal() {
 
   const weekStart = startOfLocalWeek();
   const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 7);
+  const weekLastDay = new Date(weekEnd); weekLastDay.setDate(weekLastDay.getDate() - 1);
+  const weekContext = document.getElementById('fb-week-context-range');
+  if (weekContext) {
+    const startLabel = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short' }).format(weekStart).replace('.', '');
+    const endLabel = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short' }).format(weekLastDay).replace('.', '');
+    weekContext.dateTime = localDayKey(weekStart);
+    weekContext.textContent = `${startLabel} — ${endLabel}`;
+  }
   const weekLogs = logs.filter(item => { const date = new Date(`${item.date}T12:00:00`); return date >= weekStart && date < weekEnd; });
   const activeLogs = weekLogs.filter(item => item.activity !== 'none' && item.minutes > 0);
   const totalMinutes = activeLogs.reduce((total, item) => total + item.minutes, 0);
@@ -1864,14 +1878,19 @@ function renderPersonalizedExperience() {
   const journeyNameInput = document.getElementById('journey-name');
   const pathEntry = document.getElementById('fb-path-entry');
   const todayCard = document.getElementById('fb-today-card');
+  const todayZone = document.getElementById('fb-today-zone');
+  const weekZone = document.getElementById('fb-week-zone');
   const appTitle = document.getElementById('fb-app-title');
   const appSubtitle = document.getElementById('fb-app-subtitle');
   const heroAction = document.getElementById('fb-hero-action');
   const heroStatus = document.getElementById('fb-hero-status');
   const heroProgress = document.getElementById('fb-hero-progress');
   const heroProgressValue = document.getElementById('fb-hero-progress-value');
+  const hasJourney = Boolean(currentProfile?.objective);
+  if (todayZone) todayZone.hidden = !hasJourney;
+  if (weekZone) weekZone.hidden = !hasJourney;
 
-  if (!currentProfile?.objective) {
+  if (!hasJourney) {
     const displayName = currentProfile?.name?.trim();
     pathEntry.hidden = false;
     todayCard.hidden = true;

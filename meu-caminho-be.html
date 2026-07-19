@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260719-1">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-4">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-19">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-20">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -153,6 +153,12 @@
 <button type="button" class="fb-path-wellbeing" data-fb-start-objective="saude"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-8-8c2.5 0 4.2 1 5.5 2.4"></path><path d="M9 12.5 11.5 15 20 6.5"></path></svg></span><i>04</i><strong>Viver melhor</strong><small>Esporte para a vida</small><b>Cuidar →</b></button>
 </div>
 </section>
+<section class="fb-context-zone fb-today-zone" id="fb-today-zone" aria-labelledby="fb-today-zone-title" hidden>
+<header class="fb-context-heading">
+<span class="fb-context-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"></path><path d="m9 15 2 2 4-5"></path></svg></span>
+<div><span>MEU HOJE</span><h2 id="fb-today-zone-title">Seu dia, suas escolhas e seu registro.</h2></div>
+<time id="fb-today-context-date" datetime="">Hoje</time>
+</header>
 <section class="fb-today-card" id="fb-today-card" aria-labelledby="fb-today-title" hidden>
 <div class="fb-today-copy">
 <span id="fb-today-kicker">SEU PRIMEIRO PASSO</span>
@@ -181,7 +187,6 @@
 </ol>
 <div class="fb-daily-overview" aria-live="polite">
 <article class="fb-daily-summary-card"><span>RESUMO DO DIA</span><h3 id="fb-daily-summary-title">Seu dia ainda está em aberto.</h3><p id="fb-daily-summary-text">Faça um registro rápido para visualizar atividade, alimentação, hidratação e descanso.</p><small id="fb-daily-next-step">Próximo passo: conte como foi seu dia.</small></article>
-<article class="fb-week-summary-card"><span>JORNADA DA SEMANA</span><h3 id="fb-week-summary-title">Sua semana começa com o primeiro registro.</h3><dl><div><dt>Dias registrados</dt><dd id="fb-week-days">0/7</dd></div><div><dt>Tempo ativo</dt><dd id="fb-week-minutes">0 min</dd></div><div><dt>Água</dt><dd id="fb-week-water">—</dd></div><div><dt>Sono</dt><dd id="fb-week-sleep">—</dd></div></dl><p id="fb-week-summary-text">Os indicadores serão atualizados a cada registro.</p></article>
 </div>
 <div class="fb-daily-form-wrap" id="fb-daily-form-wrap" hidden>
 <form class="fb-daily-form" id="fb-daily-form">
@@ -207,6 +212,14 @@
 <ol id="fb-daily-history-list"><li class="fb-daily-history-empty">Nenhum dia registrado ainda.</li></ol>
 </section>
 </section>
+</section>
+<section class="fb-context-zone fb-week-zone" id="fb-week-zone" aria-labelledby="fb-week-zone-title" hidden>
+<header class="fb-context-heading">
+<span class="fb-context-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4v16M5 5h10l-2 3 2 3H5"></path></svg></span>
+<div><span>JORNADA DA SEMANA</span><h2 id="fb-week-zone-title">Seu progresso, conquistas e próximos passos.</h2></div>
+<time id="fb-week-context-range" datetime="">Semana atual</time>
+</header>
+<article class="fb-week-summary-card"><span>RESUMO DA SEMANA</span><h3 id="fb-week-summary-title">Sua semana começa com o primeiro registro.</h3><dl><div><dt>Dias registrados</dt><dd id="fb-week-days">0/7</dd></div><div><dt>Tempo ativo</dt><dd id="fb-week-minutes">0 min</dd></div><div><dt>Água</dt><dd id="fb-week-water">—</dd></div><div><dt>Sono</dt><dd id="fb-week-sleep">—</dd></div></dl><p id="fb-week-summary-text">Os indicadores serão atualizados a cada registro.</p></article>
 <section class="fb-gamification" id="fb-gamification" aria-labelledby="fb-gamification-title" hidden>
 <header><div><span>SUAS CONQUISTAS</span><h2 id="fb-gamification-title">Evolução que valoriza constância.</h2></div><p>Você ganha experiência por aprender, experimentar e registrar — nunca por exagerar no esforço.</p></header>
 <div class="fb-game-stats">
@@ -226,6 +239,7 @@
 <article><span>PROFISSIONAL</span><h3 id="fb-recommended-professional-title">Profissional recomendado</h3><p id="fb-recommended-professional-summary"></p><button type="button" data-dashboard-action="profissional">Ver profissionais</button></article>
 <article><span>TRILHA</span><h3 id="fb-recommended-trail-title">Trilha recomendada</h3><p id="fb-recommended-trail-summary"></p><button type="button" data-dashboard-action="trilha">Abrir trilha</button></article>
 </div>
+</section>
 </section>
 <div class="fb-ecosystem-head"><span>SEU ECOSSISTEMA</span><h2>Tudo o que ajuda sua jornada a continuar.</h2></div>
 <div class="fb-app-menu fb-ecosystem-menu" aria-label="Explore o ecossistema Meu Caminho Be">
@@ -965,7 +979,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script type="module" src="js/site-common.js?v=20260718-8"></script>
 <script src="js/coluna-valtinho.js?v=20260718-7" defer></script>
-<script src="js/fala-bem-app.js?v=20260719-18" defer></script>
+<script src="js/fala-bem-app.js?v=20260719-19" defer></script>
 
 </body>
 </html>

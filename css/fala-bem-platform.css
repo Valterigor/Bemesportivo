@@ -1719,6 +1719,12 @@ background:#fff;
 }
 
 /* Diário privado: registro, resumo do dia e visão semanal */
+.fb-context-zone{margin:0 0 22px;padding:clamp(16px,2.4vw,24px);border:1px solid;border-radius:25px}
+.fb-context-zone[hidden]{display:none!important}.fb-today-zone{border-color:#f1d5c7;background:linear-gradient(145deg,#fff7f2,#fffaf7)}.fb-week-zone{border-color:#cfe1d7;background:linear-gradient(145deg,#f2f8f5,#f8fbf9)}
+.fb-context-heading{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;margin-bottom:15px;padding-bottom:14px;border-bottom:1px solid rgba(68,54,44,.1)}
+.fb-context-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:14px}.fb-context-icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.fb-today-zone .fb-context-icon{background:#ff5a1f;color:#fff}.fb-week-zone .fb-context-icon{background:#287553;color:#fff}
+.fb-context-heading>div>span{display:block;margin-bottom:4px;font-size:.64rem;font-weight:950;letter-spacing:.1em}.fb-today-zone .fb-context-heading>div>span{color:#d9430f}.fb-week-zone .fb-context-heading>div>span{color:#21704d}.fb-context-heading h2{margin:0;color:#211d1a;font-size:1.12rem;line-height:1.2;letter-spacing:-.03em}.fb-context-heading time{padding:7px 10px;border:1px solid rgba(60,48,40,.1);border-radius:999px;background:rgba(255,255,255,.72);color:#635b55;font-size:.66rem;font-weight:850;text-align:center;text-transform:capitalize}
+.fb-today-zone .fb-today-card{margin-bottom:13px}.fb-today-zone .fb-daily-journal{margin-bottom:0}.fb-week-zone .fb-gamification{margin-top:13px}.fb-week-zone .fb-dashboard-recommendations{margin-bottom:0}
 .fb-daily-journal{margin:0 0 24px;padding:clamp(20px,3vw,30px);border:1px solid #e8ded6;border-radius:22px;background:#fff}
 .fb-daily-journal[hidden],.fb-daily-form-wrap[hidden]{display:none!important}
 .fb-daily-journal-head{display:flex;align-items:end;justify-content:space-between;gap:22px;margin-bottom:17px}
@@ -1730,10 +1736,11 @@ background:#fff;
 .fb-daily-guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 13px;padding:0;list-style:none}
 .fb-daily-guide li{position:relative;display:grid;grid-template-columns:30px minmax(0,1fr);gap:9px;align-items:center;min-height:72px;padding:11px;border:1px solid #ece3dd;border-radius:14px;background:#fff}
 .fb-daily-guide li>span{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:#fff0e9;color:#d9430f;font-size:.72rem;font-weight:950}.fb-daily-guide li>div{display:grid;gap:3px}.fb-daily-guide strong{font-size:.72rem;line-height:1.25}.fb-daily-guide small{color:#786e67;font-size:.62rem;line-height:1.4}.fb-daily-guide button{grid-column:2;justify-self:start;padding:0;border:0;background:transparent;color:#d9430f;font:inherit;font-size:.62rem;font-weight:900;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.fb-daily-overview{display:grid;grid-template-columns:1fr 1.2fr;gap:11px}
+.fb-daily-overview{display:grid;grid-template-columns:1fr;gap:11px}
 .fb-daily-overview article{min-width:0;padding:18px;border:1px solid #ece3dd;border-radius:16px;background:#fbf8f5}
 .fb-daily-overview h3{font-size:1rem;line-height:1.3}.fb-daily-overview p{margin:7px 0;color:#69615b;font-size:.77rem;line-height:1.5}
 .fb-daily-summary-card small{display:block;margin-top:13px;padding-top:12px;border-top:1px solid #e5dbd4;color:#3d3732;font-size:.72rem;font-weight:800;line-height:1.45}
+.fb-week-summary-card{padding:18px;border:1px solid #c9ded2;border-radius:16px;background:#fff}.fb-week-summary-card>span{display:block;margin-bottom:6px;color:#21704d;font-size:.66rem;font-weight:950;letter-spacing:.1em}.fb-week-summary-card h3{margin:0;color:#211d1a;font-size:1rem;line-height:1.3;letter-spacing:-.03em}.fb-week-summary-card>p{margin:7px 0 0;color:#5d6c64;font-size:.77rem;line-height:1.5}
 .fb-week-summary-card dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:14px 0 10px}
 .fb-week-summary-card dl>div{padding:10px;border-radius:11px;background:#fff}.fb-week-summary-card dt{color:#7b716a;font-size:.57rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.fb-week-summary-card dd{margin:5px 0 0;color:#211d1a;font-size:.82rem;font-weight:900}
 .fb-daily-form-wrap{margin-top:14px;padding:20px;border:1px solid #dfd4cb;border-radius:17px;background:#f9f6f3}
@@ -1753,6 +1760,7 @@ background:#fff;
 .fb-daily-core-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.fb-week-summary-card dl{grid-template-columns:1fr 1fr}
 }
 @media(max-width:760px){
+.fb-context-zone{padding:13px;border-radius:20px}.fb-context-heading{grid-template-columns:38px minmax(0,1fr);gap:10px}.fb-context-icon{width:38px;height:38px;border-radius:12px}.fb-context-icon svg{width:20px;height:20px}.fb-context-heading h2{font-size:.96rem}.fb-context-heading time{grid-column:2;justify-self:start;padding:0;border:0;background:transparent;text-align:left}
 .fb-daily-journal{padding:17px;border-radius:19px}.fb-daily-journal-head{display:block}.fb-daily-journal-head>button{width:100%;margin-top:13px}
 .fb-daily-guide{grid-template-columns:1fr}.fb-daily-guide li{min-height:64px}.fb-daily-overview{grid-template-columns:1fr}.fb-daily-form-wrap{padding:16px}.fb-daily-core-fields,.fb-daily-meals>div{grid-template-columns:1fr}.fb-daily-form-actions{align-items:stretch;flex-direction:column}.fb-daily-form-actions button{width:100%}
 .fb-daily-history li{align-items:flex-start}.fb-daily-history li button{min-height:38px}
