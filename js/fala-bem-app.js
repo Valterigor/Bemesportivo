@@ -365,6 +365,10 @@ window.falaBemOpenTarget = target => {
 
 navigationButtons.forEach(button => {
   button.addEventListener('click', () => {
+    if (button.dataset.fbDailyAction === 'true') {
+      openDailyJournal();
+      return;
+    }
     const requestedView = button.dataset.fbView;
     const isContinueControl = button.closest('.fb-app-nav,.fb-mobile-drawer');
     const view = requestedView === 'jornada' && currentProfile?.objective && isContinueControl ? 'progresso' : requestedView;
@@ -1723,6 +1727,39 @@ function renderDailyJournal() {
     weekContext.textContent = `${startLabel} — ${endLabel}`;
   }
   const weekLogs = logs.filter(item => { const date = new Date(`${item.date}T12:00:00`); return date >= weekStart && date < weekEnd; });
+  const weekStrip = document.getElementById('fb-daily-week-strip');
+  if (weekStrip) {
+    const todayDate = new Date(`${today}T12:00:00`);
+    const weekLogKeys = new Set(weekLogs.map(item => item.date));
+    const days = Array.from({ length: 7 }, (_, index) => {
+      const date = new Date(weekStart);
+      date.setDate(date.getDate() + index);
+      const key = localDayKey(date);
+      const isLogged = weekLogKeys.has(key);
+      const isToday = key === today;
+      const isFuture = date > todayDate;
+      const item = document.createElement('li');
+      const weekday = document.createElement('span');
+      const day = document.createElement('strong');
+      const state = document.createElement('i');
+      weekday.textContent = new Intl.DateTimeFormat('pt-BR', { weekday: 'short' }).format(date).replace('.', '').slice(0, 3);
+      day.textContent = String(date.getDate());
+      state.textContent = isLogged ? '✓' : '•';
+      state.setAttribute('aria-hidden', 'true');
+      item.classList.toggle('logged', isLogged);
+      item.classList.toggle('today', isToday);
+      item.classList.toggle('future', isFuture);
+      item.setAttribute('aria-label', `${formatDailyDate(key, { weekday: 'long', day: 'numeric', month: 'long' })}: ${isLogged ? 'registrado' : isFuture ? 'dia futuro' : 'sem registro'}`);
+      item.append(weekday, day, state);
+      return item;
+    });
+    weekStrip.replaceChildren(...days);
+  }
+  const todayState = document.getElementById('fb-daily-today-state');
+  if (todayState) {
+    todayState.textContent = todayLog ? 'Meu Hoje concluído ✓' : 'Hoje ainda não registrado';
+    todayState.classList.toggle('complete', Boolean(todayLog));
+  }
   const activeLogs = weekLogs.filter(item => item.activity !== 'none' && item.minutes > 0);
   const totalMinutes = activeLogs.reduce((total, item) => total + item.minutes, 0);
   const waterValues = weekLogs.map(item => item.water).filter(value => value !== null);
@@ -1872,6 +1909,7 @@ function renderPersonalizedExperience() {
   const summary = document.getElementById('fb-today-summary');
   const progress = document.getElementById('fb-today-progress');
   const primary = document.getElementById('fb-today-primary');
+  const secondaryTodayAction = document.getElementById('fb-today-profile');
   const avatar = shell.querySelector('.fb-app-avatar');
   const profileTriggerLabel = shell.querySelector('.fb-profile-trigger>span:last-child');
   const nameInput = document.getElementById('fb-profile-name');
@@ -1902,9 +1940,11 @@ function renderPersonalizedExperience() {
     progress.hidden = true;
     primary.textContent = 'Criar meu caminho';
     primary.dataset.fbView = 'jornada';
+    delete primary.dataset.fbDailyAction;
     if (heroAction) {
       heroAction.textContent = 'Montar meu caminho';
       heroAction.dataset.fbView = 'jornada';
+      delete heroAction.dataset.fbDailyAction;
     }
     if (heroStatus) heroStatus.textContent = 'Comece de onde você está.';
     if (heroProgress) heroProgress.style.setProperty('--fb-hero-progress', '0%');
@@ -1915,26 +1955,33 @@ function renderPersonalizedExperience() {
     const steps = getJourneySteps();
     const percent = completed * 20;
     const displayName = currentProfile.name?.trim();
+    const todayIsRegistered = getDailyLogs().some(item => item.date === localDayKey());
     pathEntry.hidden = true;
     todayCard.hidden = false;
     appTitle.textContent = displayName ? `Olá, ${displayName}.` : 'Sua semana continua em movimento.';
-    appSubtitle.textContent = 'Um próximo passo de cada vez, no seu ritmo.';
-    kicker.textContent = displayName ? `OLÁ, ${displayName.toLocaleUpperCase('pt-BR')}` : 'MEU HOJE';
-    title.textContent = objectiveLabels[currentProfile.objective] || 'Seu caminho está pronto.';
-    summary.textContent = completed >= steps.length ? 'Ciclo concluído.' : 'Seu próximo passo já está disponível.';
+    appSubtitle.textContent = 'Registre seu dia e acompanhe o que ajuda sua constância.';
+    kicker.textContent = 'MEU HOJE';
+    title.textContent = todayIsRegistered ? 'Seu dia já está registrado.' : displayName ? `${displayName}, como foi seu dia até aqui?` : 'Como foi seu dia até aqui?';
+    summary.textContent = todayIsRegistered ? 'Seu resumo está atualizado. Você pode complementar o registro quando quiser.' : 'Leva cerca de dois minutos e pode ser preenchido agora ou no final do dia.';
     progress.hidden = false;
     document.getElementById('fb-today-progress-label').textContent = `${percent}%`;
     document.getElementById('fb-today-progress-bar').style.width = `${percent}%`;
     document.getElementById('fb-today-next-action').textContent = completed >= steps.length
       ? 'Ciclo concluído. Você pode iniciar uma nova sequência.'
       : `Próxima missão: ${steps[completed]}`;
-    primary.textContent = completed >= steps.length ? 'Ver semana concluída' : 'Continuar Jornada da Semana';
-    primary.dataset.fbView = 'progresso';
-    if (heroAction) {
-      heroAction.textContent = completed >= steps.length ? 'Rever semana concluída' : 'Continuar Jornada da Semana';
-      heroAction.dataset.fbView = 'progresso';
+    primary.textContent = todayIsRegistered ? 'Atualizar Meu Hoje' : 'Registrar Meu Hoje';
+    primary.dataset.fbView = 'inicio';
+    primary.dataset.fbDailyAction = 'true';
+    if (secondaryTodayAction) {
+      secondaryTodayAction.textContent = completed >= steps.length ? 'Ver semana concluída' : 'Ver Jornada da Semana';
+      secondaryTodayAction.dataset.fbView = 'progresso';
     }
-    if (heroStatus) heroStatus.textContent = completed >= steps.length ? 'Ciclo concluído. Celebre sua evolução.' : `Próximo: ${steps[completed]}`;
+    if (heroAction) {
+      heroAction.textContent = todayIsRegistered ? 'Atualizar Meu Hoje' : 'Registrar Meu Hoje';
+      heroAction.dataset.fbView = 'inicio';
+      heroAction.dataset.fbDailyAction = 'true';
+    }
+    if (heroStatus) heroStatus.textContent = todayIsRegistered ? 'Registro de hoje concluído.' : 'Seu registro de hoje está aberto.';
     if (heroProgress) heroProgress.style.setProperty('--fb-hero-progress', `${percent}%`);
     if (heroProgressValue) heroProgressValue.textContent = `${percent}%`;
     if (avatar) avatar.textContent = displayName ? displayName.charAt(0).toLocaleUpperCase('pt-BR') : 'BE';

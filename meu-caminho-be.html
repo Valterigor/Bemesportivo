@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260719-1">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-4">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-20">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-21">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -177,7 +177,7 @@
 </section>
 <section class="fb-daily-journal" id="fb-daily-journal" aria-labelledby="fb-daily-journal-title" hidden>
 <header class="fb-daily-journal-head">
-<div><span>MEU REGISTRO</span><h2 id="fb-daily-journal-title">Como foi seu dia?</h2><p>Registre o que fez, sem cobrança. O resumo se atualiza conforme sua rotina.</p></div>
+<div><span>MEU HOJE · CERCA DE 2 MINUTOS</span><h2 id="fb-daily-journal-title">Como foi seu dia?</h2><p>Um registro simples para entender sua rotina e receber um resumo útil.</p></div>
 <button type="button" id="fb-open-daily-form" aria-expanded="false" aria-controls="fb-daily-form-wrap">Registrar meu dia</button>
 </header>
 <ol class="fb-daily-guide" aria-label="Como usar o Meu Hoje">
@@ -185,12 +185,18 @@
 <li><span>2</span><div><strong>Registre quando preferir</strong><small>Na hora da atividade ou ao final do dia.</small></div></li>
 <li><span>3</span><div><strong>Acompanhe sua evolução</strong><small>Os resumos do dia e da semana se atualizam sozinhos.</small></div></li>
 </ol>
+<section class="fb-daily-consistency" aria-labelledby="fb-daily-consistency-title">
+<header><div><span>SEUS 7 DIAS</span><h3 id="fb-daily-consistency-title">Constância sem cobrança.</h3></div><strong id="fb-daily-today-state">Hoje ainda não registrado</strong></header>
+<ol id="fb-daily-week-strip" aria-label="Registros dos sete dias da semana"></ol>
+<p>Cada registro ajuda o sistema a criar resumos mais úteis. Dias de pausa também podem ser registrados.</p>
+</section>
 <div class="fb-daily-overview" aria-live="polite">
 <article class="fb-daily-summary-card"><span>RESUMO DO DIA</span><h3 id="fb-daily-summary-title">Seu dia ainda está em aberto.</h3><p id="fb-daily-summary-text">Faça um registro rápido para visualizar atividade, alimentação, hidratação e descanso.</p><small id="fb-daily-next-step">Próximo passo: conte como foi seu dia.</small></article>
 </div>
 <div class="fb-daily-form-wrap" id="fb-daily-form-wrap" hidden>
 <form class="fb-daily-form" id="fb-daily-form">
 <div class="fb-daily-form-intro"><div><span>CHECK-IN DO DIA</span><h3>Leva cerca de dois minutos.</h3></div><button type="button" id="fb-close-daily-form" aria-label="Fechar registro diário">Fechar</button></div>
+<p class="fb-daily-form-hint"><strong>Comece pelo essencial:</strong> informe a data e o que você fez. Água, sono, refeições e observações podem ser completados agora ou depois.</p>
 <div class="fb-daily-core-fields">
 <label for="fb-daily-date">Data<input type="date" id="fb-daily-date" name="date" required></label>
 <label for="fb-daily-activity">O que você fez?<select id="fb-daily-activity" name="activity"><option value="none">Não treinei hoje</option><option value="caminhada">Caminhada</option><option value="corrida">Corrida</option><option value="musculacao">Musculação</option><option value="funcional">Treino funcional</option><option value="futebol">Futebol</option><option value="ciclismo">Ciclismo</option><option value="natacao">Natação</option><option value="outra">Outra atividade</option></select></label>
@@ -979,7 +985,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script type="module" src="js/site-common.js?v=20260718-8"></script>
 <script src="js/coluna-valtinho.js?v=20260718-7" defer></script>
-<script src="js/fala-bem-app.js?v=20260719-19" defer></script>
+<script src="js/fala-bem-app.js?v=20260719-20" defer></script>
 
 </body>
 </html>
