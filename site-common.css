@@ -3381,6 +3381,9 @@ body > header > nav,
   border: 0 !important;
   background: transparent !important;
   overflow-x: auto !important;
+  flex-wrap: nowrap !important;
+  align-content: center !important;
+  overflow-y: hidden !important;
   scrollbar-width: none !important;
 }
 
@@ -3666,6 +3669,8 @@ body > header.topbar {
   padding: 0 !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
+  flex-wrap: nowrap !important;
+  align-content: center !important;
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -3739,16 +3744,30 @@ body > header.topbar {
   .be-standard-page .site-menu,
   .be-standard-page .menu-content,
   .be-standard-page .site-menu-content {
-    min-height: 68px !important;
-    height: 68px !important;
+    min-height: 64px !important;
+    height: 64px !important;
+  }
+
+  .be-standard-page .menu-content,
+  .be-standard-page .site-menu-content {
+    gap: 8px !important;
+  }
+
+  .be-standard-page > header:not(.topbar) > nav,
+  .be-standard-page .menu nav,
+  .be-standard-page .site-nav,
+  .be-standard-page .nav-menu {
+    height: 42px !important;
+    min-height: 42px !important;
+    gap: 4px !important;
   }
 
   .be-standard-page > header:not(.topbar) > nav a,
   .be-standard-page .menu nav a,
   .be-standard-page .site-nav a,
   .be-standard-page .nav-menu a {
-    min-height: 42px !important;
-    padding: 0 12px !important;
+    min-height: 38px !important;
+    padding: 0 10px !important;
   }
 
   .be-standard-page .logo img,
