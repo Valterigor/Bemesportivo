@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260719-1">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-4">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260718-16">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-17">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -163,6 +163,39 @@
 <button type="button" class="fb-primary-action" id="fb-today-primary" data-fb-view="jornada">Criar meu caminho</button>
 <button type="button" id="fb-today-profile" data-fb-view="perfil">Meu perfil</button>
 </div>
+</section>
+<section class="fb-daily-journal" id="fb-daily-journal" aria-labelledby="fb-daily-journal-title" hidden>
+<header class="fb-daily-journal-head">
+<div><span>MEU REGISTRO</span><h2 id="fb-daily-journal-title">Como foi seu dia?</h2><p>Registre o que fez, sem cobrança. O resumo se atualiza conforme sua rotina.</p></div>
+<button type="button" id="fb-open-daily-form" aria-expanded="false" aria-controls="fb-daily-form-wrap">Registrar meu dia</button>
+</header>
+<div class="fb-daily-overview" aria-live="polite">
+<article class="fb-daily-summary-card"><span>RESUMO DO DIA</span><h3 id="fb-daily-summary-title">Seu dia ainda está em aberto.</h3><p id="fb-daily-summary-text">Faça um registro rápido para visualizar atividade, alimentação, hidratação e descanso.</p><small id="fb-daily-next-step">Próximo passo: conte como foi seu dia.</small></article>
+<article class="fb-week-summary-card"><span>JORNADA DA SEMANA</span><h3 id="fb-week-summary-title">Sua semana começa com o primeiro registro.</h3><dl><div><dt>Dias registrados</dt><dd id="fb-week-days">0/7</dd></div><div><dt>Tempo ativo</dt><dd id="fb-week-minutes">0 min</dd></div><div><dt>Água</dt><dd id="fb-week-water">—</dd></div><div><dt>Sono</dt><dd id="fb-week-sleep">—</dd></div></dl><p id="fb-week-summary-text">Os indicadores serão atualizados a cada registro.</p></article>
+</div>
+<div class="fb-daily-form-wrap" id="fb-daily-form-wrap" hidden>
+<form class="fb-daily-form" id="fb-daily-form">
+<div class="fb-daily-form-intro"><div><span>CHECK-IN DO DIA</span><h3>Leva cerca de dois minutos.</h3></div><button type="button" id="fb-close-daily-form" aria-label="Fechar registro diário">Fechar</button></div>
+<div class="fb-daily-core-fields">
+<label for="fb-daily-date">Data<input type="date" id="fb-daily-date" name="date" required></label>
+<label for="fb-daily-activity">O que você fez?<select id="fb-daily-activity" name="activity"><option value="none">Não treinei hoje</option><option value="caminhada">Caminhada</option><option value="corrida">Corrida</option><option value="musculacao">Musculação</option><option value="funcional">Treino funcional</option><option value="futebol">Futebol</option><option value="ciclismo">Ciclismo</option><option value="natacao">Natação</option><option value="outra">Outra atividade</option></select></label>
+<label for="fb-daily-minutes">Quanto tempo?<span class="fb-input-suffix"><input type="number" id="fb-daily-minutes" name="minutes" min="0" max="600" step="1" inputmode="numeric" value="0"><small>min</small></span></label>
+<label for="fb-daily-intensity">Como foi a intensidade?<select id="fb-daily-intensity" name="intensity"><option value="">Não informar</option><option value="leve">Leve</option><option value="moderada">Moderada</option><option value="intensa">Intensa</option></select></label>
+<label for="fb-daily-water">Quanto bebeu de água?<span class="fb-input-suffix"><input type="number" id="fb-daily-water" name="water" min="0" max="15" step="0.1" inputmode="decimal" placeholder="Ex.: 2"><small>litros</small></span></label>
+<label for="fb-daily-sleep">Quanto dormiu?<span class="fb-input-suffix"><input type="number" id="fb-daily-sleep" name="sleep" min="0" max="24" step="0.5" inputmode="decimal" placeholder="Ex.: 7.5"><small>horas</small></span></label>
+<label for="fb-daily-feeling">Como você se sentiu?<select id="fb-daily-feeling" name="feeling"><option value="">Não informar</option><option value="1">Muito indisposto</option><option value="2">Pouco disposto</option><option value="3">Regular</option><option value="4">Bem</option><option value="5">Muito bem</option></select></label>
+</div>
+<fieldset class="fb-daily-meals"><legend>O que você comeu?</legend><p>Um registro simples, sem contar calorias ou julgar suas escolhas.</p><div><label for="fb-daily-breakfast">Café da manhã<textarea id="fb-daily-breakfast" name="breakfast" maxlength="240" rows="2" placeholder="Ex.: pão, fruta e café"></textarea></label><label for="fb-daily-lunch">Almoço<textarea id="fb-daily-lunch" name="lunch" maxlength="240" rows="2" placeholder="Conte brevemente"></textarea></label><label for="fb-daily-snacks">Durante o dia<textarea id="fb-daily-snacks" name="snacks" maxlength="240" rows="2" placeholder="Lanches e outras refeições"></textarea></label><label for="fb-daily-dinner">Jantar<textarea id="fb-daily-dinner" name="dinner" maxlength="240" rows="2" placeholder="Conte brevemente"></textarea></label></div></fieldset>
+<label class="fb-daily-note" for="fb-daily-note">Algo importante sobre seu dia?<textarea id="fb-daily-note" name="note" maxlength="300" rows="2" placeholder="Opcional: disposição, rotina, desconforto ou uma conquista"></textarea></label>
+<p class="fb-daily-privacy">Este diário é privado e fica somente neste aparelho. Ele também será incluído quando você exportar seus dados.</p>
+<div class="fb-daily-form-actions"><button type="submit" class="fb-primary-action">Salvar meu dia</button><button type="button" id="fb-delete-daily-log" hidden>Excluir este registro</button></div>
+<p class="fb-daily-feedback" id="fb-daily-feedback" role="status" aria-live="polite"></p>
+</form>
+</div>
+<section class="fb-daily-history" aria-labelledby="fb-daily-history-title">
+<div><span>HISTÓRICO</span><h3 id="fb-daily-history-title">Seus últimos dias</h3></div>
+<ol id="fb-daily-history-list"><li class="fb-daily-history-empty">Nenhum dia registrado ainda.</li></ol>
+</section>
 </section>
 <section class="fb-gamification" id="fb-gamification" aria-labelledby="fb-gamification-title" hidden>
 <header><div><span>SUAS CONQUISTAS</span><h2 id="fb-gamification-title">Evolução que valoriza constância.</h2></div><p>Você ganha experiência por aprender, experimentar e registrar — nunca por exagerar no esforço.</p></header>
@@ -921,7 +954,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script type="module" src="js/site-common.js?v=20260718-8"></script>
 <script src="js/coluna-valtinho.js?v=20260718-7" defer></script>
-<script src="js/fala-bem-app.js?v=20260718-15" defer></script>
+<script src="js/fala-bem-app.js?v=20260719-16" defer></script>
 
 </body>
 </html>

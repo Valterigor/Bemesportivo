@@ -11,6 +11,10 @@ const mobileDrawerViewButtons = [...shell.querySelectorAll('.fb-mobile-drawer [d
 const managedSections = [...document.querySelectorAll('.container.page > :not(.fb-app-shell)')];
 const PROFILE_STORAGE_KEY = 'meuCaminhoBeProfileV1';
 const ACCESS_STORAGE_KEY = 'meuCaminhoBeAccessV1';
+const dailyActivityLabels = {
+  none: 'Sem treino', caminhada: 'Caminhada', corrida: 'Corrida', musculacao: 'Musculação',
+  funcional: 'Treino funcional', futebol: 'Futebol', ciclismo: 'Ciclismo', natacao: 'Natação', outra: 'Outra atividade'
+};
 let currentProfile = readStoredProfile();
 let pendingProfileUpdate = null;
 const viewTargets = {
@@ -76,9 +80,10 @@ function readStoredProfile() {
     if (!profile || typeof profile !== 'object') return null;
     return {
       ...profile,
-      schemaVersion: 4,
+      schemaVersion: 5,
       checkins: Array.isArray(profile.checkins) ? profile.checkins : [],
       cycles: Array.isArray(profile.cycles) ? profile.cycles : [],
+      dailyLogs: Array.isArray(profile.dailyLogs) ? profile.dailyLogs.map(sanitizeDailyLog).filter(Boolean).slice(-180) : [],
       activityHistory: Array.isArray(profile.activityHistory) ? profile.activityHistory : [],
       gamificationStats: profile.gamificationStats && typeof profile.gamificationStats === 'object' ? profile.gamificationStats : {}
     };
@@ -92,7 +97,7 @@ function saveProfile(updates) {
   currentProfile = {
     ...(currentProfile || {}),
     ...updates,
-    schemaVersion: 4,
+    schemaVersion: 5,
     createdAt: currentProfile?.createdAt || updates.createdAt || now,
     updatedAt: now
   };
@@ -119,6 +124,29 @@ function localDayKey(date = new Date()) {
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+function sanitizeDailyLog(log) {
+  if (!log || typeof log !== 'object' || !/^\d{4}-\d{2}-\d{2}$/.test(String(log.date || ''))) return null;
+  const activity = Object.hasOwn(dailyActivityLabels, log.activity) ? log.activity : 'none';
+  const cleanText = (value, limit) => String(value || '').trim().slice(0, limit);
+  const cleanNumber = (value, minimum, maximum) => {
+    if (value === '' || value === null || value === undefined) return null;
+    const number = Number(value);
+    return Number.isFinite(number) ? Math.min(maximum, Math.max(minimum, number)) : null;
+  };
+  return {
+    date: String(log.date), activity,
+    minutes: activity === 'none' ? 0 : Math.round(cleanNumber(log.minutes, 0, 600) || 0),
+    intensity: ['leve', 'moderada', 'intensa'].includes(log.intensity) ? log.intensity : '',
+    water: cleanNumber(log.water, 0, 15), sleep: cleanNumber(log.sleep, 0, 24),
+    feeling: ['1', '2', '3', '4', '5'].includes(String(log.feeling || '')) ? String(log.feeling) : '',
+    meals: {
+      breakfast: cleanText(log.meals?.breakfast, 240), lunch: cleanText(log.meals?.lunch, 240),
+      snacks: cleanText(log.meals?.snacks, 240), dinner: cleanText(log.meals?.dinner, 240)
+    },
+    note: cleanText(log.note, 300), updatedAt: cleanText(log.updatedAt, 40) || new Date().toISOString()
+  };
 }
 
 function registerFirstIdentityAccess() {
@@ -1492,6 +1520,7 @@ function getActivityDates(profile = currentProfile) {
     (item?.checkins || []).forEach(checkin => dates.push(checkin?.completedAt));
   });
   (profile?.activityHistory || []).forEach(item => dates.push(item?.occurredAt));
+  (profile?.dailyLogs || []).forEach(item => dates.push(`${item?.date}T12:00:00`));
   return dates.map(value => new Date(value)).filter(date => !Number.isNaN(date.getTime()));
 }
 
@@ -1526,9 +1555,10 @@ function getGamificationState(profile = currentProfile) {
   const communityCount = Math.max(history.filter(item => item?.type === 'community').length, Number(stats.communityActions || 0));
   const totalCheckins = Math.max(allCheckins.length, Number(stats.completedCheckins || 0));
   const totalCycles = Math.max(cycles.length, Number(stats.completedCycles || 0));
+  const dailyLogCount = Array.isArray(profile?.dailyLogs) ? profile.dailyLogs.length : 0;
   const xp = (profile?.name ? 10 : 0) + (profile?.objective ? 40 : 0) + (profile?.safety?.consent ? 20 : 0)
     + totalCheckins * 50 + totalCycles * 100 + toolCount * 25 + contentCount * 20
-    + (profile?.sportDiscovery?.completedAt ? 60 : 0) + (profile?.preferredSport ? 30 : 0) + communityCount * 25;
+    + (profile?.sportDiscovery?.completedAt ? 60 : 0) + (profile?.preferredSport ? 30 : 0) + communityCount * 25 + dailyLogCount * 15;
   const level = Math.floor(xp / 250) + 1;
   const levelNames = ['Primeiro passo', 'Em movimento', 'Criando constância', 'Evolução consciente', 'Jornada ativa'];
   const weekStart = startOfLocalWeek();
@@ -1539,6 +1569,7 @@ function getGamificationState(profile = currentProfile) {
     ['Explorador', Boolean(profile?.sportDiscovery?.completedAt)],
     ['Conhecimento aplicado', toolCount >= 3],
     ['Leitor ativo', contentCount >= 3],
+    ['Semana registrada', dailyLogCount >= 5],
     ['Ciclo concluído', totalCycles >= 1 || getCompletedSteps() >= 5]
   ];
   return { xp, level, levelName: levelNames[Math.min(level - 1, levelNames.length - 1)], streak: calculateActivityStreak(profile), weeklyActions, medals };
@@ -1572,6 +1603,112 @@ function renderGamification() {
     item.setAttribute('aria-label', `${label}: ${unlocked ? 'conquistada' : 'a conquistar'}`);
     return item;
   }));
+}
+
+function formatDailyDate(value, options = { weekday: 'short', day: '2-digit', month: 'short' }) {
+  const date = new Date(`${value}T12:00:00`);
+  return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat('pt-BR', options).format(date);
+}
+
+function getDailyLogs() {
+  return Array.isArray(currentProfile?.dailyLogs) ? currentProfile.dailyLogs : [];
+}
+
+function fillDailyForm(log = null) {
+  const form = document.getElementById('fb-daily-form');
+  if (!form) return;
+  const date = log?.date || form.elements.date.value || localDayKey();
+  form.reset();
+  form.elements.date.value = date;
+  form.elements.activity.value = log?.activity || 'none';
+  form.elements.minutes.value = String(log?.minutes || 0);
+  form.elements.intensity.value = log?.intensity || '';
+  form.elements.water.value = log?.water ?? '';
+  form.elements.sleep.value = log?.sleep ?? '';
+  form.elements.feeling.value = log?.feeling || '';
+  form.elements.breakfast.value = log?.meals?.breakfast || '';
+  form.elements.lunch.value = log?.meals?.lunch || '';
+  form.elements.snacks.value = log?.meals?.snacks || '';
+  form.elements.dinner.value = log?.meals?.dinner || '';
+  form.elements.note.value = log?.note || '';
+  const deleteButton = document.getElementById('fb-delete-daily-log');
+  if (deleteButton) deleteButton.hidden = !log;
+}
+
+function dailyNextStep(log) {
+  if (!log) return 'Próximo passo: conte como foi seu dia.';
+  if (log.activity === 'none') return 'Próximo passo: amanhã pode ser um novo começo, sem precisar compensar hoje.';
+  if (log.sleep === null) return 'Próximo passo: registre também seu sono para observar a relação com sua disposição.';
+  if (log.water === null) return 'Próximo passo: registre também sua hidratação para completar a visão do dia.';
+  if (!Object.values(log.meals || {}).some(Boolean)) return 'Próximo passo: anote ao menos uma refeição para completar o contexto do dia.';
+  return 'Próximo passo: volte amanhã e observe o que ajuda sua constância.';
+}
+
+function renderDailyJournal() {
+  const section = document.getElementById('fb-daily-journal');
+  const form = document.getElementById('fb-daily-form');
+  if (!section || !form) return;
+  section.hidden = !currentProfile?.objective;
+  if (!currentProfile?.objective) return;
+  const today = localDayKey();
+  form.elements.date.max = today;
+  if (!form.elements.date.value) form.elements.date.value = today;
+  const logs = getDailyLogs().slice().sort((a, b) => a.date.localeCompare(b.date));
+  const todayLog = logs.find(item => item.date === today);
+  const summaryTitle = document.getElementById('fb-daily-summary-title');
+  const summaryText = document.getElementById('fb-daily-summary-text');
+  if (todayLog) {
+    const mealCount = Object.values(todayLog.meals || {}).filter(Boolean).length;
+    summaryTitle.textContent = todayLog.activity === 'none' ? 'Dia de pausa registrado.' : `${dailyActivityLabels[todayLog.activity]} · ${todayLog.minutes} min`;
+    const details = [
+      mealCount ? `${mealCount} refeição${mealCount === 1 ? '' : 'ões'}` : 'refeições não informadas',
+      todayLog.water !== null ? `${String(todayLog.water).replace('.', ',')} L de água` : 'água não informada',
+      todayLog.sleep !== null ? `${String(todayLog.sleep).replace('.', ',')} h de sono` : 'sono não informado'
+    ];
+    summaryText.textContent = details.join(' · ');
+  } else {
+    summaryTitle.textContent = 'Seu dia ainda está em aberto.';
+    summaryText.textContent = 'Faça um registro rápido para visualizar atividade, alimentação, hidratação e descanso.';
+  }
+  document.getElementById('fb-daily-next-step').textContent = dailyNextStep(todayLog);
+
+  const weekStart = startOfLocalWeek();
+  const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 7);
+  const weekLogs = logs.filter(item => { const date = new Date(`${item.date}T12:00:00`); return date >= weekStart && date < weekEnd; });
+  const activeLogs = weekLogs.filter(item => item.activity !== 'none' && item.minutes > 0);
+  const totalMinutes = activeLogs.reduce((total, item) => total + item.minutes, 0);
+  const waterValues = weekLogs.map(item => item.water).filter(value => value !== null);
+  const sleepValues = weekLogs.map(item => item.sleep).filter(value => value !== null);
+  const average = values => values.length ? values.reduce((total, value) => total + value, 0) / values.length : null;
+  const averageWater = average(waterValues); const averageSleep = average(sleepValues);
+  document.getElementById('fb-week-days').textContent = `${weekLogs.length}/7`;
+  document.getElementById('fb-week-minutes').textContent = `${totalMinutes} min`;
+  document.getElementById('fb-week-water').textContent = averageWater === null ? '—' : `${averageWater.toFixed(1).replace('.', ',')} L/dia`;
+  document.getElementById('fb-week-sleep').textContent = averageSleep === null ? '—' : `${averageSleep.toFixed(1).replace('.', ',')} h/dia`;
+  document.getElementById('fb-week-summary-title').textContent = weekLogs.length
+    ? `${weekLogs.length} dia${weekLogs.length === 1 ? '' : 's'} registrado${weekLogs.length === 1 ? '' : 's'} nesta semana.`
+    : 'Sua semana começa com o primeiro registro.';
+  document.getElementById('fb-week-summary-text').textContent = activeLogs.length
+    ? `Você se movimentou em ${activeLogs.length} dia${activeLogs.length === 1 ? '' : 's'}. Continue observando sua rotina, sem buscar perfeição.`
+    : weekLogs.length ? 'Você registrou sua rotina. Dias de pausa também ajudam a entender sua semana.' : 'Os indicadores serão atualizados a cada registro.';
+
+  const historyList = document.getElementById('fb-daily-history-list');
+  const recentLogs = logs.slice(-7).reverse();
+  if (!recentLogs.length) {
+    historyList.innerHTML = '<li class="fb-daily-history-empty">Nenhum dia registrado ainda.</li>';
+  } else {
+    historyList.replaceChildren(...recentLogs.map(log => {
+      const item = document.createElement('li');
+      const copy = document.createElement('div');
+      const title = document.createElement('strong');
+      const detail = document.createElement('span');
+      const edit = document.createElement('button');
+      title.textContent = formatDailyDate(log.date);
+      detail.textContent = log.activity === 'none' ? 'Dia sem treino' : `${dailyActivityLabels[log.activity]} · ${log.minutes} min${log.intensity ? ` · ${log.intensity}` : ''}`;
+      edit.type = 'button'; edit.textContent = 'Ver ou editar'; edit.dataset.dailyEdit = log.date;
+      copy.append(title, detail); item.append(copy, edit); return item;
+    }));
+  }
 }
 
 function renderTrails() {
@@ -1760,6 +1897,7 @@ function renderPersonalizedExperience() {
   renderProgress();
   renderDashboardRecommendations();
   renderGamification();
+  renderDailyJournal();
   renderHistory();
   renderTrails();
   renderSportDiscovery();
@@ -1959,12 +2097,77 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
     ? `Perfil salvo, ${name}.` : 'Perfil salvo neste navegador.';
 });
 
+function setDailyFormVisibility(open) {
+  const wrap = document.getElementById('fb-daily-form-wrap');
+  const trigger = document.getElementById('fb-open-daily-form');
+  if (!wrap || !trigger) return;
+  wrap.hidden = !open;
+  trigger.setAttribute('aria-expanded', String(open));
+  trigger.textContent = open ? 'Registro aberto' : 'Registrar meu dia';
+  if (open) window.setTimeout(() => document.getElementById('fb-daily-date')?.focus(), 50);
+}
+
+document.getElementById('fb-open-daily-form')?.addEventListener('click', () => {
+  const wrap = document.getElementById('fb-daily-form-wrap');
+  const todayLog = getDailyLogs().find(item => item.date === localDayKey()) || null;
+  fillDailyForm(todayLog);
+  setDailyFormVisibility(Boolean(wrap?.hidden));
+});
+document.getElementById('fb-close-daily-form')?.addEventListener('click', () => setDailyFormVisibility(false));
+document.getElementById('fb-daily-date')?.addEventListener('change', event => {
+  const log = getDailyLogs().find(item => item.date === event.currentTarget.value) || null;
+  fillDailyForm(log || { date: event.currentTarget.value });
+});
+document.getElementById('fb-daily-activity')?.addEventListener('change', event => {
+  const minutes = document.getElementById('fb-daily-minutes');
+  if (event.currentTarget.value === 'none') minutes.value = '0';
+});
+document.getElementById('fb-daily-history-list')?.addEventListener('click', event => {
+  const button = event.target.closest('[data-daily-edit]');
+  if (!button) return;
+  const log = getDailyLogs().find(item => item.date === button.dataset.dailyEdit);
+  if (!log) return;
+  fillDailyForm(log); setDailyFormVisibility(true);
+  document.getElementById('fb-daily-form-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+document.getElementById('fb-daily-form')?.addEventListener('submit', event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const data = new FormData(form);
+  const activity = String(data.get('activity') || 'none');
+  const minutes = Number(data.get('minutes') || 0);
+  const feedback = document.getElementById('fb-daily-feedback');
+  if (activity !== 'none' && minutes < 1) {
+    feedback.textContent = 'Informe quanto tempo durou sua atividade.';
+    form.elements.minutes.focus(); return;
+  }
+  const log = sanitizeDailyLog({
+    date: data.get('date'), activity, minutes, intensity: data.get('intensity'), water: data.get('water'),
+    sleep: data.get('sleep'), feeling: data.get('feeling'), note: data.get('note'),
+    meals: { breakfast: data.get('breakfast'), lunch: data.get('lunch'), snacks: data.get('snacks'), dinner: data.get('dinner') },
+    updatedAt: new Date().toISOString()
+  });
+  if (!log || log.date > localDayKey()) { feedback.textContent = 'Escolha uma data válida, sem usar dias futuros.'; return; }
+  const dailyLogs = [...getDailyLogs().filter(item => item.date !== log.date), log].sort((a, b) => a.date.localeCompare(b.date)).slice(-180);
+  saveProfile({ dailyLogs });
+  fillDailyForm(log);
+  feedback.textContent = `${formatDailyDate(log.date, { day: '2-digit', month: 'long' })} foi salvo. Seus resumos já foram atualizados.`;
+});
+document.getElementById('fb-delete-daily-log')?.addEventListener('click', () => {
+  const date = document.getElementById('fb-daily-date')?.value;
+  if (!date || !getDailyLogs().some(item => item.date === date)) return;
+  if (!window.confirm(`Excluir o registro de ${formatDailyDate(date, { day: '2-digit', month: 'long' })}?`)) return;
+  saveProfile({ dailyLogs: getDailyLogs().filter(item => item.date !== date) });
+  fillDailyForm({ date });
+  document.getElementById('fb-daily-feedback').textContent = 'Registro excluído deste aparelho.';
+});
+
 document.getElementById('fb-export-profile')?.addEventListener('click', () => {
   if (!currentProfile) {
     document.getElementById('fb-profile-feedback').textContent = 'Ainda não há um perfil para exportar.';
     return;
   }
-  const payload = JSON.stringify({ schemaVersion: 4, exportedAt: new Date().toISOString(), profile: currentProfile }, null, 2);
+  const payload = JSON.stringify({ schemaVersion: 5, exportedAt: new Date().toISOString(), profile: currentProfile }, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -1988,11 +2191,12 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
     if (!profile || typeof profile !== 'object' || !allowedObjectives.includes(profile.objective) || typeof profile.name !== 'string') throw new Error('invalid');
     const sanitized = {
       ...profile,
-      schemaVersion: 4,
+      schemaVersion: 5,
       createdAt: profile.createdAt || new Date().toISOString(),
       name: profile.name.trim().slice(0, 40),
       checkins: Array.isArray(profile.checkins) ? profile.checkins.slice(-10) : [],
       cycles: Array.isArray(profile.cycles) ? profile.cycles.slice(-6) : [],
+      dailyLogs: Array.isArray(profile.dailyLogs) ? profile.dailyLogs.map(sanitizeDailyLog).filter(Boolean).slice(-180) : [],
       activityHistory: Array.isArray(profile.activityHistory) ? profile.activityHistory.slice(-40) : [],
       gamificationStats: profile.gamificationStats && typeof profile.gamificationStats === 'object' ? {
         completedCheckins: Math.max(0, Number(profile.gamificationStats.completedCheckins || 0)),
