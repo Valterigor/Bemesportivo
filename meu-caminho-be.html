@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260719-1">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260718-4">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-22">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-23">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -159,6 +159,13 @@
 <div><span>MEU HOJE</span><h2 id="fb-today-zone-title">Seu dia, suas escolhas e seu registro.</h2></div>
 <time id="fb-today-context-date" datetime="">Hoje</time>
 </header>
+<section class="fb-day-guide" id="fb-day-guide" aria-labelledby="fb-day-guide-title" hidden>
+<header class="fb-day-guide-head"><div><span>GUIA DO MEU HOJE</span><h2 id="fb-day-guide-title">O que pode ajudar você agora?</h2></div><strong id="fb-day-guide-phase">AGORA</strong></header>
+<div class="fb-day-intentions"><p>Escolha uma prioridade para hoje:</p><div role="group" aria-label="Prioridade do dia"><button type="button" data-day-intent="movimento">Me movimentar</button><button type="button" data-day-intent="descanso">Descansar</button><button type="button" data-day-intent="alimentacao">Cuidar da alimentação</button><button type="button" data-day-intent="hidratacao">Melhorar a hidratação</button><button type="button" data-day-intent="registro">Só registrar meu dia</button></div></div>
+<article class="fb-day-recommendation" aria-live="polite"><span id="fb-day-recommendation-kicker">COMECE ESCOLHENDO</span><h3 id="fb-day-recommendation-title">Qual é a prioridade possível para hoje?</h3><p id="fb-day-recommendation-text">Sua escolha ajuda o sistema a mostrar apenas uma orientação por vez.</p><div class="fb-day-recommendation-actions" id="fb-day-recommendation-actions" hidden><button type="button" class="fb-primary-action" id="fb-day-guide-primary">Fazer agora</button><button type="button" id="fb-day-guide-later">Lembrar mais tarde</button><button type="button" id="fb-day-guide-done">Já fiz</button></div><button type="button" class="fb-day-why-toggle" id="fb-day-why-toggle" aria-expanded="false" aria-controls="fb-day-why">Por que estou vendo isso?</button><p class="fb-day-why" id="fb-day-why" hidden></p></article>
+<div class="fb-day-reminder-options" id="fb-day-reminder-options" hidden><span>Lembrar neste aparelho:</span><button type="button" data-reminder-minutes="30">Em 30 min</button><button type="button" data-reminder-minutes="120">Em 2 horas</button><button type="button" data-reminder-period="evening">Hoje à noite</button><button type="button" id="fb-day-reminder-cancel">Cancelar</button><small>O aviso aparecerá quando você estiver usando ou voltar ao Meu Caminho Be.</small></div>
+<ol class="fb-day-timeline" id="fb-day-timeline" aria-label="Momentos do dia"><li data-day-period="morning"><span>Manhã</span><i aria-hidden="true"></i></li><li data-day-period="afternoon"><span>Tarde</span><i aria-hidden="true"></i></li><li data-day-period="evening"><span>Noite</span><i aria-hidden="true"></i></li></ol>
+</section>
 <section class="fb-today-card" id="fb-today-card" aria-labelledby="fb-today-title" hidden>
 <div class="fb-today-copy">
 <span id="fb-today-kicker">SEU PRIMEIRO PASSO</span>
@@ -990,7 +997,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script type="module" src="js/site-common.js?v=20260718-8"></script>
 <script src="js/coluna-valtinho.js?v=20260718-7" defer></script>
-<script src="js/fala-bem-app.js?v=20260719-21" defer></script>
+<script src="js/fala-bem-app.js?v=20260719-23" defer></script>
 
 </body>
 </html>

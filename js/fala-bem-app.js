@@ -15,6 +15,10 @@ const dailyActivityLabels = {
   none: 'Sem treino', caminhada: 'Caminhada', corrida: 'Corrida', musculacao: 'Musculação',
   funcional: 'Treino funcional', futebol: 'Futebol', ciclismo: 'Ciclismo', natacao: 'Natação', outra: 'Outra atividade'
 };
+const dailyIntentions = {
+  movimento: 'Me movimentar', descanso: 'Descansar', alimentacao: 'Cuidar da alimentação',
+  hidratacao: 'Melhorar a hidratação', registro: 'Só registrar meu dia'
+};
 let currentProfile = readStoredProfile();
 let pendingProfileUpdate = null;
 const viewTargets = {
@@ -80,10 +84,11 @@ function readStoredProfile() {
     if (!profile || typeof profile !== 'object') return null;
     return {
       ...profile,
-      schemaVersion: 5,
+      schemaVersion: 6,
       checkins: Array.isArray(profile.checkins) ? profile.checkins : [],
       cycles: Array.isArray(profile.cycles) ? profile.cycles : [],
       dailyLogs: Array.isArray(profile.dailyLogs) ? profile.dailyLogs.map(sanitizeDailyLog).filter(Boolean).slice(-180) : [],
+      dailyPlans: Array.isArray(profile.dailyPlans) ? profile.dailyPlans.map(sanitizeDailyPlan).filter(Boolean).slice(-60) : [],
       activityHistory: Array.isArray(profile.activityHistory) ? profile.activityHistory : [],
       gamificationStats: profile.gamificationStats && typeof profile.gamificationStats === 'object' ? profile.gamificationStats : {}
     };
@@ -97,7 +102,7 @@ function saveProfile(updates) {
   currentProfile = {
     ...(currentProfile || {}),
     ...updates,
-    schemaVersion: 5,
+    schemaVersion: 6,
     createdAt: currentProfile?.createdAt || updates.createdAt || now,
     updatedAt: now
   };
@@ -177,6 +182,22 @@ function sanitizeDailyLog(log) {
       snacks: cleanText(log.meals?.snacks, 240), dinner: cleanText(log.meals?.dinner, 240)
     },
     note: cleanText(log.note, 300), updatedAt: cleanText(log.updatedAt, 40) || new Date().toISOString()
+  };
+}
+
+function sanitizeDailyPlan(plan) {
+  if (!plan || typeof plan !== 'object' || !/^\d{4}-\d{2}-\d{2}$/.test(String(plan.date || ''))) return null;
+  if (!Object.hasOwn(dailyIntentions, plan.intention)) return null;
+  const cleanDateTime = value => {
+    const text = String(value || '').slice(0, 40);
+    return text && !Number.isNaN(new Date(text).getTime()) ? text : '';
+  };
+  return {
+    date: String(plan.date), intention: plan.intention,
+    status: ['planned', 'done', 'snoozed'].includes(plan.status) ? plan.status : 'planned',
+    selectedAt: cleanDateTime(plan.selectedAt) || new Date().toISOString(),
+    remindAt: cleanDateTime(plan.remindAt), notifiedAt: cleanDateTime(plan.notifiedAt),
+    completedAt: cleanDateTime(plan.completedAt)
   };
 }
 
@@ -1650,6 +1671,124 @@ function getDailyLogs() {
   return Array.isArray(currentProfile?.dailyLogs) ? currentProfile.dailyLogs : [];
 }
 
+function getDailyPlans() {
+  return Array.isArray(currentProfile?.dailyPlans) ? currentProfile.dailyPlans : [];
+}
+
+function getDayPhase(date = new Date()) {
+  const hour = date.getHours();
+  return hour < 12 ? 'morning' : hour < 18 ? 'afternoon' : 'evening';
+}
+
+function saveDailyPlan(updates) {
+  const date = updates.date || localDayKey();
+  const existing = getDailyPlans().find(item => item.date === date) || {};
+  const plan = sanitizeDailyPlan({ ...existing, ...updates, date, selectedAt: existing.selectedAt || updates.selectedAt || new Date().toISOString() });
+  if (!plan) return null;
+  const dailyPlans = [...getDailyPlans().filter(item => item.date !== date), plan].sort((a, b) => a.date.localeCompare(b.date)).slice(-60);
+  saveProfile({ dailyPlans });
+  return plan;
+}
+
+function getDayGuideRecommendation(plan, log, phase = getDayPhase()) {
+  const phaseLabels = { morning: 'MANHÃ', afternoon: 'TARDE', evening: 'NOITE' };
+  if (log) return {
+    kicker: 'MEU HOJE REGISTRADO', title: 'Seu dia já está salvo.',
+    text: 'O resumo e a Jornada da Semana foram atualizados. Você ainda pode complementar qualquer informação.',
+    why: 'Esta mensagem aparece porque já existe um registro para hoje.', action: 'summary', actionLabel: 'Ver meu resumo'
+  };
+  if (!plan) return {
+    kicker: 'COMECE ESCOLHENDO', title: 'Qual é a prioridade possível para hoje?',
+    text: 'Sua escolha ajuda o sistema a mostrar apenas uma orientação por vez.',
+    why: 'Ainda não há uma prioridade selecionada para hoje.'
+  };
+  if (plan.status === 'done') return {
+    kicker: 'INTENÇÃO REALIZADA', title: 'Muito bem por reconhecer o que você fez.',
+    text: 'Agora um registro rápido transforma essa ação em histórico e atualiza seus resumos.',
+    why: `Você marcou “${dailyIntentions[plan.intention]}” como realizada.`, action: 'record', actionLabel: 'Registrar Meu Hoje'
+  };
+  const reminderDate = plan.remindAt ? new Date(plan.remindAt) : null;
+  if (plan.status === 'snoozed' && reminderDate && reminderDate > new Date()) return {
+    kicker: 'LEMBRETE PROGRAMADO', title: `Combinado para ${new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' }).format(reminderDate)}.`,
+    text: 'A orientação continuará disponível caso você queira agir antes.',
+    why: `Você escolheu receber um lembrete para a prioridade “${dailyIntentions[plan.intention]}”.`, action: plan.intention === 'movimento' ? 'journey' : 'record', actionLabel: 'Fazer agora', allowLater: true, allowDone: true
+  };
+  const recommendations = {
+    movimento: {
+      morning: ['Reserve um momento possível para se movimentar.', 'Escolha um horário realista e uma versão que caiba no seu dia.'],
+      afternoon: ['Ainda cabe uma versão possível no seu dia.', 'Se o plano original não couber, reduza o tempo em vez de abandonar a intenção.'],
+      evening: ['Escolha entre uma versão curta ou um registro honesto.', 'Não é necessário compensar. Faça apenas o que ainda for adequado ao seu momento.']
+    },
+    descanso: {
+      morning: ['Seu descanso também pode ter intenção.', 'Observe energia, sono e disposição sem transformar o dia de pausa em culpa.'],
+      afternoon: ['Uma pausa consciente também constrói constância.', 'Use o restante do dia para perceber o que ajuda sua recuperação.'],
+      evening: ['Registre como o descanso fez parte do seu dia.', 'Sono, disposição e uma observação curta já formam um registro útil.']
+    },
+    alimentacao: {
+      morning: ['Comece registrando uma refeição, sem buscar perfeição.', 'Uma anotação simples já ajuda a enxergar o contexto do dia.'],
+      afternoon: ['Registre o que já aconteceu, sem julgamento.', 'Você pode anotar almoço e lanches agora e completar o restante mais tarde.'],
+      evening: ['Feche o dia com uma visão simples das refeições.', 'Não é necessário calcular calorias: apenas registre o que você lembra.']
+    },
+    hidratacao: {
+      morning: ['Torne a hidratação visível no seu dia.', 'Deixe água acessível e registre a quantidade quando for conveniente.'],
+      afternoon: ['Faça uma pausa e observe sua hidratação até aqui.', 'Registre uma estimativa possível, sem buscar precisão perfeita.'],
+      evening: ['Complete o registro de água do dia.', 'Uma estimativa honesta ajuda mais do que deixar o campo em branco.']
+    },
+    registro: {
+      morning: ['Seu dia pode começar com uma intenção simples.', 'Registre agora ou volte mais tarde para contar o que aconteceu.'],
+      afternoon: ['Dois minutos já organizam o que aconteceu até aqui.', 'Faça o registro rápido e complete os detalhes quando quiser.'],
+      evening: ['Antes de encerrar, registre como foi seu dia.', 'Atividade, pausa e disposição já são suficientes para começar.']
+    }
+  };
+  const [title, text] = recommendations[plan.intention][phase];
+  return {
+    kicker: `PARA AGORA · ${phaseLabels[phase]}`, title, text,
+    why: `Esta orientação considera o horário atual e sua prioridade “${dailyIntentions[plan.intention]}”.`,
+    action: plan.intention === 'movimento' ? 'journey' : plan.intention === 'descanso' ? 'rest' : plan.intention === 'alimentacao' || plan.intention === 'hidratacao' ? 'details' : 'record',
+    actionLabel: plan.intention === 'movimento' ? 'Ver meu próximo passo' : plan.intention === 'descanso' ? 'Registrar meu descanso' : plan.intention === 'registro' ? 'Registrar Meu Hoje' : 'Abrir registro completo',
+    allowLater: true, allowDone: true
+  };
+}
+
+function renderDailyGuide() {
+  const section = document.getElementById('fb-day-guide');
+  if (!section) return;
+  section.hidden = !currentProfile?.objective;
+  if (!currentProfile?.objective) return;
+  const today = localDayKey();
+  const phase = getDayPhase();
+  const plan = getDailyPlans().find(item => item.date === today) || null;
+  const log = getDailyLogs().find(item => item.date === today) || null;
+  const recommendation = getDayGuideRecommendation(plan, log, phase);
+  const phaseLabels = { morning: 'MANHÃ', afternoon: 'TARDE', evening: 'NOITE' };
+  document.getElementById('fb-day-guide-phase').textContent = phaseLabels[phase];
+  document.getElementById('fb-day-recommendation-kicker').textContent = recommendation.kicker;
+  document.getElementById('fb-day-recommendation-title').textContent = recommendation.title;
+  document.getElementById('fb-day-recommendation-text').textContent = recommendation.text;
+  document.getElementById('fb-day-why').textContent = recommendation.why;
+  const intentions = section.querySelector('.fb-day-intentions');
+  if (intentions) intentions.hidden = Boolean(log);
+  document.querySelectorAll('[data-day-intent]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.dayIntent === plan?.intention)));
+  const actions = document.getElementById('fb-day-recommendation-actions');
+  actions.hidden = !recommendation.action;
+  if (recommendation.action) {
+    const primary = document.getElementById('fb-day-guide-primary');
+    primary.textContent = recommendation.actionLabel;
+    primary.dataset.guideAction = recommendation.action;
+    document.getElementById('fb-day-guide-later').hidden = !recommendation.allowLater;
+    document.getElementById('fb-day-guide-done').hidden = !recommendation.allowDone;
+  }
+  document.getElementById('fb-day-reminder-options').hidden = true;
+  const periods = ['morning', 'afternoon', 'evening'];
+  const currentIndex = periods.indexOf(phase);
+  document.querySelectorAll('#fb-day-timeline [data-day-period]').forEach((item, index) => {
+    item.classList.toggle('past', index < currentIndex);
+    item.classList.toggle('current', index === currentIndex);
+    item.classList.toggle('future', index > currentIndex);
+    if (index === currentIndex) item.setAttribute('aria-current', 'step'); else item.removeAttribute('aria-current');
+  });
+}
+
 function fillDailyForm(log = null) {
   const form = document.getElementById('fb-daily-form');
   if (!form) return;
@@ -2040,6 +2179,7 @@ function renderPersonalizedExperience() {
   renderProgress();
   renderDashboardRecommendations();
   renderGamification();
+  renderDailyGuide();
   renderDailyJournal();
   renderHistory();
   renderTrails();
@@ -2266,6 +2406,61 @@ function openDailyJournal(options = {}) {
   window.setTimeout(() => document.getElementById(options.details ? 'fb-daily-optional' : 'fb-daily-journal')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 220);
 }
 
+document.querySelectorAll('[data-day-intent]').forEach(button => {
+  button.addEventListener('click', () => {
+    saveDailyPlan({ intention: button.dataset.dayIntent, status: 'planned', remindAt: '', notifiedAt: '', completedAt: '' });
+    showCelebration('Prioridade escolhida!', `O Guia do Meu Hoje agora considera: ${dailyIntentions[button.dataset.dayIntent]}.`);
+  });
+});
+
+document.getElementById('fb-day-why-toggle')?.addEventListener('click', event => {
+  const why = document.getElementById('fb-day-why');
+  const expanded = event.currentTarget.getAttribute('aria-expanded') === 'true';
+  event.currentTarget.setAttribute('aria-expanded', String(!expanded));
+  event.currentTarget.textContent = expanded ? 'Por que estou vendo isso?' : 'Ocultar explicação';
+  why.hidden = expanded;
+});
+
+document.getElementById('fb-day-guide-primary')?.addEventListener('click', event => {
+  const action = event.currentTarget.dataset.guideAction;
+  if (action === 'summary') {
+    document.querySelector('.fb-daily-overview')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  if (action === 'journey') { openView('progresso'); return; }
+  if (action === 'details') { openDailyJournal({ details: true }); return; }
+  openDailyJournal();
+});
+
+document.getElementById('fb-day-guide-later')?.addEventListener('click', () => {
+  const options = document.getElementById('fb-day-reminder-options');
+  options.hidden = !options.hidden;
+  if (!options.hidden) options.querySelector('button')?.focus();
+});
+
+document.querySelectorAll('#fb-day-reminder-options [data-reminder-minutes],#fb-day-reminder-options [data-reminder-period]').forEach(button => {
+  button.addEventListener('click', () => {
+    const plan = getDailyPlans().find(item => item.date === localDayKey());
+    if (!plan) return;
+    const remindAt = new Date();
+    if (button.dataset.reminderMinutes) remindAt.setMinutes(remindAt.getMinutes() + Number(button.dataset.reminderMinutes));
+    else {
+      remindAt.setHours(20, 0, 0, 0);
+      if (remindAt <= new Date()) remindAt.setHours(new Date().getHours() + 1, 0, 0, 0);
+    }
+    saveDailyPlan({ ...plan, status: 'snoozed', remindAt: remindAt.toISOString(), notifiedAt: '' });
+    showCelebration('Lembrete combinado!', `Vamos lembrar você às ${new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' }).format(remindAt)}.`);
+  });
+});
+
+document.getElementById('fb-day-reminder-cancel')?.addEventListener('click', () => { document.getElementById('fb-day-reminder-options').hidden = true; });
+document.getElementById('fb-day-guide-done')?.addEventListener('click', () => {
+  const plan = getDailyPlans().find(item => item.date === localDayKey());
+  if (!plan) return;
+  saveDailyPlan({ ...plan, status: 'done', remindAt: '', notifiedAt: '', completedAt: new Date().toISOString() });
+  showCelebration('Muito bem!', 'Sua intenção foi marcada como realizada. Registre o dia quando quiser atualizar seus resumos.');
+});
+
 document.getElementById('fb-open-daily-form')?.addEventListener('click', () => {
   const wrap = document.getElementById('fb-daily-form-wrap');
   const todayLog = getDailyLogs().find(item => item.date === localDayKey()) || null;
@@ -2342,7 +2537,7 @@ document.getElementById('fb-export-profile')?.addEventListener('click', () => {
     document.getElementById('fb-profile-feedback').textContent = 'Ainda não há um perfil para exportar.';
     return;
   }
-  const payload = JSON.stringify({ schemaVersion: 5, exportedAt: new Date().toISOString(), profile: currentProfile }, null, 2);
+  const payload = JSON.stringify({ schemaVersion: 6, exportedAt: new Date().toISOString(), profile: currentProfile }, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -2366,12 +2561,13 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
     if (!profile || typeof profile !== 'object' || !allowedObjectives.includes(profile.objective) || typeof profile.name !== 'string') throw new Error('invalid');
     const sanitized = {
       ...profile,
-      schemaVersion: 5,
+      schemaVersion: 6,
       createdAt: profile.createdAt || new Date().toISOString(),
       name: profile.name.trim().slice(0, 40),
       checkins: Array.isArray(profile.checkins) ? profile.checkins.slice(-10) : [],
       cycles: Array.isArray(profile.cycles) ? profile.cycles.slice(-6) : [],
       dailyLogs: Array.isArray(profile.dailyLogs) ? profile.dailyLogs.map(sanitizeDailyLog).filter(Boolean).slice(-180) : [],
+      dailyPlans: Array.isArray(profile.dailyPlans) ? profile.dailyPlans.map(sanitizeDailyPlan).filter(Boolean).slice(-60) : [],
       activityHistory: Array.isArray(profile.activityHistory) ? profile.activityHistory.slice(-40) : [],
       gamificationStats: profile.gamificationStats && typeof profile.gamificationStats === 'object' ? {
         completedCheckins: Math.max(0, Number(profile.gamificationStats.completedCheckins || 0)),
@@ -2601,11 +2797,21 @@ function openLinkedContentFromHash() {
   }
 }
 
+function checkDailyGuideReminder() {
+  if (!currentProfile?.objective || getDailyLogs().some(item => item.date === localDayKey())) return;
+  const plan = getDailyPlans().find(item => item.date === localDayKey());
+  if (!plan?.remindAt || plan.notifiedAt || new Date(plan.remindAt) > new Date()) return;
+  saveDailyPlan({ ...plan, status: 'planned', notifiedAt: new Date().toISOString() });
+  showCelebration('Seu lembrete chegou!', `Prioridade de hoje: ${dailyIntentions[plan.intention]}.`);
+}
+
 renderPersonalizedExperience();
 if (!openLinkedContentFromHash()) {
   openView('inicio', { scroll: false, focus: false, instant: true });
 }
 registerDailyAccess();
+window.setTimeout(checkDailyGuideReminder, 1200);
+window.setInterval(checkDailyGuideReminder, 60000);
 document.getElementById('fb-welcome-close')?.addEventListener('click', () => document.getElementById('fb-daily-welcome')?.close());
 document.getElementById('fb-welcome-later')?.addEventListener('click', () => document.getElementById('fb-daily-welcome')?.close());
 document.getElementById('fb-welcome-continue')?.addEventListener('click', () => {
