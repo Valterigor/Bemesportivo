@@ -10,8 +10,6 @@ const communityFile = path.join(root, 'data', 'community.json');
 const gameRankingFile = path.join(root, 'data', 'game-ranking.json');
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const SELECAO_NEWS_RSS_URL = 'https://news.google.com/rss/search?q=sele%C3%A7%C3%A3o%20brasileira%20futebol%20when%3A1d&hl=pt-BR&gl=BR&ceid=BR:pt-419';
-const ESPN_WORLD_CUP_SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
-const ESPN_WORLD_CUP_SUMMARY_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary';
 const apiCache = new Map();
 
 const mimeTypes = {
@@ -619,54 +617,6 @@ async function handleBrasileiraoApi(request, response, parsedUrl){
   return false;
 }
 
-async function handleWorldCupApi(request, response, parsedUrl){
-  if(request.method !== 'GET') return false;
-
-  if(parsedUrl.pathname === '/api/worldcup/scoreboard'){
-    const dates = normalizeScoreboardDates(parsedUrl.searchParams.get('dates'));
-    if(!dates){
-      sendJson(response, 400, {ok:false, error:'Data inválida. Use YYYYMMDD ou YYYYMMDD-YYYYMMDD.'});
-      return true;
-    }
-
-    try{
-      const payload = await cachedJson(`scoreboard:${dates}`, 12000, () => {
-        return fetchWorldCupScoreboards(dates);
-      });
-      sendJson(response, 200, payload, 12);
-    }catch(error){
-      sendJson(response, 502, {ok:false, error:'ESPN indisponível no momento', detail:error.message});
-    }
-    return true;
-  }
-
-  if(parsedUrl.pathname === '/api/worldcup/summary'){
-    const event = String(parsedUrl.searchParams.get('event') || '').replace(/[^0-9]/g, '').slice(0, 20);
-    if(!event){
-      sendJson(response, 400, {ok:false, error:'Evento inválido.'});
-      return true;
-    }
-
-    try{
-      const payload = await cachedJson(`summary:${event}`, 5000, () => {
-        const url = `${ESPN_WORLD_CUP_SUMMARY_URL}?event=${encodeURIComponent(event)}`;
-        return fetchJson(url);
-      });
-      sendJson(response, 200, payload, 5);
-    }catch(error){
-      sendJson(response, 502, {ok:false, error:'Resumo ESPN indisponível no momento', detail:error.message});
-    }
-    return true;
-  }
-
-  return false;
-}
-
-function normalizeScoreboardDates(value){
-  const dates = String(value || '').replace(/[^0-9-]/g, '').slice(0, 17);
-  return /^\d{8}(-\d{8})?$/.test(dates) ? dates : '';
-}
-
 function readGameRanking(){
   try{
     const saved = JSON.parse(fs.readFileSync(gameRankingFile, 'utf8'));
@@ -713,65 +663,6 @@ async function handleGameRankingApi(request, response){
   return true;
 }
 
-function parseDateKey(key){
-  const year = Number(key.slice(0, 4));
-  const month = Number(key.slice(4, 6)) - 1;
-  const day = Number(key.slice(6, 8));
-  return new Date(Date.UTC(year, month, day, 12, 0, 0));
-}
-
-function formatDateKey(date){
-  return [
-    date.getUTCFullYear(),
-    String(date.getUTCMonth() + 1).padStart(2, '0'),
-    String(date.getUTCDate()).padStart(2, '0')
-  ].join('');
-}
-
-function enumerateDateKeys(dates){
-  const [startKey, endKey = startKey] = dates.split('-');
-  const start = parseDateKey(startKey);
-  const end = parseDateKey(endKey);
-  if(Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || start > end){
-    throw new Error('Intervalo de datas invalido.');
-  }
-
-  const keys = [];
-  const cursor = new Date(start);
-  while(cursor <= end && keys.length < 15){
-    keys.push(formatDateKey(cursor));
-    cursor.setUTCDate(cursor.getUTCDate() + 1);
-  }
-  return keys;
-}
-
-async function fetchWorldCupScoreboards(dates){
-  const keys = enumerateDateKeys(dates);
-  const payloads = await Promise.all(keys.map(dateKey => {
-    const url = `${ESPN_WORLD_CUP_SCOREBOARD_URL}?dates=${dateKey}&limit=100`;
-    return fetchJson(url).catch(error => ({ events: [], error: error.message, dateKey }));
-  }));
-
-  const merged = payloads[0] && typeof payloads[0] === 'object' ? {...payloads[0]} : {};
-  const eventsById = new Map();
-  payloads.forEach(payload => {
-    (payload.events || []).forEach(event => {
-      eventsById.set(String(event.id || `${event.date}-${event.name}`), event);
-    });
-  });
-
-  merged.events = Array.from(eventsById.values()).sort((a, b) => {
-    return new Date(a.date || 0) - new Date(b.date || 0);
-  });
-  merged.requestedDates = dates;
-  merged.requestedDateKeys = keys;
-  merged.partialErrors = payloads.filter(payload => payload.error).map(payload => ({
-    date: payload.dateKey,
-    error: payload.error
-  }));
-  return merged;
-}
-
 function resolveRequest(urlPath){
   const cleanPath = decodeURIComponent(urlPath.split('?')[0]).replace(/^\/+/, '');
   if(cleanPath === 'data' || cleanPath.startsWith('data/')){
@@ -808,11 +699,6 @@ const server = http.createServer(async (request, response) => {
     response.writeHead(204, corsHeaders);
     response.end();
     return;
-  }
-
-  if(parsedUrl.pathname.startsWith('/api/worldcup/')){
-    const handled = await handleWorldCupApi(request, response, parsedUrl);
-    if(handled) return;
   }
 
   if(parsedUrl.pathname.startsWith('/api/brasileirao/')){

@@ -1,6 +1,5 @@
 /api/community/* /.netlify/functions/community/:splat 200
 /api/game-ranking /.netlify/functions/game-ranking 200
-/api/worldcup/* /.netlify/functions/worldcup/:splat 200
 /api/brasileirao/* /.netlify/functions/brasileirao/:splat 200
 /api/selecaobrasileira/* /.netlify/functions/selecaobrasileira/:splat 200
 /coluna-valtinho /meu-caminho-be 301

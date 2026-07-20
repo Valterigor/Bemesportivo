@@ -905,10 +905,6 @@ table {
     min-width: 640px;
   }
 
-  .worldcup-table {
-    min-width: 720px;
-  }
-
   .site-footer {
     margin-top: 36px;
     padding: 26px 16px;
@@ -1946,8 +1942,6 @@ span {
 .btn-contato,
 .btn-lineup,
 .palpite-save,
-.worldcup-load-more,
-.worldcup-group-toggle,
 .beplay-home-callout a {
   border-radius: var(--site-radius) !important;
   font-weight: 850;
@@ -1962,7 +1956,6 @@ span {
 .beplay-home-callout,
 .hero,
 .palpitometro-section,
-.worldcup-section,
 .lineup-callout {
   border-radius: 12px;
 }
@@ -2009,7 +2002,6 @@ span {
 }
 
 .section-action-head a,
-.worldcup-brazil-actions a,
 .lineup-actions a {
   border-radius: 999px;
 }
@@ -2035,11 +2027,6 @@ span {
     linear-gradient(180deg, rgba(255, 255, 255, .94), rgba(255, 255, 255, .82)),
     radial-gradient(circle at 12% 0, rgba(249, 115, 22, .12), transparent 34%);
   box-shadow: var(--site-shadow);
-}
-
-.worldcup-story-card {
-  width: min(100%, 560px);
-  margin-inline: auto;
 }
 
 .lineup-callout {
@@ -2128,15 +2115,6 @@ span {
   box-shadow: 0 22px 55px rgba(15, 23, 42, .14);
 }
 
-.worldcup-tabs {
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.worldcup-tabs::-webkit-scrollbar {
-  display: none;
-}
-
 @media (min-width: 821px) {
   body {
     padding-top: 72px;
@@ -2158,7 +2136,6 @@ span {
   .hero,
   .hub-quick-actions,
   .beplay-home-callout,
-  .worldcup-section,
   .palpitometro-section {
     width: min(calc(100% - 36px), 1120px);
     margin-left: auto;
@@ -2170,53 +2147,9 @@ span {
     grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr);
   }
 
-  .worldcup-story-card {
-    width: min(100%, 1080px) !important;
-    aspect-ratio: auto !important;
-    min-height: 520px !important;
-  }
-
-  .worldcup-story-content {
-    display: grid !important;
-    grid-template-columns: minmax(0, .95fr) minmax(360px, .82fr) !important;
-    grid-template-rows: auto auto minmax(0, 1fr) auto !important;
-    align-items: stretch;
-    gap: 18px 22px !important;
-    padding: 28px !important;
-  }
-
-  .worldcup-story-top,
-  .worldcup-story-title,
-  .worldcup-story-match,
   .destaque-live-panel,
   .story-shareline {
     grid-column: 1;
-  }
-
-  .worldcup-story-controls {
-    grid-column: 2;
-    grid-row: 1 / span 4;
-    align-self: stretch;
-    display: grid;
-    align-content: stretch;
-    gap: 12px;
-  }
-
-  .worldcup-story-title {
-    justify-items: start !important;
-    text-align: left !important;
-  }
-
-  .worldcup-story-title h2 {
-    font-size: clamp(38px, 4.6vw, 64px) !important;
-  }
-
-  .worldcup-story-title p {
-    max-width: 38rem !important;
-  }
-
-  .worldcup-story-match {
-    min-height: 120px !important;
   }
 
   .destaque-live-panel {
@@ -2298,7 +2231,6 @@ span {
 
   .beplay-home-callout,
   .hero,
-  .worldcup-section,
   .palpitometro-section,
   .lineup-callout {
     width: min(calc(100% - 18px), 720px) !important;
@@ -2328,15 +2260,6 @@ span {
 
   .section-action-head a {
     justify-self: start;
-  }
-
-  .worldcup-story-card {
-    width: 100% !important;
-  }
-
-  .worldcup-story-content {
-    padding-left: 14px !important;
-    padding-right: 14px !important;
   }
 
   .destaque-live-score {
@@ -2377,17 +2300,6 @@ span {
   .home-side-post img {
     width: 86px !important;
     height: 74px !important;
-  }
-
-  .worldcup-tabs {
-    display: flex !important;
-    gap: 8px;
-    padding-bottom: 4px;
-  }
-
-  .worldcup-tabs button {
-    flex: 0 0 auto;
-    min-width: 96px;
   }
 
   .mobile-app-nav {

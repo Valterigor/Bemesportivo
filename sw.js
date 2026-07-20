@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v24';
+const CACHE_NAME = 'meu-caminho-be-v25';
 const APP_SHELL = [
   '/meu-caminho-be',
   '/site-common.css?v=20260718-8',
@@ -8,7 +8,7 @@ const APP_SHELL = [
   '/css/core/tokens.css',
   '/css/core/primitives.css',
   '/css/components/ui.css',
-  '/css/coluna-valtinho.css?v=20260718-4',
+  '/css/coluna-valtinho.css?v=20260719-1',
   '/css/fala-bem-platform.css?v=20260719-23',
   '/js/site-common.js?v=20260718-8',
   '/js/core/routes.js',

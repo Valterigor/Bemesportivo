@@ -470,7 +470,7 @@ const stopWords = new Set(['a','ao','aos','anos','as','com','como','da','das','d
 const searchTokens = query => [...new Set(normalize(query).split(' ').filter(token => token.length > 2 && !stopWords.has(token)))];
 
 function buildLocalIndex() {
-  const nodes = [...document.querySelectorAll('.article-grid .post, .journey-guidance-card, .feature-opiniao, .professional-voice')];
+  const nodes = [...document.querySelectorAll('.article-grid .post, .journey-guidance-card, .professional-voice')];
   return nodes.map((node, index) => {
     if (!node.id) node.id = `fala-bem-conteudo-${index + 1}`;
     const title = node.querySelector('h2, h3')?.textContent.trim() || 'Conteúdo BeMEsportivo';
