@@ -317,7 +317,12 @@ document.querySelectorAll("[data-report-comments]").forEach(section => {
   });
 });
 
-window.setInterval(() => {
+function refreshAllReportComments() {
   if (document.hidden) return;
   document.querySelectorAll("[data-report-comments]").forEach(section => renderReportComments(section, true));
-}, 60000);
+}
+
+window.setInterval(refreshAllReportComments, 30000);
+document.addEventListener("visibilitychange", refreshAllReportComments);
+window.addEventListener("focus", refreshAllReportComments);
+window.addEventListener("online", refreshAllReportComments);

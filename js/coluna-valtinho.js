@@ -611,6 +611,13 @@ finally{button.disabled=false;button.textContent='Publicar na comunidade';}
 
 document.getElementById('community-feed-refresh')?.addEventListener('click',loadPathCommunity);
 loadPathCommunity();
+const refreshPathCommunity=()=>{
+if(!document.hidden) loadPathCommunity();
+};
+window.setInterval(refreshPathCommunity,30000);
+document.addEventListener('visibilitychange',refreshPathCommunity);
+window.addEventListener('focus',refreshPathCommunity);
+window.addEventListener('online',refreshPathCommunity);
 
 const falaVideoPlay=document.getElementById('fala-video-play');
 const falaVideoPlayer=document.getElementById('fala-video-player');

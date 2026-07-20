@@ -473,7 +473,12 @@ const requestedVideoId=new URLSearchParams(window.location.search).get('video');
 const requestedVideo=videos.find(video=>video.id===requestedVideoId);
 setVideo(requestedVideo||videos[0],{scroll:false,toast:false,updateUrl:false});
 renderWatchHistory();
-communityRefreshTimer=window.setInterval(()=>{
+function refreshVideoCommunity(){
   if(document.hidden) return;
   loadVideoCommunity();
-},15000);
+}
+
+communityRefreshTimer=window.setInterval(refreshVideoCommunity,15000);
+document.addEventListener('visibilitychange',refreshVideoCommunity);
+window.addEventListener('focus',refreshVideoCommunity);
+window.addEventListener('online',refreshVideoCommunity);
