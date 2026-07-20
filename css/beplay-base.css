@@ -349,6 +349,14 @@ img{display:block;max-width:100%}
   color:#07100d;
   font-weight:1000;
   text-transform:uppercase;
+  cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+
+.video-play-button:hover,
+.video-play-button:focus-visible{
+  transform:scale(1.04);
+  box-shadow:0 0 0 4px rgba(54,213,255,.2),0 12px 30px rgba(0,0,0,.34);
 }
 
 .video-meta{

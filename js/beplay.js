@@ -1,7 +1,57 @@
 const videos=[
   {id:'o-esporte-comeca-nas-pessoas',type:'local',kind:'institutional',src:'videos/beplay-o-esporte-comeca-nas-pessoas.mp4',poster:'img/3.jpeg',title:'O esporte começa com pessoas',duration:'9 segundos',views:'Filme institucional',date:'Manifesto BeMEsportivo',category:'Institucional',highlight:'Manifesto BeMEsportivo',desc:'Diferentes modalidades, uma mesma essência: o esporte nasce quando alguém decide participar.'},
-  {id:'treino-agilidade-futebol',type:'local',src:'videos/treino-agilidade-futebol.mp4',poster:'img/beplay-treino-agilidade-futebol.jpg',title:'Agilidade e controle de bola',duration:'28 segundos',views:'Novo no BEPlay',date:'Publicado hoje',category:'Treino',highlight:'Coordenação e controle de bola',desc:'Condução de bola entre cones para trabalhar coordenação, mudança de direção e domínio em velocidade.'},
-  {id:'treino-forca-performance',type:'local',src:'videos/treino-forca-performance.mp4',poster:'img/beplay-treino-forca-performance.jpg',title:'Treino de força: consistência em cada repetição',duration:'11 segundos',views:'Novo no BEPlay',date:'Publicado hoje',category:'Performance',highlight:'Força e estabilidade',desc:'Exercícios com halteres para desenvolver força, estabilidade e controle durante a execução.'},
+  {
+    id:'treino-agilidade-futebol',
+    type:'local',
+    src:'videos/treino-agilidade-futebol.mp4',
+    poster:'img/beplay-treino-agilidade-futebol.jpg',
+    title:'Resultado não acontece por acaso',
+    duration:'28 segundos',
+    views:'Novo no BEPlay',
+    date:'Publicado hoje',
+    category:'Treino',
+    highlight:'Disciplina, constância e evolução',
+    theme:'Disciplina, constância e evolução',
+    desc:`Resultado não acontece por acaso.
+
+Toda evolução começa com uma decisão: continuar, mesmo quando o progresso parece pequeno.
+
+Cada treino fortalece o corpo. Cada repetição aperfeiçoa a técnica. Cada dia de dedicação constrói a confiança necessária para superar novos desafios.
+
+Não existe atalho para quem busca excelência. O desempenho que admiramos em um atleta é o reflexo de centenas de horas de treino, disciplina, persistência e constância.
+
+O segredo não está em fazer muito de vez em quando, mas em fazer o necessário todos os dias.
+
+Treine. Aprenda. Evolua.
+
+Porque os grandes resultados são construídos um treino de cada vez. 🧡💪
+
+#BemEsportivo #Treino #Evolução #Disciplina #Constância #Esporte #Superação #Saúde #Performance`
+  },
+  {
+    id:'treino-forca-performance',
+    type:'local',
+    src:'videos/treino-forca-performance.mp4',
+    poster:'img/beplay-treino-forca-performance.jpg',
+    title:'Treine por você. Sua saúde agradece.',
+    duration:'11 segundos',
+    views:'Novo no BEPlay',
+    date:'Publicado hoje',
+    category:'Performance',
+    highlight:'Compromisso com a saúde',
+    theme:'Compromisso com a saúde',
+    desc:`Nem sempre vamos acordar com vontade de treinar. Haverá dias em que o corpo parecerá pesado, a mente buscará desculpas e ficar em casa parecerá a melhor escolha.
+
+Mas é justamente nesses dias que precisamos lembrar: o treino não é apenas sobre estética ou desempenho. É sobre saúde, disposição, qualidade de vida e cuidado com o nosso futuro.
+
+A motivação pode faltar, mas o compromisso com a nossa saúde precisa continuar. Nem todo treino será perfeito, intenso ou prazeroso. Às vezes, a maior vitória é simplesmente levantar, ir e fazer o que conseguimos.
+
+Você não precisa estar com vontade todos os dias. Precisa apenas não abandonar a pessoa que deseja se tornar.
+
+Treine por você. Sua saúde agradece. 🧡💪
+
+#BemEsportivo #Saúde #Treino #Motivação #Disciplina #QualidadeDeVida`
+  },
   {id:'gBkon6LC2OU',title:'Treino técnico e tático',duration:'6min 18s',views:'8,7 mil visualizações',date:'Publicado ontem',category:'Treino',highlight:'Evolução de jogo',desc:'Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.'},
   {id:'Qi1lRW18kvM',title:'Duda e o futebol',duration:'5min 02s',views:'6,1 mil visualizações',date:'Publicado nesta semana',category:'História',highlight:'Trajetória no futebol',desc:'História, bastidor e inspiração para quem acompanha o futebol por dentro.'},
   {id:'dYiX4fvxGG8',title:'Futebol e areia',duration:'7min 33s',views:'9,4 mil visualizações',date:'Publicado nesta semana',category:'Performance',highlight:'Modalidades e preparo',desc:'A importância de diferentes modalidades na evolução física e técnica.'}
@@ -73,11 +123,13 @@ function getInternalVideoUrl(video=currentVideo){
 function updateVideoPlaceholder(video){
   const placeholder=document.getElementById('videoPlaceholder');
   const placeholderTitle=document.getElementById('videoPlaceholderTitle');
+  const playButton=document.getElementById('playInlineVideo');
   const iframe=document.getElementById('youtubePlayer');
   const localPlayer=document.getElementById('localPlayer');
   placeholder.style.backgroundImage=`url('${getVideoThumbnail(video)}')`;
   placeholder.hidden=false;
   placeholderTitle.textContent=video.title;
+  playButton.setAttribute('aria-label',`Reproduzir ${video.title}`);
   iframe.hidden=true;
   iframe.src='about:blank';
   localPlayer.pause();
@@ -102,9 +154,8 @@ function playCurrentVideo(){
     localPlayer.muted=false;
     localPlayer.volume=1;
     activePlayer=localPlayer;
-    localPlayer.load();
     localPlayer.play().catch(()=>{
-      showToast('Toque no player para iniciar o vídeo');
+      showToast('Use o controle de reprodução do vídeo para iniciar');
       localPlayer.focus();
     });
   }else{
@@ -131,7 +182,7 @@ function setVideo(video,options={}){
   document.getElementById('videoDescription').textContent=video.desc;
   document.getElementById('summaryCategory').textContent=video.category || 'BEplay';
   document.getElementById('summaryHighlight').textContent=video.highlight || 'Vídeo em destaque';
-  document.getElementById('summaryContent').textContent=video.desc;
+  document.getElementById('summaryContent').textContent=video.theme || video.desc;
   const youtubeLink=document.getElementById('watchOnYoutube');
   youtubeLink.hidden=video.type==='local';
   youtubeLink.href=video.type==='local' ? '#' : `https://www.youtube.com/watch?v=${video.id}`;
@@ -172,7 +223,7 @@ function renderRelated(){
           <span>${escapeHtml(video.duration)}</span>
           <span>${escapeHtml(video.views)}</span>
         </div>
-        <button type="button">${video.id===currentVideo.id ? 'Assistindo' : 'Assistir'}</button>
+        <button type="button" aria-label="Reproduzir ${escapeHtml(video.title)}">▶ Reproduzir</button>
       </div>
     `;
     card.querySelector('button').addEventListener('click',()=>{setVideo(video);playCurrentVideo();});
@@ -327,14 +378,8 @@ document.querySelectorAll('[data-video-reaction]').forEach(button=>{
   });
 });
 
-document.getElementById('watchOnSite').addEventListener('click',()=>{
-  playCurrentVideo();
-  showToast('Vídeo pronto para assistir');
-});
-
 document.getElementById('playInlineVideo').addEventListener('click',()=>{
   playCurrentVideo();
-  showToast('Vídeo pronto para assistir');
 });
 
 document.getElementById('shareVideo').addEventListener('click',async()=>{
@@ -408,9 +453,7 @@ document.getElementById('videoCommentForm').addEventListener('submit',async even
   }
 });
 
-document.getElementById('todayDay').textContent=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
 const publishedVideos=videos.filter(video=>video.kind!=='institutional');
-document.getElementById('videoCount').textContent=String(publishedVideos.length);
 document.getElementById('channelStats').textContent=`Manifesto institucional + ${publishedVideos.length} vídeos`;
 try{
   const saved=JSON.parse(localStorage.getItem('bemBeplaySavedVideo') || 'null');

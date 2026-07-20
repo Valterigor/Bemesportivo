@@ -18,16 +18,16 @@
 <link rel="icon" href="img/logobemoficial.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/beplay-base.css">
-<link rel="stylesheet" href="css/beplay.css?v=20260718-2">
 <link rel="stylesheet" href="site-common.css?v=20260719-1">
+<link rel="stylesheet" href="css/beplay.css?v=20260720-2">
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@graph":[
     {"@type":"Organization","@id":"https://bemesportivo.com/#organization","name":"Bem Esportivo","logo":{"@type":"ImageObject","url":"https://bemesportivo.com/img/logobemoficial.png"}},
     {"@type":"VideoObject","name":"O esporte começa com pessoas","description":"Diferentes modalidades, uma mesma essência: o esporte nasce quando alguém decide participar.","thumbnailUrl":"https://bemesportivo.com/img/3.jpeg","uploadDate":"2026-07-14T23:55:59-03:00","duration":"PT9S","contentUrl":"https://bemesportivo.com/videos/beplay-o-esporte-comeca-nas-pessoas.mp4","embedUrl":"https://bemesportivo.com/beplay?video=o-esporte-comeca-nas-pessoas","publisher":{"@id":"https://bemesportivo.com/#organization"}},
-    {"@type":"VideoObject","name":"Agilidade e controle de bola","description":"Condução de bola entre cones para trabalhar coordenação, mudança de direção e domínio em velocidade.","thumbnailUrl":"https://bemesportivo.com/img/beplay-treino-agilidade-futebol.jpg","uploadDate":"2026-07-19T22:18:46-03:00","duration":"PT28S","contentUrl":"https://bemesportivo.com/videos/treino-agilidade-futebol.mp4","embedUrl":"https://bemesportivo.com/beplay?video=treino-agilidade-futebol","publisher":{"@id":"https://bemesportivo.com/#organization"}},
-    {"@type":"VideoObject","name":"Treino de força: consistência em cada repetição","description":"Exercícios com halteres para desenvolver força, estabilidade e controle durante a execução.","thumbnailUrl":"https://bemesportivo.com/img/beplay-treino-forca-performance.jpg","uploadDate":"2026-07-19T21:27:22-03:00","duration":"PT11S","contentUrl":"https://bemesportivo.com/videos/treino-forca-performance.mp4","embedUrl":"https://bemesportivo.com/beplay?video=treino-forca-performance","publisher":{"@id":"https://bemesportivo.com/#organization"}}
+    {"@type":"VideoObject","name":"Resultado não acontece por acaso","description":"Resultado não acontece por acaso. Toda evolução começa com uma decisão: continuar, mesmo quando o progresso parece pequeno. Cada treino fortalece o corpo, aperfeiçoa a técnica e constrói confiança. Grandes resultados são construídos com disciplina, persistência e constância, um treino de cada vez.","thumbnailUrl":"https://bemesportivo.com/img/beplay-treino-agilidade-futebol.jpg","uploadDate":"2026-07-19T22:18:46-03:00","duration":"PT28S","contentUrl":"https://bemesportivo.com/videos/treino-agilidade-futebol.mp4","embedUrl":"https://bemesportivo.com/beplay?video=treino-agilidade-futebol","publisher":{"@id":"https://bemesportivo.com/#organization"}},
+    {"@type":"VideoObject","name":"Treine por você. Sua saúde agradece.","description":"Nem sempre teremos vontade de treinar, mas o compromisso com a saúde, a disposição e a qualidade de vida precisa continuar. Às vezes, a maior vitória é levantar, ir e fazer o que conseguimos.","thumbnailUrl":"https://bemesportivo.com/img/beplay-treino-forca-performance.jpg","uploadDate":"2026-07-19T21:27:22-03:00","duration":"PT11S","contentUrl":"https://bemesportivo.com/videos/treino-forca-performance.mp4","embedUrl":"https://bemesportivo.com/beplay?video=treino-forca-performance","publisher":{"@id":"https://bemesportivo.com/#organization"}}
   ]
 }
 </script>
@@ -57,15 +57,9 @@
 </header>
 
 <header class="topbar">
-  <div class="topline">
-    <div class="brand-kicker">
-      <span>Bem Esportivo</span>
-      <strong>Plataforma de Vídeos</strong>
-    </div>
-    <div class="round-stats" aria-label="Resumo da rodada">
-      <div class="round-pill"><strong id="todayDay">--</strong><span>Hoje</span></div>
-      <div class="round-pill"><strong id="videoCount">5</strong><span>Vídeos</span></div>
-    </div>
+  <div class="brand-kicker">
+    <span>BEPlay</span>
+    <strong>Plataforma de vídeos</strong>
   </div>
   <nav class="topnav" aria-label="Navegação principal">
     <a class="is-active" href="#inicio">Início</a>
@@ -96,7 +90,7 @@
           <div class="video-placeholder" id="videoPlaceholder" style="background-image:url('img/3.jpeg')">
             <div class="video-placeholder-content">
               <strong id="videoPlaceholderTitle">O esporte começa com pessoas</strong>
-              <button class="video-play-button" type="button" id="playInlineVideo">Assistir no site</button>
+              <button class="video-play-button" type="button" id="playInlineVideo"><span aria-hidden="true">▶</span> Reproduzir vídeo</button>
             </div>
           </div>
           <video id="localPlayer" title="O esporte começa com pessoas" controls playsinline preload="metadata" hidden></video>
@@ -111,7 +105,6 @@
           </div>
           <p id="videoDescription">Diferentes modalidades, uma mesma essência: o esporte nasce quando alguém decide participar.</p>
           <div class="primary-actions">
-            <button class="action-btn" type="button" id="watchOnSite">Assistir no site</button>
             <a class="action-btn secondary" id="watchOnYoutube" href="#" target="_blank" rel="noopener noreferrer" hidden>YouTube</a>
             <button class="action-btn secondary" type="button" id="shareVideo">Compartilhar</button>
             <button class="action-btn secondary" type="button" id="saveVideo">Salvar</button>
@@ -208,6 +201,6 @@
 <div class="toast" id="pageToast" role="status" aria-live="polite"></div>
 
 <script type="module" src="js/site-common.js?v=20260718-8"></script>
-<script src="js/beplay.js?v=20260719-1" defer></script>
+<script src="js/beplay.js?v=20260720-1" defer></script>
 </body>
 </html>
