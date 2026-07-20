@@ -21,7 +21,15 @@
 <link rel="stylesheet" href="css/beplay.css?v=20260718-2">
 <link rel="stylesheet" href="site-common.css?v=20260719-1">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"VideoObject","name":"O esporte começa com pessoas","description":"Diferentes modalidades, uma mesma essência: o esporte nasce quando alguém decide participar.","thumbnailUrl":"https://bemesportivo.com/img/3.jpeg","uploadDate":"2026-07-14T23:55:59-03:00","duration":"PT9S","contentUrl":"https://bemesportivo.com/videos/beplay-o-esporte-comeca-nas-pessoas.mp4","embedUrl":"https://bemesportivo.com/beplay?video=o-esporte-comeca-nas-pessoas","publisher":{"@type":"Organization","@id":"https://bemesportivo.com/#organization","name":"Bem Esportivo","logo":{"@type":"ImageObject","url":"https://bemesportivo.com/img/logobemoficial.png"}}}
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {"@type":"Organization","@id":"https://bemesportivo.com/#organization","name":"Bem Esportivo","logo":{"@type":"ImageObject","url":"https://bemesportivo.com/img/logobemoficial.png"}},
+    {"@type":"VideoObject","name":"O esporte começa com pessoas","description":"Diferentes modalidades, uma mesma essência: o esporte nasce quando alguém decide participar.","thumbnailUrl":"https://bemesportivo.com/img/3.jpeg","uploadDate":"2026-07-14T23:55:59-03:00","duration":"PT9S","contentUrl":"https://bemesportivo.com/videos/beplay-o-esporte-comeca-nas-pessoas.mp4","embedUrl":"https://bemesportivo.com/beplay?video=o-esporte-comeca-nas-pessoas","publisher":{"@id":"https://bemesportivo.com/#organization"}},
+    {"@type":"VideoObject","name":"Agilidade e controle de bola","description":"Condução de bola entre cones para trabalhar coordenação, mudança de direção e domínio em velocidade.","thumbnailUrl":"https://bemesportivo.com/img/beplay-treino-agilidade-futebol.jpg","uploadDate":"2026-07-19T22:18:46-03:00","duration":"PT28S","contentUrl":"https://bemesportivo.com/videos/treino-agilidade-futebol.mp4","embedUrl":"https://bemesportivo.com/beplay?video=treino-agilidade-futebol","publisher":{"@id":"https://bemesportivo.com/#organization"}},
+    {"@type":"VideoObject","name":"Treino de força: consistência em cada repetição","description":"Exercícios com halteres para desenvolver força, estabilidade e controle durante a execução.","thumbnailUrl":"https://bemesportivo.com/img/beplay-treino-forca-performance.jpg","uploadDate":"2026-07-19T21:27:22-03:00","duration":"PT11S","contentUrl":"https://bemesportivo.com/videos/treino-forca-performance.mp4","embedUrl":"https://bemesportivo.com/beplay?video=treino-forca-performance","publisher":{"@id":"https://bemesportivo.com/#organization"}}
+  ]
+}
 </script>
 </head>
 <body class="beplay-page">
@@ -56,7 +64,7 @@
     </div>
     <div class="round-stats" aria-label="Resumo da rodada">
       <div class="round-pill"><strong id="todayDay">--</strong><span>Hoje</span></div>
-      <div class="round-pill"><strong id="videoCount">3</strong><span>Vídeos</span></div>
+      <div class="round-pill"><strong id="videoCount">5</strong><span>Vídeos</span></div>
     </div>
   </div>
   <nav class="topnav" aria-label="Navegação principal">
@@ -76,7 +84,7 @@
     </div>
     <aside class="channel-card" aria-label="Canal BEplay">
       <strong>Bem Esportivo</strong>
-      <span id="channelStats">Manifesto institucional + 3 vídeos</span>
+      <span id="channelStats">Manifesto institucional + 5 vídeos</span>
       <button type="button" id="subscribeChannel">Inscrever-se</button>
     </aside>
   </section>
@@ -151,7 +159,7 @@
       <section class="section panel playlist-panel" aria-labelledby="relatedTitle">
         <div class="section-title">
           <h2 id="relatedTitle">Playlist</h2>
-          <span id="playlistCount">3 vídeos</span>
+          <span id="playlistCount">5 vídeos</span>
         </div>
         <div class="playlist-tools">
           <label class="sr-only" for="videoSearch">Buscar vídeos</label>
@@ -200,6 +208,6 @@
 <div class="toast" id="pageToast" role="status" aria-live="polite"></div>
 
 <script type="module" src="js/site-common.js?v=20260718-8"></script>
-<script src="js/beplay.js?v=20260718-2" defer></script>
+<script src="js/beplay.js?v=20260719-1" defer></script>
 </body>
 </html>

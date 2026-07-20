@@ -1,5 +1,7 @@
 const videos=[
   {id:'o-esporte-comeca-nas-pessoas',type:'local',kind:'institutional',src:'videos/beplay-o-esporte-comeca-nas-pessoas.mp4',poster:'img/3.jpeg',title:'O esporte começa com pessoas',duration:'9 segundos',views:'Filme institucional',date:'Manifesto BeMEsportivo',category:'Institucional',highlight:'Manifesto BeMEsportivo',desc:'Diferentes modalidades, uma mesma essência: o esporte nasce quando alguém decide participar.'},
+  {id:'treino-agilidade-futebol',type:'local',src:'videos/treino-agilidade-futebol.mp4',poster:'img/beplay-treino-agilidade-futebol.jpg',title:'Agilidade e controle de bola',duration:'28 segundos',views:'Novo no BEPlay',date:'Publicado hoje',category:'Treino',highlight:'Coordenação e controle de bola',desc:'Condução de bola entre cones para trabalhar coordenação, mudança de direção e domínio em velocidade.'},
+  {id:'treino-forca-performance',type:'local',src:'videos/treino-forca-performance.mp4',poster:'img/beplay-treino-forca-performance.jpg',title:'Treino de força: consistência em cada repetição',duration:'11 segundos',views:'Novo no BEPlay',date:'Publicado hoje',category:'Performance',highlight:'Força e estabilidade',desc:'Exercícios com halteres para desenvolver força, estabilidade e controle durante a execução.'},
   {id:'gBkon6LC2OU',title:'Treino técnico e tático',duration:'6min 18s',views:'8,7 mil visualizações',date:'Publicado ontem',category:'Treino',highlight:'Evolução de jogo',desc:'Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.'},
   {id:'Qi1lRW18kvM',title:'Duda e o futebol',duration:'5min 02s',views:'6,1 mil visualizações',date:'Publicado nesta semana',category:'História',highlight:'Trajetória no futebol',desc:'História, bastidor e inspiração para quem acompanha o futebol por dentro.'},
   {id:'dYiX4fvxGG8',title:'Futebol e areia',duration:'7min 33s',views:'9,4 mil visualizações',date:'Publicado nesta semana',category:'Performance',highlight:'Modalidades e preparo',desc:'A importância de diferentes modalidades na evolução física e técnica.'}
@@ -102,7 +104,7 @@ function playCurrentVideo(){
     activePlayer=localPlayer;
     localPlayer.load();
     localPlayer.play().catch(()=>{
-      showToast('Toque no player para iniciar o manifesto');
+      showToast('Toque no player para iniciar o vídeo');
       localPlayer.focus();
     });
   }else{
