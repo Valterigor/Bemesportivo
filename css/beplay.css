@@ -234,6 +234,10 @@ body.beplay-page > header.topbar {
   background: linear-gradient(180deg, rgba(0, 0, 0, .10), rgba(0, 0, 0, .74));
 }
 
+.beplay-page .video-placeholder[hidden] {
+  display: none !important;
+}
+
 .beplay-page .video-placeholder-content strong {
   color: #ffffff;
   text-shadow: 0 3px 18px rgba(0, 0, 0, .55);
