@@ -11,6 +11,7 @@ const mobileDrawerViewButtons = [...shell.querySelectorAll('.fb-mobile-drawer [d
 const managedSections = [...document.querySelectorAll('.container.page > :not(.fb-app-shell)')];
 const PROFILE_STORAGE_KEY = 'meuCaminhoBeProfileV1';
 const ACCESS_STORAGE_KEY = 'meuCaminhoBeAccessV1';
+const SAFETY_CONSENT_VERSION = '2026-07-21';
 const dailyActivityLabels = {
   none: 'Sem treino', caminhada: 'Caminhada', corrida: 'Corrida', musculacao: 'Musculação',
   funcional: 'Treino funcional', futebol: 'Futebol', ciclismo: 'Ciclismo', natacao: 'Natação', outra: 'Outra atividade'
@@ -222,6 +223,7 @@ function closeDialog(dialog) {
 
 function safetyScreeningIsCurrent(profile = currentProfile, details = profile) {
   return Boolean(profile?.safety?.consent
+    && profile.safety.consentVersion === SAFETY_CONSENT_VERSION
     && profile.safety.objective === details?.objective
     && profile.safety.age === details?.age);
 }
@@ -1182,7 +1184,7 @@ function renderProfileSummary() {
     ['PRÁTICA ATUAL', currentProfile.practiceName || currentProfile.practiceLabel || 'Não informado'],
     ['MOMENTO', currentProfile.ageLabel || 'Não informado'],
     ['TEMPO', currentProfile.availabilityLabel || 'Não informado'],
-    ['SEGURANÇA', isSafetyRestricted() ? 'Revisão profissional recomendada' : currentProfile.safety?.consent ? 'Triagem concluída' : 'Triagem pendente']
+    ['SEGURANÇA', isSafetyRestricted() ? 'Revisão profissional recomendada' : currentProfile.safety?.consent ? 'Contexto concluído' : 'Contexto pendente']
   ];
   if (currentProfile.preferredSport?.name) fields.splice(2, 0, ['ESPORTE ESCOLHIDO', currentProfile.preferredSport.name]);
   container.replaceChildren(...fields.map(([label, value]) => {
@@ -1328,12 +1330,12 @@ function renderProgress() {
       const strong = document.createElement('strong');
       const text = document.createElement('span');
       const action = document.createElement('button');
-      strong.textContent = safetyPending ? 'Complete a triagem antes de continuar.' : 'Sua segurança vem antes do progresso.';
+      strong.textContent = safetyPending ? 'Complete o questionário de contexto e segurança antes de continuar.' : 'Sua segurança vem antes do progresso.';
       text.textContent = safetyPending
         ? 'São três pontos rápidos para adaptar sua jornada e verificar se existe algum sinal que exige orientação profissional.'
         : 'Os sinais informados pedem avaliação profissional antes de iniciar ou retomar exercícios. Sua jornada está preservada e poderá continuar depois da revisão.';
       action.type = 'button';
-      action.textContent = safetyPending ? 'Fazer triagem de segurança' : 'Revisar minha triagem';
+      action.textContent = safetyPending ? 'Responder contexto e segurança' : 'Revisar contexto e segurança';
       action.addEventListener('click', () => openSafetyDialog(currentProfile, true));
       safetyStatus.replaceChildren(strong, text, action);
     } else {
@@ -2348,7 +2350,7 @@ document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
 document.getElementById('fb-calendar-next')?.addEventListener('click', () => {
   const feedback = document.getElementById('fb-progress-feedback');
   if (!currentProfile?.objective || isSafetyRestricted() || isSafetyPending()) {
-    if (feedback) feedback.textContent = currentProfile?.objective ? 'Conclua ou revise a triagem de segurança antes de agendar uma prática.' : 'Crie seu caminho antes de adicionar um lembrete.';
+    if (feedback) feedback.textContent = currentProfile?.objective ? 'Conclua ou revise o questionário de contexto e segurança antes de agendar uma prática.' : 'Crie seu caminho antes de adicionar um lembrete.';
     return;
   }
   const completed = getCompletedSteps();
@@ -2704,6 +2706,8 @@ document.getElementById('fb-safety-form')?.addEventListener('submit', event => {
   const sameObjective = currentProfile?.objective === pendingProfileUpdate.objective;
   const safety = {
     consent: true,
+    consentVersion: SAFETY_CONSENT_VERSION,
+    consentedAt: new Date().toISOString(),
     symptoms,
     condition,
     clearance,
@@ -2724,7 +2728,7 @@ document.getElementById('fb-safety-form')?.addEventListener('submit', event => {
   const feedback = document.getElementById(restricted ? 'fb-profile-feedback' : 'fb-progress-feedback');
   if (feedback) feedback.textContent = restricted
     ? 'Perfil salvo. Siga a indicação acima para revisar os sinais informados antes de começar.'
-    : 'Perfil e triagem concluídos. Escolha realizar seu próximo passo agora ou começar o registro no Meu Hoje.';
+    : 'Mapa BeM concluído. Escolha realizar seu próximo passo agora ou começar o registro no Meu Hoje.';
   showCelebration(
     restricted ? 'Perfil salvo com segurança.' : 'Perfil esportivo concluído!',
     restricted ? 'Obrigado por registrar essas informações. Confira a orientação indicada antes de continuar.' : 'Muito bem! Agora escolha seu próximo passo ou comece a preencher o Meu Hoje.'

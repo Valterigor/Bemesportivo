@@ -878,6 +878,19 @@ font-size:12px;
 line-height:1.5;
 }
 
+.journey-result-boundary{
+margin:14px 0 0;
+padding:12px 14px;
+border-left:3px solid #ff7a1a;
+border-radius:0 9px 9px 0;
+background:#fff7f0;
+color:#5d5148;
+font-size:12px;
+line-height:1.55;
+}
+
+.journey-result-boundary strong{color:#2c2723}
+
 .journey-result-actions{
 display:flex;
 flex-wrap:wrap;
