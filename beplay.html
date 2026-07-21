@@ -19,7 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/beplay-base.css">
 <link rel="stylesheet" href="site-common.css?v=20260719-1">
-<link rel="stylesheet" href="css/beplay.css?v=20260720-2">
+<link rel="stylesheet" href="css/beplay.css?v=20260721-1">
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -79,7 +79,8 @@
     <aside class="channel-card" aria-label="Canal BEplay">
       <strong>Bem Esportivo</strong>
       <span id="channelStats">Manifesto institucional + 5 vídeos</span>
-      <button type="button" id="subscribeChannel">Inscrever-se</button>
+      <button type="button" id="subscribeChannel" aria-pressed="false">Inscrever-se</button>
+      <small id="channelSubscriptionStatus" role="status" aria-live="polite">Acompanhe novos vídeos neste aparelho.</small>
     </aside>
   </section>
 
@@ -93,8 +94,9 @@
               <button class="video-play-button" type="button" id="playInlineVideo"><span aria-hidden="true">▶</span> Reproduzir vídeo</button>
             </div>
           </div>
-          <video id="localPlayer" title="O esporte começa com pessoas" controls playsinline preload="metadata" hidden></video>
+          <video id="localPlayer" title="O esporte começa com pessoas" controls playsinline preload="auto" hidden></video>
           <iframe id="youtubePlayer" title="Player do YouTube" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen hidden></iframe>
+          <span class="video-player-status" id="videoPlayerStatus" role="status" aria-live="polite" hidden></span>
         </div>
         <div class="video-meta">
           <h1 id="videoTitle">O esporte começa com pessoas</h1>
@@ -201,6 +203,6 @@
 <div class="toast" id="pageToast" role="status" aria-live="polite"></div>
 
 <script type="module" src="js/site-common.js?v=20260718-8"></script>
-<script src="js/beplay.js?v=20260720-2" defer></script>
+<script src="js/beplay.js?v=20260721-1" defer></script>
 </body>
 </html>

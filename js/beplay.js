@@ -66,6 +66,7 @@ const COMMUNITY_ROOT=location.protocol==='file:'?'':'/api/community';
 const CLIENT_KEY='bemEsportivoCommunityClientId';
 const COMMENT_NAME_KEY='bemBeplayCommentName';
 const HISTORY_KEY='bemBeplayWatchHistory';
+const SUBSCRIPTION_KEY='bemBeplaySubscriptionV2';
 
 function escapeHtml(value){
   return String(value||'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -120,23 +121,50 @@ function getInternalVideoUrl(video=currentVideo){
   return url.href;
 }
 
+function setPlayerStatus(message=''){
+  const status=document.getElementById('videoPlayerStatus');
+  if(!status) return;
+  status.textContent=message;
+  status.hidden=!message;
+}
+
+function prepareLocalVideo(video){
+  const localPlayer=document.getElementById('localPlayer');
+  if(localPlayer.dataset.videoId!==video.id){
+    localPlayer.pause();
+    localPlayer.dataset.videoId=video.id;
+    localPlayer.src=video.src;
+    localPlayer.poster=video.poster||'';
+    localPlayer.preload='auto';
+    localPlayer.load();
+  }
+  localPlayer.hidden=false;
+}
+
 function updateVideoPlaceholder(video){
   const placeholder=document.getElementById('videoPlaceholder');
   const placeholderTitle=document.getElementById('videoPlaceholderTitle');
   const playButton=document.getElementById('playInlineVideo');
   const iframe=document.getElementById('youtubePlayer');
   const localPlayer=document.getElementById('localPlayer');
+  const isLocal=video.type==='local';
   placeholder.style.backgroundImage=`url('${getVideoThumbnail(video)}')`;
-  placeholder.hidden=false;
+  placeholder.hidden=isLocal;
   placeholderTitle.textContent=video.title;
   playButton.setAttribute('aria-label',`Reproduzir ${video.title}`);
   iframe.hidden=true;
   iframe.src='about:blank';
-  localPlayer.pause();
-  localPlayer.hidden=true;
-  localPlayer.removeAttribute('src');
-  localPlayer.removeAttribute('poster');
-  localPlayer.load();
+  setPlayerStatus('');
+  if(isLocal){
+    prepareLocalVideo(video);
+  }else{
+    localPlayer.pause();
+    localPlayer.hidden=true;
+    localPlayer.removeAttribute('src');
+    localPlayer.removeAttribute('poster');
+    delete localPlayer.dataset.videoId;
+    localPlayer.load();
+  }
 }
 
 function playCurrentVideo(){
@@ -147,13 +175,12 @@ function playCurrentVideo(){
   if(currentVideo.type==='local'){
     youtubePlayer.hidden=true;
     youtubePlayer.src='about:blank';
-    localPlayer.src=currentVideo.src;
-    localPlayer.poster=currentVideo.poster||'';
-    localPlayer.hidden=false;
+    prepareLocalVideo(currentVideo);
     localPlayer.defaultMuted=false;
     localPlayer.muted=false;
     localPlayer.volume=1;
     activePlayer=localPlayer;
+    setPlayerStatus(localPlayer.readyState>=3 ? '' : 'Preparando vídeo...');
     localPlayer.play().catch(()=>{
       showToast('Use o controle de reprodução do vídeo para iniciar');
       localPlayer.focus();
@@ -166,7 +193,7 @@ function playCurrentVideo(){
   }
   placeholder.hidden=true;
   recordWatchedVideo(currentVideo);
-  activePlayer.scrollIntoView({behavior:'smooth',block:'center'});
+  activePlayer.focus({preventScroll:true});
 }
 
 function setVideo(video,options={}){
@@ -187,7 +214,7 @@ function setVideo(video,options={}){
   youtubeLink.hidden=video.type==='local';
   youtubeLink.href=video.type==='local' ? '#' : `https://www.youtube.com/watch?v=${video.id}`;
   if(updateUrl) history.replaceState(null,'',getInternalVideoUrl(video));
-  if(scroll) document.getElementById('inicio').scrollIntoView({behavior:'smooth',block:'start'});
+  if(scroll) document.getElementById('videos').scrollIntoView({behavior:'smooth',block:'start'});
   if(toast) showToast(`Agora assistindo: ${video.title}`);
   renderRelated();
   renderVideoComments();
@@ -382,6 +409,13 @@ document.getElementById('playInlineVideo').addEventListener('click',()=>{
   playCurrentVideo();
 });
 
+const localVideoPlayer=document.getElementById('localPlayer');
+localVideoPlayer.addEventListener('loadstart',()=>setPlayerStatus('Preparando vídeo...'));
+localVideoPlayer.addEventListener('waiting',()=>setPlayerStatus('Carregando vídeo...'));
+localVideoPlayer.addEventListener('canplay',()=>setPlayerStatus(''));
+localVideoPlayer.addEventListener('playing',()=>setPlayerStatus(''));
+localVideoPlayer.addEventListener('error',()=>setPlayerStatus('Não foi possível carregar este vídeo. Tente novamente.'));
+
 document.getElementById('shareVideo').addEventListener('click',async()=>{
   const url=getInternalVideoUrl(currentVideo);
   try{
@@ -408,10 +442,65 @@ document.getElementById('saveVideo').addEventListener('click',()=>{
   showToast('Vídeo salvo');
 });
 
+function readChannelSubscription(){
+  try{
+    const state=JSON.parse(localStorage.getItem(SUBSCRIPTION_KEY)||'null');
+    if(state && typeof state==='object') return state;
+    if(localStorage.getItem('bemBeplaySubscribed')==='true') return {subscribed:true,subscribedAt:'',knownVideoIds:[]};
+  }catch(error){}
+  return {subscribed:false,subscribedAt:'',knownVideoIds:[]};
+}
+
+function saveChannelSubscription(state){
+  localStorage.setItem(SUBSCRIPTION_KEY,JSON.stringify(state));
+  localStorage.removeItem('bemBeplaySubscribed');
+}
+
+function renderChannelSubscription(state,newCount=0){
+  const button=document.getElementById('subscribeChannel');
+  const status=document.getElementById('channelSubscriptionStatus');
+  button.setAttribute('aria-pressed',String(Boolean(state.subscribed)));
+  button.textContent=state.subscribed?'Inscrito ✓':'Inscrever-se';
+  button.title=state.subscribed?'Clique para cancelar a inscrição':'Acompanhar novidades do BEPlay neste aparelho';
+  if(!status) return;
+  if(!state.subscribed) status.textContent='Acompanhe novos vídeos neste aparelho.';
+  else if(newCount>0) status.textContent=`${newCount} ${newCount===1?'vídeo novo encontrado':'vídeos novos encontrados'} desde sua última visita.`;
+  else status.textContent='Inscrição ativa neste aparelho. Mostraremos novidades quando você visitar o BEPlay.';
+}
+
+function initializeChannelSubscription(){
+  const state=readChannelSubscription();
+  if(!state.subscribed){
+    renderChannelSubscription(state);
+    return;
+  }
+  const publishedIds=videos.filter(video=>video.kind!=='institutional').map(video=>video.id);
+  const knownIds=Array.isArray(state.knownVideoIds)?state.knownVideoIds:[];
+  const newCount=publishedIds.filter(id=>!knownIds.includes(id)).length;
+  const updated={...state,knownVideoIds:publishedIds,lastVisitedAt:new Date().toISOString()};
+  saveChannelSubscription(updated);
+  renderChannelSubscription(updated,newCount);
+  if(newCount>0) showToast(`${newCount} ${newCount===1?'novo vídeo no BEPlay':'novos vídeos no BEPlay'}`);
+}
+
 document.getElementById('subscribeChannel').addEventListener('click',()=>{
-  localStorage.setItem('bemBeplaySubscribed', 'true');
-  document.getElementById('subscribeChannel').textContent='Inscrito';
-  showToast('Inscrição salva neste dispositivo');
+  const current=readChannelSubscription();
+  if(current.subscribed){
+    const next={subscribed:false,subscribedAt:'',knownVideoIds:[]};
+    saveChannelSubscription(next);
+    renderChannelSubscription(next);
+    showToast('Inscrição cancelada neste aparelho');
+    return;
+  }
+  const next={
+    subscribed:true,
+    subscribedAt:new Date().toISOString(),
+    lastVisitedAt:new Date().toISOString(),
+    knownVideoIds:videos.filter(video=>video.kind!=='institutional').map(video=>video.id)
+  };
+  saveChannelSubscription(next);
+  renderChannelSubscription(next);
+  showToast('Inscrição ativada neste aparelho');
 });
 
 document.getElementById('videoSearch').addEventListener('input',renderRelated);
@@ -462,9 +551,7 @@ try{
     document.getElementById('profileActions').textContent=`Último vídeo salvo: ${saved.title}`;
   }
 }catch(error){}
-if(localStorage.getItem('bemBeplaySubscribed')==='true'){
-  document.getElementById('subscribeChannel').textContent='Inscrito';
-}
+initializeChannelSubscription();
 const savedCommentName=localStorage.getItem(COMMENT_NAME_KEY);
 if(savedCommentName && document.getElementById('videoCommentName')){
   document.getElementById('videoCommentName').value=savedCommentName;

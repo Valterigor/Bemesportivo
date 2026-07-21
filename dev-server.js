@@ -729,11 +729,42 @@ const server = http.createServer(async (request, response) => {
   }
 
   const ext = path.extname(filePath).toLowerCase();
-  response.writeHead(200, {
+  const fileSize = fs.statSync(filePath).size;
+  const isVideo = ext === '.mp4';
+  const range = isVideo ? request.headers.range : '';
+  const baseHeaders = {
     'Content-Type': mimeTypes[ext] || 'application/octet-stream',
     'X-Content-Type-Options':'nosniff',
+    'Content-Length':fileSize,
+    ...(isVideo ? {'Accept-Ranges':'bytes'} : {}),
     ...corsHeaders
-  });
+  };
+
+  if(range){
+    const match=/^bytes=(\d*)-(\d*)$/.exec(String(range));
+    const start=match && match[1] ? Number(match[1]) : 0;
+    const requestedEnd=match && match[2] ? Number(match[2]) : fileSize-1;
+    const end=Math.min(requestedEnd,fileSize-1);
+    if(!match || !Number.isFinite(start) || !Number.isFinite(end) || start<0 || start>end || start>=fileSize){
+      response.writeHead(416,{'Content-Range':`bytes */${fileSize}`,'Accept-Ranges':'bytes'});
+      response.end();
+      return;
+    }
+    response.writeHead(206,{
+      ...baseHeaders,
+      'Content-Length':end-start+1,
+      'Content-Range':`bytes ${start}-${end}/${fileSize}`
+    });
+    if(request.method==='HEAD') response.end();
+    else fs.createReadStream(filePath,{start,end}).pipe(response);
+    return;
+  }
+
+  response.writeHead(200, baseHeaders);
+  if(request.method==='HEAD'){
+    response.end();
+    return;
+  }
   fs.createReadStream(filePath).pipe(response);
 });
 
