@@ -356,8 +356,8 @@ journeyBack.hidden=journeyStep===1;
 journeyNext.hidden=journeyStep===6;
 journeyNext.disabled=field ? !isJourneyStepComplete(journeyStep) : true;
 journeyNext.setAttribute('aria-disabled',String(journeyNext.disabled));
-journeyNext.textContent=journeyStep===5?'Ver meu caminho':'Continuar';
-journeyStatus.textContent=journeyStep===6?'Trajetória concluída':`Etapa ${journeyStep} de 6`;
+journeyNext.textContent=journeyStep===5?'Ver meu Mapa BeM':'Continuar';
+journeyStatus.textContent=journeyStep===6?'Mapa BeM concluído':`Etapa ${journeyStep} de 6`;
 if(focusHeading){
 const heading=document.querySelector(`[data-journey-step="${journeyStep}"] h3`);
 if(heading){
@@ -757,7 +757,8 @@ source:['Cálculo matemático de ritmo médio','https://worldathletics.org/about
 fields:[['distancia','Distância (km)','number','5','0.01','0.1','500'],['minutos','Tempo — minutos','number','30','1','0','10000'],['segundos','Segundos adicionais','number','0','1','0','59']],
 calculate:data=>{
 const pace=(Number(data.minutos)*60+Number(data.segundos))/Number(data.distancia);
-const minutes=Math.floor(pace/60),seconds=Math.round(pace%60);
+const roundedPace=Math.round(pace);
+const minutes=Math.floor(roundedPace/60),seconds=roundedPace%60;
 return {headline:`${minutes}:${String(seconds).padStart(2,'0')} min/km`,detail:'Ritmo médio da distância informada. Variações de terreno, clima e percurso não aparecem neste cálculo.'};
 }
 },

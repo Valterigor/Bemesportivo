@@ -1353,6 +1353,11 @@ function renderProgress() {
       const guidance = getStepGuidance(completed);
       const preferredSport = currentProfile?.preferredSport?.name;
       const needsDiscovery = currentProfile?.objective === 'modalidade' && !preferredSport;
+      const todayIsRegistered = getDailyLogs().some(item => item.date === localDayKey());
+      nextMission.classList.toggle('fb-prioritize-today', !todayIsRegistered);
+      document.getElementById('fb-next-mission-kicker').textContent = todayIsRegistered
+        ? 'MEU HOJE ATUALIZADO · CONTINUE SUA JORNADA'
+        : 'PERFIL CONCLUÍDO · COMECE PELO MEU HOJE';
       document.getElementById('fb-next-mission-title').textContent = needsDiscovery
         ? 'Sua primeira missão: descobrir esportes compatíveis'
         : preferredSport && currentProfile?.objective === 'modalidade'
@@ -1364,7 +1369,10 @@ function renderProgress() {
           ? `Faça uma primeira experiência com ${preferredSport}, observando acesso, acolhimento, diversão e vontade de voltar.`
           : guidance?.task || currentProfile.nextAction || 'Comece no seu ritmo e registre como foi para liberar o próximo passo.';
       document.getElementById('fb-next-mission-action').textContent = needsDiscovery ? 'Descobrir meu esporte agora' : 'Realizar próximo passo agora';
-      document.getElementById('fb-next-mission-today').textContent = getDailyLogs().some(item => item.date === localDayKey()) ? 'Atualizar Meu Hoje' : 'Preencher Meu Hoje';
+      document.getElementById('fb-next-mission-today').textContent = todayIsRegistered ? 'Atualizar Meu Hoje' : 'Atualizar Meu Hoje agora';
+      document.getElementById('fb-next-mission-note').textContent = todayIsRegistered
+        ? 'Seu registro de hoje está atualizado. Agora você pode avançar para a primeira missão.'
+        : 'Comece pelo Meu Hoje para ativar seu painel. Depois, siga para a missão quando quiser.';
     }
   }
   renderCycleSummary(steps, completed, savedCheckins);
@@ -1662,6 +1670,64 @@ function renderGamification() {
     item.setAttribute('aria-label', `${label}: ${unlocked ? 'conquistada' : 'a conquistar'}`);
     return item;
   }));
+}
+
+function renderHomeDashboard() {
+  const section = document.getElementById('fb-home-dashboard');
+  if (!section) return;
+  const hasJourney = Boolean(currentProfile?.objective);
+  section.hidden = !hasJourney;
+  if (!hasJourney) return;
+
+  const logs = getDailyLogs().slice().sort((a, b) => a.date.localeCompare(b.date));
+  const weekStart = startOfLocalWeek();
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekEnd.getDate() + 7);
+  const weekLogs = logs.filter(item => {
+    const date = new Date(`${item.date}T12:00:00`);
+    return date >= weekStart && date < weekEnd;
+  });
+  const registeredDays = new Set(weekLogs.map(item => item.date)).size;
+  const weeklyTarget = 3;
+  const weeklyPercent = Math.min(100, Math.round(registeredDays / weeklyTarget * 100));
+  const todayLog = logs.find(item => item.date === localDayKey());
+  const latestLog = logs[logs.length - 1];
+  const game = getGamificationState();
+  const completed = getCompletedSteps();
+  const steps = getJourneySteps();
+  const nextMission = completed >= steps.length ? 'Seu ciclo está concluído. Revise a semana e escolha como continuar.' : steps[completed];
+
+  const ring = document.getElementById('fb-home-progress-ring');
+  ring.style.setProperty('--fb-home-progress', `${weeklyPercent}%`);
+  ring.setAttribute('aria-label', `${weeklyPercent}% da meta semanal de registros`);
+  document.getElementById('fb-home-week-percent').textContent = `${weeklyPercent}%`;
+  document.getElementById('fb-home-week-count').textContent = `${registeredDays} de ${weeklyTarget} dias registrado${registeredDays === 1 ? '' : 's'}`;
+  document.getElementById('fb-home-streak').textContent = `${game.streak} dia${game.streak === 1 ? '' : 's'}`;
+  document.getElementById('fb-home-streak-message').textContent = game.streak
+    ? 'Cada novo dia registrado mantém sua história em movimento.'
+    : 'Seu primeiro registro inicia a sequência.';
+  document.getElementById('fb-home-level').textContent = `Nível ${game.level}`;
+  document.getElementById('fb-home-xp').textContent = `${game.xp} XP · ${game.levelName}`;
+
+  if (latestLog) {
+    document.getElementById('fb-home-last-title').textContent = latestLog.activity === 'none' ? 'Dia de pausa' : dailyActivityLabels[latestLog.activity];
+    document.getElementById('fb-home-last-detail').textContent = latestLog.activity === 'none'
+      ? formatDailyDate(latestLog.date, { day: 'numeric', month: 'short' })
+      : `${latestLog.minutes} min · ${formatDailyDate(latestLog.date, { day: 'numeric', month: 'short' })}`;
+  } else {
+    document.getElementById('fb-home-last-title').textContent = 'Nenhum ainda';
+    document.getElementById('fb-home-last-detail').textContent = 'Seu histórico aparecerá aqui.';
+  }
+
+  const primary = document.getElementById('fb-home-primary');
+  primary.textContent = todayLog ? 'Atualizar Meu Hoje' : 'Registrar Meu Hoje';
+  document.getElementById('fb-home-return-message').textContent = todayLog
+    ? 'Seu painel está atualizado. Volte amanhã para continuar sua sequência e ver a semana evoluir.'
+    : 'Registre seu dia para atualizar a meta, a sequência e suas recomendações.';
+  document.getElementById('fb-home-next-title').textContent = todayLog ? nextMission : 'Comece pelo registro de hoje.';
+  document.getElementById('fb-home-next-summary').textContent = todayLog
+    ? 'Sua próxima missão continua disponível na Jornada da Semana.'
+    : 'Leva cerca de dois minutos e atualiza todo o painel.';
 }
 
 function formatDailyDate(value, options = { weekday: 'short', day: '2-digit', month: 'short' }) {
@@ -2116,17 +2182,17 @@ function renderPersonalizedExperience() {
     const displayName = currentProfile?.name?.trim();
     pathEntry.hidden = false;
     todayCard.hidden = true;
-    appTitle.textContent = displayName ? `${displayName}, vamos encontrar seu caminho no esporte.` : 'Existe um jeito de viver o esporte que combina com você.';
-    appSubtitle.textContent = 'Encontre seu ponto de partida e construa uma jornada possível.';
+    appTitle.textContent = displayName ? `${displayName}, seu próximo passo começa pelo seu momento.` : 'O próximo passo começa pelo seu momento.';
+    appSubtitle.textContent = 'Crie seu Mapa BeM e organize uma jornada possível, sem diagnóstico ou prescrição.';
     kicker.textContent = 'SEU PRIMEIRO PASSO';
     title.textContent = 'Crie seu perfil esportivo.';
     summary.textContent = 'Perfil rápido · dados salvos neste aparelho';
     progress.hidden = true;
-    primary.textContent = 'Criar meu caminho';
+    primary.textContent = 'Criar meu Mapa BeM';
     primary.dataset.fbView = 'jornada';
     delete primary.dataset.fbDailyAction;
     if (heroAction) {
-      heroAction.textContent = 'Montar meu caminho';
+      heroAction.textContent = 'Criar meu Mapa BeM';
       heroAction.dataset.fbView = 'jornada';
       delete heroAction.dataset.fbDailyAction;
     }
@@ -2140,9 +2206,11 @@ function renderPersonalizedExperience() {
     const percent = completed * 20;
     const displayName = currentProfile.name?.trim();
     const todayIsRegistered = getDailyLogs().some(item => item.date === localDayKey());
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite';
     pathEntry.hidden = true;
-    todayCard.hidden = false;
-    appTitle.textContent = displayName ? `Olá, ${displayName}.` : 'Sua semana continua em movimento.';
+    todayCard.hidden = true;
+    appTitle.textContent = displayName ? `${greeting}, ${displayName}.` : `${greeting}. Sua semana continua em movimento.`;
     appSubtitle.textContent = 'Registre seu dia e acompanhe o que ajuda sua constância.';
     kicker.textContent = 'MEU HOJE';
     title.textContent = todayIsRegistered ? 'Seu dia já está registrado.' : displayName ? `${displayName}, como foi seu dia até aqui?` : 'Como foi seu dia até aqui?';
@@ -2183,6 +2251,7 @@ function renderPersonalizedExperience() {
   renderGamification();
   renderDailyGuide();
   renderDailyJournal();
+  renderHomeDashboard();
   renderHistory();
   renderTrails();
   renderSportDiscovery();
@@ -2469,6 +2538,10 @@ document.getElementById('fb-open-daily-form')?.addEventListener('click', () => {
   fillDailyForm(todayLog);
   setDailyFormVisibility(Boolean(wrap?.hidden));
 });
+document.getElementById('fb-home-guide-action')?.addEventListener('click', () => {
+  openView('inicio', { scroll: false });
+  document.getElementById('fb-day-guide')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
 document.getElementById('fb-daily-view-mission')?.addEventListener('click', () => openView('progresso'));
 document.getElementById('fb-daily-recommendation-action')?.addEventListener('click', event => {
   const action = event.currentTarget.dataset.dailyRecommendation;
@@ -2513,6 +2586,7 @@ document.getElementById('fb-daily-form')?.addEventListener('submit', event => {
     updatedAt: new Date().toISOString()
   });
   if (!log || log.date > localDayKey()) { feedback.textContent = 'Escolha uma data válida, sem usar dias futuros.'; return; }
+  const isNewDailyLog = !getDailyLogs().some(item => item.date === log.date);
   const dailyLogs = [...getDailyLogs().filter(item => item.date !== log.date), log].sort((a, b) => a.date.localeCompare(b.date)).slice(-180);
   saveProfile({ dailyLogs });
   fillDailyForm(log);
@@ -2520,9 +2594,16 @@ document.getElementById('fb-daily-form')?.addEventListener('submit', event => {
   setDailyFormVisibility(false);
   const resultTarget = log.date === localDayKey() ? '.fb-daily-overview' : '.fb-daily-history';
   window.setTimeout(() => document.querySelector(resultTarget)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 180);
+  const weekStart = startOfLocalWeek();
+  const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 7);
+  const registeredThisWeek = new Set(dailyLogs.filter(item => {
+    const date = new Date(`${item.date}T12:00:00`);
+    return date >= weekStart && date < weekEnd;
+  }).map(item => item.date)).size;
+  const weeklyPercent = Math.min(100, Math.round(registeredThisWeek / 3 * 100));
   showCelebration(
-    log.activity === 'none' ? 'Dia registrado!' : 'Muito bem!',
-    log.activity === 'none' ? 'Reconhecer um dia de pausa também faz parte de uma jornada equilibrada.' : 'Seu dia foi salvo e os resumos já mostram seu progresso.'
+    isNewDailyLog ? `${log.activity === 'none' ? 'Pausa registrada' : 'Meu Hoje concluído'} · +15 XP` : 'Meu Hoje atualizado!',
+    isNewDailyLog ? `Sua meta semanal chegou a ${weeklyPercent}%. O painel e a sequência já foram atualizados.` : 'As novas informações já aparecem no resumo do dia e da semana.'
   );
 });
 document.getElementById('fb-delete-daily-log')?.addEventListener('click', () => {
@@ -2820,7 +2901,8 @@ document.getElementById('fb-welcome-close')?.addEventListener('click', () => doc
 document.getElementById('fb-welcome-later')?.addEventListener('click', () => document.getElementById('fb-daily-welcome')?.close());
 document.getElementById('fb-welcome-continue')?.addEventListener('click', () => {
   document.getElementById('fb-daily-welcome')?.close();
-  openView(currentProfile?.objective ? 'progresso' : 'jornada');
+  openView(currentProfile?.objective ? 'inicio' : 'jornada');
+  if (currentProfile?.objective) window.setTimeout(() => document.getElementById('fb-home-dashboard')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 180);
 });
 document.querySelectorAll('[data-fb-edit-onboarding]').forEach(button => {
   button.addEventListener('click', () => {

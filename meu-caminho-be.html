@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260719-1">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260721-1">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260719-23">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260721-27">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -51,9 +51,9 @@
 <button type="button" class="fb-welcome-close" id="fb-welcome-close" aria-label="Fechar saudação">×</button>
 <span>SEU ACESSO NESTE DISPOSITIVO</span>
 <h2 id="fb-welcome-title">Seja bem-vindo, <strong id="fb-welcome-name"></strong>.</h2>
-<p>Bora continuar sua Jornada da Semana?</p>
+<p>Seu painel de hoje está pronto.</p>
 <small>Seu perfil e seu progresso continuam salvos somente neste aparelho.</small>
-<div><button type="button" class="fb-primary-action" id="fb-welcome-continue">Continuar Jornada da Semana</button><button type="button" id="fb-welcome-later">Agora não</button></div>
+<div><button type="button" class="fb-primary-action" id="fb-welcome-continue">Abrir Meu Hoje</button><button type="button" id="fb-welcome-later">Agora não</button></div>
 </dialog>
 <dialog class="fb-reset-dialog" id="fb-reset-dialog" aria-labelledby="fb-reset-title">
 <span>RECOMEÇAR COM SEGURANÇA</span>
@@ -159,6 +159,25 @@
 <div><span>MEU HOJE</span><h2 id="fb-today-zone-title">Seu dia, suas escolhas e seu registro.</h2></div>
 <time id="fb-today-context-date" datetime="">Hoje</time>
 </header>
+<section class="fb-home-dashboard" id="fb-home-dashboard" aria-labelledby="fb-home-dashboard-title" hidden>
+<header class="fb-home-dashboard-head">
+<div><span>SEU PAINEL DE HOJE</span><h2 id="fb-home-dashboard-title">Um passo possível para continuar.</h2><p id="fb-home-return-message">Registre seu dia para começar a enxergar sua evolução.</p></div>
+<button type="button" class="fb-primary-action" id="fb-home-primary" data-fb-view="inicio" data-fb-daily-action="true">Registrar Meu Hoje</button>
+</header>
+<div class="fb-home-dashboard-grid">
+<article class="fb-home-week-card">
+<div class="fb-home-progress-ring" id="fb-home-progress-ring" style="--fb-home-progress:0%" role="img" aria-label="0% da meta semanal"><span><strong id="fb-home-week-percent">0%</strong><small>da meta</small></span></div>
+<div><span>META DE CONSTÂNCIA</span><h3 id="fb-home-week-count">0 de 3 dias registrados</h3><p>Registre três dias da sua rotina nesta semana. Pausas também contam.</p></div>
+</article>
+<article class="fb-home-signal-card"><span>SEQUÊNCIA</span><strong id="fb-home-streak">0 dias</strong><p id="fb-home-streak-message">Seu primeiro registro inicia a sequência.</p></article>
+<article class="fb-home-signal-card"><span>ÚLTIMO REGISTRO</span><strong id="fb-home-last-title">Nenhum ainda</strong><p id="fb-home-last-detail">Seu histórico aparecerá aqui.</p></article>
+<article class="fb-home-signal-card"><span>NÍVEL ATUAL</span><strong id="fb-home-level">Nível 1</strong><p id="fb-home-xp">0 XP · Primeiro passo</p></article>
+</div>
+<div class="fb-home-next-step">
+<div><span>PRÓXIMO PASSO</span><strong id="fb-home-next-title">Comece pelo registro de hoje.</strong><p id="fb-home-next-summary">Leva cerca de dois minutos e atualiza todo o painel.</p></div>
+<div><button type="button" data-fb-view="progresso">Ver minha jornada</button><button type="button" id="fb-home-guide-action">Receber orientação de hoje</button></div>
+</div>
+</section>
 <section class="fb-day-guide" id="fb-day-guide" aria-labelledby="fb-day-guide-title" hidden>
 <header class="fb-day-guide-head"><div><span>GUIA DO MEU HOJE</span><h2 id="fb-day-guide-title">O que pode ajudar você agora?</h2></div><strong id="fb-day-guide-phase">AGORA</strong></header>
 <div class="fb-day-intentions"><p>Escolha uma prioridade para hoje:</p><div role="group" aria-label="Prioridade do dia"><button type="button" data-day-intent="movimento">Me movimentar</button><button type="button" data-day-intent="descanso">Descansar</button><button type="button" data-day-intent="alimentacao">Cuidar da alimentação</button><button type="button" data-day-intent="hidratacao">Melhorar a hidratação</button><button type="button" data-day-intent="registro">Só registrar meu dia</button></div></div>
@@ -287,11 +306,11 @@
 <div class="fb-progress-track" aria-hidden="true"><i id="fb-progress-bar"></i></div>
 </div>
 <section class="fb-next-mission" id="fb-next-mission" aria-labelledby="fb-next-mission-title" hidden>
-<span>PERFIL CONCLUÍDO · ESCOLHA COMO CONTINUAR</span>
+<span id="fb-next-mission-kicker">PERFIL CONCLUÍDO · ESCOLHA COMO CONTINUAR</span>
 <h3 id="fb-next-mission-title">Seu caminho está pronto.</h3>
 <p id="fb-next-mission-summary">Veja sua primeira missão e comece no seu ritmo.</p>
 <div class="fb-next-mission-actions"><button type="button" id="fb-next-mission-action">Realizar próximo passo agora</button><button type="button" id="fb-next-mission-today">Preencher Meu Hoje</button></div>
-<small>Você pode registrar o que fez na hora ou voltar ao Meu Hoje no final do dia.</small>
+<small id="fb-next-mission-note">Você pode registrar o que fez na hora ou voltar ao Meu Hoje no final do dia.</small>
 </section>
 <div class="fb-safety-status" id="fb-safety-status" role="status" hidden></div>
 <ol class="fb-progress-steps" id="fb-progress-steps"></ol>
@@ -962,8 +981,8 @@ Seu navegador não consegue reproduzir este vídeo.
 </button>
 
 <script type="module" src="js/site-common.js?v=20260718-8"></script>
-<script src="js/coluna-valtinho.js?v=20260720-1" defer></script>
-<script src="js/fala-bem-app.js?v=20260721-1" defer></script>
+<script src="js/coluna-valtinho.js?v=20260721-1" defer></script>
+<script src="js/fala-bem-app.js?v=20260721-4" defer></script>
 
 </body>
 </html>
