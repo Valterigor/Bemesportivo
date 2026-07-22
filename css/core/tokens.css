@@ -2,16 +2,34 @@
   /* Brand */
   --be-ds-color-brand: #ff6a00;
   --be-ds-color-brand-strong: #db4d00;
+  --be-ds-color-primary: var(--be-ds-color-brand);
+  --be-ds-color-primary-hover: #ff811f;
+  --be-ds-color-secondary: #28231f;
   --be-ds-color-ink: #171717;
   --be-ds-color-text: #3f3b37;
   --be-ds-color-muted: #716b65;
+  --be-ds-color-background: #f6f4f1;
   --be-ds-color-surface: #ffffff;
   --be-ds-color-surface-soft: #f7f5f2;
+  --be-ds-color-surface-raised: rgb(255 255 255 / 88%);
+  --be-ds-color-surface-glass: rgb(255 255 255 / 76%);
   --be-ds-color-border: #e8e1da;
   --be-ds-color-success: #168653;
+  --be-ds-color-success-surface: #edf9f2;
   --be-ds-color-warning: #9b6100;
+  --be-ds-color-warning-surface: #fff8e7;
   --be-ds-color-danger: #b42318;
+  --be-ds-color-danger-surface: #fff1ef;
+  --be-ds-color-info: #245ea8;
+  --be-ds-color-info-surface: #eef5ff;
   --be-ds-color-focus: #1f6feb;
+
+  /* Data visualization */
+  --be-ds-chart-1: #ff6a00;
+  --be-ds-chart-2: #168653;
+  --be-ds-chart-3: #245ea8;
+  --be-ds-chart-4: #9b6100;
+  --be-ds-chart-5: #7a4cad;
 
   /* Typography */
   --be-ds-font-display: "Rubik", "Inter", system-ui, sans-serif;
@@ -22,6 +40,10 @@
   --be-ds-text-lg: 1.125rem;
   --be-ds-text-xl: clamp(1.35rem, 2vw, 1.75rem);
   --be-ds-text-2xl: clamp(1.75rem, 4vw, 3rem);
+  --be-ds-weight-regular: 400;
+  --be-ds-weight-medium: 600;
+  --be-ds-weight-bold: 800;
+  --be-ds-weight-black: 900;
   --be-ds-leading-tight: 1.12;
   --be-ds-leading-body: 1.6;
 
@@ -32,20 +54,30 @@
   --be-ds-space-4: 1rem;
   --be-ds-space-5: 1.25rem;
   --be-ds-space-6: 1.5rem;
+  --be-ds-space-7: 1.75rem;
   --be-ds-space-8: 2rem;
+  --be-ds-space-9: 2.25rem;
   --be-ds-space-10: 2.5rem;
   --be-ds-space-12: 3rem;
   --be-ds-space-16: 4rem;
 
   /* Shape, depth and motion */
+  --be-ds-radius-xs: 0.375rem;
   --be-ds-radius-sm: 0.5rem;
   --be-ds-radius-md: 0.875rem;
   --be-ds-radius-lg: 1.25rem;
+  --be-ds-radius-xl: 1.625rem;
   --be-ds-radius-pill: 999px;
-  --be-ds-shadow-sm: 0 6px 18px rgb(23 23 23 / 7%);
-  --be-ds-shadow-md: 0 16px 42px rgb(23 23 23 / 11%);
+  --be-ds-elevation-0: none;
+  --be-ds-elevation-1: 0 5px 16px rgb(53 38 28 / 4.5%), 0 1px 2px rgb(53 38 28 / 3.5%);
+  --be-ds-elevation-2: 0 14px 36px rgb(53 38 28 / 7.5%), 0 3px 10px rgb(53 38 28 / 4%);
+  --be-ds-elevation-3: 0 28px 72px rgb(53 38 28 / 10.5%), 0 8px 24px rgb(53 38 28 / 5.5%);
+  --be-ds-shadow-sm: var(--be-ds-elevation-1);
+  --be-ds-shadow-md: var(--be-ds-elevation-2);
+  --be-ds-shadow-lg: var(--be-ds-elevation-3);
   --be-ds-duration-fast: 160ms;
   --be-ds-duration-base: 240ms;
+  --be-ds-duration-slow: 420ms;
   --be-ds-ease: cubic-bezier(.2, .8, .2, 1);
   --be-ds-content-width: 1180px;
   --be-ds-reading-width: 760px;

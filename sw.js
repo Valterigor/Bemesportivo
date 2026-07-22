@@ -1,15 +1,15 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v33';
+const CACHE_NAME = 'meu-caminho-be-v35';
 const APP_SHELL = [
   '/meu-caminho-be',
-  '/site-common.css?v=20260718-8',
-  '/css/design-system.css?v=20260718-1',
-  '/css/core/tokens.css',
-  '/css/core/primitives.css',
-  '/css/components/ui.css',
+  '/site-common.css?v=20260722-1',
+  '/css/design-system.css?v=20260722-1',
+  '/css/core/tokens.css?v=20260722-1',
+  '/css/core/primitives.css?v=20260718-1',
+  '/css/components/ui.css?v=20260722-1',
   '/css/coluna-valtinho.css?v=20260721-1',
-  '/css/fala-bem-platform.css?v=20260721-27',
+  '/css/fala-bem-platform.css?v=20260722-1',
   '/js/site-common.js?v=20260718-8',
   '/js/core/routes.js',
   '/js/components/site-navigation.js',
@@ -17,7 +17,7 @@ const APP_SHELL = [
   '/js/components/site-footer.js?v=20260718-1',
   '/js/components/back-to-top.js',
   '/js/coluna-valtinho.js?v=20260721-1',
-  '/js/fala-bem-app.js?v=20260721-4',
+  '/js/fala-bem-app.js?v=20260722-1',
   '/img/logobemoficial.png',
   '/img/Bem%20Esportivo%20Logo%20Laranja@33x.png',
   '/img/fala-bem-hero-pessoas-optimized.jpg'

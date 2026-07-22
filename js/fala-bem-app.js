@@ -124,22 +124,41 @@ function hideCelebration() {
   celebrationHideTimer = window.setTimeout(() => { toast.hidden = true; }, 240);
 }
 
-function showCelebration(title, message) {
+function showProductFeedback({ type = 'success', title = '', message = '', reward = '', detail = '' } = {}) {
   const toast = document.getElementById('fb-celebration-toast');
   const titleTarget = document.getElementById('fb-celebration-title');
   const messageTarget = document.getElementById('fb-celebration-message');
-  if (!toast || !titleTarget || !messageTarget) return;
+  const iconTarget = toast?.querySelector('.fb-celebration-icon');
+  const metaTarget = document.getElementById('fb-celebration-meta');
+  const rewardTarget = document.getElementById('fb-celebration-reward');
+  const detailTarget = document.getElementById('fb-celebration-detail');
+  if (!toast || !titleTarget || !messageTarget || !iconTarget || !metaTarget || !rewardTarget || !detailTarget) return;
+  const feedbackType = ['success', 'progress', 'warning', 'danger', 'info'].includes(type) ? type : 'info';
+  const icons = { success: '✓', progress: '↗', warning: '!', danger: '×', info: 'i' };
   window.clearTimeout(celebrationTimer);
   window.clearTimeout(celebrationHideTimer);
   titleTarget.textContent = title;
   messageTarget.textContent = message;
+  iconTarget.textContent = icons[feedbackType];
+  rewardTarget.textContent = reward;
+  detailTarget.textContent = detail;
+  metaTarget.hidden = !reward && !detail;
+  rewardTarget.hidden = !reward;
+  detailTarget.hidden = !detail;
+  toast.dataset.feedbackType = feedbackType;
   toast.hidden = false;
   toast.classList.remove('show');
   window.requestAnimationFrame(() => {
     toast.classList.add('show');
-    celebrationTimer = window.setTimeout(hideCelebration, 4800);
+    celebrationTimer = window.setTimeout(hideCelebration, feedbackType === 'progress' ? 6000 : 4800);
   });
 }
+
+function showCelebration(title, message, options = {}) {
+  showProductFeedback({ type: 'success', title, message, ...options });
+}
+
+window.addEventListener('meuCaminhoBe:feedback', event => showProductFeedback(event.detail || {}));
 
 document.getElementById('fb-celebration-close')?.addEventListener('click', hideCelebration);
 
@@ -2278,6 +2297,7 @@ window.addEventListener('meuCaminhoBe:identity-captured', event => {
 window.addEventListener('meuCaminhoBe:activity', event => {
   const detail = event.detail || {};
   if (!['tool', 'content', 'community'].includes(detail.type) || !String(detail.label || '').trim()) return;
+  const gameBefore = getGamificationState();
   const activityHistory = [...(currentProfile?.activityHistory || []), {
     type: detail.type,
     key: String(detail.key || '').slice(0, 80),
@@ -2296,6 +2316,24 @@ window.addEventListener('meuCaminhoBe:activity', event => {
     communityActions: Math.max(Number(previousStats.communityActions || 0), knownCommunityActions) + (detail.type === 'community' ? 1 : 0)
   };
   saveProfile({ activityHistory, gamificationStats });
+  const gameAfter = getGamificationState();
+  const earnedXp = Math.max(0, gameAfter.xp - gameBefore.xp);
+  if (earnedXp > 0) {
+    const levelUp = gameAfter.level > gameBefore.level;
+    const titles = { tool: 'Ferramenta registrada!', content: 'Conteúdo concluído!', community: 'Participação registrada!' };
+    const messages = {
+      tool: 'O resultado entrou no seu histórico e ajuda a personalizar os próximos passos.',
+      content: 'Esta leitura agora faz parte da sua evolução no Meu Caminho Be.',
+      community: 'Sua contribuição fortalece a comunidade e também registra sua participação.'
+    };
+    showProductFeedback({
+      type: 'progress',
+      title: levelUp ? 'Seu nível aumentou!' : titles[detail.type],
+      message: levelUp ? `Você chegou ao nível ${gameAfter.level}: ${gameAfter.levelName}.` : messages[detail.type],
+      reward: `+${earnedXp} XP`,
+      detail: `${gameAfter.xp} XP no total${gameAfter.streak ? ` · sequência de ${gameAfter.streak} dia${gameAfter.streak === 1 ? '' : 's'}` : ''}`
+    });
+  }
 });
 
 document.querySelectorAll('[data-dashboard-action]').forEach(button => {
@@ -2336,8 +2374,13 @@ document.getElementById('fb-sport-finder')?.addEventListener('submit', event => 
   }
   const preferences = Object.fromEntries(new FormData(form));
   const results = calculateSportCompatibility(preferences);
+  const gameBeforeDiscovery = getGamificationState();
   saveProfile({ sportDiscovery: { preferences, results, completedAt: new Date().toISOString() }, preferredSport: null });
-  showCelebration('Descoberta concluída!', 'Suas preferências foram salvas e já ajudam a personalizar seu caminho.');
+  const gameAfterDiscovery = getGamificationState();
+  const discoveryXp = Math.max(0, gameAfterDiscovery.xp - gameBeforeDiscovery.xp);
+  showCelebration(gameAfterDiscovery.level > gameBeforeDiscovery.level ? 'Seu nível aumentou!' : 'Descoberta concluída!', gameAfterDiscovery.level > gameBeforeDiscovery.level ? `Você chegou ao nível ${gameAfterDiscovery.level}: ${gameAfterDiscovery.levelName}.` : 'Suas preferências foram salvas e já ajudam a personalizar seu caminho.', {
+    type: discoveryXp ? 'progress' : 'success', reward: discoveryXp ? `+${discoveryXp} XP` : '', detail: `${gameAfterDiscovery.xp} XP no total`
+  });
   document.getElementById('fb-sport-result')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 
@@ -2386,12 +2429,18 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
   if (note) note.value = '';
   const archivedCheckinCount = (currentProfile?.cycles || []).reduce((total, cycle) => total + (Array.isArray(cycle?.checkins) ? cycle.checkins.length : 0), 0);
   const previousCheckinTotal = Math.max(Number(currentProfile?.gamificationStats?.completedCheckins || 0), archivedCheckinCount + (currentProfile?.checkins || []).length);
+  const gameBeforeCheckin = getGamificationState();
   saveProfile({ progress: nextProgress, checkins, gamificationStats: { ...(currentProfile?.gamificationStats || {}), completedCheckins: previousCheckinTotal + 1 } });
+  const gameAfterCheckin = getGamificationState();
   const feedbackName = currentProfile?.name ? `${currentProfile.name}, ` : '';
   document.getElementById('fb-progress-feedback').textContent = nextStep
     ? `${feedbackName}obrigado por contar como foi. Registrei sua experiência e preparei o próximo passo: ${nextStep}.`
     : `${feedbackName}você concluiu este ciclo. Sua experiência está registrada e já pode orientar sua próxima escolha.`;
-  showCelebration(nextStep ? 'Passo registrado!' : 'Ciclo concluído!', nextStep ? 'Muito bem por acompanhar sua jornada. Seu próximo passo já está preparado.' : 'Parabéns por concluir este ciclo no seu ritmo.');
+  showCelebration(
+    gameAfterCheckin.level > gameBeforeCheckin.level ? 'Seu nível aumentou!' : (nextStep ? 'Passo registrado!' : 'Ciclo concluído!'),
+    gameAfterCheckin.level > gameBeforeCheckin.level ? `Você chegou ao nível ${gameAfterCheckin.level}: ${gameAfterCheckin.levelName}.` : (nextStep ? 'Muito bem por acompanhar sua jornada. Seu próximo passo já está preparado.' : 'Parabéns por concluir este ciclo no seu ritmo.'),
+    { type: 'progress', reward: '+50 XP', detail: nextStep ? `Próximo passo: ${nextStep}` : `${gameAfterCheckin.xp} XP no total` }
+  );
 });
 
 document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
@@ -2407,13 +2456,17 @@ document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
   const cycles = [...(Array.isArray(currentProfile?.cycles) ? currentProfile.cycles : []), archive].slice(-6);
   const cycleAdjustment = adjustCount >= 2 ? 'reduce' : (adjustCount || partialCount ? 'maintain' : 'progress');
   const previousCycleTotal = Math.max(Number(currentProfile?.gamificationStats?.completedCycles || 0), (currentProfile?.cycles || []).length);
+  const gameBeforeCycle = getGamificationState();
   saveProfile({ progress: 1, checkins: [], cycles, cycleAdjustment, gamificationStats: { ...(currentProfile?.gamificationStats || {}), completedCycles: previousCycleTotal + 1 } });
+  const gameAfterCycle = getGamificationState();
   document.getElementById('fb-progress-feedback').textContent = cycleAdjustment === 'reduce'
     ? 'Novo ciclo iniciado com uma versão menor e mais segura do caminho anterior.'
     : cycleAdjustment === 'maintain'
       ? 'Novo ciclo iniciado mantendo o que foi possível no ciclo anterior.'
       : 'Novo ciclo iniciado. Você poderá evoluir uma variável por vez.';
-  showCelebration('Novo ciclo iniciado!', 'Seu progresso anterior foi preservado e um novo caminho já está disponível.');
+  showCelebration(gameAfterCycle.level > gameBeforeCycle.level ? 'Seu nível aumentou!' : 'Novo ciclo iniciado!', gameAfterCycle.level > gameBeforeCycle.level ? `Você chegou ao nível ${gameAfterCycle.level}: ${gameAfterCycle.levelName}.` : 'Seu progresso anterior foi preservado e um novo caminho já está disponível.', {
+    type: 'progress', reward: gameAfterCycle.xp > gameBeforeCycle.xp ? `+${gameAfterCycle.xp - gameBeforeCycle.xp} XP` : '', detail: `${gameAfterCycle.xp} XP no total`
+  });
 });
 
 document.getElementById('fb-calendar-next')?.addEventListener('click', () => {
@@ -2587,6 +2640,7 @@ document.getElementById('fb-daily-form')?.addEventListener('submit', event => {
   });
   if (!log || log.date > localDayKey()) { feedback.textContent = 'Escolha uma data válida, sem usar dias futuros.'; return; }
   const isNewDailyLog = !getDailyLogs().some(item => item.date === log.date);
+  const gameBeforeDailyLog = getGamificationState();
   const dailyLogs = [...getDailyLogs().filter(item => item.date !== log.date), log].sort((a, b) => a.date.localeCompare(b.date)).slice(-180);
   saveProfile({ dailyLogs });
   fillDailyForm(log);
@@ -2601,9 +2655,15 @@ document.getElementById('fb-daily-form')?.addEventListener('submit', event => {
     return date >= weekStart && date < weekEnd;
   }).map(item => item.date)).size;
   const weeklyPercent = Math.min(100, Math.round(registeredThisWeek / 3 * 100));
+  const gameAfterDailyLog = getGamificationState();
+  const dailyLevelUp = gameAfterDailyLog.level > gameBeforeDailyLog.level;
   showCelebration(
-    isNewDailyLog ? `${log.activity === 'none' ? 'Pausa registrada' : 'Meu Hoje concluído'} · +15 XP` : 'Meu Hoje atualizado!',
-    isNewDailyLog ? `Sua meta semanal chegou a ${weeklyPercent}%. O painel e a sequência já foram atualizados.` : 'As novas informações já aparecem no resumo do dia e da semana.'
+    dailyLevelUp ? 'Seu nível aumentou!' : (isNewDailyLog ? (log.activity === 'none' ? 'Pausa registrada!' : 'Meu Hoje concluído!') : 'Meu Hoje atualizado!'),
+    dailyLevelUp ? `Você chegou ao nível ${gameAfterDailyLog.level}: ${gameAfterDailyLog.levelName}.` : (isNewDailyLog ? 'Seu painel, sua sequência e o resumo da semana já foram atualizados.' : 'As novas informações já aparecem no resumo do dia e da semana.'),
+    isNewDailyLog ? {
+      type: 'progress', reward: '+15 XP',
+      detail: `Meta semanal: ${weeklyPercent}%${gameAfterDailyLog.streak ? ` · sequência: ${gameAfterDailyLog.streak} dia${gameAfterDailyLog.streak === 1 ? '' : 's'}` : ''}`
+    } : { detail: `Meta semanal: ${weeklyPercent}%` }
   );
 });
 document.getElementById('fb-delete-daily-log')?.addEventListener('click', () => {
@@ -2895,8 +2955,20 @@ if (!openLinkedContentFromHash()) {
   openView('inicio', { scroll: false, focus: false, instant: true });
 }
 registerDailyAccess();
-window.setTimeout(checkDailyGuideReminder, 1200);
-window.setInterval(checkDailyGuideReminder, 60000);
+let renderedLocalDay = localDayKey();
+function maintainCurrentDayState() {
+  const currentLocalDay = localDayKey();
+  if (currentLocalDay !== renderedLocalDay) {
+    renderedLocalDay = currentLocalDay;
+    renderPersonalizedExperience();
+  }
+  checkDailyGuideReminder();
+}
+window.setTimeout(maintainCurrentDayState, 1200);
+window.setInterval(maintainCurrentDayState, 60000);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') maintainCurrentDayState();
+});
 document.getElementById('fb-welcome-close')?.addEventListener('click', () => document.getElementById('fb-daily-welcome')?.close());
 document.getElementById('fb-welcome-later')?.addEventListener('click', () => document.getElementById('fb-daily-welcome')?.close());
 document.getElementById('fb-welcome-continue')?.addEventListener('click', () => {
