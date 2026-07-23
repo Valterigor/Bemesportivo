@@ -4,7 +4,8 @@
   "description": "Plataforma de esportes e gamificação - Bem Esportivo",
   "main": "dev-server.js",
   "dependencies": {
-    "@netlify/blobs": "^9.1.0"
+    "@netlify/blobs": "^9.1.0",
+    "web-push": "^3.6.7"
   },
   "scripts": {
     "dev": "node dev-server.js",

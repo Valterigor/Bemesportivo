@@ -806,11 +806,6 @@ table {
     padding-right: 0 !important;
   }
 
-  section {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
   h1 {
     font-size: clamp(30px, 10vw, 44px) !important;
     line-height: 1.05 !important;

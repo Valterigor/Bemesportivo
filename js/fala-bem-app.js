@@ -112,6 +112,7 @@ function saveProfile(updates) {
     updatedAt: now
   };
   try { localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(currentProfile)); } catch (error) {}
+  window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated', { detail: { ready: Boolean(currentProfile?.objective) } }));
   renderPersonalizedExperience();
   return currentProfile;
 }
@@ -296,6 +297,8 @@ function resetLocalJourney() {
     localStorage.removeItem(PROFILE_STORAGE_KEY);
     localStorage.removeItem(ACCESS_STORAGE_KEY);
     localStorage.removeItem('meuCaminhoBeCommunityName');
+    localStorage.removeItem('meuCaminhoBeTasksV1');
+    localStorage.removeItem('meuCaminhoBeTaskNotifiedV1');
   } catch (error) {}
   currentProfile = null;
   const status = document.getElementById('fb-checkin-status');
@@ -2703,7 +2706,9 @@ document.getElementById('fb-export-profile')?.addEventListener('click', () => {
     document.getElementById('fb-profile-feedback').textContent = 'Ainda não há um perfil para exportar.';
     return;
   }
-  const payload = JSON.stringify({ schemaVersion: 6, exportedAt: new Date().toISOString(), profile: currentProfile }, null, 2);
+  let routineTasks = [];
+  try { routineTasks = JSON.parse(localStorage.getItem('meuCaminhoBeTasksV1') || '[]'); } catch (error) {}
+  const payload = JSON.stringify({ schemaVersion: 6, exportedAt: new Date().toISOString(), profile: currentProfile, routineTasks }, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -2746,7 +2751,9 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
     };
     currentProfile = sanitized;
     localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(sanitized));
+    if (Array.isArray(parsed.routineTasks)) localStorage.setItem('meuCaminhoBeTasksV1', JSON.stringify(parsed.routineTasks.slice(-250)));
     renderPersonalizedExperience();
+    window.dispatchEvent(new CustomEvent('meuCaminhoBe:tasks-imported'));
     document.getElementById('fb-profile-feedback').textContent = 'Backup restaurado neste aparelho.';
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-onboarding', { detail: { ...sanitized } }));
   } catch (error) {

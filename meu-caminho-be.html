@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="css/fala-bem-platform.css?v=20260722-2">
 <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-1">
 <link rel="stylesheet" href="css/photo-checkin.css?v=20260723-1">
+<link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -207,6 +208,32 @@
 <div class="fb-today-actions">
 <button type="button" class="fb-primary-action" id="fb-today-primary" data-fb-view="jornada">Criar meu caminho</button>
 <button type="button" id="fb-today-profile" data-fb-view="perfil">Meu perfil</button>
+</div>
+</section>
+<section class="fb-routine-calendar" id="fb-routine-calendar" aria-labelledby="fb-routine-title" hidden>
+<header class="fb-routine-head">
+<div><span>AGENDA DA ROTINA</span><h2 id="fb-routine-title">Organize o que cabe no seu dia.</h2><p>Planeje, receba lembretes e acompanhe o que conseguiu realizar sem transformar rotina em cobrança.</p></div>
+<button type="button" class="fb-primary-action" id="fb-task-new">Nova tarefa</button>
+</header>
+<div class="fb-routine-summary" aria-live="polite">
+<article><span>HOJE</span><strong id="fb-task-today-count">0 tarefas</strong><small id="fb-task-today-detail">Seu dia está livre.</small></article>
+<article><span>SEMANA</span><strong id="fb-task-week-progress">0% concluído</strong><small id="fb-task-week-detail">Planeje o primeiro compromisso.</small></article>
+<article><span>PRÓXIMO</span><strong id="fb-task-next-title">Nada agendado</strong><small id="fb-task-next-time">Crie uma tarefa quando quiser.</small></article>
+</div>
+<div class="fb-calendar-toolbar">
+<button type="button" id="fb-calendar-prev" aria-label="Mês anterior">←</button>
+<h3 id="fb-calendar-month" aria-live="polite"></h3>
+<button type="button" id="fb-calendar-month-next" aria-label="Próximo mês">→</button>
+<button type="button" id="fb-calendar-today">Hoje</button>
+</div>
+<div class="fb-calendar-grid" id="fb-calendar-grid" role="grid" aria-labelledby="fb-calendar-month"></div>
+<section class="fb-task-day" aria-labelledby="fb-task-day-title">
+<header><div><span>TAREFAS DO DIA</span><h3 id="fb-task-day-title">Hoje</h3></div><button type="button" id="fb-task-day-add">Adicionar</button></header>
+<ol id="fb-task-list"><li class="fb-task-empty">Nenhuma tarefa para este dia.</li></ol>
+</section>
+<div class="fb-notification-panel">
+<div><strong>Lembretes reais, sob seu controle</strong><span id="fb-notification-status">Ative para receber avisos mesmo com o site fechado.</span></div>
+<button type="button" id="fb-enable-notifications">Ativar lembretes</button>
 </div>
 </section>
 <section class="fb-daily-journal" id="fb-daily-journal" aria-labelledby="fb-daily-journal-title" hidden>
@@ -993,6 +1020,18 @@ Seu navegador não consegue reproduzir este vídeo.
 <div class="discovery-dialog-content" id="discovery-dialog-content"></div>
 </dialog>
 
+<dialog class="fb-task-dialog" id="fb-task-dialog" aria-labelledby="fb-task-dialog-title">
+<form method="dialog" id="fb-task-form">
+<header><div><span>AGENDA DA ROTINA</span><h2 id="fb-task-dialog-title">Nova tarefa</h2></div><button type="button" id="fb-task-close" aria-label="Fechar">×</button></header>
+<label for="fb-task-title">O que você pretende fazer?<input id="fb-task-title" name="title" maxlength="80" required placeholder="Ex.: caminhada no parque"></label>
+<div class="fb-task-fields"><label for="fb-task-date">Data<input id="fb-task-date" name="date" type="date" required></label><label for="fb-task-time">Horário<input id="fb-task-time" name="time" type="time" required></label></div>
+<div class="fb-task-fields"><label for="fb-task-category">Categoria<select id="fb-task-category" name="category"><option value="atividade">Atividade</option><option value="alimentacao">Alimentação</option><option value="hidratacao">Hidratação</option><option value="descanso">Descanso</option><option value="bem-estar">Bem-estar</option><option value="outro">Outro</option></select></label><label for="fb-task-repeat">Repetir<select id="fb-task-repeat" name="repeat"><option value="none">Não repetir</option><option value="daily">Todos os dias</option><option value="weekly">Toda semana</option></select></label></div>
+<label for="fb-task-reminder">Lembrar<select id="fb-task-reminder" name="reminder"><option value="0">No horário</option><option value="10">10 minutos antes</option><option value="30">30 minutos antes</option><option value="60">1 hora antes</option><option value="none">Sem lembrete</option></select></label>
+<p>O nome da tarefa fica neste aparelho. Se você ativar o push, o servidor guardará somente o horário e enviará um aviso genérico.</p>
+<footer><button type="button" id="fb-task-cancel">Cancelar</button><button type="submit" class="fb-primary-action">Salvar tarefa</button></footer>
+</form>
+</dialog>
+
 <section class="platform-section platform-specialists fb-bottom-specialists" id="especialistas" aria-labelledby="specialists-title">
 <header class="platform-section-head">
 <div><span>PROFISSIONAIS DO NOSSO ECOSSISTEMA</span><h2 id="specialists-title">Conhecimento de quem vive o esporte</h2></div>
@@ -1033,6 +1072,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script type="module" src="js/site-common.js?v=20260723-1"></script>
 <script type="module" src="js/photo-checkin.js?v=20260723-1"></script>
+<script type="module" src="js/routine-calendar.js?v=20260722-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
 <script src="js/fala-bem-app.js?v=20260722-2" defer></script>
 

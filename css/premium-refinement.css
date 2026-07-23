@@ -33,6 +33,31 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-synthesis: none;
+  overflow-x: clip;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Shared optical alignment: centered structures, readable copy. */
+:root {
+  --be-page-gutter: clamp(14px, 3.2vw, 28px);
+  --be-readable-measure: 74ch;
+}
+
+:where(.legal-page, .report-listing, .container.page, .app-shell) {
+  margin-inline: auto;
+}
+
+:where(.legal-page, .report-card) :where(p, li) {
+  max-width: var(--be-readable-measure);
+}
+
+:where(.legal-page, .report-card, .report-preview, .product, .expert-card, .video-card) {
+  background-clip: padding-box;
 }
 
 ::selection {
@@ -322,6 +347,14 @@ body > header > a:first-child img {
 
   :where(.legal-page, .report-card, .report-preview, .product, .expert-card, .channel-card, .player-panel) {
     border-radius: var(--be-premium-radius-md) !important;
+  }
+
+  :where(.legal-page, .report-listing, .container.page, .app-shell) {
+    max-width: calc(100% - (var(--be-page-gutter) * 2));
+  }
+
+  :where(.legal-page, .report-card, .report-preview, .product, .expert-card, .channel-card, .player-panel) {
+    overflow-wrap: anywhere;
   }
 
   :where(.btn, .primary-btn, .secondary-btn, .fb-primary-action, .action-btn, .report-read-button) {

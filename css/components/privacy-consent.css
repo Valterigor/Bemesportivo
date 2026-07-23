@@ -1,5 +1,6 @@
 .be-privacy-dialog {
   width: min(calc(100% - 24px), 720px);
+  max-width: calc(100vw - 24px);
   max-height: min(88vh, 760px);
   padding: 0;
   overflow: auto;
@@ -16,6 +17,7 @@
 }
 
 .be-privacy-dialog__body { padding: clamp(24px, 5vw, 40px); }
+.be-privacy-dialog__body > * { max-width: 100%; }
 .be-privacy-dialog__eyebrow { color: #e64a19; font-size: 12px; font-weight: 900; letter-spacing: .08em; }
 .be-privacy-dialog h2 { margin: 10px 0 8px; font-size: clamp(25px, 5vw, 36px); line-height: 1.08; }
 .be-privacy-dialog p { color: #665d57; line-height: 1.6; }
@@ -36,7 +38,7 @@
 .be-honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
 
 @media (max-width: 640px) {
-  .be-privacy-dialog { width: calc(100% - 16px); border-radius: 20px; }
+  .be-privacy-dialog { width: calc(100vw - 16px); max-width: calc(100vw - 16px); margin-inline: auto; overflow-x: hidden; border-radius: 20px; }
   .be-privacy-dialog__body { padding: 22px 18px; }
   .be-privacy-dialog__actions { display: grid; }
   .be-privacy-dialog__actions button { width: 100%; }
