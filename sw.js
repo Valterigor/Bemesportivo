@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v42';
+const CACHE_NAME = 'meu-caminho-be-v43';
 const APP_SHELL = [
   '/meu-caminho-be',
   '/site-common.css?v=20260723-2',
@@ -14,7 +14,7 @@ const APP_SHELL = [
   '/css/premium-refinement.css?v=20260723-1',
   '/css/photo-checkin.css?v=20260723-1',
   '/css/routine-calendar.css?v=20260722-1',
-  '/css/ui-polish.css?v=20260723-2',
+  '/css/ui-polish.css?v=20260723-3',
   '/js/site-common.js?v=20260723-2',
   '/js/core/routes.js',
   '/js/components/site-navigation.js?v=20260723-2',

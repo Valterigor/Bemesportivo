@@ -4,8 +4,8 @@
   --be-polish-line: rgb(23 23 23 / 9%);
   --be-polish-radius-card: 18px;
   --be-polish-radius-feature: 28px;
-  --be-polish-shadow-standard: 0 1px 2px rgb(17 17 17 / 3%), 0 10px 30px rgb(17 17 17 / 5%);
-  --be-polish-shadow-feature: 0 2px 5px rgb(17 17 17 / 4%), 0 22px 58px rgb(17 17 17 / 10%);
+  --be-polish-shadow-standard: 0 1px 2px rgb(17 17 17 / 3%), 0 8px 24px rgb(17 17 17 / 4%);
+  --be-polish-shadow-feature: 0 2px 4px rgb(17 17 17 / 3%), 0 18px 48px rgb(17 17 17 / 8%);
   --be-polish-ease: cubic-bezier(.2, .75, .25, 1);
 }
 
@@ -39,6 +39,21 @@
   transform: translateZ(0);
 }
 
+.home-page .ecosystem-hub-head small {
+  color: #6f665f !important;
+  font-size: 11px !important;
+  line-height: 1.35;
+}
+
+.home-page .ecosystem-hub-card small {
+  font-size: 12px !important;
+  line-height: 1.45;
+}
+
+.home-page .ecosystem-hub-card:not(.ecosystem-hub-card-main) small {
+  color: #6f665f !important;
+}
+
 /* Meu Caminho Be: outer product surfaces carry depth; nested information stays flat. */
 .fala-bem-page :where(.fb-context-zone, .fb-app-shell) {
   border-color: var(--be-polish-line) !important;
@@ -60,6 +75,24 @@
 
 .fala-bem-page :where(.fb-daily-journal-head, .fb-routine-head, .fb-home-dashboard-head, .fb-dashboard-recommendations > header) > div {
   max-width: 68ch;
+}
+
+.fala-bem-page .fb-path-entry > p {
+  max-width: 62ch;
+  margin: 9px 0 0;
+  color: #6a615b;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.fala-bem-page .fb-path-options small,
+.fala-bem-page .fb-home-next-step p {
+  font-size: 12px !important;
+  line-height: 1.45;
+}
+
+.fala-bem-page .fb-home-next-step button {
+  min-height: 44px;
 }
 
 /* Reportagens: featured story has presence; supporting stories remain quiet. */
@@ -154,7 +187,7 @@
   :root {
     --be-polish-radius-card: 16px;
     --be-polish-radius-feature: 22px;
-    --be-polish-shadow-feature: 0 2px 4px rgb(17 17 17 / 4%), 0 16px 38px rgb(17 17 17 / 8%);
+    --be-polish-shadow-feature: 0 2px 4px rgb(17 17 17 / 3%), 0 14px 32px rgb(17 17 17 / 7%);
   }
 
   .home-page :where(.ecosystem-hero, .path-launch, .brand-film),
