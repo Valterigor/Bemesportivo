@@ -93,7 +93,9 @@ export default async function handler(request) {
 
   const payload = parseVisualPayload(rawBody);
   if (!payload.ok) return json(payload.status, { ok: false, error: payload.error });
-  if (!process.env.OPENAI_API_KEY) {
+  const apiKey = process.env.OPENAI_API_KEY || process.env.NETLIFY_AI_GATEWAY_KEY || '';
+  const baseUrl = process.env.OPENAI_BASE_URL || process.env.NETLIFY_AI_GATEWAY_BASE_URL || 'https://api.openai.com';
+  if (!apiKey) {
     return json(503, { ok: false, code: 'vision_not_configured', error: 'A análise visual ainda não está disponível.' });
   }
 
@@ -109,7 +111,8 @@ export default async function handler(request) {
     const analysis = await analyzeVisualImage({
       imageData: payload.imageData,
       context: payload.context,
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey,
+      baseUrl,
       model: process.env.OPENAI_VISION_MODEL || 'gpt-5.6-luna',
       safetyIdentifier,
       signal: controller.signal

@@ -92,7 +92,7 @@ function sanitizeResult(value) {
   };
 }
 
-export async function analyzeVisualImage({ imageData, context, apiKey, model = 'gpt-5.6-luna', safetyIdentifier, signal }) {
+export async function analyzeVisualImage({ imageData, context, apiKey, baseUrl = 'https://api.openai.com', model = 'gpt-5.6-luna', safetyIdentifier, signal }) {
   if (!apiKey) {
     const error = new Error('vision-not-configured');
     error.code = 'vision_not_configured';
@@ -122,7 +122,15 @@ Regras obrigatórias:
 - Se a cena estiver ambígua, use category "unclear", confidence "low" e peça contexto.
 - caution deve ficar vazio em situações comuns. Use-o apenas para lembrar limites da análise, nunca para criar alarme médico.`;
 
-  const response = await fetch('https://api.openai.com/v1/responses', {
+  let providerBaseUrl;
+  try {
+    providerBaseUrl = new URL(baseUrl);
+    if (providerBaseUrl.protocol !== 'https:') throw new Error('insecure-provider-url');
+  } catch (error) {
+    throw Object.assign(new Error('vision-invalid-provider-url'), { code: 'vision_not_configured' });
+  }
+
+  const response = await fetch(`${providerBaseUrl.href.replace(/\/$/, '')}/v1/responses`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${apiKey}`,
