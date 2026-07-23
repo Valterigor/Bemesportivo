@@ -1,9 +1,9 @@
 :root {
   /* Brand */
-  --be-ds-color-brand: #ff6a00;
-  --be-ds-color-brand-strong: #db4d00;
+  --be-ds-color-brand: #fa8a01;
+  --be-ds-color-brand-strong: #c86500;
   --be-ds-color-primary: var(--be-ds-color-brand);
-  --be-ds-color-primary-hover: #ff811f;
+  --be-ds-color-primary-hover: #ff9c24;
   --be-ds-color-secondary: #28231f;
   --be-ds-color-ink: #171717;
   --be-ds-color-text: #3f3b37;
@@ -32,8 +32,8 @@
   --be-ds-chart-5: #7a4cad;
 
   /* Typography */
-  --be-ds-font-display: "Rubik", "Inter", system-ui, sans-serif;
-  --be-ds-font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --be-ds-font-display: "Rubik", system-ui, sans-serif;
+  --be-ds-font-body: "Rubik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --be-ds-text-xs: 0.75rem;
   --be-ds-text-sm: 0.875rem;
   --be-ds-text-md: 1rem;

@@ -5,7 +5,7 @@ O ponto de entrada oficial é `css/design-system.css`. Os nomes públicos usam o
 ## Fundamentos
 
 - Cores: `primary`, `secondary`, `background`, três superfícies e estados `success`, `warning`, `danger` e `info`.
-- Tipografia: Rubik para destaque e Inter para leitura, sempre com fallback de sistema.
+- Tipografia: Rubik em toda a experiência, variando peso, tamanho e altura de linha para criar hierarquia, sempre com fallback de sistema.
 - Espaçamento: escala de 4 px (`--be-ds-space-1` a `--be-ds-space-16`).
 - Bordas: cinco raios, de `xs` a `xl`, e formato pill.
 - Elevação: `--be-ds-elevation-0` a `--be-ds-elevation-3`. Use a menor elevação capaz de comunicar a hierarquia.

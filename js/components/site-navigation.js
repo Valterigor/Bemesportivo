@@ -63,6 +63,16 @@ export function initSiteNavigation() {
   markCurrentLinks();
   navigations.forEach(nav => {
     const activeLink = nav.querySelector('a[aria-current="page"]');
-    if (activeLink) nav.scrollLeft = Math.max(0, activeLink.offsetLeft - (nav.clientWidth - activeLink.offsetWidth) / 2);
+    if (!activeLink) {
+      nav.scrollLeft = 0;
+      return;
+    }
+    const compactViewport = window.matchMedia('(max-width: 720px)').matches;
+    const navRect = nav.getBoundingClientRect();
+    const activeRect = activeLink.getBoundingClientRect();
+    const relativeLeft = activeRect.left - navRect.left + nav.scrollLeft;
+    nav.scrollLeft = compactViewport
+      ? Math.max(0, relativeLeft - 8)
+      : Math.max(0, relativeLeft - (nav.clientWidth - activeRect.width) / 2);
   });
 }

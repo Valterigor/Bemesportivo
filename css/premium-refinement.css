@@ -1,0 +1,348 @@
+:root {
+  --be-premium-orange: #fa8a01;
+  --be-premium-orange-hover: #ff9c24;
+  --be-premium-black: #111111;
+  --be-premium-white: #ffffff;
+  --be-premium-ink: #171717;
+  --be-premium-muted: #68635e;
+  --be-premium-line: rgb(17 17 17 / 10%);
+  --be-premium-surface: #ffffff;
+  --be-premium-soft: #f8f7f5;
+  --be-premium-radius-sm: 12px;
+  --be-premium-radius-md: 18px;
+  --be-premium-radius-lg: 26px;
+  --be-premium-shadow-1: 0 1px 2px rgb(17 17 17 / 3%), 0 8px 24px rgb(17 17 17 / 5%);
+  --be-premium-shadow-2: 0 2px 4px rgb(17 17 17 / 3%), 0 18px 48px rgb(17 17 17 / 8%);
+  --be-premium-ease: cubic-bezier(.2, .75, .25, 1);
+}
+
+html {
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: "Rubik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+}
+
+::selection {
+  background: rgb(250 138 1 / 24%);
+  color: var(--be-premium-black);
+}
+
+:where(h1, h2, h3, h4, strong, b) {
+  text-wrap: balance;
+}
+
+:where(h1, h2, h3, h4) {
+  color: inherit;
+  font-family: "Rubik", system-ui, sans-serif !important;
+  font-kerning: normal;
+  letter-spacing: -.028em;
+}
+
+:where(p, li) {
+  font-kerning: normal;
+}
+
+:where(img, video, canvas) {
+  image-rendering: auto;
+  backface-visibility: hidden;
+}
+
+:where(svg) {
+  shape-rendering: geometricPrecision;
+}
+
+:where(a, button, input, select, textarea, summary) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(a, button):focus-visible {
+  outline: 3px solid rgb(250 138 1 / 38%) !important;
+  outline-offset: 3px !important;
+}
+
+/* Header and navigation */
+.site-header,
+.menu,
+.site-menu,
+body > header:not(.topbar):not(.app-topbar):not(.ebook-header) {
+  border-bottom-color: rgb(17 17 17 / 8%) !important;
+  background: rgb(255 255 255 / 90%) !important;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 75%), 0 10px 30px rgb(17 17 17 / 4%) !important;
+  backdrop-filter: saturate(160%) blur(22px) !important;
+}
+
+.brand-logo,
+.logo img,
+.site-logo img,
+.site-footer-logo img,
+body > header > a:first-child img {
+  object-fit: contain !important;
+  image-rendering: auto;
+  transform: translateZ(0);
+}
+
+.category-nav,
+.menu nav,
+.nav-menu,
+.site-nav {
+  scroll-padding-inline: 8px;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-inline: contain;
+}
+
+.category-nav > a,
+.menu nav > a,
+.nav-menu > a,
+.site-nav > a {
+  scroll-snap-align: start;
+}
+
+.nav-chip,
+.menu nav a,
+.nav-menu a,
+.site-nav a {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 60%);
+  transition: color 180ms var(--be-premium-ease), background-color 180ms var(--be-premium-ease), border-color 180ms var(--be-premium-ease), box-shadow 180ms var(--be-premium-ease), transform 180ms var(--be-premium-ease) !important;
+}
+
+.be-nav-icon,
+.icon,
+.fb-nav-icon,
+.path-nav-icon {
+  width: 18px !important;
+  height: 18px !important;
+  stroke-width: 1.9 !important;
+}
+
+/* Buttons and controls */
+:where(.btn, .primary-btn, .secondary-btn, .fb-primary-action, .action-btn, .filter-btn, .chip, .report-read-button, .report-read-link, .btn-contato, .site-contact, .feedback-btn, .video-play-button, .poll-option, .reaction-btn) {
+  min-height: 44px;
+  border-radius: var(--be-premium-radius-sm) !important;
+  font-weight: 750 !important;
+  letter-spacing: -.01em;
+  transition: color 180ms var(--be-premium-ease), background-color 180ms var(--be-premium-ease), border-color 180ms var(--be-premium-ease), box-shadow 180ms var(--be-premium-ease), transform 180ms var(--be-premium-ease) !important;
+}
+
+:where(.primary-btn, .fb-primary-action, .report-read-button, .btn.buy, .action-btn:not(.secondary), .channel-subscribe, .video-play-button) {
+  border-color: var(--be-premium-orange) !important;
+  background: var(--be-premium-orange) !important;
+  color: var(--be-premium-black) !important;
+  box-shadow: 0 8px 20px rgb(250 138 1 / 16%);
+}
+
+:where(button, [role="button"]):active,
+:where(.btn, .primary-btn, .secondary-btn, .fb-primary-action, .action-btn, .filter-btn, .chip, .report-read-button, .report-read-link):active {
+  transform: translateY(0) scale(.985) !important;
+}
+
+:where(button, input, select, textarea):disabled,
+:where(button, [role="button"])[aria-disabled="true"] {
+  cursor: not-allowed;
+  filter: saturate(.45);
+  opacity: .58;
+}
+
+/* Fields */
+:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  min-height: 46px;
+  border-color: var(--be-premium-line) !important;
+  border-radius: var(--be-premium-radius-sm) !important;
+  background: rgb(255 255 255 / 96%);
+  color: var(--be-premium-ink);
+  box-shadow: inset 0 1px 2px rgb(17 17 17 / 3%);
+  transition: border-color 180ms var(--be-premium-ease), box-shadow 180ms var(--be-premium-ease), background-color 180ms var(--be-premium-ease);
+}
+
+:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):focus {
+  border-color: var(--be-premium-orange) !important;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgb(250 138 1 / 12%) !important;
+  outline: 0;
+}
+
+:where(input, textarea)::placeholder {
+  color: #7b756f;
+  opacity: 1;
+}
+
+/* Cards and visual layers */
+:where(.post-card, .story-card, .people-card, .video-card, .ecosystem-hub-card, .report-preview, .report-card, .product, .expert-card, .panel, .fb-app-panel, .tool-card, .specialist-card, .trail-card, .community-channel, .channel-card, .player-panel, .related-card, .legal-page) {
+  border-color: var(--be-premium-line) !important;
+  box-shadow: var(--be-premium-shadow-1);
+}
+
+:where(.post-card, .story-card, .people-card, .video-card, .ecosystem-hub-card, .report-preview, .product, .expert-card, .tool-card, .specialist-card, .trail-card, .community-channel, .related-card) {
+  transition: border-color 220ms var(--be-premium-ease), box-shadow 220ms var(--be-premium-ease), transform 220ms var(--be-premium-ease) !important;
+}
+
+:where(.card-media, .story-media, .video-thumb, .report-preview-media, .report-media-stack, .expert-photo, .profile-media) {
+  overflow: hidden;
+  background: #efeeec;
+}
+
+:where(.card-media, .story-media, .video-thumb, .report-preview-media, .expert-photo, .profile-media) img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 420ms var(--be-premium-ease), filter 420ms var(--be-premium-ease);
+}
+
+.report-cover,
+.report-picture img,
+.report-professors-photo {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.hero-slide-funcional {
+  background-image: image-set(
+    url("../img/banner-treino-funcional-professores-v3-960.webp") 1x,
+    url("../img/banner-treino-funcional-professores-v3-1440.webp") 2x
+  ) !important;
+}
+
+.report-preview-media,
+.card-media,
+.video-thumb {
+  aspect-ratio: 16 / 9;
+}
+
+.product .card-media,
+.expert-card .expert-photo {
+  aspect-ratio: 1 / 1;
+}
+
+/* Footer */
+.site-footer,
+.footer {
+  border-top: 1px solid rgb(250 138 1 / 25%) !important;
+  background: #0d0d0d !important;
+  color: #fff !important;
+}
+
+.site-footer-inner,
+.footer-grid {
+  gap: clamp(28px, 4vw, 56px) !important;
+}
+
+.site-footer :where(p, span, small),
+.footer :where(p, span, small) {
+  color: rgb(255 255 255 / 66%) !important;
+  line-height: 1.65;
+}
+
+.site-footer a,
+.site-footer [data-privacy-settings],
+.footer a {
+  color: rgb(255 255 255 / 78%) !important;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 160ms var(--be-premium-ease), transform 160ms var(--be-premium-ease);
+}
+
+/* Game keeps its structure, now aligned to the BeM identity. */
+.game-page {
+  font-family: "Rubik", system-ui, sans-serif !important;
+}
+
+.game-page :where(.brand span, .card button, .trophy, .phase-number) {
+  background: var(--be-premium-orange) !important;
+  color: var(--be-premium-black) !important;
+}
+
+.game-page :where(.eyebrow, .card h1 em) {
+  color: var(--be-premium-orange) !important;
+}
+
+.game-page :where(.card, .status, .message, .round-button, #restart) {
+  border-color: rgb(250 138 1 / 24%) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.btn, .primary-btn, .secondary-btn, .fb-primary-action, .action-btn, .filter-btn, .chip, .report-read-button, .report-read-link, .feedback-btn):hover {
+    box-shadow: 0 10px 24px rgb(17 17 17 / 10%);
+    transform: translateY(-2px);
+  }
+
+  :where(.primary-btn, .fb-primary-action, .report-read-button, .btn.buy, .action-btn:not(.secondary), .channel-subscribe, .video-play-button):hover {
+    background: var(--be-premium-orange-hover) !important;
+  }
+
+  :where(.post-card, .story-card, .people-card, .video-card, .ecosystem-hub-card, .report-preview, .product, .expert-card, .tool-card, .specialist-card, .trail-card, .community-channel, .related-card):hover {
+    border-color: rgb(250 138 1 / 24%) !important;
+    box-shadow: var(--be-premium-shadow-2);
+    transform: translateY(-3px);
+  }
+
+  :where(.post-card, .story-card, .people-card, .video-card, .report-preview, .product, .expert-card, .related-card):hover :where(.card-media, .story-media, .video-thumb, .report-preview-media, .expert-photo) img {
+    filter: saturate(1.03) contrast(1.02);
+    transform: scale(1.018);
+  }
+
+  .site-footer a:hover,
+  .site-footer [data-privacy-settings]:hover,
+  .footer a:hover {
+    color: var(--be-premium-orange) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --be-premium-radius-lg: 22px;
+  }
+
+  .category-nav,
+  .menu nav,
+  .nav-menu,
+  .site-nav {
+    gap: 6px !important;
+  }
+
+  .category-nav > a,
+  .menu nav > a,
+  .nav-menu > a,
+  .site-nav > a {
+    min-height: 40px !important;
+    padding-inline: 11px !important;
+  }
+
+  :where(.legal-page, .report-card, .report-preview, .product, .expert-card, .channel-card, .player-panel) {
+    border-radius: var(--be-premium-radius-md) !important;
+  }
+
+  :where(.btn, .primary-btn, .secondary-btn, .fb-primary-action, .action-btn, .report-read-button) {
+    min-height: 46px;
+  }
+
+  .hero-slide-funcional {
+    background-image: image-set(
+      url("../img/banner-treino-funcional-professores-v3-640.webp") 1x,
+      url("../img/banner-treino-funcional-professores-v3-960.webp") 2x
+    ) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

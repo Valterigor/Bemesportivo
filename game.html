@@ -15,7 +15,11 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://bemesportivo.com/game.html">
   <title>Corrida da Hidratação | Bem Esportivo</title>
-  <link rel="stylesheet" href="css/game.css?v=20260717-2">
+<link rel="stylesheet" href="css/game.css?v=20260717-2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/premium-refinement.css?v=20260723-1">
   <style>
     .character-select{margin:17px 0 5px}.character-select>p{margin:0 0 8px!important;color:#7f98ad!important;font-size:.6rem!important;font-weight:900;letter-spacing:.16em}.character-select strong{display:block;margin-top:7px;color:#2ee99d;font-size:.8rem}#characters{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}#characters button{position:relative;width:100%;aspect-ratio:1;padding:0;overflow:hidden;border:2px solid transparent;border-radius:10px;background:#102841}#characters button.selected{border-color:#2ee99d;background:#164539;box-shadow:0 0 16px #20e99a55}#characters canvas{width:100%;height:100%;object-fit:contain}@media(max-width:480px){#characters{grid-template-columns:repeat(3,1fr)}.card{max-height:95vh;overflow:auto}}
     .game-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:7px;pointer-events:auto}.game-actions a,.game-actions span{padding:8px 11px;border:1px solid #ffffff20;border-radius:9px;background:#07162de8;color:#d7e7f4;font-size:.68rem;font-weight:800;text-decoration:none}.game-actions a:active{transform:scale(.97)}.game-actions span{color:#45d9ff}.controls button.pressed{background:#20dca0;color:#03241b;transform:scale(.94)}@media(max-width:700px){.game-ui{right:10px}.status{width:100%}.status div{flex:1;min-width:0!important}.game-actions{max-width:100%}.message{display:none}.controls{right:14px;bottom:14px;grid-template:repeat(2,60px)/repeat(3,60px)}.controls button{font-size:1.25rem}.round-button{bottom:18px}}
@@ -50,7 +54,7 @@
     @media(max-height:520px) and (orientation:landscape){:root{--game-hud-height:108px}.game-ui{max-width:calc(100vw - 12px);max-height:102px}.game-actions{grid-template-columns:auto minmax(190px,1fr) auto}.game-actions>a{grid-column:1}.game-toolbar{grid-column:2;grid-row:1}.game-actions>span{grid-column:3}.game-toolbar button,.game-toolbar .round-button,.game-toolbar .sound-button,.game-toolbar #restart{width:34px;height:34px;min-height:34px}.danger-warning{top:61px;right:10px}}
   </style>
 </head>
-<body>
+<body class="game-page">
   <main id="game-container" aria-label="Jogo Corrida da Hidratação 3D"></main>
   <div id="danger-warning" class="danger-warning" role="status"><span>⚠</span> O marcador está perto!</div>
   <div id="capture-flash" class="capture-flash"><strong><span class="red-card" aria-hidden="true"></span>CARTÃO VERMELHO!</strong></div>

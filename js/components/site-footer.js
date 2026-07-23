@@ -1,7 +1,7 @@
 const footerContent = `
   <div class="site-footer-brand">
     <a class="site-footer-logo" href="/" aria-label="Ir para a página inicial do Bem Esportivo">
-      <img src="/img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
+      <img src="/img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo" width="54" height="46" loading="lazy" decoding="async">
     </a>
     <p>O lugar onde esporte, conhecimento e pessoas evoluem juntos.</p>
   </div>
