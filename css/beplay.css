@@ -71,7 +71,7 @@ body.beplay-page > header.topbar {
 
 .beplay-page .topnav a {
   flex: 0 0 auto;
-  min-height: 38px;
+  min-height: 44px;
   padding: 0 14px;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -260,7 +260,9 @@ body.beplay-page > header.topbar {
   padding: 20px 4px 4px;
 }
 
-.beplay-page .video-meta h1 {
+.beplay-page .video-meta h1,
+.beplay-page .video-meta h2 {
+  margin: 0;
   color: #171717 !important;
   font-size: clamp(26px, 4vw, 42px);
   line-height: 1.05;
@@ -399,7 +401,7 @@ body.beplay-page > header.topbar {
 
 .video-filter-tabs button {
   flex: 0 0 auto;
-  min-height: 36px;
+  min-height: 44px;
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 0 12px;
@@ -450,9 +452,11 @@ body.beplay-page > header.topbar {
 }
 
 .beplay-page .related-card button {
+  min-height: 44px;
   border-color: #dedbd7;
   background: #ffffff;
   color: #171717;
+  font-size: 12px;
 }
 
 .beplay-page .related-card button:hover,
@@ -628,6 +632,6 @@ body.beplay-page > header.topbar {
   }
 
   .beplay-page .related-card button {
-    min-height: 42px;
+    min-height: 44px;
   }
 }

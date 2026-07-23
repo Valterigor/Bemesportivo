@@ -22,7 +22,20 @@
 .be-privacy-dialog h2 { margin: 10px 0 8px; font-size: clamp(25px, 5vw, 36px); line-height: 1.08; }
 .be-privacy-dialog p { color: #665d57; line-height: 1.6; }
 .be-privacy-dialog details { margin: 20px 0; border: 1px solid #e7ddd7; border-radius: 16px; background: #fff; }
-.be-privacy-dialog summary { padding: 16px; cursor: pointer; font-weight: 800; }
+.be-privacy-dialog summary {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 14px 16px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: 800;
+  outline: 0;
+}
+.be-privacy-dialog summary:focus-visible {
+  outline: 3px solid rgb(255 90 31 / 28%);
+  outline-offset: 2px;
+}
 .be-privacy-categories { padding: 0 16px 16px; }
 .be-privacy-categories label { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-top: 14px; border-top: 1px solid #eee5df; }
 .be-privacy-categories label span { display: grid; gap: 4px; }
@@ -34,7 +47,7 @@
 .be-privacy-dialog__actions .be-privacy-primary { border-color: #ff5a1f; background: #ff5a1f; color: #fff; }
 .be-privacy-dialog button:focus-visible,
 .site-footer [data-privacy-settings]:focus-visible { outline: 3px solid rgb(255 90 31 / 35%); outline-offset: 3px; }
-.site-footer [data-privacy-settings] { appearance: none; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; text-align: left; text-decoration: underline; text-underline-offset: 3px; }
+.site-footer [data-privacy-settings] { appearance: none; min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; text-align: left; text-decoration: underline; text-underline-offset: 3px; }
 .be-honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
 
 @media (max-width: 640px) {

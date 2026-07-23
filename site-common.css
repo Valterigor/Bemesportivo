@@ -3479,6 +3479,12 @@ body > header.topbar {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* A identidade do produto usa Rubik em todas as paginas padronizadas. */
+body.be-standard-page,
+body.be-standard-page :where(h1, h2, h3, h4, h5, h6, p, a, button, input, select, textarea, label, li, small, strong, span, time, summary) {
+  font-family: "Rubik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
 :where(.btn, .primary-btn, .btn-contato, .site-contact, button[type="submit"]) {
   min-height: 44px;
   border-radius: var(--be-radius-control);
@@ -3665,17 +3671,21 @@ body > header.topbar {
   .be-standard-page .menu nav,
   .be-standard-page .site-nav,
   .be-standard-page .nav-menu {
-    height: 42px !important;
-    min-height: 42px !important;
+    height: 46px !important;
+    min-height: 46px !important;
     gap: 4px !important;
+    padding-inline: 12px !important;
+    scroll-padding-inline: 12px;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12px, #000 calc(100% - 12px), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12px, #000 calc(100% - 12px), transparent);
   }
 
   .be-standard-page > header:not(.topbar) > nav a,
   .be-standard-page .menu nav a,
   .be-standard-page .site-nav a,
   .be-standard-page .nav-menu a {
-    min-height: 38px !important;
-    padding: 0 10px !important;
+    min-height: 44px !important;
+    padding: 0 11px !important;
   }
 
   .be-standard-page .logo img,

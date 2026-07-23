@@ -172,6 +172,21 @@
   .professionals-page :where(.hero-search, .expert-ai-panel, .card) {
     border-radius: var(--be-polish-radius-card) !important;
   }
+
+  .home-page .ecosystem-stages {
+    font-size: 10px !important;
+    line-height: 1.35;
+  }
+
+  .home-page :where(.ecosystem-hub-head small, .ecosystem-hub-card small, .path-launch-pills span) {
+    font-size: 11px !important;
+    line-height: 1.4;
+  }
+
+  .home-page .path-launch-signature {
+    font-size: 12px !important;
+    line-height: 1.5;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

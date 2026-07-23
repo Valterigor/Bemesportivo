@@ -1697,7 +1697,7 @@ background:#fff;
 }
 @media(max-width:760px){
 .fb-app-nav{grid-template-columns:repeat(6,minmax(0,1fr))}
-.fb-app-nav button{min-width:0;font-size:.54rem!important}.fb-app-nav button svg{width:17px!important;height:17px!important}
+.fb-app-nav button{min-width:0;font-size:.64rem!important;line-height:1.15}.fb-app-nav button svg{width:18px!important;height:18px!important}
 .fb-dashboard-recommendations>header{display:block}.fb-dashboard-recommendations>header p{margin-top:8px}
 .fb-dashboard-grid,.fb-profile-history dl{grid-template-columns:1fr}
 .fb-gamification>header{display:block}.fb-gamification>header p{margin-top:8px}.fb-game-stats{grid-template-columns:1fr 1fr}.fb-game-stats article:last-child{grid-column:1/-1}.fb-weekly-challenge{align-items:flex-start}

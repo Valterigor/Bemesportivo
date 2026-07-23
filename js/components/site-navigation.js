@@ -67,12 +67,9 @@ export function initSiteNavigation() {
       nav.scrollLeft = 0;
       return;
     }
-    const compactViewport = window.matchMedia('(max-width: 720px)').matches;
     const navRect = nav.getBoundingClientRect();
     const activeRect = activeLink.getBoundingClientRect();
     const relativeLeft = activeRect.left - navRect.left + nav.scrollLeft;
-    nav.scrollLeft = compactViewport
-      ? Math.max(0, relativeLeft - 8)
-      : Math.max(0, relativeLeft - (nav.clientWidth - activeRect.width) / 2);
+    nav.scrollLeft = Math.max(0, relativeLeft - (nav.clientWidth - activeRect.width) / 2);
   });
 }

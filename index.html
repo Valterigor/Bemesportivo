@@ -258,7 +258,7 @@
       background-repeat: no-repeat;
     }
 
-    .hero-slide-funcional h1 {
+    .hero-slide-funcional :is(h1, h2) {
       font-size: clamp(38px, 4.8vw, 66px);
     }
 
@@ -275,7 +275,7 @@
       padding-bottom: 48px;
     }
 
-    .hero-slide-opiniao h1 {
+    .hero-slide-opiniao :is(h1, h2) {
       font-size: clamp(38px, 4.6vw, 66px);
     }
 
@@ -465,7 +465,7 @@
       text-transform: uppercase;
     }
 
-    .hero h1 {
+    .hero :is(h1, h2) {
       max-width: 12ch;
       margin-top: 16px;
       font-size: clamp(38px, 6vw, 78px);
@@ -1152,9 +1152,9 @@
         padding-bottom: 92px;
       }
 
-      .hero h1,
-      .hero-slide-funcional h1,
-      .hero-slide-opiniao h1 {
+      .hero :is(h1, h2),
+      .hero-slide-funcional :is(h1, h2),
+      .hero-slide-opiniao :is(h1, h2) {
         font-size: clamp(40px, 7vw, 62px);
       }
 
@@ -1284,9 +1284,9 @@
         padding: 30px 24px 92px;
       }
 
-      .hero h1,
-      .hero-slide-funcional h1,
-      .hero-slide-opiniao h1 {
+      .hero :is(h1, h2),
+      .hero-slide-funcional :is(h1, h2),
+      .hero-slide-opiniao :is(h1, h2) {
         max-width: 100%;
         margin-top: 10px;
         font-size: clamp(32px, 9vw, 46px);
@@ -1376,9 +1376,9 @@
         padding: 24px 20px 86px;
       }
 
-      .hero h1,
-      .hero-slide-funcional h1,
-      .hero-slide-opiniao h1 {
+      .hero :is(h1, h2),
+      .hero-slide-funcional :is(h1, h2),
+      .hero-slide-opiniao :is(h1, h2) {
         font-size: clamp(30px, 8.3vw, 34px);
       }
 
@@ -1407,9 +1407,9 @@
         padding-bottom: 78px;
       }
 
-      .hero h1,
-      .hero-slide-funcional h1,
-      .hero-slide-opiniao h1 {
+      .hero :is(h1, h2),
+      .hero-slide-funcional :is(h1, h2),
+      .hero-slide-opiniao :is(h1, h2) {
         font-size: clamp(32px, 7vw, 42px);
       }
 
@@ -1993,9 +1993,9 @@
       .ecosystem-hub-card { transition: none; }
     }
   </style>
-  <link rel="stylesheet" href="css/components/privacy-consent.css?v=20260722-2">
+  <link rel="stylesheet" href="css/components/privacy-consent.css?v=20260723-1">
   <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-1">
-  <link rel="stylesheet" href="css/ui-polish.css?v=20260723-1">
+  <link rel="stylesheet" href="css/ui-polish.css?v=20260723-2">
 </head>
 <body class="home-page">
   <div class="page">
@@ -2082,7 +2082,7 @@
           <p class="path-launch-signature">Uma conquista BeMEsportivo criada para transformar vontade em movimento.</p>
         </div>
         <div class="path-launch-visual" aria-label="Prévia da experiência Meu Caminho Be">
-          <img class="path-launch-photo" src="img/fala-bem-hero-pessoas-optimized.jpg" srcset="img/fala-bem-hero-pessoas-optimized-480.webp 480w, img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w" sizes="(max-width: 720px) calc(100vw - 32px), 50vw" alt="Pessoas correndo e vivendo diferentes momentos da prática esportiva" loading="lazy" decoding="async" width="1200" height="800">
+          <img class="path-launch-photo" src="img/fala-bem-hero-pessoas-optimized.jpg" srcset="img/fala-bem-hero-pessoas-optimized-480.webp 480w, img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w, img/fala-bem-hero-pessoas-optimized-1536.webp 1536w" sizes="(max-width: 720px) calc(100vw - 32px), 50vw" alt="Pessoas correndo e vivendo diferentes momentos da prática esportiva" loading="lazy" decoding="async" width="1536" height="1024">
           <span class="path-launch-new">Novo</span>
           <div class="path-launch-app" aria-hidden="true">
             <div class="path-launch-app-head">
@@ -2111,7 +2111,7 @@
           <article class="hero-slide hero-slide-football active" aria-hidden="false">
             <div class="hero-content">
               <span class="eyebrow">Bem Esportivo · Informação que movimenta</span>
-              <h1>Viva o esporte por inteiro.</h1>
+              <h2>Viva o esporte por inteiro.</h2>
               <p>Conteúdo, orientação e experiências para ajudar você a começar, continuar e evoluir no esporte.</p>
               <div class="hero-meta">
                 <a class="primary-btn" href="/meu-caminho-be">Começar meu caminho</a>
@@ -2122,7 +2122,7 @@
           <article class="hero-slide hero-slide-news hero-slide-funcional" aria-hidden="true">
             <div class="hero-content">
               <span class="eyebrow">Reportagem · Movimento e saúde</span>
-              <h1>Um dia de treino funcional na quadra</h1>
+              <h2>Um dia de treino funcional na quadra</h2>
               <p>Bruno Resende e Rafael Resende conduzem uma manhã de exercícios, orientação profissional e energia coletiva com a BR Assessoria.</p>
               <div class="hero-meta"><span>Nova reportagem · 6 min</span><a class="primary-btn" href="/reportagens/treino-funcional-br-assessoria">Ler reportagem</a></div>
             </div>
@@ -2130,7 +2130,7 @@
           <article class="hero-slide hero-slide-news hero-slide-opiniao" aria-hidden="true">
             <div class="hero-content">
               <span class="eyebrow">Meu Caminho Be · Nova opinião</span>
-              <h1>O amistoso que o Corinthians precisava</h1>
+              <h2>O amistoso que o Corinthians precisava</h2>
               <p>Pressão, intensidade e um ambiente hostil: contra o Cascavel, o Timão encontrou um teste que pode valer muito para a temporada.</p>
               <div class="hero-meta"><span>4 min de leitura</span><a class="primary-btn" href="/meu-caminho-be#opiniao-corinthians">Ler opinião</a></div>
             </div>
