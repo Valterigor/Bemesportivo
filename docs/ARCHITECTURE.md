@@ -42,6 +42,24 @@ página → componente → core
 - Voltar ao topo: `js/components/back-to-top.js`
 - Botões, cards, modais e estados: `css/components/ui.css`
 
+## Análise visual do Meu Hoje
+
+O fluxo de foto é uma integração isolada e confirmável:
+
+```text
+foto no navegador → redução e remoção de metadados → /api/visual-checkin
+→ função Netlify → API multimodal → resposta estruturada → revisão do usuário
+→ texto confirmado no diário local
+```
+
+- Interface: `js/photo-checkin.js` e `css/photo-checkin.css`.
+- Validação, política do prompt e contrato de saída: `server/visual-analysis.mjs`.
+- Produção: `netlify/functions/visual-checkin.mjs`.
+- Desenvolvimento: rota equivalente em `dev-server.js`.
+- Segredos: `OPENAI_API_KEY` e `VISUAL_ANALYSIS_SECRET`; modelo configurável por `OPENAI_VISION_MODEL`.
+
+A imagem não integra o perfil nem o backup. O servidor não a persiste; somente o texto revisado pela pessoa pode ser transferido para o Meu Hoje. A função aplica limite por identificador pseudonimizado e solicita resposta não armazenada ao provedor.
+
 ## Migração segura
 
 O diretório `src/` é um protótipo antigo e não participa do site publicado. Não devem ser criadas novas dependências nele. Sua remoção ou migração completa será feita em uma tarefa separada, depois de comparar cada recurso com as páginas reais.

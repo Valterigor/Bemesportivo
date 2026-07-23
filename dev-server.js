@@ -11,6 +11,8 @@ const gameRankingFile = path.join(root, 'data', 'game-ranking.json');
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const SELECAO_NEWS_RSS_URL = 'https://news.google.com/rss/search?q=sele%C3%A7%C3%A3o%20brasileira%20futebol%20when%3A1d&hl=pt-BR&gl=BR&ceid=BR:pt-419';
 const apiCache = new Map();
+const visualAnalysisModule = import('./server/visual-analysis.mjs');
+const visualAnalysisLimits = new Map();
 const REPORT_HIDE_THRESHOLD = 3;
 const COMMUNITY_RETENTION_MS = 1000 * 60 * 60 * 24 * 730;
 
@@ -782,6 +784,68 @@ async function handleGameRankingApi(request, response){
   return true;
 }
 
+async function handleVisualCheckinApi(request, response){
+  if(request.method !== 'POST'){
+    sendJson(response, 405, {ok:false, error:'Metodo nao permitido.'});
+    return true;
+  }
+  if(!isAllowedWriteOrigin(request)){
+    sendJson(response, 403, {ok:false, error:'Origem nao permitida.'});
+    return true;
+  }
+
+  try{
+    const visual = await visualAnalysisModule;
+    const body = await readJsonBody(request, visual.MAX_VISUAL_REQUEST_BYTES);
+    const payload = visual.parseVisualPayload(JSON.stringify(body));
+    if(!payload.ok){
+      sendJson(response, payload.status, {ok:false, error:payload.error});
+      return true;
+    }
+    if(!process.env.OPENAI_API_KEY){
+      sendJson(response, 503, {ok:false, code:'vision_not_configured', error:'A analise visual ainda nao esta disponivel.'});
+      return true;
+    }
+
+    const identity = request.headers['x-forwarded-for']?.split(',')[0]?.trim() || request.socket.remoteAddress || 'local';
+    const safetyIdentifier = visual.createSafetyIdentifier(identity, process.env.VISUAL_ANALYSIS_SECRET || 'bem-esportivo-local');
+    const now = Date.now();
+    const active = (visualAnalysisLimits.get(safetyIdentifier) || []).filter(timestamp => now - timestamp < 3_600_000);
+    if(active.length >= 8){
+      sendJson(response, 429, {ok:false, error:'Voce atingiu o limite temporario de analises. Tente novamente mais tarde.'});
+      return true;
+    }
+    visualAnalysisLimits.set(safetyIdentifier, [...active, now]);
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 28_000);
+    try{
+      const analysis = await visual.analyzeVisualImage({
+        imageData:payload.imageData,
+        context:payload.context,
+        apiKey:process.env.OPENAI_API_KEY,
+        model:process.env.OPENAI_VISION_MODEL || 'gpt-5.6-luna',
+        safetyIdentifier,
+        signal:controller.signal
+      });
+      sendJson(response, 200, {ok:true, analysis, imageStored:false});
+    }finally{
+      clearTimeout(timeout);
+    }
+  }catch(error){
+    if(error?.code === 'vision_not_configured'){
+      sendJson(response, 503, {ok:false, code:'vision_not_configured', error:'A analise visual ainda nao esta disponivel.'});
+    }else if(error?.name === 'AbortError'){
+      sendJson(response, 504, {ok:false, error:'A analise demorou mais que o esperado. Tente novamente.'});
+    }else if(error?.code === 'provider_rate_limit'){
+      sendJson(response, 429, {ok:false, error:'O servico esta muito ocupado agora. Tente novamente em alguns minutos.'});
+    }else{
+      sendJson(response, 502, {ok:false, error:'Nao foi possivel analisar esta imagem agora. Tente novamente.'});
+    }
+  }
+  return true;
+}
+
 function resolveRequest(urlPath){
   const cleanPath = decodeURIComponent(urlPath.split('?')[0]).replace(/^\/+/, '');
   if(cleanPath === 'data' || cleanPath.startsWith('data/')){
@@ -837,6 +901,11 @@ const server = http.createServer(async (request, response) => {
 
   if(parsedUrl.pathname === '/api/game-ranking'){
     const handled = await handleGameRankingApi(request, response);
+    if(handled) return;
+  }
+
+  if(parsedUrl.pathname === '/api/visual-checkin'){
+    const handled = await handleVisualCheckinApi(request, response);
     if(handled) return;
   }
 

@@ -116,6 +116,12 @@ O retorno diário não deve depender de culpa, medo ou perda artificial. A motiv
 - perguntas e respostas moderadas;
 - análise de foto limitada a identificação de contexto e registro confirmado pelo usuário.
 
+### Piloto atual de análise visual
+
+O Meu Hoje possui um piloto sem armazenamento de imagens. A foto é reduzida no navegador, enviada somente após consentimento específico e usada para produzir observação prudente, incentivo, pergunta de contexto e texto inicial. O resultado não altera o diário sozinho: a pessoa precisa revisar e confirmar antes de salvar localmente.
+
+O piloto bloqueia reconhecimento de pessoas, inferências sensíveis, diagnóstico, prescrição, avaliação definitiva de técnica e estimativas precisas de nutrientes ou calorias. A liberação pública depende da configuração segura dos segredos, avaliação do fornecedor e teste operacional documentado.
+
 ### Não deve entrar no MVP
 
 - diagnóstico ou avaliação de lesão;

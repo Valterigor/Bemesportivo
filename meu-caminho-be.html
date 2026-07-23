@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260721-1">
 <link rel="stylesheet" href="css/fala-bem-platform.css?v=20260722-2">
 <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-1">
+<link rel="stylesheet" href="css/photo-checkin.css?v=20260723-1">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -218,6 +219,46 @@
 <li><span>2</span><div><strong>Registre quando preferir</strong><small>Na hora da atividade ou ao final do dia.</small></div></li>
 <li><span>3</span><div><strong>Acompanhe sua evolução</strong><small>Os resumos do dia e da semana se atualizam sozinhos.</small></div></li>
 </ol>
+<section class="fb-photo-checkin" id="fb-photo-checkin" aria-labelledby="fb-photo-title">
+<header class="fb-photo-head">
+<span class="fb-photo-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h3l1.5-2h7L17 7h3v12H4Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></span>
+<div><span>REGISTRAR COM UMA FOTO · BETA</span><h3 id="fb-photo-title">Mostre um momento do seu dia.</h3><p>Uma foto pode ajudar a começar seu registro de alimentação, treino, atividade ou lazer.</p></div>
+</header>
+<div class="fb-photo-start" id="fb-photo-start">
+<label for="fb-photo-context">O que esta foto representa?
+<select id="fb-photo-context">
+<option value="auto">Deixar a IA identificar</option>
+<option value="meal">Alimentação</option>
+<option value="workout">Treino ou academia</option>
+<option value="activity">Atividade física</option>
+<option value="leisure">Lazer</option>
+</select>
+</label>
+<label class="fb-photo-upload" for="fb-photo-input">
+<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M5 15v5h14v-5"></path></svg>
+<span><strong>Escolher ou tirar uma foto</strong><small>JPG, PNG ou WebP · até 10 MB</small></span>
+</label>
+<input class="sr-only" id="fb-photo-input" type="file" accept="image/jpeg,image/png,image/webp">
+</div>
+<figure class="fb-photo-preview" id="fb-photo-preview" hidden><img id="fb-photo-preview-image" alt="Prévia da foto escolhida"><figcaption><strong id="fb-photo-file-name"></strong><button type="button" id="fb-photo-remove">Remover foto</button></figcaption></figure>
+<label class="fb-photo-consent" for="fb-photo-consent"><input id="fb-photo-consent" type="checkbox"> <span>Autorizo o envio temporário desta imagem para análise por inteligência artificial. A foto não será adicionada ao meu diário nem armazenada pelo BeMEsportivo. Li a <a href="/politica-de-privacidade#analise-visual" target="_blank" rel="noopener noreferrer">informação sobre análise visual</a>.</span></label>
+<p class="fb-photo-care">Use apenas imagens que você pode compartilhar. Evite documentos, telas, dados pessoais e fotos de crianças ou de outras pessoas identificáveis.</p>
+<div class="fb-photo-actions"><button type="button" class="fb-primary-action" id="fb-photo-analyze" disabled>Analisar minha foto</button><small>Você sempre revisa antes de incluir qualquer texto no Meu Hoje.</small></div>
+<p class="fb-photo-status" id="fb-photo-status" role="status" aria-live="polite"></p>
+<article class="fb-photo-result" id="fb-photo-result" hidden aria-labelledby="fb-photo-result-title">
+<header><div><span id="fb-photo-result-category">ANÁLISE VISUAL</span><h4 id="fb-photo-result-title">O que percebi</h4></div><span class="fb-photo-confidence" id="fb-photo-confidence"></span></header>
+<p class="fb-photo-observation" id="fb-photo-observation"></p>
+<div class="fb-photo-response-grid"><section><span>INCENTIVO</span><p id="fb-photo-encouragement"></p></section><section><span>DICAS PARA AGORA</span><ul id="fb-photo-suggestions"></ul></section></div>
+<p class="fb-photo-caution" id="fb-photo-caution" hidden></p>
+<label class="fb-photo-answer" for="fb-photo-answer"><span id="fb-photo-question"></span><input id="fb-photo-answer" type="text" maxlength="160" placeholder="Sua resposta é opcional"></label>
+<div class="fb-photo-confirmation">
+<label id="fb-photo-meal-wrap" for="fb-photo-meal" hidden>Adicionar em qual refeição?<select id="fb-photo-meal"><option value="breakfast">Café da manhã</option><option value="lunch">Almoço</option><option value="snacks">Durante o dia</option><option value="dinner">Jantar</option></select></label>
+<label id="fb-photo-activity-wrap" for="fb-photo-activity" hidden>Qual foi a atividade?<select id="fb-photo-activity"><option value="caminhada">Caminhada</option><option value="corrida">Corrida</option><option value="musculacao">Musculação</option><option value="funcional">Treino funcional</option><option value="futebol">Futebol</option><option value="ciclismo">Ciclismo</option><option value="natacao">Natação</option><option value="outra">Outra atividade</option></select></label>
+</div>
+<div class="fb-photo-result-actions"><button type="button" class="fb-primary-action" id="fb-photo-use">Revisar no Meu Hoje</button><button type="button" id="fb-photo-discard">Descartar análise</button></div>
+<small class="fb-photo-limit">A análise é educativa: não diagnostica, não prescreve e não calcula nutrientes ou calorias pela imagem.</small>
+</article>
+</section>
 <section class="fb-daily-consistency" aria-labelledby="fb-daily-consistency-title">
 <header><div><span>SEUS 7 DIAS</span><h3 id="fb-daily-consistency-title">Constância sem cobrança.</h3></div><strong id="fb-daily-today-state">Hoje ainda não registrado</strong></header>
 <ol id="fb-daily-week-strip" aria-label="Registros dos sete dias da semana"></ol>
@@ -991,6 +1032,7 @@ Seu navegador não consegue reproduzir este vídeo.
 </button>
 
 <script type="module" src="js/site-common.js?v=20260723-1"></script>
+<script type="module" src="js/photo-checkin.js?v=20260723-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
 <script src="js/fala-bem-app.js?v=20260722-2" defer></script>
 

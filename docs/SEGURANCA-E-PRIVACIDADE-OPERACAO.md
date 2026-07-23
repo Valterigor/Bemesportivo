@@ -19,12 +19,14 @@ Canal atual: `contato@bemesportivo.com`.
 | Recurso | Dados | Local | Retenção/controle |
 | --- | --- | --- | --- |
 | Meu Caminho Be | perfil, contexto de saúde, diário e progresso | navegador do usuário | até exclusão pelo usuário; histórico limitado pela aplicação |
+| Análise visual | imagem autorizada e contexto escolhido | trânsito temporário por Netlify e API da OpenAI | imagem não persistida pelo BeMEsportivo; somente texto confirmado entra no diário local |
+| Limite da análise visual | resumo criptográfico da conexão e horários de uso | Netlify Blobs | janela móvel de uma hora; revisar eliminação automática de chaves inativas |
 | Comunidade | apelido, texto, data, reações e denúncias | Netlify Blobs | até 24 meses e até 250 comentários por área |
 | Antispam | resumo criptográfico de IP e identificador do dispositivo | estado da API | janelas ativas de limitação; revisar e eliminar entradas antigas |
 | Privacidade | escolha sobre publicidade | navegador do usuário | até nova escolha ou limpeza do navegador |
 | Contato | dados enviados voluntariamente | canal de atendimento | somente pelo tempo necessário ao pedido e às obrigações legais |
 
-O segredo `COMMUNITY_RATE_LIMIT_SECRET` deve ser criado no ambiente da Netlify, com valor aleatório forte, nunca incluído no Git.
+Os segredos `COMMUNITY_RATE_LIMIT_SECRET`, `VISUAL_ANALYSIS_SECRET` e `OPENAI_API_KEY` devem ser criados no ambiente da Netlify, com valores apropriados, nunca incluídos no Git. O modelo pode ser configurado por `OPENAI_VISION_MODEL`.
 
 ## Atendimento de direitos LGPD
 
@@ -65,9 +67,8 @@ O segredo `COMMUNITY_RATE_LIMIT_SECRET` deve ser criado no ambiente da Netlify, 
 
 - validação jurídica da identidade do controlador e documentos finais;
 - mecanismo proporcional e auditável de verificação etária;
-- contratos e avaliação de fornecedores para nuvem, IA e análise de imagens;
-- consentimento separado para upload e análise de imagem;
-- política de retenção e exclusão no servidor;
+- concluir a avaliação contratual dos fornecedores de nuvem e IA antes da liberação pública definitiva;
+- validar periodicamente o consentimento separado, a ausência de persistência da imagem e a retenção do controle de abuso;
 - autenticação, recuperação de conta e proteção contra tomada de conta;
 - plano de resposta a incidentes com responsáveis nomeados;
 - comprovação de autorização de imagens, especialmente de menores.
