@@ -18,12 +18,13 @@ export const breadcrumbPages = {
   '/contato': 'Contato',
   '/politica-de-valores': 'Política de Valores',
   '/politica-de-privacidade': 'Política de Privacidade',
-  '/termos': 'Termos de Uso'
+  '/termos': 'Termos de Uso',
+  '/diretrizes-da-comunidade': 'Diretrizes da Comunidade'
 };
 
 export const visualBreadcrumbPages = new Set([
   '/reportagens', '/produtos', '/profissionais', '/sobre', '/contato',
-  '/politica-de-valores', '/politica-de-privacidade', '/termos'
+  '/politica-de-valores', '/politica-de-privacidade', '/termos', '/diretrizes-da-comunidade'
 ]);
 
 export function normalizePath(value) {

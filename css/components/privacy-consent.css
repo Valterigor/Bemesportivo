@@ -1,0 +1,52 @@
+.be-privacy-dialog {
+  width: min(calc(100% - 24px), 720px);
+  max-height: min(88vh, 760px);
+  padding: 0;
+  overflow: auto;
+  border: 1px solid rgb(255 90 31 / 20%);
+  border-radius: 24px;
+  background: #fffdfa;
+  color: #231f1c;
+  box-shadow: 0 24px 70px rgb(35 31 28 / 24%);
+}
+
+.be-privacy-dialog::backdrop {
+  background: rgb(20 17 15 / 64%);
+  backdrop-filter: blur(5px);
+}
+
+.be-privacy-dialog__body { padding: clamp(24px, 5vw, 40px); }
+.be-privacy-dialog__eyebrow { color: #e64a19; font-size: 12px; font-weight: 900; letter-spacing: .08em; }
+.be-privacy-dialog h2 { margin: 10px 0 8px; font-size: clamp(25px, 5vw, 36px); line-height: 1.08; }
+.be-privacy-dialog p { color: #665d57; line-height: 1.6; }
+.be-privacy-dialog details { margin: 20px 0; border: 1px solid #e7ddd7; border-radius: 16px; background: #fff; }
+.be-privacy-dialog summary { padding: 16px; cursor: pointer; font-weight: 800; }
+.be-privacy-categories { padding: 0 16px 16px; }
+.be-privacy-categories label { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-top: 14px; border-top: 1px solid #eee5df; }
+.be-privacy-categories label span { display: grid; gap: 4px; }
+.be-privacy-categories small { color: #716862; line-height: 1.45; }
+.be-privacy-categories input { width: 22px; height: 22px; accent-color: #ff5a1f; }
+.be-privacy-dialog__links a { color: #b8320d; font-weight: 800; }
+.be-privacy-dialog__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.be-privacy-dialog__actions button { min-height: 46px; padding: 11px 17px; border: 1px solid #d9cec7; border-radius: 999px; background: #fff; color: #231f1c; cursor: pointer; font: inherit; font-weight: 800; }
+.be-privacy-dialog__actions .be-privacy-primary { border-color: #ff5a1f; background: #ff5a1f; color: #fff; }
+.be-privacy-dialog button:focus-visible,
+.site-footer [data-privacy-settings]:focus-visible { outline: 3px solid rgb(255 90 31 / 35%); outline-offset: 3px; }
+.site-footer [data-privacy-settings] { appearance: none; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; text-align: left; text-decoration: underline; text-underline-offset: 3px; }
+.be-honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
+
+@media (max-width: 640px) {
+  .be-privacy-dialog { width: calc(100% - 16px); border-radius: 20px; }
+  .be-privacy-dialog__body { padding: 22px 18px; }
+  .be-privacy-dialog__actions { display: grid; }
+  .be-privacy-dialog__actions button { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .be-privacy-dialog::backdrop { backdrop-filter: none; }
+}
+
+.site-footer [data-privacy-settings]:hover,
+.site-footer [data-privacy-settings]:focus-visible {
+  color: var(--color-primary, #ff5a1f);
+}

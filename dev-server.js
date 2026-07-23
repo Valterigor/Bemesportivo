@@ -11,6 +11,8 @@ const gameRankingFile = path.join(root, 'data', 'game-ranking.json');
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const SELECAO_NEWS_RSS_URL = 'https://news.google.com/rss/search?q=sele%C3%A7%C3%A3o%20brasileira%20futebol%20when%3A1d&hl=pt-BR&gl=BR&ceid=BR:pt-419';
 const apiCache = new Map();
+const REPORT_HIDE_THRESHOLD = 3;
+const COMMUNITY_RETENTION_MS = 1000 * 60 * 60 * 24 * 730;
 
 const mimeTypes = {
   '.css': 'text/css; charset=utf-8',
@@ -56,7 +58,7 @@ function sendText(response, statusCode, text){
 
 function getDefaultCommunityState(){
   return {
-    schemaVersion:1,
+    schemaVersion:2,
     updatedAt:new Date().toISOString(),
     votes:{
       'craque-brasil-haiti-2026':{
@@ -72,7 +74,8 @@ function getDefaultCommunityState(){
     },
     comments:{},
     palpites:{history:[]},
-    interactions:[]
+    interactions:[],
+    rateLimits:{}
   };
 }
 
@@ -135,7 +138,6 @@ function getCommunityCommentKey(scope, id){
 
 function publicComment(comment){
   const likedBy = comment?.likedBy && typeof comment.likedBy === 'object' ? comment.likedBy : {};
-  const reports = Array.isArray(comment?.reports) ? comment.reports : [];
   const replies = Array.isArray(comment?.replies) ? comment.replies : [];
   return {
     id:comment.id,
@@ -149,13 +151,60 @@ function publicComment(comment){
       name:reply.name,
       text:reply.text,
       createdAt:reply.createdAt
-    })),
-    reports:reports.length
+    }))
   };
 }
 
 function publicComments(comments){
-  return (Array.isArray(comments) ? comments : []).map(publicComment);
+  return (Array.isArray(comments) ? comments : [])
+    .filter(comment => !comment?.hiddenAt && (Array.isArray(comment?.reports) ? comment.reports.length : 0) < REPORT_HIDE_THRESHOLD)
+    .map(publicComment);
+}
+
+function containsPrivateContact(value){
+  const text = String(value || '');
+  return /\b[^\s@]+@[^\s@]+\.[^\s@]+\b/.test(text) || /(?:\+?55\s*)?(?:\(?\d{2}\)?\s*)?9?\d{4}[-\s]?\d{4}/.test(text);
+}
+
+function isAllowedWriteOrigin(request){
+  const origin = request.headers.origin;
+  if(!origin) return true;
+  const requestOrigin = request.headers.host ? `http://${request.headers.host}` : '';
+  return [requestOrigin, 'https://bemesportivo.com', 'https://www.bemesportivo.com'].includes(origin);
+}
+
+function requestFingerprint(request, clientId = ''){
+  const address = String(request.headers['x-forwarded-for'] || request.socket.remoteAddress || 'unknown').split(',')[0];
+  const secret = process.env.COMMUNITY_RATE_LIMIT_SECRET || 'bem-esportivo-local';
+  return crypto.createHash('sha256').update(`${secret}:${address}:${cleanId(clientId, 'device')}`).digest('hex').slice(0, 32);
+}
+
+function consumeRateLimit(state, key, action, limit, windowMs){
+  const now = Date.now();
+  const rateLimits = state.rateLimits && typeof state.rateLimits === 'object' ? state.rateLimits : {};
+  const bucketKey = `${action}:${key}`;
+  const recent = (Array.isArray(rateLimits[bucketKey]) ? rateLimits[bucketKey] : [])
+    .map(Number)
+    .filter(timestamp => Number.isFinite(timestamp) && now - timestamp < windowMs);
+  if(recent.length >= limit){state.rateLimits = rateLimits; return false;}
+  rateLimits[bucketKey] = [...recent, now];
+  state.rateLimits = Object.fromEntries(Object.entries(rateLimits)
+    .filter(([, timestamps]) => Array.isArray(timestamps) && timestamps.some(timestamp => now - Number(timestamp) < 86400000))
+    .slice(-1500));
+  return true;
+}
+
+function pruneCommunityState(state){
+  const cutoff = Date.now() - COMMUNITY_RETENTION_MS;
+  Object.keys(state.comments || {}).forEach(key => {
+    state.comments[key] = (Array.isArray(state.comments[key]) ? state.comments[key] : [])
+      .filter(comment => {
+        const created = new Date(comment?.createdAt || 0).getTime();
+        return !Number.isFinite(created) || created >= cutoff;
+      })
+      .slice(-250);
+  });
+  return state;
 }
 
 function publicInteraction(interaction){
@@ -172,6 +221,26 @@ function publicInteractions(interactions){
   return (Array.isArray(interactions) ? interactions : []).map(publicInteraction);
 }
 
+function publicPalpites(palpites){
+  return {
+    history:(Array.isArray(palpites?.history) ? palpites.history : []).map(item => ({
+      matchId:item.matchId,
+      userName:item.userName || '',
+      userTeam:item.userTeam || '',
+      userCity:item.userCity || '',
+      home:item.home || '',
+      away:item.away || '',
+      group:item.group || '',
+      venue:item.venue || '',
+      player:item.player || '',
+      homeScore:item.homeScore,
+      awayScore:item.awayScore,
+      confidence:item.confidence,
+      updatedAt:item.updatedAt
+    }))
+  };
+}
+
 function publicCommunityState(state){
   const publicVotes = {};
   Object.entries(state.votes || {}).forEach(([pollId, poll]) => {
@@ -183,7 +252,7 @@ function publicCommunityState(state){
     updatedAt:state.updatedAt,
     votes:publicVotes,
     comments:Object.fromEntries(Object.entries(state.comments || {}).map(([key, comments]) => [key, publicComments(comments)])),
-    palpites:state.palpites,
+    palpites:publicPalpites(state.palpites),
     interactions:publicInteractions(state.interactions)
   };
 }
@@ -191,7 +260,12 @@ function publicCommunityState(state){
 async function handleCommunityApi(request, response, parsedUrl){
   if(!parsedUrl.pathname.startsWith('/api/community/')) return false;
 
-  const state = readCommunityState();
+  const state = pruneCommunityState(readCommunityState());
+
+  if(request.method === 'POST' && !isAllowedWriteOrigin(request)){
+    sendJson(response, 403, {ok:false, error:'Origem não permitida.'});
+    return true;
+  }
 
   if(request.method === 'GET' && parsedUrl.pathname === '/api/community/state'){
     sendJson(response, 200, publicCommunityState(state));
@@ -207,10 +281,22 @@ async function handleCommunityApi(request, response, parsedUrl){
   if(request.method === 'POST' && parsedUrl.pathname === '/api/community/comment'){
     try{
       const body = await readJsonBody(request);
+      if(body.website){sendJson(response, 200, {ok:true, comments:[]}); return true;}
+      if(body.adultConfirmed !== true){sendJson(response, 403, {ok:false, error:'A participação comunitária está disponível somente para maiores de 18 anos.'}); return true;}
+      const fingerprint = requestFingerprint(request, body.clientId);
+      if(!consumeRateLimit(state, fingerprint, 'comment-10m', 5, 600000)
+        || !consumeRateLimit(state, fingerprint, 'comment-day', 20, 86400000)){
+        sendJson(response, 429, {ok:false, error:'Limite de publicações atingido. Aguarde antes de tentar novamente.'});
+        return true;
+      }
       const key = getCommunityCommentKey(body.scope, body.id);
       const text = cleanText(body.text || body.texto, 500);
       if(!text){
         sendJson(response, 400, {ok:false, error:'Comentario vazio.'});
+        return true;
+      }
+      if(containsPrivateContact(text)){
+        sendJson(response, 400, {ok:false, error:'Não publique telefone ou e-mail. Use o canal de contato privado do site.'});
         return true;
       }
       const comment = {
@@ -223,7 +309,7 @@ async function handleCommunityApi(request, response, parsedUrl){
         replies:[],
         reports:[]
       };
-      state.comments[key] = [...(state.comments[key] || []), comment].slice(-100);
+      state.comments[key] = [...(state.comments[key] || []), comment].slice(-250);
       writeCommunityState(state);
       sendJson(response, 200, {ok:true, comments:publicComments(state.comments[key]), comment:publicComment(comment), updatedAt:state.updatedAt});
     }catch(error){
@@ -244,6 +330,11 @@ async function handleCommunityApi(request, response, parsedUrl){
         sendJson(response, 400, {ok:false, error:'Acao de comentario invalida.'});
         return true;
       }
+      const fingerprint = requestFingerprint(request, clientId);
+      if(!consumeRateLimit(state, fingerprint, 'comment-action', 30, 600000)){
+        sendJson(response, 429, {ok:false, error:'Muitas ações em pouco tempo. Aguarde e tente novamente.'});
+        return true;
+      }
 
       if(action === 'like'){
         comment.likedBy = comment.likedBy && typeof comment.likedBy === 'object' ? comment.likedBy : {};
@@ -253,9 +344,14 @@ async function handleCommunityApi(request, response, parsedUrl){
           comment.likedBy[clientId] = true;
         }
       }else if(action === 'reply'){
+        if(body.adultConfirmed !== true){sendJson(response, 403, {ok:false, error:'A participação comunitária está disponível somente para maiores de 18 anos.'}); return true;}
         const text = cleanText(body.text || body.texto, 400);
         if(!text){
           sendJson(response, 400, {ok:false, error:'Resposta vazia.'});
+          return true;
+        }
+        if(containsPrivateContact(text)){
+          sendJson(response, 400, {ok:false, error:'Não publique telefone ou e-mail. Use o canal de contato privado do site.'});
           return true;
         }
         comment.replies = Array.isArray(comment.replies) ? comment.replies : [];
@@ -270,8 +366,12 @@ async function handleCommunityApi(request, response, parsedUrl){
         ].slice(-50);
       }else if(action === 'report'){
         comment.reports = Array.isArray(comment.reports) ? comment.reports : [];
-        if(!comment.reports.includes(clientId)){
-          comment.reports.push(clientId);
+        if(!comment.reports.includes(fingerprint)){
+          comment.reports.push(fingerprint);
+        }
+        if(comment.reports.length >= REPORT_HIDE_THRESHOLD){
+          comment.hiddenAt = comment.hiddenAt || new Date().toISOString();
+          comment.hiddenReason = 'reports-threshold';
         }
       }else{
         sendJson(response, 400, {ok:false, error:'Acao desconhecida.'});
@@ -280,7 +380,7 @@ async function handleCommunityApi(request, response, parsedUrl){
 
       state.comments[key] = comments;
       writeCommunityState(state);
-      sendJson(response, 200, {ok:true, comments:publicComments(comments), comment:publicComment(comment), updatedAt:state.updatedAt});
+      sendJson(response, 200, {ok:true, comments:publicComments(comments), comment:comment.hiddenAt ? null : publicComment(comment), updatedAt:state.updatedAt});
     }catch(error){
       sendJson(response, 400, {ok:false, error:'Nao foi possivel atualizar comentario.', detail:error.message});
     }
@@ -297,16 +397,21 @@ async function handleCommunityApi(request, response, parsedUrl){
         sendJson(response, 400, {ok:false, error:'Voto invalido.'});
         return true;
       }
+      const fingerprint = requestFingerprint(request, clientId);
+      if(!consumeRateLimit(state, fingerprint, 'vote', 60, 600000)){
+        sendJson(response, 429, {ok:false, error:'Muitos votos em pouco tempo. Aguarde e tente novamente.'});
+        return true;
+      }
 
       const poll = state.votes[pollId] || {totals:{}, choices:{}};
-      const previous = poll.choices[clientId];
+      const previous = poll.choices[fingerprint];
       if(previous && previous !== choiceId){
         poll.totals[previous] = Math.max(0, Number(poll.totals[previous] || 0) - 1);
       }
       if(previous !== choiceId){
         poll.totals[choiceId] = Number(poll.totals[choiceId] || 0) + 1;
       }
-      poll.choices[clientId] = choiceId;
+      poll.choices[fingerprint] = choiceId;
       state.votes[pollId] = poll;
       writeCommunityState(state);
       sendJson(response, 200, {ok:true, pollId, vote:{totals:poll.totals, selected:choiceId}, updatedAt:state.updatedAt});
@@ -326,11 +431,15 @@ async function handleCommunityApi(request, response, parsedUrl){
         sendJson(response, 400, {ok:false, error:'Palpite invalido.'});
         return true;
       }
+      const fingerprint = requestFingerprint(request, userId);
+      if(!consumeRateLimit(state, fingerprint, 'palpite', 20, 600000)){
+        sendJson(response, 429, {ok:false, error:'Muitos palpites em pouco tempo. Aguarde e tente novamente.'});
+        return true;
+      }
+      const participantId = requestFingerprint(request, userId);
       const cleanPalpite = {
-        ...item,
         matchId,
-        userId,
-        entryId:cleanText(item.entryId, 120) || `palpite-${Date.now()}`,
+        participantId,
         userName:cleanText(item.userName, 40),
         userTeam:cleanText(item.userTeam, 40),
         userCity:cleanText(item.userCity, 40),
@@ -345,11 +454,11 @@ async function handleCommunityApi(request, response, parsedUrl){
         updatedAt:new Date().toISOString()
       };
       const history = Array.isArray(state.palpites?.history) ? state.palpites.history : [];
-      const withoutSame = history.filter(saved => !(saved.userId === userId && saved.matchId === matchId));
+      const withoutSame = history.filter(saved => !((saved.participantId === participantId || saved.userId === userId) && saved.matchId === matchId));
       withoutSame.push(cleanPalpite);
       state.palpites = {history:withoutSame.slice(-500)};
       writeCommunityState(state);
-      sendJson(response, 200, {ok:true, palpites:state.palpites, updatedAt:state.updatedAt});
+      sendJson(response, 200, {ok:true, palpites:publicPalpites(state.palpites), updatedAt:state.updatedAt});
     }catch(error){
       sendJson(response, 400, {ok:false, error:'Nao foi possivel registrar palpite.', detail:error.message});
     }
@@ -362,6 +471,16 @@ async function handleCommunityApi(request, response, parsedUrl){
       const type = cleanText(body.type, 40);
       const target = cleanText(body.target, 120);
       const clientId = cleanText(body.clientId, 120);
+      const value = cleanText(body.value, 120);
+      if(!type || !target || !value || !clientId){
+        sendJson(response, 400, {ok:false, error:'Interacao invalida.'});
+        return true;
+      }
+      const fingerprint = requestFingerprint(request, clientId);
+      if(!consumeRateLimit(state, fingerprint, 'interaction', 60, 600000)){
+        sendJson(response, 429, {ok:false, error:'Muitas interações em pouco tempo. Aguarde e tente novamente.'});
+        return true;
+      }
       const previousInteractions = Array.isArray(state.interactions) ? state.interactions : [];
       const withoutSameClientChoice = previousInteractions.filter(item => (
         item.type !== type ||
@@ -374,7 +493,7 @@ async function handleCommunityApi(request, response, parsedUrl){
           id:`interaction-${Date.now()}-${Math.random().toString(16).slice(2)}`,
           type,
           target,
-          value:cleanText(body.value, 120),
+          value,
           clientId,
           createdAt:new Date().toISOString()
         }

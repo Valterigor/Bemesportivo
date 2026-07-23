@@ -19,6 +19,8 @@ const footerContent = `
       <a href="/sobre">Sobre</a><a href="/contato">Contato</a>
       <a href="/politica-de-valores">Política de Valores</a>
       <a href="/politica-de-privacidade">Privacidade</a><a href="/termos">Termos</a>
+      <a href="/diretrizes-da-comunidade">Diretrizes da Comunidade</a>
+      <button type="button" data-privacy-settings>Gerenciar privacidade</button>
       <a href="https://www.instagram.com/bemesportivo/" target="_blank" rel="noopener noreferrer">Instagram @bemesportivo</a>
     </nav>
   </div>

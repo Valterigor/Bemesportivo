@@ -47,3 +47,7 @@ página → componente → core
 O diretório `src/` é um protótipo antigo e não participa do site publicado. Não devem ser criadas novas dependências nele. Sua remoção ou migração completa será feita em uma tarefa separada, depois de comparar cada recurso com as páginas reais.
 
 A Home, o Meu Caminho Be e o Game podem ter shells visuais próprios. Eles devem reutilizar tokens, acessibilidade e padrões de interação, sem perder sua identidade ou mecânica específica.
+
+## Evolução do Meu Caminho Be
+
+A transição do produto local para uma aplicação autenticada, sincronizada e preparada para inteligência está definida em [Meu Caminho Be 2.0](MEU-CAMINHO-BE-2.0.md). A implementação deve respeitar as fases, manter separados os dados privados e comunitários e preservar a experiência atual até cada substituição estar validada.

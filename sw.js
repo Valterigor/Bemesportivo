@@ -1,23 +1,25 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v35';
+const CACHE_NAME = 'meu-caminho-be-v36';
 const APP_SHELL = [
   '/meu-caminho-be',
-  '/site-common.css?v=20260722-1',
-  '/css/design-system.css?v=20260722-1',
+  '/site-common.css?v=20260722-2',
+  '/css/design-system.css?v=20260722-2',
   '/css/core/tokens.css?v=20260722-1',
   '/css/core/primitives.css?v=20260718-1',
   '/css/components/ui.css?v=20260722-1',
   '/css/coluna-valtinho.css?v=20260721-1',
-  '/css/fala-bem-platform.css?v=20260722-1',
-  '/js/site-common.js?v=20260718-8',
+  '/css/fala-bem-platform.css?v=20260722-2',
+  '/css/components/privacy-consent.css',
+  '/js/site-common.js?v=20260722-2',
   '/js/core/routes.js',
   '/js/components/site-navigation.js',
   '/js/components/site-breadcrumb.js',
-  '/js/components/site-footer.js?v=20260718-1',
+  '/js/components/site-footer.js?v=20260722-2',
+  '/js/components/privacy-consent.js',
   '/js/components/back-to-top.js',
-  '/js/coluna-valtinho.js?v=20260721-1',
-  '/js/fala-bem-app.js?v=20260722-1',
+  '/js/coluna-valtinho.js?v=20260722-2',
+  '/js/fala-bem-app.js?v=20260722-2',
   '/img/logobemoficial.png',
   '/img/Bem%20Esportivo%20Logo%20Laranja@33x.png',
   '/img/fala-bem-hero-pessoas-optimized.jpg'

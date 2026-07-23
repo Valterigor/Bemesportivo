@@ -22,9 +22,9 @@
 <link rel="canonical" href="https://bemesportivo.com/meu-caminho-be">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="site-common.css?v=20260722-1">
+<link rel="stylesheet" href="site-common.css?v=20260722-2">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260721-1">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260722-1">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260722-2">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -143,6 +143,12 @@
 </nav>
 
 <div class="fb-app-panel active" data-fb-panel="inicio">
+<section class="fb-minor-restriction" id="fb-minor-restriction" hidden aria-labelledby="fb-minor-restriction-title">
+<span>PROTEÇÃO PARA MENORES</span>
+<h2 id="fb-minor-restriction-title">A jornada personalizada está disponível somente para maiores de 18 anos.</h2>
+<p>Conteúdos públicos continuam disponíveis. Enquanto não houver uma forma verificável de participação do responsável e proteção adequada à idade, não criaremos perfil, diário ou recomendações personalizadas para menores.</p>
+<div><button type="button" data-fb-view="conteudos">Explorar conteúdos públicos</button><button type="button" data-fb-reset>Apagar dados locais anteriores</button></div>
+</section>
 <section class="fb-path-entry" id="fb-path-entry" aria-labelledby="fb-path-title">
 <span>POR ONDE VOCÊ QUER COMEÇAR?</span>
 <h2 id="fb-path-title">Escolha o momento que mais combina com você agora.</h2>
@@ -464,12 +470,13 @@
 <h3 id="journey-step-4-title">Em qual momento da vida você está?</h3>
 <p>A faixa etária ajuda a tornar a orientação mais adequada ao seu contexto.</p>
 <div class="journey-options journey-options-compact" role="group" aria-label="Escolha sua faixa etária">
-<button type="button" class="journey-option" data-journey-field="age" data-journey-value="ate-17" aria-pressed="false"><strong>Até 17 anos</strong></button>
+<button type="button" class="journey-option" data-journey-field="age" data-journey-value="under-18" aria-pressed="false"><strong>Tenho menos de 18 anos</strong><small>Os conteúdos públicos continuam disponíveis.</small></button>
 <button type="button" class="journey-option" data-journey-field="age" data-journey-value="18-29" aria-pressed="false"><strong>18 a 29 anos</strong></button>
 <button type="button" class="journey-option" data-journey-field="age" data-journey-value="30-44" aria-pressed="false"><strong>30 a 44 anos</strong></button>
 <button type="button" class="journey-option" data-journey-field="age" data-journey-value="45-59" aria-pressed="false"><strong>45 a 59 anos</strong></button>
 <button type="button" class="journey-option" data-journey-field="age" data-journey-value="60-mais" aria-pressed="false"><strong>60 anos ou mais</strong></button>
 </div>
+<p class="journey-minor-notice" id="journey-minor-notice" role="status" hidden>Para proteger crianças e adolescentes, esta versão não cria perfil, diário ou recomendações personalizadas para menores de 18 anos. Você ainda pode explorar os conteúdos públicos do BeMEsportivo.</p>
 </div>
 
 <div class="journey-stage" data-journey-step="5" aria-labelledby="journey-step-5-title" hidden>
@@ -881,6 +888,8 @@ Seu navegador não consegue reproduzir este vídeo.
 <span>Escreva sua mensagem</span>
 <textarea id="community-message" rows="4" maxlength="500" placeholder="Conte para a gente. Sua pergunta pode inspirar o próximo conteúdo." required></textarea>
 </label>
+<label class="be-honeypot" aria-hidden="true">Não preencha este campo<input id="community-website" name="website" tabindex="-1" autocomplete="off"></label>
+<label class="community-adult-confirm"><input type="checkbox" id="community-adult-confirm" required> Confirmo que tenho 18 anos ou mais e aceito as <a href="/diretrizes-da-comunidade" target="_blank" rel="noopener noreferrer">Diretrizes da Comunidade</a>.</label>
 <div class="community-form-footer">
 <button class="btn" type="submit">Publicar na comunidade</button>
 <small>Sua mensagem ficará visível para visitantes do Meu Caminho Be. Não publique dados pessoais ou informações clínicas.</small>
@@ -980,9 +989,9 @@ Seu navegador não consegue reproduzir este vídeo.
 </svg>
 </button>
 
-<script type="module" src="js/site-common.js?v=20260718-8"></script>
-<script src="js/coluna-valtinho.js?v=20260721-1" defer></script>
-<script src="js/fala-bem-app.js?v=20260722-1" defer></script>
+<script type="module" src="js/site-common.js?v=20260722-2"></script>
+<script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
+<script src="js/fala-bem-app.js?v=20260722-2" defer></script>
 
 </body>
 </html>

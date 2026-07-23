@@ -217,7 +217,7 @@ reminder:'Dor persistente é sinal para buscar avaliação profissional.'
 };
 
 const journeyAgeLabels={
-'ate-17':'Até 17 anos',
+'under-18':'Menos de 18 anos',
 '18-29':'18 a 29 anos',
 '30-44':'30 a 44 anos',
 '45-59':'45 a 59 anos',
@@ -244,6 +244,7 @@ return step===1?'name':step===2?'objective':step===3?'practice':step===4?'age':s
 function isJourneyStepComplete(step){
 if(step===1) return journeyState.name.trim().length>=2;
 if(step===3) return Boolean(journeyState.practice&&(journeyState.practice==='none'||journeyState.practiceName.trim().length>=2));
+if(step===4&&journeyState.age==='under-18') return false;
 const field=getJourneyField(step);
 return field ? Boolean(journeyState[field]) : false;
 }
@@ -274,6 +275,7 @@ journeyState.objective=profile.objective||'';
 journeyState.practice=profile.practice||(profile.practiceName?'regular':'');
 journeyState.practiceName=String(profile.practiceName||'').trim();
 journeyState.age=profile.age||'';
+if(journeyState.age==='ate-17') journeyState.age='under-18';
 journeyState.availability=profile.availability||'';
 if(journeyNameInput) journeyNameInput.value=journeyState.name;
 if(journeyPracticeName){
@@ -313,7 +315,6 @@ document.getElementById('journey-result-summary').textContent=personalizedSummar
 document.getElementById('journey-result-start').textContent=personalizedStart;
 document.getElementById('journey-result-rhythm').textContent=personalizedRhythm;
 let reminder=recommendation.reminder;
-if(journeyState.age==='ate-17') reminder='Conte com a orientação de um responsável e de profissionais preparados.';
 if(journeyState.age==='60-mais') reminder='Considere seu histórico de saúde, priorize adaptação gradual e busque orientação quando necessário.';
 document.getElementById('journey-result-reminder').textContent=reminder;
 const practiceLabel=journeyState.practiceName||journeyPracticeLabels[journeyState.practice];
@@ -387,7 +388,10 @@ journeyState.practiceName='';
 }
 updateJourneyNextState();
 if(field==='age'&&journeyStep===4){
-journeyStatus.textContent='Faixa etária registrada. Você já pode continuar.';
+const isMinor=journeyState.age==='under-18';
+const notice=document.getElementById('journey-minor-notice');
+if(notice) notice.hidden=!isMinor;
+journeyStatus.textContent=isMinor?'A jornada personalizada é exclusiva para maiores de 18 anos.':'Faixa etária registrada. Você já pode continuar.';
 }
 });
 });
@@ -410,9 +414,6 @@ if(journeyNext){
 journeyNext.addEventListener('click',()=>{
 const field=getJourneyField(journeyStep);
 if(field&&!isJourneyStepComplete(journeyStep)) return;
-if(journeyStep===1){
-window.dispatchEvent(new CustomEvent('meuCaminhoBe:identity-captured',{detail:{name:journeyState.name}}));
-}
 renderJourneyStep(journeyStep+1);
 });
 }
@@ -498,6 +499,9 @@ const replyForm=document.createElement('form');
 const replyLabel=document.createElement('label');
 const replyInput=document.createElement('input');
 const replyButton=document.createElement('button');
+const reportButton=document.createElement('button');
+const adultLabel=document.createElement('label');
+const adultInput=document.createElement('input');
 item.className='community-feed-item';
 author.textContent=comment.name||'Visitante';
 topic.textContent=comment.team||'Conversa';
@@ -518,7 +522,12 @@ replyInput.placeholder='Escreva uma resposta';
 replyInput.required=true;
 replyButton.type='submit';
 replyButton.textContent='Responder';
-replyForm.append(replyLabel,replyInput,replyButton);
+adultInput.type='checkbox';
+adultInput.required=true;
+adultLabel.append(adultInput,document.createTextNode(' Confirmo que tenho 18 anos ou mais.'));
+reportButton.type='button';
+reportButton.textContent='Denunciar';
+replyForm.append(replyLabel,replyInput,adultLabel,replyButton,reportButton);
 replyForm.addEventListener('submit',async event=>{
 event.preventDefault();
 const replyText=replyInput.value.trim();
@@ -526,10 +535,17 @@ if(!replyText) return;
 replyButton.disabled=true;
 replyButton.textContent='Enviando...';
 try{
-const payload=await pathCommunityRequest('/comment-action',{method:'POST',body:JSON.stringify({scope:pathCommunityScope,id:pathCommunityId,commentId:comment.id,action:'reply',clientId:getPathCommunityClientId(),name:getPathProfileName()||'Visitante',text:replyText})});
+const payload=await pathCommunityRequest('/comment-action',{method:'POST',body:JSON.stringify({scope:pathCommunityScope,id:pathCommunityId,commentId:comment.id,action:'reply',clientId:getPathCommunityClientId(),name:getPathProfileName()||'Visitante',text:replyText,adultConfirmed:true})});
 renderPathCommunity(payload.comments||[]);
 window.dispatchEvent(new CustomEvent('meuCaminhoBe:activity',{detail:{type:'community',key:`reply:${comment.id}`,label:'Resposta na comunidade'}}));
 }catch(error){replyButton.textContent='Tentar novamente';replyButton.disabled=false;}
+});
+reportButton.addEventListener('click',async()=>{
+reportButton.disabled=true;
+try{
+const payload=await pathCommunityRequest('/comment-action',{method:'POST',body:JSON.stringify({scope:pathCommunityScope,id:pathCommunityId,commentId:comment.id,action:'report',clientId:getPathCommunityClientId()})});
+renderPathCommunity(payload.comments||[]);
+}catch(error){reportButton.disabled=false;reportButton.textContent='Tentar denúncia novamente';}
 });
 item.append(header,text,time,replies,replyForm);
 return item;
@@ -590,21 +606,23 @@ event.preventDefault();
 const topic=document.getElementById('community-topic').value;
 const message=document.getElementById('community-message').value.trim();
 const name=communityName?.value.trim();
+const adultConfirmed=document.getElementById('community-adult-confirm')?.checked===true;
 const status=document.getElementById('community-form-status');
 const button=communityForm.querySelector('button[type="submit"]');
-if(!topic||!message||!name){communityForm.reportValidity();return;}
+if(!topic||!message||!name||!adultConfirmed){communityForm.reportValidity();return;}
 button.disabled=true;
 button.textContent='Publicando...';
 if(status) status.textContent='';
 try{
 try{localStorage.setItem('meuCaminhoBeCommunityName',name);}catch(storageError){}
-const payload=await pathCommunityRequest('/comment',{method:'POST',body:JSON.stringify({scope:pathCommunityScope,id:pathCommunityId,name,team:topic,text:message,clientId:getPathCommunityClientId()})});
+const payload=await pathCommunityRequest('/comment',{method:'POST',body:JSON.stringify({scope:pathCommunityScope,id:pathCommunityId,name,team:topic,text:message,clientId:getPathCommunityClientId(),adultConfirmed:true,website:document.getElementById('community-website')?.value||''})});
 renderPathCommunity(payload.comments||[]);
 document.getElementById('community-topic').value='';
 document.getElementById('community-message').value='';
+document.getElementById('community-adult-confirm').checked=false;
 if(status) status.textContent='Mensagem publicada para todos os visitantes.';
 window.dispatchEvent(new CustomEvent('meuCaminhoBe:activity',{detail:{type:'community',key:payload.comment?.id||topic,label:'Participação na comunidade'}}));
-}catch(error){if(status) status.textContent='Não foi possível publicar agora. Tente novamente em alguns instantes.';}
+}catch(error){if(status) status.textContent=error.message||'Não foi possível publicar agora. Tente novamente em alguns instantes.';}
 finally{button.disabled=false;button.textContent='Publicar na comunidade';}
 });
 }

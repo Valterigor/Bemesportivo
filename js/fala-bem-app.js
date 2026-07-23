@@ -37,6 +37,10 @@ const objectiveLabels = {
   performance: 'Buscar performance', modalidade: 'Encontrar um esporte', recuperacao: 'Voltar com segurança'
 };
 
+function isMinorRestrictedProfile(profile = currentProfile) {
+  return ['ate-17', 'under-18'].includes(profile?.age);
+}
+
 const journeyStepTemplates = {
   comecar: ['Perfil esportivo definido','Escolher uma prática acessível','Realizar a primeira experiência','Repetir em um dia possível','Revisar e escolher o próximo ciclo'],
   saude: ['Perfil esportivo definido','Reservar horários possíveis','Fazer uma prática leve','Repetir com regularidade','Revisar disposição e rotina'],
@@ -338,6 +342,7 @@ function resolveView(view) {
 }
 
 function openView(requestedView, options = {}) {
+  if (isMinorRestrictedProfile() && ['jornada', 'progresso', 'perfil'].includes(requestedView)) requestedView = 'inicio';
   const view = resolveView(requestedView);
   const isShellPanel = panels.some(panel => panel.dataset.fbPanel === view);
 
@@ -2193,6 +2198,23 @@ function renderPersonalizedExperience() {
   const heroStatus = document.getElementById('fb-hero-status');
   const heroProgress = document.getElementById('fb-hero-progress');
   const heroProgressValue = document.getElementById('fb-hero-progress-value');
+  const minorRestriction = document.getElementById('fb-minor-restriction');
+  const minorRestricted = isMinorRestrictedProfile();
+  if (minorRestriction) minorRestriction.hidden = !minorRestricted;
+  if (minorRestricted) {
+    pathEntry.hidden = true;
+    todayCard.hidden = true;
+    if (todayZone) todayZone.hidden = true;
+    if (weekZone) weekZone.hidden = true;
+    appTitle.textContent = 'Conteúdos esportivos continuam disponíveis para você.';
+    appSubtitle.textContent = 'A jornada personalizada está temporariamente reservada a maiores de 18 anos.';
+    if (heroAction) { heroAction.textContent = 'Explorar conteúdos públicos'; heroAction.dataset.fbView = 'conteudos'; delete heroAction.dataset.fbDailyAction; }
+    if (heroStatus) heroStatus.textContent = 'Privacidade e proteção primeiro.';
+    if (heroProgress) heroProgress.style.setProperty('--fb-hero-progress', '0%');
+    if (heroProgressValue) heroProgressValue.textContent = '—';
+    if (profileTriggerLabel) profileTriggerLabel.textContent = 'Dados locais';
+    return;
+  }
   const hasJourney = Boolean(currentProfile?.objective);
   if (todayZone) todayZone.hidden = !hasJourney;
   if (weekZone) weekZone.hidden = !hasJourney;
@@ -2278,6 +2300,7 @@ function renderPersonalizedExperience() {
 
 window.addEventListener('meuCaminhoBe:profile-updated', event => {
   const details = event.detail || {};
+  if (['ate-17', 'under-18'].includes(details.age)) return;
   const normalizedDetails = { ...details, name: details.name || currentProfile?.name || '' };
   if (!safetyScreeningIsCurrent(currentProfile, normalizedDetails)) {
     openSafetyDialog(normalizedDetails);
@@ -2701,7 +2724,7 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
     const parsed = JSON.parse(await file.text());
     const profile = parsed?.profile;
     const allowedObjectives = Object.keys(journeyStepTemplates);
-    if (!profile || typeof profile !== 'object' || !allowedObjectives.includes(profile.objective) || typeof profile.name !== 'string') throw new Error('invalid');
+    if (!profile || typeof profile !== 'object' || !allowedObjectives.includes(profile.objective) || typeof profile.name !== 'string' || ['ate-17', 'under-18'].includes(profile.age)) throw new Error('invalid');
     const sanitized = {
       ...profile,
       schemaVersion: 6,

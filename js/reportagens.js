@@ -230,6 +230,7 @@ function formatReportCommentDate(value) {
 
 function normalizeReportComment(comment) {
   return {
+    id: comment.id || "",
     nome: comment.nome || comment.name || "Visitante",
     texto: comment.texto || comment.text || "",
     data: comment.data || formatReportCommentDate(comment.createdAt)
@@ -269,6 +270,7 @@ async function renderReportComments(section, forceOnline = false) {
         <strong>${escapeReportHtml(comment.nome || "Visitante")}</strong>
         <p>${escapeReportHtml(comment.texto)}</p>
         <time>${escapeReportHtml(comment.data)}</time>
+        ${comment.id ? `<button type="button" data-report-comment-id="${escapeReportHtml(comment.id)}">Denunciar</button>` : ""}
       </article>
     `).join("")
     : '<span class="report-comments-empty">Seja o primeiro a comentar esta reportagem.</span>';
@@ -289,7 +291,7 @@ document.querySelectorAll("[data-report-comments]").forEach(section => {
     const formData = new FormData(form);
     const texto = String(formData.get("texto") || "").trim();
     const button = form.querySelector('button[type="submit"]');
-    if (!texto) return;
+    if (!texto || !formData.get("adulto")) { form.reportValidity(); return; }
     button.disabled = true;
     button.textContent = "Publicando...";
     feedback.textContent = "";
@@ -301,7 +303,9 @@ document.querySelectorAll("[data-report-comments]").forEach(section => {
           id: reportId,
           name: String(formData.get("nome") || "Visitante").trim().slice(0, 40) || "Visitante",
           text: texto.slice(0, 500),
-          clientId: getReportClientId()
+          clientId: getReportClientId(),
+          adultConfirmed: true,
+          website: String(formData.get("website") || "")
         })
       });
       reportCommentCache[reportId] = payload.comments || [];
@@ -309,10 +313,34 @@ document.querySelectorAll("[data-report-comments]").forEach(section => {
       form.reset();
       feedback.textContent = "Comentário publicado para todos os visitantes.";
     } catch (error) {
-      feedback.textContent = "Não foi possível salvar globalmente. Tente novamente em alguns instantes.";
+      feedback.textContent = error.message || "Não foi possível salvar globalmente. Tente novamente em alguns instantes.";
     } finally {
       button.disabled = false;
       button.textContent = "Publicar comentário";
+    }
+  });
+
+  section.addEventListener("click", async event => {
+    const reportButton = event.target.closest("[data-report-comment-id]");
+    if (!reportButton || reportButton.disabled) return;
+    reportButton.disabled = true;
+    try {
+      const payload = await reportCommunityRequest("/comment-action", {
+        method: "POST",
+        body: JSON.stringify({
+          scope: "report",
+          id: section.dataset.reportComments,
+          commentId: reportButton.dataset.reportCommentId,
+          action: "report",
+          clientId: getReportClientId()
+        })
+      });
+      reportCommentCache[section.dataset.reportComments] = payload.comments || [];
+      renderReportComments(section);
+      feedback.textContent = "Denúncia recebida. O conteúdo poderá ser ocultado para análise.";
+    } catch (error) {
+      reportButton.disabled = false;
+      feedback.textContent = error.message || "Não foi possível enviar a denúncia agora.";
     }
   });
 });
