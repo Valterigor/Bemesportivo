@@ -1,0 +1,183 @@
+:root {
+  --be-polish-surface: #fff;
+  --be-polish-surface-soft: #faf9f7;
+  --be-polish-line: rgb(23 23 23 / 9%);
+  --be-polish-radius-card: 18px;
+  --be-polish-radius-feature: 28px;
+  --be-polish-shadow-standard: 0 1px 2px rgb(17 17 17 / 3%), 0 10px 30px rgb(17 17 17 / 5%);
+  --be-polish-shadow-feature: 0 2px 5px rgb(17 17 17 / 4%), 0 22px 58px rgb(17 17 17 / 10%);
+  --be-polish-ease: cubic-bezier(.2, .75, .25, 1);
+}
+
+:where(.home-page, .fala-bem-page, .reportagens-page, .beplay-page, .professionals-page) :where(h1, h2, h3, h4) {
+  text-wrap: balance;
+}
+
+:where(.home-page, .fala-bem-page, .reportagens-page, .beplay-page, .professionals-page) :where(p, li, small) {
+  text-wrap: pretty;
+}
+
+:where(.home-page, .fala-bem-page, .reportagens-page, .beplay-page, .professionals-page) :where(img, video) {
+  image-rendering: auto;
+}
+
+/* Home: preserve editorial hierarchy while aligning card finish. */
+.home-page :where(.ecosystem-hero, .path-launch, .brand-film) {
+  border-color: var(--be-polish-line) !important;
+  box-shadow: var(--be-polish-shadow-feature) !important;
+}
+
+.home-page :where(.story-card, .social-card, .ecosystem-hub-card, .training-card) {
+  overflow: hidden;
+  border: 1px solid var(--be-polish-line) !important;
+  border-radius: var(--be-polish-radius-card) !important;
+  background-clip: padding-box;
+  box-shadow: var(--be-polish-shadow-standard) !important;
+}
+
+.home-page :where(.story-card, .social-card, .ecosystem-hub-card, .training-card) :where(img, video) {
+  transform: translateZ(0);
+}
+
+/* Meu Caminho Be: outer product surfaces carry depth; nested information stays flat. */
+.fala-bem-page :where(.fb-context-zone, .fb-app-shell) {
+  border-color: var(--be-polish-line) !important;
+}
+
+.fala-bem-page :where(.fb-home-dashboard, .fb-day-guide, .fb-daily-journal, .fb-routine-calendar, .fb-gamification, .fb-dashboard-recommendations, .fb-profile-history, .fb-cycle-summary) {
+  border-color: var(--be-polish-line) !important;
+  box-shadow: var(--be-polish-shadow-standard) !important;
+}
+
+.fala-bem-page :where(.fb-home-week-card, .fb-home-signal-card, .fb-home-next-step, .fb-daily-consistency, .fb-daily-summary-card, .fb-week-summary-card, .fb-task-day, .fb-routine-summary article, .fb-dashboard-grid article, .fb-profile-history dl > div, .fb-game-stats article) {
+  border-color: var(--be-polish-line) !important;
+  box-shadow: none !important;
+}
+
+.fala-bem-page :where(.fb-home-week-card, .fb-home-signal-card, .fb-daily-summary-card, .fb-task-day, .fb-routine-summary article) {
+  background: rgb(255 255 255 / 82%) !important;
+}
+
+.fala-bem-page :where(.fb-daily-journal-head, .fb-routine-head, .fb-home-dashboard-head, .fb-dashboard-recommendations > header) > div {
+  max-width: 68ch;
+}
+
+/* Reportagens: featured story has presence; supporting stories remain quiet. */
+.reportagens-page .page-hero {
+  border: 1px solid rgb(255 255 255 / 8%) !important;
+  box-shadow: var(--be-polish-shadow-feature) !important;
+}
+
+.reportagens-page .report-preview {
+  overflow: hidden;
+  border-color: var(--be-polish-line) !important;
+  border-radius: var(--be-polish-radius-card) !important;
+  box-shadow: var(--be-polish-shadow-standard) !important;
+}
+
+.reportagens-page .report-preview-featured {
+  box-shadow: 0 1px 2px rgb(17 17 17 / 3%), 0 16px 42px rgb(17 17 17 / 7%) !important;
+}
+
+.reportagens-page :where(.report-preview-media, .report-media-stack) {
+  background: #eeece9;
+}
+
+.reportagens-page .report-preview :where(p, .report-preview-meta) {
+  max-width: 66ch;
+}
+
+/* BEPlay: one featured player, standard sections, flat nested rows. */
+.beplay-page :where(.beplay-intro, .channel-card, .panel) {
+  border-color: var(--be-polish-line) !important;
+  border-radius: var(--be-polish-radius-card) !important;
+  box-shadow: var(--be-polish-shadow-standard) !important;
+}
+
+.beplay-page .player-panel {
+  box-shadow: var(--be-polish-shadow-feature) !important;
+}
+
+.beplay-page :where(.summary-item, .related-item, .history-item, .comment-item) {
+  border-color: var(--be-polish-line) !important;
+  box-shadow: none !important;
+}
+
+.beplay-page :where(.related-item, .history-item) {
+  background: var(--be-polish-surface-soft) !important;
+}
+
+.beplay-page .video-frame {
+  overflow: hidden;
+  border-radius: 14px !important;
+  background: #080808;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 18%);
+}
+
+.beplay-page .watch-column > .panel + .panel {
+  margin-top: clamp(14px, 2vw, 20px);
+}
+
+/* Professionals: directory cards should not compete with the hero. */
+.professionals-page .hero {
+  border: 1px solid rgb(255 255 255 / 8%) !important;
+  box-shadow: var(--be-polish-shadow-feature) !important;
+}
+
+.professionals-page :where(.hero-search, .expert-ai-panel, .card) {
+  border-color: var(--be-polish-line) !important;
+  border-radius: var(--be-polish-radius-card) !important;
+  box-shadow: var(--be-polish-shadow-standard) !important;
+}
+
+.professionals-page .hero .hero-search {
+  box-shadow: 0 1px 2px rgb(17 17 17 / 3%), 0 12px 32px rgb(17 17 17 / 8%) !important;
+}
+
+.professionals-page .card :where(img, .photo, .avatar) {
+  background: #efedeb;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.home-page, .reportagens-page, .beplay-page, .professionals-page) :where(.story-card, .social-card, .report-preview, .card, .related-item) {
+    transition: border-color 200ms var(--be-polish-ease), box-shadow 200ms var(--be-polish-ease), transform 200ms var(--be-polish-ease) !important;
+  }
+
+  :where(.home-page, .reportagens-page, .beplay-page, .professionals-page) :where(.story-card, .social-card, .report-preview, .card, .related-item):hover {
+    border-color: rgb(250 138 1 / 22%) !important;
+    box-shadow: 0 2px 4px rgb(17 17 17 / 3%), 0 16px 40px rgb(17 17 17 / 8%) !important;
+    transform: translateY(-2px) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --be-polish-radius-card: 16px;
+    --be-polish-radius-feature: 22px;
+    --be-polish-shadow-feature: 0 2px 4px rgb(17 17 17 / 4%), 0 16px 38px rgb(17 17 17 / 8%);
+  }
+
+  .home-page :where(.ecosystem-hero, .path-launch, .brand-film),
+  .reportagens-page .page-hero,
+  .professionals-page .hero {
+    border-radius: var(--be-polish-radius-feature) !important;
+  }
+
+  .fala-bem-page :where(.fb-home-dashboard, .fb-day-guide, .fb-daily-journal, .fb-routine-calendar, .fb-gamification, .fb-dashboard-recommendations) {
+    box-shadow: 0 1px 2px rgb(17 17 17 / 3%), 0 8px 22px rgb(17 17 17 / 4%) !important;
+  }
+
+  .beplay-page :where(.beplay-intro, .channel-card, .panel),
+  .reportagens-page .report-preview,
+  .professionals-page :where(.hero-search, .expert-ai-panel, .card) {
+    border-radius: var(--be-polish-radius-card) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(.home-page, .fala-bem-page, .reportagens-page, .beplay-page, .professionals-page) *,
+  :where(.home-page, .fala-bem-page, .reportagens-page, .beplay-page, .professionals-page) *::before,
+  :where(.home-page, .fala-bem-page, .reportagens-page, .beplay-page, .professionals-page) *::after {
+    transition-duration: .01ms !important;
+  }
+}
