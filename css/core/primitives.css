@@ -1,12 +1,22 @@
 :where(html) {
   color-scheme: light;
   scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
 }
 
 :where(body) {
+  margin: 0;
+  background: var(--be-ds-color-background);
   color: var(--be-ds-color-text);
   font-family: var(--be-ds-font-body);
   line-height: var(--be-ds-leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:where(*, *::before, *::after) {
+  box-sizing: border-box;
 }
 
 :where(img, picture, video, canvas, svg) {
@@ -15,6 +25,20 @@
 
 :where(button, input, select, textarea) {
   font: inherit;
+}
+
+:where(button, a) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+  color: var(--be-ds-color-ink);
+  font-family: var(--be-ds-font-display);
+  letter-spacing: var(--be-ds-tracking-tight);
+}
+
+:where(p, ul, ol) {
+  text-wrap: pretty;
 }
 
 :where(a, button, input, select, textarea, [tabindex]):focus-visible {
@@ -41,9 +65,42 @@
   color: var(--be-ds-color-ink);
   font-family: var(--be-ds-font-display);
   font-size: var(--be-ds-text-2xl);
-  font-weight: 800;
+  font-weight: var(--be-ds-weight-bold);
   line-height: var(--be-ds-leading-tight);
   text-wrap: balance;
+}
+
+.be-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--be-ds-space-2);
+  margin: 0;
+  color: var(--be-ds-color-primary-active);
+  font-size: var(--be-ds-text-xs);
+  font-weight: var(--be-ds-weight-semibold);
+  letter-spacing: var(--be-ds-tracking-wide);
+  line-height: var(--be-ds-leading-ui);
+  text-transform: uppercase;
+}
+
+.be-lead {
+  max-width: 68ch;
+  margin: var(--be-ds-space-4) 0 0;
+  color: var(--be-ds-color-muted);
+  font-size: var(--be-ds-text-lg);
+  line-height: var(--be-ds-leading-body);
+}
+
+.be-stack {
+  display: grid;
+  gap: var(--be-stack-gap, var(--be-ds-space-4));
+}
+
+.be-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--be-cluster-gap, var(--be-ds-space-3));
 }
 
 @media (max-width: 640px) {

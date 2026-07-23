@@ -1,6 +1,6 @@
 :root {
-  --be-premium-orange: #fa8a01;
-  --be-premium-orange-hover: #ff9c24;
+  --be-premium-orange: #ff7a00;
+  --be-premium-orange-hover: #e96800;
   --be-premium-black: #111111;
   --be-premium-white: #ffffff;
   --be-premium-ink: #171717;
@@ -26,7 +26,7 @@ button,
 input,
 select,
 textarea {
-  font-family: "Rubik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
 }
 
 body {
@@ -71,7 +71,7 @@ body {
 
 :where(h1, h2, h3, h4) {
   color: inherit;
-  font-family: "Rubik", system-ui, sans-serif !important;
+  font-family: "Inter", system-ui, sans-serif !important;
   font-kerning: normal;
   letter-spacing: -.028em;
 }
@@ -256,7 +256,7 @@ body > header > a:first-child img {
 .footer {
   border-top: 1px solid rgb(250 138 1 / 25%) !important;
   background: #0d0d0d !important;
-  color: #fff !important;
+  color: var(--be-ds-color-ink, #171717) !important;
 }
 
 .site-footer-inner,
@@ -281,7 +281,7 @@ body > header > a:first-child img {
 
 /* Game keeps its structure, now aligned to the BeM identity. */
 .game-page {
-  font-family: "Rubik", system-ui, sans-serif !important;
+  font-family: "Inter", system-ui, sans-serif !important;
 }
 
 .game-page :where(.brand span, .card button, .trophy, .phase-number) {
@@ -377,5 +377,61 @@ body > header > a:first-child img {
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
+  }
+}
+
+/* Legacy adapters: current pages consume the same control contract while
+   their markup is migrated gradually to the official .be-* components. */
+:is(
+  .primary-btn,
+  .btn-contato,
+  .site-contact,
+  .fb-primary-action,
+  .path-launch-action-primary,
+  .ecosystem-primary-action,
+  .action-btn.primary,
+  .report-read-button,
+  button[type="submit"]
+) {
+  min-height: var(--be-ds-control-height, 50px) !important;
+  padding-inline: 24px !important;
+  border: 1px solid var(--be-ds-color-primary, #ff7a00) !important;
+  border-radius: var(--be-ds-radius-md, 12px) !important;
+  background: var(--be-ds-color-primary, #ff7a00) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+
+:is(
+  .secondary-btn,
+  .path-launch-action-secondary,
+  .action-btn.secondary
+) {
+  min-height: var(--be-ds-control-height, 50px) !important;
+  padding-inline: 24px !important;
+  border: 1px solid var(--be-ds-color-primary, #ff7a00) !important;
+  border-radius: var(--be-ds-radius-md, 12px) !important;
+  background: #fff !important;
+  color: var(--be-ds-color-brand-text, #b84b00) !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :is(
+    .primary-btn,
+    .btn-contato,
+    .site-contact,
+    .fb-primary-action,
+    .path-launch-action-primary,
+    .ecosystem-primary-action,
+    .action-btn.primary,
+    .report-read-button,
+    button[type="submit"]
+  ):hover {
+    background: var(--be-ds-color-primary-hover, #e96800) !important;
+    box-shadow: var(--be-ds-elevation-1, 0 8px 24px rgb(17 17 17 / 6%)) !important;
+    transform: translateY(-1px) !important;
   }
 }

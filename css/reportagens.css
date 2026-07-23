@@ -238,7 +238,7 @@ body.reportagens-page {
 .reportagens-page .report-share h3 {
   margin: 0 0 5px;
   color: #111111;
-  font-family: "Rubik", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.1rem;
   line-height: 1.2;
 }
@@ -756,7 +756,7 @@ body.reportagens-page {
 .reportagens-page .report-section-heading h2 {
   margin: 10px 0 0;
   color: #111111;
-  font-family: "Rubik", sans-serif;
+  font-family: "Inter", sans-serif;
   letter-spacing: -.035em;
 }
 

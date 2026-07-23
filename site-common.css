@@ -1,5 +1,5 @@
-@import url("css/design-system.css?v=20260723-1");
-@import url("css/premium-refinement.css?v=20260723-1");
+@import url("css/design-system.css?v=20260723-2");
+@import url("css/premium-refinement.css?v=20260723-2");
 
 /* Shared institutional elements */
 *,
@@ -3456,7 +3456,7 @@ body > header.topbar {
   --be-color-surface: #ffffff;
   --be-color-soft: #f5f5f5;
   --be-color-line: #e9e9e9;
-  --be-color-brand: #ff6a00;
+  --be-color-brand: #ff7a00;
   --be-space-1: 4px;
   --be-space-2: 8px;
   --be-space-3: 12px;
@@ -3465,10 +3465,10 @@ body > header.topbar {
   --be-space-6: 32px;
   --be-space-7: 48px;
   --be-space-8: 64px;
-  --be-radius-control: 999px;
-  --be-radius-card: 18px;
-  --be-radius-section: 26px;
-  --be-shadow-card: 0 14px 36px rgba(17, 17, 17, .08);
+  --be-radius-control: 12px;
+  --be-radius-card: 16px;
+  --be-radius-section: 24px;
+  --be-shadow-card: 0 1px 2px rgba(17, 17, 17, .04), 0 8px 24px rgba(17, 17, 17, .04);
   --be-motion-fast: 180ms;
   --be-motion-base: 240ms;
   --be-ease: cubic-bezier(.2, .8, .2, 1);
@@ -3479,14 +3479,14 @@ body > header.topbar {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* A identidade do produto usa Rubik em todas as paginas padronizadas. */
+/* Inter e a fonte oficial da interface em todas as paginas padronizadas. */
 body.be-standard-page,
 body.be-standard-page :where(h1, h2, h3, h4, h5, h6, p, a, button, input, select, textarea, label, li, small, strong, span, time, summary) {
-  font-family: "Rubik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
 }
 
 :where(.btn, .primary-btn, .btn-contato, .site-contact, button[type="submit"]) {
-  min-height: 44px;
+  min-height: 50px;
   border-radius: var(--be-radius-control);
   transition: transform var(--be-motion-fast) var(--be-ease), box-shadow var(--be-motion-base) var(--be-ease), background-color var(--be-motion-base) var(--be-ease);
 }

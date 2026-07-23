@@ -18,7 +18,7 @@
 }
 
 body {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Inter', sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
@@ -349,7 +349,7 @@ body.layout-editorial {
 .layout-editorial h1,
 .layout-editorial h2,
 .layout-editorial h3 {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .layout-editorial p {

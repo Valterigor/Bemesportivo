@@ -1,19 +1,24 @@
 :root {
   /* Brand */
-  --be-ds-color-brand: #fa8a01;
-  --be-ds-color-brand-strong: #c86500;
+  --be-ds-color-brand: #ff7a00;
+  --be-ds-color-brand-strong: #d45f00;
+  --be-ds-color-brand-text: #b84b00;
   --be-ds-color-primary: var(--be-ds-color-brand);
-  --be-ds-color-primary-hover: #ff9c24;
+  --be-ds-color-primary-hover: #e96800;
+  --be-ds-color-primary-active: #d45f00;
   --be-ds-color-secondary: #28231f;
   --be-ds-color-ink: #171717;
   --be-ds-color-text: #3f3b37;
   --be-ds-color-muted: #716b65;
-  --be-ds-color-background: #f6f4f1;
+  --be-ds-color-background: #f8f8f7;
   --be-ds-color-surface: #ffffff;
-  --be-ds-color-surface-soft: #f7f5f2;
+  --be-ds-color-surface-soft: #f5f5f4;
   --be-ds-color-surface-raised: rgb(255 255 255 / 88%);
   --be-ds-color-surface-glass: rgb(255 255 255 / 76%);
-  --be-ds-color-border: #e8e1da;
+  --be-ds-color-border: #e7e5e4;
+  --be-ds-color-border-strong: #d6d3d1;
+  --be-ds-color-disabled: #a8a29e;
+  --be-ds-color-disabled-surface: #f1f0ef;
   --be-ds-color-success: #168653;
   --be-ds-color-success-surface: #edf9f2;
   --be-ds-color-warning: #9b6100;
@@ -32,20 +37,28 @@
   --be-ds-chart-5: #7a4cad;
 
   /* Typography */
-  --be-ds-font-display: "Rubik", system-ui, sans-serif;
-  --be-ds-font-body: "Rubik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --be-ds-font-display: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --be-ds-font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --be-ds-text-2xs: 0.6875rem;
   --be-ds-text-xs: 0.75rem;
   --be-ds-text-sm: 0.875rem;
   --be-ds-text-md: 1rem;
   --be-ds-text-lg: 1.125rem;
   --be-ds-text-xl: clamp(1.35rem, 2vw, 1.75rem);
   --be-ds-text-2xl: clamp(1.75rem, 4vw, 3rem);
+  --be-ds-text-3xl: clamp(2.25rem, 6vw, 4.5rem);
   --be-ds-weight-regular: 400;
-  --be-ds-weight-medium: 600;
-  --be-ds-weight-bold: 800;
+  --be-ds-weight-medium: 500;
+  --be-ds-weight-semibold: 600;
+  --be-ds-weight-bold: 700;
   --be-ds-weight-black: 900;
+  --be-ds-leading-none: 1;
   --be-ds-leading-tight: 1.12;
+  --be-ds-leading-ui: 1.4;
   --be-ds-leading-body: 1.6;
+  --be-ds-tracking-tight: -0.025em;
+  --be-ds-tracking-normal: 0;
+  --be-ds-tracking-wide: 0.08em;
 
   /* Spacing: 4px base scale */
   --be-ds-space-1: 0.25rem;
@@ -59,19 +72,25 @@
   --be-ds-space-9: 2.25rem;
   --be-ds-space-10: 2.5rem;
   --be-ds-space-12: 3rem;
+  --be-ds-space-14: 3.5rem;
   --be-ds-space-16: 4rem;
+  --be-ds-space-20: 5rem;
+  --be-ds-space-24: 6rem;
 
   /* Shape, depth and motion */
   --be-ds-radius-xs: 0.375rem;
   --be-ds-radius-sm: 0.5rem;
-  --be-ds-radius-md: 0.875rem;
-  --be-ds-radius-lg: 1.25rem;
+  --be-ds-radius-md: 0.75rem;
+  --be-ds-radius-lg: 1rem;
   --be-ds-radius-xl: 1.625rem;
   --be-ds-radius-pill: 999px;
+  --be-ds-control-height-sm: 2.5rem;
+  --be-ds-control-height: 3.125rem;
+  --be-ds-control-height-lg: 3.5rem;
   --be-ds-elevation-0: none;
-  --be-ds-elevation-1: 0 5px 16px rgb(53 38 28 / 4.5%), 0 1px 2px rgb(53 38 28 / 3.5%);
-  --be-ds-elevation-2: 0 14px 36px rgb(53 38 28 / 7.5%), 0 3px 10px rgb(53 38 28 / 4%);
-  --be-ds-elevation-3: 0 28px 72px rgb(53 38 28 / 10.5%), 0 8px 24px rgb(53 38 28 / 5.5%);
+  --be-ds-elevation-1: 0 1px 2px rgb(17 17 17 / 4%), 0 6px 18px rgb(17 17 17 / 4%);
+  --be-ds-elevation-2: 0 2px 4px rgb(17 17 17 / 4%), 0 14px 34px rgb(17 17 17 / 7%);
+  --be-ds-elevation-3: 0 4px 8px rgb(17 17 17 / 5%), 0 24px 60px rgb(17 17 17 / 9%);
   --be-ds-shadow-sm: var(--be-ds-elevation-1);
   --be-ds-shadow-md: var(--be-ds-elevation-2);
   --be-ds-shadow-lg: var(--be-ds-elevation-3);

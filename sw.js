@@ -1,17 +1,17 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v43';
+const CACHE_NAME = 'meu-caminho-be-v44';
 const APP_SHELL = [
   '/meu-caminho-be',
-  '/site-common.css?v=20260723-2',
-  '/css/design-system.css?v=20260723-1',
-  '/css/core/tokens.css?v=20260723-1',
-  '/css/core/primitives.css?v=20260718-1',
-  '/css/components/ui.css?v=20260722-1',
+  '/site-common.css?v=20260723-3',
+  '/css/design-system.css?v=20260723-2',
+  '/css/core/tokens.css?v=20260723-2',
+  '/css/core/primitives.css?v=20260723-1',
+  '/css/components/ui.css?v=20260723-1',
   '/css/coluna-valtinho.css?v=20260721-1',
   '/css/fala-bem-platform.css?v=20260723-1',
   '/css/components/privacy-consent.css?v=20260723-1',
-  '/css/premium-refinement.css?v=20260723-1',
+  '/css/premium-refinement.css?v=20260723-2',
   '/css/photo-checkin.css?v=20260723-1',
   '/css/routine-calendar.css?v=20260722-1',
   '/css/ui-polish.css?v=20260723-3',

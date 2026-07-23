@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Catálogo interno de componentes e padrões visuais do BeMEsportivo.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Design System BeM | Componentes da plataforma</title>
+  <link rel="icon" href="img/logobemoficial.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css?v=20260723-2">
+  <link rel="stylesheet" href="css/design-system-showcase.css?v=20260723-1">
+</head>
+<body class="ds-page">
+  <header class="ds-header">
+    <div class="ds-shell ds-header__inner">
+      <a class="ds-brand" href="/" aria-label="Voltar ao BeMEsportivo">
+        <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="" width="120" height="66">
+        <span>Design System BeM</span>
+      </a>
+      <span class="ds-version">Versão 2.0 · Interface</span>
+    </div>
+  </header>
+
+  <main class="ds-main">
+    <section class="ds-shell ds-hero" aria-labelledby="ds-title">
+      <div>
+        <p class="be-kicker">Fundação visual da plataforma</p>
+        <h1 id="ds-title">Clareza para criar. Consistência para evoluir.</h1>
+        <p class="be-lead">Tokens e componentes reutilizáveis para que cada experiência do BeMEsportivo pareça parte do mesmo produto: moderna, acessível, leve e esportiva.</p>
+        <div class="be-cluster" style="margin-top: var(--be-ds-space-6)">
+          <a class="be-button" href="#componentes">Ver componentes</a>
+          <a class="be-button be-button--outline" href="#exemplo">Ver aplicação</a>
+        </div>
+      </div>
+      <div class="ds-hero__panel" aria-label="Resumo do sistema">
+        <div class="ds-hero__metric"><span>Fonte da interface</span><strong>Inter</strong></div>
+        <div class="ds-hero__metric"><span>Cor primária</span><strong>#FF7A00</strong></div>
+        <div class="ds-hero__metric"><span>Grid base</span><strong>4 px</strong></div>
+        <div class="ds-hero__metric"><span>Controle padrão</span><strong>50 px</strong></div>
+        <div class="ds-hero__metric"><span>Raio padrão</span><strong>12 px</strong></div>
+        <div class="ds-hero__metric"><span>Movimento</span><strong>160–240 ms</strong></div>
+      </div>
+    </section>
+
+    <section class="ds-shell ds-section" aria-labelledby="cores-title">
+      <div class="ds-section__head">
+        <h2 id="cores-title">Cores e superfícies</h2>
+        <p>O laranja identifica ação e progresso. Preto e tons neutros organizam a hierarquia. Cores semânticas comunicam estados, nunca decoração.</p>
+      </div>
+      <div class="ds-grid">
+        <article class="be-card be-card--flat ds-swatch"><div class="ds-swatch__color" style="--swatch:#FF7A00"></div><div class="ds-token"><strong>Primary</strong><small>#FF7A00</small></div></article>
+        <article class="be-card be-card--flat ds-swatch"><div class="ds-swatch__color" style="--swatch:#171717"></div><div class="ds-token"><strong>Ink</strong><small>#171717</small></div></article>
+        <article class="be-card be-card--flat ds-swatch"><div class="ds-swatch__color" style="--swatch:#FFFFFF"></div><div class="ds-token"><strong>Surface</strong><small>#FFFFFF</small></div></article>
+        <article class="be-card be-card--flat ds-swatch"><div class="ds-swatch__color" style="--swatch:#F5F5F4"></div><div class="ds-token"><strong>Surface soft</strong><small>#F5F5F4</small></div></article>
+        <article class="be-card be-card--flat ds-swatch"><div class="ds-swatch__color" style="--swatch:#168653"></div><div class="ds-token"><strong>Success</strong><small>#168653</small></div></article>
+        <article class="be-card be-card--flat ds-swatch"><div class="ds-swatch__color" style="--swatch:#B42318"></div><div class="ds-token"><strong>Danger</strong><small>#B42318</small></div></article>
+      </div>
+    </section>
+
+    <section class="ds-shell ds-section" aria-labelledby="tipo-title">
+      <div class="ds-section__head">
+        <h2 id="tipo-title">Tipografia</h2>
+        <p>Inter é a fonte oficial da interface. Pesos moderados preservam nitidez e permitem leitura confortável em dashboard, celular e textos longos.</p>
+      </div>
+      <div class="ds-component">
+        <div class="ds-type-sample"><span>Display · 700</span><p class="ds-type-display">O esporte começa em você.</p></div>
+        <div class="ds-type-sample"><span>Title · 700</span><p class="be-title">Seu próximo passo está pronto.</p></div>
+        <div class="ds-type-sample"><span>Body · 400</span><p>Registre sua rotina, acompanhe sua evolução e encontre orientação confiável para continuar.</p></div>
+        <div class="ds-type-sample"><span>Label · 600</span><p class="be-field__label">Objetivo esportivo</p></div>
+      </div>
+    </section>
+
+    <section class="ds-shell ds-section" id="componentes" aria-labelledby="buttons-title">
+      <div class="ds-section__head">
+        <h2 id="buttons-title">Botões e estados</h2>
+        <p>Uma ação primária por contexto. Outline para alternativa, Ghost para ações discretas e cores semânticas apenas quando houver significado.</p>
+      </div>
+      <div class="ds-component be-stack" style="--be-stack-gap: var(--be-ds-space-8)">
+        <div class="ds-button-grid">
+          <button class="be-button" type="button">Ação primária</button>
+          <button class="be-button be-button--outline" type="button">Outline</button>
+          <button class="be-button be-button--ghost" type="button">Ghost</button>
+          <button class="be-button be-button--success" type="button">Concluir</button>
+          <button class="be-button be-button--danger" type="button">Excluir</button>
+        </div>
+        <div class="ds-state-grid" aria-label="Estados do botão primário">
+          <div class="ds-state"><span>Normal</span><button class="be-button" type="button">Continuar</button></div>
+          <div class="ds-state"><span>Hover</span><button class="be-button ds-button-hover" type="button">Continuar</button></div>
+          <div class="ds-state"><span>Pressionado</span><button class="be-button ds-button-pressed" type="button">Continuar</button></div>
+          <div class="ds-state"><span>Desabilitado</span><button class="be-button" type="button" disabled>Continuar</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-shell ds-section" aria-labelledby="fields-title">
+      <div class="ds-section__head">
+        <h2 id="fields-title">Campos de formulário</h2>
+        <p>Rótulos sempre visíveis, ajuda contextual curta, foco evidente e mensagens de erro que explicam como corrigir.</p>
+      </div>
+      <div class="ds-grid ds-grid--2">
+        <div class="ds-component be-stack">
+          <label class="be-field"><span class="be-field__label">Nome completo <span class="be-field__required">*</span></span><input class="be-input" type="text" placeholder="Como podemos chamar você?"><small class="be-field__help">Use o nome que deseja ver no painel.</small></label>
+          <label class="be-field"><span class="be-field__label">Objetivo</span><select class="be-select"><option>Melhorar minha saúde</option><option>Começar um esporte</option><option>Evoluir minha performance</option></select></label>
+          <label class="be-field"><span class="be-field__label">Contexto</span><textarea class="be-textarea" placeholder="Conte brevemente o que você precisa."></textarea></label>
+        </div>
+        <div class="ds-component be-stack">
+          <label class="be-field be-field--error"><span class="be-field__label">E-mail</span><input class="be-input" type="email" value="email-incompleto" aria-invalid="true" aria-describedby="email-error"><small class="be-field__error" id="email-error">Inclua um endereço de e-mail válido.</small></label>
+          <label class="be-field"><span class="be-field__label">Campo desabilitado</span><input class="be-input" type="text" value="Disponível em breve" disabled></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-shell ds-section" aria-labelledby="cards-title">
+      <div class="ds-section__head">
+        <h2 id="cards-title">Cards, tags e badges</h2>
+        <p>Cards agrupam informação relacionada. Elevação aparece apenas em elementos interativos ou superfícies que precisam se destacar.</p>
+      </div>
+      <div class="ds-grid">
+        <article class="be-card be-card--flat"><div class="be-card__body"><span class="be-badge be-badge--brand">Meu Hoje</span><h3 class="be-card__title">Registre seu dia</h3><p>Dois minutos para transformar rotina em informação útil.</p></div></article>
+        <article class="be-card be-card--interactive"><div class="be-card__body"><span class="be-badge be-badge--success">Em andamento</span><h3 class="be-card__title">Meta da semana</h3><p>Você completou dois dos três registros planejados.</p><div class="be-progress" aria-label="67% concluído"><span style="--be-progress-value:67%"></span></div></div></article>
+        <article class="be-card be-card--raised"><div class="be-card__body"><div class="be-cluster"><span class="be-tag be-tag--selected">Corrida</span><span class="be-tag">Saúde</span><span class="be-tag">Iniciante</span></div><h3 class="be-card__title" style="margin-top:var(--be-ds-space-4)">Trilha recomendada</h3><p>Comece com ações possíveis para a sua rotina.</p></div></article>
+      </div>
+    </section>
+
+    <section class="ds-shell ds-section" aria-labelledby="feedback-title">
+      <div class="ds-section__head">
+        <h2 id="feedback-title">Alertas e feedback</h2>
+        <p>Mensagens informam o resultado de uma ação e indicam o próximo passo sem interromper desnecessariamente o usuário.</p>
+      </div>
+      <div class="ds-grid ds-grid--2">
+        <div class="be-alert be-alert--success"><svg class="be-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></svg><p class="be-alert__content"><strong class="be-alert__title">Registro salvo</strong>Seu resumo de hoje já foi atualizado.</p></div>
+        <div class="be-alert be-alert--info"><svg class="be-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7h.01"></path></svg><p class="be-alert__content"><strong class="be-alert__title">Informação</strong>Você pode completar os campos opcionais depois.</p></div>
+        <div class="be-alert be-alert--warning"><svg class="be-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3 2 21h20L12 3Z"></path><path d="M12 9v5M12 18h.01"></path></svg><p class="be-alert__content"><strong class="be-alert__title">Atenção</strong>Revise os dados antes de continuar.</p></div>
+        <div class="be-alert be-alert--danger"><svg class="be-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m9 9 6 6M15 9l-6 6"></path></svg><p class="be-alert__content"><strong class="be-alert__title">Não foi possível salvar</strong>Tente novamente ou exporte uma cópia local.</p></div>
+      </div>
+    </section>
+
+    <section class="ds-shell ds-section" aria-labelledby="data-title">
+      <div class="ds-section__head">
+        <h2 id="data-title">Menu, tabela e ícones</h2>
+        <p>Menus mantêm estados claros. Tabelas priorizam leitura e rolagem segura no celular. Ícones usam traço de 1,8 px e tamanho de 20 px.</p>
+      </div>
+      <div class="be-stack" style="--be-stack-gap:var(--be-ds-space-6)">
+        <nav class="ds-component" aria-label="Exemplo de menu"><ul class="be-menu"><li><a href="#data-title" aria-current="page">Meu Hoje</a></li><li><a href="#data-title">Semana</a></li><li><a href="#data-title">Ferramentas</a></li><li><a href="#data-title">Perfil</a></li></ul></nav>
+        <div class="be-table-wrap">
+          <table class="be-table">
+            <thead><tr><th>Atividade</th><th>Data</th><th>Duração</th><th>Status</th></tr></thead>
+            <tbody><tr><td>Corrida leve</td><td>23 jul</td><td>32 min</td><td><span class="be-badge be-badge--success">Concluído</span></td></tr><tr><td>Treino de força</td><td>25 jul</td><td>45 min</td><td><span class="be-badge be-badge--warning">Planejado</span></td></tr></tbody>
+          </table>
+        </div>
+        <div class="ds-icon-row" aria-label="Exemplos de ícones">
+          <span class="ds-icon-cell"><svg class="be-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10"></path></svg><small>Início</small></span>
+          <span class="ds-icon-cell"><svg class="be-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 19V5M4 6h11l-2 3 2 3H4"></path></svg><small>Meta</small></span>
+          <span class="ds-icon-cell"><svg class="be-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h4"></path></svg><small>Conteúdo</small></span>
+          <span class="ds-icon-cell"><svg class="be-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg><small>Perfil</small></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-shell ds-section" aria-labelledby="modal-title">
+      <div class="ds-section__head">
+        <h2 id="modal-title">Modal</h2>
+        <p>Usado apenas quando uma decisão exige foco. Mantém título, contexto, ação principal e saída evidente.</p>
+      </div>
+      <button class="be-button be-button--outline" type="button" id="open-demo-modal">Abrir exemplo de modal</button>
+      <dialog class="be-modal" id="demo-modal" aria-labelledby="demo-modal-title">
+        <header class="be-modal__header"><h3 class="be-modal__title" id="demo-modal-title">Salvar registro de hoje?</h3><button class="be-button be-button--ghost be-button--icon" type="button" data-close-modal aria-label="Fechar">×</button></header>
+        <div class="be-modal__body"><p>Atividade, duração e percepção do dia serão salvas somente neste aparelho.</p></div>
+        <footer class="be-modal__footer"><button class="be-button be-button--ghost" type="button" data-close-modal>Cancelar</button><button class="be-button" type="button" data-close-modal>Salvar registro</button></footer>
+      </dialog>
+    </section>
+
+    <section class="ds-shell ds-section" id="exemplo" aria-labelledby="landing-title">
+      <div class="ds-section__head">
+        <h2>Aplicação esportiva</h2>
+        <p>Exemplo de como os componentes formam uma landing page sem criar uma linguagem visual paralela.</p>
+      </div>
+      <div class="ds-landing">
+        <p class="be-kicker">Meu Caminho Be</p>
+        <h2 id="landing-title">Seu esporte. Seu momento. Seu próximo passo.</h2>
+        <p>Responda perguntas rápidas, organize sua rotina e receba caminhos educativos para começar ou continuar no esporte.</p>
+        <div class="be-cluster" style="margin-top:var(--be-ds-space-6)">
+          <a class="be-button" href="/meu-caminho-be">Começar agora</a>
+          <a class="be-button be-button--outline" href="/">Conhecer a plataforma</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ds-footer"><div class="ds-shell">Design System BeM · Uso interno para evolução consistente do BeMEsportivo.</div></footer>
+  <script>
+    const modal = document.getElementById('demo-modal');
+    document.getElementById('open-demo-modal').addEventListener('click', () => modal.showModal());
+    document.querySelectorAll('[data-close-modal]').forEach(button => button.addEventListener('click', () => modal.close()));
+  </script>
+</body>
+</html>
