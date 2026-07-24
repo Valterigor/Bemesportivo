@@ -1628,6 +1628,11 @@ body.fala-bem-app-page .container.page{width:100%!important;padding:18px 22px 72
 .fb-auth-form{display:grid;gap:12px}
 .fb-auth-form label{display:grid;gap:6px;color:#39332f;font-size:.76rem;font-weight:800}
 .fb-auth-form input[type="email"],.fb-auth-form input[type="password"]{min-height:46px;padding:10px 12px;border:1px solid #dcd3cc;border-radius:10px;background:#fff;font:inherit;font-size:.84rem}
+.fb-password-field{position:relative;display:block}
+.fb-password-field input{width:100%;min-height:46px;padding:10px 76px 10px 12px!important;border:1px solid #dcd3cc;border-radius:10px;background:#fff;font:inherit;font-size:.84rem}
+.fb-password-field button{position:absolute;top:50%;right:6px;min-height:34px;padding:6px 9px;transform:translateY(-50%);border:0;border-radius:8px;background:#f4efeb;color:#5b514a;font:inherit;font-size:.68rem;font-weight:850;cursor:pointer}
+.fb-password-field button:hover{background:#ece4de;color:#2d2824}
+.fb-password-field button:focus-visible{outline:3px solid rgba(250,138,1,.3);outline-offset:1px}
 .fb-auth-form small{color:#817972;font-size:.65rem}
 .fb-auth-form>p{margin:0;color:#776f68;font-size:.68rem;line-height:1.45}
 .fb-auth-form a{color:#a93b12}

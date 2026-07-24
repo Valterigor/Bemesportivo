@@ -233,6 +233,17 @@ document.querySelectorAll('[data-fb-auth-mode]').forEach(button => button.addEve
     item.setAttribute('aria-selected', String(item === button));
   });
 }));
+document.querySelectorAll('[data-fb-password-toggle]').forEach(button => {
+  button.addEventListener('click', () => {
+    const input = document.getElementById(button.getAttribute('aria-controls'));
+    if (!input) return;
+    const willShow = input.type === 'password';
+    input.type = willShow ? 'text' : 'password';
+    button.textContent = willShow ? 'Ocultar' : 'Mostrar';
+    button.setAttribute('aria-pressed', String(willShow));
+    input.focus({ preventScroll: true });
+  });
+});
 
 document.getElementById('fb-login-form')?.addEventListener('submit', async event => {
   event.preventDefault();
