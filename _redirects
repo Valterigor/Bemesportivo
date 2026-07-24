@@ -5,6 +5,7 @@
 /api/visual-checkin /.netlify/functions/visual-checkin 200
 /api/routine-notifications/* /.netlify/functions/routine-notifications/:splat 200
 /api/meu-caminho-sync /.netlify/functions/meu-caminho-sync 200
+/api/analytics/events /.netlify/functions/analytics 200
 /coluna-valtinho /meu-caminho-be 301
 /coluna-valtinho.html /meu-caminho-be 301
 /meucaminhobe /meu-caminho-be 301

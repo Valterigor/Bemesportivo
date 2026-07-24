@@ -1,5 +1,5 @@
 const CONSENT_KEY = 'bemEsportivoPrivacyConsentV1';
-const CONSENT_VERSION = 1;
+const CONSENT_VERSION = 2;
 const ADSENSE_CLIENT = 'ca-pub-5270723987412757';
 
 function readConsent() {
@@ -10,10 +10,11 @@ function readConsent() {
     return null;
   }
 }
-function saveConsent(advertising) {
+function saveConsent({ measurement = false, advertising = false } = {}) {
   const value = {
     version: CONSENT_VERSION,
     necessary: true,
+    measurement: Boolean(measurement),
     advertising: Boolean(advertising),
     updatedAt: new Date().toISOString()
   };
@@ -37,6 +38,7 @@ function loadAdsense() {
 }
 
 function applyConsent(consent) {
+  document.documentElement.dataset.measurementConsent = consent?.measurement ? 'granted' : 'denied';
   document.documentElement.dataset.advertisingConsent = consent?.advertising ? 'granted' : 'denied';
   if (consent?.advertising) loadAdsense();
 }
@@ -48,20 +50,21 @@ function createDialog() {
   dialog.innerHTML = `
     <form method="dialog" class="be-privacy-dialog__body">
       <span class="be-privacy-dialog__eyebrow">SUAS ESCOLHAS DE PRIVACIDADE</span>
-      <h2 id="be-privacy-title">Você decide sobre publicidade.</h2>
-      <p>Usamos o armazenamento necessário para manter suas preferências e recursos do site. A publicidade do Google só será carregada se você permitir.</p>
+      <h2 id="be-privacy-title">Você decide sobre medição e publicidade.</h2>
+      <p>Usamos o armazenamento necessário para manter suas preferências e recursos do site. Medição de audiência e publicidade só serão ativadas se você permitir.</p>
       <details>
         <summary>Entender as categorias</summary>
         <div class="be-privacy-categories">
           <p><strong>Necessário — sempre ativo</strong><br>Guarda preferências, progresso local e recursos solicitados por você. Não é usado para publicidade comportamental.</p>
+          <label><span><strong>Medição de audiência</strong><small>Registra apenas contagens agregadas de páginas e ações. Não envia nome, e-mail, respostas, refeições, sintomas, fotos ou textos livres.</small></span><input type="checkbox" name="measurement"></label>
           <label><span><strong>Publicidade</strong><small>Permite carregar o Google AdSense, que pode utilizar cookies e tecnologias semelhantes.</small></span><input type="checkbox" name="advertising"></label>
         </div>
       </details>
       <p class="be-privacy-dialog__links"><a href="/politica-de-privacidade">Política de Privacidade</a></p>
       <div class="be-privacy-dialog__actions">
-        <button type="button" data-privacy-reject>Recusar publicidade</button>
+        <button type="button" data-privacy-reject>Recusar opcionais</button>
         <button type="button" data-privacy-save>Salvar escolhas</button>
-        <button type="button" class="be-privacy-primary" data-privacy-accept>Aceitar publicidade</button>
+        <button type="button" class="be-privacy-primary" data-privacy-accept>Aceitar opcionais</button>
       </div>
     </form>`;
   document.body.append(dialog);
@@ -69,7 +72,9 @@ function createDialog() {
 }
 
 function openPreferences(dialog, consent = readConsent()) {
+  const measurement = dialog.querySelector('[name="measurement"]');
   const advertising = dialog.querySelector('[name="advertising"]');
+  if (measurement) measurement.checked = Boolean(consent?.measurement);
   if (advertising) advertising.checked = Boolean(consent?.advertising);
   if (typeof dialog.showModal === 'function') {
     if (!dialog.open) dialog.showModal();
@@ -85,16 +90,22 @@ function closePreferences(dialog) {
 
 export function initPrivacyConsent() {
   const dialog = createDialog();
-  const finish = advertising => {
-    const consent = saveConsent(advertising);
+  const finish = choices => {
+    const consent = saveConsent(choices);
     applyConsent(consent);
     closePreferences(dialog);
   };
 
-  dialog.querySelector('[data-privacy-reject]')?.addEventListener('click', () => finish(false));
-  dialog.querySelector('[data-privacy-accept]')?.addEventListener('click', () => finish(true));
+  dialog.querySelector('[data-privacy-reject]')?.addEventListener('click', () => finish());
+  dialog.querySelector('[data-privacy-accept]')?.addEventListener('click', () => finish({
+    measurement: true,
+    advertising: true
+  }));
   dialog.querySelector('[data-privacy-save]')?.addEventListener('click', () => {
-    finish(Boolean(dialog.querySelector('[name="advertising"]')?.checked));
+    finish({
+      measurement: Boolean(dialog.querySelector('[name="measurement"]')?.checked),
+      advertising: Boolean(dialog.querySelector('[name="advertising"]')?.checked)
+    });
   });
 
   document.addEventListener('click', event => {

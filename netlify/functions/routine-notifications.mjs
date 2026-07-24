@@ -7,7 +7,11 @@ const allowedOrigin = request => {
   if (!origin) return true;
   try { return ['bemesportivo.com', 'www.bemesportivo.com', 'localhost', '127.0.0.1'].includes(new URL(origin).hostname); } catch (error) { return false; }
 };
-const options = () => process.env.NETLIFY_BLOBS_CONTEXT ? { siteID: process.env.SITE_ID, token: process.env.NETLIFY_BLOBS_CONTEXT } : {};
+const options = () => {
+  const siteID = process.env.NETLIFY_SITE_ID || process.env.SITE_ID || '';
+  const token = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_AUTH_TOKEN || '';
+  return siteID && token ? { siteID, token } : {};
+};
 const store = () => getStore({ name: 'bem-esportivo-routine-push', consistency: 'strong', ...options() });
 const validInstall = value => /^[a-f0-9-]{30,50}$/i.test(String(value || '')) ? String(value) : '';
 const cleanReminders = value => Array.isArray(value) ? value.map(item => {

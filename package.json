@@ -15,7 +15,9 @@
     "lint": "node scripts/quality-check.js",
     "check": "npm run lint",
     "build": "node build.js",
-    "verify": "npm run check && npm run build",
+    "test": "node scripts/smoke-test.js",
+    "verify": "npm run check && npm run build && npm test",
+    "push:keys": "node scripts/generate-vapid-keys.js",
     "images:optimize": "node scripts/optimize-images.js",
     "watch": "node dev-server.js --watch"
   },

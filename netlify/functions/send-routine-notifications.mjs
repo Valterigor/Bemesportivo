@@ -1,7 +1,11 @@
 import { getStore } from '@netlify/blobs';
 import webpush from 'web-push';
 
-const options = () => process.env.NETLIFY_BLOBS_CONTEXT ? { siteID: process.env.SITE_ID, token: process.env.NETLIFY_BLOBS_CONTEXT } : {};
+const options = () => {
+  const siteID = process.env.NETLIFY_SITE_ID || process.env.SITE_ID || '';
+  const token = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_AUTH_TOKEN || '';
+  return siteID && token ? { siteID, token } : {};
+};
 const store = () => getStore({ name: 'bem-esportivo-routine-push', consistency: 'strong', ...options() });
 
 export default async () => {
