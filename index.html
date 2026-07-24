@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+  if (/^#(?:confirmation_token|recovery_token|invite_token|email_change_token|access_token)=/.test(location.hash)) {
+    location.replace(`/meu-caminho-be${location.hash}`);
+  }
+  </script>
   <meta name="google-adsense-account" content="ca-pub-5270723987412757">
   <meta name="bem-adsense-enabled" content="true">
   <meta name="description" content="Bem Esportivo é uma plataforma de jornada esportiva personalizada que organiza informações, próximos passos, conteúdos e conexão com profissionais.">
