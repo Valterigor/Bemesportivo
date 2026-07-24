@@ -10,6 +10,14 @@ const rootDir = __dirname;
 const distDir = path.join(rootDir, 'dist');
 
 console.log('Build de validação iniciado');
+execFileSync(process.execPath, [
+  path.join(rootDir, 'node_modules', 'esbuild', 'bin', 'esbuild'),
+  'src/js/meu-caminho-account.js',
+  '--bundle',
+  '--format=esm',
+  '--minify',
+  '--outfile=js/meu-caminho-account.js'
+], { cwd: rootDir, stdio: 'inherit' });
 execFileSync(process.execPath, [path.join(rootDir, 'scripts', 'quality-check.js')], { stdio: 'inherit' });
 
 const pages = fs.readdirSync(rootDir)

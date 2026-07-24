@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260723-3">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260721-1">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260723-1">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260723-2">
 <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-2">
 <link rel="stylesheet" href="css/photo-checkin.css?v=20260723-1">
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
@@ -64,6 +64,36 @@
 <h2 id="fb-reset-title">Zerar todo o processo?</h2>
 <p>Isso apagará deste aparelho seu nome, respostas, trajetória e progresso. Essa ação não afeta nenhum outro usuário.</p>
 <div><button type="button" id="fb-reset-cancel">Manter meu caminho</button><button type="button" class="fb-reset-confirm" id="fb-reset-confirm">Sim, zerar e recomeçar</button></div>
+</dialog>
+<dialog class="fb-account-dialog" id="fb-account-dialog" aria-labelledby="fb-account-dialog-title">
+<button type="button" class="fb-account-dialog-close" id="fb-account-close" aria-label="Fechar">×</button>
+<span>CONTINUIDADE OPCIONAL</span>
+<h2 id="fb-account-dialog-title">Continue seu caminho em qualquer aparelho.</h2>
+<p>Conecte uma conta apenas se quiser sincronizar. O modo local continuará disponível.</p>
+<div class="fb-auth-tabs" role="tablist" aria-label="Acesso à conta">
+<button type="button" data-fb-auth-mode="login" role="tab" aria-selected="true">Entrar</button>
+<button type="button" data-fb-auth-mode="signup" role="tab" aria-selected="false">Criar conta</button>
+</div>
+<form id="fb-login-form" class="fb-auth-form fb-auth-login">
+<label>E-mail<input type="email" name="email" autocomplete="email" required></label>
+<label>Senha<input type="password" name="password" autocomplete="current-password" minlength="10" required></label>
+<label class="fb-cloud-consent"><input type="checkbox" name="cloudConsent" required> Autorizo a sincronização dos dados deste aparelho, inclusive informações de saúde que eu tenha registrado.</label>
+<button type="submit" class="fb-primary-action">Entrar e continuar</button>
+</form>
+<form id="fb-signup-form" class="fb-auth-form fb-auth-signup">
+<label>E-mail<input type="email" name="email" autocomplete="email" required></label>
+<label>Crie uma senha<input type="password" name="password" autocomplete="new-password" minlength="10" required><small>Mínimo de 10 caracteres.</small></label>
+<label class="fb-cloud-consent"><input type="checkbox" name="cloudConsent" required> Autorizo o armazenamento e a sincronização na nuvem dos dados do Meu Caminho Be, inclusive informações de saúde que eu decidir registrar. Posso excluir a cópia sincronizada quando quiser.</label>
+<p>Ao continuar, você concorda com os <a href="/termos" target="_blank" rel="noopener noreferrer">Termos</a> e a <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.</p>
+<button type="submit" class="fb-primary-action">Criar minha conta</button>
+</form>
+<p class="fb-auth-feedback" id="fb-auth-feedback" role="status" aria-live="polite"></p>
+</dialog>
+<dialog class="fb-sync-conflict-dialog" id="fb-sync-conflict-dialog" aria-labelledby="fb-sync-conflict-title">
+<span>SUA ESCOLHA PROTEGE SEU HISTÓRICO</span>
+<h2 id="fb-sync-conflict-title">Encontramos duas versões do seu caminho.</h2>
+<p>Escolha a versão que deseja manter. Nada será substituído automaticamente.</p>
+<div><button type="button" id="fb-conflict-use-cloud">Usar dados da nuvem</button><button type="button" class="fb-primary-action" id="fb-conflict-use-device">Manter este aparelho</button><button type="button" id="fb-conflict-cancel">Decidir depois</button></div>
 </dialog>
 <dialog class="fb-safety-dialog" id="fb-safety-dialog" aria-labelledby="fb-safety-title">
 <form id="fb-safety-form">
@@ -426,7 +456,7 @@
 <button type="button" class="fb-panel-back" data-fb-view="inicio">← Voltar ao menu</button>
 <span class="fb-panel-kicker">MEU PERFIL</span>
 <h2>Uma experiência com a sua cara.</h2>
-<p>Seu perfil fica salvo somente neste navegador e pode ser alterado quando você quiser.</p>
+<p>Seu perfil permanece neste navegador. Se você quiser, pode conectar uma conta para continuar em outros aparelhos.</p>
 <section class="fb-profile-next-step" id="fb-profile-next-step" aria-labelledby="fb-profile-next-title" hidden>
 <span>SEU PRÓXIMO PASSO</span>
 <h3 id="fb-profile-next-title">Antes de começar, converse com um profissional.</h3>
@@ -448,6 +478,10 @@
 <div><dt>Ferramentas usadas</dt><dd id="fb-history-tools">Nenhuma registrada</dd></div>
 <div><dt>Conteúdos lidos</dt><dd id="fb-history-content">Nenhum registrado</dd></div>
 </dl>
+</section>
+<section class="fb-account-card" id="fb-account-card" aria-labelledby="fb-account-title" data-account="unavailable">
+<div><span>CONTINUIDADE</span><h3 id="fb-account-title">Seu caminho em mais de um aparelho</h3><p id="fb-account-status" role="status">Verificando disponibilidade…</p><small id="fb-account-email"></small></div>
+<div class="fb-account-actions"><button type="button" class="fb-primary-action" id="fb-account-connect" hidden>Conectar uma conta</button><button type="button" id="fb-account-sync-now" hidden>Sincronizar agora</button><button type="button" id="fb-account-logout" hidden>Sair da conta</button><button type="button" class="fb-account-danger" id="fb-account-cloud-delete" hidden>Excluir cópia da nuvem</button></div>
 </section>
 <div class="fb-profile-data"><strong>Seus dados, sob seu controle</strong><span>Baixe uma cópia ou restaure seu caminho neste navegador.</span><div><button type="button" id="fb-export-profile">Exportar meus dados</button><label for="fb-import-profile">Importar backup<input type="file" id="fb-import-profile" accept="application/json,.json" hidden></label></div><small>O arquivo pode conter informações pessoais e relatos da sua jornada. Guarde-o em local seguro.</small></div>
 <div class="fb-profile-reset"><strong>Quer começar novamente?</strong><span>Apague os dados locais e refaça sua trajetória desde o nome.</span><button type="button" data-fb-reset>Zerar meu processo</button></div>
@@ -1075,6 +1109,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/site-common.js?v=20260723-2"></script>
 <script type="module" src="js/photo-checkin.js?v=20260723-1"></script>
 <script type="module" src="js/routine-calendar.js?v=20260722-1"></script>
+<script type="module" src="js/meu-caminho-account.js?v=20260723-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
 <script src="js/fala-bem-app.js?v=20260722-2" defer></script>
 

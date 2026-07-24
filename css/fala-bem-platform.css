@@ -1607,6 +1607,38 @@ body.fala-bem-app-page .container.page{width:100%!important;padding:18px 22px 72
 .fb-safety-status[hidden]{display:none!important}.fb-safety-status strong,.fb-safety-status span{display:block}.fb-safety-status strong{font-size:.9rem}.fb-safety-status span{font-size:.76rem;line-height:1.5}
 .fb-safety-status button{justify-self:start;margin-top:5px;padding:8px 11px;border:1px solid #c6802e;border-radius:9px;background:#fff;color:#8d4d0a;font:inherit;font-size:.72rem;font-weight:900;cursor:pointer}
 @media(max-width:560px){.fb-safety-dialog form{padding:21px 17px}.fb-safety-dialog form>div{display:grid}.fb-safety-dialog button{width:100%}}
+
+.fb-account-card{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;margin-top:16px;padding:18px;border:1px solid #e5ddd6;border-radius:16px;background:linear-gradient(135deg,#fff 0%,#fff8f2 100%)}
+.fb-account-card>div>span,.fb-account-dialog>span,.fb-sync-conflict-dialog>span{display:block;color:#d84b13;font-size:.66rem;font-weight:900;letter-spacing:.09em}
+.fb-account-card h3{margin:5px 0 4px;font-size:1rem;letter-spacing:-.025em}
+.fb-account-card p{margin:0;color:#6b625c;font-size:.77rem;line-height:1.5}
+.fb-account-card small{display:block;margin-top:5px;color:#3f3934;font-weight:750}
+.fb-account-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
+.fb-account-actions button{min-height:40px;padding:8px 12px;border:1px solid #ddd4cc;border-radius:10px;background:#fff;color:#403934;font:inherit;font-size:.72rem;font-weight:850;cursor:pointer}
+.fb-account-actions .fb-account-danger{color:#aa3218;border-color:#ecc7bd}
+.fb-account-card[data-account="connected"]{border-color:#badcc7;background:linear-gradient(135deg,#fff 0%,#f3fbf6 100%)}
+.fb-account-dialog,.fb-sync-conflict-dialog{width:min(92vw,520px);padding:26px;border:1px solid #e4d9d1;border-radius:20px;background:#fff;color:#211d1a;box-shadow:0 30px 90px rgba(32,23,18,.26)}
+.fb-account-dialog::backdrop,.fb-sync-conflict-dialog::backdrop{background:rgba(25,20,17,.6);backdrop-filter:blur(6px)}
+.fb-account-dialog h2,.fb-sync-conflict-dialog h2{margin:8px 0;font-size:clamp(1.45rem,4vw,1.9rem);line-height:1.1;letter-spacing:-.04em}
+.fb-account-dialog>p,.fb-sync-conflict-dialog>p{margin:0;color:#685f59;font-size:.82rem;line-height:1.55}
+.fb-account-dialog-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border:1px solid #e1d8d1;border-radius:50%;background:#fff;color:#403934;font-size:1.2rem;cursor:pointer}
+.fb-auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:20px 0 14px;padding:4px;border-radius:12px;background:#f3efeb}
+.fb-auth-tabs button{min-height:40px;border:0;border-radius:9px;background:transparent;color:#6b625c;font:inherit;font-size:.76rem;font-weight:850;cursor:pointer}
+.fb-auth-tabs button[aria-selected="true"]{background:#fff;color:#211d1a;box-shadow:0 2px 8px rgba(32,23,18,.08)}
+.fb-auth-form{display:grid;gap:12px}
+.fb-auth-form label{display:grid;gap:6px;color:#39332f;font-size:.76rem;font-weight:800}
+.fb-auth-form input[type="email"],.fb-auth-form input[type="password"]{min-height:46px;padding:10px 12px;border:1px solid #dcd3cc;border-radius:10px;background:#fff;font:inherit;font-size:.84rem}
+.fb-auth-form small{color:#817972;font-size:.65rem}
+.fb-auth-form>p{margin:0;color:#776f68;font-size:.68rem;line-height:1.45}
+.fb-auth-form a{color:#a93b12}
+.fb-cloud-consent{grid-template-columns:auto 1fr!important;align-items:start;line-height:1.45}
+.fb-cloud-consent input{margin-top:3px;accent-color:#fa8a01}
+.fb-auth-feedback{min-height:1.2em;margin-top:12px!important;color:#a3341a!important;font-weight:750}
+.fb-account-dialog[data-mode="login"] .fb-auth-signup,.fb-account-dialog:not([data-mode]) .fb-auth-signup{display:none}
+.fb-account-dialog[data-mode="signup"] .fb-auth-login{display:none}
+.fb-sync-conflict-dialog>div{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.fb-sync-conflict-dialog button{min-height:42px;padding:9px 13px;border:1px solid #ddd4cc;border-radius:10px;background:#fff;color:#403934;font:inherit;font-size:.74rem;font-weight:850;cursor:pointer}
+@media(max-width:620px){.fb-account-card{grid-template-columns:1fr}.fb-account-actions{justify-content:stretch}.fb-account-actions button{width:100%}.fb-account-dialog,.fb-sync-conflict-dialog{padding:23px 18px}.fb-sync-conflict-dialog>div{display:grid}.fb-sync-conflict-dialog button{width:100%}}
 @media(max-width:760px){.fb-app-nav button{font-size:.68rem}.fb-app-nav button svg{width:19px;height:19px}.platform-newsletter{grid-template-columns:1fr}.platform-newsletter-action>a{width:100%}}
 
 /* Sprint 2/3: dashboard and integrated intelligence */

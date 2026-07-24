@@ -5,11 +5,13 @@
   "main": "dev-server.js",
   "dependencies": {
     "@netlify/blobs": "^9.1.0",
+    "@netlify/identity": "^1.2.0",
     "web-push": "^3.6.7"
   },
   "scripts": {
     "dev": "node dev-server.js",
     "start": "node dev-server.js",
+    "build:account": "esbuild src/js/meu-caminho-account.js --bundle --format=esm --minify --outfile=js/meu-caminho-account.js",
     "lint": "node scripts/quality-check.js",
     "check": "npm run lint",
     "build": "node build.js",
@@ -27,6 +29,7 @@
   "author": "Valterigor",
   "license": "MIT",
   "devDependencies": {
+    "esbuild": "^0.28.1",
     "sharp": "^0.35.3"
   }
 }
