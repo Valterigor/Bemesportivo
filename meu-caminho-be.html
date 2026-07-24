@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260723-3">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260721-1">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260723-3">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260723-4">
 <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-2">
 <link rel="stylesheet" href="css/photo-checkin.css?v=20260723-1">
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
@@ -67,27 +67,47 @@
 </dialog>
 <dialog class="fb-account-dialog" id="fb-account-dialog" aria-labelledby="fb-account-dialog-title">
 <button type="button" class="fb-account-dialog-close" id="fb-account-close" aria-label="Fechar">×</button>
-<span>CONTINUIDADE OPCIONAL</span>
-<h2 id="fb-account-dialog-title">Continue seu caminho em qualquer aparelho.</h2>
-<p>Conecte uma conta apenas se quiser sincronizar. O modo local continuará disponível.</p>
+<div class="fb-auth-brand" aria-hidden="true"><img src="img/logobemoficial.png" alt=""><span>Be</span></div>
+<span>ACESSO SEGURO</span>
+<h2 id="fb-account-dialog-title">Sua jornada continua com você.</h2>
+<p>Entre para acessar seu caminho em outros aparelhos. Seus dados locais permanecem sob seu controle.</p>
 <div class="fb-auth-tabs" role="tablist" aria-label="Acesso à conta">
 <button type="button" data-fb-auth-mode="login" role="tab" aria-selected="true">Entrar</button>
 <button type="button" data-fb-auth-mode="signup" role="tab" aria-selected="false">Criar conta</button>
 </div>
 <form id="fb-login-form" class="fb-auth-form fb-auth-login">
-<label>E-mail<input type="email" name="email" autocomplete="email" required></label>
-<label>Senha<span class="fb-password-field"><input type="password" id="fb-login-password" name="password" autocomplete="current-password" minlength="10" required><button type="button" data-fb-password-toggle aria-controls="fb-login-password" aria-pressed="false">Mostrar</button></span></label>
-<label class="fb-cloud-consent"><input type="checkbox" name="cloudConsent" required> Autorizo a sincronização dos dados deste aparelho, inclusive informações de saúde que eu tenha registrado.</label>
-<button type="submit" class="fb-primary-action">Entrar e continuar</button>
+<label for="fb-login-email">E-mail<input type="email" id="fb-login-email" name="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" required></label>
+<label for="fb-login-password">Senha<span class="fb-password-field"><input type="password" id="fb-login-password" name="password" autocomplete="current-password" minlength="10" required><button type="button" data-fb-password-toggle aria-controls="fb-login-password" aria-pressed="false">Mostrar</button></span><small class="fb-caps-warning" data-fb-caps-warning hidden>Caps Lock está ativado.</small></label>
+<button type="button" class="fb-auth-link" id="fb-forgot-password">Esqueci minha senha</button>
+<label class="fb-cloud-consent"><input type="checkbox" name="cloudConsent" required> Autorizo sincronizar neste aparelho os dados da minha jornada, inclusive informações de saúde que eu tenha registrado.</label>
+<button type="submit" class="fb-primary-action" data-idle-label="Entrar e continuar">Entrar e continuar</button>
 </form>
 <form id="fb-signup-form" class="fb-auth-form fb-auth-signup">
-<label>E-mail<input type="email" name="email" autocomplete="email" required></label>
-<label>Crie uma senha<span class="fb-password-field"><input type="password" id="fb-signup-password" name="password" autocomplete="new-password" minlength="10" required><button type="button" data-fb-password-toggle aria-controls="fb-signup-password" aria-pressed="false">Mostrar</button></span><small>Mínimo de 10 caracteres.</small></label>
+<label for="fb-signup-email">E-mail<input type="email" id="fb-signup-email" name="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" required></label>
+<label for="fb-signup-password">Crie uma senha<span class="fb-password-field"><input type="password" id="fb-signup-password" name="password" autocomplete="new-password" minlength="10" aria-describedby="fb-signup-password-help" required><button type="button" data-fb-password-toggle aria-controls="fb-signup-password" aria-pressed="false">Mostrar</button></span><small class="fb-caps-warning" data-fb-caps-warning hidden>Caps Lock está ativado.</small></label>
+<div class="fb-password-strength" id="fb-signup-password-help" data-fb-strength-for="fb-signup-password"><span><i></i></span><small>Use 10 ou mais caracteres, combinando letras, número e símbolo.</small></div>
+<label for="fb-signup-password-confirm">Confirme a senha<span class="fb-password-field"><input type="password" id="fb-signup-password-confirm" name="passwordConfirm" autocomplete="new-password" minlength="10" required><button type="button" data-fb-password-toggle aria-controls="fb-signup-password-confirm" aria-pressed="false">Mostrar</button></span><small class="fb-field-validation" id="fb-signup-match" aria-live="polite"></small></label>
 <label class="fb-cloud-consent"><input type="checkbox" name="cloudConsent" required> Autorizo o armazenamento e a sincronização na nuvem dos dados do Meu Caminho Be, inclusive informações de saúde que eu decidir registrar. Posso excluir a cópia sincronizada quando quiser.</label>
 <p>Ao continuar, você concorda com os <a href="/termos" target="_blank" rel="noopener noreferrer">Termos</a> e a <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.</p>
-<button type="submit" class="fb-primary-action">Criar minha conta</button>
+<button type="submit" class="fb-primary-action" data-idle-label="Criar minha conta">Criar minha conta</button>
+</form>
+<form id="fb-recovery-request-form" class="fb-auth-form fb-auth-recovery-request">
+<button type="button" class="fb-auth-back" data-fb-auth-mode="login">← Voltar para entrar</button>
+<h3>Recuperar acesso</h3>
+<p>Informe o e-mail da conta. Enviaremos um link seguro para você criar uma nova senha.</p>
+<label for="fb-recovery-email">E-mail<input type="email" id="fb-recovery-email" name="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" required></label>
+<button type="submit" class="fb-primary-action" data-idle-label="Enviar link seguro">Enviar link seguro</button>
+</form>
+<form id="fb-password-reset-form" class="fb-auth-form fb-auth-password-reset">
+<h3>Crie uma nova senha</h3>
+<p>Seu link foi validado. Escolha uma senha forte que você ainda não utiliza em outro serviço.</p>
+<label for="fb-reset-password">Nova senha<span class="fb-password-field"><input type="password" id="fb-reset-password" name="password" autocomplete="new-password" minlength="10" aria-describedby="fb-reset-password-help" required><button type="button" data-fb-password-toggle aria-controls="fb-reset-password" aria-pressed="false">Mostrar</button></span></label>
+<div class="fb-password-strength" id="fb-reset-password-help" data-fb-strength-for="fb-reset-password"><span><i></i></span><small>Use 10 ou mais caracteres, combinando letras, número e símbolo.</small></div>
+<label for="fb-reset-password-confirm">Confirme a nova senha<span class="fb-password-field"><input type="password" id="fb-reset-password-confirm" name="passwordConfirm" autocomplete="new-password" minlength="10" required><button type="button" data-fb-password-toggle aria-controls="fb-reset-password-confirm" aria-pressed="false">Mostrar</button></span><small class="fb-field-validation" id="fb-reset-match" aria-live="polite"></small></label>
+<button type="submit" class="fb-primary-action" data-idle-label="Salvar nova senha">Salvar nova senha</button>
 </form>
 <p class="fb-auth-feedback" id="fb-auth-feedback" role="status" aria-live="polite"></p>
+<div class="fb-auth-trust"><span>✓ Conexão protegida</span><span>✓ Confirmação por e-mail</span><span>✓ Você pode excluir seus dados</span></div>
 </dialog>
 <dialog class="fb-sync-conflict-dialog" id="fb-sync-conflict-dialog" aria-labelledby="fb-sync-conflict-title">
 <span>SUA ESCOLHA PROTEGE SEU HISTÓRICO</span>
@@ -1109,7 +1129,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/site-common.js?v=20260723-2"></script>
 <script type="module" src="js/photo-checkin.js?v=20260723-1"></script>
 <script type="module" src="js/routine-calendar.js?v=20260722-1"></script>
-<script type="module" src="js/meu-caminho-account.js?v=20260723-2"></script>
+<script type="module" src="js/meu-caminho-account.js?v=20260723-3"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
 <script src="js/fala-bem-app.js?v=20260722-2" defer></script>
 

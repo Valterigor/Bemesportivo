@@ -4,7 +4,9 @@ import {
   handleAuthCallback,
   login,
   logout,
-  signup
+  requestPasswordRecovery,
+  signup,
+  updateUser
 } from '@netlify/identity';
 
 const PROFILE_KEY = 'meuCaminhoBeProfileV1';
@@ -101,10 +103,78 @@ function renderAccount() {
 function errorMessage(error) {
   const message = String(error?.message || '');
   if (/invalid login|credentials|email or password/i.test(message)) return 'E-mail ou senha incorretos.';
+  if (/email.*not confirmed|confirm.*email/i.test(message)) return 'Confirme seu e-mail antes de entrar. Verifique também a caixa de spam.';
   if (/already registered/i.test(message)) return 'Este e-mail já possui uma conta.';
   if (/signup.*disabled/i.test(message)) return 'A criação de contas ainda não está liberada.';
+  if (/rate|too many|429/i.test(message)) return 'Muitas tentativas em pouco tempo. Aguarde alguns minutos e tente novamente.';
+  if (/network|fetch|offline/i.test(message)) return 'Sem conexão com o serviço de acesso. Verifique sua internet e tente novamente.';
   if (/password/i.test(message)) return 'Use uma senha com pelo menos 10 caracteres.';
   return 'Não foi possível concluir agora. Tente novamente em instantes.';
+}
+
+function authFeedback(message = '', type = '') {
+  const feedback = document.getElementById('fb-auth-feedback');
+  if (!feedback) return;
+  feedback.textContent = message;
+  feedback.dataset.state = type;
+}
+
+function setAuthMode(mode = 'login') {
+  if (!dialog) return;
+  dialog.dataset.mode = mode;
+  document.querySelectorAll('[data-fb-auth-mode][role="tab"]').forEach(item => {
+    item.setAttribute('aria-selected', String(item.dataset.fbAuthMode === mode));
+  });
+  authFeedback();
+  const focusTargets = {
+    login: '#fb-login-email',
+    signup: '#fb-signup-email',
+    forgot: '#fb-recovery-email',
+    reset: '#fb-reset-password'
+  };
+  window.setTimeout(() => dialog.querySelector(focusTargets[mode])?.focus(), 40);
+}
+
+function setButtonLoading(button, loading, label = 'Aguarde…') {
+  if (!button) return;
+  button.disabled = loading;
+  button.setAttribute('aria-busy', String(loading));
+  button.textContent = loading ? label : button.dataset.idleLabel || button.textContent;
+}
+
+function passwordScore(value) {
+  const password = String(value || '');
+  let score = 0;
+  if (password.length >= 10) score += 1;
+  if (password.length >= 14) score += 1;
+  if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score += 1;
+  if (/\d/.test(password)) score += 1;
+  if (/[^A-Za-z0-9]/.test(password)) score += 1;
+  return Math.min(score, 4);
+}
+
+function renderPasswordStrength(input) {
+  const component = document.querySelector(`[data-fb-strength-for="${input.id}"]`);
+  if (!component) return;
+  const score = passwordScore(input.value);
+  const labels = ['Muito curta', 'Fraca', 'Razoável', 'Boa', 'Forte'];
+  component.dataset.score = String(score);
+  component.querySelector('small').textContent = input.value
+    ? `${labels[score]}. ${score < 3 ? 'Combine mais palavras, números ou símbolos.' : 'Boa escolha para proteger sua conta.'}`
+    : 'Use 10 ou mais caracteres, combinando letras, número e símbolo.';
+}
+
+function passwordsMatch(form, targetId) {
+  const password = form.elements.password.value;
+  const confirmation = form.elements.passwordConfirm.value;
+  const target = document.getElementById(targetId);
+  const matches = password === confirmation;
+  if (target) {
+    target.textContent = confirmation ? matches ? 'As senhas coincidem.' : 'As senhas não coincidem.' : '';
+    target.dataset.valid = String(matches && Boolean(confirmation));
+  }
+  form.elements.passwordConfirm.setCustomValidity(matches ? '' : 'As senhas precisam ser iguais.');
+  return matches;
 }
 
 async function api(method = 'GET', body) {
@@ -208,11 +278,22 @@ function queueSync() {
 
 async function initialize() {
   if (!card) return;
+  let confirmedAccount = false;
   try {
     await getSettings();
     available = true;
     const callback = await handleAuthCallback();
     user = callback?.user || await getUser();
+    if (callback?.type === 'recovery') {
+      renderAccount();
+      setAuthMode('reset');
+      dialog?.showModal();
+      authFeedback('Link validado. Crie sua nova senha para concluir.', 'success');
+      return;
+    }
+    if (callback?.type === 'confirmation') {
+      confirmedAccount = true;
+    }
   } catch {
     try {
       user = await getUser();
@@ -223,15 +304,35 @@ async function initialize() {
   }
   renderAccount();
   if (user) await initialSync();
+  if (confirmedAccount) setMessage('E-mail confirmado. Sua conta está conectada e pronta para continuar.', 'success');
 }
 
-document.getElementById('fb-account-connect')?.addEventListener('click', () => dialog?.showModal());
+document.getElementById('fb-account-connect')?.addEventListener('click', () => {
+  setAuthMode('login');
+  dialog?.showModal();
+});
 document.getElementById('fb-account-close')?.addEventListener('click', () => dialog?.close());
-document.querySelectorAll('[data-fb-auth-mode]').forEach(button => button.addEventListener('click', () => {
-  dialog.dataset.mode = button.dataset.fbAuthMode;
-  document.querySelectorAll('[data-fb-auth-mode]').forEach(item => {
-    item.setAttribute('aria-selected', String(item === button));
+dialog?.addEventListener('close', () => {
+  dialog.querySelectorAll('input[type="password"],input[type="text"][autocomplete*="password"]').forEach(input => {
+    input.value = '';
+    input.type = 'password';
   });
+  dialog.querySelectorAll('[data-fb-password-toggle]').forEach(button => {
+    button.textContent = 'Mostrar';
+    button.setAttribute('aria-pressed', 'false');
+  });
+  dialog.querySelectorAll('.fb-password-strength').forEach(component => {
+    component.dataset.score = '0';
+    component.querySelector('small').textContent = 'Use 10 ou mais caracteres, combinando letras, número e símbolo.';
+  });
+  dialog.querySelectorAll('.fb-field-validation').forEach(target => {
+    target.textContent = '';
+    target.removeAttribute('data-valid');
+  });
+  setAuthMode('login');
+});
+document.querySelectorAll('[data-fb-auth-mode]').forEach(button => button.addEventListener('click', () => {
+  setAuthMode(button.dataset.fbAuthMode);
 }));
 document.querySelectorAll('[data-fb-password-toggle]').forEach(button => {
   button.addEventListener('click', () => {
@@ -244,12 +345,35 @@ document.querySelectorAll('[data-fb-password-toggle]').forEach(button => {
     input.focus({ preventScroll: true });
   });
 });
+document.querySelectorAll('.fb-password-field input').forEach(input => {
+  input.addEventListener('input', () => {
+    renderPasswordStrength(input);
+    const form = input.closest('form');
+    if (form?.elements.passwordConfirm) {
+      passwordsMatch(form, form.id === 'fb-signup-form' ? 'fb-signup-match' : 'fb-reset-match');
+    }
+  });
+  input.addEventListener('keyup', event => {
+    const warning = input.closest('label')?.querySelector('[data-fb-caps-warning]');
+    if (warning) warning.hidden = !event.getModifierState?.('CapsLock');
+  });
+  input.addEventListener('blur', () => {
+    const warning = input.closest('label')?.querySelector('[data-fb-caps-warning]');
+    if (warning) warning.hidden = true;
+  });
+});
+
+document.getElementById('fb-forgot-password')?.addEventListener('click', () => {
+  document.getElementById('fb-recovery-email').value = document.getElementById('fb-login-email').value.trim();
+  setAuthMode('forgot');
+});
 
 document.getElementById('fb-login-form')?.addEventListener('submit', async event => {
   event.preventDefault();
   const form = event.currentTarget;
   const submit = form.querySelector('[type="submit"]');
-  submit.disabled = true;
+  setButtonLoading(submit, true, 'Entrando…');
+  authFeedback();
   try {
     user = await login(form.elements.email.value.trim(), form.elements.password.value);
     if (form.elements.cloudConsent.checked) grantCloudConsent();
@@ -257,22 +381,26 @@ document.getElementById('fb-login-form')?.addEventListener('submit', async event
     renderAccount();
     await initialSync();
   } catch (error) {
-    document.getElementById('fb-auth-feedback').textContent = errorMessage(error);
+    authFeedback(errorMessage(error), 'error');
   } finally {
-    submit.disabled = false;
+    setButtonLoading(submit, false);
   }
 });
 
 document.getElementById('fb-signup-form')?.addEventListener('submit', async event => {
   event.preventDefault();
   const form = event.currentTarget;
-  const feedback = document.getElementById('fb-auth-feedback');
+  if (!passwordsMatch(form, 'fb-signup-match')) {
+    form.elements.passwordConfirm.reportValidity();
+    return;
+  }
   if (!form.elements.cloudConsent.checked) {
-    feedback.textContent = 'Confirme a autorização de sincronização para criar a continuidade.';
+    authFeedback('Confirme a autorização de sincronização para criar a continuidade.', 'error');
     return;
   }
   const submit = form.querySelector('[type="submit"]');
-  submit.disabled = true;
+  setButtonLoading(submit, true, 'Criando conta…');
+  authFeedback();
   try {
     grantCloudConsent();
     await signup(form.elements.email.value.trim(), form.elements.password.value, {
@@ -284,12 +412,55 @@ document.getElementById('fb-signup-form')?.addEventListener('submit', async even
       renderAccount();
       await initialSync();
     } else {
-      feedback.textContent = 'Conta criada. Confirme o e-mail recebido para entrar e sincronizar.';
+      setAuthMode('login');
+      document.getElementById('fb-login-email').value = form.elements.email.value.trim();
+      authFeedback('Conta criada. Enviamos um e-mail de confirmação. Verifique também a caixa de spam.', 'success');
     }
   } catch (error) {
-    feedback.textContent = errorMessage(error);
+    authFeedback(errorMessage(error), 'error');
   } finally {
-    submit.disabled = false;
+    setButtonLoading(submit, false);
+  }
+});
+
+document.getElementById('fb-recovery-request-form')?.addEventListener('submit', async event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const submit = form.querySelector('[type="submit"]');
+  setButtonLoading(submit, true, 'Enviando…');
+  authFeedback();
+  try {
+    await requestPasswordRecovery(form.elements.email.value.trim());
+    setAuthMode('login');
+    document.getElementById('fb-login-email').value = form.elements.email.value.trim();
+    authFeedback('Se o e-mail estiver cadastrado, você receberá um link seguro. Verifique também a caixa de spam.', 'success');
+  } catch (error) {
+    authFeedback(errorMessage(error), 'error');
+  } finally {
+    setButtonLoading(submit, false);
+  }
+});
+
+document.getElementById('fb-password-reset-form')?.addEventListener('submit', async event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  if (!passwordsMatch(form, 'fb-reset-match')) {
+    form.elements.passwordConfirm.reportValidity();
+    return;
+  }
+  const submit = form.querySelector('[type="submit"]');
+  setButtonLoading(submit, true, 'Salvando…');
+  authFeedback();
+  try {
+    user = await updateUser({ password: form.elements.password.value });
+    dialog.close();
+    renderAccount();
+    await initialSync();
+    setMessage('Senha atualizada e conta conectada com segurança.', 'success');
+  } catch (error) {
+    authFeedback(errorMessage(error), 'error');
+  } finally {
+    setButtonLoading(submit, false);
   }
 });
 
