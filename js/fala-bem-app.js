@@ -1375,6 +1375,7 @@ function formatGoalDate(value) {
 
 function renderGoalTracker() {
   const tracker = getGoalTracker();
+  const summaryTarget = document.getElementById('fb-goals-summary');
   const totalTarget = document.getElementById('fb-goals-total');
   const updatedTarget = document.getElementById('fb-goals-updated');
   const historyCountTarget = document.getElementById('fb-goals-history-count');
@@ -1383,6 +1384,14 @@ function renderGoalTracker() {
   const dateInput = document.getElementById('fb-goals-date');
   const teamInput = document.getElementById('fb-goals-team');
   if (totalTarget) totalTarget.textContent = String(tracker.total);
+  if (summaryTarget) {
+    const addedGoals = tracker.history.reduce((total, entry) => total + Math.max(0, Number(entry.added || 0)), 0);
+    summaryTarget.textContent = tracker.history.length
+      ? `Você começou com ${tracker.baseline} e já somou ${addedGoals} gol${addedGoals === 1 ? '' : 's'} aqui.`
+      : tracker.baseline > 0
+        ? `Base salva: ${tracker.baseline} gol${tracker.baseline === 1 ? '' : 's'}. Agora registre o primeiro gol neste aparelho.`
+        : 'Informe seu total inicial para começar a acompanhar os próximos gols.';
+  }
   if (updatedTarget) updatedTarget.textContent = tracker.updatedAt ? formatGoalDate(tracker.updatedAt) : 'Ainda sem registro';
   if (historyCountTarget) historyCountTarget.textContent = tracker.history.length
     ? `${tracker.history.length} registro${tracker.history.length === 1 ? '' : 's'}`
