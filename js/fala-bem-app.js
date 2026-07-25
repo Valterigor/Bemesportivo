@@ -1982,6 +1982,23 @@ function renderGamification() {
   }));
 }
 
+function getHomeIdentityLabel(profile = currentProfile, game = getGamificationState(profile)) {
+  if (profile?.sportDiscovery?.completedAt) return 'Explorador';
+  if (profile?.objective) return game.levelName;
+  return 'Primeiro passo';
+}
+
+function buildHomeChecklist(profile = currentProfile, todayLog = null, nextMission = '', completed = 0) {
+  const mealCount = Object.values(todayLog?.meals || {}).filter(Boolean).length;
+  return [
+    { label: todayLog?.activity && todayLog.activity !== 'none' ? dailyActivityLabels[todayLog.activity] : 'Registro de hoje', note: todayLog?.activity && todayLog.activity !== 'none' ? `${todayLog.minutes} min registrados` : 'Ainda não registrado', done: Boolean(todayLog?.activity && todayLog.activity !== 'none') },
+    { label: 'Hidratação', note: todayLog?.water !== null ? `${String(todayLog.water).replace('.', ',')} L` : 'Ainda sem água informada', done: todayLog?.water !== null },
+    { label: 'Refeições', note: mealCount ? `${mealCount} refeição${mealCount === 1 ? '' : 'ões'} registradas` : 'Café, almoço, lanches e jantar', done: mealCount > 0 },
+    { label: 'Sono', note: todayLog?.sleep !== null ? `${String(todayLog.sleep).replace('.', ',')} h` : 'Ainda sem sono informado', done: todayLog?.sleep !== null },
+    { label: 'Próximo passo', note: nextMission || 'Seu próximo passo aparece aqui', done: completed >= getJourneySteps(profile).length }
+  ];
+}
+
 function renderHomeDashboard() {
   const section = document.getElementById('fb-home-dashboard');
   if (!section) return;
@@ -2006,6 +2023,15 @@ function renderHomeDashboard() {
   const completed = getCompletedSteps();
   const steps = getJourneySteps();
   const nextMission = completed >= steps.length ? 'Seu ciclo está concluído. Revise a semana e escolha como continuar.' : steps[completed];
+  const objectiveLabel = currentProfile?.objective ? objectiveLabels[currentProfile.objective] || 'Seu caminho' : 'Seu caminho';
+  const identityLabel = getHomeIdentityLabel(currentProfile, game);
+  const unlockedMedals = game.medals.filter(([, unlocked]) => unlocked).length;
+  const levelXp = game.xp % 250;
+  const levelPercent = Math.round(levelXp / 250 * 100);
+  const asciiFilled = Math.max(0, Math.min(16, Math.round(levelPercent / 100 * 16)));
+  const asciiBar = `${'█'.repeat(asciiFilled)}${'░'.repeat(16 - asciiFilled)}`;
+  const remainingMissionCount = Math.max(0, steps.length - completed);
+  const checklist = buildHomeChecklist(currentProfile, todayLog, nextMission, completed);
 
   const ring = document.getElementById('fb-home-progress-ring');
   ring.style.setProperty('--fb-home-progress', `${weeklyPercent}%`);
@@ -2018,6 +2044,23 @@ function renderHomeDashboard() {
     : 'Seu primeiro registro inicia a sequência.';
   document.getElementById('fb-home-level').textContent = `Nível ${game.level}`;
   document.getElementById('fb-home-xp').textContent = `${game.xp} XP · ${game.levelName}`;
+  document.getElementById('fb-home-dashboard-title').textContent = currentProfile?.name ? `Olá, ${currentProfile.name} 👋` : 'Olá 👋';
+  document.getElementById('fb-home-return-message').textContent = currentProfile?.name
+    ? `Hoje você está no nível ${identityLabel}. O objetivo atual é ${objectiveLabel.toLocaleLowerCase('pt-BR')}.`
+    : `Hoje você está no nível ${identityLabel}. Seu objetivo atual já aparece aqui quando o perfil está salvo.`;
+  document.getElementById('fb-home-hero-title').textContent = currentProfile?.name
+    ? `${currentProfile.name}, seu caminho ganha forma quando o painel responde ao que você faz.`
+    : 'Seu caminho ganha forma quando o painel responde ao que você faz.';
+  document.getElementById('fb-home-hero-text').textContent = todayLog
+    ? `Hoje já existe um registro. O painel abaixo está refletindo seu ritmo, sua sequência e seu próximo passo.`
+    : `Complete um registro simples para ver progresso, sequência, nível e próximos passos mudarem em tempo real.`;
+  document.getElementById('fb-home-ascii-bar').textContent = asciiBar;
+  document.getElementById('fb-home-progress-note').textContent = remainingMissionCount
+    ? `Faltam ${remainingMissionCount} atividade${remainingMissionCount === 1 ? '' : 's'} para concluir sua jornada atual.`
+    : 'Sua jornada atual já foi concluída. Você pode começar um novo ciclo.';
+  document.getElementById('fb-home-objective-label').textContent = objectiveLabel;
+  document.getElementById('fb-home-identity-label').textContent = identityLabel;
+  document.getElementById('fb-home-medals-label').textContent = `${unlockedMedals} aberta${unlockedMedals === 1 ? '' : 's'}`;
 
   if (latestLog) {
     document.getElementById('fb-home-last-title').textContent = latestLog.activity === 'none' ? 'Dia de pausa' : dailyActivityLabels[latestLog.activity];
@@ -2038,6 +2081,23 @@ function renderHomeDashboard() {
   document.getElementById('fb-home-next-summary').textContent = todayLog
     ? 'Sua próxima missão continua disponível na Jornada da Semana.'
     : 'Leva cerca de dois minutos e atualiza todo o painel.';
+
+  const checklistTarget = document.getElementById('fb-home-checklist');
+  if (checklistTarget) {
+    checklistTarget.replaceChildren(...checklist.map(item => {
+      const entry = document.createElement('li');
+      const label = document.createElement('strong');
+      const note = document.createElement('small');
+      const status = document.createElement('span');
+      label.textContent = item.label;
+      note.textContent = item.note;
+      status.textContent = item.done ? '✓' : '•';
+      status.setAttribute('aria-hidden', 'true');
+      entry.className = item.done ? 'done' : 'pending';
+      entry.append(status, label, note);
+      return entry;
+    }));
+  }
 }
 
 function formatDailyDate(value, options = { weekday: 'short', day: '2-digit', month: 'short' }) {
