@@ -2248,19 +2248,36 @@ function renderDailyJournal() {
   if (dailyTrigger && dailyTrigger.getAttribute('aria-expanded') !== 'true') dailyTrigger.textContent = todayLog ? 'Atualizar meu dia' : 'Registrar meu dia';
   const summaryTitle = document.getElementById('fb-daily-summary-title');
   const summaryText = document.getElementById('fb-daily-summary-text');
+  const summaryWater = document.getElementById('fb-daily-summary-water');
+  const summaryWaterNote = document.getElementById('fb-daily-summary-water-note');
+  const summaryMeals = document.getElementById('fb-daily-summary-meals');
+  const summaryMealsNote = document.getElementById('fb-daily-summary-meals-note');
+  const summarySleep = document.getElementById('fb-daily-summary-sleep');
+  const summarySleepNote = document.getElementById('fb-daily-summary-sleep-note');
+  const openDetailsButton = document.getElementById('fb-daily-open-details');
   if (todayLog) {
     const mealCount = Object.values(todayLog.meals || {}).filter(Boolean).length;
     summaryTitle.textContent = todayLog.activity === 'none' ? 'Dia de pausa registrado.' : `${dailyActivityLabels[todayLog.activity]} · ${todayLog.minutes} min`;
-    const details = [
-      mealCount ? `${mealCount} refeição${mealCount === 1 ? '' : 'ões'}` : 'refeições não informadas',
-      todayLog.water !== null ? `${String(todayLog.water).replace('.', ',')} L de água` : 'água não informada',
-      todayLog.sleep !== null ? `${String(todayLog.sleep).replace('.', ',')} h de sono` : 'sono não informado'
-    ];
-    summaryText.textContent = details.join(' · ');
+    summaryText.textContent = mealCount || todayLog.water !== null || todayLog.sleep !== null
+      ? 'Os detalhes abaixo mostram o que você já registrou e o que ainda pode complementar.'
+      : 'Você já tem um registro salvo; complete água, sono e refeições quando quiser.';
+    if (summaryWater) summaryWater.textContent = todayLog.water !== null ? `${String(todayLog.water).replace('.', ',')} L` : '—';
+    if (summaryWaterNote) summaryWaterNote.textContent = todayLog.water !== null ? 'Hidratação registrada hoje.' : 'Ainda sem quantidade informada.';
+    if (summaryMeals) summaryMeals.textContent = mealCount ? `${mealCount} registro${mealCount === 1 ? '' : 's'}` : '—';
+    if (summaryMealsNote) summaryMealsNote.textContent = mealCount ? 'Refeições já salvas no diário.' : 'Use o bloco de refeições para registrar o que comeu.';
+    if (summarySleep) summarySleep.textContent = todayLog.sleep !== null ? `${String(todayLog.sleep).replace('.', ',')} h` : '—';
+    if (summarySleepNote) summarySleepNote.textContent = todayLog.sleep !== null ? 'Sono registrado hoje.' : 'Informe as horas dormidas quando puder.';
   } else {
     summaryTitle.textContent = 'Seu dia ainda está em aberto.';
-    summaryText.textContent = 'Faça um registro rápido para visualizar atividade, alimentação, hidratação e descanso.';
+    summaryText.textContent = 'Faça um registro rápido. Água e refeições ficam no bloco “Completar meu registro”.';
+    if (summaryWater) summaryWater.textContent = '—';
+    if (summaryWaterNote) summaryWaterNote.textContent = 'Informe sua água no registro completo.';
+    if (summaryMeals) summaryMeals.textContent = '—';
+    if (summaryMealsNote) summaryMealsNote.textContent = 'Café, almoço, lanches e jantar.';
+    if (summarySleep) summarySleep.textContent = '—';
+    if (summarySleepNote) summarySleepNote.textContent = 'Horas dormidas ao final do dia.';
   }
+  if (openDetailsButton) openDetailsButton.textContent = todayLog ? 'Abrir água, sono e refeições' : 'Completar água e refeições';
   document.getElementById('fb-daily-next-step').textContent = dailyNextStep(todayLog);
   const guidance = getDailyGuidance(todayLog);
   const guidanceBox = document.getElementById('fb-daily-guidance');
@@ -2931,6 +2948,7 @@ document.getElementById('fb-open-daily-form')?.addEventListener('click', () => {
   fillDailyForm(todayLog);
   setDailyFormVisibility(Boolean(wrap?.hidden));
 });
+document.getElementById('fb-daily-open-details')?.addEventListener('click', () => openDailyJournal({ details: true }));
 document.getElementById('fb-home-guide-action')?.addEventListener('click', () => {
   openView('inicio', { scroll: false });
   document.getElementById('fb-day-guide')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
