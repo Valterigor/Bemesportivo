@@ -12,6 +12,7 @@ const managedSections = [...document.querySelectorAll('.container.page > :not(.f
 const PROFILE_STORAGE_KEY = 'meuCaminhoBeProfileV1';
 const ACCESS_STORAGE_KEY = 'meuCaminhoBeAccessV1';
 const SAFETY_CONSENT_VERSION = '2026-07-21';
+const PROFILE_SCHEMA_VERSION = 8;
 const dailyActivityLabels = {
   none: 'Sem treino', caminhada: 'Caminhada', corrida: 'Corrida', musculacao: 'Musculação',
   funcional: 'Treino funcional', futebol: 'Futebol', ciclismo: 'Ciclismo', natacao: 'Natação', outra: 'Outra atividade'
@@ -19,6 +20,23 @@ const dailyActivityLabels = {
 const dailyIntentions = {
   movimento: 'Me movimentar', descanso: 'Descansar', alimentacao: 'Cuidar da alimentação',
   hidratacao: 'Melhorar a hidratação', registro: 'Só registrar meu dia'
+};
+const sportVisualLabels = {
+  energia: 'Energia',
+  equilibrio: 'Equilíbrio',
+  discreto: 'Discreto',
+  vibrante: 'Vibrante'
+};
+const sportIdentityPresets = {
+  futebol: { label: 'Futebol', metric: 'Gols', role: 'Atacante, meia, defensor ou goleiro' },
+  futsal: { label: 'Futsal', metric: 'Gols', role: 'Fixo, ala, pivô ou goleiro' },
+  volei: { label: 'Vôlei', metric: 'Pontos', role: 'Ponteiro, central, líbero ou levantador' },
+  corrida: { label: 'Corrida', metric: 'Tempo e ritmo', role: 'Velocista, fondista ou corredor de rua' },
+  ciclismo: { label: 'Ciclismo', metric: 'Distância e potência', role: 'Estrada, MTB ou passeio' },
+  natacao: { label: 'Natação', metric: 'Tempos e séries', role: 'Piscina, mar ou águas abertas' },
+  lutas: { label: 'Lutas', metric: 'Vitórias e rounds', role: 'Boxe, judô, jiu-jítsu ou karatê' },
+  musculacao: { label: 'Musculação', metric: 'Carga e progressão', role: 'Força, hipertrofia ou condicionamento' },
+  outro: { label: 'Outro esporte', metric: 'Progresso', role: 'Descreva a modalidade ou atividade' }
 };
 let currentProfile = readStoredProfile();
 let pendingProfileUpdate = null;
@@ -39,6 +57,103 @@ const objectiveLabels = {
 
 function isMinorRestrictedProfile(profile = currentProfile) {
   return ['ate-17', 'under-18'].includes(profile?.age);
+}
+
+function normalizeSportProfile(profile = {}) {
+  const modality = Object.prototype.hasOwnProperty.call(sportIdentityPresets, profile?.modality) ? profile.modality : 'outro';
+  const visual = Object.prototype.hasOwnProperty.call(sportVisualLabels, profile?.visual) ? profile.visual : 'energia';
+  return {
+    modality,
+    role: String(profile?.role || '').trim().slice(0, 60),
+    visual,
+    createdAt: String(profile?.createdAt || ''),
+    updatedAt: String(profile?.updatedAt || '')
+  };
+}
+
+function normalizeGoalHistory(history = []) {
+  if (!Array.isArray(history)) return [];
+  return history.map(entry => {
+    if (!entry || typeof entry !== 'object') return null;
+    const added = Math.max(0, Math.trunc(Number(entry.added || entry.delta || 0)));
+    const total = Math.max(0, Math.trunc(Number(entry.total || 0)));
+    const recordedAt = String(entry.recordedAt || entry.updatedAt || entry.createdAt || '').trim();
+    const goalDate = String(entry.goalDate || entry.date || '').trim();
+    const team = String(entry.team || entry.goalTeam || '').trim().slice(0, 60);
+    if (!added && !total && !recordedAt && !goalDate && !team) return null;
+    return {
+      added,
+      total,
+      recordedAt: recordedAt && !Number.isNaN(new Date(recordedAt).getTime()) ? recordedAt : new Date().toISOString(),
+      goalDate: goalDate && /^\d{4}-\d{2}-\d{2}$/.test(goalDate) ? goalDate : '',
+      team
+    };
+  }).filter(Boolean).slice(-60);
+}
+
+function rebuildGoalState(baseline = 0, history = [], fallbackTotal = 0, fallbackUpdatedAt = '') {
+  const normalizedBaseline = Math.max(0, Math.trunc(Number(baseline || 0)));
+  const normalizedHistory = normalizeGoalHistory(history);
+  if (!normalizedHistory.length) {
+    return {
+      baseline: normalizedBaseline,
+      total: Math.max(normalizedBaseline, Math.trunc(Number(fallbackTotal || 0))),
+      updatedAt: fallbackUpdatedAt || '',
+      history: normalizedHistory
+    };
+  }
+  let runningTotal = normalizedBaseline;
+  const rebuiltHistory = normalizedHistory.map(entry => {
+    runningTotal += entry.added;
+    return { ...entry, total: runningTotal };
+  });
+  return {
+    baseline: normalizedBaseline,
+    total: runningTotal,
+    updatedAt: rebuiltHistory.at(-1)?.recordedAt || fallbackUpdatedAt || '',
+    history: rebuiltHistory
+  };
+}
+
+function normalizeSportStats(stats = {}) {
+  const goals = stats?.goals && typeof stats.goals === 'object' ? stats.goals : {};
+  const history = normalizeGoalHistory(goals.history || stats?.goalHistory || []);
+  const baseline = Math.max(0, Math.trunc(Number(goals.baseline ?? stats?.goalBaseline ?? 0)));
+  const total = Math.max(baseline, Math.trunc(Number(goals.total ?? stats?.goalTotal ?? baseline)));
+  const updatedAt = String(goals.updatedAt || stats?.goalUpdatedAt || '').trim();
+  const rebuilt = rebuildGoalState(baseline, history, total, updatedAt);
+  return {
+    goals: {
+      baseline: rebuilt.baseline,
+      total: rebuilt.total,
+      updatedAt: rebuilt.updatedAt
+    },
+    history: rebuilt.history
+  };
+}
+
+function getSportProfile(profile = currentProfile) {
+  const normalized = normalizeSportProfile(profile?.sportProfile);
+  const preset = sportIdentityPresets[normalized.modality] || sportIdentityPresets.outro;
+  return {
+    ...normalized,
+    label: preset.label,
+    metric: preset.metric,
+    fallbackRole: preset.role,
+    modalityLabel: preset.label,
+    roleLabel: normalized.role || preset.role,
+    visualLabel: sportVisualLabels[normalized.visual]
+  };
+}
+
+function getGoalTracker(profile = currentProfile) {
+  const stats = normalizeSportStats(profile?.sportStats);
+  return {
+    baseline: stats.goals.baseline,
+    total: stats.goals.total,
+    updatedAt: stats.goals.updatedAt,
+    history: stats.history
+  };
 }
 
 const journeyStepTemplates = {
@@ -89,7 +204,9 @@ function readStoredProfile() {
     if (!profile || typeof profile !== 'object') return null;
     return {
       ...profile,
-      schemaVersion: 6,
+      schemaVersion: PROFILE_SCHEMA_VERSION,
+      sportProfile: normalizeSportProfile(profile.sportProfile),
+      sportStats: normalizeSportStats(profile.sportStats),
       checkins: Array.isArray(profile.checkins) ? profile.checkins : [],
       cycles: Array.isArray(profile.cycles) ? profile.cycles : [],
       dailyLogs: Array.isArray(profile.dailyLogs) ? profile.dailyLogs.map(sanitizeDailyLog).filter(Boolean).slice(-180) : [],
@@ -104,10 +221,14 @@ function readStoredProfile() {
 
 function saveProfile(updates) {
   const now = new Date().toISOString();
+  const sportProfile = normalizeSportProfile(updates?.sportProfile ?? currentProfile?.sportProfile);
+  const sportStats = normalizeSportStats(updates?.sportStats ?? currentProfile?.sportStats);
   currentProfile = {
     ...(currentProfile || {}),
     ...updates,
-    schemaVersion: 6,
+    sportProfile,
+    sportStats,
+    schemaVersion: PROFILE_SCHEMA_VERSION,
     createdAt: currentProfile?.createdAt || updates.createdAt || now,
     updatedAt: now
   };
@@ -1200,19 +1321,27 @@ function renderProfileSummary() {
   const nextStep = document.getElementById('fb-profile-next-step');
   if (nextStep) nextStep.hidden = !isSafetyRestricted();
   if (!container) return;
-  if (!currentProfile?.objective) {
+  syncProfileFormValues();
+  const sportProfile = getSportProfile();
+  const hasBaseIdentity = Boolean(currentProfile?.name?.trim() || currentProfile?.objective || sportProfile.role || sportProfile.modality !== 'outro');
+  if (!hasBaseIdentity) {
     const message = document.createElement('p');
-    message.textContent = 'Complete sua jornada inicial para formar o perfil esportivo.';
+    message.textContent = 'Comece pelo nome e pela modalidade principal para formar a base do perfil.';
     container.replaceChildren(message);
     return;
   }
   const fields = [
-    ['OBJETIVO', objectiveLabels[currentProfile.objective] || 'Seu caminho'],
-    ['PRÁTICA ATUAL', currentProfile.practiceName || currentProfile.practiceLabel || 'Não informado'],
-    ['MOMENTO', currentProfile.ageLabel || 'Não informado'],
-    ['TEMPO', currentProfile.availabilityLabel || 'Não informado'],
-    ['SEGURANÇA', isSafetyRestricted() ? 'Revisão profissional recomendada' : currentProfile.safety?.consent ? 'Contexto concluído' : 'Contexto pendente']
+    ['NOME', currentProfile.name || 'Não informado'],
+    ['MODALIDADE', sportProfile.modalityLabel],
+    ['FUNÇÃO', sportProfile.roleLabel],
+    ['IDENTIDADE VISUAL', sportProfile.visualLabel],
+    ['MÉTRICA BASE', sportProfile.metric]
   ];
+  if (currentProfile?.objective) fields.push(['OBJETIVO', objectiveLabels[currentProfile.objective] || 'Seu caminho']);
+  if (currentProfile?.practiceName || currentProfile?.practiceLabel) fields.push(['PRÁTICA ATUAL', currentProfile.practiceName || currentProfile.practiceLabel]);
+  if (currentProfile?.ageLabel) fields.push(['MOMENTO', currentProfile.ageLabel]);
+  if (currentProfile?.availabilityLabel) fields.push(['TEMPO', currentProfile.availabilityLabel]);
+  fields.push(['SEGURANÇA', isSafetyRestricted() ? 'Revisão profissional recomendada' : currentProfile.safety?.consent ? 'Contexto concluído' : 'Contexto pendente']);
   if (currentProfile.preferredSport?.name) fields.splice(2, 0, ['ESPORTE ESCOLHIDO', currentProfile.preferredSport.name]);
   container.replaceChildren(...fields.map(([label, value]) => {
     const item = document.createElement('div');
@@ -1223,6 +1352,151 @@ function renderProfileSummary() {
     item.append(span, strong);
     return item;
   }));
+}
+
+function syncProfileFormValues() {
+  const nameInput = document.getElementById('fb-profile-name');
+  const sportInput = document.getElementById('fb-profile-sport');
+  const roleInput = document.getElementById('fb-profile-role');
+  const visualInput = document.getElementById('fb-profile-visual');
+  const sportProfile = getSportProfile();
+  if (nameInput && document.activeElement !== nameInput) nameInput.value = currentProfile?.name || '';
+  if (sportInput && document.activeElement !== sportInput) sportInput.value = sportProfile.modality;
+  if (roleInput && document.activeElement !== roleInput) roleInput.value = sportProfile.roleLabel === sportProfile.fallbackRole ? '' : sportProfile.roleLabel;
+  if (visualInput && document.activeElement !== visualInput) visualInput.value = sportProfile.visual;
+}
+
+function formatGoalDate(value) {
+  if (!value) return 'Agora';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return 'Agora';
+  return new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(date);
+}
+
+function renderGoalTracker() {
+  const tracker = getGoalTracker();
+  const totalTarget = document.getElementById('fb-goals-total');
+  const updatedTarget = document.getElementById('fb-goals-updated');
+  const historyCountTarget = document.getElementById('fb-goals-history-count');
+  const historyList = document.getElementById('fb-goals-history-list');
+  const startInput = document.getElementById('fb-goals-start');
+  const dateInput = document.getElementById('fb-goals-date');
+  const teamInput = document.getElementById('fb-goals-team');
+  if (totalTarget) totalTarget.textContent = String(tracker.total);
+  if (updatedTarget) updatedTarget.textContent = tracker.updatedAt ? formatGoalDate(tracker.updatedAt) : 'Ainda sem registro';
+  if (historyCountTarget) historyCountTarget.textContent = tracker.history.length
+    ? `${tracker.history.length} registro${tracker.history.length === 1 ? '' : 's'}`
+    : 'Nenhum registro ainda';
+  if (historyList) {
+    historyList.replaceChildren(...tracker.history.slice().reverse().map((entry, displayIndex) => {
+      const actualIndex = tracker.history.length - 1 - displayIndex;
+      const item = document.createElement('li');
+      const content = document.createElement('div');
+      const amount = document.createElement('strong');
+      const meta = document.createElement('span');
+      const actions = document.createElement('div');
+      const editButton = document.createElement('button');
+      const deleteButton = document.createElement('button');
+      const dateText = entry.goalDate ? new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short' }).format(new Date(`${entry.goalDate}T12:00:00`)) : formatGoalDate(entry.recordedAt);
+      amount.textContent = `+${entry.added}`;
+      meta.textContent = `${dateText}${entry.team ? ` · ${entry.team}` : ''} · total ${entry.total}`;
+      actions.className = 'fb-goals-item-actions';
+      editButton.type = 'button';
+      editButton.textContent = 'Editar';
+      editButton.dataset.goalAction = 'edit';
+      editButton.dataset.goalIndex = String(actualIndex);
+      deleteButton.type = 'button';
+      deleteButton.textContent = 'Apagar';
+      deleteButton.dataset.goalAction = 'delete';
+      deleteButton.dataset.goalIndex = String(actualIndex);
+      actions.append(editButton, deleteButton);
+      content.className = 'fb-goals-item-content';
+      content.append(amount, meta);
+      item.append(content, actions);
+      return item;
+    }));
+    if (!tracker.history.length) {
+      const empty = document.createElement('li');
+      empty.textContent = 'Nenhum gol registrado ainda.';
+      historyList.replaceChildren(empty);
+    }
+  }
+  if (startInput && document.activeElement !== startInput) startInput.value = tracker.baseline ? String(tracker.baseline) : '';
+  if (dateInput && document.activeElement !== dateInput && !dateInput.value) dateInput.value = localDayKey();
+  if (teamInput && document.activeElement !== teamInput) teamInput.value = '';
+}
+
+function saveGoalTracker({ baseline, history, updatedAt } = {}) {
+  const current = getGoalTracker();
+  const now = new Date().toISOString();
+  const nextBaseline = Number.isFinite(baseline) ? Math.max(0, Math.trunc(baseline)) : current.baseline;
+  const nextHistory = Array.isArray(history) ? history : current.history;
+  const rebuilt = rebuildGoalState(nextBaseline, nextHistory, current.total, updatedAt || now);
+  saveProfile({
+    sportStats: {
+      goals: {
+        baseline: rebuilt.baseline,
+        total: rebuilt.total,
+        updatedAt: rebuilt.updatedAt || now,
+        history: rebuilt.history
+      }
+    }
+  });
+  renderGoalTracker();
+  const feedback = document.getElementById('fb-profile-feedback');
+  if (feedback) {
+    feedback.textContent = rebuilt.history.length
+      ? `Total atualizado. Agora você tem ${rebuilt.total} gol${rebuilt.total === 1 ? '' : 's'} registrados.`
+      : `Total inicial salvo com ${nextBaseline} gol${nextBaseline === 1 ? '' : 's'}.`;
+  }
+  showCelebration(
+    rebuilt.history.length ? 'Gols atualizados!' : 'Total inicial salvo!',
+    rebuilt.history.length ? `O total atual agora é ${rebuilt.total} gol${rebuilt.total === 1 ? '' : 's'}.` : `O ponto de partida ficou salvo em ${nextBaseline} gol${nextBaseline === 1 ? '' : 's'}.`
+  );
+}
+
+function addGoalMarker() {
+  const current = getGoalTracker();
+  const goalDate = document.getElementById('fb-goals-date')?.value || localDayKey();
+  const team = document.getElementById('fb-goals-team')?.value.trim().slice(0, 60) || '';
+  const now = new Date().toISOString();
+  saveGoalTracker({
+    baseline: current.baseline,
+    history: [...current.history, { added: 1, recordedAt: now, goalDate, team }].slice(-60),
+    updatedAt: now
+  });
+}
+
+function editGoalMarker(index) {
+  const current = getGoalTracker();
+  const entry = current.history[index];
+  if (!entry) return;
+  const amountInput = window.prompt('Quantos gols foram neste registro?', String(entry.added || 1));
+  if (amountInput === null) return;
+  const amount = Math.max(1, Math.trunc(Number(amountInput)));
+  if (!Number.isFinite(amount)) return;
+  const dateInput = window.prompt('Data do gol (YYYY-MM-DD)', entry.goalDate || localDayKey());
+  if (dateInput === null) return;
+  const normalizedDate = /^\d{4}-\d{2}-\d{2}$/.test(dateInput.trim()) ? dateInput.trim() : '';
+  const teamInput = window.prompt('Time na partida', entry.team || '');
+  if (teamInput === null) return;
+  const updatedHistory = current.history.slice();
+  updatedHistory[index] = {
+    ...entry,
+    added: amount,
+    goalDate: normalizedDate,
+    team: String(teamInput).trim().slice(0, 60)
+  };
+  saveGoalTracker({ baseline: current.baseline, history: updatedHistory, updatedAt: new Date().toISOString() });
+}
+
+function deleteGoalMarker(index) {
+  const current = getGoalTracker();
+  const entry = current.history[index];
+  if (!entry) return;
+  if (!window.confirm(`Apagar este registro de ${entry.added} gol${entry.added === 1 ? '' : 's'}?`)) return;
+  const updatedHistory = current.history.filter((_, historyIndex) => historyIndex !== index);
+  saveGoalTracker({ baseline: current.baseline, history: updatedHistory, updatedAt: new Date().toISOString() });
 }
 
 function renderCycleSummary(steps, completed, savedCheckins) {
@@ -2290,6 +2564,7 @@ function renderPersonalizedExperience() {
     journeyNameInput.dispatchEvent(new Event('input', { bubbles: true }));
   }
   renderProfileSummary();
+  renderGoalTracker();
   renderProgress();
   renderDashboardRecommendations();
   renderGamification();
@@ -2529,11 +2804,41 @@ document.getElementById('fb-checkin-note')?.addEventListener('input', updateProg
 document.getElementById('fb-profile-form')?.addEventListener('submit', event => {
   event.preventDefault();
   const name = document.getElementById('fb-profile-name').value.trim();
-  saveProfile({ name });
+  const sportProfile = {
+    modality: document.getElementById('fb-profile-sport')?.value || 'outro',
+    role: document.getElementById('fb-profile-role')?.value.trim() || '',
+    visual: document.getElementById('fb-profile-visual')?.value || 'energia'
+  };
+  saveProfile({ name, sportProfile, identityCreatedAt: currentProfile?.identityCreatedAt || new Date().toISOString() });
   if (name) registerFirstIdentityAccess();
+  const sportLabel = getSportProfile({ sportProfile }).modalityLabel;
   document.getElementById('fb-profile-feedback').textContent = name
-    ? `Perfil salvo, ${name}.` : 'Perfil salvo neste navegador.';
-  showCelebration('Perfil atualizado!', name ? `Muito bem, ${name}. Suas informações foram salvas neste aparelho.` : 'Suas informações foram salvas neste aparelho.');
+    ? `Perfil salvo, ${name}. Modalidade base: ${sportLabel}.`
+    : `Perfil salvo neste navegador. Modalidade base: ${sportLabel}.`;
+  showCelebration('Perfil atualizado!', name
+    ? `Muito bem, ${name}. Seu perfil agora tem uma identidade por modalidade.`
+    : 'Seu perfil agora tem uma identidade por modalidade.');
+});
+
+document.getElementById('fb-goals-form')?.addEventListener('submit', event => {
+  event.preventDefault();
+  const startValue = Number(document.getElementById('fb-goals-start')?.value);
+  saveGoalTracker({
+    baseline: Number.isFinite(startValue) ? startValue : undefined
+  });
+});
+
+document.getElementById('fb-goals-add-btn')?.addEventListener('click', () => {
+  addGoalMarker();
+});
+
+document.getElementById('fb-goals-history-list')?.addEventListener('click', event => {
+  const button = event.target.closest('button[data-goal-action]');
+  if (!button) return;
+  const index = Number(button.dataset.goalIndex);
+  if (!Number.isInteger(index) || index < 0) return;
+  if (button.dataset.goalAction === 'edit') editGoalMarker(index);
+  if (button.dataset.goalAction === 'delete') deleteGoalMarker(index);
 });
 
 function setDailyFormVisibility(open) {
@@ -2708,7 +3013,7 @@ document.getElementById('fb-export-profile')?.addEventListener('click', () => {
   }
   let routineTasks = [];
   try { routineTasks = JSON.parse(localStorage.getItem('meuCaminhoBeTasksV1') || '[]'); } catch (error) {}
-  const payload = JSON.stringify({ schemaVersion: 6, exportedAt: new Date().toISOString(), profile: currentProfile, routineTasks }, null, 2);
+  const payload = JSON.stringify({ schemaVersion: PROFILE_SCHEMA_VERSION, exportedAt: new Date().toISOString(), profile: currentProfile, routineTasks }, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -2732,9 +3037,11 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
     if (!profile || typeof profile !== 'object' || !allowedObjectives.includes(profile.objective) || typeof profile.name !== 'string' || ['ate-17', 'under-18'].includes(profile.age)) throw new Error('invalid');
     const sanitized = {
       ...profile,
-      schemaVersion: 6,
+      schemaVersion: PROFILE_SCHEMA_VERSION,
       createdAt: profile.createdAt || new Date().toISOString(),
       name: profile.name.trim().slice(0, 40),
+      sportProfile: normalizeSportProfile(profile.sportProfile),
+      sportStats: normalizeSportStats(profile.sportStats),
       checkins: Array.isArray(profile.checkins) ? profile.checkins.slice(-10) : [],
       cycles: Array.isArray(profile.cycles) ? profile.cycles.slice(-6) : [],
       dailyLogs: Array.isArray(profile.dailyLogs) ? profile.dailyLogs.map(sanitizeDailyLog).filter(Boolean).slice(-180) : [],

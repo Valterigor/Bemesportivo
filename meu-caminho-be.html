@@ -161,6 +161,7 @@
 <button type="button" data-fb-view="conteudos"><span>▤</span>Conhecimento</button>
 <button type="button" data-fb-view="ferramentas"><span>＋</span>Ferramentas</button>
 <button type="button" data-fb-view="especialistas"><span>◎</span>Especialistas</button>
+<button type="button" data-fb-view="gols"><span>⚽</span>Gols</button>
 <button type="button" data-fb-view="comunidade"><span>♧</span>Comunidade</button>
 <button type="button" data-fb-view="modalidades"><span>◈</span>Modalidades</button>
 </nav>
@@ -194,6 +195,7 @@
 <button type="button" data-fb-view="ferramentas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg>Ferramentas</button>
 <button type="button" data-fb-view="conteudos"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h4"></path></svg>Conteúdos</button>
 <button type="button" data-fb-view="especialistas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 7a4 4 0 1 0 8 0M5 21a7 7 0 0 1 14 0M18 4v6M15 7h6"></path></svg>Profissionais</button>
+<button type="button" data-fb-view="gols"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 12h12"></path><path d="M12 6v12"></path><circle cx="12" cy="12" r="8"></circle></svg>Gols</button>
 </nav>
 
 <div class="fb-app-panel active" data-fb-panel="inicio">
@@ -485,6 +487,29 @@
 </section>
 <form id="fb-profile-form" class="fb-profile-form">
 <label for="fb-profile-name">Como podemos chamar você?<input id="fb-profile-name" name="name" maxlength="40" placeholder="Seu primeiro nome" autocomplete="given-name"></label>
+<div class="fb-profile-identity-card" id="fb-profile-identity-card">
+<span>IDENTIDADE UNIVERSAL</span>
+<h3>Seu perfil se adapta a qualquer modalidade.</h3>
+<p>Escolha a modalidade principal, a função e a identidade visual. Depois, cada estatística pode nascer sobre essa base.</p>
+</div>
+<label for="fb-profile-sport">Modalidade principal<select id="fb-profile-sport" name="sport">
+<option value="outro">Outro esporte ou atividade</option>
+<option value="futebol">Futebol</option>
+<option value="futsal">Futsal</option>
+<option value="volei">Vôlei</option>
+<option value="corrida">Corrida</option>
+<option value="ciclismo">Ciclismo</option>
+<option value="natacao">Natação</option>
+<option value="lutas">Lutas</option>
+<option value="musculacao">Musculação</option>
+</select></label>
+<label for="fb-profile-role">Função ou posição<input id="fb-profile-role" name="role" maxlength="40" placeholder="Ex.: atacante, ponteiro, corredor" autocomplete="organization-title"></label>
+<label for="fb-profile-visual">Identidade visual<select id="fb-profile-visual" name="visual">
+<option value="energia">Energia</option>
+<option value="equilibrio">Equilíbrio</option>
+<option value="discreto">Discreto</option>
+<option value="vibrante">Vibrante</option>
+</select></label>
 <div class="fb-profile-summary" id="fb-profile-summary"></div>
 <button type="submit" class="fb-primary-action">Salvar perfil</button>
 </form>
@@ -505,6 +530,37 @@
 </section>
 <div class="fb-profile-data"><strong>Seus dados, sob seu controle</strong><span>Baixe uma cópia ou restaure seu caminho neste navegador.</span><div><button type="button" id="fb-export-profile">Exportar meus dados</button><label for="fb-import-profile">Importar backup<input type="file" id="fb-import-profile" accept="application/json,.json" hidden></label></div><small>O arquivo pode conter informações pessoais e relatos da sua jornada. Guarde-o em local seguro.</small></div>
 <div class="fb-profile-reset"><strong>Quer começar novamente?</strong><span>Apague os dados locais e refaça sua trajetória desde o nome.</span><button type="button" data-fb-reset>Zerar meu processo</button></div>
+</div>
+
+<div class="fb-app-panel fb-answer-panel fb-goals-panel" data-fb-panel="gols" hidden>
+<button type="button" class="fb-panel-back" data-fb-view="perfil">← Voltar ao perfil</button>
+<span class="fb-panel-kicker">CONTADOR DE GOLS</span>
+<h2>Registre cada gol com data e time.</h2>
+<p>O contador fica separado do Meu Hoje e salva a linha do tempo de cada gol neste aparelho.</p>
+<section class="fb-goals-card" id="fb-goals-card" aria-labelledby="fb-goals-title">
+<div class="fb-goals-head">
+<span>IDENTIDADE DO ATLETA</span>
+<h3 id="fb-goals-title">Some os gols sem perder o contexto de cada partida.</h3>
+<p>Guarde a data do gol, o time em que você estava jogando e o total que já tinha antes de conhecer o site.</p>
+</div>
+<div class="fb-goals-grid">
+<article><span>Total atual</span><strong id="fb-goals-total">0</strong><small>Gols registrados até agora</small></article>
+<article><span>Última atualização</span><strong id="fb-goals-updated">Ainda sem registro</strong><small>Quando o contador mudou pela última vez</small></article>
+</div>
+<form class="fb-goals-form" id="fb-goals-form">
+<label for="fb-goals-start">Total inicial<input id="fb-goals-start" name="goalsStart" type="number" min="0" step="1" inputmode="numeric" placeholder="Ex.: 12"></label>
+<label for="fb-goals-date">Data do gol<input id="fb-goals-date" name="goalDate" type="date"></label>
+<label for="fb-goals-team">Time na partida<input id="fb-goals-team" name="goalTeam" maxlength="60" placeholder="Ex.: Clube X, seleção, escola"></label>
+<div class="fb-goals-actions">
+<button type="submit" class="fb-primary-action" id="fb-goals-save-start">Salvar total inicial</button>
+<button type="button" id="fb-goals-add-btn">+1 gol</button>
+</div>
+</form>
+<div class="fb-goals-history" id="fb-goals-history" aria-live="polite">
+<div class="fb-goals-history-head"><strong>Histórico recente</strong><span id="fb-goals-history-count">Nenhum registro ainda</span></div>
+<ul id="fb-goals-history-list"></ul>
+</div>
+</section>
 </div>
 
 <div class="fb-app-panel fb-answer-panel fb-tips-panel" data-fb-panel="dicas" hidden>
