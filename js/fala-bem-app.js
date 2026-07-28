@@ -491,7 +491,8 @@ function resolveView(view) {
 function openView(requestedView, options = {}) {
   if (isMinorRestrictedProfile() && ['jornada', 'progresso', 'perfil'].includes(requestedView)) requestedView = 'inicio';
   const view = resolveView(requestedView);
-  const isShellPanel = panels.some(panel => panel.dataset.fbPanel === view);
+  const activePanel = panels.find(panel => panel.dataset.fbPanel === view);
+  const isShellPanel = Boolean(activePanel);
 
   panels.forEach(panel => {
     const selected = panel.dataset.fbPanel === view;
@@ -535,7 +536,9 @@ function openView(requestedView, options = {}) {
   });
 
   if (options.scroll !== false) {
-    const destination = isShellPanel ? shell : document.querySelector(viewTargets[view][0]);
+    const destination = isShellPanel
+      ? (view === 'inicio' ? shell : activePanel)
+      : document.querySelector(viewTargets[view][0]);
     destination?.scrollIntoView({ behavior: options.instant ? 'auto' : 'smooth', block: 'start' });
   }
 
