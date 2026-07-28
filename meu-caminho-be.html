@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260723-3">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260721-1">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260723-4">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260726-2">
 <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-2">
 <link rel="stylesheet" href="css/photo-checkin.css?v=20260723-1">
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
@@ -178,6 +178,11 @@
 <button type="button" class="fb-primary-action" id="fb-hero-action" data-fb-view="jornada">Criar meu Mapa BeM</button>
 <button type="button" class="fb-quiet-action" data-fb-view="dicas">Ver dicas práticas</button>
 </div>
+<div class="fb-entry-points" aria-label="Informações sobre o primeiro acesso">
+<span><strong>2 min</strong> para começar</span>
+<span><strong>Local</strong> dados neste aparelho</span>
+<span><strong>Seu ritmo</strong> sem cobrança</span>
+</div>
 </div>
 <div class="fb-intro-visual" aria-label="Pessoas vivendo o esporte ao ar livre">
 <img src="img/fala-bem-hero-pessoas-optimized.jpg" srcset="img/fala-bem-hero-pessoas-optimized-480.webp 480w, img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w" sizes="(max-width: 720px) calc(100vw - 36px), 360px" alt="Um homem e uma mulher correndo juntos ao ar livre" decoding="async" fetchpriority="high" width="1200" height="800">
@@ -189,13 +194,11 @@
 </header>
 
 <nav class="fb-app-nav" aria-label="Navegação do Meu Caminho Be">
-<button type="button" class="active" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg>Meu Hoje</button>
-<button type="button" data-fb-view="jornada"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="6" r="2"></circle><path d="M8 18h3a3 3 0 0 0 3-3v-6a3 3 0 0 1 3-3"></path></svg>Jornada da Semana</button>
+<button type="button" class="active" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg>Hoje</button>
+<button type="button" data-fb-view="progresso"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="6" r="2"></circle><path d="M8 18h3a3 3 0 0 0 3-3v-6a3 3 0 0 1 3-3"></path></svg>Jornada</button>
+<button type="button" data-fb-view="evolucao"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19V3"></path></svg>Evolução</button>
+<button type="button" data-fb-view="explorar"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4M11 7v8M7 11h8"></path></svg>Explorar</button>
 <button type="button" data-fb-view="perfil"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg>Perfil</button>
-<button type="button" data-fb-view="ferramentas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg>Ferramentas</button>
-<button type="button" data-fb-view="conteudos"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h4"></path></svg>Conteúdos</button>
-<button type="button" data-fb-view="especialistas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 7a4 4 0 1 0 8 0M5 21a7 7 0 0 1 14 0M18 4v6M15 7h6"></path></svg>Profissionais</button>
-<button type="button" data-fb-view="gols"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 12h12"></path><path d="M12 6v12"></path><circle cx="12" cy="12" r="8"></circle></svg>Gols</button>
 </nav>
 
 <div class="fb-app-panel active" data-fb-panel="inicio">
@@ -206,15 +209,16 @@
 <div><button type="button" data-fb-view="conteudos">Explorar conteúdos públicos</button><button type="button" data-fb-reset>Apagar dados locais anteriores</button></div>
 </section>
 <section class="fb-path-entry" id="fb-path-entry" aria-labelledby="fb-path-title">
-<span>POR ONDE VOCÊ QUER COMEÇAR?</span>
-<h2 id="fb-path-title">Escolha o momento que mais combina com você agora.</h2>
-<p>Escolha uma opção para receber o primeiro passo. Você poderá mudar esse caminho quando quiser.</p>
+<span>UMA ESCOLHA PARA COMEÇAR</span>
+<h2 id="fb-path-title">O que você mais precisa agora?</h2>
+<p>Escolha uma opção. Depois de três perguntas rápidas, seu primeiro passo estará pronto.</p>
 <div class="fb-path-options">
-<button type="button" class="fb-path-discover" data-fb-start-objective="modalidade"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"></path></svg></span><i>01</i><strong>Descobrir</strong><small>Encontrar meu esporte</small><b>Explorar →</b></button>
-<button type="button" class="fb-path-start" data-fb-start-objective="comecar"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 20V5m0 1h10l-2 3 2 3H5"></path></svg></span><i>02</i><strong>Começar</strong><small>Dar o primeiro passo</small><b>Iniciar →</b></button>
-<button type="button" class="fb-path-evolve" data-fb-start-objective="performance"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 17 5-5 4 3 7-8m-4 0h4v4"></path></svg></span><i>03</i><strong>Evoluir</strong><small>Melhorar minha prática</small><b>Avançar →</b></button>
-<button type="button" class="fb-path-wellbeing" data-fb-start-objective="saude"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-8-8c2.5 0 4.2 1 5.5 2.4"></path><path d="M9 12.5 11.5 15 20 6.5"></path></svg></span><i>04</i><strong>Viver melhor</strong><small>Esporte para a vida</small><b>Cuidar →</b></button>
+<button type="button" class="fb-path-start" data-fb-start-objective="comecar"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 20V5m0 1h10l-2 3 2 3H5"></path></svg></span><i>01</i><strong>Quero começar</strong><small>Encontrar um primeiro passo possível.</small><b>Começar →</b></button>
+<button type="button" class="fb-path-evolve" data-fb-start-objective="performance"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 17 5-5 4 3 7-8m-4 0h4v4"></path></svg></span><i>02</i><strong>Quero evoluir</strong><small>Melhorar uma prática que já faço.</small><b>Evoluir →</b></button>
+<button type="button" class="fb-path-wellbeing" data-fb-start-objective="saude"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-8-8c2.5 0 4.2 1 5.5 2.4"></path><path d="M9 12.5 11.5 15 20 6.5"></path></svg></span><i>03</i><strong>Quero viver melhor</strong><small>Usar o esporte para cuidar da rotina.</small><b>Cuidar →</b></button>
+<button type="button" class="fb-path-discover fb-path-option-secondary" data-fb-start-objective="modalidade"><span class="fb-path-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"></path></svg></span><i>?</i><strong>Ainda não sei qual esporte escolher</strong><small>Compare possibilidades que combinam com você.</small><b>Descobrir →</b></button>
 </div>
+<small class="fb-path-privacy">Você poderá mudar essa escolha quando quiser. As respostas ficam neste aparelho.</small>
 </section>
 <section class="fb-context-zone fb-today-zone" id="fb-today-zone" aria-labelledby="fb-today-zone-title" hidden>
 <header class="fb-context-heading">
@@ -247,8 +251,8 @@
 </div>
 </article>
 <section class="fb-home-action-strip" aria-labelledby="fb-home-action-strip-title">
-<div><span id="fb-home-action-strip-title">HOJE</span><h3 id="fb-home-action-strip-text">Comece com um passo possível.</h3><p id="fb-home-action-strip-note">A lista abaixo mostra o que já está feito e o que ainda pode ser concluído.</p></div>
-<ol id="fb-home-checklist" aria-label="Checklist de hoje"></ol>
+<div><span id="fb-home-action-strip-title">PRÓXIMAS 3 AÇÕES</span><h3 id="fb-home-action-strip-text">Três movimentos curtos para manter o dia em andamento.</h3><p id="fb-home-action-strip-note">Use este bloco como um atalho: o primeiro passo, a hidratação e a próxima missão.</p></div>
+<ol id="fb-home-next-actions" aria-label="Próximas três ações"></ol>
 </section>
 <div class="fb-home-dashboard-grid">
 <article class="fb-home-week-card">
@@ -495,6 +499,42 @@
 <button type="button" data-fb-edit-onboarding>Editar respostas iniciais</button>
 </div>
 <p class="fb-progress-feedback" id="fb-progress-feedback" aria-live="polite"></p>
+</div>
+
+<div class="fb-app-panel fb-evolution-panel" data-fb-panel="evolucao" hidden>
+<span class="fb-panel-kicker">MINHA EVOLUÇÃO</span>
+<h2>Seu progresso em uma visão simples.</h2>
+<p>Constância, registros e conquistas reunidos para ajudar você a decidir o próximo passo.</p>
+<div class="fb-evolution-summary" aria-label="Resumo da evolução">
+<article><span>SEMANA</span><strong id="fb-evolution-week">0%</strong><small>da meta semanal</small></article>
+<article><span>SEQUÊNCIA</span><strong id="fb-evolution-streak">0 dias</strong><small>com atividade registrada</small></article>
+<article><span>REGISTROS</span><strong id="fb-evolution-logs">0</strong><small>dias no Meu Hoje</small></article>
+<article><span>NÍVEL</span><strong id="fb-evolution-level">1</strong><small id="fb-evolution-level-name">Primeiro passo</small></article>
+</div>
+<section class="fb-evolution-week" aria-labelledby="fb-evolution-week-title">
+<div><span>ÚLTIMOS 7 DIAS</span><h3 id="fb-evolution-week-title">Sua semana em movimento</h3></div>
+<div class="fb-evolution-days" id="fb-evolution-days" aria-label="Atividades dos últimos sete dias"></div>
+</section>
+<section class="fb-evolution-insight" aria-labelledby="fb-evolution-insight-title">
+<span>LEITURA DA SUA JORNADA</span>
+<h3 id="fb-evolution-insight-title">Comece com um registro para formar seu histórico.</h3>
+<p id="fb-evolution-insight-text">Seus dados aparecem aqui conforme você usa o Meu Hoje e conclui passos da jornada.</p>
+<div><button type="button" class="fb-primary-action" data-fb-view="inicio" data-fb-daily-action="true">Registrar Meu Hoje</button><button type="button" data-fb-view="progresso">Continuar Jornada</button></div>
+</section>
+</div>
+
+<div class="fb-app-panel fb-explore-panel" data-fb-panel="explorar" hidden>
+<span class="fb-panel-kicker">EXPLORAR</span>
+<h2>Encontre apoio para continuar.</h2>
+<p>Conteúdos, ferramentas, pessoas e experiências organizados em um só lugar.</p>
+<div class="fb-explore-grid">
+<button type="button" data-fb-view="conteudos"><span>▤</span><strong>Conteúdos</strong><small>Informação para entender e agir</small></button>
+<button type="button" data-fb-view="ferramentas"><span>＋</span><strong>Ferramentas</strong><small>Referências para sua prática</small></button>
+<button type="button" data-fb-view="especialistas"><span>◎</span><strong>Profissionais</strong><small>Conhecimento e orientação humana</small></button>
+<button type="button" data-fb-view="modalidades"><span>◇</span><strong>Modalidades</strong><small>Descubra novas possibilidades</small></button>
+<button type="button" data-fb-view="comunidade"><span>♧</span><strong>Comunidade</strong><small>Pergunte e compartilhe experiências</small></button>
+<button type="button" data-fb-view="gols"><span>⚽</span><strong>Contador de gols</strong><small>Registre gols por data e time</small></button>
+</div>
 </div>
 
 <div class="fb-app-panel fb-profile-panel" data-fb-panel="perfil" hidden>
@@ -1209,9 +1249,9 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/site-common.js?v=20260723-3"></script>
 <script type="module" src="js/photo-checkin.js?v=20260723-1"></script>
 <script type="module" src="js/routine-calendar.js?v=20260722-1"></script>
-<script type="module" src="js/meu-caminho-account.js?v=20260723-3"></script>
+<script type="module" src="js/meu-caminho-account.js?v=20260726-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260722-2" defer></script>
+<script src="js/fala-bem-app.js?v=20260726-2" defer></script>
 
 </body>
 </html>

@@ -1,13 +1,30 @@
 {
   "name": "Meu Caminho Be",
   "short_name": "Caminho Be",
+  "id": "/meu-caminho-be",
   "description": "Uma jornada pessoal para descobrir, começar e evoluir no esporte.",
   "lang": "pt-BR",
-  "start_url": "/meu-caminho-be",
-  "scope": "/",
+  "start_url": "/meu-caminho-be?tela=hoje",
+  "scope": "/meu-caminho-be",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "background_color": "#fffdfa",
   "theme_color": "#ff5a1f",
+  "categories": ["health", "fitness", "lifestyle", "sports"],
+  "shortcuts": [
+    {
+      "name": "Registrar Meu Hoje",
+      "short_name": "Meu Hoje",
+      "url": "/meu-caminho-be?tela=hoje",
+      "icons": [{ "src": "/img/app-icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Ver minha evolução",
+      "short_name": "Evolução",
+      "url": "/meu-caminho-be?tela=evolucao",
+      "icons": [{ "src": "/img/app-icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
   "icons": [
     {
       "src": "/img/app-icon-192.png",

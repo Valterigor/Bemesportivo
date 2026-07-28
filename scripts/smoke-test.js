@@ -69,6 +69,10 @@ async function run() {
     assert.match(manifest.headers.get('content-type') || '', /application\/manifest\+json/);
     const manifestBody = await manifest.json();
     assert.equal(manifestBody.icons.length, 3);
+    assert.equal(manifestBody.id, '/meu-caminho-be');
+    assert.equal(manifestBody.scope, '/meu-caminho-be');
+    assert.equal(manifestBody.display, 'standalone');
+    assert.ok(manifestBody.shortcuts.some(shortcut => shortcut.url.includes('tela=evolucao')));
     for (const icon of manifestBody.icons) await expectOk(icon.src);
 
     const community = await expectOk('/api/community/comments?scope=path&id=meu-caminho-be');
@@ -91,12 +95,27 @@ async function run() {
     for (const id of ['fb-login-form', 'fb-signup-form', 'fb-recovery-request-form', 'fb-password-reset-form']) {
       assert.match(pathHtml, new RegExp(`id="${id}"`), `Fluxo de conta ausente: ${id}`);
     }
+    for (const panel of ['inicio', 'progresso', 'evolucao', 'explorar', 'perfil']) {
+      assert.match(pathHtml, new RegExp(`data-fb-panel="${panel}"`), `Área principal do app ausente: ${panel}`);
+      assert.match(pathHtml, new RegExp(`class="fb-app-nav"[\\s\\S]*?data-fb-view="${panel}"`), `Navegação principal ausente: ${panel}`);
+    }
+    assert.match(pathHtml, /id="fb-evolution-days"/);
+    assert.match(pathHtml, /class="fb-explore-grid"/);
 
     const redirects = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
     assert.match(redirects, /\/api\/analytics\/events\s+\/\.netlify\/functions\/analytics/);
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
 
-    console.log(`Teste funcional aprovado: ${pages.length} páginas, APIs, PWA, vídeo, login e integrações essenciais.`);
+    const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v50'/);
+    assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
+
+    const syncFunction = fs.readFileSync(path.join(root, 'netlify/functions/meu-caminho-sync.mjs'), 'utf8');
+    assert.match(syncFunction, /SNAPSHOT_SCHEMA_VERSION = 2/);
+    assert.match(syncFunction, /lastMutationId/);
+    assert.match(syncFunction, /function cleanJson/);
+
+    console.log(`Teste funcional aprovado: ${pages.length} páginas, shell mobile, APIs, PWA, vídeo, login e integrações essenciais.`);
   } finally {
     server.kill();
     await delay(100);

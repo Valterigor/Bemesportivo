@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v48';
+const CACHE_NAME = 'meu-caminho-be-v50';
 const APP_SHELL = [
   '/meu-caminho-be',
   '/site-common.css?v=20260723-3',
@@ -9,7 +9,7 @@ const APP_SHELL = [
   '/css/core/primitives.css?v=20260723-1',
   '/css/components/ui.css?v=20260723-1',
   '/css/coluna-valtinho.css?v=20260721-1',
-  '/css/fala-bem-platform.css?v=20260723-4',
+  '/css/fala-bem-platform.css?v=20260726-2',
   '/css/components/privacy-consent.css?v=20260723-1',
   '/css/premium-refinement.css?v=20260723-2',
   '/css/photo-checkin.css?v=20260723-1',
@@ -25,10 +25,10 @@ const APP_SHELL = [
   '/js/components/media-quality.js?v=20260723-1',
   '/js/photo-checkin.js?v=20260723-1',
   '/js/routine-calendar.js?v=20260722-1',
-  '/js/meu-caminho-account.js?v=20260723-3',
+  '/js/meu-caminho-account.js?v=20260726-1',
   '/js/components/back-to-top.js',
   '/js/coluna-valtinho.js?v=20260722-2',
-  '/js/fala-bem-app.js?v=20260722-2',
+  '/js/fala-bem-app.js?v=20260726-2',
   '/img/logobemoficial.png',
   '/img/app-icon-192.png',
   '/img/app-icon-512.png',
@@ -75,13 +75,23 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+  if (url.pathname.startsWith('/api/')) return;
 
   if (request.mode === 'navigate') {
+    const isAppNavigation = url.pathname === '/meu-caminho-be' || url.pathname === '/meu-caminho-be.html';
     event.respondWith(fetch(request).then(response => {
-      const copy = response.clone();
-      caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+      if (isAppNavigation && response.ok) {
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put('/meu-caminho-be', copy));
+      }
       return response;
-    }).catch(() => caches.match(request).then(cached => cached || caches.match('/meu-caminho-be'))));
+    }).catch(() => {
+      if (isAppNavigation) return caches.match('/meu-caminho-be');
+      return caches.match(request).then(cached => cached || new Response('Sem conexão. Abra o Meu Caminho Be para continuar offline.', {
+        status: 503,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+      }));
+    }));
     return;
   }
 
@@ -94,6 +104,8 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+  const isCacheableMedia = ['/img/', '/videos/'].some(prefix => url.pathname.startsWith(prefix));
+  if (!isCacheableMedia) return;
   event.respondWith(caches.match(request).then(cached => {
     const networkUpdate = fetch(request).then(response => {
       if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));

@@ -69,3 +69,5 @@ A Home, o Meu Caminho Be e o Game podem ter shells visuais próprios. Eles devem
 ## Evolução do Meu Caminho Be
 
 A transição do produto local para uma aplicação autenticada, sincronizada e preparada para inteligência está definida em [Meu Caminho Be 2.0](MEU-CAMINHO-BE-2.0.md). A implementação deve respeitar as fases, manter separados os dados privados e comunitários e preservar a experiência atual até cada substituição estar validada.
+
+O shell mobile, as cinco áreas principais, as rotas de tela, o contrato de sincronização e o teste de aceite do MVP estão documentados em [App Web MVP](APP-WEB-MVP.md).

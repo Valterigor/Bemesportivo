@@ -38,7 +38,7 @@ function readJSON(key, fallback = null) {
 function localSnapshot() {
   const profile = readJSON(PROFILE_KEY);
   const tasks = readJSON(TASK_KEY, []);
-  return { profile, tasks: Array.isArray(tasks) ? tasks.slice(-250) : [] };
+  return { schemaVersion: 2, profile, tasks: Array.isArray(tasks) ? tasks.slice(-250) : [] };
 }
 
 function syncState() {
@@ -47,6 +47,12 @@ function syncState() {
 
 function setSyncState(next) {
   localStorage.setItem(SYNC_KEY, JSON.stringify(next));
+}
+
+function createMutationId() {
+  return window.crypto?.randomUUID
+    ? window.crypto.randomUUID()
+    : `sync-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
 function hasLocalData(snapshot = localSnapshot()) {
@@ -216,10 +222,14 @@ async function upload({ force = false } = {}) {
 
   syncing = true;
   setMessage('Sincronizando com segurança…');
+  const previousSyncState = syncState();
+  const mutationId = previousSyncState.pendingMutationId || createMutationId();
+  setSyncState({ ...previousSyncState, pendingMutationId: mutationId });
   try {
     const result = await api('PUT', {
       data: snapshot,
-      baseRevision: syncState().revision,
+      baseRevision: previousSyncState.revision,
+      mutationId,
       force
     });
     if (result.conflict) {
@@ -228,7 +238,7 @@ async function upload({ force = false } = {}) {
       setMessage('Existem alterações em outro aparelho. Escolha qual versão manter.', 'warning');
       return;
     }
-    setSyncState({ revision: result.revision, updatedAt: result.updatedAt });
+    setSyncState({ revision: result.revision, updatedAt: result.updatedAt, pendingMutationId: null });
     setMessage('Tudo sincronizado agora.', 'success');
     if (topStatus) topStatus.innerHTML = '<i aria-hidden="true"></i>Dados sincronizados';
   } catch {

@@ -4,6 +4,8 @@ import { getUser } from '@netlify/identity';
 const MAX_BODY_BYTES = 450_000;
 const MAX_TASKS = 250;
 const CLOUD_CONSENT_VERSION = '2026-07-23';
+const SNAPSHOT_SCHEMA_VERSION = 2;
+const INVALID = Symbol('invalid');
 
 function json(payload, status = 200) {
   return new Response(JSON.stringify(payload), {
@@ -11,7 +13,8 @@ function json(payload, status = 200) {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': 'no-store',
-      'X-Content-Type-Options': 'nosniff'
+      'X-Content-Type-Options': 'nosniff',
+      'Referrer-Policy': 'no-referrer'
     }
   });
 }
@@ -54,10 +57,42 @@ function cleanSnapshot(value) {
     || !profile.cloudSyncConsent?.consentedAt
   )) return null;
 
+  const cleanProfile = profile === null ? null : cleanJson(profile);
+  const cleanTasks = cleanJson(tasks.slice(-MAX_TASKS));
+  if (cleanProfile === INVALID || cleanTasks === INVALID) return null;
   return {
-    profile: profile || null,
-    tasks: tasks.slice(-MAX_TASKS)
+    schemaVersion: SNAPSHOT_SCHEMA_VERSION,
+    profile: cleanProfile,
+    tasks: cleanTasks
   };
+}
+
+function cleanJson(value, depth = 0) {
+  if (depth > 8) return INVALID;
+  if (value === null || typeof value === 'boolean') return value;
+  if (typeof value === 'string') return value.slice(0, 4000);
+  if (typeof value === 'number') return Number.isFinite(value) ? value : INVALID;
+  if (Array.isArray(value)) {
+    if (value.length > 500) return INVALID;
+    const result = value.map(item => cleanJson(item, depth + 1));
+    return result.includes(INVALID) ? INVALID : result;
+  }
+  if (!value || typeof value !== 'object') return INVALID;
+  const entries = Object.entries(value);
+  if (entries.length > 160) return INVALID;
+  const result = {};
+  for (const [key, entry] of entries) {
+    if (!/^[A-Za-z0-9_-]{1,80}$/.test(key) || ['__proto__', 'prototype', 'constructor'].includes(key)) return INVALID;
+    const cleaned = cleanJson(entry, depth + 1);
+    if (cleaned === INVALID) return INVALID;
+    result[key] = cleaned;
+  }
+  return result;
+}
+
+function cleanMutationId(value) {
+  const id = String(value || '').trim();
+  return /^[a-zA-Z0-9-]{16,80}$/.test(id) ? id : '';
 }
 
 function isAllowedWriteOrigin(request) {
@@ -86,8 +121,10 @@ export default async function handler(request) {
     const record = await store.get(key, { type: 'json', consistency: 'strong' });
     return json({
       exists: Boolean(record),
+      schemaVersion: Number(record?.schemaVersion || 1),
       revision: Number(record?.revision || 0),
       updatedAt: record?.updatedAt || null,
+      serverTime: new Date().toISOString(),
       data: record?.data || null
     });
   }
@@ -95,10 +132,14 @@ export default async function handler(request) {
   if (request.method === 'PUT') {
     const body = await parseBody(request);
     const data = cleanSnapshot(body?.data);
-    if (!body || !data) return json({ error: 'Dados inválidos ou consentimento de nuvem ausente.' }, 400);
+    const mutationId = cleanMutationId(body?.mutationId);
+    if (!body || !data || !mutationId) return json({ error: 'Dados, consentimento ou identificador de alteração inválidos.' }, 400);
 
     const current = await store.get(key, { type: 'json', consistency: 'strong' });
     const currentRevision = Number(current?.revision || 0);
+    if (current?.lastMutationId === mutationId) {
+      return json({ ok: true, repeated: true, revision: currentRevision, updatedAt: current.updatedAt });
+    }
     const baseRevision = Number(body.baseRevision || 0);
     if (current && !body.force && baseRevision !== currentRevision) {
       return json({
@@ -111,9 +152,11 @@ export default async function handler(request) {
     }
 
     const record = {
-      schemaVersion: 1,
+      schemaVersion: SNAPSHOT_SCHEMA_VERSION,
       revision: currentRevision + 1,
+      createdAt: current?.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      lastMutationId: mutationId,
       data
     };
     await store.setJSON(key, record);
