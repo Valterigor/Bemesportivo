@@ -2027,3 +2027,11 @@ body.fala-bem-app-page .fb-app-nav button svg{width:20px!important;height:20px!i
 .fb-evolution-week,.fb-evolution-insight{padding:17px}.fb-evolution-days{gap:4px}.fb-evolution-day{grid-template-rows:58px auto auto}
 .fb-explore-grid{grid-template-columns:1fr;gap:8px}.fb-explore-grid button{min-height:88px;padding:14px}
 }
+
+/* No desktop, o menu acompanha o documento e não cobre o painel durante a rolagem. */
+@media(min-width:761px){
+body.fala-bem-app-page .fb-app-nav{
+position:static;
+top:auto;
+}
+}
