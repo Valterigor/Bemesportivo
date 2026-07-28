@@ -102,6 +102,7 @@ async function run() {
     for (const destination of ['ferramentas', 'conteudos', 'especialistas', 'gols']) {
       assert.match(pathHtml, new RegExp(`class="fb-nav-desktop-only" data-fb-view="${destination}"`), `Atalho lateral ausente: ${destination}`);
     }
+    assert.equal((pathHtml.match(/class="fb-section-actions(?:\s[^"]*)?"/g) || []).length, 6, 'As seis áreas principais precisam oferecer próximos passos contextuais.');
     assert.match(pathHtml, /id="fb-evolution-days"/);
     assert.match(pathHtml, /class="fb-explore-grid"/);
 
