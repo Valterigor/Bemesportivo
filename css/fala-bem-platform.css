@@ -2035,3 +2035,14 @@ position:static;
 top:auto;
 }
 }
+
+.fb-app-nav .fb-nav-label-desktop,
+.fb-app-nav button.fb-nav-desktop-only{display:none}
+.fb-app-nav button :is(.fb-nav-label-mobile,.fb-nav-label-desktop){font-size:inherit}
+
+@media(min-width:901px){
+.fb-app-nav .fb-nav-label-mobile,
+.fb-app-nav button.fb-nav-mobile-only{display:none}
+.fb-app-nav .fb-nav-label-desktop{display:inline}
+.fb-app-nav button.fb-nav-desktop-only{display:flex}
+}

@@ -99,6 +99,9 @@ async function run() {
       assert.match(pathHtml, new RegExp(`data-fb-panel="${panel}"`), `Área principal do app ausente: ${panel}`);
       assert.match(pathHtml, new RegExp(`class="fb-app-nav"[\\s\\S]*?data-fb-view="${panel}"`), `Navegação principal ausente: ${panel}`);
     }
+    for (const destination of ['ferramentas', 'conteudos', 'especialistas', 'gols']) {
+      assert.match(pathHtml, new RegExp(`class="fb-nav-desktop-only" data-fb-view="${destination}"`), `Atalho lateral ausente: ${destination}`);
+    }
     assert.match(pathHtml, /id="fb-evolution-days"/);
     assert.match(pathHtml, /class="fb-explore-grid"/);
 
@@ -111,7 +114,7 @@ async function run() {
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v52'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v53'/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 
     const syncFunction = fs.readFileSync(path.join(root, 'netlify/functions/meu-caminho-sync.mjs'), 'utf8');

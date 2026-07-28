@@ -513,7 +513,11 @@ function openView(requestedView, options = {}) {
 
   appNavButtons.forEach(button => {
     const buttonView = button.dataset.fbView;
-    const hasDirectNavigation = appNavButtons.some(item => item.dataset.fbView === view);
+    const desktopNavigation = window.matchMedia('(min-width: 901px)').matches;
+    const hasDirectNavigation = appNavButtons.some(item =>
+      item.dataset.fbView === view &&
+      (!item.classList.contains('fb-nav-desktop-only') || desktopNavigation)
+    );
     const selected = buttonView === view || (!hasDirectNavigation && (
       (view === 'jornada' && buttonView === 'progresso') ||
       (view === 'progresso' && buttonView === 'jornada') ||
