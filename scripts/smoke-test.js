@@ -113,6 +113,7 @@ async function run() {
     assert.match(pathHtml, /id="be-ia-context"/);
     assert.match(pathHtml, /id="be-ia-answer"[^>]*aria-live="polite"/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260729-1/);
+    assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260729-1/);
 
     const beIa = fs.readFileSync(path.join(root, 'js/be-ia.js'), 'utf8');
     assert.match(beIa, /function getJourneyContext\(profile\)/);
@@ -125,12 +126,17 @@ async function run() {
     assert.match(platformCss, /@media\(min-width:761px\)\{[\s\S]*?body\.fala-bem-app-page \.fb-app-nav\{[\s\S]*?position:static;/);
     assert.match(platformCss, /@media\(max-width:760px\)\{[\s\S]*?\.fb-app-nav\{position:fixed;/);
 
+    const modernCss = fs.readFileSync(path.join(root, 'css/meu-caminho-modern.css'), 'utf8');
+    assert.match(modernCss, /--mcb-orange:#f4511e/);
+    assert.match(modernCss, /@media\(min-width:901px\)\{[\s\S]*?grid-template-columns:224px minmax\(0,1fr\)/);
+    assert.match(modernCss, /@media\(max-width:900px\)\{[\s\S]*?position:fixed!important/);
+
     const redirects = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
     assert.match(redirects, /\/api\/analytics\/events\s+\/\.netlify\/functions\/analytics/);
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v55'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v56'/);
     assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260729-1/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 

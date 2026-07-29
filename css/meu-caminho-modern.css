@@ -1,0 +1,388 @@
+/* Meu Caminho Be — camada visual funcional e unificada */
+body.fala-bem-app-page{
+--mcb-bg:#f3f4f6;
+--mcb-surface:#fff;
+--mcb-surface-soft:#f8f8f7;
+--mcb-text:#191817;
+--mcb-muted:#6d6965;
+--mcb-line:#e6e4e1;
+--mcb-line-strong:#d8d4cf;
+--mcb-orange:#f4511e;
+--mcb-orange-dark:#d83e0e;
+--mcb-orange-soft:#fff0e9;
+--mcb-green:#1f7a50;
+--mcb-dark:#201d1b;
+--mcb-purple:#7045ac;
+--mcb-radius-sm:12px;
+--mcb-radius:18px;
+--mcb-radius-lg:24px;
+--mcb-shadow:0 1px 2px rgba(25,24,23,.03),0 10px 28px rgba(25,24,23,.055);
+--mcb-shadow-lg:0 2px 4px rgba(25,24,23,.03),0 22px 54px rgba(25,24,23,.075);
+margin:0;
+background:var(--mcb-bg);
+color:var(--mcb-text);
+font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body.fala-bem-app-page .container.page{width:min(100%,1320px)!important;max-width:1320px!important;padding:20px 24px 80px!important}
+body.fala-bem-app-page :where(button,input,select,textarea){font-family:inherit}
+body.fala-bem-app-page :where(h1,h2,h3,h4){color:var(--mcb-text);text-wrap:balance}
+body.fala-bem-app-page :where(p,small,li){text-wrap:pretty}
+body.fala-bem-app-page :where(button,a,input,select,textarea):focus-visible{outline:3px solid rgba(244,81,30,.28)!important;outline-offset:3px}
+
+/* Estrutura do aplicativo */
+body.fala-bem-app-page .fb-app-shell{
+width:100%;
+max-width:1240px;
+min-height:calc(100vh - 40px);
+margin:0 auto;
+padding:0 30px 38px;
+overflow:visible;
+border:1px solid rgba(25,24,23,.06)!important;
+border-radius:var(--mcb-radius-lg);
+background:var(--mcb-surface)!important;
+box-shadow:var(--mcb-shadow-lg)!important;
+}
+body.fala-bem-app-page .fb-app-topbar{
+min-height:72px;
+margin:0 -30px;
+padding:10px 30px;
+border-bottom:1px solid var(--mcb-line)!important;
+border-radius:var(--mcb-radius-lg) var(--mcb-radius-lg) 0 0;
+background:rgba(255,255,255,.94)!important;
+box-shadow:none!important;
+backdrop-filter:blur(18px);
+}
+body.fala-bem-app-page .fb-app-brand img{width:38px;height:38px}
+body.fala-bem-app-page .fb-app-brand strong{font-size:.94rem;font-weight:850}
+body.fala-bem-app-page .fb-app-brand small{color:#85807b;font-size:.64rem}
+body.fala-bem-app-page .fb-app-saved-status{color:#726d68;font-size:.68rem}
+body.fala-bem-app-page .fb-profile-trigger{min-height:42px;border-color:var(--mcb-line);background:#fff;box-shadow:0 3px 10px rgba(25,24,23,.04)}
+body.fala-bem-app-page .fb-app-avatar{background:var(--mcb-orange)}
+
+body.fala-bem-app-page .fb-app-intro{max-width:none;padding:32px 0 20px}
+body.fala-bem-app-page .fb-app-intro-copy>span{color:var(--mcb-orange-dark);font-size:.66rem;font-weight:900;letter-spacing:.105em}
+body.fala-bem-app-page .fb-app-intro h1{max-width:690px;margin:7px 0 0;font-size:clamp(2rem,3.5vw,3.15rem);line-height:1.02;letter-spacing:-.055em}
+body.fala-bem-app-page .fb-app-intro p{max-width:640px;margin-top:12px;color:var(--mcb-muted);font-size:.9rem;line-height:1.55}
+body.fala-bem-app-page .fb-hero-actions{margin-top:18px}
+body.fala-bem-app-page :is(.fb-hero-actions,.fb-entry-points){gap:8px}
+body.fala-bem-app-page .fb-entry-points{margin-top:16px}
+body.fala-bem-app-page .fb-entry-points span{color:#77716c;font-size:.68rem}
+body.fala-bem-app-page .fb-entry-points span::before{background:var(--mcb-orange)}
+body.fala-bem-app-page .fb-primary-action,
+body.fala-bem-app-page .fb-hero-actions .fb-primary-action{
+min-height:44px;
+border:0!important;
+border-radius:12px!important;
+background:var(--mcb-orange)!important;
+color:#fff!important;
+box-shadow:0 8px 18px rgba(244,81,30,.18)!important;
+font-weight:850!important;
+}
+body.fala-bem-app-page .fb-quiet-action{min-height:44px;border-color:var(--mcb-line-strong);border-radius:12px;background:#fff}
+
+/* Navegação lateral: simples, estável e reconhecível */
+@media(min-width:901px){
+body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact){
+display:grid;
+grid-template-columns:224px minmax(0,1fr);
+grid-template-rows:auto auto 1fr;
+column-gap:32px;
+}
+body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-topbar{grid-column:1/-1;grid-row:1}
+body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-intro{grid-column:2;grid-row:2}
+body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-nav{
+position:sticky!important;
+top:20px!important;
+display:flex;
+grid-column:1;
+grid-row:2/4;
+align-self:start;
+flex-direction:column;
+gap:4px;
+margin-top:32px;
+padding:8px;
+border:1px solid var(--mcb-line)!important;
+border-radius:20px;
+background:var(--mcb-surface-soft)!important;
+box-shadow:none!important;
+backdrop-filter:none;
+}
+body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-nav button{
+position:relative;
+justify-content:flex-start;
+gap:11px;
+width:100%;
+min-height:48px;
+padding:10px 12px;
+border-radius:13px;
+color:#625d58;
+font-size:.76rem!important;
+font-weight:780;
+}
+body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-nav button svg{width:19px!important;height:19px!important}
+body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-nav button.active{
+background:var(--mcb-dark);
+color:#fff;
+box-shadow:0 8px 18px rgba(32,29,27,.15);
+}
+body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-nav button.active::after{
+position:absolute;
+top:50%;
+right:10px;
+width:6px;
+height:6px;
+border-radius:50%;
+background:#ff6b31;
+content:"";
+transform:translateY(-50%);
+}
+body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-panel{grid-column:2;grid-row:3;min-width:0;padding-top:10px}
+body.fala-bem-app-page .fb-app-shell.fb-first-access{display:block;max-width:1180px}
+body.fala-bem-app-page .fb-app-shell.fb-first-access .fb-app-intro{
+display:grid;
+grid-template-columns:minmax(0,1.08fr) minmax(340px,.72fr);
+gap:42px;
+align-items:center;
+padding:40px 0 26px;
+}
+body.fala-bem-app-page .fb-app-shell.fb-first-access .fb-app-intro-copy{align-self:center}
+body.fala-bem-app-page .fb-app-shell.fb-first-access .fb-intro-visual{min-height:390px;border-radius:24px;box-shadow:var(--mcb-shadow-lg)}
+body.fala-bem-app-page .fb-app-shell.fb-first-access .fb-app-panel{padding-top:6px}
+body.fala-bem-app-page .fb-app-shell.fb-app-shell-compact .fb-app-nav{grid-template-columns:repeat(7,minmax(0,1fr))!important;margin:14px 0 4px}
+}
+
+/* Cabeçalhos e painéis */
+body.fala-bem-app-page .fb-app-panel{max-width:900px;margin:0 auto}
+body.fala-bem-app-page .fb-panel-kicker{display:block;margin-bottom:7px;color:var(--mcb-orange-dark);font-size:.65rem;font-weight:900;letter-spacing:.11em}
+body.fala-bem-app-page .fb-app-panel>h2{max-width:700px;margin:0;font-size:clamp(1.65rem,3vw,2.35rem);line-height:1.06;letter-spacing:-.045em}
+body.fala-bem-app-page .fb-app-panel>p{max-width:650px;margin:9px 0 0;color:var(--mcb-muted);font-size:.85rem;line-height:1.55}
+body.fala-bem-app-page .fb-panel-back{min-height:38px;margin-bottom:14px;border:0;background:transparent;color:#716b66;font-weight:800}
+
+/* Superfícies: menos caixas competindo */
+body.fala-bem-app-page .fb-context-zone{
+margin-bottom:22px;
+padding:0;
+border:0!important;
+border-radius:0;
+background:transparent!important;
+box-shadow:none!important;
+backdrop-filter:none!important;
+}
+body.fala-bem-app-page .fb-context-heading{
+margin-bottom:14px;
+padding:0 0 13px;
+border-bottom:1px solid var(--mcb-line);
+}
+body.fala-bem-app-page .fb-context-icon{width:40px;height:40px;border-radius:13px;background:var(--mcb-dark)!important;color:#fff!important}
+body.fala-bem-app-page .fb-context-heading h2{font-size:1.05rem}
+body.fala-bem-app-page .fb-context-heading time{border-color:var(--mcb-line);background:#fff}
+body.fala-bem-app-page :is(
+.fb-day-guide,.be-ia,.fb-home-dashboard,.fb-daily-journal,.fb-routine-calendar,
+.fb-week-summary-card,.fb-week-review,.fb-gamification,.fb-dashboard-recommendations,
+.fb-next-mission,.fb-profile-summary,.fb-profile-history,.fb-cycle-summary,
+.fb-evolution-week,.fb-evolution-insight,.fb-progress-checkin,.fb-goals-card
+){
+border:1px solid var(--mcb-line)!important;
+border-radius:var(--mcb-radius)!important;
+background:var(--mcb-surface)!important;
+box-shadow:var(--mcb-shadow)!important;
+backdrop-filter:none!important;
+}
+body.fala-bem-app-page :is(
+.fb-home-dashboard-grid article,.fb-home-hero-card,.fb-home-action-strip,.fb-home-next-step,
+.fb-daily-consistency,.fb-daily-overview article,.fb-routine-summary article,.fb-task-day,
+.fb-game-stats article,.fb-dashboard-grid article,.fb-evolution-summary article,
+.fb-explore-grid button,.fb-progress-steps li,.fb-profile-history dl>div
+){
+border-color:var(--mcb-line)!important;
+background:var(--mcb-surface-soft)!important;
+box-shadow:none!important;
+}
+
+/* Meu Hoje: uma ação dominante */
+body.fala-bem-app-page .fb-day-guide{padding:20px}
+body.fala-bem-app-page .fb-day-guide-priority{border-color:#f1c8b9!important;box-shadow:0 12px 28px rgba(94,53,34,.07)!important}
+body.fala-bem-app-page .fb-day-guide-head h2{font-size:1.08rem}
+body.fala-bem-app-page .fb-day-guide-head>strong{background:var(--mcb-orange-soft);color:var(--mcb-orange-dark)}
+body.fala-bem-app-page .fb-day-intentions button{border-color:var(--mcb-line-strong);background:#fff}
+body.fala-bem-app-page .fb-day-intentions button[aria-pressed="true"]{border-color:var(--mcb-orange);background:var(--mcb-orange);box-shadow:none}
+body.fala-bem-app-page .fb-day-recommendation{
+border-radius:15px;
+background:var(--mcb-dark)!important;
+box-shadow:none!important;
+}
+body.fala-bem-app-page .fb-day-recommendation :is(h3,p){color:#fff!important}
+body.fala-bem-app-page .fb-day-recommendation>p:not(.fb-day-why){color:#d8d2cd!important}
+body.fala-bem-app-page .fb-home-dashboard{padding:22px;overflow:visible}
+body.fala-bem-app-page .fb-home-dashboard-head{align-items:start}
+body.fala-bem-app-page .fb-home-dashboard-head h2{font-size:1.3rem}
+body.fala-bem-app-page .fb-home-hero-card{background:#fff!important}
+body.fala-bem-app-page .fb-home-action-strip{background:var(--mcb-surface-soft)!important}
+body.fala-bem-app-page .fb-home-dashboard-grid{gap:8px}
+body.fala-bem-app-page .fb-home-progress-ring{filter:none!important}
+body.fala-bem-app-page .fb-home-next-step{background:var(--mcb-dark)!important;color:#fff}
+body.fala-bem-app-page .fb-home-next-step :is(strong,p){color:#fff}
+body.fala-bem-app-page .fb-home-next-step>div:first-child>span{color:#ff9a71}
+body.fala-bem-app-page .fb-home-next-step button{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.1);color:#fff}
+body.fala-bem-app-page .fb-home-next-step button:first-child{background:#fff;color:var(--mcb-dark)}
+
+/* Be IA: destaque próprio, sem parecer outro aplicativo */
+body.fala-bem-app-page .be-ia{
+padding:22px;
+border-color:#ddd4e8!important;
+background:linear-gradient(145deg,#fcfaff,#fff)!important;
+box-shadow:var(--mcb-shadow)!important;
+}
+body.fala-bem-app-page .be-ia-mark{border-radius:14px;box-shadow:none}
+body.fala-bem-app-page .be-ia-context li{border-color:#e7e1ed;background:#fff}
+body.fala-bem-app-page .be-ia-form>div{border-color:var(--mcb-line-strong);box-shadow:none}
+body.fala-bem-app-page .be-ia-answer{border:0;border-radius:16px;background:#28212f;box-shadow:none}
+body.fala-bem-app-page .be-ia-answer :is(h3,h4){color:#fff!important}
+
+/* Jornada, evolução e exploração */
+body.fala-bem-app-page .fb-progress-overview{margin-top:18px;padding:15px;border:1px solid var(--mcb-line);border-radius:14px;background:var(--mcb-surface-soft)}
+body.fala-bem-app-page .fb-progress-steps{gap:9px;margin-top:16px}
+body.fala-bem-app-page .fb-progress-steps li{padding:16px;border-radius:15px}
+body.fala-bem-app-page .fb-progress-steps li.current{border-color:#f0bda9!important;background:#fff8f4!important}
+body.fala-bem-app-page .fb-progress-steps li.complete{background:#f3faf6!important}
+body.fala-bem-app-page .fb-current-step-guide{border-top-color:var(--mcb-line)}
+body.fala-bem-app-page .fb-progress-actions{flex-wrap:wrap}
+body.fala-bem-app-page .fb-progress-actions button{min-height:42px;border-radius:11px;background:#fff}
+body.fala-bem-app-page .fb-evolution-summary{gap:8px}
+body.fala-bem-app-page .fb-evolution-summary article{padding:16px;border-radius:15px}
+body.fala-bem-app-page .fb-evolution-insight{background:var(--mcb-dark)!important}
+body.fala-bem-app-page .fb-evolution-insight :is(h3,p){color:#fff}
+body.fala-bem-app-page .fb-explore-grid{gap:8px}
+body.fala-bem-app-page .fb-explore-grid button{min-height:92px;border-radius:15px}
+body.fala-bem-app-page .fb-explore-grid button>span{background:var(--mcb-orange-soft);color:var(--mcb-orange-dark)}
+
+/* Formulários e perfil */
+body.fala-bem-app-page :where(
+.fb-profile-form,.fb-daily-form,.fb-goals-form,.fb-progress-checkin,.fb-week-review
+) :where(input,select,textarea){
+min-height:44px;
+border:1px solid var(--mcb-line-strong);
+border-radius:10px;
+background:#fff;
+color:var(--mcb-text);
+}
+body.fala-bem-app-page :where(
+.fb-profile-form,.fb-daily-form,.fb-goals-form,.fb-progress-checkin,.fb-week-review
+) label{color:#4f4a46;font-weight:780}
+body.fala-bem-app-page .fb-profile-summary{padding:18px}
+body.fala-bem-app-page .fb-profile-summary dl{gap:7px}
+body.fala-bem-app-page .fb-profile-summary dl>div{border-color:var(--mcb-line);background:var(--mcb-surface-soft)}
+body.fala-bem-app-page .fb-section-actions{border-color:var(--mcb-line);border-radius:14px;background:var(--mcb-surface-soft);box-shadow:none}
+body.fala-bem-app-page .fb-section-actions button{min-height:38px;border-color:var(--mcb-line-strong);background:#fff}
+
+/* Conteúdo externo aberto pelo app */
+body.fala-bem-app-page .container.page>.fb-app-visible:not(.fb-app-shell){max-width:1000px!important;margin:18px auto 0!important}
+body.fala-bem-app-page .container.page>.fb-app-visible :where(.platform-section,.platform-question,.platform-community){
+border-color:var(--mcb-line)!important;
+border-radius:var(--mcb-radius)!important;
+background:#fff!important;
+box-shadow:var(--mcb-shadow)!important;
+}
+body.fala-bem-app-page .container.page>.fb-app-visible .platform-section-head h2{font-size:clamp(1.45rem,3vw,2rem)}
+
+/* Estados interativos */
+@media(hover:hover) and (pointer:fine){
+body.fala-bem-app-page :where(button,a){transition:transform .16s ease,border-color .16s ease,background-color .16s ease,box-shadow .16s ease}
+body.fala-bem-app-page :where(button,a):hover{transform:translateY(-1px)}
+body.fala-bem-app-page .fb-app-nav button:hover:not(.active){background:#fff}
+body.fala-bem-app-page :is(.fb-explore-grid button,.fb-path-options button):hover{border-color:#f0b69f!important;box-shadow:0 8px 20px rgba(55,36,27,.06)!important}
+}
+
+/* Mobile: uma coluna, alvos grandes e navegação previsível */
+@media(max-width:900px){
+body.fala-bem-app-page .container.page{padding:0 16px calc(84px + env(safe-area-inset-bottom))!important}
+body.fala-bem-app-page .fb-app-shell{
+min-height:100vh;
+margin:0;
+padding:0 0 28px;
+border:0!important;
+border-radius:0;
+box-shadow:none!important;
+}
+body.fala-bem-app-page .fb-app-topbar{
+min-height:64px;
+margin:0;
+padding:9px 0;
+border-radius:0;
+}
+body.fala-bem-app-page .fb-app-intro{padding:24px 0 14px}
+body.fala-bem-app-page .fb-app-intro h1{font-size:clamp(1.8rem,8vw,2.35rem);line-height:1.04}
+body.fala-bem-app-page .fb-app-intro p{font-size:.84rem}
+body.fala-bem-app-page .fb-app-shell:not(.fb-first-access) .fb-app-intro{display:block;padding-bottom:10px}
+body.fala-bem-app-page .fb-app-shell:not(.fb-first-access) .fb-intro-visual{display:none}
+body.fala-bem-app-page .fb-app-nav{
+position:fixed!important;
+z-index:50;
+right:7px;
+bottom:max(7px,env(safe-area-inset-bottom));
+left:7px;
+grid-template-columns:repeat(5,minmax(0,1fr))!important;
+gap:2px;
+padding:5px;
+border:1px solid rgba(25,24,23,.08)!important;
+border-radius:19px;
+background:rgba(255,255,255,.94)!important;
+box-shadow:0 14px 38px rgba(25,24,23,.17)!important;
+backdrop-filter:blur(18px);
+}
+body.fala-bem-app-page .fb-app-nav button{min-height:56px;padding:5px 2px;border-radius:13px;font-size:.59rem!important}
+body.fala-bem-app-page .fb-app-nav button.active{background:var(--mcb-dark);color:#fff}
+body.fala-bem-app-page .fb-app-panel{padding-top:14px}
+body.fala-bem-app-page .fb-context-heading{grid-template-columns:38px minmax(0,1fr)}
+body.fala-bem-app-page .fb-context-heading time{grid-column:2}
+body.fala-bem-app-page :is(.fb-day-guide,.be-ia,.fb-home-dashboard,.fb-daily-journal,.fb-week-summary-card,.fb-week-review,.fb-gamification,.fb-dashboard-recommendations){padding:16px!important;border-radius:16px!important}
+body.fala-bem-app-page .fb-home-dashboard-head{display:grid;gap:12px}
+body.fala-bem-app-page .fb-home-dashboard-head>button{width:100%}
+body.fala-bem-app-page .fb-home-hero-card{grid-template-columns:1fr;padding:15px}
+body.fala-bem-app-page .fb-home-action-strip{grid-template-columns:1fr;padding:14px}
+body.fala-bem-app-page .fb-home-dashboard-grid{grid-template-columns:1fr 1fr}
+body.fala-bem-app-page .fb-home-week-card{grid-column:1/-1}
+body.fala-bem-app-page .fb-home-signal-card{min-height:110px}
+body.fala-bem-app-page .fb-home-next-step{display:grid;padding:15px}
+body.fala-bem-app-page .fb-home-next-step>div:last-child{display:grid;width:100%}
+body.fala-bem-app-page .fb-home-next-step button{width:100%}
+body.fala-bem-app-page .be-ia-context{grid-template-columns:1fr 1fr}
+body.fala-bem-app-page .fb-progress-steps li{padding:14px}
+body.fala-bem-app-page .fb-progress-actions{display:grid}
+body.fala-bem-app-page .fb-progress-actions button{width:100%}
+body.fala-bem-app-page .fb-evolution-summary{grid-template-columns:1fr 1fr}
+body.fala-bem-app-page .fb-explore-grid{grid-template-columns:1fr}
+body.fala-bem-app-page .fb-section-actions{display:grid}
+body.fala-bem-app-page .fb-section-actions>span{margin:0}
+body.fala-bem-app-page .fb-section-actions button{width:100%}
+body.fala-bem-app-page .container.page>.fb-app-visible:not(.fb-app-shell){width:100%!important;margin:12px 0 0!important}
+}
+
+@media(max-width:520px){
+body.fala-bem-app-page .container.page{padding-right:12px!important;padding-left:12px!important}
+body.fala-bem-app-page .fb-app-brand strong{font-size:.86rem}
+body.fala-bem-app-page .fb-app-brand small{font-size:.6rem}
+body.fala-bem-app-page .fb-mobile-menu-toggle{width:40px;height:40px}
+body.fala-bem-app-page .fb-profile-trigger{display:none}
+body.fala-bem-app-page .fb-app-shell.fb-first-access .fb-app-intro{display:block;padding-top:20px}
+body.fala-bem-app-page .fb-app-shell.fb-first-access .fb-intro-visual{min-height:285px;margin-top:20px;border-radius:18px}
+body.fala-bem-app-page .fb-hero-actions{display:grid}
+body.fala-bem-app-page .fb-hero-actions button{width:100%}
+body.fala-bem-app-page .fb-first-access .fb-entry-points{display:grid;gap:7px}
+body.fala-bem-app-page .fb-path-entry{padding:15px;border-radius:16px}
+body.fala-bem-app-page .fb-path-options{grid-template-columns:1fr}
+body.fala-bem-app-page .fb-path-options button{min-height:88px}
+body.fala-bem-app-page .fb-day-guide-head{align-items:flex-start}
+body.fala-bem-app-page .fb-day-intentions>div{grid-template-columns:1fr 1fr}
+body.fala-bem-app-page .fb-day-intentions button:last-child{grid-column:1/-1}
+body.fala-bem-app-page .fb-home-dashboard-grid{grid-template-columns:1fr}
+body.fala-bem-app-page .fb-home-week-card{grid-column:auto;grid-template-columns:78px minmax(0,1fr)}
+body.fala-bem-app-page .fb-home-progress-ring{width:72px;height:72px}
+body.fala-bem-app-page .be-ia-context{grid-template-columns:1fr}
+body.fala-bem-app-page .fb-daily-core-fields,.fb-daily-optional-fields{grid-template-columns:1fr}
+body.fala-bem-app-page .fb-week-summary-card dl{grid-template-columns:1fr 1fr}
+}
+
+@media(prefers-reduced-motion:reduce){
+body.fala-bem-app-page *,body.fala-bem-app-page *::before,body.fala-bem-app-page *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
