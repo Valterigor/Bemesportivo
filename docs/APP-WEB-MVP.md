@@ -30,6 +30,14 @@ O núcleo da experiência segue um ciclo simples:
 
 Dor, desconforto ou insegurança nunca geram progressão automática. O sistema orienta a não avançar e procurar avaliação profissional quando apropriado.
 
+## Be IA Esportiva
+
+A Be IA aparece no Meu Hoje depois que o Mapa BeM está concluído. Diferente de um chat genérico, ela considera faixa etária, objetivo, modalidade, progresso, tempo disponível, registros recentes e barreira mais recente.
+
+A versão beta inicial usa um motor contextual local e respostas estruturadas. O texto livre não é armazenado; somente categoria da orientação, classe de segurança e feedback opcional ficam neste aparelho. Cada resposta oferece um passo possível, explica quais dados influenciaram a orientação e mantém acesso direto ao Meu Hoje, à Jornada ou a profissionais.
+
+O contrato para evolução do motor está documentado em [Be IA Esportiva](BE-IA-ESPORTIVA.md).
+
 ## Estado e URLs
 
 As telas principais usam o parâmetro `tela`:
@@ -120,6 +128,8 @@ O Netlify Blobs atende esta etapa de MVP. Antes de consultas relacionais, compar
 12. Registrar uma etapa parcial, selecionar uma barreira e confirmar que o próximo passo foi adaptado.
 13. Criar dois registros na semana, salvar uma decisão semanal e confirmar que ela reaparece após recarregar.
 14. Navegar por teclado e confirmar foco, título e anúncio de cada tela.
+15. Perguntar “Estou sem vontade de treinar” e confirmar que idade, objetivo, modalidade, progresso, tempo e histórico aparecem na explicação.
+16. Informar “Estou com dor forte” e confirmar que a Be IA não recomenda treino e direciona para atendimento profissional.
 
 ## Próxima fase
 

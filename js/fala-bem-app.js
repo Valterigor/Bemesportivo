@@ -3283,7 +3283,8 @@ document.getElementById('fb-open-daily-form')?.addEventListener('click', () => {
 document.getElementById('fb-daily-open-details')?.addEventListener('click', () => openDailyJournal({ details: true }));
 document.getElementById('fb-home-guide-action')?.addEventListener('click', () => {
   openView('inicio', { scroll: false });
-  document.getElementById('fb-day-guide')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  document.getElementById('be-ia')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  window.setTimeout(() => document.getElementById('be-ia-input')?.focus({ preventScroll: true }), 220);
 });
 document.getElementById('fb-daily-view-mission')?.addEventListener('click', () => openView('progresso'));
 document.getElementById('fb-daily-recommendation-action')?.addEventListener('click', event => {

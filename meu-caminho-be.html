@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="site-common.css?v=20260723-3">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260721-1">
 <link rel="stylesheet" href="css/fala-bem-platform.css?v=20260729-1">
+<link rel="stylesheet" href="css/be-ia.css?v=20260729-1">
 <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-2">
 <link rel="stylesheet" href="css/photo-checkin.css?v=20260723-1">
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
@@ -237,6 +238,34 @@
 <article class="fb-day-recommendation" aria-live="polite"><span id="fb-day-recommendation-kicker">COMECE ESCOLHENDO</span><h3 id="fb-day-recommendation-title">Qual é a prioridade possível para hoje?</h3><p id="fb-day-recommendation-text">Sua escolha ajuda o sistema a mostrar apenas uma orientação por vez.</p><div class="fb-day-recommendation-actions" id="fb-day-recommendation-actions" hidden><button type="button" class="fb-primary-action" id="fb-day-guide-primary">Fazer agora</button><button type="button" id="fb-day-guide-later">Lembrar mais tarde</button><button type="button" id="fb-day-guide-done">Já fiz</button></div><button type="button" class="fb-day-why-toggle" id="fb-day-why-toggle" aria-expanded="false" aria-controls="fb-day-why">Por que estou vendo isso?</button><p class="fb-day-why" id="fb-day-why" hidden></p></article>
 <div class="fb-day-reminder-options" id="fb-day-reminder-options" hidden><span>Lembrar neste aparelho:</span><button type="button" data-reminder-minutes="30">Em 30 min</button><button type="button" data-reminder-minutes="120">Em 2 horas</button><button type="button" data-reminder-period="evening">Hoje à noite</button><button type="button" id="fb-day-reminder-cancel">Cancelar</button><small>O aviso aparecerá quando você estiver usando ou voltar ao Meu Caminho Be.</small></div>
 <ol class="fb-day-timeline" id="fb-day-timeline" aria-label="Momentos do dia"><li data-day-period="morning"><span>Manhã</span><i aria-hidden="true"></i></li><li data-day-period="afternoon"><span>Tarde</span><i aria-hidden="true"></i></li><li data-day-period="evening"><span>Noite</span><i aria-hidden="true"></i></li></ol>
+</section>
+<section class="be-ia" id="be-ia" aria-labelledby="be-ia-title" hidden>
+<header class="be-ia-head">
+<span class="be-ia-mark" aria-hidden="true">Be</span>
+<div><span>BE IA ESPORTIVA · BETA</span><h2 id="be-ia-title">Uma orientação que conhece sua jornada.</h2><p>Conte como você está. A resposta considera seu momento, objetivo, prática e histórico neste aparelho.</p></div>
+</header>
+<ul class="be-ia-context" id="be-ia-context" aria-label="Contexto usado pela Be IA"></ul>
+<div class="be-ia-prompts" role="group" aria-label="Situações frequentes">
+<button type="button" data-be-ia-prompt="Estou sem vontade de treinar.">Sem vontade</button>
+<button type="button" data-be-ia-prompt="Hoje tenho pouco tempo. O que faço?">Pouco tempo</button>
+<button type="button" data-be-ia-prompt="Estou cansado e não sei se devo treinar.">Estou cansado</button>
+<button type="button" data-be-ia-prompt="Qual é o melhor próximo passo para mim hoje?">Meu próximo passo</button>
+</div>
+<form class="be-ia-form" id="be-ia-form">
+<label for="be-ia-input">O que está acontecendo agora?</label>
+<div><textarea id="be-ia-input" rows="2" minlength="3" maxlength="280" placeholder="Ex.: Estou sem vontade de treinar hoje." required></textarea><button type="submit">Receber orientação</button></div>
+<small>Seu texto é processado neste aparelho nesta versão. Não informe diagnósticos, documentos ou dados de outras pessoas.</small>
+</form>
+<article class="be-ia-answer" id="be-ia-answer" aria-labelledby="be-ia-answer-title" aria-live="polite" hidden>
+<header><span id="be-ia-answer-tone">ORIENTAÇÃO PARA AGORA</span><strong id="be-ia-answer-time">AGORA</strong></header>
+<h3 id="be-ia-answer-title"></h3>
+<p id="be-ia-answer-message"></p>
+<section class="be-ia-next" aria-labelledby="be-ia-next-title"><span>PASSO POSSÍVEL</span><h4 id="be-ia-next-title"></h4><p id="be-ia-next-detail"></p></section>
+<details><summary>Por que recebi esta orientação?</summary><ul id="be-ia-reasons"></ul></details>
+<div class="be-ia-actions"><button type="button" class="fb-primary-action" id="be-ia-primary"></button><button type="button" id="be-ia-secondary"></button></div>
+<footer><span>Isso ajudou?</span><button type="button" data-be-ia-feedback="yes" aria-label="Sim, esta orientação ajudou">Sim</button><button type="button" data-be-ia-feedback="no" aria-label="Não, esta orientação não ajudou">Não</button><small id="be-ia-feedback-status" role="status" aria-live="polite"></small></footer>
+</article>
+<p class="be-ia-boundary">Orientação educacional, não diagnóstico ou prescrição. Em caso de dor forte, falta de ar incomum, tontura, desmaio ou piora, interrompa a atividade e procure atendimento profissional.</p>
 </section>
 <section class="fb-home-dashboard" id="fb-home-dashboard" aria-labelledby="fb-home-dashboard-title" hidden>
 <header class="fb-home-dashboard-head">
@@ -1305,7 +1334,8 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/routine-calendar.js?v=20260722-1"></script>
 <script type="module" src="js/meu-caminho-account.js?v=20260726-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260729-1" defer></script>
+<script src="js/fala-bem-app.js?v=20260729-2" defer></script>
+<script src="js/be-ia.js?v=20260729-1" defer></script>
 
 </body>
 </html>

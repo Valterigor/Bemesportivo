@@ -109,6 +109,17 @@ async function run() {
     assert.match(pathHtml, /id="fb-checkin-barrier"/);
     assert.match(pathHtml, /id="fb-week-review-form"/);
     assert.match(pathHtml, /id="fb-view-announcer"[^>]*aria-live="polite"/);
+    assert.match(pathHtml, /id="be-ia"[^>]*aria-labelledby="be-ia-title"/);
+    assert.match(pathHtml, /id="be-ia-context"/);
+    assert.match(pathHtml, /id="be-ia-answer"[^>]*aria-live="polite"/);
+    assert.match(pathHtml, /js\/be-ia\.js\?v=20260729-1/);
+
+    const beIa = fs.readFileSync(path.join(root, 'js/be-ia.js'), 'utf8');
+    assert.match(beIa, /function getJourneyContext\(profile\)/);
+    assert.match(beIa, /const safetyPatterns = \[/);
+    assert.match(beIa, /function buildResponse\(query, context\)/);
+    assert.match(beIa, /bemEsportivo:analytics/);
+    assert.doesNotMatch(beIa, /interactions\.push\(\{[^}]*query/, 'A Be IA não deve guardar o texto livre do usuário.');
 
     const platformCss = fs.readFileSync(path.join(root, 'css/fala-bem-platform.css'), 'utf8');
     assert.match(platformCss, /@media\(min-width:761px\)\{[\s\S]*?body\.fala-bem-app-page \.fb-app-nav\{[\s\S]*?position:static;/);
@@ -119,7 +130,8 @@ async function run() {
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v54'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v55'/);
+    assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260729-1/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 
     const syncFunction = fs.readFileSync(path.join(root, 'netlify/functions/meu-caminho-sync.mjs'), 'utf8');
