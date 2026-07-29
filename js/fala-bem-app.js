@@ -468,6 +468,11 @@ function openSafetyDialog(details = currentProfile, force = false) {
   const needsGuardian = details.age === 'ate-17';
   if (guardianWrap) guardianWrap.hidden = !needsGuardian;
   if (guardian) guardian.required = needsGuardian;
+  const feedback = document.getElementById('fb-safety-feedback');
+  if (feedback) {
+    feedback.hidden = true;
+    feedback.textContent = '';
+  }
   try { dialog.showModal(); } catch (error) { dialog.setAttribute('open', ''); }
 }
 
@@ -3735,19 +3740,75 @@ document.querySelectorAll('#fb-safety-form [name="condition"]').forEach(input =>
   });
 });
 
+function validateSafetyForm(form, profileUpdate) {
+  const feedback = document.getElementById('fb-safety-feedback');
+  const guardianWrap = document.getElementById('fb-safety-guardian-wrap');
+  const fields = [
+    {
+      valid: Boolean(form.elements.symptoms.value),
+      message: 'Responda a primeira pergunta sobre sinais durante o esforço.',
+      target: form.querySelector('[name="symptoms"]')
+    },
+    {
+      valid: Boolean(form.elements.condition.value),
+      message: 'Responda a segunda pergunta sobre condição de saúde ou retorno.',
+      target: form.querySelector('[name="condition"]')
+    },
+    {
+      valid: form.elements.condition.value !== 'yes' || Boolean(form.elements.clearance.value),
+      message: 'Informe se um profissional já orientou ou liberou a retomada.',
+      target: form.querySelector('[name="clearance"]')
+    },
+    {
+      valid: Boolean(document.getElementById('fb-safety-consent')?.checked),
+      message: 'Marque a autorização de armazenamento para salvar estas respostas.',
+      target: document.getElementById('fb-safety-consent')
+    },
+    {
+      valid: Boolean(guardianWrap?.hidden || document.getElementById('fb-safety-guardian')?.checked),
+      message: 'Confirme o conhecimento e acompanhamento de um responsável.',
+      target: document.getElementById('fb-safety-guardian')
+    },
+    {
+      valid: Boolean(profileUpdate?.objective),
+      message: 'Não foi possível recuperar seu objetivo. Clique em “Revisar respostas” e confirme novamente seu caminho.',
+      target: document.getElementById('fb-safety-later')
+    }
+  ];
+  form.querySelectorAll('[aria-invalid="true"]').forEach(field => field.removeAttribute('aria-invalid'));
+  const invalid = fields.find(field => !field.valid);
+  if (!invalid) {
+    if (feedback) {
+      feedback.hidden = true;
+      feedback.textContent = '';
+    }
+    return true;
+  }
+  if (feedback) {
+    feedback.textContent = invalid.message;
+    feedback.hidden = false;
+    feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  invalid.target?.setAttribute('aria-invalid', 'true');
+  window.setTimeout(() => invalid.target?.focus(), 180);
+  return false;
+}
+
 document.getElementById('fb-safety-form')?.addEventListener('submit', event => {
   event.preventDefault();
   const form = event.currentTarget;
-  if (!form.checkValidity() || !pendingProfileUpdate?.objective) {
-    form.reportValidity();
-    return;
-  }
+  const profileUpdate = pendingProfileUpdate?.objective
+    ? pendingProfileUpdate
+    : currentProfile?.objective
+      ? { ...currentProfile }
+      : null;
+  if (!validateSafetyForm(form, profileUpdate)) return;
   const data = new FormData(form);
   const symptoms = String(data.get('symptoms') || '');
   const condition = String(data.get('condition') || '');
   const clearance = condition === 'yes' ? String(data.get('clearance') || '') : 'not-needed';
   const restricted = symptoms === 'yes' || (condition === 'yes' && clearance !== 'yes');
-  const sameObjective = currentProfile?.objective === pendingProfileUpdate.objective;
+  const sameObjective = currentProfile?.objective === profileUpdate.objective;
   const safety = {
     consent: true,
     consentVersion: SAFETY_CONSENT_VERSION,
@@ -3756,21 +3817,43 @@ document.getElementById('fb-safety-form')?.addEventListener('submit', event => {
     condition,
     clearance,
     restricted,
-    objective: pendingProfileUpdate.objective,
-    age: pendingProfileUpdate.age,
+    objective: profileUpdate.objective,
+    age: profileUpdate.age,
     screenedAt: new Date().toISOString()
   };
-  saveProfile({
-    ...pendingProfileUpdate,
-    safety,
-    progress: sameObjective ? getCompletedSteps() : 1,
-    checkins: sameObjective ? (currentProfile?.checkins || []) : []
-  });
+  const submitButton = document.getElementById('fb-safety-submit');
+  const feedback = document.getElementById('fb-safety-feedback');
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.textContent = 'Salvando...';
+  }
+  try {
+    saveProfile({
+      ...profileUpdate,
+      safety,
+      progress: sameObjective ? getCompletedSteps() : 1,
+      checkins: sameObjective ? (currentProfile?.checkins || []) : []
+    });
+  } catch (error) {
+    if (feedback) {
+      feedback.textContent = 'Não foi possível salvar agora. Seus dados não foram apagados; tente novamente.';
+      feedback.hidden = false;
+    }
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Salvar e continuar';
+    }
+    return;
+  }
   pendingProfileUpdate = null;
   closeDialog(document.getElementById('fb-safety-dialog'));
+  if (submitButton) {
+    submitButton.disabled = false;
+    submitButton.textContent = 'Salvar e continuar';
+  }
   openView(restricted ? 'perfil' : 'progresso');
-  const feedback = document.getElementById(restricted ? 'fb-profile-feedback' : 'fb-progress-feedback');
-  if (feedback) feedback.textContent = restricted
+  const viewFeedback = document.getElementById(restricted ? 'fb-profile-feedback' : 'fb-progress-feedback');
+  if (viewFeedback) viewFeedback.textContent = restricted
     ? 'Perfil salvo. Siga a indicação acima para revisar os sinais informados antes de começar.'
     : 'Mapa BeM concluído. Escolha realizar seu próximo passo agora ou começar o registro no Meu Hoje.';
   showCelebration(

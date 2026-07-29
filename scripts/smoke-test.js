@@ -118,8 +118,12 @@ async function run() {
     assert.match(pathHtml, /id="be-ia-context"/);
     assert.match(pathHtml, /id="be-ia-answer"[^>]*aria-live="polite"/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260729-1/);
-    assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260729-2/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260729-3/);
+    assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260729-3/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260729-4/);
+    assert.match(pathHtml, /id="fb-safety-form" novalidate/);
+    assert.match(pathHtml, /id="fb-safety-feedback"[^>]*aria-live="assertive"/);
+    assert.match(pathHtml, /id="fb-safety-submit"/);
+    assert.match(pathHtml, /class="fb-app-menu fb-ecosystem-menu"[\s\S]*?data-fb-view="progresso"[\s\S]*?data-fb-view="evolucao"[\s\S]*?data-fb-view="perfil"[\s\S]*?data-fb-view="ferramentas"[\s\S]*?data-fb-view="conteudos"[\s\S]*?data-fb-view="especialistas"/);
 
     const beIa = fs.readFileSync(path.join(root, 'js/be-ia.js'), 'utf8');
     assert.match(beIa, /function getJourneyContext\(profile\)/);
@@ -145,15 +149,17 @@ async function run() {
     assert.match(appScript, /source: 'be_now'/);
     assert.match(appScript, /function renderBeNow\(/);
     assert.match(appScript, /pausedForSafety = normalizedBarrier === 'desconforto'/);
+    assert.match(appScript, /function validateSafetyForm\(form, profileUpdate\)/);
+    assert.match(appScript, /currentProfile\?\.objective[\s\S]*?\{ \.\.\.currentProfile \}/);
 
     const redirects = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
     assert.match(redirects, /\/api\/analytics\/events\s+\/\.netlify\/functions\/analytics/);
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v57'/);
-    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260729-3/);
-    assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260729-2/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v59'/);
+    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260729-4/);
+    assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260729-3/);
     assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260729-1/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 

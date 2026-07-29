@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="css/photo-checkin.css?v=20260723-1">
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
-<link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-2">
+<link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-3">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -119,7 +119,7 @@
 <div><button type="button" id="fb-conflict-use-cloud">Usar dados da nuvem</button><button type="button" class="fb-primary-action" id="fb-conflict-use-device">Manter este aparelho</button><button type="button" id="fb-conflict-cancel">Decidir depois</button></div>
 </dialog>
 <dialog class="fb-safety-dialog" id="fb-safety-dialog" aria-labelledby="fb-safety-title">
-<form id="fb-safety-form">
+<form id="fb-safety-form" novalidate>
 <span>ANTES DE CRIAR SEU MAPA BEM</span>
 <h2 id="fb-safety-title">Contexto e segurança primeiro.</h2>
 <p>Responda três pontos rápidos. Este questionário é educacional, não solicita diagnóstico e fica somente neste aparelho.</p>
@@ -140,8 +140,9 @@
 </fieldset>
 <label class="fb-safety-consent"><input type="checkbox" id="fb-safety-consent" required> Autorizo, de forma específica, o armazenamento neste aparelho das respostas de contexto e segurança, inclusive informações relacionadas à saúde, somente para personalizar minha jornada. Posso exportar ou apagar tudo quando quiser.</label>
 <label class="fb-safety-guardian" id="fb-safety-guardian-wrap" hidden><input type="checkbox" id="fb-safety-guardian"> Confirmo que esta jornada será usada com conhecimento e acompanhamento de um responsável.</label>
+<p class="fb-safety-feedback" id="fb-safety-feedback" role="alert" aria-live="assertive" hidden></p>
 <p class="fb-safety-note">Este questionário usa sinais de atenção da <a href="https://www.exerciseismedicine.org/wp-content/uploads/2021/04/EIM-exercise-preparticipation-screening.pdf" target="_blank" rel="noopener noreferrer">triagem de pré-participação Exercise is Medicine/ACSM</a>, mas não realiza diagnóstico, avaliação física, prescrição ou liberação para exercícios. Consulte também nossa <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.</p>
-<div><button type="button" id="fb-safety-later">Revisar respostas</button><button type="submit" class="fb-primary-action">Salvar e continuar</button></div>
+<div><button type="button" id="fb-safety-later">Revisar respostas</button><button type="submit" class="fb-primary-action" id="fb-safety-submit">Salvar e continuar</button></div>
 </form>
 </dialog>
 <div class="fb-mobile-drawer-overlay" id="fb-mobile-drawer-overlay" hidden></div>
@@ -534,12 +535,14 @@
 </div>
 </section>
 </section>
-<div class="fb-ecosystem-head"><span>SEU ECOSSISTEMA</span><h2>Tudo o que ajuda sua jornada a continuar.</h2></div>
-<div class="fb-app-menu fb-ecosystem-menu" aria-label="Explore o ecossistema Meu Caminho Be">
-<button type="button" data-fb-view="conteudos"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h4"></path></svg></span><strong>Conhecimento</strong><small>Conteúdos para entender</small><i>Explorar</i></button>
-<button type="button" data-fb-view="ferramentas"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg></span><strong>Ferramentas</strong><small>Recursos para praticar</small><i>Abrir</i></button>
-<button type="button" data-fb-view="especialistas"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg></span><strong>Especialistas</strong><small>Orientação de pessoas</small><i>Conhecer</i></button>
-<button type="button" data-fb-view="comunidade"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"></circle><circle cx="17" cy="8" r="2.5"></circle><path d="M2.5 20a5.5 5.5 0 0 1 11 0M13 20a4.5 4.5 0 0 1 9 0"></path></svg></span><strong>Comunidade</strong><small>Experiências para conectar</small><i>Participar</i></button>
+<div class="fb-ecosystem-head"><span>ACESSOS RÁPIDOS</span><h2>Continue por onde fizer sentido.</h2></div>
+<div class="fb-app-menu fb-ecosystem-menu" aria-label="Acessos rápidos do Meu Caminho Be">
+<button type="button" data-fb-view="progresso"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 20V5m0 1h10l-2 3 2 3H5"></path></svg></span><strong>Jornada</strong><small>Ver o próximo passo</small><i>01</i></button>
+<button type="button" data-fb-view="evolucao"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19V9m5 10V5m5 14v-7m5 7V3"></path></svg></span><strong>Evolução</strong><small>Acompanhar avanços</small><i>02</i></button>
+<button type="button" data-fb-view="perfil"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg></span><strong>Perfil</strong><small>Ajustar seu caminho</small><i>03</i></button>
+<button type="button" data-fb-view="ferramentas"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg></span><strong>Ferramentas</strong><small>Recursos para praticar</small><i>04</i></button>
+<button type="button" data-fb-view="conteudos"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h4"></path></svg></span><strong>Conteúdos</strong><small>Informação para avançar</small><i>05</i></button>
+<button type="button" data-fb-view="especialistas"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"></circle><path d="M5 20a7 7 0 0 1 14 0M18 4v4M16 6h4"></path></svg></span><strong>Profissionais</strong><small>Encontrar orientação</small><i>06</i></button>
 </div>
 <section class="fb-practical-shortcuts" aria-labelledby="fb-practical-shortcuts-title">
 <div><span>GUIAS PARA AGIR AGORA</span><h2 id="fb-practical-shortcuts-title">Escolha o que você precisa e veja como seguir.</h2></div>
@@ -1390,7 +1393,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/routine-calendar.js?v=20260722-1"></script>
 <script type="module" src="js/meu-caminho-account.js?v=20260726-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260729-3" defer></script>
+<script src="js/fala-bem-app.js?v=20260729-4" defer></script>
 <script src="js/be-ia.js?v=20260729-1" defer></script>
 
 </body>
