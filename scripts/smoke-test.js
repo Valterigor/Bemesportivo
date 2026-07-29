@@ -106,6 +106,11 @@ async function run() {
     assert.match(pathHtml, /id="fb-evolution-days"/);
     assert.match(pathHtml, /class="fb-explore-grid"/);
     assert.match(pathHtml, /id="fb-day-guide"[\s\S]*?SUA AÇÃO DE AGORA · UMA POR VEZ/);
+    assert.match(pathHtml, /id="fb-now"[^>]*aria-labelledby="fb-now-title"/);
+    assert.match(pathHtml, /id="fb-now-start"/);
+    assert.match(pathHtml, /data-fb-now-status="concluida"/);
+    assert.match(pathHtml, /id="fb-now-barrier"/);
+    assert.match(pathHtml, /id="fb-now-help"/);
     assert.match(pathHtml, /id="fb-checkin-barrier"/);
     assert.match(pathHtml, /id="fb-week-review-form"/);
     assert.match(pathHtml, /id="fb-view-announcer"[^>]*aria-live="polite"/);
@@ -113,7 +118,8 @@ async function run() {
     assert.match(pathHtml, /id="be-ia-context"/);
     assert.match(pathHtml, /id="be-ia-answer"[^>]*aria-live="polite"/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260729-1/);
-    assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260729-1/);
+    assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260729-2/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260729-3/);
 
     const beIa = fs.readFileSync(path.join(root, 'js/be-ia.js'), 'utf8');
     assert.match(beIa, /function getJourneyContext\(profile\)/);
@@ -130,13 +136,24 @@ async function run() {
     assert.match(modernCss, /--mcb-orange:#f4511e/);
     assert.match(modernCss, /@media\(min-width:901px\)\{[\s\S]*?grid-template-columns:224px minmax\(0,1fr\)/);
     assert.match(modernCss, /@media\(max-width:900px\)\{[\s\S]*?position:fixed!important/);
+    assert.match(modernCss, /#be-ia:not\(\.fb-progressive-open\)/);
+    assert.match(modernCss, /#fb-week-zone/);
+
+    const appScript = fs.readFileSync(path.join(root, 'js/fala-bem-app.js'), 'utf8');
+    assert.match(appScript, /function recordJourneyStep\(/);
+    assert.match(appScript, /source: 'journey_form'/);
+    assert.match(appScript, /source: 'be_now'/);
+    assert.match(appScript, /function renderBeNow\(/);
+    assert.match(appScript, /pausedForSafety = normalizedBarrier === 'desconforto'/);
 
     const redirects = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
     assert.match(redirects, /\/api\/analytics\/events\s+\/\.netlify\/functions\/analytics/);
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v56'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v57'/);
+    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260729-3/);
+    assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260729-2/);
     assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260729-1/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 

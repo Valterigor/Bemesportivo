@@ -22,17 +22,19 @@ Cada troca de área atualiza o título da página, anuncia a tela para tecnologi
 
 O núcleo da experiência segue um ciclo simples:
 
-1. entender o momento e escolher uma prioridade;
-2. receber uma ação possível por vez no Meu Hoje;
-3. executar ou adaptar sem compensação;
-4. registrar como foi e, quando necessário, a principal barreira;
-5. após dois registros na semana, escolher se o próximo ciclo deve manter, simplificar, reorganizar ou buscar orientação.
+1. abrir o Meu Hoje e receber uma única ação no **Be Agora**;
+2. começar a ação ou escolher uma versão menor;
+3. responder em um toque se conseguiu, fez uma parte ou não conseguiu;
+4. informar a principal barreira somente quando ela for necessária;
+5. ver a etapa concluída e o próximo passo imediatamente na mesma tela.
+
+O Be Agora e o formulário completo da Jornada usam a mesma regra de conclusão. Assim, qualquer registro válido atualiza a etapa, persiste o histórico e libera a próxima ação sem criar estados paralelos. IA, diário completo, resumo semanal e explicações permanecem fechados até a pessoa solicitar ajuda ou detalhes.
 
 Dor, desconforto ou insegurança nunca geram progressão automática. O sistema orienta a não avançar e procurar avaliação profissional quando apropriado.
 
 ## Be IA Esportiva
 
-A Be IA aparece no Meu Hoje depois que o Mapa BeM está concluído. Diferente de um chat genérico, ela considera faixa etária, objetivo, modalidade, progresso, tempo disponível, registros recentes e barreira mais recente.
+A Be IA fica disponível no Meu Hoje pelo botão **Preciso de ajuda** depois que o Mapa BeM está concluído. Diferente de um chat genérico, ela considera faixa etária, objetivo, modalidade, progresso, tempo disponível, registros recentes e barreira mais recente.
 
 A versão beta inicial usa um motor contextual local e respostas estruturadas. O texto livre não é armazenado; somente categoria da orientação, classe de segurança e feedback opcional ficam neste aparelho. Cada resposta oferece um passo possível, explica quais dados influenciaram a orientação e mantém acesso direto ao Meu Hoje, à Jornada ou a profissionais.
 

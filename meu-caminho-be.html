@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="css/photo-checkin.css?v=20260723-1">
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
-<link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-1">
+<link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-2">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -233,6 +233,61 @@
 <div><span>MEU HOJE</span><h2 id="fb-today-zone-title">Seu dia, suas escolhas e seu registro.</h2></div>
 <time id="fb-today-context-date" datetime="">Hoje</time>
 </header>
+<section class="fb-now" id="fb-now" aria-labelledby="fb-now-title" hidden>
+<header class="fb-now-head">
+<div><span>BE AGORA</span><h2 id="fb-now-title">Uma ação. Um próximo passo.</h2></div>
+<strong id="fb-now-duration">10 MIN</strong>
+</header>
+<div class="fb-now-progress" aria-label="Progresso da jornada">
+<span id="fb-now-step-label">PASSO 1 DE 4</span>
+<div class="fb-now-progress-track" aria-hidden="true"><i id="fb-now-progress-bar"></i></div>
+<strong id="fb-now-percent">20%</strong>
+</div>
+<article class="fb-now-action" aria-live="polite">
+<span id="fb-now-kicker">PARA HOJE</span>
+<h3 id="fb-now-action-title">Seu próximo passo aparece aqui.</h3>
+<p id="fb-now-action-detail">Faça no seu ritmo e registre como foi em um toque.</p>
+<div class="fb-now-actions" id="fb-now-actions">
+<button type="button" class="fb-primary-action" id="fb-now-start">Começar agora</button>
+<button type="button" id="fb-now-adapt">Fazer versão menor</button>
+</div>
+<div class="fb-now-outcome" id="fb-now-outcome" hidden>
+<strong>Como foi?</strong>
+<div role="group" aria-label="Resultado da ação">
+<button type="button" data-fb-now-status="concluida">Consegui</button>
+<button type="button" data-fb-now-status="parcial">Fiz uma parte</button>
+<button type="button" data-fb-now-status="ajustar">Não consegui</button>
+</div>
+</div>
+<div class="fb-now-barrier" id="fb-now-barrier-wrap" hidden>
+<label for="fb-now-barrier">O que mais dificultou?
+<select id="fb-now-barrier">
+<option value="">Escolha uma opção</option>
+<option value="tempo">Faltou tempo</option>
+<option value="energia">Faltou energia</option>
+<option value="dificuldade">Estava difícil</option>
+<option value="acesso">Local ou equipamento</option>
+<option value="apoio">Faltou companhia ou apoio</option>
+<option value="desconforto">Dor, desconforto ou insegurança</option>
+<option value="outro">Outro motivo</option>
+</select>
+</label>
+<button type="button" class="fb-primary-action" id="fb-now-save-adaptation">Salvar e adaptar próximo passo</button>
+</div>
+</article>
+<p class="fb-now-transition" id="fb-now-transition" role="status" aria-live="polite" hidden></p>
+<details class="fb-now-why"><summary>Por que esta ação?</summary><p id="fb-now-reason"></p></details>
+<div class="fb-now-secondary">
+<button type="button" id="fb-now-help">Preciso de ajuda</button>
+<button type="button" id="fb-now-details">Ver detalhes do dia</button>
+<button type="button" data-fb-view="progresso">Ver jornada completa</button>
+</div>
+<div class="fb-now-safety" id="fb-now-safety" hidden>
+<strong>Segurança primeiro</strong>
+<p id="fb-now-safety-text"></p>
+<button type="button" id="fb-now-safety-action">Revisar contexto e segurança</button>
+</div>
+</section>
 <section class="fb-day-guide fb-day-guide-priority" id="fb-day-guide" aria-labelledby="fb-day-guide-title" hidden>
 <header class="fb-day-guide-head"><div><span>SUA AÇÃO DE AGORA · UMA POR VEZ</span><h2 id="fb-day-guide-title">O que pode ajudar você agora?</h2></div><strong id="fb-day-guide-phase">AGORA</strong></header>
 <div class="fb-day-intentions"><p>Qual prioridade cabe melhor no seu dia?</p><div role="group" aria-label="Prioridade do dia"><button type="button" data-day-intent="movimento">Me movimentar</button><button type="button" data-day-intent="descanso">Descansar</button><button type="button" data-day-intent="alimentacao">Cuidar da alimentação</button><button type="button" data-day-intent="hidratacao">Melhorar a hidratação</button><button type="button" data-day-intent="registro">Só registrar meu dia</button></div></div>
@@ -1335,7 +1390,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/routine-calendar.js?v=20260722-1"></script>
 <script type="module" src="js/meu-caminho-account.js?v=20260726-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260729-2" defer></script>
+<script src="js/fala-bem-app.js?v=20260729-3" defer></script>
 <script src="js/be-ia.js?v=20260729-1" defer></script>
 
 </body>

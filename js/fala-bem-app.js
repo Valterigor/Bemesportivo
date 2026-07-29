@@ -55,6 +55,10 @@ const sportIdentityPresets = {
 };
 let currentProfile = readStoredProfile();
 let pendingProfileUpdate = null;
+let lastBeNowTransition = null;
+let journeyStepSaving = false;
+let beNowCompactMode = false;
+let pendingBeNowStatus = '';
 const viewTargets = {
   jornada: ['#minha-jornada'],
   ferramentas: ['#ferramentas'],
@@ -1399,6 +1403,55 @@ function getCompletedSteps(profile = currentProfile) {
     verifiedProgress += 1;
   }
   return Math.min(requestedProgress, verifiedProgress);
+}
+
+function recordJourneyStep({ status, note, barrier = '', source = 'journey' } = {}) {
+  if (journeyStepSaving) return { ok: false, reason: 'saving' };
+  if (!currentProfile?.objective) return { ok: false, reason: 'no-journey' };
+  if (isSafetyPending() || isSafetyRestricted()) return { ok: false, reason: 'safety' };
+  const normalizedStatus = ['concluida', 'parcial', 'ajustar'].includes(status) ? status : '';
+  const normalizedNote = String(note || '').trim().slice(0, 500);
+  const normalizedBarrier = ['parcial', 'ajustar'].includes(normalizedStatus) ? String(barrier || '') : '';
+  if (!normalizedStatus || normalizedNote.length < 3 || (['parcial', 'ajustar'].includes(normalizedStatus) && !checkinBarrierLabels[normalizedBarrier])) {
+    return { ok: false, reason: 'invalid' };
+  }
+
+  const completed = getCompletedSteps();
+  const steps = getJourneySteps();
+  if (completed >= steps.length) return { ok: false, reason: 'cycle-complete' };
+  const completedStep = steps[completed];
+  const pausedForSafety = normalizedBarrier === 'desconforto';
+  const nextProgress = pausedForSafety ? completed : completed + 1;
+  const nextStep = pausedForSafety ? completedStep : steps[nextProgress] || '';
+  const checkins = [...(currentProfile.checkins || []), {
+    step: completedStep,
+    status: normalizedStatus,
+    barrier: normalizedBarrier,
+    note: normalizedNote,
+    source,
+    completedAt: new Date().toISOString()
+  }];
+  const archivedCheckinCount = (currentProfile?.cycles || []).reduce((total, cycle) => total + (Array.isArray(cycle?.checkins) ? cycle.checkins.length : 0), 0);
+  const previousCheckinTotal = Math.max(Number(currentProfile?.gamificationStats?.completedCheckins || 0), archivedCheckinCount + (currentProfile?.checkins || []).length);
+  const gameBeforeCheckin = getGamificationState();
+  lastBeNowTransition = { completedStep, nextStep, cycleComplete: !nextStep, pausedForSafety };
+  journeyStepSaving = true;
+  saveProfile({
+    progress: nextProgress,
+    checkins,
+    gamificationStats: { ...(currentProfile?.gamificationStats || {}), completedCheckins: previousCheckinTotal + 1 }
+  });
+  const gameAfterCheckin = getGamificationState();
+  window.setTimeout(() => { journeyStepSaving = false; }, 250);
+  showCelebration(
+    pausedForSafety ? 'Etapa pausada com segurança' : gameAfterCheckin.level > gameBeforeCheckin.level ? 'Seu nível aumentou!' : (nextStep ? 'Passo concluído!' : 'Ciclo concluído!'),
+    pausedForSafety ? 'Dor, desconforto ou insegurança pedem orientação antes de continuar.' : nextStep ? `Próximo passo liberado: ${nextStep}.` : 'Seu ciclo foi concluído e ficou salvo.',
+    { type: pausedForSafety ? 'warning' : 'progress', reward: pausedForSafety ? '' : '+50 XP', detail: pausedForSafety ? 'Seu progresso foi preservado.' : nextStep || `${gameAfterCheckin.xp} XP no total` }
+  );
+  window.dispatchEvent(new CustomEvent('bemEsportivo:analytics', {
+    detail: { name: 'journey_checkin', detail: `${source}:${normalizedBarrier || normalizedStatus}` }
+  }));
+  return { ok: true, completedStep, nextStep, cycleComplete: !nextStep, pausedForSafety };
 }
 
 function updateProgressActionState() {
@@ -2776,6 +2829,87 @@ function renderSportDiscovery() {
   container.hidden = false;
 }
 
+function renderBeNow() {
+  const section = document.getElementById('fb-now');
+  if (!section) return;
+  const hasJourney = Boolean(currentProfile?.objective);
+  section.hidden = !hasJourney;
+  if (!hasJourney) return;
+
+  const steps = getJourneySteps();
+  const completed = getCompletedSteps();
+  const cycleComplete = completed >= steps.length;
+  const safetyPending = isSafetyPending();
+  const safetyRestricted = isSafetyRestricted();
+  const stepIndex = Math.min(completed, steps.length - 1);
+  const latestCheckin = [...(currentProfile?.checkins || [])].reverse().find(item => item?.step === steps[stepIndex]);
+  const discomfortPaused = latestCheckin?.barrier === 'desconforto';
+  const safetyBlocked = safetyPending || safetyRestricted || discomfortPaused;
+  const guidance = getStepGuidance(stepIndex);
+  const actionTitle = cycleComplete
+    ? 'Você concluiu este ciclo.'
+    : beNowCompactMode
+      ? `Versão menor: ${guidance?.task || currentProfile?.nextAction || steps[stepIndex]}`
+      : guidance?.task || currentProfile?.nextAction || steps[stepIndex];
+  const adaptiveNote = getAdaptiveStepNote(stepIndex, currentProfile?.checkins || []);
+  const availability = Number(currentProfile?.availability);
+  const duration = beNowCompactMode ? Math.min(10, availability || 10) : availability > 0 ? Math.min(20, availability) : 15;
+  const percent = Math.min(100, completed * 20);
+  const weekStart = localDayKey(startOfLocalWeek());
+  const weekLogs = getDailyLogs().filter(item => item.date >= weekStart).length;
+  const game = getGamificationState();
+
+  document.getElementById('fb-now-duration').textContent = cycleComplete ? '100%' : `${duration} MIN`;
+  document.getElementById('fb-now-step-label').textContent = cycleComplete ? 'CICLO CONCLUÍDO' : `PASSO ${completed} DE ${steps.length - 1}`;
+  document.getElementById('fb-now-progress-bar').style.width = `${percent}%`;
+  document.getElementById('fb-now-percent').textContent = `${percent}%`;
+  document.getElementById('fb-now-kicker').textContent = cycleComplete ? 'VOCÊ CHEGOU ATÉ O FIM' : beNowCompactMode ? 'VERSÃO MENOR' : 'PARA HOJE';
+  document.getElementById('fb-now-action-title').textContent = actionTitle;
+  document.getElementById('fb-now-action-detail').textContent = cycleComplete
+    ? 'Seu histórico foi preservado. Inicie outro ciclo quando quiser continuar.'
+    : adaptiveNote || `Faça por até ${duration} minutos. Depois, conte como foi em um toque.`;
+  document.getElementById('fb-now-reason').textContent = cycleComplete
+    ? `Você registrou as ${steps.length - 1} etapas deste ciclo.`
+    : `Esta ação considera seu objetivo (${objectiveLabels[currentProfile.objective] || 'jornada esportiva'}), seu tempo disponível e o que aconteceu no passo anterior. Nesta semana: ${weekLogs} registro${weekLogs === 1 ? '' : 's'} e sequência de ${game.streak} dia${game.streak === 1 ? '' : 's'}.`;
+
+  const actions = document.getElementById('fb-now-actions');
+  const start = document.getElementById('fb-now-start');
+  const adapt = document.getElementById('fb-now-adapt');
+  const outcome = document.getElementById('fb-now-outcome');
+  const barrierWrap = document.getElementById('fb-now-barrier-wrap');
+  const safety = document.getElementById('fb-now-safety');
+  actions.hidden = safetyBlocked;
+  outcome.hidden = true;
+  barrierWrap.hidden = true;
+  safety.hidden = !safetyBlocked;
+  start.disabled = false;
+  start.dataset.fbNowAction = cycleComplete ? 'new-cycle' : 'start';
+  start.textContent = cycleComplete ? 'Iniciar novo ciclo' : 'Começar agora';
+  adapt.hidden = cycleComplete;
+  adapt.textContent = beNowCompactMode ? 'Voltar à versão original' : 'Fazer versão menor';
+  if (safetyBlocked) {
+    document.getElementById('fb-now-safety-text').textContent = safetyPending
+      ? 'Responda três pontos rápidos antes de iniciar sua próxima ação.'
+      : discomfortPaused
+        ? 'Você relatou dor, desconforto ou insegurança. Não avance antes de receber orientação adequada.'
+        : 'Os sinais informados pedem orientação profissional antes de continuar.';
+    const safetyAction = document.getElementById('fb-now-safety-action');
+    safetyAction.dataset.fbNowSafetyAction = discomfortPaused ? 'professionals' : 'screening';
+    safetyAction.textContent = discomfortPaused ? 'Encontrar profissionais' : 'Revisar contexto e segurança';
+  }
+
+  const transition = document.getElementById('fb-now-transition');
+  transition.hidden = !lastBeNowTransition;
+  transition.classList.toggle('is-warning', Boolean(lastBeNowTransition?.pausedForSafety));
+  if (lastBeNowTransition) {
+    transition.textContent = lastBeNowTransition.pausedForSafety
+      ? `! ${lastBeNowTransition.completedStep} foi pausado. Seu progresso está preservado.`
+      : lastBeNowTransition.nextStep
+      ? `✓ ${lastBeNowTransition.completedStep} concluído. Agora: ${lastBeNowTransition.nextStep}.`
+      : `✓ ${lastBeNowTransition.completedStep} concluído. Ciclo completo.`;
+  }
+}
+
 function renderPersonalizedExperience() {
   const kicker = document.getElementById('fb-today-kicker');
   const title = document.getElementById('fb-today-title');
@@ -2889,6 +3023,7 @@ function renderPersonalizedExperience() {
   renderProfileSummary();
   renderGoalTracker();
   renderProgress();
+  renderBeNow();
   renderDashboardRecommendations();
   renderGamification();
   renderEvolution();
@@ -3030,8 +3165,6 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
     openView('jornada');
     return;
   }
-  const completed = getCompletedSteps();
-  const steps = getJourneySteps();
   const status = document.getElementById('fb-checkin-status');
   const note = document.getElementById('fb-checkin-note');
   const barrier = document.getElementById('fb-checkin-barrier');
@@ -3044,37 +3177,34 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
     updateProgressActionState();
     return;
   }
-  const nextProgress = completed + 1;
-  const nextStep = steps[nextProgress];
   const barrierValue = needsBarrier ? barrier.value : '';
-  const checkins = [...(currentProfile.checkins || []), {
-    step: steps[completed],
+  const result = recordJourneyStep({
     status: status.value,
-    barrier: barrierValue,
     note: note.value.trim(),
-    completedAt: new Date().toISOString()
-  }];
+    barrier: barrierValue,
+    source: 'journey_form'
+  });
+  if (!result.ok) {
+    document.getElementById('fb-progress-feedback').textContent = result.reason === 'safety'
+      ? 'Revise o contexto e a segurança antes de continuar.'
+      : 'Não foi possível registrar agora. Revise os dados e tente novamente.';
+    return;
+  }
   if (status) status.value = '';
   if (barrier) barrier.value = '';
   if (note) note.value = '';
-  const archivedCheckinCount = (currentProfile?.cycles || []).reduce((total, cycle) => total + (Array.isArray(cycle?.checkins) ? cycle.checkins.length : 0), 0);
-  const previousCheckinTotal = Math.max(Number(currentProfile?.gamificationStats?.completedCheckins || 0), archivedCheckinCount + (currentProfile?.checkins || []).length);
-  const gameBeforeCheckin = getGamificationState();
-  saveProfile({ progress: nextProgress, checkins, gamificationStats: { ...(currentProfile?.gamificationStats || {}), completedCheckins: previousCheckinTotal + 1 } });
-  const gameAfterCheckin = getGamificationState();
+  updateProgressActionState();
   const feedbackName = currentProfile?.name ? `${currentProfile.name}, ` : '';
-  document.getElementById('fb-progress-feedback').textContent = nextStep
-    ? `${feedbackName}obrigado por contar como foi. Registrei sua experiência e preparei o próximo passo: ${nextStep}.`
+  document.getElementById('fb-progress-feedback').textContent = result.pausedForSafety
+    ? `${feedbackName}sua etapa foi pausada e o progresso foi preservado. Procure orientação adequada antes de continuar.`
+    : result.nextStep
+    ? `${feedbackName}obrigado por contar como foi. Seu próximo passo já está pronto: ${result.nextStep}.`
     : `${feedbackName}você concluiu este ciclo. Sua experiência está registrada e já pode orientar sua próxima escolha.`;
-  showCelebration(
-    gameAfterCheckin.level > gameBeforeCheckin.level ? 'Seu nível aumentou!' : (nextStep ? 'Passo registrado!' : 'Ciclo concluído!'),
-    gameAfterCheckin.level > gameBeforeCheckin.level ? `Você chegou ao nível ${gameAfterCheckin.level}: ${gameAfterCheckin.levelName}.` : (nextStep ? 'Muito bem por acompanhar sua jornada. Seu próximo passo já está preparado.' : 'Parabéns por concluir este ciclo no seu ritmo.'),
-    { type: 'progress', reward: '+50 XP', detail: nextStep ? `Próximo passo: ${nextStep}` : `${gameAfterCheckin.xp} XP no total` }
-  );
-  window.dispatchEvent(new CustomEvent('bemEsportivo:analytics', { detail: { name: 'journey_checkin', detail: barrierValue || 'completed' } }));
 });
 
 document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
+  lastBeNowTransition = null;
+  beNowCompactMode = false;
   const records = Array.isArray(currentProfile?.checkins) ? currentProfile.checkins : [];
   const adjustCount = records.filter(item => item?.status === 'ajustar').length;
   const partialCount = records.filter(item => item?.status === 'parcial').length;
@@ -3212,12 +3342,86 @@ function setDailyFormVisibility(open) {
 
 function openDailyJournal(options = {}) {
   openView('inicio');
+  document.getElementById('fb-daily-journal')?.classList.add('fb-progressive-open');
   const todayLog = getDailyLogs().find(item => item.date === localDayKey()) || null;
   fillDailyForm(todayLog);
   if (options.details) document.getElementById('fb-daily-optional').open = true;
   setDailyFormVisibility(true);
   window.setTimeout(() => document.getElementById(options.details ? 'fb-daily-optional' : 'fb-daily-journal')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 220);
 }
+
+document.getElementById('fb-now-start')?.addEventListener('click', event => {
+  if (event.currentTarget.dataset.fbNowAction === 'new-cycle') {
+    document.getElementById('fb-new-cycle')?.click();
+    return;
+  }
+  const outcome = document.getElementById('fb-now-outcome');
+  outcome.hidden = false;
+  event.currentTarget.textContent = 'Ação iniciada';
+  event.currentTarget.disabled = true;
+  window.setTimeout(() => outcome.querySelector('button')?.focus(), 80);
+});
+
+document.getElementById('fb-now-adapt')?.addEventListener('click', () => {
+  beNowCompactMode = !beNowCompactMode;
+  renderBeNow();
+});
+
+document.querySelectorAll('[data-fb-now-status]').forEach(button => {
+  button.addEventListener('click', () => {
+    pendingBeNowStatus = button.dataset.fbNowStatus;
+    if (pendingBeNowStatus === 'concluida') {
+      const step = getJourneySteps()[getCompletedSteps()];
+      recordJourneyStep({
+        status: 'concluida',
+        note: `Realizei o passo "${step}" pelo Be Agora.`,
+        source: 'be_now'
+      });
+      return;
+    }
+    const barrierWrap = document.getElementById('fb-now-barrier-wrap');
+    barrierWrap.hidden = false;
+    window.setTimeout(() => document.getElementById('fb-now-barrier')?.focus(), 80);
+  });
+});
+
+document.getElementById('fb-now-save-adaptation')?.addEventListener('click', () => {
+  const barrier = document.getElementById('fb-now-barrier');
+  if (!barrier?.value) {
+    barrier?.setCustomValidity('Escolha o principal motivo.');
+    barrier?.reportValidity();
+    barrier?.focus();
+    return;
+  }
+  barrier.setCustomValidity('');
+  const step = getJourneySteps()[getCompletedSteps()];
+  const label = checkinBarrierLabels[barrier.value] || 'outro motivo';
+  const result = recordJourneyStep({
+    status: pendingBeNowStatus,
+    barrier: barrier.value,
+    note: `${pendingBeNowStatus === 'parcial' ? 'Realizei uma parte' : 'Não consegui realizar'} do passo "${step}"; principal barreira: ${label}.`,
+    source: 'be_now'
+  });
+  if (result.ok) {
+    pendingBeNowStatus = '';
+    barrier.value = '';
+  }
+});
+
+document.getElementById('fb-now-help')?.addEventListener('click', () => {
+  const assistant = document.getElementById('be-ia');
+  if (!assistant) return;
+  assistant.hidden = false;
+  assistant.classList.add('fb-progressive-open');
+  assistant.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  window.setTimeout(() => document.getElementById('be-ia-input')?.focus({ preventScroll: true }), 240);
+});
+
+document.getElementById('fb-now-details')?.addEventListener('click', () => openDailyJournal());
+document.getElementById('fb-now-safety-action')?.addEventListener('click', event => {
+  if (event.currentTarget.dataset.fbNowSafetyAction === 'professionals') openView('especialistas');
+  else openSafetyDialog(currentProfile, true);
+});
 
 document.querySelectorAll('[data-day-intent]').forEach(button => {
   button.addEventListener('click', () => {
@@ -3283,6 +3487,7 @@ document.getElementById('fb-open-daily-form')?.addEventListener('click', () => {
 document.getElementById('fb-daily-open-details')?.addEventListener('click', () => openDailyJournal({ details: true }));
 document.getElementById('fb-home-guide-action')?.addEventListener('click', () => {
   openView('inicio', { scroll: false });
+  document.getElementById('be-ia')?.classList.add('fb-progressive-open');
   document.getElementById('be-ia')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   window.setTimeout(() => document.getElementById('be-ia-input')?.focus({ preventScroll: true }), 220);
 });

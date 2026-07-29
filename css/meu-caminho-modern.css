@@ -386,3 +386,116 @@ body.fala-bem-app-page .fb-week-summary-card dl{grid-template-columns:1fr 1fr}
 @media(prefers-reduced-motion:reduce){
 body.fala-bem-app-page *,body.fala-bem-app-page *::before,body.fala-bem-app-page *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* Meu Hoje focado: uma decisão principal e detalhes sob demanda. */
+body.fala-bem-app-page .fb-now{
+position:relative;
+display:grid;
+gap:18px;
+padding:clamp(20px,3vw,32px);
+border:1px solid #ded8e3;
+border-radius:24px;
+background:linear-gradient(145deg,#fff 0%,#fffaf7 100%);
+box-shadow:0 20px 50px rgba(37,29,43,.09);
+overflow:hidden;
+}
+body.fala-bem-app-page .fb-now[hidden]{display:none}
+body.fala-bem-app-page .fb-now::before{
+content:"";
+position:absolute;
+inset:0 auto 0 0;
+width:5px;
+background:linear-gradient(#ff7a18,#f4511e);
+}
+body.fala-bem-app-page .fb-now-head,
+body.fala-bem-app-page .fb-now-progress,
+body.fala-bem-app-page .fb-now-secondary,
+body.fala-bem-app-page .fb-now-outcome>div{
+display:flex;
+align-items:center;
+gap:12px;
+}
+body.fala-bem-app-page .fb-now-head{justify-content:space-between}
+body.fala-bem-app-page .fb-now-head span,
+body.fala-bem-app-page .fb-now-action>span,
+body.fala-bem-app-page .fb-now-step-label{
+color:#d94712;
+font-size:.69rem;
+font-weight:900;
+letter-spacing:.12em;
+}
+body.fala-bem-app-page .fb-now-head h2{margin:3px 0 0;font-size:clamp(1.15rem,2.4vw,1.55rem);line-height:1.1}
+body.fala-bem-app-page .fb-now-head>strong{
+padding:9px 12px;
+border-radius:999px;
+background:#261f2b;
+color:#fff;
+font-size:.72rem;
+letter-spacing:.08em;
+white-space:nowrap;
+}
+body.fala-bem-app-page .fb-now-progress{display:grid;grid-template-columns:auto minmax(80px,1fr) auto}
+body.fala-bem-app-page .fb-now-progress-track{height:7px;border-radius:999px;background:#eee8ef;overflow:hidden}
+body.fala-bem-app-page .fb-now-progress-track i{display:block;width:20%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#ff8a1e,#f4511e);transition:width .25s ease}
+body.fala-bem-app-page .fb-now-percent{font-size:.78rem}
+body.fala-bem-app-page .fb-now-action{
+display:grid;
+gap:9px;
+padding:clamp(20px,3vw,30px);
+border-radius:20px;
+background:#251f28;
+color:#fff;
+}
+body.fala-bem-app-page .fb-now-action>span{color:#ffb17d}
+body.fala-bem-app-page .fb-now-action h3{max-width:760px;margin:0;color:#fff;font-size:clamp(1.4rem,3vw,2rem);line-height:1.12}
+body.fala-bem-app-page .fb-now-action p{max-width:720px;margin:0;color:#d9d1dc;font-size:.94rem}
+body.fala-bem-app-page .fb-now-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:9px}
+body.fala-bem-app-page .fb-now :is(button,select){min-height:44px;border-radius:12px;font:inherit;font-weight:800}
+body.fala-bem-app-page .fb-now-action button{border:1px solid rgba(255,255,255,.22);background:#352e38;color:#fff}
+body.fala-bem-app-page .fb-now-action .fb-primary-action{border-color:#ff6a24;background:#ff5a1f;color:#fff;box-shadow:0 9px 24px rgba(244,81,30,.28)}
+body.fala-bem-app-page .fb-now-action button:focus-visible,
+body.fala-bem-app-page .fb-now-secondary button:focus-visible{outline:3px solid #ffb48d;outline-offset:3px}
+body.fala-bem-app-page .fb-now-outcome{display:grid;gap:10px;margin-top:12px;padding-top:17px;border-top:1px solid rgba(255,255,255,.13)}
+body.fala-bem-app-page .fb-now-outcome[hidden],
+body.fala-bem-app-page .fb-now-actions[hidden],
+body.fala-bem-app-page .fb-now-barrier[hidden],
+body.fala-bem-app-page .fb-now-transition[hidden],
+body.fala-bem-app-page .fb-now-safety[hidden]{display:none}
+body.fala-bem-app-page .fb-now-outcome>div{flex-wrap:wrap}
+body.fala-bem-app-page .fb-now-outcome button:first-child{background:#eaf8ef;color:#17653a;border-color:#9ad8b2}
+body.fala-bem-app-page .fb-now-barrier{display:flex;align-items:end;flex-wrap:wrap;gap:10px;margin-top:4px}
+body.fala-bem-app-page .fb-now-barrier label{display:grid;flex:1 1 260px;gap:6px;color:#fff;font-size:.78rem;font-weight:800}
+body.fala-bem-app-page .fb-now-barrier select{width:100%;padding:0 12px;border:1px solid #d7ceda;background:#fff;color:#251f28}
+body.fala-bem-app-page .fb-now-transition{margin:0;padding:13px 15px;border:1px solid #aadbbc;border-radius:14px;background:#effaf3;color:#17633a;font-weight:800}
+body.fala-bem-app-page .fb-now-transition.is-warning{border-color:#efb6a2;background:#fff5f0;color:#8e351d}
+body.fala-bem-app-page .fb-now-why{padding:0 2px}
+body.fala-bem-app-page .fb-now-why summary{cursor:pointer;color:#625a66;font-size:.82rem;font-weight:800}
+body.fala-bem-app-page .fb-now-why p{margin:9px 0 0;color:#6f6872;font-size:.82rem}
+body.fala-bem-app-page .fb-now-secondary{flex-wrap:wrap;padding-top:3px}
+body.fala-bem-app-page .fb-now-secondary button{border:1px solid #ded7e2;background:#fff;color:#4f4852}
+body.fala-bem-app-page .fb-now-safety{padding:17px;border:1px solid #efb6a2;border-radius:16px;background:#fff5f0}
+body.fala-bem-app-page .fb-now-safety p{margin:5px 0 12px}
+
+body.fala-bem-app-page #fb-day-guide,
+body.fala-bem-app-page #fb-home-dashboard,
+body.fala-bem-app-page #fb-routine-calendar,
+body.fala-bem-app-page #fb-week-zone,
+body.fala-bem-app-page [data-fb-panel="inicio"]>.fb-ecosystem-head,
+body.fala-bem-app-page [data-fb-panel="inicio"]>.fb-ecosystem-menu,
+body.fala-bem-app-page [data-fb-panel="inicio"]>.fb-practical-shortcuts{display:none!important}
+body.fala-bem-app-page #be-ia:not(.fb-progressive-open),
+body.fala-bem-app-page #fb-daily-journal:not(.fb-progressive-open){display:none!important}
+body.fala-bem-app-page #be-ia.fb-progressive-open,
+body.fala-bem-app-page #fb-daily-journal.fb-progressive-open{display:block}
+
+@media(max-width:620px){
+body.fala-bem-app-page .fb-now{gap:15px;padding:17px;border-radius:18px}
+body.fala-bem-app-page .fb-now-head{align-items:flex-start}
+body.fala-bem-app-page .fb-now-progress{grid-template-columns:1fr auto}
+body.fala-bem-app-page .fb-now-progress>span{grid-column:1/-1}
+body.fala-bem-app-page .fb-now-action{padding:19px 16px}
+body.fala-bem-app-page .fb-now-actions,
+body.fala-bem-app-page .fb-now-outcome>div,
+body.fala-bem-app-page .fb-now-secondary{display:grid;grid-template-columns:1fr}
+body.fala-bem-app-page .fb-now :is(button,select){width:100%}
+}
