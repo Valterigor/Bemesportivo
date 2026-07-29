@@ -12,7 +12,7 @@ const managedSections = [...document.querySelectorAll('.container.page > :not(.f
 const PROFILE_STORAGE_KEY = 'meuCaminhoBeProfileV1';
 const ACCESS_STORAGE_KEY = 'meuCaminhoBeAccessV1';
 const SAFETY_CONSENT_VERSION = '2026-07-21';
-const PROFILE_SCHEMA_VERSION = 8;
+const PROFILE_SCHEMA_VERSION = 9;
 const dailyActivityLabels = {
   none: 'Sem treino', caminhada: 'Caminhada', corrida: 'Corrida', musculacao: 'Musculação',
   funcional: 'Treino funcional', futebol: 'Futebol', ciclismo: 'Ciclismo', natacao: 'Natação', outra: 'Outra atividade'
@@ -20,6 +20,21 @@ const dailyActivityLabels = {
 const dailyIntentions = {
   movimento: 'Me movimentar', descanso: 'Descansar', alimentacao: 'Cuidar da alimentação',
   hidratacao: 'Melhorar a hidratação', registro: 'Só registrar meu dia'
+};
+const checkinBarrierLabels = {
+  tempo: 'faltou tempo',
+  energia: 'energia ou recuperação',
+  dificuldade: 'o passo estava difícil',
+  acesso: 'local ou equipamento',
+  apoio: 'companhia ou apoio',
+  desconforto: 'dor, desconforto ou insegurança',
+  outro: 'outro motivo'
+};
+const weeklyDecisionLabels = {
+  manter: 'manter o que funcionou',
+  simplificar: 'fazer uma versão menor',
+  reorganizar: 'trocar horário ou organização',
+  orientacao: 'buscar orientação profissional'
 };
 const sportVisualLabels = {
   energia: 'Energia',
@@ -71,6 +86,22 @@ const appViewForRoute = {
   evolucao: 'evolucao',
   explorar: 'explorar',
   perfil: 'perfil'
+};
+const viewPresentation = {
+  inicio: ['Meu Hoje', '#fb-today-zone-title'],
+  progresso: ['Jornada da Semana', '#fb-progress-title'],
+  jornada: ['Mapa BeM', '#journey-title'],
+  evolucao: ['Minha evolução', '#fb-evolution-title'],
+  explorar: ['Explorar', '#fb-explore-title'],
+  perfil: ['Meu perfil', '#fb-profile-title'],
+  conteudos: ['Conteúdos', '#conteudos-title'],
+  ferramentas: ['Ferramentas', '#tools-title'],
+  especialistas: ['Profissionais', '#specialists-title'],
+  modalidades: ['Modalidades', '#modalidades-title'],
+  comunidade: ['Comunidade', '#comunidade-title'],
+  trilhas: ['Trilhas', '#trilhas-title'],
+  dicas: ['Dicas', '#fb-tips-title'],
+  gols: ['Contador de gols', '#fb-goals-view-title']
 };
 
 const objectiveLabels = {
@@ -234,6 +265,7 @@ function readStoredProfile() {
       cycles: Array.isArray(profile.cycles) ? profile.cycles : [],
       dailyLogs: Array.isArray(profile.dailyLogs) ? profile.dailyLogs.map(sanitizeDailyLog).filter(Boolean).slice(-180) : [],
       dailyPlans: Array.isArray(profile.dailyPlans) ? profile.dailyPlans.map(sanitizeDailyPlan).filter(Boolean).slice(-60) : [],
+      weeklyReviews: Array.isArray(profile.weeklyReviews) ? profile.weeklyReviews.map(sanitizeWeeklyReview).filter(Boolean).slice(-26) : [],
       activityHistory: Array.isArray(profile.activityHistory) ? profile.activityHistory : [],
       gamificationStats: profile.gamificationStats && typeof profile.gamificationStats === 'object' ? profile.gamificationStats : {}
     };
@@ -367,6 +399,19 @@ function sanitizeDailyPlan(plan) {
     selectedAt: cleanDateTime(plan.selectedAt) || new Date().toISOString(),
     remindAt: cleanDateTime(plan.remindAt), notifiedAt: cleanDateTime(plan.notifiedAt),
     completedAt: cleanDateTime(plan.completedAt)
+  };
+}
+
+function sanitizeWeeklyReview(review) {
+  if (!review || typeof review !== 'object' || !/^\d{4}-\d{2}-\d{2}$/.test(String(review.weekStart || ''))) return null;
+  if (!['horario', 'companhia', 'curta', 'descanso', 'planejamento', 'outro'].includes(review.helper)) return null;
+  if (!Object.hasOwn(weeklyDecisionLabels, review.decision)) return null;
+  return {
+    weekStart: String(review.weekStart),
+    helper: review.helper,
+    decision: review.decision,
+    registeredActions: Math.max(0, Math.min(7, Number(review.registeredActions) || 0)),
+    updatedAt: String(review.updatedAt || new Date().toISOString()).slice(0, 40)
   };
 }
 
@@ -547,6 +592,20 @@ function openView(requestedView, options = {}) {
   }
 
   if (options.route !== false) updateAppRoute(view, options.replaceRoute === true);
+  const [viewLabel, headingSelector] = viewPresentation[view] || ['Meu Caminho Be', ''];
+  document.title = `${viewLabel} | Meu Caminho Be`;
+  const announcer = document.getElementById('fb-view-announcer');
+  if (announcer) announcer.textContent = `Tela ${viewLabel} aberta.`;
+  if (options.focus !== false) {
+    const heading = headingSelector ? document.querySelector(headingSelector) : null;
+    if (heading) {
+      heading.setAttribute('tabindex', '-1');
+      window.setTimeout(() => {
+        heading.focus({ preventScroll: true });
+        heading.addEventListener('blur', () => heading.removeAttribute('tabindex'), { once: true });
+      }, options.instant ? 0 : 180);
+    }
+  }
   return true;
 }
 
@@ -1313,6 +1372,16 @@ function getAdaptiveStepNote(stepIndex, savedCheckins = [], profile = currentPro
   if (stepIndex < 2) return '';
   const previousStep = getJourneySteps(profile)[stepIndex - 1];
   const previous = [...savedCheckins].reverse().find(item => item?.step === previousStep);
+  const barrierGuidance = {
+    tempo: 'Como faltou tempo, escolha uma versão mais curta e defina antes em qual momento ela cabe.',
+    energia: 'Como energia ou recuperação dificultaram, mantenha uma versão leve e observe sua resposta antes de avançar.',
+    dificuldade: 'Como o passo estava difícil, reduza somente tempo, intensidade ou complexidade.',
+    acesso: 'Como houve uma barreira de acesso, escolha uma alternativa que use o local e os recursos disponíveis.',
+    apoio: 'Como companhia ou apoio fizeram falta, combine o momento com alguém ou escolha uma opção que você consiga iniciar com segurança.',
+    desconforto: 'Como houve dor, desconforto ou insegurança, não avance agora. Interrompa diante de sinais importantes e procure orientação profissional.',
+    outro: 'Use o que você registrou para escolher uma versão menor e possível antes de tentar novamente.'
+  };
+  if (previous?.barrier && barrierGuidance[previous.barrier]) return barrierGuidance[previous.barrier];
   if (previous?.status === 'ajustar') return 'Você pediu um ajuste no passo anterior. Faça uma versão menor: reduza tempo, intensidade ou dificuldade e preserve apenas o que foi confortável.';
   if (previous?.status === 'parcial') return 'Você realizou parte do passo anterior. Continue a partir do que funcionou, sem compensar o que ficou faltando.';
   if (previous?.status === 'concluida') return 'O passo anterior foi realizado. Mantenha a base e, se estiver se sentindo bem, altere somente uma variável por vez.';
@@ -1339,6 +1408,8 @@ function updateProgressActionState() {
   const checkin = document.getElementById('fb-progress-checkin');
   const status = document.getElementById('fb-checkin-status');
   const note = document.getElementById('fb-checkin-note');
+  const barrier = document.getElementById('fb-checkin-barrier');
+  const barrierField = document.getElementById('fb-checkin-barrier-field');
   const form = document.getElementById('fb-progress-checkin');
   const help = document.getElementById('fb-checkin-help');
   if (!button) return;
@@ -1351,13 +1422,22 @@ function updateProgressActionState() {
   const requiresCheckin = Boolean(currentProfile?.objective && !cycleComplete && !safetyRestricted && !safetyPending);
   if (status) status.disabled = !requiresCheckin;
   if (note) note.disabled = !requiresCheckin;
-  const hasValidData = Boolean(form?.checkValidity() && status?.value && (note?.value.trim().length || 0) >= 3);
+  const needsBarrier = ['parcial', 'ajustar'].includes(status?.value);
+  if (barrierField) barrierField.hidden = !needsBarrier;
+  if (barrier) {
+    barrier.disabled = !requiresCheckin || !needsBarrier;
+    barrier.required = needsBarrier;
+    if (!needsBarrier) barrier.value = '';
+  }
+  const hasValidData = Boolean(form?.checkValidity() && status?.value && (note?.value.trim().length || 0) >= 3 && (!needsBarrier || barrier?.value));
   button.disabled = !currentProfile?.objective || cycleComplete || safetyRestricted || safetyPending || !hasValidData;
   button.setAttribute('aria-disabled', String(button.disabled));
   if (help && requiresCheckin) {
     help.classList.toggle('ready', hasValidData);
     help.textContent = !status?.value
       ? 'Selecione como foi esta etapa para continuar.'
+      : needsBarrier && !barrier?.value
+        ? 'Selecione o principal motivo para receber um próximo passo mais adequado.'
       : (note?.value.trim().length || 0) < 3
         ? 'Agora escreva uma observação com pelo menos 3 caracteres.'
         : 'Tudo certo. O botão está liberado para registrar e concluir.';
@@ -1621,6 +1701,16 @@ function renderCycleSummary(steps, completed, savedCheckins) {
     metrics.append(item);
   });
 
+  const barrierCounts = records.reduce((counts, record) => {
+    if (record.barrier && checkinBarrierLabels[record.barrier]) counts[record.barrier] = (counts[record.barrier] || 0) + 1;
+    return counts;
+  }, {});
+  const mainBarrier = Object.entries(barrierCounts).sort((a, b) => b[1] - a[1])[0]?.[0];
+  const barrierInsight = document.createElement('p');
+  barrierInsight.className = 'fb-cycle-barrier';
+  barrierInsight.hidden = !mainBarrier;
+  if (mainBarrier) barrierInsight.textContent = `Principal barreira registrada: ${checkinBarrierLabels[mainBarrier]}. Use esse dado para escolher somente um ajuste no próximo ciclo.`;
+
   const recap = document.createElement('div');
   const recapTitle = document.createElement('h4');
   const recapList = document.createElement('ol');
@@ -1653,7 +1743,7 @@ function renderCycleSummary(steps, completed, savedCheckins) {
     evidence.append(link, index < sources.length - 1 ? ' · ' : '.');
   });
 
-  summary.replaceChildren(header, metrics, recap, evidence);
+  summary.replaceChildren(header, metrics, barrierInsight, recap, evidence);
 }
 
 function renderProgress() {
@@ -2222,6 +2312,35 @@ function getDailyPlans() {
   return Array.isArray(currentProfile?.dailyPlans) ? currentProfile.dailyPlans : [];
 }
 
+function renderWeeklyReview(weekLogs = []) {
+  const section = document.getElementById('fb-week-review');
+  const form = document.getElementById('fb-week-review-form');
+  if (!section || !form) return;
+  const weekStart = localDayKey(startOfLocalWeek());
+  const reviews = Array.isArray(currentProfile?.weeklyReviews) ? currentProfile.weeklyReviews : [];
+  const saved = reviews.find(item => item.weekStart === weekStart) || null;
+  const eligible = weekLogs.length >= 2;
+  const state = document.getElementById('fb-week-review-state');
+  const intro = document.getElementById('fb-week-review-intro');
+  const result = document.getElementById('fb-week-review-result');
+  [...form.elements].forEach(control => { control.disabled = !eligible; });
+  if (state) {
+    state.textContent = saved ? 'Decisão salva ✓' : eligible ? 'Pronto para revisar' : `${weekLogs.length}/2 registros`;
+    state.classList.toggle('complete', Boolean(saved));
+  }
+  if (intro) intro.textContent = eligible
+    ? 'Use o que aconteceu de verdade para escolher somente um ajuste para a próxima semana.'
+    : `Registre mais ${2 - weekLogs.length} dia${2 - weekLogs.length === 1 ? '' : 's'} para liberar uma revisão baseada na sua rotina.`;
+  if (saved) {
+    form.elements[0].value = saved.helper;
+    form.elements[1].value = saved.decision;
+    if (result) result.textContent = `Próxima direção: ${weeklyDecisionLabels[saved.decision]}. Você pode mudar essa decisão até o fim da semana.`;
+  } else {
+    if (result) result.textContent = '';
+    form.reset();
+  }
+}
+
 function getDayPhase(date = new Date()) {
   const hour = date.getHours();
   return hour < 12 ? 'morning' : hour < 18 ? 'afternoon' : 'evening';
@@ -2244,11 +2363,18 @@ function getDayGuideRecommendation(plan, log, phase = getDayPhase()) {
     text: 'O resumo e a Jornada da Semana foram atualizados. Você ainda pode complementar qualquer informação.',
     why: 'Esta mensagem aparece porque já existe um registro para hoje.', action: 'summary', actionLabel: 'Ver meu resumo'
   };
-  if (!plan) return {
+  if (!plan) {
+    const latestReview = [...(currentProfile?.weeklyReviews || [])].sort((a, b) => a.weekStart.localeCompare(b.weekStart)).at(-1);
+    return {
     kicker: 'COMECE ESCOLHENDO', title: 'Qual é a prioridade possível para hoje?',
-    text: 'Sua escolha ajuda o sistema a mostrar apenas uma orientação por vez.',
-    why: 'Ainda não há uma prioridade selecionada para hoje.'
-  };
+    text: latestReview
+      ? `Na última revisão, você decidiu ${weeklyDecisionLabels[latestReview.decision]}. Escolha uma prioridade para aplicar essa direção hoje.`
+      : 'Sua escolha ajuda o sistema a mostrar apenas uma orientação por vez.',
+    why: latestReview
+      ? `Esta orientação considera sua decisão semanal de ${weeklyDecisionLabels[latestReview.decision]}.`
+      : 'Ainda não há uma prioridade selecionada para hoje.'
+    };
+  }
   if (plan.status === 'done') return {
     kicker: 'INTENÇÃO REALIZADA', title: 'Muito bem por reconhecer o que você fez.',
     text: 'Agora um registro rápido transforma essa ação em histórico e atualiza seus resumos.',
@@ -2522,6 +2648,7 @@ function renderDailyJournal() {
   document.getElementById('fb-week-summary-text').textContent = activeLogs.length
     ? `Você se movimentou em ${activeLogs.length} dia${activeLogs.length === 1 ? '' : 's'}. Continue observando sua rotina, sem buscar perfeição.`
     : weekLogs.length ? 'Você registrou sua rotina. Dias de pausa também ajudam a entender sua semana.' : 'Os indicadores serão atualizados a cada registro.';
+  renderWeeklyReview(weekLogs);
 
   const historyList = document.getElementById('fb-daily-history-list');
   const recentLogs = logs.slice(-7).reverse();
@@ -2907,23 +3034,28 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
   const steps = getJourneySteps();
   const status = document.getElementById('fb-checkin-status');
   const note = document.getElementById('fb-checkin-note');
+  const barrier = document.getElementById('fb-checkin-barrier');
   const form = document.getElementById('fb-progress-checkin');
-  if (!form?.checkValidity() || !status?.value || (note?.value.trim().length || 0) < 3) {
-    document.getElementById('fb-progress-feedback').textContent = 'Preencha os dois pontos importantes antes de concluir esta etapa.';
+  const needsBarrier = ['parcial', 'ajustar'].includes(status?.value);
+  if (!form?.checkValidity() || !status?.value || (note?.value.trim().length || 0) < 3 || (needsBarrier && !barrier?.value)) {
+    document.getElementById('fb-progress-feedback').textContent = 'Complete os pontos destacados para receber o próximo passo.';
     form?.reportValidity();
-    (!status?.value ? status : note)?.focus();
+    (!status?.value ? status : needsBarrier && !barrier?.value ? barrier : note)?.focus();
     updateProgressActionState();
     return;
   }
   const nextProgress = completed + 1;
   const nextStep = steps[nextProgress];
+  const barrierValue = needsBarrier ? barrier.value : '';
   const checkins = [...(currentProfile.checkins || []), {
     step: steps[completed],
     status: status.value,
+    barrier: barrierValue,
     note: note.value.trim(),
     completedAt: new Date().toISOString()
   }];
   if (status) status.value = '';
+  if (barrier) barrier.value = '';
   if (note) note.value = '';
   const archivedCheckinCount = (currentProfile?.cycles || []).reduce((total, cycle) => total + (Array.isArray(cycle?.checkins) ? cycle.checkins.length : 0), 0);
   const previousCheckinTotal = Math.max(Number(currentProfile?.gamificationStats?.completedCheckins || 0), archivedCheckinCount + (currentProfile?.checkins || []).length);
@@ -2939,6 +3071,7 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
     gameAfterCheckin.level > gameBeforeCheckin.level ? `Você chegou ao nível ${gameAfterCheckin.level}: ${gameAfterCheckin.levelName}.` : (nextStep ? 'Muito bem por acompanhar sua jornada. Seu próximo passo já está preparado.' : 'Parabéns por concluir este ciclo no seu ritmo.'),
     { type: 'progress', reward: '+50 XP', detail: nextStep ? `Próximo passo: ${nextStep}` : `${gameAfterCheckin.xp} XP no total` }
   );
+  window.dispatchEvent(new CustomEvent('bemEsportivo:analytics', { detail: { name: 'journey_checkin', detail: barrierValue || 'completed' } }));
 });
 
 document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
@@ -2997,6 +3130,34 @@ document.getElementById('fb-calendar-next')?.addEventListener('click', () => {
 
 document.getElementById('fb-checkin-status')?.addEventListener('change', updateProgressActionState);
 document.getElementById('fb-checkin-note')?.addEventListener('input', updateProgressActionState);
+document.getElementById('fb-checkin-barrier')?.addEventListener('change', updateProgressActionState);
+
+document.getElementById('fb-week-review-form')?.addEventListener('submit', event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const weekStart = localDayKey(startOfLocalWeek());
+  const weekEnd = new Date(startOfLocalWeek()); weekEnd.setDate(weekEnd.getDate() + 7);
+  const weekLogs = getDailyLogs().filter(item => {
+    const date = new Date(`${item.date}T12:00:00`);
+    return date >= startOfLocalWeek() && date < weekEnd;
+  });
+  if (weekLogs.length < 2 || !form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+  const review = sanitizeWeeklyReview({
+    weekStart,
+    helper: document.getElementById('fb-week-helper')?.value,
+    decision: document.getElementById('fb-week-decision')?.value,
+    registeredActions: weekLogs.length,
+    updatedAt: new Date().toISOString()
+  });
+  if (!review) return;
+  const weeklyReviews = [...(currentProfile?.weeklyReviews || []).filter(item => item.weekStart !== weekStart), review].slice(-26);
+  saveProfile({ weeklyReviews });
+  window.dispatchEvent(new CustomEvent('bemEsportivo:analytics', { detail: { name: 'weekly_review', detail: review.decision } }));
+  showCelebration('Semana revisada!', `Sua próxima direção é ${weeklyDecisionLabels[review.decision]}.`);
+});
 
 document.getElementById('fb-profile-form')?.addEventListener('submit', event => {
   event.preventDefault();
@@ -3244,6 +3405,7 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
       cycles: Array.isArray(profile.cycles) ? profile.cycles.slice(-6) : [],
       dailyLogs: Array.isArray(profile.dailyLogs) ? profile.dailyLogs.map(sanitizeDailyLog).filter(Boolean).slice(-180) : [],
       dailyPlans: Array.isArray(profile.dailyPlans) ? profile.dailyPlans.map(sanitizeDailyPlan).filter(Boolean).slice(-60) : [],
+      weeklyReviews: Array.isArray(profile.weeklyReviews) ? profile.weeklyReviews.map(sanitizeWeeklyReview).filter(Boolean).slice(-26) : [],
       activityHistory: Array.isArray(profile.activityHistory) ? profile.activityHistory.slice(-40) : [],
       gamificationStats: profile.gamificationStats && typeof profile.gamificationStats === 'object' ? {
         completedCheckins: Math.max(0, Number(profile.gamificationStats.completedCheckins || 0)),

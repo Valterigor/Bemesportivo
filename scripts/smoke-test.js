@@ -105,6 +105,10 @@ async function run() {
     assert.equal((pathHtml.match(/class="fb-section-actions(?:\s[^"]*)?"/g) || []).length, 6, 'As seis áreas principais precisam oferecer próximos passos contextuais.');
     assert.match(pathHtml, /id="fb-evolution-days"/);
     assert.match(pathHtml, /class="fb-explore-grid"/);
+    assert.match(pathHtml, /id="fb-day-guide"[\s\S]*?SUA AÇÃO DE AGORA · UMA POR VEZ/);
+    assert.match(pathHtml, /id="fb-checkin-barrier"/);
+    assert.match(pathHtml, /id="fb-week-review-form"/);
+    assert.match(pathHtml, /id="fb-view-announcer"[^>]*aria-live="polite"/);
 
     const platformCss = fs.readFileSync(path.join(root, 'css/fala-bem-platform.css'), 'utf8');
     assert.match(platformCss, /@media\(min-width:761px\)\{[\s\S]*?body\.fala-bem-app-page \.fb-app-nav\{[\s\S]*?position:static;/);
@@ -115,7 +119,7 @@ async function run() {
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v53'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v54'/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 
     const syncFunction = fs.readFileSync(path.join(root, 'netlify/functions/meu-caminho-sync.mjs'), 'utf8');

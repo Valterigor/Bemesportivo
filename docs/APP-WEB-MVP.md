@@ -6,7 +6,7 @@ O Meu Caminho Be funciona como um aplicativo web instalável, mobile-first e com
 
 ## Navegação principal
 
-O app possui cinco destinos fixos:
+No mobile, o app possui cinco destinos fixos:
 
 1. **Hoje** — ação principal, registro diário e orientação do momento.
 2. **Jornada** — missão atual, etapas e conclusão do ciclo.
@@ -14,7 +14,21 @@ O app possui cinco destinos fixos:
 4. **Explorar** — conteúdos, ferramentas, profissionais, modalidades, comunidade e contador de gols.
 5. **Perfil** — identidade esportiva, conta, sincronização, exportação e exclusão.
 
-No mobile, os destinos ficam na barra inferior e respeitam a área segura do aparelho. No desktop, a mesma navegação funciona como menu lateral.
+Os destinos ficam na barra inferior e respeitam a área segura do aparelho. No desktop, o menu lateral oferece sete acessos diretos: **Meu Hoje**, **Jornada da Semana**, **Perfil**, **Ferramentas**, **Conteúdos**, **Profissionais** e **Gols**. Evolução e os demais recursos continuam acessíveis dentro das áreas contextuais.
+
+Cada troca de área atualiza o título da página, anuncia a tela para tecnologia assistiva e posiciona o foco no título principal.
+
+## Ciclo funcional
+
+O núcleo da experiência segue um ciclo simples:
+
+1. entender o momento e escolher uma prioridade;
+2. receber uma ação possível por vez no Meu Hoje;
+3. executar ou adaptar sem compensação;
+4. registrar como foi e, quando necessário, a principal barreira;
+5. após dois registros na semana, escolher se o próximo ciclo deve manter, simplificar, reorganizar ou buscar orientação.
+
+Dor, desconforto ou insegurança nunca geram progressão automática. O sistema orienta a não avançar e procurar avaliação profissional quando apropriado.
 
 ## Estado e URLs
 
@@ -96,13 +110,16 @@ O Netlify Blobs atende esta etapa de MVP. Antes de consultas relacionais, compar
 2. Criar o Mapa BeM.
 3. Registrar o Meu Hoje.
 4. Confirmar atualização de Hoje e Evolução.
-5. Navegar pelas cinco áreas usando apenas a barra inferior.
+5. Navegar pelas cinco áreas usando apenas a barra inferior e pelos sete acessos diretos do menu lateral no desktop.
 6. Recarregar uma URL com `?tela=evolucao`.
 7. Instalar o app e abrir pelo ícone.
 8. Desconectar a rede e confirmar acesso ao app local.
 9. Conectar uma conta e sincronizar em outro navegador.
 10. Criar conflito entre aparelhos e confirmar que o app solicita uma escolha.
 11. Excluir a cópia da nuvem e confirmar que os dados locais permanecem.
+12. Registrar uma etapa parcial, selecionar uma barreira e confirmar que o próximo passo foi adaptado.
+13. Criar dois registros na semana, salvar uma decisão semanal e confirmar que ela reaparece após recarregar.
+14. Navegar por teclado e confirmar foco, título e anúncio de cada tela.
 
 ## Próxima fase
 

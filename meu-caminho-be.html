@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="site-common.css?v=20260723-3">
 <link rel="stylesheet" href="css/coluna-valtinho.css?v=20260721-1">
-<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260728-2">
+<link rel="stylesheet" href="css/fala-bem-platform.css?v=20260729-1">
 <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-2">
 <link rel="stylesheet" href="css/photo-checkin.css?v=20260723-1">
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
@@ -40,6 +40,7 @@
 
 <div class="container page">
 <section class="fb-app-shell" id="fala-bem-app" aria-labelledby="fb-app-title">
+<p class="sr-only" id="fb-view-announcer" role="status" aria-live="polite" aria-atomic="true"></p>
 <header class="fb-app-topbar">
 <a class="fb-app-brand" href="/" aria-label="Voltar para a página inicial do BeMEsportivo">
 <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="">
@@ -230,6 +231,13 @@
 <div><span>MEU HOJE</span><h2 id="fb-today-zone-title">Seu dia, suas escolhas e seu registro.</h2></div>
 <time id="fb-today-context-date" datetime="">Hoje</time>
 </header>
+<section class="fb-day-guide fb-day-guide-priority" id="fb-day-guide" aria-labelledby="fb-day-guide-title" hidden>
+<header class="fb-day-guide-head"><div><span>SUA AÇÃO DE AGORA · UMA POR VEZ</span><h2 id="fb-day-guide-title">O que pode ajudar você agora?</h2></div><strong id="fb-day-guide-phase">AGORA</strong></header>
+<div class="fb-day-intentions"><p>Qual prioridade cabe melhor no seu dia?</p><div role="group" aria-label="Prioridade do dia"><button type="button" data-day-intent="movimento">Me movimentar</button><button type="button" data-day-intent="descanso">Descansar</button><button type="button" data-day-intent="alimentacao">Cuidar da alimentação</button><button type="button" data-day-intent="hidratacao">Melhorar a hidratação</button><button type="button" data-day-intent="registro">Só registrar meu dia</button></div></div>
+<article class="fb-day-recommendation" aria-live="polite"><span id="fb-day-recommendation-kicker">COMECE ESCOLHENDO</span><h3 id="fb-day-recommendation-title">Qual é a prioridade possível para hoje?</h3><p id="fb-day-recommendation-text">Sua escolha ajuda o sistema a mostrar apenas uma orientação por vez.</p><div class="fb-day-recommendation-actions" id="fb-day-recommendation-actions" hidden><button type="button" class="fb-primary-action" id="fb-day-guide-primary">Fazer agora</button><button type="button" id="fb-day-guide-later">Lembrar mais tarde</button><button type="button" id="fb-day-guide-done">Já fiz</button></div><button type="button" class="fb-day-why-toggle" id="fb-day-why-toggle" aria-expanded="false" aria-controls="fb-day-why">Por que estou vendo isso?</button><p class="fb-day-why" id="fb-day-why" hidden></p></article>
+<div class="fb-day-reminder-options" id="fb-day-reminder-options" hidden><span>Lembrar neste aparelho:</span><button type="button" data-reminder-minutes="30">Em 30 min</button><button type="button" data-reminder-minutes="120">Em 2 horas</button><button type="button" data-reminder-period="evening">Hoje à noite</button><button type="button" id="fb-day-reminder-cancel">Cancelar</button><small>O aviso aparecerá quando você estiver usando ou voltar ao Meu Caminho Be.</small></div>
+<ol class="fb-day-timeline" id="fb-day-timeline" aria-label="Momentos do dia"><li data-day-period="morning"><span>Manhã</span><i aria-hidden="true"></i></li><li data-day-period="afternoon"><span>Tarde</span><i aria-hidden="true"></i></li><li data-day-period="evening"><span>Noite</span><i aria-hidden="true"></i></li></ol>
+</section>
 <section class="fb-home-dashboard" id="fb-home-dashboard" aria-labelledby="fb-home-dashboard-title" hidden>
 <header class="fb-home-dashboard-head">
 <div><span>SEU PAINEL DE HOJE</span><h2 id="fb-home-dashboard-title">Olá 👋</h2><p id="fb-home-return-message">Seu painel vai ganhar forma com o seu nome, seu nível e seu objetivo atual.</p></div>
@@ -271,13 +279,6 @@
 <div><span>PRÓXIMO PASSO</span><strong id="fb-home-next-title">Comece pelo registro de hoje.</strong><p id="fb-home-next-summary">Leva cerca de dois minutos e atualiza todo o painel.</p></div>
 <div><button type="button" data-fb-view="progresso">Ver minha jornada</button><button type="button" id="fb-home-guide-action">Receber orientação de hoje</button></div>
 </div>
-</section>
-<section class="fb-day-guide" id="fb-day-guide" aria-labelledby="fb-day-guide-title" hidden>
-<header class="fb-day-guide-head"><div><span>GUIA DO MEU HOJE</span><h2 id="fb-day-guide-title">O que pode ajudar você agora?</h2></div><strong id="fb-day-guide-phase">AGORA</strong></header>
-<div class="fb-day-intentions"><p>Escolha uma prioridade para hoje:</p><div role="group" aria-label="Prioridade do dia"><button type="button" data-day-intent="movimento">Me movimentar</button><button type="button" data-day-intent="descanso">Descansar</button><button type="button" data-day-intent="alimentacao">Cuidar da alimentação</button><button type="button" data-day-intent="hidratacao">Melhorar a hidratação</button><button type="button" data-day-intent="registro">Só registrar meu dia</button></div></div>
-<article class="fb-day-recommendation" aria-live="polite"><span id="fb-day-recommendation-kicker">COMECE ESCOLHENDO</span><h3 id="fb-day-recommendation-title">Qual é a prioridade possível para hoje?</h3><p id="fb-day-recommendation-text">Sua escolha ajuda o sistema a mostrar apenas uma orientação por vez.</p><div class="fb-day-recommendation-actions" id="fb-day-recommendation-actions" hidden><button type="button" class="fb-primary-action" id="fb-day-guide-primary">Fazer agora</button><button type="button" id="fb-day-guide-later">Lembrar mais tarde</button><button type="button" id="fb-day-guide-done">Já fiz</button></div><button type="button" class="fb-day-why-toggle" id="fb-day-why-toggle" aria-expanded="false" aria-controls="fb-day-why">Por que estou vendo isso?</button><p class="fb-day-why" id="fb-day-why" hidden></p></article>
-<div class="fb-day-reminder-options" id="fb-day-reminder-options" hidden><span>Lembrar neste aparelho:</span><button type="button" data-reminder-minutes="30">Em 30 min</button><button type="button" data-reminder-minutes="120">Em 2 horas</button><button type="button" data-reminder-period="evening">Hoje à noite</button><button type="button" id="fb-day-reminder-cancel">Cancelar</button><small>O aviso aparecerá quando você estiver usando ou voltar ao Meu Caminho Be.</small></div>
-<ol class="fb-day-timeline" id="fb-day-timeline" aria-label="Momentos do dia"><li data-day-period="morning"><span>Manhã</span><i aria-hidden="true"></i></li><li data-day-period="afternoon"><span>Tarde</span><i aria-hidden="true"></i></li><li data-day-period="evening"><span>Noite</span><i aria-hidden="true"></i></li></ol>
 </section>
 <section class="fb-today-card" id="fb-today-card" aria-labelledby="fb-today-title" hidden>
 <div class="fb-today-copy">
@@ -417,6 +418,16 @@
 <time id="fb-week-context-range" datetime="">Semana atual</time>
 </header>
 <article class="fb-week-summary-card"><span>RESUMO DA SEMANA</span><h3 id="fb-week-summary-title">Sua semana começa com o primeiro registro.</h3><dl><div><dt>Dias registrados</dt><dd id="fb-week-days">0/7</dd></div><div><dt>Tempo ativo</dt><dd id="fb-week-minutes">0 min</dd></div><div><dt>Água</dt><dd id="fb-week-water">—</dd></div><div><dt>Sono</dt><dd id="fb-week-sleep">—</dd></div></dl><p id="fb-week-summary-text">Os indicadores serão atualizados a cada registro.</p></article>
+<section class="fb-week-review" id="fb-week-review" aria-labelledby="fb-week-review-title">
+<header><div><span>FECHAR A SEMANA</span><h3 id="fb-week-review-title">Escolha como continuar.</h3></div><strong id="fb-week-review-state">Faça 2 ações</strong></header>
+<p id="fb-week-review-intro">Depois de duas ações registradas, o sistema ajuda você a manter, simplificar ou reorganizar o próximo ciclo.</p>
+<form id="fb-week-review-form">
+<label for="fb-week-helper">O que mais ajudou?<select id="fb-week-helper" required><option value="">Selecione</option><option value="horario">Um horário possível</option><option value="companhia">Ter companhia ou apoio</option><option value="curta">Fazer uma versão mais curta</option><option value="descanso">Respeitar o descanso</option><option value="planejamento">Planejar antes</option><option value="outro">Outro fator</option></select></label>
+<label for="fb-week-decision">Decisão para a próxima semana<select id="fb-week-decision" required><option value="">Selecione</option><option value="manter">Manter o que funcionou</option><option value="simplificar">Fazer uma versão menor</option><option value="reorganizar">Trocar horário ou organização</option><option value="orientacao">Buscar orientação profissional</option></select></label>
+<button type="submit" class="fb-primary-action">Salvar minha decisão</button>
+</form>
+<p class="fb-week-review-result" id="fb-week-review-result" role="status" aria-live="polite"></p>
+</section>
 <section class="fb-gamification" id="fb-gamification" aria-labelledby="fb-gamification-title" hidden>
 <header><div><span>SUAS CONQUISTAS</span><h2 id="fb-gamification-title">Evolução que valoriza constância.</h2></div><p>Você ganha experiência por aprender, experimentar e registrar — nunca por exagerar no esforço.</p></header>
 <div class="fb-game-stats">
@@ -491,6 +502,9 @@
 <label for="fb-checkin-note"><span id="fb-checkin-note-label">O que aconteceu na prática?</span>
 <input id="fb-checkin-note" type="text" minlength="3" maxlength="120" aria-describedby="fb-checkin-help" placeholder="Escreva uma observação curta" required>
 </label>
+<label for="fb-checkin-barrier" id="fb-checkin-barrier-field" hidden><span>O que mais dificultou?</span>
+<select id="fb-checkin-barrier" aria-describedby="fb-checkin-help"><option value="">Selecione o principal motivo</option><option value="tempo">Faltou tempo</option><option value="energia">Energia ou recuperação</option><option value="dificuldade">O passo estava difícil</option><option value="acesso">Local ou equipamento</option><option value="apoio">Companhia ou apoio</option><option value="desconforto">Dor, desconforto ou insegurança</option><option value="outro">Outro motivo</option></select>
+</label>
 </div>
 <small class="fb-checkin-help" id="fb-checkin-help" aria-live="polite">Para liberar o botão, selecione uma resposta e escreva uma observação.</small>
 <button type="submit" class="fb-primary-action" id="fb-complete-step" aria-describedby="fb-checkin-help" aria-disabled="true" disabled>Salvar meu relato e seguir</button>
@@ -513,7 +527,7 @@
 
 <div class="fb-app-panel fb-evolution-panel" data-fb-panel="evolucao" hidden>
 <span class="fb-panel-kicker">MINHA EVOLUÇÃO</span>
-<h2>Seu progresso em uma visão simples.</h2>
+<h2 id="fb-evolution-title">Seu progresso em uma visão simples.</h2>
 <p>Constância, registros e conquistas reunidos para ajudar você a decidir o próximo passo.</p>
 <div class="fb-evolution-summary" aria-label="Resumo da evolução">
 <article><span>SEMANA</span><strong id="fb-evolution-week">0%</strong><small>da meta semanal</small></article>
@@ -535,7 +549,7 @@
 
 <div class="fb-app-panel fb-explore-panel" data-fb-panel="explorar" hidden>
 <span class="fb-panel-kicker">EXPLORAR</span>
-<h2>Encontre apoio para continuar.</h2>
+<h2 id="fb-explore-title">Encontre apoio para continuar.</h2>
 <p>Conteúdos, ferramentas, pessoas e experiências organizados em um só lugar.</p>
 <div class="fb-explore-grid">
 <button type="button" data-fb-view="conteudos"><span>▤</span><strong>Conteúdos</strong><small>Informação para entender e agir</small></button>
@@ -550,7 +564,7 @@
 <div class="fb-app-panel fb-profile-panel" data-fb-panel="perfil" hidden>
 <button type="button" class="fb-panel-back" data-fb-view="inicio">← Voltar ao menu</button>
 <span class="fb-panel-kicker">MEU PERFIL</span>
-<h2>Uma experiência com a sua cara.</h2>
+<h2 id="fb-profile-title">Uma experiência com a sua cara.</h2>
 <p>Seu perfil permanece neste navegador. Se você quiser, pode conectar uma conta para continuar em outros aparelhos.</p>
 <section class="fb-profile-next-step" id="fb-profile-next-step" aria-labelledby="fb-profile-next-title" hidden>
 <span>SEU PRÓXIMO PASSO</span>
@@ -614,7 +628,7 @@
 <div class="fb-app-panel fb-answer-panel fb-goals-panel" data-fb-panel="gols" hidden>
 <button type="button" class="fb-panel-back" data-fb-view="perfil">← Voltar ao perfil</button>
 <span class="fb-panel-kicker">CONTADOR DE GOLS</span>
-<h2>Registre cada gol com data e time.</h2>
+<h2 id="fb-goals-view-title">Registre cada gol com data e time.</h2>
 <p>O contador fica separado do Meu Hoje e salva a linha do tempo de cada gol neste aparelho.</p>
 <section class="fb-goals-card" id="fb-goals-card" aria-labelledby="fb-goals-title">
 <div class="fb-goals-head">
@@ -652,7 +666,7 @@
 <div class="fb-app-panel fb-answer-panel fb-tips-panel" data-fb-panel="dicas" hidden>
 <button type="button" class="fb-panel-back" data-fb-view="inicio">← Voltar ao menu</button>
 <span class="fb-panel-kicker">DICAS PRÁTICAS</span>
-<h2>Um próximo passo claro para o seu momento.</h2>
+<h2 id="fb-tips-title">Um próximo passo claro para o seu momento.</h2>
 <p>Escolha um tema. Você receberá orientações curtas para colocar em prática, sem precisar preencher formulários.</p>
 <div class="fb-question-chips fb-tip-choices" aria-label="Escolha um tema">
 <button type="button" data-fb-tip="correr">Começar a correr</button>
@@ -1291,7 +1305,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/routine-calendar.js?v=20260722-1"></script>
 <script type="module" src="js/meu-caminho-account.js?v=20260726-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260728-2" defer></script>
+<script src="js/fala-bem-app.js?v=20260729-1" defer></script>
 
 </body>
 </html>
