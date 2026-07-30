@@ -608,8 +608,8 @@ box-shadow:0 10px 24px color-mix(in srgb,var(--quick) 15%,transparent);
 }
 body.fala-bem-app-page .fb-human-moment{
 display:grid;
-grid-template-columns:minmax(180px,.7fr) minmax(0,1.3fr);
-min-height:220px;
+grid-template-columns:minmax(240px,.75fr) minmax(0,1.25fr);
+min-height:280px;
 margin-top:22px;
 overflow:hidden;
 border:1px solid #e2dae4;
@@ -618,8 +618,19 @@ background:#fff;
 box-shadow:0 14px 34px rgba(37,29,43,.07);
 }
 body.fala-bem-app-page .fb-human-moment[hidden]{display:none}
-body.fala-bem-app-page .fb-human-moment>img{width:100%;height:100%;min-height:220px;object-fit:cover;object-position:center 38%}
-body.fala-bem-app-page .fb-human-moment>div{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:clamp(20px,3vw,30px)}
+body.fala-bem-app-page .fb-human-media{position:relative;display:grid;place-items:center;min-height:280px;overflow:hidden;background:#16202a;isolation:isolate}
+body.fala-bem-app-page .fb-human-media::before{
+content:"";
+position:absolute;
+z-index:-2;
+inset:-24px;
+background:url("../img/bruno-rafael-resende-treino-funcional.jpg") center 34%/cover no-repeat;
+filter:blur(16px) brightness(.48) saturate(.8);
+transform:scale(1.08);
+}
+body.fala-bem-app-page .fb-human-media::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(90deg,rgba(16,20,26,.18),rgba(16,20,26,.45))}
+body.fala-bem-app-page .fb-human-media img{display:block;width:100%;height:100%;max-height:330px;object-fit:contain;object-position:center;padding:8px;filter:drop-shadow(0 10px 22px rgba(0,0,0,.3))}
+body.fala-bem-app-page .fb-human-moment>div:last-child{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:clamp(20px,3vw,30px)}
 body.fala-bem-app-page .fb-human-moment span{color:#d94712;font-size:.65rem;font-weight:900;letter-spacing:.11em}
 body.fala-bem-app-page .fb-human-moment h2{margin:7px 0 0;font-size:clamp(1.2rem,2.4vw,1.65rem);line-height:1.12}
 body.fala-bem-app-page .fb-human-moment p{margin:8px 0 15px;color:#706970;font-size:.85rem;line-height:1.5}
@@ -648,7 +659,8 @@ body.fala-bem-app-page .fb-now :is(button,select){width:100%}
 body.fala-bem-app-page [data-fb-panel="inicio"]>.fb-ecosystem-menu{grid-template-columns:1fr 1fr}
 body.fala-bem-app-page [data-fb-panel="inicio"]>.fb-ecosystem-menu>button{min-height:132px}
 body.fala-bem-app-page .fb-human-moment{grid-template-columns:1fr}
-body.fala-bem-app-page .fb-human-moment>img{height:190px;min-height:190px}
+body.fala-bem-app-page .fb-human-media{height:320px;min-height:320px}
+body.fala-bem-app-page .fb-human-media img{max-height:320px}
 }
 
 @media(max-width:420px){

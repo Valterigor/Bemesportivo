@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v62';
+const CACHE_NAME = 'meu-caminho-be-v63';
 const APP_SHELL = [
   '/meu-caminho-be',
   '/site-common.css?v=20260723-3',
@@ -16,7 +16,7 @@ const APP_SHELL = [
   '/css/photo-checkin.css?v=20260723-1',
   '/css/routine-calendar.css?v=20260722-1',
   '/css/ui-polish.css?v=20260723-3',
-  '/css/meu-caminho-modern.css?v=20260729-4',
+  '/css/meu-caminho-modern.css?v=20260729-5',
   '/js/site-common.js?v=20260723-3',
   '/js/core/routes.js',
   '/js/components/site-navigation.js?v=20260723-2',
@@ -37,7 +37,8 @@ const APP_SHELL = [
   '/img/app-icon-512.png',
   '/img/app-icon-maskable-512.png',
   '/img/Bem%20Esportivo%20Logo%20Laranja@33x.png',
-  '/img/fala-bem-hero-pessoas-optimized.jpg'
+  '/img/fala-bem-hero-pessoas-optimized.jpg',
+  '/img/bruno-rafael-resende-treino-funcional.jpg'
 ];
 
 self.addEventListener('install', event => {
