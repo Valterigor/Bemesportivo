@@ -5,6 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
+const esbuild = require('esbuild');
 
 const rootDir = __dirname;
 const distDir = path.join(rootDir, 'dist');
@@ -20,14 +21,13 @@ const publicRootFiles = [
 ];
 
 console.log('Build de validação iniciado');
-execFileSync(process.execPath, [
-  path.join(rootDir, 'node_modules', 'esbuild', 'bin', 'esbuild'),
-  'src/js/meu-caminho-account.js',
-  '--bundle',
-  '--format=esm',
-  '--minify',
-  '--outfile=js/meu-caminho-account.js'
-], { cwd: rootDir, stdio: 'inherit' });
+esbuild.buildSync({
+  entryPoints: [path.join(rootDir, 'src/js/meu-caminho-account.js')],
+  bundle: true,
+  format: 'esm',
+  minify: true,
+  outfile: path.join(rootDir, 'js/meu-caminho-account.js')
+});
 execFileSync(process.execPath, [path.join(rootDir, 'scripts', 'quality-check.js')], { stdio: 'inherit' });
 
 const pages = fs.readdirSync(rootDir)
