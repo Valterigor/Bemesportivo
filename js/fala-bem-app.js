@@ -2855,13 +2855,13 @@ const beNowVisuals = {
     caption: 'Constância vale mais do que pressa.'
   },
   performance: {
-    src: 'img/beplay-treino-forca-performance.jpg',
-    alt: 'Atleta realizando um treino de força',
+    src: 'img/fala-bem-hero-pessoas-optimized.jpg',
+    alt: 'Um homem e uma mulher correndo juntos ao ar livre',
     caption: 'Evoluir é repetir bem antes de aumentar.'
   },
   modalidade: {
-    src: 'img/bruno-rafael-resende-treino-funcional.jpg',
-    alt: 'Profissionais em uma quadra preparada para atividades esportivas',
+    src: 'img/fala-bem-hero-pessoas-optimized.jpg',
+    alt: 'Um homem e uma mulher correndo juntos ao ar livre',
     caption: 'Experimentar ajuda você a descobrir onde quer continuar.'
   },
   recuperacao: {
