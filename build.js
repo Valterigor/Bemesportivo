@@ -8,6 +8,16 @@ const { execFileSync } = require('child_process');
 
 const rootDir = __dirname;
 const distDir = path.join(rootDir, 'dist');
+const publicDirectories = ['assets', 'css', 'data', 'img', 'js', 'videos'];
+const publicRootFiles = [
+  '_headers',
+  '_redirects',
+  'ads.txt',
+  'manifest.webmanifest',
+  'robots.txt',
+  'sitemap.xml',
+  'video bonecos.mp4'
+];
 
 console.log('Build de validação iniciado');
 execFileSync(process.execPath, [
@@ -24,10 +34,32 @@ const pages = fs.readdirSync(rootDir)
   .filter(fileName => fileName.toLowerCase().endsWith('.html'))
   .sort();
 
+fs.rmSync(distDir, { recursive: true, force: true });
 fs.mkdirSync(distDir, { recursive: true });
+
+for (const directoryName of publicDirectories) {
+  const sourcePath = path.join(rootDir, directoryName);
+  if (!fs.existsSync(sourcePath)) continue;
+  fs.cpSync(sourcePath, path.join(distDir, directoryName), { recursive: true });
+}
+
+for (const fileName of [
+  ...pages,
+  ...publicRootFiles,
+  ...fs.readdirSync(rootDir).filter(fileName => {
+    const extension = path.extname(fileName).toLowerCase();
+    if (extension === '.css') return true;
+    return extension === '.js' && !['build.js', 'dev-server.js'].includes(fileName);
+  })
+]) {
+  const sourcePath = path.join(rootDir, fileName);
+  if (!fs.existsSync(sourcePath)) continue;
+  fs.copyFileSync(sourcePath, path.join(distDir, fileName));
+}
+
 fs.writeFileSync(path.join(distDir, 'build-manifest.json'), `${JSON.stringify({
   generatedAt: new Date().toISOString(),
-  deployment: 'static-root',
+  deployment: 'cloudflare-pages',
   pages,
   sharedEntries: ['site-common.css', 'js/site-common.js', 'css/design-system.css']
 }, null, 2)}\n`);
