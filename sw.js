@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v59';
+const CACHE_NAME = 'meu-caminho-be-v60';
 const APP_SHELL = [
   '/meu-caminho-be',
   '/site-common.css?v=20260723-3',
@@ -16,7 +16,7 @@ const APP_SHELL = [
   '/css/photo-checkin.css?v=20260723-1',
   '/css/routine-calendar.css?v=20260722-1',
   '/css/ui-polish.css?v=20260723-3',
-  '/css/meu-caminho-modern.css?v=20260729-3',
+  '/css/meu-caminho-modern.css?v=20260729-4',
   '/js/site-common.js?v=20260723-3',
   '/js/core/routes.js',
   '/js/components/site-navigation.js?v=20260723-2',
@@ -30,14 +30,16 @@ const APP_SHELL = [
   '/js/meu-caminho-account.js?v=20260726-1',
   '/js/components/back-to-top.js',
   '/js/coluna-valtinho.js?v=20260722-2',
-  '/js/fala-bem-app.js?v=20260729-4',
+  '/js/fala-bem-app.js?v=20260729-5',
   '/js/be-ia.js?v=20260729-1',
   '/img/logobemoficial.png',
   '/img/app-icon-192.png',
   '/img/app-icon-512.png',
   '/img/app-icon-maskable-512.png',
   '/img/Bem%20Esportivo%20Logo%20Laranja@33x.png',
-  '/img/fala-bem-hero-pessoas-optimized.jpg'
+  '/img/fala-bem-hero-pessoas-optimized.jpg',
+  '/img/beplay-treino-forca-performance.jpg',
+  '/img/bruno-rafael-resende-treino-funcional.jpg'
 ];
 
 self.addEventListener('install', event => {

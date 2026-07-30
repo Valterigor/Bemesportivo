@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="css/photo-checkin.css?v=20260723-1">
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
-<link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-3">
+<link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-4">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -244,13 +244,32 @@
 <div class="fb-now-progress-track" aria-hidden="true"><i id="fb-now-progress-bar"></i></div>
 <strong id="fb-now-percent">20%</strong>
 </div>
+<div class="fb-now-pulse" aria-label="Resumo de continuidade">
+<div><span>SEMANA</span><strong id="fb-now-week">0/3 dias</strong></div>
+<div><span>SEQUÊNCIA</span><strong id="fb-now-streak">0 dias</strong></div>
+<div><span>EVOLUÇÃO</span><strong id="fb-now-xp">0 XP</strong></div>
+</div>
+<ol class="fb-now-phases" id="fb-now-phases" aria-label="Etapas da ação atual">
+<li data-fb-now-phase="prepare" class="current"><span>1</span><strong>Preparar</strong></li>
+<li data-fb-now-phase="move"><span>2</span><strong>Fazer</strong></li>
+<li data-fb-now-phase="register"><span>3</span><strong>Registrar</strong></li>
+</ol>
 <article class="fb-now-action" aria-live="polite">
+<div class="fb-now-action-grid">
+<div class="fb-now-action-copy">
 <span id="fb-now-kicker">PARA HOJE</span>
 <h3 id="fb-now-action-title">Seu próximo passo aparece aqui.</h3>
 <p id="fb-now-action-detail">Faça no seu ritmo e registre como foi em um toque.</p>
 <div class="fb-now-actions" id="fb-now-actions">
 <button type="button" class="fb-primary-action" id="fb-now-start">Começar agora</button>
 <button type="button" id="fb-now-adapt">Fazer versão menor</button>
+</div>
+<div class="fb-now-execution" id="fb-now-execution" hidden>
+<span>EM ANDAMENTO</span>
+<strong id="fb-now-timer" role="timer" aria-label="Tempo restante">15:00</strong>
+<div class="fb-now-timer-track" aria-hidden="true"><i id="fb-now-timer-bar"></i></div>
+<p id="fb-now-execution-note">Siga no seu ritmo. Você pode pausar ou concluir quando terminar.</p>
+<div><button type="button" id="fb-now-pause">Pausar</button><button type="button" class="fb-primary-action" id="fb-now-finish">Concluir ação</button></div>
 </div>
 <div class="fb-now-outcome" id="fb-now-outcome" hidden>
 <strong>Como foi?</strong>
@@ -274,6 +293,12 @@
 </select>
 </label>
 <button type="button" class="fb-primary-action" id="fb-now-save-adaptation">Salvar e adaptar próximo passo</button>
+</div>
+</div>
+<figure class="fb-now-visual">
+<img id="fb-now-image" src="img/fala-bem-hero-pessoas-optimized.jpg" alt="Pessoas praticando esporte ao ar livre" width="1200" height="800">
+<figcaption id="fb-now-image-caption">Seu movimento possível começa agora.</figcaption>
+</figure>
 </div>
 </article>
 <p class="fb-now-transition" id="fb-now-transition" role="status" aria-live="polite" hidden></p>
@@ -544,6 +569,10 @@
 <button type="button" data-fb-view="conteudos"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h4"></path></svg></span><strong>Conteúdos</strong><small>Informação para avançar</small><i>05</i></button>
 <button type="button" data-fb-view="especialistas"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"></circle><path d="M5 20a7 7 0 0 1 14 0M18 4v4M16 6h4"></path></svg></span><strong>Profissionais</strong><small>Encontrar orientação</small><i>06</i></button>
 </div>
+<article class="fb-human-moment" id="fb-human-moment" aria-labelledby="fb-human-title" hidden>
+<img id="fb-human-image" src="img/bruno-rafael-resende-treino-funcional.jpg" alt="Profissionais de educação física em uma quadra esportiva" loading="lazy" decoding="async">
+<div><span id="fb-human-kicker">PESSOAS QUE MOVEM O ESPORTE</span><h2 id="fb-human-title">Orientação também faz parte do caminho.</h2><p id="fb-human-text">Conheça experiências e profissionais que podem ajudar sua jornada a continuar.</p><button type="button" id="fb-human-action">Conhecer profissionais</button></div>
+</article>
 <section class="fb-practical-shortcuts" aria-labelledby="fb-practical-shortcuts-title">
 <div><span>GUIAS PARA AGIR AGORA</span><h2 id="fb-practical-shortcuts-title">Escolha o que você precisa e veja como seguir.</h2></div>
 <div class="fb-practical-shortcut-grid">
@@ -1393,7 +1422,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/routine-calendar.js?v=20260722-1"></script>
 <script type="module" src="js/meu-caminho-account.js?v=20260726-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260729-4" defer></script>
+<script src="js/fala-bem-app.js?v=20260729-5" defer></script>
 <script src="js/be-ia.js?v=20260729-1" defer></script>
 
 </body>

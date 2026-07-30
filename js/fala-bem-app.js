@@ -11,6 +11,7 @@ const mobileDrawerViewButtons = [...shell.querySelectorAll('.fb-mobile-drawer [d
 const managedSections = [...document.querySelectorAll('.container.page > :not(.fb-app-shell)')];
 const PROFILE_STORAGE_KEY = 'meuCaminhoBeProfileV1';
 const ACCESS_STORAGE_KEY = 'meuCaminhoBeAccessV1';
+const BE_NOW_TIMER_KEY = 'meuCaminhoBeTimerV1';
 const SAFETY_CONSENT_VERSION = '2026-07-21';
 const PROFILE_SCHEMA_VERSION = 9;
 const dailyActivityLabels = {
@@ -59,6 +60,7 @@ let lastBeNowTransition = null;
 let journeyStepSaving = false;
 let beNowCompactMode = false;
 let pendingBeNowStatus = '';
+let beNowTimerInterval = null;
 const viewTargets = {
   jornada: ['#minha-jornada'],
   ferramentas: ['#ferramentas'],
@@ -491,6 +493,7 @@ function openResetDialog() {
 }
 
 function resetLocalJourney() {
+  clearBeNowExecution();
   try {
     localStorage.removeItem(PROFILE_STORAGE_KEY);
     localStorage.removeItem(ACCESS_STORAGE_KEY);
@@ -1441,6 +1444,7 @@ function recordJourneyStep({ status, note, barrier = '', source = 'journey' } = 
   const gameBeforeCheckin = getGamificationState();
   lastBeNowTransition = { completedStep, nextStep, cycleComplete: !nextStep, pausedForSafety };
   journeyStepSaving = true;
+  clearBeNowExecution();
   saveProfile({
     progress: nextProgress,
     checkins,
@@ -2834,11 +2838,170 @@ function renderSportDiscovery() {
   container.hidden = false;
 }
 
+const beNowVisuals = {
+  comecar: {
+    src: 'img/fala-bem-hero-pessoas-optimized.jpg',
+    alt: 'Duas pessoas correndo juntas ao ar livre',
+    caption: 'Começar fica mais leve quando o passo cabe no dia.'
+  },
+  saude: {
+    src: 'img/fala-bem-hero-pessoas-optimized.jpg',
+    alt: 'Duas pessoas se movimentando ao ar livre',
+    caption: 'Movimento possível também é cuidado.'
+  },
+  emagrecer: {
+    src: 'img/fala-bem-hero-pessoas-optimized.jpg',
+    alt: 'Pessoas praticando atividade física ao ar livre',
+    caption: 'Constância vale mais do que pressa.'
+  },
+  performance: {
+    src: 'img/beplay-treino-forca-performance.jpg',
+    alt: 'Atleta realizando um treino de força',
+    caption: 'Evoluir é repetir bem antes de aumentar.'
+  },
+  modalidade: {
+    src: 'img/bruno-rafael-resende-treino-funcional.jpg',
+    alt: 'Profissionais em uma quadra preparada para atividades esportivas',
+    caption: 'Experimentar ajuda você a descobrir onde quer continuar.'
+  },
+  recuperacao: {
+    src: 'img/fala-bem-hero-pessoas-optimized.jpg',
+    alt: 'Pessoas fazendo uma atividade leve ao ar livre',
+    caption: 'Retomar também é respeitar os sinais do corpo.'
+  }
+};
+
+function getBeNowDuration() {
+  const availability = Number(currentProfile?.availability);
+  return beNowCompactMode ? Math.min(10, availability || 10) : availability > 0 ? Math.min(20, availability) : 15;
+}
+
+function readBeNowExecution() {
+  try {
+    const value = JSON.parse(sessionStorage.getItem(BE_NOW_TIMER_KEY) || 'null');
+    return value && typeof value === 'object' ? value : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function saveBeNowExecution(value) {
+  try {
+    if (value) sessionStorage.setItem(BE_NOW_TIMER_KEY, JSON.stringify(value));
+    else sessionStorage.removeItem(BE_NOW_TIMER_KEY);
+  } catch (error) {}
+}
+
+function clearBeNowExecution() {
+  window.clearInterval(beNowTimerInterval);
+  beNowTimerInterval = null;
+  saveBeNowExecution(null);
+}
+
+function getBeNowRemaining(state) {
+  if (!state) return 0;
+  return state.running
+    ? Math.max(0, Math.ceil((Number(state.endAt) - Date.now()) / 1000))
+    : Math.max(0, Number(state.remainingSeconds) || 0);
+}
+
+function formatBeNowTime(seconds) {
+  const safe = Math.max(0, Number(seconds) || 0);
+  const minutes = Math.floor(safe / 60);
+  return `${String(minutes).padStart(2, '0')}:${String(safe % 60).padStart(2, '0')}`;
+}
+
+function setBeNowPhase(phase) {
+  const phases = ['prepare', 'move', 'register'];
+  const activeIndex = phases.indexOf(phase);
+  document.querySelectorAll('[data-fb-now-phase]').forEach(item => {
+    const index = phases.indexOf(item.dataset.fbNowPhase);
+    item.classList.toggle('current', index === activeIndex);
+    item.classList.toggle('done', index < activeIndex);
+  });
+}
+
+function updateBeNowTimerUi() {
+  const state = readBeNowExecution();
+  if (!state) return;
+  const remaining = getBeNowRemaining(state);
+  if (state.running && remaining <= 0) {
+    saveBeNowExecution({ ...state, running: false, awaitingResult: true, remainingSeconds: 0 });
+    renderBeNow();
+    document.getElementById('fb-now-outcome')?.querySelector('button')?.focus();
+    return;
+  }
+  const timer = document.getElementById('fb-now-timer');
+  const bar = document.getElementById('fb-now-timer-bar');
+  if (timer) timer.textContent = formatBeNowTime(remaining);
+  if (bar) bar.style.width = `${Math.max(0, Math.min(100, (remaining / Math.max(1, Number(state.totalSeconds))) * 100))}%`;
+}
+
+function renderBeNowExecution(step, safetyBlocked, cycleComplete) {
+  const actions = document.getElementById('fb-now-actions');
+  const execution = document.getElementById('fb-now-execution');
+  const outcome = document.getElementById('fb-now-outcome');
+  const barrierWrap = document.getElementById('fb-now-barrier-wrap');
+  let state = readBeNowExecution();
+  if (state && (state.step !== step || state.objective !== currentProfile?.objective || cycleComplete || safetyBlocked)) {
+    clearBeNowExecution();
+    state = null;
+  }
+  window.clearInterval(beNowTimerInterval);
+  beNowTimerInterval = null;
+  barrierWrap.hidden = true;
+  if (state?.awaitingResult) {
+    actions.hidden = true;
+    execution.hidden = true;
+    outcome.hidden = false;
+    setBeNowPhase('register');
+    return;
+  }
+  if (state) {
+    actions.hidden = true;
+    execution.hidden = false;
+    outcome.hidden = true;
+    setBeNowPhase('move');
+    document.getElementById('fb-now-pause').textContent = state.running ? 'Pausar' : 'Retomar';
+    document.getElementById('fb-now-execution-note').textContent = state.running
+      ? 'Siga no seu ritmo. Você pode pausar ou concluir quando terminar.'
+      : 'A ação está pausada. Retome quando estiver pronto.';
+    updateBeNowTimerUi();
+    if (state.running) beNowTimerInterval = window.setInterval(updateBeNowTimerUi, 1000);
+    return;
+  }
+  actions.hidden = safetyBlocked;
+  execution.hidden = true;
+  outcome.hidden = true;
+  setBeNowPhase(cycleComplete ? 'register' : 'prepare');
+}
+
+function renderHumanMoment() {
+  const section = document.getElementById('fb-human-moment');
+  if (!section) return;
+  section.hidden = !currentProfile?.objective;
+  if (!currentProfile?.objective) return;
+  const performance = currentProfile.objective === 'performance';
+  const recovery = currentProfile.objective === 'recuperacao';
+  document.getElementById('fb-human-kicker').textContent = performance ? 'TREINO COM DIREÇÃO' : recovery ? 'RETORNO COM CUIDADO' : 'PESSOAS QUE MOVEM O ESPORTE';
+  document.getElementById('fb-human-title').textContent = performance
+    ? 'Método transforma esforço em evolução.'
+    : recovery
+      ? 'Você não precisa decidir a retomada sozinho.'
+      : 'Orientação também faz parte do caminho.';
+  document.getElementById('fb-human-text').textContent = performance
+    ? 'Conheça profissionais e conteúdos que ajudam a organizar objetivos, prática e recuperação.'
+    : recovery
+      ? 'Encontre profissionais para conversar sobre uma volta gradual e adequada ao seu momento.'
+      : 'Conheça experiências e profissionais que podem ajudar sua jornada a continuar.';
+}
+
 function renderBeNow() {
   const section = document.getElementById('fb-now');
   if (!section) return;
   const hasJourney = Boolean(currentProfile?.objective);
   section.hidden = !hasJourney;
+  renderHumanMoment();
   if (!hasJourney) return;
 
   const steps = getJourneySteps();
@@ -2847,27 +3010,36 @@ function renderBeNow() {
   const safetyPending = isSafetyPending();
   const safetyRestricted = isSafetyRestricted();
   const stepIndex = Math.min(completed, steps.length - 1);
-  const latestCheckin = [...(currentProfile?.checkins || [])].reverse().find(item => item?.step === steps[stepIndex]);
+  const currentStep = steps[stepIndex];
+  const latestCheckin = [...(currentProfile?.checkins || [])].reverse().find(item => item?.step === currentStep);
   const discomfortPaused = latestCheckin?.barrier === 'desconforto';
   const safetyBlocked = safetyPending || safetyRestricted || discomfortPaused;
   const guidance = getStepGuidance(stepIndex);
   const actionTitle = cycleComplete
     ? 'Você concluiu este ciclo.'
     : beNowCompactMode
-      ? `Versão menor: ${guidance?.task || currentProfile?.nextAction || steps[stepIndex]}`
-      : guidance?.task || currentProfile?.nextAction || steps[stepIndex];
+      ? `Versão menor: ${guidance?.task || currentProfile?.nextAction || currentStep}`
+      : guidance?.task || currentProfile?.nextAction || currentStep;
   const adaptiveNote = getAdaptiveStepNote(stepIndex, currentProfile?.checkins || []);
-  const availability = Number(currentProfile?.availability);
-  const duration = beNowCompactMode ? Math.min(10, availability || 10) : availability > 0 ? Math.min(20, availability) : 15;
+  const duration = getBeNowDuration();
   const percent = Math.min(100, completed * 20);
   const weekStart = localDayKey(startOfLocalWeek());
   const weekLogs = getDailyLogs().filter(item => item.date >= weekStart).length;
   const game = getGamificationState();
+  const visual = beNowVisuals[currentProfile.objective] || beNowVisuals.comecar;
 
+  section.dataset.fbNowStep = currentStep || '';
+  section.dataset.fbNowDuration = String(duration);
   document.getElementById('fb-now-duration').textContent = cycleComplete ? '100%' : `${duration} MIN`;
   document.getElementById('fb-now-step-label').textContent = cycleComplete ? 'CICLO CONCLUÍDO' : `PASSO ${completed} DE ${steps.length - 1}`;
   document.getElementById('fb-now-progress-bar').style.width = `${percent}%`;
   document.getElementById('fb-now-percent').textContent = `${percent}%`;
+  document.getElementById('fb-now-week').textContent = `${Math.min(3, game.weeklyActions)}/3 dias`;
+  document.getElementById('fb-now-streak').textContent = `${game.streak} dia${game.streak === 1 ? '' : 's'}`;
+  document.getElementById('fb-now-xp').textContent = `${game.xp} XP`;
+  document.getElementById('fb-now-image').src = visual.src;
+  document.getElementById('fb-now-image').alt = visual.alt;
+  document.getElementById('fb-now-image-caption').textContent = visual.caption;
   document.getElementById('fb-now-kicker').textContent = cycleComplete ? 'VOCÊ CHEGOU ATÉ O FIM' : beNowCompactMode ? 'VERSÃO MENOR' : 'PARA HOJE';
   document.getElementById('fb-now-action-title').textContent = actionTitle;
   document.getElementById('fb-now-action-detail').textContent = cycleComplete
@@ -2877,15 +3049,9 @@ function renderBeNow() {
     ? `Você registrou as ${steps.length - 1} etapas deste ciclo.`
     : `Esta ação considera seu objetivo (${objectiveLabels[currentProfile.objective] || 'jornada esportiva'}), seu tempo disponível e o que aconteceu no passo anterior. Nesta semana: ${weekLogs} registro${weekLogs === 1 ? '' : 's'} e sequência de ${game.streak} dia${game.streak === 1 ? '' : 's'}.`;
 
-  const actions = document.getElementById('fb-now-actions');
   const start = document.getElementById('fb-now-start');
   const adapt = document.getElementById('fb-now-adapt');
-  const outcome = document.getElementById('fb-now-outcome');
-  const barrierWrap = document.getElementById('fb-now-barrier-wrap');
   const safety = document.getElementById('fb-now-safety');
-  actions.hidden = safetyBlocked;
-  outcome.hidden = true;
-  barrierWrap.hidden = true;
   safety.hidden = !safetyBlocked;
   start.disabled = false;
   start.dataset.fbNowAction = cycleComplete ? 'new-cycle' : 'start';
@@ -2902,6 +3068,7 @@ function renderBeNow() {
     safetyAction.dataset.fbNowSafetyAction = discomfortPaused ? 'professionals' : 'screening';
     safetyAction.textContent = discomfortPaused ? 'Encontrar profissionais' : 'Revisar contexto e segurança';
   }
+  renderBeNowExecution(currentStep, safetyBlocked, cycleComplete);
 
   const transition = document.getElementById('fb-now-transition');
   transition.hidden = !lastBeNowTransition;
@@ -2910,8 +3077,8 @@ function renderBeNow() {
     transition.textContent = lastBeNowTransition.pausedForSafety
       ? `! ${lastBeNowTransition.completedStep} foi pausado. Seu progresso está preservado.`
       : lastBeNowTransition.nextStep
-      ? `✓ ${lastBeNowTransition.completedStep} concluído. Agora: ${lastBeNowTransition.nextStep}.`
-      : `✓ ${lastBeNowTransition.completedStep} concluído. Ciclo completo.`;
+        ? `✓ ${lastBeNowTransition.completedStep} concluído. Agora: ${lastBeNowTransition.nextStep}.`
+        : `✓ ${lastBeNowTransition.completedStep} concluído. Ciclo completo.`;
   }
 }
 
@@ -3210,6 +3377,7 @@ document.getElementById('fb-progress-checkin')?.addEventListener('submit', event
 document.getElementById('fb-new-cycle')?.addEventListener('click', () => {
   lastBeNowTransition = null;
   beNowCompactMode = false;
+  clearBeNowExecution();
   const records = Array.isArray(currentProfile?.checkins) ? currentProfile.checkins : [];
   const adjustCount = records.filter(item => item?.status === 'ajustar').length;
   const partialCount = records.filter(item => item?.status === 'parcial').length;
@@ -3360,16 +3528,46 @@ document.getElementById('fb-now-start')?.addEventListener('click', event => {
     document.getElementById('fb-new-cycle')?.click();
     return;
   }
-  const outcome = document.getElementById('fb-now-outcome');
-  outcome.hidden = false;
-  event.currentTarget.textContent = 'Ação iniciada';
-  event.currentTarget.disabled = true;
-  window.setTimeout(() => outcome.querySelector('button')?.focus(), 80);
+  const section = document.getElementById('fb-now');
+  const durationSeconds = Math.max(60, Number(section?.dataset.fbNowDuration || 15) * 60);
+  saveBeNowExecution({
+    objective: currentProfile?.objective,
+    step: section?.dataset.fbNowStep || '',
+    totalSeconds: durationSeconds,
+    remainingSeconds: durationSeconds,
+    endAt: Date.now() + durationSeconds * 1000,
+    running: true,
+    awaitingResult: false
+  });
+  renderBeNow();
+  window.setTimeout(() => document.getElementById('fb-now-timer')?.focus?.(), 80);
 });
 
 document.getElementById('fb-now-adapt')?.addEventListener('click', () => {
   beNowCompactMode = !beNowCompactMode;
   renderBeNow();
+});
+
+document.getElementById('fb-now-pause')?.addEventListener('click', () => {
+  const state = readBeNowExecution();
+  if (!state || state.awaitingResult) return;
+  const remainingSeconds = getBeNowRemaining(state);
+  const running = !state.running;
+  saveBeNowExecution({
+    ...state,
+    running,
+    remainingSeconds,
+    endAt: running ? Date.now() + remainingSeconds * 1000 : 0
+  });
+  renderBeNow();
+});
+
+document.getElementById('fb-now-finish')?.addEventListener('click', () => {
+  const state = readBeNowExecution();
+  if (!state) return;
+  saveBeNowExecution({ ...state, running: false, awaitingResult: true, remainingSeconds: getBeNowRemaining(state), endAt: 0 });
+  renderBeNow();
+  window.setTimeout(() => document.getElementById('fb-now-outcome')?.querySelector('button')?.focus(), 80);
 });
 
 document.querySelectorAll('[data-fb-now-status]').forEach(button => {
@@ -3423,6 +3621,7 @@ document.getElementById('fb-now-help')?.addEventListener('click', () => {
 });
 
 document.getElementById('fb-now-details')?.addEventListener('click', () => openDailyJournal());
+document.getElementById('fb-human-action')?.addEventListener('click', () => openView('especialistas'));
 document.getElementById('fb-now-safety-action')?.addEventListener('click', event => {
   if (event.currentTarget.dataset.fbNowSafetyAction === 'professionals') openView('especialistas');
   else openSafetyDialog(currentProfile, true);

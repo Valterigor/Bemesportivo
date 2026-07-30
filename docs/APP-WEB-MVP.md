@@ -30,6 +30,8 @@ O núcleo da experiência segue um ciclo simples:
 
 O Be Agora e o formulário completo da Jornada usam a mesma regra de conclusão. Assim, qualquer registro válido atualiza a etapa, persiste o histórico e libera a próxima ação sem criar estados paralelos. IA, diário completo, resumo semanal e explicações permanecem fechados até a pessoa solicitar ajuda ou detalhes.
 
+No Be Agora, a imagem muda conforme o objetivo e a execução é apresentada em três estados: **Preparar**, **Fazer** e **Registrar**. Ao começar, a pessoa pode acompanhar um cronômetro opcional, pausar, retomar ou concluir antes do tempo. A sessão permanece ativa enquanto ela navega pelo app na mesma aba. Semana, sequência e XP ficam visíveis de forma compacta, e a conclusão atualiza o próprio card antes de apresentar o próximo passo.
+
 Dor, desconforto ou insegurança nunca geram progressão automática. O sistema orienta a não avançar e procurar avaliação profissional quando apropriado.
 
 ## Be IA Esportiva
