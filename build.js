@@ -63,5 +63,10 @@ fs.writeFileSync(path.join(distDir, 'build-manifest.json'), `${JSON.stringify({
   pages,
   sharedEntries: ['site-common.css', 'js/site-common.js', 'css/design-system.css']
 }, null, 2)}\n`);
+fs.writeFileSync(path.join(distDir, '_routes.json'), `${JSON.stringify({
+  version: 1,
+  include: ['/api/*'],
+  exclude: []
+}, null, 2)}\n`);
 
 console.log(`Build aprovado: ${pages.length} páginas; manifesto em dist/build-manifest.json`);
