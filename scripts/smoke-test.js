@@ -92,9 +92,11 @@ async function run() {
 
     const pathHtml = fs.readFileSync(path.join(root, 'meu-caminho-be.html'), 'utf8');
     assert.match(pathHtml, /id="fb-photo-checkin"[^>]*data-feature-state="paused"[^>]*hidden/);
-    for (const id of ['fb-login-form', 'fb-signup-form', 'fb-recovery-request-form', 'fb-password-reset-form']) {
-      assert.match(pathHtml, new RegExp(`id="${id}"`), `Fluxo de conta ausente: ${id}`);
+    for (const id of ['fb-continuity-create', 'fb-continuity-output', 'fb-continuity-connect-form', 'fb-continuity-input']) {
+      assert.match(pathHtml, new RegExp(`id="${id}"`), `Fluxo de continuidade ausente: ${id}`);
     }
+    assert.match(pathHtml, /Criptografado no aparelho/);
+    assert.doesNotMatch(pathHtml, /id="fb-login-form"/);
     for (const panel of ['inicio', 'progresso', 'evolucao', 'explorar', 'perfil']) {
       assert.match(pathHtml, new RegExp(`data-fb-panel="${panel}"`), `Área principal do app ausente: ${panel}`);
       assert.match(pathHtml, new RegExp(`class="fb-app-nav"[\\s\\S]*?data-fb-view="${panel}"`), `Navegação principal ausente: ${panel}`);
@@ -174,12 +176,12 @@ async function run() {
     assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260729-1/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 
-    const syncFunction = fs.readFileSync(path.join(root, 'netlify/functions/meu-caminho-sync.mjs'), 'utf8');
-    assert.match(syncFunction, /SNAPSHOT_SCHEMA_VERSION = 2/);
+    const syncFunction = fs.readFileSync(path.join(root, 'functions/api/meu-caminho-sync.js'), 'utf8');
+    assert.match(syncFunction, /algorithm === 'AES-GCM'/);
     assert.match(syncFunction, /lastMutationId/);
-    assert.match(syncFunction, /function cleanJson/);
+    assert.match(syncFunction, /be-sync-verifier/);
 
-    console.log(`Teste funcional aprovado: ${pages.length} páginas, shell mobile, APIs, PWA, vídeo, login e integrações essenciais.`);
+    console.log(`Teste funcional aprovado: ${pages.length} páginas, shell mobile, APIs, PWA, vídeo, continuidade criptografada e integrações essenciais.`);
   } finally {
     server.kill();
     await delay(100);
