@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-5">
-<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260731-3">
+<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260731-4">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -698,11 +698,15 @@
 <div><button type="button" class="fb-primary-action" id="fb-profile-next-professionals">Encontrar um profissional</button><button type="button" data-fb-view="inicio">Ir para Meu Hoje</button></div>
 </section>
 <form id="fb-profile-form" class="fb-profile-form">
-<label for="fb-profile-name">Como podemos chamar você?<input id="fb-profile-name" name="name" maxlength="40" placeholder="Seu primeiro nome" autocomplete="given-name"></label>
-<div class="fb-profile-identity-card" id="fb-profile-identity-card">
-<span>IDENTIDADE UNIVERSAL</span>
-<h3>Seu perfil se adapta a qualquer modalidade.</h3>
-<p>Escolha a modalidade principal, a função e a identidade visual. Depois, cada estatística pode nascer sobre essa base.</p>
+<section class="be-profile-photo" aria-labelledby="be-profile-photo-title">
+<div class="be-profile-photo-preview"><img id="fb-profile-photo-preview" alt="Sua foto de perfil" hidden><span id="fb-profile-photo-fallback" aria-hidden="true">BE</span></div>
+<div><span>FOTO DO PERFIL</span><h3 id="be-profile-photo-title">Deixe seu diário com a sua cara.</h3><p>JPG, PNG ou WebP. A imagem será reduzida e protegida junto com seus dados.</p><div><label for="fb-profile-photo">Escolher foto<input type="file" id="fb-profile-photo" name="photo" accept="image/jpeg,image/png,image/webp" hidden></label><button type="button" id="fb-profile-photo-remove" hidden>Remover</button></div></div>
+</section>
+<div class="be-profile-form-grid">
+<label for="fb-profile-name">Nome ou apelido<input id="fb-profile-name" name="name" maxlength="40" placeholder="Como podemos chamar você?" autocomplete="name" required></label>
+<label for="fb-profile-email">E-mail<input id="fb-profile-email" name="email" type="email" maxlength="120" placeholder="voce@email.com" autocomplete="email" required></label>
+<label for="fb-profile-city">Cidade <em>(opcional)</em><input id="fb-profile-city" name="city" maxlength="60" placeholder="Sua cidade" autocomplete="address-level2"></label>
+<label for="fb-profile-state">Estado <em>(opcional)</em><input id="fb-profile-state" name="state" maxlength="2" pattern="[A-Za-z]{2}" placeholder="UF" autocomplete="address-level1"></label>
 </div>
 <label for="fb-profile-sport">Modalidade principal<select id="fb-profile-sport" name="sport">
 <option value="outro">Outro esporte ou atividade</option>
@@ -716,14 +720,15 @@
 <option value="musculacao">Musculação</option>
 </select></label>
 <label for="fb-profile-role">Função ou posição<input id="fb-profile-role" name="role" maxlength="40" placeholder="Ex.: atacante, ponteiro, corredor" autocomplete="organization-title"></label>
-<label for="fb-profile-visual">Identidade visual<select id="fb-profile-visual" name="visual">
+<label class="be-profile-visual-field" for="fb-profile-visual">Identidade visual<select id="fb-profile-visual" name="visual">
 <option value="energia">Energia</option>
 <option value="equilibrio">Equilíbrio</option>
 <option value="discreto">Discreto</option>
 <option value="vibrante">Vibrante</option>
 </select></label>
 <div class="fb-profile-summary" id="fb-profile-summary"></div>
-<button type="submit" class="fb-primary-action">Salvar perfil</button>
+<p class="be-profile-privacy">🔒 Seus dados ficam neste aparelho e só entram na nuvem quando você ativa a continuidade criptografada.</p>
+<button type="submit" class="fb-primary-action" id="fb-profile-save">Salvar meu cadastro</button>
 </form>
 <p class="fb-profile-feedback" id="fb-profile-feedback" aria-live="polite"></p>
 <nav class="fb-section-actions" aria-label="Próximos passos após o perfil">
@@ -1449,7 +1454,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/routine-calendar.js?v=20260730-1"></script>
 <script type="module" src="js/meu-caminho-account.js?v=20260731-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260729-7" defer></script>
+<script src="js/fala-bem-app.js?v=20260731-1" defer></script>
 <script src="js/be-ia.js?v=20260729-1" defer></script>
 <script src="js/meu-caminho-diary.js?v=20260731-3" defer></script>
 

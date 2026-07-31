@@ -56,6 +56,7 @@ const sportIdentityPresets = {
 };
 let currentProfile = readStoredProfile();
 let pendingProfileUpdate = null;
+let pendingProfilePhoto;
 let lastBeNowTransition = null;
 let journeyStepSaving = false;
 let beNowCompactMode = false;
@@ -265,6 +266,12 @@ function readStoredProfile() {
     return {
       ...profile,
       schemaVersion: PROFILE_SCHEMA_VERSION,
+      email: String(profile.email || '').trim().toLocaleLowerCase('pt-BR').slice(0, 120),
+      location: {
+        city: String(profile.location?.city || '').trim().slice(0, 60),
+        state: String(profile.location?.state || '').trim().toLocaleUpperCase('pt-BR').slice(0, 2)
+      },
+      photoDataUrl: sanitizeProfilePhoto(profile.photoDataUrl),
       sportProfile: normalizeSportProfile(profile.sportProfile),
       sportStats: normalizeSportStats(profile.sportStats),
       checkins: Array.isArray(profile.checkins) ? profile.checkins : [],
@@ -278,6 +285,11 @@ function readStoredProfile() {
   } catch (error) {
     return null;
   }
+}
+
+function sanitizeProfilePhoto(value) {
+  const photo = String(value || '');
+  return /^data:image\/(?:jpeg|png|webp);base64,[a-z0-9+/=]+$/i.test(photo) && photo.length <= 250000 ? photo : '';
 }
 
 function saveProfile(updates) {
@@ -1514,7 +1526,7 @@ function renderProfileSummary() {
   if (!container) return;
   syncProfileFormValues();
   const sportProfile = getSportProfile();
-  const hasBaseIdentity = Boolean(currentProfile?.name?.trim() || currentProfile?.objective || sportProfile.role || sportProfile.modality !== 'outro');
+  const hasBaseIdentity = Boolean(currentProfile?.name?.trim() || currentProfile?.email || currentProfile?.objective || sportProfile.role || sportProfile.modality !== 'outro');
   if (!hasBaseIdentity) {
     const message = document.createElement('p');
     message.textContent = 'Comece pelo nome e pela modalidade principal para formar a base do perfil.';
@@ -1523,11 +1535,13 @@ function renderProfileSummary() {
   }
   const fields = [
     ['NOME', currentProfile.name || 'Não informado'],
+    ['E-MAIL', currentProfile.email || 'Não informado'],
     ['MODALIDADE', sportProfile.modalityLabel],
     ['FUNÇÃO', sportProfile.roleLabel],
     ['IDENTIDADE VISUAL', sportProfile.visualLabel],
     ['MÉTRICA BASE', sportProfile.metric]
   ];
+  if (currentProfile?.location?.city || currentProfile?.location?.state) fields.splice(2, 0, ['LOCAL', [currentProfile.location.city, currentProfile.location.state].filter(Boolean).join(' · ')]);
   if (currentProfile?.objective) fields.push(['OBJETIVO', objectiveLabels[currentProfile.objective] || 'Seu caminho']);
   if (currentProfile?.practiceName || currentProfile?.practiceLabel) fields.push(['PRÁTICA ATUAL', currentProfile.practiceName || currentProfile.practiceLabel]);
   if (currentProfile?.ageLabel) fields.push(['MOMENTO', currentProfile.ageLabel]);
@@ -1547,14 +1561,77 @@ function renderProfileSummary() {
 
 function syncProfileFormValues() {
   const nameInput = document.getElementById('fb-profile-name');
+  const emailInput = document.getElementById('fb-profile-email');
+  const cityInput = document.getElementById('fb-profile-city');
+  const stateInput = document.getElementById('fb-profile-state');
   const sportInput = document.getElementById('fb-profile-sport');
   const roleInput = document.getElementById('fb-profile-role');
   const visualInput = document.getElementById('fb-profile-visual');
   const sportProfile = getSportProfile();
   if (nameInput && document.activeElement !== nameInput) nameInput.value = currentProfile?.name || '';
+  if (emailInput && document.activeElement !== emailInput) emailInput.value = currentProfile?.email || '';
+  if (cityInput && document.activeElement !== cityInput) cityInput.value = currentProfile?.location?.city || '';
+  if (stateInput && document.activeElement !== stateInput) stateInput.value = currentProfile?.location?.state || '';
   if (sportInput && document.activeElement !== sportInput) sportInput.value = sportProfile.modality;
   if (roleInput && document.activeElement !== roleInput) roleInput.value = sportProfile.roleLabel === sportProfile.fallbackRole ? '' : sportProfile.roleLabel;
   if (visualInput && document.activeElement !== visualInput) visualInput.value = sportProfile.visual;
+  renderProfilePhoto();
+}
+
+function renderProfilePhoto(photo = pendingProfilePhoto === undefined ? currentProfile?.photoDataUrl : pendingProfilePhoto) {
+  const cleanPhoto = sanitizeProfilePhoto(photo);
+  const preview = document.getElementById('fb-profile-photo-preview');
+  const fallback = document.getElementById('fb-profile-photo-fallback');
+  const removeButton = document.getElementById('fb-profile-photo-remove');
+  const avatar = shell.querySelector('.fb-app-avatar');
+  const initial = currentProfile?.name?.trim()?.charAt(0).toLocaleUpperCase('pt-BR') || 'BE';
+  if (preview) {
+    preview.hidden = !cleanPhoto;
+    if (cleanPhoto) preview.src = cleanPhoto;
+    else preview.removeAttribute('src');
+  }
+  if (fallback) {
+    fallback.hidden = Boolean(cleanPhoto);
+    fallback.textContent = initial;
+  }
+  if (removeButton) removeButton.hidden = !cleanPhoto;
+  if (!avatar) return;
+  avatar.classList.toggle('has-photo', Boolean(cleanPhoto));
+  avatar.style.backgroundImage = cleanPhoto ? `url("${cleanPhoto}")` : '';
+  if (!cleanPhoto) avatar.textContent = initial;
+}
+
+async function resizeProfilePhoto(file) {
+  if (!file || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 8 * 1024 * 1024) {
+    throw new Error('invalid-photo');
+  }
+  let bitmap;
+  let objectUrl = '';
+  if (typeof createImageBitmap === 'function') bitmap = await createImageBitmap(file);
+  else {
+    objectUrl = URL.createObjectURL(file);
+    bitmap = await new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+      image.src = objectUrl;
+    });
+  }
+  const side = Math.min(bitmap.width, bitmap.height);
+  const sourceX = (bitmap.width - side) / 2;
+  const sourceY = (bitmap.height - side) / 2;
+  const canvas = document.createElement('canvas');
+  canvas.width = 360;
+  canvas.height = 360;
+  const context = canvas.getContext('2d', { alpha: false });
+  context.fillStyle = '#ffffff';
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(bitmap, sourceX, sourceY, side, side, 0, 0, canvas.width, canvas.height);
+  bitmap.close?.();
+  if (objectUrl) URL.revokeObjectURL(objectUrl);
+  const photo = canvas.toDataURL('image/jpeg', 0.82);
+  if (!sanitizeProfilePhoto(photo)) throw new Error('photo-too-large');
+  return photo;
 }
 
 function formatGoalDate(value) {
@@ -3466,12 +3543,22 @@ document.getElementById('fb-week-review-form')?.addEventListener('submit', event
 document.getElementById('fb-profile-form')?.addEventListener('submit', event => {
   event.preventDefault();
   const name = document.getElementById('fb-profile-name').value.trim();
+  const email = document.getElementById('fb-profile-email')?.value.trim().toLocaleLowerCase('pt-BR') || '';
+  const location = {
+    city: document.getElementById('fb-profile-city')?.value.trim().slice(0, 60) || '',
+    state: document.getElementById('fb-profile-state')?.value.trim().toLocaleUpperCase('pt-BR').slice(0, 2) || ''
+  };
   const sportProfile = {
     modality: document.getElementById('fb-profile-sport')?.value || 'outro',
     role: document.getElementById('fb-profile-role')?.value.trim() || '',
     visual: document.getElementById('fb-profile-visual')?.value || 'energia'
   };
-  saveProfile({ name, sportProfile, identityCreatedAt: currentProfile?.identityCreatedAt || new Date().toISOString() });
+  const photoDataUrl = pendingProfilePhoto === undefined
+    ? sanitizeProfilePhoto(currentProfile?.photoDataUrl)
+    : sanitizeProfilePhoto(pendingProfilePhoto);
+  saveProfile({ name, email, location, photoDataUrl, sportProfile, identityCreatedAt: currentProfile?.identityCreatedAt || new Date().toISOString() });
+  pendingProfilePhoto = undefined;
+  renderProfilePhoto();
   if (name) registerFirstIdentityAccess();
   const sportLabel = getSportProfile({ sportProfile }).modalityLabel;
   document.getElementById('fb-profile-feedback').textContent = name
@@ -3480,6 +3567,32 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
   showCelebration('Perfil atualizado!', name
     ? `Muito bem, ${name}. Seu perfil agora tem uma identidade por modalidade.`
     : 'Seu perfil agora tem uma identidade por modalidade.');
+});
+
+document.getElementById('fb-profile-photo')?.addEventListener('change', async event => {
+  const input = event.currentTarget;
+  const file = input.files?.[0];
+  if (!file) return;
+  const feedback = document.getElementById('fb-profile-feedback');
+  const saveButton = document.getElementById('fb-profile-save');
+  if (saveButton) saveButton.disabled = true;
+  if (feedback) feedback.textContent = 'Preparando sua foto…';
+  try {
+    pendingProfilePhoto = await resizeProfilePhoto(file);
+    renderProfilePhoto();
+    if (feedback) feedback.textContent = 'Foto pronta. Clique em “Salvar meu cadastro” para concluir.';
+  } catch (error) {
+    if (feedback) feedback.textContent = 'Escolha uma imagem JPG, PNG ou WebP de até 8 MB.';
+  } finally {
+    input.value = '';
+    if (saveButton) saveButton.disabled = false;
+  }
+});
+
+document.getElementById('fb-profile-photo-remove')?.addEventListener('click', () => {
+  pendingProfilePhoto = null;
+  renderProfilePhoto();
+  document.getElementById('fb-profile-feedback').textContent = 'Foto removida da prévia. Salve o cadastro para confirmar.';
 });
 
 document.getElementById('fb-goals-form')?.addEventListener('submit', event => {
@@ -3812,6 +3925,12 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
       schemaVersion: PROFILE_SCHEMA_VERSION,
       createdAt: profile.createdAt || new Date().toISOString(),
       name: profile.name.trim().slice(0, 40),
+      email: String(profile.email || '').trim().toLocaleLowerCase('pt-BR').slice(0, 120),
+      location: {
+        city: String(profile.location?.city || '').trim().slice(0, 60),
+        state: String(profile.location?.state || '').trim().toLocaleUpperCase('pt-BR').slice(0, 2)
+      },
+      photoDataUrl: sanitizeProfilePhoto(profile.photoDataUrl),
       sportProfile: normalizeSportProfile(profile.sportProfile),
       sportStats: normalizeSportStats(profile.sportStats),
       checkins: Array.isArray(profile.checkins) ? profile.checkins.slice(-10) : [],

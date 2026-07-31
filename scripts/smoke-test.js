@@ -128,12 +128,15 @@ async function run() {
     assert.match(pathHtml, /id="be-ia-answer"[^>]*aria-live="polite"/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260729-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260729-5/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260729-7/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260731-3/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260731-1/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260731-4/);
     assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260731-3/);
     assert.doesNotMatch(pathHtml, /class="be-showcase-phones"/);
     for (const id of ['be-quick-form', 'be-entry-form', 'be-diary-timeline', 'be-week-chart', 'be-history-timeline']) {
       assert.match(pathHtml, new RegExp(`id="${id}"`), `Experiência de diário ausente: ${id}`);
+    }
+    for (const id of ['fb-profile-photo', 'fb-profile-photo-preview', 'fb-profile-email', 'fb-profile-city', 'fb-profile-state']) {
+      assert.match(pathHtml, new RegExp(`id="${id}"`), `Campo de cadastro ausente: ${id}`);
     }
     assert.match(pathHtml, /id="fb-safety-form" novalidate/);
     assert.match(pathHtml, /id="fb-safety-feedback"[^>]*aria-live="assertive"/);
@@ -169,14 +172,17 @@ async function run() {
     assert.match(appScript, /pausedForSafety = normalizedBarrier === 'desconforto'/);
     assert.match(appScript, /function validateSafetyForm\(form, profileUpdate\)/);
     assert.match(appScript, /currentProfile\?\.objective[\s\S]*?\{ \.\.\.currentProfile \}/);
+    assert.match(appScript, /function sanitizeProfilePhoto\(value\)/);
+    assert.match(appScript, /async function resizeProfilePhoto\(file\)/);
+    assert.match(appScript, /meuCaminhoBe:profile-updated/);
 
     const redirects = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
     assert.match(redirects, /\/api\/analytics\/events\s+\/\.netlify\/functions\/analytics/);
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v67'/);
-    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260729-7/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v68'/);
+    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260731-1/);
     assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260729-5/);
     assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
     assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260729-1/);
