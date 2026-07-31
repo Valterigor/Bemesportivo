@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-5">
-<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260731-1">
+<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260731-2">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -46,7 +46,7 @@
 <p class="sr-only" id="fb-view-announcer" role="status" aria-live="polite" aria-atomic="true"></p>
 <header class="fb-app-topbar">
 <a class="fb-app-brand" href="/" aria-label="Voltar para a página inicial do BeMEsportivo">
-<img src="img/Bem Esportivo Logo Laranja@33x.png" alt="">
+<img src="img/logobemoficial.png" alt="">
 <span><strong>Meu Caminho Be</strong><small>por BeMEsportivo</small></span>
 </a>
 <div class="fb-app-topbar-actions">
@@ -159,28 +159,34 @@
 </div>
 <footer><button type="button" id="fb-install-app" hidden>Instalar Meu Caminho Be</button><a href="game.html">Abrir Game 3D</a><a href="/">Ir para o BeMEsportivo</a></footer>
 </aside>
-<header class="fb-app-intro">
-<div class="fb-app-intro-copy">
-<span>SUA JORNADA ESPORTIVA PERSONALIZADA</span>
-<h1 id="fb-app-title">O próximo passo começa pelo seu momento.</h1>
-<p id="fb-app-subtitle">Crie seu Mapa BeM e organize uma jornada possível, sem diagnóstico ou prescrição.</p>
-<div class="fb-hero-actions">
-<button type="button" class="fb-primary-action" id="fb-hero-action" data-fb-view="jornada">Criar meu Mapa BeM</button>
-<button type="button" class="fb-quiet-action" data-fb-view="dicas">Ver dicas práticas</button>
+<header class="fb-app-intro be-product-showcase">
+<div class="be-showcase-copy">
+<div class="be-showcase-brand"><img src="img/logobemoficial.png" alt="BeMEsportivo"><strong>MEU CAMINHO BE</strong></div>
+<h1>Seu diário<br>esportivo digital.</h1>
+<ul aria-label="Benefícios do Meu Caminho Be"><li><span>✓</span>Registre em segundos</li><li><span>↗</span>Acompanhe sua evolução</li><li><span>▣</span>Entenda sua história</li><li><span>⌁</span>Seja sua melhor versão</li></ul>
+<a href="#be-diary-home-title">Registrar minha atividade</a>
 </div>
-<div class="fb-entry-points" aria-label="Informações sobre o primeiro acesso">
-<span><strong>2 min</strong> para começar</span>
-<span><strong>Local</strong> dados neste aparelho</span>
-<span><strong>Seu ritmo</strong> sem cobrança</span>
+<div class="be-showcase-phones" aria-label="Telas do Meu Caminho Be">
+<article class="be-phone be-phone-today">
+<div class="be-phone-notch"></div><div class="be-phone-screen">
+<header><button type="button" aria-label="Voltar">‹</button><div><strong>Hoje</strong><small>Quinta, 30 de julho</small></div><button type="button" data-be-showcase-register aria-label="Adicionar">＋</button></header>
+<h2>O que você<br>fez hoje?</h2><p>Escolha sua atividade:</p>
+<button type="button" class="is-selected" data-be-showcase-type="corrida"><span>🏃</span>Corrida</button><button type="button" data-be-showcase-type="treino"><span>🏋️</span>Treino</button><button type="button" data-be-showcase-type="jogo"><span>⚽</span>Jogo</button><button type="button" data-be-showcase-type="outro"><span>＋</span>Outro esporte</button>
+<nav><span class="active">⌂<small>Hoje</small></span><span>▣<small>Diário</small></span><span>▥<small>Evolução</small></span><span>○<small>Eu</small></span></nav>
+</div></article>
+<article class="be-phone be-phone-form">
+<div class="be-phone-notch"></div><div class="be-phone-screen">
+<header><button type="button" aria-label="Voltar">‹</button><strong>Registrar corrida</strong><i></i></header><p>Como foi sua corrida?</p>
+<label>Distância<strong>5,2 km</strong><span>🏃</span></label><label>Tempo<strong>31:42</strong><span>◷</span></label>
+<fieldset><legend>Como você se sentiu?</legend><div><span>😣</span><span>😕</span><span>🙂</span><span class="active">😄</span><span>😁</span></div></fieldset>
+<label>Observação (opcional)<strong>Hoje me senti bem e consegui manter o ritmo.</strong></label>
+<button type="button" class="be-phone-submit" data-be-showcase-register>Registrar</button>
+</div></article>
+<article class="be-phone be-phone-success">
+<div class="be-phone-notch"></div><div class="be-phone-screen"><div class="be-showcase-check">✓</div><h2>Corrida registrada!</h2><p>Excelente! Continue registrando sua jornada.</p><button type="button" data-fb-view="progresso">Ver meu diário</button><button type="button" data-be-showcase-register>Registrar outra atividade</button></div>
+</article>
 </div>
-</div>
-<div class="fb-intro-visual" aria-label="Pessoas vivendo o esporte ao ar livre">
-<img src="img/fala-bem-hero-pessoas-optimized.jpg" srcset="img/fala-bem-hero-pessoas-optimized-480.webp 480w, img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w" sizes="(max-width: 720px) calc(100vw - 36px), 360px" alt="Um homem e uma mulher correndo juntos ao ar livre" decoding="async" fetchpriority="high" width="1200" height="800">
-<div class="fb-visual-message"><span>SEU RITMO</span><strong id="fb-hero-status">Comece de onde você está.</strong></div>
-<div class="fb-hero-progress" id="fb-hero-progress" style="--fb-hero-progress:0%">
-<strong id="fb-hero-progress-value">0%</strong><span>da semana</span>
-</div>
-</div>
+<div hidden><h1 id="fb-app-title">Meu Caminho Be</h1><p id="fb-app-subtitle">Seu diário esportivo digital.</p><button type="button" id="fb-hero-action" data-fb-view="inicio"></button><strong id="fb-hero-status"></strong><div id="fb-hero-progress"><strong id="fb-hero-progress-value"></strong></div></div>
 </header>
 
 <nav class="fb-app-nav" aria-label="Navegação do Meu Caminho Be">
@@ -1465,7 +1471,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
 <script src="js/fala-bem-app.js?v=20260729-7" defer></script>
 <script src="js/be-ia.js?v=20260729-1" defer></script>
-<script src="js/meu-caminho-diary.js?v=20260731-1" defer></script>
+<script src="js/meu-caminho-diary.js?v=20260731-2" defer></script>
 
 </body>
 </html>

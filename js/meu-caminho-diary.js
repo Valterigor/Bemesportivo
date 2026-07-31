@@ -375,6 +375,8 @@
   });
 
   $$('[data-be-activity]').forEach(button => button.addEventListener('click', () => openEntry({ type: button.dataset.beActivity, date: dayKey() })));
+  $$('[data-be-showcase-type]').forEach(button => button.addEventListener('click', () => openEntry({ type: button.dataset.beShowcaseType, date: dayKey() })));
+  $$('[data-be-showcase-register]').forEach(button => button.addEventListener('click', () => openEntry({ type: 'corrida', date: dayKey() })));
   $('#be-entry-close')?.addEventListener('click', closeEntry);
   $('#be-entry-cancel')?.addEventListener('click', closeEntry);
   $('#be-entry-form')?.addEventListener('submit', event => {
