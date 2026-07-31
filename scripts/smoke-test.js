@@ -129,6 +129,11 @@ async function run() {
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260729-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260729-5/);
     assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260729-7/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260731-1/);
+    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260731-1/);
+    for (const id of ['be-quick-form', 'be-entry-form', 'be-diary-timeline', 'be-week-chart', 'be-history-timeline']) {
+      assert.match(pathHtml, new RegExp(`id="${id}"`), `Experiência de diário ausente: ${id}`);
+    }
     assert.match(pathHtml, /id="fb-safety-form" novalidate/);
     assert.match(pathHtml, /id="fb-safety-feedback"[^>]*aria-live="assertive"/);
     assert.match(pathHtml, /id="fb-safety-submit"/);
@@ -169,11 +174,12 @@ async function run() {
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v64'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v65'/);
     assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260729-7/);
     assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260729-5/);
     assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
     assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260729-1/);
+    assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260731-1/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 
     const syncFunction = fs.readFileSync(path.join(root, 'functions/api/meu-caminho-sync.js'), 'utf8');

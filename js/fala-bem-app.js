@@ -500,6 +500,7 @@ function resetLocalJourney() {
     localStorage.removeItem('meuCaminhoBeCommunityName');
     localStorage.removeItem('meuCaminhoBeTasksV1');
     localStorage.removeItem('meuCaminhoBeTaskNotifiedV1');
+    localStorage.removeItem('meuCaminhoBeDiaryV1');
   } catch (error) {}
   currentProfile = null;
   const status = document.getElementById('fb-checkin-status');
@@ -3776,17 +3777,19 @@ document.getElementById('fb-delete-daily-log')?.addEventListener('click', () => 
 });
 
 document.getElementById('fb-export-profile')?.addEventListener('click', () => {
-  if (!currentProfile) {
-    document.getElementById('fb-profile-feedback').textContent = 'Ainda não há um perfil para exportar.';
+  let diary = [];
+  try { diary = JSON.parse(localStorage.getItem('meuCaminhoBeDiaryV1') || '[]'); } catch (error) {}
+  if (!currentProfile && !diary.length) {
+    document.getElementById('fb-profile-feedback').textContent = 'Ainda não há dados para exportar.';
     return;
   }
   let routineTasks = [];
   try { routineTasks = JSON.parse(localStorage.getItem('meuCaminhoBeTasksV1') || '[]'); } catch (error) {}
-  const payload = JSON.stringify({ schemaVersion: PROFILE_SCHEMA_VERSION, exportedAt: new Date().toISOString(), profile: currentProfile, routineTasks }, null, 2);
+  const payload = JSON.stringify({ schemaVersion: PROFILE_SCHEMA_VERSION, exportedAt: new Date().toISOString(), profile: currentProfile, routineTasks, diary }, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  const safeName = String(currentProfile.name || 'meu-caminho').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase();
+  const safeName = String(currentProfile?.name || 'meu-caminho').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase();
   link.href = url;
   link.download = `${safeName || 'meu-caminho'}-backup.json`;
   link.click();
@@ -3829,6 +3832,10 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
     currentProfile = sanitized;
     localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(sanitized));
     if (Array.isArray(parsed.routineTasks)) localStorage.setItem('meuCaminhoBeTasksV1', JSON.stringify(parsed.routineTasks.slice(-250)));
+    if (Array.isArray(parsed.diary)) {
+      localStorage.setItem('meuCaminhoBeDiaryV1', JSON.stringify(parsed.diary.slice(0, 3000)));
+      window.dispatchEvent(new CustomEvent('meuCaminhoBe:diary-imported'));
+    }
     renderPersonalizedExperience();
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:tasks-imported'));
     document.getElementById('fb-profile-feedback').textContent = 'Backup restaurado neste aparelho.';
