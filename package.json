@@ -19,6 +19,8 @@
     "test": "node scripts/smoke-test.js",
     "verify": "npm run check && npm run build && npm test",
     "push:keys": "node scripts/generate-vapid-keys.js",
+    "deploy:notifications": "npx --yes wrangler@4.80.0 deploy --config wrangler.notifications.jsonc",
+    "dev:notifications": "npx --yes wrangler@4.80.0 dev --test-scheduled --config wrangler.notifications.jsonc",
     "images:optimize": "node scripts/optimize-images.js",
     "watch": "node dev-server.js --watch"
   },

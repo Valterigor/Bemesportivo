@@ -16,7 +16,10 @@ O Bem Esportivo continua sendo publicado como site estático a partir da raiz. E
 │   ├── components/        # comportamentos reutilizáveis
 │   └── *.js               # entradas compartilhadas e scripts de páginas
 ├── img/ e videos/         # mídia publicada
-├── netlify/functions/     # APIs e persistência no servidor
+├── functions/api/         # APIs publicadas pelo Cloudflare Pages
+├── workers/               # tarefas agendadas do Cloudflare Workers
+├── server/                # regras compartilhadas das APIs
+├── netlify/functions/     # compatibilidade temporária durante a migração
 ├── scripts/               # qualidade, build e manutenção
 ├── docs/                  # decisões e padrões técnicos
 ├── _redirects             # URLs públicas e rotas de API

@@ -169,7 +169,7 @@ async function run() {
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v63'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v64'/);
     assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260729-7/);
     assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260729-5/);
     assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
@@ -181,7 +181,19 @@ async function run() {
     assert.match(syncFunction, /lastMutationId/);
     assert.match(syncFunction, /be-sync-verifier/);
 
-    console.log(`Teste funcional aprovado: ${pages.length} páginas, shell mobile, APIs, PWA, vídeo, continuidade criptografada e integrações essenciais.`);
+    const routineFunction = fs.readFileSync(path.join(root, 'functions/api/routine-notifications/[[path]].js'), 'utf8');
+    const routineCore = fs.readFileSync(path.join(root, 'server/routine-notifications-core.mjs'), 'utf8');
+    const routineWorker = fs.readFileSync(path.join(root, 'workers/routine-notifications.js'), 'utf8');
+    const routineConfig = fs.readFileSync(path.join(root, 'wrangler.notifications.jsonc'), 'utf8');
+    assert.match(routineFunction, /handleRoutineNotifications/);
+    assert.match(routineCore, /routine:install:/);
+    assert.match(routineCore, /bemesportivo\.pages\.dev/);
+    assert.match(routineWorker, /async scheduled/);
+    assert.match(routineWorker, /sendNotification/);
+    assert.match(routineConfig, /"\* \* \* \* \*"/);
+    assert.match(routineConfig, /"binding": "BE_DATA"/);
+
+    console.log(`Teste funcional aprovado: ${pages.length} páginas, shell mobile, APIs, PWA, vídeo, continuidade criptografada, lembretes e integrações essenciais.`);
   } finally {
     server.kill();
     await delay(100);
