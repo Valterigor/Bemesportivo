@@ -50,6 +50,8 @@ async function expectOk(route) {
 }
 
 async function run() {
+  const communityStatePath = path.join(root, 'data', 'community.json');
+  const originalCommunityState = fs.readFileSync(communityStatePath);
   const server = spawn(process.execPath, ['dev-server.js'], {
     cwd: root,
     env: { ...process.env, PORT: String(port) },
@@ -81,6 +83,44 @@ async function run() {
     assert.equal(communityBody.ok, true);
     assert.ok(Array.isArray(communityBody.comments));
 
+    const reportCommentId = `smoke-report-${Date.now()}`;
+    const reportClientId = `smoke-client-${Date.now()}`;
+    const createReportComment = await fetch(`${baseUrl}/api/community/comment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scope: 'report',
+        id: reportCommentId,
+        name: 'Teste funcional',
+        text: 'Comentário temporário do teste automatizado.',
+        clientId: reportClientId,
+        adultConfirmed: true,
+        website: ''
+      })
+    });
+    assert.equal(createReportComment.status, 200);
+    const createdReportCommentBody = await createReportComment.json();
+    assert.equal(createdReportCommentBody.ok, true);
+    assert.ok(createdReportCommentBody.comment?.id);
+
+    const readReportComments = await expectOk(`/api/community/comments?scope=report&id=${encodeURIComponent(reportCommentId)}`);
+    const readReportCommentsBody = await readReportComments.json();
+    assert.ok(readReportCommentsBody.comments.some(comment => comment.id === createdReportCommentBody.comment.id));
+
+    const reportComment = await fetch(`${baseUrl}/api/community/comment-action`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scope: 'report',
+        id: reportCommentId,
+        commentId: createdReportCommentBody.comment.id,
+        action: 'report',
+        clientId: `${reportClientId}-moderation`
+      })
+    });
+    assert.equal(reportComment.status, 200);
+    assert.equal((await reportComment.json()).ok, true);
+
     const ranking = await expectOk('/api/game-ranking');
     assert.ok(Array.isArray((await ranking.json()).ranking));
 
@@ -91,6 +131,13 @@ async function run() {
     assert.match(video.headers.get('content-type') || '', /video\/mp4/);
     assert.equal((await video.arrayBuffer()).byteLength, 1024);
 
+    const reportVideo = await fetch(`${baseUrl}/videos/elas-em-movimento-serra-talhada.mp4`, {
+      headers: { Range: 'bytes=0-1023' }
+    });
+    assert.equal(reportVideo.status, 206);
+    assert.match(reportVideo.headers.get('content-type') || '', /video\/mp4/);
+    assert.equal((await reportVideo.arrayBuffer()).byteLength, 1024);
+
     const pathHtml = fs.readFileSync(path.join(root, 'meu-caminho-be.html'), 'utf8');
     const elasReport = fs.readFileSync(path.join(root, 'reportagem-elas-em-movimento-serra-talhada.html'), 'utf8');
     assert.match(elasReport, /Elas em Movimento transforma rotina em força coletiva em Serra Talhada/);
@@ -98,9 +145,14 @@ async function run() {
     assert.match(elasReport, /Parque dos Ipês, bairro Ipsep/);
     assert.match(elasReport, /data-share-whatsapp/);
     assert.match(elasReport, /data-share-cover-button[^>]*Instagram Stories/);
-    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-3/);
+    assert.match(elasReport, /videos\/elas-em-movimento-serra-talhada\.mp4/);
+    assert.ok(fs.existsSync(path.join(root, 'videos', 'elas-em-movimento-serra-talhada.mp4')));
+    assert.match(elasReport, /<div class="elas-story-header">/);
+    assert.doesNotMatch(elasReport, /<header class="elas-story-header">/);
+    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-5/);
     const reportCss = fs.readFileSync(path.join(root, 'css', 'reportagens.css'), 'utf8');
     assert.match(reportCss, /\.reportagens-page \.elas-story-header\s*\{[\s\S]*?display:\s*grid\s*!important/);
+    assert.match(reportCss, /\.reportagens-page \.elas-story-header\s*\{[\s\S]*?position:\s*static\s*!important/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
     assert.match(homeHtml, /class="hero-slide hero-slide-news hero-slide-elas active"/);
     assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
@@ -233,6 +285,7 @@ async function run() {
   } finally {
     server.kill();
     await delay(100);
+    fs.writeFileSync(communityStatePath, originalCommunityState);
     if (!server.killed && serverError) process.stderr.write(serverError);
   }
 }
