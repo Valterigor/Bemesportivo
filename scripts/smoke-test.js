@@ -12,6 +12,7 @@ const pages = [
   '/',
   '/reportagens',
   '/reportagens/treino-funcional-br-assessoria',
+  '/reportagens/elas-em-movimento-serra-talhada',
   '/reportagens/dedicacao-talento-mirim',
   '/reportagens/duda-e-o-futebol',
   '/meu-caminho-be',
@@ -91,6 +92,18 @@ async function run() {
     assert.equal((await video.arrayBuffer()).byteLength, 1024);
 
     const pathHtml = fs.readFileSync(path.join(root, 'meu-caminho-be.html'), 'utf8');
+    const elasReport = fs.readFileSync(path.join(root, 'reportagem-elas-em-movimento-serra-talhada.html'), 'utf8');
+    assert.match(elasReport, /Elas em Movimento transforma rotina em força coletiva em Serra Talhada/);
+    assert.match(elasReport, /Ginásio Luiza Kelly/);
+    assert.match(elasReport, /Parque dos Ipês, bairro Ipsep/);
+    assert.match(elasReport, /data-share-whatsapp/);
+    assert.match(elasReport, /data-share-cover-button[^>]*Instagram Stories/);
+    const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+    assert.match(homeHtml, /class="hero-slide hero-slide-news hero-slide-elas active"/);
+    assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
+    for (const image of ['mulheres-em-acao-funcional-serra-talhada.jpg', 'mulheres-em-acao-funcional-serra-talhada-640.webp', 'mulheres-em-acao-funcional-serra-talhada-960.webp', 'mulheres-em-acao-funcional-serra-talhada-1440.webp']) {
+      assert.ok(fs.existsSync(path.join(root, 'img', image)), `Imagem da reportagem ausente: ${image}`);
+    }
     assert.match(pathHtml, /id="fb-photo-checkin"[^>]*data-feature-state="paused"[^>]*hidden/);
     for (const id of ['fb-continuity-create', 'fb-continuity-output', 'fb-continuity-connect-form', 'fb-continuity-input']) {
       assert.match(pathHtml, new RegExp(`id="${id}"`), `Fluxo de continuidade ausente: ${id}`);

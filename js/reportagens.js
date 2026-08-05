@@ -55,7 +55,7 @@ async function imageFromBlob(blob) {
   }
 }
 
-async function createStoryCover(blob, title, articleUrl) {
+async function createStoryCover(blob, title, articleUrl, summary = "Leia a reportagem completa no Bem Esportivo.", reportId = "reportagem") {
   const image = await imageFromBlob(blob);
   const canvas = document.createElement("canvas");
   canvas.width = 1080;
@@ -92,8 +92,8 @@ async function createStoryCover(blob, title, articleUrl) {
 
   context.fillStyle = "rgba(255, 255, 255, .82)";
   context.font = "500 31px Inter, Arial, sans-serif";
-  context.fillText("Bruno e Rafael Resende comandam uma manhã", 64, 1320);
-  context.fillText("de treino, orientação e energia coletiva.", 64, 1364);
+  const summaryLines = wrapCanvasText(context, summary, 920).slice(0, 2);
+  summaryLines.forEach((line, index) => context.fillText(line, 64, 1320 + (index * 44)));
 
   context.fillStyle = "#fa8a01";
   context.beginPath();
@@ -112,7 +112,8 @@ async function createStoryCover(blob, title, articleUrl) {
 
   const storyBlob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", .92));
   if (!storyBlob) throw new Error("Não foi possível gerar a capa.");
-  return new File([storyBlob], "story-treino-funcional-bem-esportivo.jpg", { type: "image/jpeg" });
+  const safeId = String(reportId || "reportagem").replace(/[^a-z0-9-]+/gi, "-").toLowerCase();
+  return new File([storyBlob], `story-${safeId}-bem-esportivo.jpg`, { type: "image/jpeg" });
 }
 
 function initReportSharing() {
@@ -120,6 +121,7 @@ function initReportSharing() {
     const reportId = section.dataset.reportId || "";
     const title = section.dataset.shareTitle || document.title;
     const coverPath = section.dataset.shareCover || "";
+    const summary = section.dataset.shareSummary || "Leia a reportagem completa no Bem Esportivo.";
     const articlePath = section.dataset.shareUrl || `/reportagens/${reportId}`;
     const articleUrl = new URL(articlePath, location.origin);
     articleUrl.searchParams.set("ref", "compartilhar");
@@ -144,7 +146,7 @@ function initReportSharing() {
       : Promise.resolve(null);
 
     const storyFilePromise = coverBlobPromise
-      .then(blob => blob ? createStoryCover(blob, title, shareUrl) : null)
+      .then(blob => blob ? createStoryCover(blob, title, shareUrl, summary, reportId) : null)
       .catch(() => null);
 
     storyFilePromise.then(file => {

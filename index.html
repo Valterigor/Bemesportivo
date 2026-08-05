@@ -267,6 +267,19 @@
       font-size: clamp(38px, 4.8vw, 66px);
     }
 
+    .hero-slide-elas {
+      background-color: #13080e;
+      background-image: url("img/mulheres-em-acao-funcional-serra-talhada.jpg");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .hero-slide-elas :is(h1, h2) {
+      max-width: 13ch;
+      font-size: clamp(38px, 4.8vw, 66px);
+    }
+
     .hero-slide-opiniao {
       background-color: #090909;
       background-image: url("img/banner-opiniao-corinthians.png");
@@ -1253,6 +1266,11 @@
         background-position: 78% center;
       }
 
+      .hero-slide-elas {
+        /* Prioriza a turma no recorte vertical; o texto identifica a reportagem. */
+        background-position: 72% center;
+      }
+
       .brand-film {
         grid-template-columns: 1fr;
         gap: 28px;
@@ -2209,8 +2227,16 @@
           <div><span>Conteúdo que movimenta</span><h2 id="ecosystem-highlights-title">Em destaque agora</h2></div>
           <p>Notícias, histórias e opiniões continuam presentes — agora conectadas a uma jornada maior.</p>
         </div>
-        <div class="hero showing-football" aria-label="Destaques do Bem Esportivo">
-          <article class="hero-slide hero-slide-football active" aria-hidden="false">
+        <div class="hero showing-news" aria-label="Destaques do Bem Esportivo">
+          <article class="hero-slide hero-slide-news hero-slide-elas active" aria-hidden="false">
+            <div class="hero-content">
+              <span class="eyebrow">Nova reportagem · Serra Talhada</span>
+              <h2>Elas em Movimento.</h2>
+              <p>Treino funcional, força coletiva e duas turmas que movimentam mulheres no Sertão de Pernambuco.</p>
+              <div class="hero-meta"><span>História, saúde e comunidade</span><a class="primary-btn" href="/reportagens/elas-em-movimento-serra-talhada">Ler reportagem</a></div>
+            </div>
+          </article>
+          <article class="hero-slide hero-slide-football" aria-hidden="true">
             <div class="hero-content">
               <span class="eyebrow">Bem Esportivo · Informação que movimenta</span>
               <h2>Viva o esporte por inteiro.</h2>
@@ -2242,6 +2268,7 @@
             <button class="hero-dot active" type="button" aria-label="Mostrar destaque 1" aria-current="true"></button>
             <button class="hero-dot" type="button" aria-label="Mostrar destaque 2"></button>
             <button class="hero-dot" type="button" aria-label="Mostrar destaque 3"></button>
+            <button class="hero-dot" type="button" aria-label="Mostrar destaque 4"></button>
             <button class="hero-arrow hero-next" type="button" aria-label="Próximo destaque">›</button>
           </div>
         </div>

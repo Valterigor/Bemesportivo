@@ -853,6 +853,7 @@ function resolveRequest(urlPath){
   }
   const cleanRoutes = {
     'reportagens/treino-funcional-br-assessoria':'reportagem-treino-funcional',
+    'reportagens/elas-em-movimento-serra-talhada':'reportagem-elas-em-movimento-serra-talhada',
     'reportagens/dedicacao-talento-mirim':'reportagem-dedicacao-talento-mirim',
     'reportagens/duda-e-o-futebol':'reportagem-duda-e-o-futebol'
   };
