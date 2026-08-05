@@ -98,6 +98,9 @@ async function run() {
     assert.match(elasReport, /Parque dos Ipês, bairro Ipsep/);
     assert.match(elasReport, /data-share-whatsapp/);
     assert.match(elasReport, /data-share-cover-button[^>]*Instagram Stories/);
+    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-3/);
+    const reportCss = fs.readFileSync(path.join(root, 'css', 'reportagens.css'), 'utf8');
+    assert.match(reportCss, /\.reportagens-page \.elas-story-header\s*\{[\s\S]*?display:\s*grid\s*!important/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
     assert.match(homeHtml, /class="hero-slide hero-slide-news hero-slide-elas active"/);
     assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
