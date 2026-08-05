@@ -129,7 +129,9 @@ async function run() {
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260729-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260729-5/);
     assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260731-1/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260731-4/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260805-3/);
+    assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
+    assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
     assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260731-3/);
     assert.doesNotMatch(pathHtml, /class="be-showcase-phones"/);
     for (const id of ['be-quick-form', 'be-entry-form', 'be-diary-timeline', 'be-week-chart', 'be-history-timeline']) {
@@ -161,6 +163,11 @@ async function run() {
     assert.match(modernCss, /#be-ia:not\(\.fb-progressive-open\)/);
     assert.match(modernCss, /#fb-week-zone/);
 
+    const diaryCss = fs.readFileSync(path.join(root, 'css/meu-caminho-diary.css'), 'utf8');
+    assert.match(diaryCss, /fb-nav-desktop-only\[data-fb-view="ferramentas"\]\{display:flex!important\}/, 'O menu lateral precisa exibir o acesso a Ferramentas.');
+    assert.match(diaryCss, /fb-app-topbar \.fb-app-brand\{display:flex;min-width:0\}/, 'O cabeçalho mobile precisa manter o logo visível.');
+    assert.match(diaryCss, /be-showcase-copy>a:not\(\.be-showcase-brand\)/, 'A marca da apresentação não pode receber o visual do botão principal.');
+
     const appScript = fs.readFileSync(path.join(root, 'js/fala-bem-app.js'), 'utf8');
     assert.match(appScript, /function recordJourneyStep\(/);
     assert.match(appScript, /source: 'journey_form'/);
@@ -181,7 +188,7 @@ async function run() {
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v68'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v72'/);
     assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260731-1/);
     assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260729-5/);
     assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
