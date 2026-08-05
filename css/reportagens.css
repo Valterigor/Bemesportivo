@@ -1012,6 +1012,7 @@ body.reportagens-page {
 }
 
 .reportagens-page .report-card-elas .report-media-stack {
+  position: relative;
   display: block;
   padding: 0;
   overflow: hidden;
@@ -1019,6 +1020,55 @@ body.reportagens-page {
   border-radius: 28px;
   background: #111;
   box-shadow: 0 24px 65px rgba(23, 13, 10, .2);
+}
+
+.reportagens-page .elas-photo-badge {
+  position: absolute;
+  top: 50%;
+  left: 7%;
+  z-index: 2;
+  width: clamp(104px, 17%, 172px);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 10px 18px rgba(91, 12, 44, .28));
+  transform: translateY(-50%) rotate(-4deg);
+}
+
+.reportagens-page .elas-photo-badge-ring {
+  fill: #ed3f87;
+  stroke: rgba(255, 255, 255, .95);
+  stroke-width: 5;
+}
+
+.reportagens-page .elas-photo-badge-core {
+  fill: #d91f70;
+  stroke: rgba(255, 255, 255, .42);
+  stroke-width: 2;
+}
+
+.reportagens-page .elas-photo-badge-copy {
+  fill: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+}
+
+.reportagens-page .elas-photo-badge-title,
+.reportagens-page .elas-photo-badge-subtitle {
+  fill: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 900;
+}
+
+.reportagens-page .elas-photo-badge-title {
+  font-size: 31px;
+  letter-spacing: 1px;
+}
+
+.reportagens-page .elas-photo-badge-subtitle {
+  font-size: 13px;
+  letter-spacing: 3px;
 }
 
 .reportagens-page .report-card-elas .report-media-stack > .report-cover {
@@ -1142,6 +1192,7 @@ body.reportagens-page {
   .reportagens-page main:has(.report-card-elas) { padding-right: 0 !important; padding-left: 0 !important; }
   .reportagens-page .report-card-elas .report-media-stack { display: block; height: auto; padding: 0; overflow: hidden; border-radius: 0 0 22px 22px; }
   .reportagens-page .report-card-elas .report-media-stack > .report-cover { width: 100%; min-height: 0; max-height: none; aspect-ratio: 16 / 10; object-fit: cover; }
+  .reportagens-page .elas-photo-badge { left: 5%; width: clamp(92px, 24vw, 118px); }
   .reportagens-page .report-card-elas .report-body { width: calc(100% - 20px); margin-top: -28px; padding-bottom: 32px; }
   .reportagens-page .elas-story-header { position: static !important; top: auto !important; margin-bottom: 24px; padding: 23px 19px; border-radius: 20px; }
   .reportagens-page .elas-story-header h1 { max-width: none; margin: 0; font-size: clamp(1.75rem, 8.4vw, 2.35rem) !important; line-height: 1.08 !important; letter-spacing: -.035em !important; overflow-wrap: anywhere; }

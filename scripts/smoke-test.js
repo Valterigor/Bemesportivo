@@ -153,10 +153,12 @@ async function run() {
     assert.ok(fs.existsSync(path.join(root, 'img', 'elas-em-movimento-video-poster.jpg')));
     assert.match(elasReport, /<div class="elas-story-header">/);
     assert.doesNotMatch(elasReport, /<header class="elas-story-header">/);
-    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-7/);
+    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-8/);
+    assert.match(elasReport, /class="elas-photo-badge"[\s\S]*ELAS EM AÇÃO • E MOVIMENTO/);
     const reportCss = fs.readFileSync(path.join(root, 'css', 'reportagens.css'), 'utf8');
     assert.match(reportCss, /\.reportagens-page \.elas-story-header\s*\{[\s\S]*?display:\s*grid\s*!important/);
     assert.match(reportCss, /\.reportagens-page \.elas-story-header\s*\{[\s\S]*?position:\s*static\s*!important/);
+    assert.match(reportCss, /\.reportagens-page \.elas-photo-badge\s*\{[\s\S]*?position:\s*absolute/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
     assert.match(homeHtml, /class="hero-slide hero-slide-news hero-slide-elas active"/);
     assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
@@ -256,10 +258,13 @@ async function run() {
     assert.match(appScript, /async function resizeProfilePhoto\(file\)/);
     assert.match(appScript, /meuCaminhoBe:profile-updated/);
 
+    const reportPageFile = fs.readdirSync(root).find(fileName => fileName.toLowerCase() === 'reportagens.html');
+    assert.equal(reportPageFile, 'reportagens.html', 'O arquivo de Reportagens precisa usar minúsculas para coincidir com a URL do menu no Cloudflare.');
+
     const redirects = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
     assert.match(redirects, /\/api\/analytics\/events\s+\/\.netlify\/functions\/analytics/);
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
-    assert.match(redirects, /^\/reportagens\s+\/Reportagens\.html\s+200$/m, 'A rota do menu Reportagens precisa entregar a página de reportagens no Cloudflare.');
+    assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
     assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v72'/);
