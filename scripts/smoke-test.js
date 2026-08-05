@@ -153,12 +153,16 @@ async function run() {
     assert.ok(fs.existsSync(path.join(root, 'img', 'elas-em-movimento-video-poster.jpg')));
     assert.match(elasReport, /<div class="elas-story-header">/);
     assert.doesNotMatch(elasReport, /<header class="elas-story-header">/);
-    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-8/);
-    assert.match(elasReport, /class="elas-photo-badge"[\s\S]*ELAS EM AÇÃO • E MOVIMENTO/);
+    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-9/);
+    assert.doesNotMatch(elasReport, /elas-photo-badge/);
+    assert.match(elasReport, /mulheres-em-movimento-serra-talhada-interna\.jpg/);
+    for (const image of ['mulheres-em-movimento-serra-talhada-interna.jpg', 'mulheres-em-movimento-serra-talhada-interna-640.webp', 'mulheres-em-movimento-serra-talhada-interna-960.webp', 'mulheres-em-movimento-serra-talhada-interna-1440.webp']) {
+      assert.ok(fs.existsSync(path.join(root, 'img', image)), `Imagem interna da reportagem ausente: ${image}`);
+    }
     const reportCss = fs.readFileSync(path.join(root, 'css', 'reportagens.css'), 'utf8');
     assert.match(reportCss, /\.reportagens-page \.elas-story-header\s*\{[\s\S]*?display:\s*grid\s*!important/);
     assert.match(reportCss, /\.reportagens-page \.elas-story-header\s*\{[\s\S]*?position:\s*static\s*!important/);
-    assert.match(reportCss, /\.reportagens-page \.elas-photo-badge\s*\{[\s\S]*?position:\s*absolute/);
+    assert.match(reportCss, /\.report-card-elas \.report-media-stack > \.report-cover\s*\{[\s\S]*?object-position:\s*right center[\s\S]*?transform:\s*scale\(1\.22\)/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
     assert.match(homeHtml, /class="hero-slide hero-slide-news hero-slide-elas active"/);
     assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
