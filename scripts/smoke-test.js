@@ -140,7 +140,7 @@ async function run() {
 
     const pathHtml = fs.readFileSync(path.join(root, 'meu-caminho-be.html'), 'utf8');
     const elasReport = fs.readFileSync(path.join(root, 'reportagem-elas-em-movimento-serra-talhada.html'), 'utf8');
-    assert.match(elasReport, /Mulheres em Movimento e Mulheres em Ação fortalecem rotina esportiva em Serra Talhada/);
+    assert.match(elasReport, /Mulheres em ação e movimento/);
     assert.match(elasReport, /Shuenia Menezes e Daiana Cruz/);
     assert.match(elasReport, /Mulheres em Ação[\s\S]*Daiana Cruz/);
     assert.match(elasReport, /Ginásio Luiza Kelly/);
