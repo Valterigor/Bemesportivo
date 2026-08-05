@@ -259,6 +259,7 @@ async function run() {
     const redirects = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
     assert.match(redirects, /\/api\/analytics\/events\s+\/\.netlify\/functions\/analytics/);
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
+    assert.match(redirects, /^\/reportagens\s+\/Reportagens\.html\s+200$/m, 'A rota do menu Reportagens precisa entregar a página de reportagens no Cloudflare.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
     assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v72'/);
