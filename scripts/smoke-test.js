@@ -140,23 +140,28 @@ async function run() {
 
     const pathHtml = fs.readFileSync(path.join(root, 'meu-caminho-be.html'), 'utf8');
     const elasReport = fs.readFileSync(path.join(root, 'reportagem-elas-em-movimento-serra-talhada.html'), 'utf8');
-    assert.match(elasReport, /Elas em Movimento transforma rotina em força coletiva em Serra Talhada/);
+    assert.match(elasReport, /Mulheres em Movimento e Mulheres em Ação fortalecem rotina esportiva em Serra Talhada/);
+    assert.match(elasReport, /Shuenia Menezes e Daiana Cruz/);
+    assert.match(elasReport, /Mulheres em Ação[\s\S]*Daiana Cruz/);
     assert.match(elasReport, /Ginásio Luiza Kelly/);
     assert.match(elasReport, /Parque dos Ipês, bairro Ipsep/);
     assert.match(elasReport, /data-share-whatsapp/);
     assert.match(elasReport, /data-share-cover-button[^>]*Instagram Stories/);
     assert.match(elasReport, /videos\/elas-em-movimento-serra-talhada\.mp4/);
     assert.ok(fs.existsSync(path.join(root, 'videos', 'elas-em-movimento-serra-talhada.mp4')));
+    assert.match(elasReport, /poster="\/img\/elas-em-movimento-video-poster\.jpg"/);
+    assert.ok(fs.existsSync(path.join(root, 'img', 'elas-em-movimento-video-poster.jpg')));
     assert.match(elasReport, /<div class="elas-story-header">/);
     assert.doesNotMatch(elasReport, /<header class="elas-story-header">/);
-    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-5/);
+    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-7/);
     const reportCss = fs.readFileSync(path.join(root, 'css', 'reportagens.css'), 'utf8');
     assert.match(reportCss, /\.reportagens-page \.elas-story-header\s*\{[\s\S]*?display:\s*grid\s*!important/);
     assert.match(reportCss, /\.reportagens-page \.elas-story-header\s*\{[\s\S]*?position:\s*static\s*!important/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
     assert.match(homeHtml, /class="hero-slide hero-slide-news hero-slide-elas active"/);
     assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
-    for (const image of ['mulheres-em-acao-funcional-serra-talhada.jpg', 'mulheres-em-acao-funcional-serra-talhada-640.webp', 'mulheres-em-acao-funcional-serra-talhada-960.webp', 'mulheres-em-acao-funcional-serra-talhada-1440.webp']) {
+    assert.doesNotMatch(elasReport, /mulheres-em-acao-funcional-serra-talhada/);
+    for (const image of ['mulheres-em-movimento-serra-talhada-sem-logo.jpg', 'mulheres-em-movimento-serra-talhada-sem-logo-640.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-960.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-1440.webp']) {
       assert.ok(fs.existsSync(path.join(root, 'img', image)), `Imagem da reportagem ausente: ${image}`);
     }
     assert.match(pathHtml, /id="fb-photo-checkin"[^>]*data-feature-state="paused"[^>]*hidden/);
