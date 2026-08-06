@@ -65,7 +65,6 @@ let beNowTimerInterval = null;
 const viewTargets = {
   jornada: ['#minha-jornada'],
   ferramentas: ['#ferramentas'],
-  conteudos: ['.container.page > .layout'],
   especialistas: ['#especialistas'],
   modalidades: ['.container.page > .platform-duo'],
   comunidade: ['.container.page > .platform-engagement'],
@@ -78,7 +77,7 @@ const appRouteForView = {
   evolucao: 'evolucao',
   explorar: 'explorar',
   perfil: 'perfil',
-  conteudos: 'explorar',
+  conteudos: 'aprender',
   ferramentas: 'explorar',
   especialistas: 'explorar',
   modalidades: 'explorar',
@@ -92,6 +91,7 @@ const appViewForRoute = {
   jornada: 'progresso',
   evolucao: 'evolucao',
   explorar: 'explorar',
+  aprender: 'conteudos',
   perfil: 'perfil'
 };
 const viewPresentation = {
@@ -101,7 +101,7 @@ const viewPresentation = {
   evolucao: ['Minha evolução', '#fb-evolution-title'],
   explorar: ['Explorar', '#fb-explore-title'],
   perfil: ['Meu perfil', '#fb-profile-title'],
-  conteudos: ['Conteúdos', '#conteudos-title'],
+  conteudos: ['Aprender', '#be-learn-title'],
   ferramentas: ['Ferramentas', '#tools-title'],
   especialistas: ['Profissionais', '#specialists-title'],
   modalidades: ['Modalidades', '#modalidades-title'],

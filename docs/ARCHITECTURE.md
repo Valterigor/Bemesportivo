@@ -27,6 +27,14 @@ O Bem Esportivo continua sendo publicado como site estático a partir da raiz. E
 └── sw.js                  # cache offline controlado
 ```
 
+## Materiais locais
+
+Capturas de navegador, páginas baixadas de redes sociais, arquivos brutos recebidos e referências ainda não aprovadas ficam em `.local-reference/`. Esse diretório é ignorado pelo Git e não participa do build.
+
+O diretório `img/` deve conter somente imagens publicadas ou referenciadas pelo site. A raiz não deve receber capturas de teste, logs ou exportações temporárias.
+
+O inventário das áreas publicadas, locais e legadas está em [PROJECT-INVENTORY.md](PROJECT-INVENTORY.md).
+
 ## Direção das dependências
 
 Uma página pode depender de componentes, e componentes podem depender do núcleo. O núcleo nunca depende de uma página.

@@ -20,6 +20,8 @@ npm run check
 npm run build
 ```
 
+`npm run structure` verifica se capturas, páginas baixadas, arquivos brutos e pastas temporárias não foram colocados por engano na raiz pública, em `img/` ou em `videos/`.
+
 Antes de publicar, rode:
 
 ```bash

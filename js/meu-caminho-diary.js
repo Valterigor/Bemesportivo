@@ -209,6 +209,65 @@
       : emptyState('Seu dia começa aqui.', 'A primeira atividade registrada aparecerá nesta página.');
   }
 
+  function currentStreak() {
+    const dates = new Set(entries.map(entry => entry.date));
+    const cursor = new Date();
+    cursor.setHours(12, 0, 0, 0);
+    if (!dates.has(dayKey(cursor))) cursor.setDate(cursor.getDate() - 1);
+    let streak = 0;
+    while (dates.has(dayKey(cursor))) {
+      streak += 1;
+      cursor.setDate(cursor.getDate() - 1);
+    }
+    return streak;
+  }
+
+  function renderDashboardOverview() {
+    const greeting = $('#be-dashboard-greeting');
+    if (!greeting) return;
+    let profile = null;
+    try { profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null'); } catch {}
+    const hour = new Date().getHours();
+    const salutation = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite';
+    const name = String(profile?.name || '').trim().split(/\s+/)[0];
+    greeting.textContent = `${salutation}${name ? `, ${name}` : ''}!`;
+    $('#be-dashboard-records').textContent = String(entries.length);
+    const streak = currentStreak();
+    $('#be-dashboard-streak').textContent = `${streak} ${streak === 1 ? 'dia' : 'dias'}`;
+
+    const startedAt = profile?.identityCreatedAt || profile?.createdAt || entries.at(-1)?.date;
+    if (startedAt) {
+      const start = new Date(/^\d{4}-\d{2}-\d{2}$/.test(startedAt) ? `${startedAt}T12:00:00` : startedAt);
+      const elapsedDays = Number.isNaN(start.getTime()) ? 0 : Math.max(0, Math.floor((new Date() - start) / 86400000));
+      const months = Math.floor(elapsedDays / 30);
+      $('#be-dashboard-since').textContent = months
+        ? `Você registra sua jornada há ${months} ${months === 1 ? 'mês' : 'meses'}.`
+        : 'Sua jornada esportiva está começando agora.';
+    }
+
+    const goals = {
+      comecar: ['Criar ritmo', 'Comece com uma atividade possível.'],
+      saude: ['Cuidar de você', 'Movimento também é autocuidado.'],
+      emagrecer: ['Criar hábitos', 'A constância vale mais que a pressa.'],
+      performance: ['Evoluir', 'Observe seu ritmo e avance com método.'],
+      modalidade: ['Descobrir', 'Experimente uma prática que combine com você.'],
+      recuperacao: ['Voltar bem', 'Retome com calma e segurança.']
+    };
+    const goal = goals[profile?.objective] || ['Começar', 'Um passo possível hoje.'];
+    $('#be-dashboard-goal').textContent = goal[0];
+    $('#be-dashboard-goal-note').textContent = goal[1];
+    const avatar = $('#be-dashboard-avatar');
+    avatar.textContent = name ? name.slice(0, 2).toLocaleUpperCase('pt-BR') : 'BE';
+    if (String(profile?.photoDataUrl || '').startsWith('data:image/')) {
+      avatar.style.backgroundImage = `url("${profile.photoDataUrl}")`;
+      avatar.style.backgroundPosition = 'center';
+      avatar.style.backgroundSize = 'cover';
+      avatar.textContent = '';
+    } else {
+      avatar.style.removeProperty('background-image');
+    }
+  }
+
   function renderDiaryFilters() {
     const periods = [...new Set(entries.map(entry => entry.date.slice(0, 7)))].sort().reverse();
     const sports = [...new Set(entries.map(entry => entry.type))].sort((a, b) => types[a].label.localeCompare(types[b].label, 'pt-BR'));
@@ -352,6 +411,7 @@
 
   function renderAll() {
     renderToday();
+    renderDashboardOverview();
     renderDiary();
     renderEvolution();
     renderHistory();
@@ -424,6 +484,7 @@
     entries = readEntries();
     renderAll();
   });
+  window.addEventListener('meuCaminhoBe:profile-updated', renderDashboardOverview);
   window.addEventListener('storage', event => {
     if (event.key !== STORAGE_KEY) return;
     entries = readEntries();

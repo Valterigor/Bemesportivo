@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-5">
-<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260805-3">
+<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260805-4">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -170,19 +170,20 @@
 </header>
 
 <nav class="fb-app-nav" aria-label="Navegação do Meu Caminho Be">
-<button type="button" class="active" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg><span class="fb-nav-label-mobile">Hoje</span><span class="fb-nav-label-desktop">Meu Hoje</span></button>
-<button type="button" data-fb-view="progresso"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg><span class="fb-nav-label-mobile">Diário</span><span class="fb-nav-label-desktop">Meu Diário</span></button>
-<button type="button" class="fb-nav-mobile-only" data-fb-view="evolucao"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19V3"></path></svg>Evolução</button>
-<button type="button" class="fb-nav-mobile-only" data-fb-view="explorar"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4v16M5 6h9l-2 3 2 3H5M9 17h10"></path></svg>História</button>
-<button type="button" data-fb-view="perfil"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg>Eu</button>
-<button type="button" class="fb-nav-desktop-only" data-fb-view="ferramentas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg>Ferramentas</button>
-<button type="button" class="fb-nav-desktop-only" data-fb-view="conteudos"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h4"></path></svg>Conteúdos</button>
-<button type="button" class="fb-nav-desktop-only" data-fb-view="especialistas"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="7" r="2"></circle><path d="M3 20a6 6 0 0 1 12 0M14 14.5a5 5 0 0 1 7 4.5"></path></svg>Profissionais</button>
-<button type="button" class="fb-nav-desktop-only" data-fb-view="gols"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="m12 8 3 2-1 4h-4l-1-4 3-2ZM9 10 6.5 8.5M15 10l2.5-1.5M10 14l-1 4M14 14l1 4"></path></svg>Gols</button>
+<button type="button" class="active" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg><span>Início</span></button>
+<button type="button" data-fb-view="progresso"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg><span>Jornada</span></button>
+<button type="button" class="fb-nav-register" data-be-new-entry aria-label="Registrar uma atividade"><i aria-hidden="true">＋</i><span>Registrar</span></button>
+<button type="button" data-fb-view="ferramentas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg><span>Ferramentas</span></button>
+<button type="button" data-fb-view="perfil"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg><span>Perfil</span></button>
 </nav>
 
 <div class="fb-app-panel active" data-fb-panel="inicio">
 <main class="be-diary-home" aria-labelledby="be-diary-home-title">
+<section class="be-dashboard-overview" aria-labelledby="be-dashboard-greeting">
+<header><div><span>MEU CAMINHO BE</span><h2 id="be-dashboard-greeting">Bom dia!</h2><p id="be-dashboard-since">Hoje é um bom dia para continuar.</p></div><button type="button" data-fb-view="perfil" aria-label="Abrir perfil"><span class="be-dashboard-avatar" id="be-dashboard-avatar">BE</span></button></header>
+<div class="be-dashboard-status"><article><span>SEQUÊNCIA ATUAL</span><strong id="be-dashboard-streak">0 dias</strong><small>Seu ritmo, sem cobrança.</small></article><article><span>REGISTROS</span><strong id="be-dashboard-records">0</strong><small>Momentos da sua história.</small></article><article><span>PRÓXIMA META</span><strong id="be-dashboard-goal">Começar</strong><small id="be-dashboard-goal-note">Um passo possível hoje.</small></article></div>
+<div class="be-dashboard-plan"><div><span>PLANO DO DIA</span><h3>Como você quer se movimentar hoje?</h3><p>Escolha uma atividade ou registre do seu jeito.</p></div><button type="button" data-be-new-entry>Continuar</button></div>
+</section>
 <section class="be-diary-welcome">
 <div><span class="be-diary-eyebrow" id="be-diary-date-label">MEU CAMINHO BE · HOJE</span><h2 id="be-diary-home-title">O que você fez hoje?</h2><p>Registre em segundos. Nós organizamos sua história.</p></div>
 <div class="be-diary-today-count"><strong id="be-today-count">0</strong><span>atividades hoje</span></div>
@@ -576,6 +577,7 @@
 
 <div class="fb-app-panel fb-progress-panel" data-fb-panel="progresso" hidden>
 <main class="be-diary-page" aria-labelledby="be-diary-title">
+<nav class="be-journey-switcher" aria-label="Visualizações da sua jornada"><button type="button" class="active" data-fb-view="progresso" aria-current="page">História</button><button type="button" data-fb-view="evolucao">Evolução</button></nav>
 <header class="be-page-heading"><div><span>MEU DIÁRIO</span><h2 id="be-diary-title">Sua vida esportiva, dia após dia.</h2><p>Cada registro é uma página da sua história.</p></div><button type="button" class="be-add-entry" data-be-new-entry>＋ Registrar atividade</button></header>
 <div class="be-diary-toolbar"><label for="be-diary-period">Período<select id="be-diary-period"><option value="all">Todo o histórico</option></select></label><label for="be-diary-sport">Esporte<select id="be-diary-sport"><option value="all">Todos os esportes</option></select></label></div>
 <div id="be-diary-timeline" class="be-diary-timeline"></div>
@@ -639,6 +641,7 @@
 
 <div class="fb-app-panel fb-evolution-panel" data-fb-panel="evolucao" hidden>
 <main class="be-evolution-page" aria-labelledby="be-evolution-main-title">
+<nav class="be-journey-switcher" aria-label="Visualizações da sua jornada"><button type="button" data-fb-view="progresso">História</button><button type="button" class="active" data-fb-view="evolucao" aria-current="page">Evolução</button></nav>
 <header class="be-page-heading"><div><span>MINHA EVOLUÇÃO</span><h2 id="be-evolution-main-title">O que mudou no seu caminho.</h2><p>Menos cobrança. Mais clareza sobre sua constância.</p></div><select id="be-evolution-period" aria-label="Período da evolução"><option value="28">Últimas 4 semanas</option><option value="90">Últimos 3 meses</option><option value="180">Últimos 6 meses</option><option value="all">Todo o período</option></select></header>
 <section class="be-story-insight" aria-live="polite"><span>LEITURA DO SEU MOMENTO</span><h3 id="be-main-insight">Seu primeiro registro vai revelar o começo da sua evolução.</h3><p id="be-main-insight-detail">A evolução aparece conforme você pratica e registra.</p></section>
 <section class="be-summary-cards" aria-label="Resumo do período"><article><span>ATIVIDADES</span><strong id="be-stat-activities">0</strong><small id="be-stat-frequency">Comece hoje</small></article><article><span>TEMPO EM MOVIMENTO</span><strong id="be-stat-time">0 min</strong><small>no período</small></article><article><span>DISTÂNCIA</span><strong id="be-stat-distance">0 km</strong><small>registrados</small></article><article><span>CONSTÂNCIA</span><strong id="be-stat-streak">0 dias</strong><small>melhor sequência</small></article></section>
@@ -664,6 +667,14 @@
 <p id="fb-evolution-insight-text">Seus dados aparecem aqui conforme você usa o Meu Hoje e conclui passos da jornada.</p>
 <div><button type="button" class="fb-primary-action" data-fb-view="inicio" data-fb-daily-action="true">Registrar Meu Hoje</button><button type="button" data-fb-view="progresso">Continuar Jornada</button></div>
 </section>
+</div>
+
+<div class="fb-app-panel be-learn-panel" data-fb-panel="conteudos" hidden>
+<main class="be-learn-page" aria-labelledby="be-learn-title">
+<header class="be-page-heading"><div><span>CONTEÚDOS BE</span><h2 id="be-learn-title">Aprenda para viver melhor o esporte.</h2><p>Conhecimento, ciência e histórias escolhidos para ajudar no próximo passo.</p></div><a href="reportagens.html">Ver todas</a></header>
+<article class="be-learn-feature"><img src="img/mulheres-em-movimento-serra-talhada-sem-logo-960.webp" alt="Grupo Elas em Ação e Movimento reunido após atividade esportiva" width="960" height="540" loading="lazy"><div><span>HISTÓRIAS QUE INSPIRAM</span><h3>O movimento que nasce quando mulheres caminham juntas.</h3><p>Uma reportagem sobre saúde, comunidade e a força de recomeçar.</p><a href="reportagem-elas-em-movimento-serra-talhada.html">Ler reportagem</a></div></article>
+<section class="be-learn-list" aria-labelledby="be-learn-list-title"><div class="be-section-heading"><div><span>PARA O SEU MOMENTO</span><h3 id="be-learn-list-title">Escolha como aprender</h3></div></div><div><button type="button" data-fb-view="dicas"><span>01</span><strong>Dicas práticas</strong><small>Orientações curtas para começar, recuperar e criar constância.</small><b>→</b></button><button type="button" data-fb-view="ferramentas"><span>02</span><strong>Ferramentas Be</strong><small>Recursos simples para organizar sua prática esportiva.</small><b>→</b></button><button type="button" data-fb-view="especialistas"><span>03</span><strong>Conheça profissionais</strong><small>Encontre quem une conhecimento técnico e cuidado humano.</small><b>→</b></button></div></section>
+</main>
 </div>
 
 <div class="fb-app-panel fb-explore-panel" data-fb-panel="explorar" hidden>
@@ -1433,6 +1444,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <dialog class="be-entry-dialog" id="be-entry-dialog" aria-labelledby="be-entry-dialog-title">
 <form id="be-entry-form" method="dialog">
 <header><div><span>NOVO REGISTRO</span><h2 id="be-entry-dialog-title">Como foi sua atividade?</h2></div><button type="button" id="be-entry-close" aria-label="Fechar">×</button></header>
+<ol class="be-entry-progress" aria-label="Etapas do registro"><li class="active"><span>1</span>Como estou</li><li><span>2</span>Atividade</li><li><span>3</span>Detalhes</li><li><span>4</span>Salvar</li></ol>
 <input type="hidden" id="be-entry-id" name="id">
 <div class="be-form-grid">
 <label for="be-entry-date">Quando?<input type="date" id="be-entry-date" name="date" required></label>
@@ -1454,9 +1466,9 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/routine-calendar.js?v=20260730-1"></script>
 <script type="module" src="js/meu-caminho-account.js?v=20260731-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260731-1" defer></script>
+<script src="js/fala-bem-app.js?v=20260805-4" defer></script>
 <script src="js/be-ia.js?v=20260729-1" defer></script>
-<script src="js/meu-caminho-diary.js?v=20260731-3" defer></script>
+<script src="js/meu-caminho-diary.js?v=20260805-4" defer></script>
 
 </body>
 </html>
