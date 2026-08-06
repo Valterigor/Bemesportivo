@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-5">
-<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260806-1">
+<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260806-2">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -1467,6 +1467,12 @@ Seu navegador não consegue reproduzir este vídeo.
 <button type="button" data-be-meal="lunch"><span aria-hidden="true">🍽️</span><strong>Almoço</strong><small>Disponível uma vez por dia</small></button>
 <button type="button" data-be-meal="dinner"><span aria-hidden="true">🌙</span><strong>Jantar</strong><small>Disponível uma vez por dia</small></button>
 </div>
+<form class="be-meal-detail-form" id="be-meal-detail-form" hidden>
+<input type="hidden" id="be-meal-type" name="type">
+<div class="be-meal-selected"><span id="be-meal-selected-icon" aria-hidden="true">🍽️</span><div><small>REFEIÇÃO ESCOLHIDA</small><strong id="be-meal-selected-label">Refeição</strong></div></div>
+<label for="be-meal-description">O que você comeu?<textarea id="be-meal-description" name="description" rows="3" minlength="2" maxlength="240" placeholder="Ex.: arroz, feijão, frango grelhado e salada" required></textarea><small><span id="be-meal-description-count">0</span>/240</small></label>
+<div><button type="button" id="be-meal-back">← Trocar refeição</button><button type="submit">Salvar alimentação</button></div>
+</form>
 <p class="be-meal-feedback" id="be-meal-feedback" role="status" aria-live="polite"></p>
 </div>
 </dialog>
@@ -1496,9 +1502,9 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/routine-calendar.js?v=20260730-1"></script>
 <script type="module" src="js/meu-caminho-account.js?v=20260806-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260806-1" defer></script>
+<script src="js/fala-bem-app.js?v=20260806-2" defer></script>
 <script src="js/be-ia.js?v=20260729-1" defer></script>
-<script src="js/meu-caminho-diary.js?v=20260806-1" defer></script>
+<script src="js/meu-caminho-diary.js?v=20260806-2" defer></script>
 
 </body>
 </html>

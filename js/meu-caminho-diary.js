@@ -112,6 +112,7 @@
       id: String(record.id || `meal-${Date.now()}-${Math.random().toString(16).slice(2)}`).replace(/[^a-zA-Z0-9-]/g, '').slice(0, 80),
       type: record.type,
       date: String(record.date),
+      description: String(record.description || '').trim().slice(0, 240),
       createdAt: String(record.createdAt || new Date().toISOString()).slice(0, 40)
     };
   }
@@ -263,7 +264,7 @@
       const type = mealTypes[meal.type];
       const created = new Date(meal.createdAt);
       const time = Number.isNaN(created.getTime()) ? '' : new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' }).format(created);
-      return `<article><span aria-hidden="true">${type.icon}</span><div><strong>${type.label}</strong><small>${time ? `Incluído às ${time}` : 'Incluído hoje'}</small></div><button type="button" data-be-meal-remove="${escapeHtml(meal.id)}" aria-label="Remover ${type.label}">×</button></article>`;
+      return `<article><span aria-hidden="true">${type.icon}</span><div><strong>${type.label}</strong><p>${escapeHtml(meal.description || 'Sem descrição')}</p><small>${time ? `Incluído às ${time}` : 'Incluído hoje'}</small></div><button type="button" data-be-meal-remove="${escapeHtml(meal.id)}" aria-label="Remover ${type.label}">×</button></article>`;
     }).join('') : '<div class="be-meals-empty"><span aria-hidden="true">＋</span><p>Use <strong>Incluir</strong> para registrar uma refeição.</p></div>';
 
     const used = new Set(todayMeals.map(meal => meal.type));
@@ -277,20 +278,42 @@
   function openMealDialog() {
     renderMeals();
     $('#be-meal-feedback').textContent = '';
+    $('#be-meal-detail-form')?.reset();
+    $('#be-meal-detail-form').hidden = true;
+    $('.be-meal-options').hidden = false;
+    $('#be-meal-description-count').textContent = '0';
     $('#be-meal-dialog')?.showModal();
     window.setTimeout(() => $('#be-meal-dialog [data-be-meal]:not([hidden])')?.focus(), 40);
   }
 
-  function includeMeal(type) {
+  function selectMealType(type) {
     const definition = mealTypes[type];
     if (!definition) return;
+    $('#be-meal-type').value = type;
+    $('#be-meal-selected-icon').textContent = definition.icon;
+    $('#be-meal-selected-label').textContent = definition.label;
+    $('.be-meal-options').hidden = true;
+    $('#be-meal-detail-form').hidden = false;
+    $('#be-meal-feedback').textContent = '';
+    window.setTimeout(() => $('#be-meal-description')?.focus(), 40);
+  }
+
+  function includeMeal(type, description) {
+    const definition = mealTypes[type];
+    if (!definition) return;
+    const detail = String(description || '').trim();
+    if (detail.length < 2) {
+      $('#be-meal-feedback').textContent = 'Escreva o que você comeu antes de salvar.';
+      $('#be-meal-description')?.focus();
+      return;
+    }
     const today = dayKey();
     if (definition.single && meals.some(meal => meal.date === today && meal.type === type)) {
       $('#be-meal-feedback').textContent = `${definition.label} já foi incluído hoje.`;
       renderMeals();
       return;
     }
-    const record = sanitizeMeal({ type, date: today, createdAt: new Date().toISOString() });
+    const record = sanitizeMeal({ type, description: detail, date: today, createdAt: new Date().toISOString() });
     if (!record) return;
     meals.push(record);
     saveMeals();
@@ -561,7 +584,7 @@
     const create = event.target.closest('[data-be-new-entry]');
     if (create) openEntry({ date: dayKey(), type: 'corrida' });
     const mealChoice = event.target.closest('[data-be-meal]');
-    if (mealChoice) includeMeal(mealChoice.dataset.beMeal);
+    if (mealChoice) selectMealType(mealChoice.dataset.beMeal);
     const removeMeal = event.target.closest('[data-be-meal-remove]');
     if (removeMeal && window.confirm('Remover este registro de alimentação?')) {
       meals = meals.filter(meal => meal.id !== removeMeal.dataset.beMealRemove);
@@ -570,6 +593,19 @@
   });
   $('#be-meal-add')?.addEventListener('click', openMealDialog);
   $('#be-meal-close')?.addEventListener('click', () => $('#be-meal-dialog')?.close());
+  $('#be-meal-back')?.addEventListener('click', () => {
+    $('#be-meal-detail-form').hidden = true;
+    $('.be-meal-options').hidden = false;
+    $('#be-meal-feedback').textContent = '';
+    window.setTimeout(() => $('#be-meal-dialog [data-be-meal]:not([hidden])')?.focus(), 40);
+  });
+  $('#be-meal-description')?.addEventListener('input', event => {
+    $('#be-meal-description-count').textContent = String(event.currentTarget.value.length);
+  });
+  $('#be-meal-detail-form')?.addEventListener('submit', event => {
+    event.preventDefault();
+    includeMeal(event.currentTarget.elements.type.value, event.currentTarget.elements.description.value);
+  });
   $('#be-success-diary')?.addEventListener('click', () => $('#be-success-dialog')?.close());
   $('#be-success-again')?.addEventListener('click', () => {
     $('#be-success-dialog')?.close();

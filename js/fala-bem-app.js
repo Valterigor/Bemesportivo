@@ -4039,6 +4039,7 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
         id: String(item.id || `meal-${Date.now()}-${Math.random().toString(16).slice(2)}`).replace(/[^a-zA-Z0-9-]/g, '').slice(0, 80),
         type: item.type,
         date: String(item.date),
+        description: String(item.description || '').trim().slice(0, 240),
         createdAt: String(item.createdAt || new Date().toISOString()).slice(0, 40)
       }));
       localStorage.setItem('meuCaminhoBeMealsV1', JSON.stringify(meals));
