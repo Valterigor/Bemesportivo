@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-5">
-<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260805-4">
+<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260806-1">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -182,7 +182,7 @@
 <section class="be-dashboard-overview" aria-labelledby="be-dashboard-greeting">
 <header><div><span>MEU CAMINHO BE</span><h2 id="be-dashboard-greeting">Bom dia!</h2><p id="be-dashboard-since">Hoje é um bom dia para continuar.</p></div><button type="button" data-fb-view="perfil" aria-label="Abrir perfil"><span class="be-dashboard-avatar" id="be-dashboard-avatar">BE</span></button></header>
 <div class="be-dashboard-status"><article><span>SEQUÊNCIA ATUAL</span><strong id="be-dashboard-streak">0 dias</strong><small>Seu ritmo, sem cobrança.</small></article><article><span>REGISTROS</span><strong id="be-dashboard-records">0</strong><small>Momentos da sua história.</small></article><article><span>PRÓXIMA META</span><strong id="be-dashboard-goal">Começar</strong><small id="be-dashboard-goal-note">Um passo possível hoje.</small></article></div>
-<div class="be-dashboard-plan"><div><span>PLANO DO DIA</span><h3>Como você quer se movimentar hoje?</h3><p>Escolha uma atividade ou registre do seu jeito.</p></div><button type="button" data-be-new-entry>Continuar</button></div>
+<div class="be-dashboard-plan" id="be-dashboard-plan"><div><span>PLANO DO DIA</span><h3 id="be-dashboard-plan-title">O que você pretende fazer hoje?</h3><p id="be-dashboard-plan-detail">Escolha uma atividade, um horário e uma duração possível.</p></div><button type="button" id="be-dashboard-plan-action">Planejar meu dia</button></div>
 </section>
 <section class="be-diary-welcome">
 <div><span class="be-diary-eyebrow" id="be-diary-date-label">MEU CAMINHO BE · HOJE</span><h2 id="be-diary-home-title">O que você fez hoje?</h2><p>Registre em segundos. Nós organizamos sua história.</p></div>
@@ -198,6 +198,12 @@
 <div class="be-activity-grid" role="list">
 <button type="button" data-be-activity="corrida"><span>🏃</span>Corrida</button><button type="button" data-be-activity="treino"><span>🏋️</span>Treino</button><button type="button" data-be-activity="jogo"><span>🏐</span>Jogo</button><button type="button" data-be-activity="caminhada"><span>🚶</span>Caminhada</button><button type="button" data-be-activity="ciclismo"><span>🚲</span>Ciclismo</button><button type="button" data-be-activity="natacao"><span>🏊</span>Natação</button><button type="button" data-be-activity="outro"><span>＋</span>Outro</button>
 </div>
+</section>
+<section class="be-meals-card" aria-labelledby="be-meals-title">
+<div class="be-section-heading"><div><span>ALIMENTAÇÃO DO DIA</span><h3 id="be-meals-title">Suas refeições de hoje</h3></div><button type="button" id="be-meal-add">＋ Incluir</button></div>
+<p class="be-meals-summary" id="be-meals-summary">Nenhuma refeição incluída hoje.</p>
+<div class="be-meals-list" id="be-meals-list" aria-live="polite"></div>
+<small class="be-meals-note">Café da manhã, almoço e jantar podem ser incluídos uma vez por dia. Lanches extras continuam disponíveis.</small>
 </section>
 <section class="be-today-preview" aria-labelledby="be-today-preview-title"><div class="be-section-heading"><div><span>SEU DIA</span><h3 id="be-today-preview-title">Hoje no diário</h3></div><button type="button" data-fb-view="progresso">Ver diário completo →</button></div><div id="be-today-list" class="be-entry-list"></div></section>
 </main>
@@ -1441,6 +1447,30 @@ Seu navegador não consegue reproduzir este vídeo.
 </svg>
 </button>
 
+<dialog class="be-day-plan-dialog" id="be-day-plan-dialog" aria-labelledby="be-day-plan-dialog-title">
+<form id="be-day-plan-form">
+<header><div><span>PLANO DO DIA</span><h2 id="be-day-plan-dialog-title">O que você pretende fazer?</h2><p>Planeje primeiro. Depois, use “O que você fez hoje?” para registrar o que realmente aconteceu.</p></div><button type="button" id="be-day-plan-close" aria-label="Fechar">×</button></header>
+<label for="be-day-plan-activity">Atividade planejada<select id="be-day-plan-activity" name="activity" required><option value="">Escolha uma atividade</option><option value="corrida">Corrida</option><option value="caminhada">Caminhada</option><option value="musculacao">Academia ou musculação</option><option value="futebol">Futebol</option><option value="ciclismo">Ciclismo</option><option value="natacao">Natação</option><option value="descanso">Descanso ou recuperação</option><option value="outra">Outra atividade</option></select></label>
+<div class="be-day-plan-fields"><label for="be-day-plan-time">Horário<input id="be-day-plan-time" name="time" type="time" required></label><label for="be-day-plan-duration">Duração planejada<span><input id="be-day-plan-duration" name="duration" type="number" min="5" max="600" step="5" inputmode="numeric" placeholder="30" required><small>min</small></span></label></div>
+<label for="be-day-plan-note">Onde ou com quem? <em>(opcional)</em><input id="be-day-plan-note" name="note" type="text" maxlength="100" placeholder="Ex.: no parque, depois do trabalho"></label>
+<p class="be-day-plan-feedback" id="be-day-plan-feedback" role="alert" aria-live="assertive"></p>
+<footer><button type="button" id="be-day-plan-cancel">Cancelar</button><button type="submit">Salvar plano do dia</button></footer>
+</form>
+</dialog>
+
+<dialog class="be-meal-dialog" id="be-meal-dialog" aria-labelledby="be-meal-dialog-title">
+<div class="be-meal-dialog-inner">
+<header><div><span>ALIMENTAÇÃO DO DIA</span><h2 id="be-meal-dialog-title">O que você quer incluir?</h2><p>As refeições principais ficam disponíveis novamente amanhã.</p></div><button type="button" id="be-meal-close" aria-label="Fechar">×</button></header>
+<div class="be-meal-options">
+<button type="button" data-be-meal="breakfast"><span aria-hidden="true">☕</span><strong>Café da manhã</strong><small>Disponível uma vez por dia</small></button>
+<button type="button" data-be-meal="snack"><span aria-hidden="true">🍎</span><strong>Lanche extra</strong><small>Sempre disponível</small></button>
+<button type="button" data-be-meal="lunch"><span aria-hidden="true">🍽️</span><strong>Almoço</strong><small>Disponível uma vez por dia</small></button>
+<button type="button" data-be-meal="dinner"><span aria-hidden="true">🌙</span><strong>Jantar</strong><small>Disponível uma vez por dia</small></button>
+</div>
+<p class="be-meal-feedback" id="be-meal-feedback" role="status" aria-live="polite"></p>
+</div>
+</dialog>
+
 <dialog class="be-entry-dialog" id="be-entry-dialog" aria-labelledby="be-entry-dialog-title">
 <form id="be-entry-form" method="dialog">
 <header><div><span>NOVO REGISTRO</span><h2 id="be-entry-dialog-title">Como foi sua atividade?</h2></div><button type="button" id="be-entry-close" aria-label="Fechar">×</button></header>
@@ -1464,11 +1494,11 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/site-common.js?v=20260723-3"></script>
 <script type="module" src="js/photo-checkin.js?v=20260723-1"></script>
 <script type="module" src="js/routine-calendar.js?v=20260730-1"></script>
-<script type="module" src="js/meu-caminho-account.js?v=20260731-1"></script>
+<script type="module" src="js/meu-caminho-account.js?v=20260806-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260805-4" defer></script>
+<script src="js/fala-bem-app.js?v=20260806-1" defer></script>
 <script src="js/be-ia.js?v=20260729-1" defer></script>
-<script src="js/meu-caminho-diary.js?v=20260805-4" defer></script>
+<script src="js/meu-caminho-diary.js?v=20260806-1" defer></script>
 
 </body>
 </html>

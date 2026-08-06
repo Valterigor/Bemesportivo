@@ -222,14 +222,24 @@ async function run() {
     assert.match(pathHtml, /id="be-ia-answer"[^>]*aria-live="polite"/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260729-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260729-5/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260805-4/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260805-4/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260806-1/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260806-1/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
-    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260805-4/);
+    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260806-1/);
     assert.doesNotMatch(pathHtml, /class="be-showcase-phones"/);
     for (const id of ['be-quick-form', 'be-entry-form', 'be-diary-timeline', 'be-week-chart', 'be-history-timeline']) {
       assert.match(pathHtml, new RegExp(`id="${id}"`), `Experiência de diário ausente: ${id}`);
+    }
+    for (const id of ['be-meal-add', 'be-meals-list', 'be-meal-dialog', 'be-meal-feedback']) {
+      assert.match(pathHtml, new RegExp(`id="${id}"`), `Registro de alimentação ausente: ${id}`);
+    }
+    for (const id of ['be-dashboard-plan-action', 'be-day-plan-dialog', 'be-day-plan-form', 'be-day-plan-activity', 'be-day-plan-time', 'be-day-plan-duration']) {
+      assert.match(pathHtml, new RegExp(`id="${id}"`), `Planejamento do dia ausente: ${id}`);
+    }
+    assert.doesNotMatch(pathHtml, /id="be-dashboard-plan-action"[^>]*data-be-new-entry/, 'Plano do dia não pode abrir o registro do que já aconteceu.');
+    for (const meal of ['breakfast', 'snack', 'lunch', 'dinner']) {
+      assert.match(pathHtml, new RegExp(`data-be-meal="${meal}"`), `Opção de alimentação ausente: ${meal}`);
     }
     for (const id of ['fb-profile-photo', 'fb-profile-photo-preview', 'fb-profile-email', 'fb-profile-city', 'fb-profile-state']) {
       assert.match(pathHtml, new RegExp(`id="${id}"`), `Campo de cadastro ausente: ${id}`);
@@ -263,6 +273,7 @@ async function run() {
     assert.match(diaryCss, /be-showcase-copy>a:not\(\.be-showcase-brand\)/, 'A marca da apresentação não pode receber o visual do botão principal.');
 
     const appScript = fs.readFileSync(path.join(root, 'js/fala-bem-app.js'), 'utf8');
+    const diaryScript = fs.readFileSync(path.join(root, 'js/meu-caminho-diary.js'), 'utf8');
     assert.match(appScript, /function recordJourneyStep\(/);
     assert.match(appScript, /source: 'journey_form'/);
     assert.match(appScript, /source: 'be_now'/);
@@ -276,6 +287,12 @@ async function run() {
     assert.match(appScript, /function sanitizeProfilePhoto\(value\)/);
     assert.match(appScript, /async function resizeProfilePhoto\(file\)/);
     assert.match(appScript, /meuCaminhoBe:profile-updated/);
+    assert.match(appScript, /function openDayPlanDialog\(\)/);
+    assert.match(appScript, /function renderDashboardPlan\(\)/);
+    assert.match(appScript, /activity === 'descanso' \? 'descanso' : 'movimento'/);
+    assert.match(diaryScript, /MEALS_STORAGE_KEY = 'meuCaminhoBeMealsV1'/);
+    assert.match(diaryScript, /definition\.single && meals\.some/);
+    assert.match(diaryScript, /meuCaminhoBe:meals-changed/);
 
     const reportPageFile = fs.readdirSync(root).find(fileName => fileName.toLowerCase() === 'reportagens.html');
     assert.equal(reportPageFile, 'reportagens.html', 'O arquivo de Reportagens precisa usar minúsculas para coincidir com a URL do menu no Cloudflare.');
@@ -286,12 +303,12 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v73'/);
-    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260805-4/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v74'/);
+    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260806-1/);
     assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260729-5/);
     assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
     assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260729-1/);
-    assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260805-4/);
+    assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260806-1/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 
     const syncFunction = fs.readFileSync(path.join(root, 'functions/api/meu-caminho-sync.js'), 'utf8');

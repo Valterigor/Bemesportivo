@@ -13,7 +13,7 @@ const PROFILE_STORAGE_KEY = 'meuCaminhoBeProfileV1';
 const ACCESS_STORAGE_KEY = 'meuCaminhoBeAccessV1';
 const BE_NOW_TIMER_KEY = 'meuCaminhoBeTimerV1';
 const SAFETY_CONSENT_VERSION = '2026-07-21';
-const PROFILE_SCHEMA_VERSION = 9;
+const PROFILE_SCHEMA_VERSION = 10;
 const dailyActivityLabels = {
   none: 'Sem treino', caminhada: 'Caminhada', corrida: 'Corrida', musculacao: 'Musculação',
   funcional: 'Treino funcional', futebol: 'Futebol', ciclismo: 'Ciclismo', natacao: 'Natação', outra: 'Outra atividade'
@@ -21,6 +21,10 @@ const dailyActivityLabels = {
 const dailyIntentions = {
   movimento: 'Me movimentar', descanso: 'Descansar', alimentacao: 'Cuidar da alimentação',
   hidratacao: 'Melhorar a hidratação', registro: 'Só registrar meu dia'
+};
+const dayPlanActivityLabels = {
+  corrida: 'Corrida', caminhada: 'Caminhada', musculacao: 'Academia ou musculação', futebol: 'Futebol',
+  ciclismo: 'Ciclismo', natacao: 'Natação', descanso: 'Descanso ou recuperação', outra: 'Outra atividade'
 };
 const checkinBarrierLabels = {
   tempo: 'faltou tempo',
@@ -413,6 +417,10 @@ function sanitizeDailyPlan(plan) {
   };
   return {
     date: String(plan.date), intention: plan.intention,
+    activity: Object.hasOwn(dayPlanActivityLabels, plan.activity) ? plan.activity : '',
+    time: /^([01]\d|2[0-3]):[0-5]\d$/.test(String(plan.time || '')) ? String(plan.time) : '',
+    duration: Math.min(600, Math.max(0, Math.round(Number(plan.duration) || 0))),
+    note: String(plan.note || '').trim().slice(0, 100),
     status: ['planned', 'done', 'snoozed'].includes(plan.status) ? plan.status : 'planned',
     selectedAt: cleanDateTime(plan.selectedAt) || new Date().toISOString(),
     remindAt: cleanDateTime(plan.remindAt), notifiedAt: cleanDateTime(plan.notifiedAt),
@@ -513,6 +521,7 @@ function resetLocalJourney() {
     localStorage.removeItem('meuCaminhoBeTasksV1');
     localStorage.removeItem('meuCaminhoBeTaskNotifiedV1');
     localStorage.removeItem('meuCaminhoBeDiaryV1');
+    localStorage.removeItem('meuCaminhoBeMealsV1');
   } catch (error) {}
   currentProfile = null;
   const status = document.getElementById('fb-checkin-status');
@@ -2496,6 +2505,43 @@ function saveDailyPlan(updates) {
   return plan;
 }
 
+function renderDashboardPlan() {
+  const card = document.getElementById('be-dashboard-plan');
+  const title = document.getElementById('be-dashboard-plan-title');
+  const detail = document.getElementById('be-dashboard-plan-detail');
+  const action = document.getElementById('be-dashboard-plan-action');
+  if (!card || !title || !detail || !action) return;
+  const plan = getDailyPlans().find(item => item.date === localDayKey()) || null;
+  const hasScheduledActivity = Boolean(plan?.activity && plan?.time && plan?.duration);
+  card.classList.toggle('is-planned', hasScheduledActivity);
+  if (!hasScheduledActivity) {
+    title.textContent = 'O que você pretende fazer hoje?';
+    detail.textContent = plan?.intention
+      ? `Prioridade escolhida: ${dailyIntentions[plan.intention]}. Agora defina como ela cabe no seu dia.`
+      : 'Escolha uma atividade, um horário e uma duração possível.';
+    action.textContent = 'Planejar meu dia';
+    return;
+  }
+  title.textContent = dayPlanActivityLabels[plan.activity];
+  detail.textContent = `${plan.time} · ${plan.duration} min${plan.note ? ` · ${plan.note}` : ''}`;
+  action.textContent = 'Editar plano';
+}
+
+function openDayPlanDialog() {
+  const dialog = document.getElementById('be-day-plan-dialog');
+  const form = document.getElementById('be-day-plan-form');
+  if (!dialog || !form) return;
+  const plan = getDailyPlans().find(item => item.date === localDayKey()) || null;
+  form.reset();
+  form.elements.activity.value = plan?.activity || '';
+  form.elements.time.value = plan?.time || '';
+  form.elements.duration.value = plan?.duration || '';
+  form.elements.note.value = plan?.note || '';
+  document.getElementById('be-day-plan-feedback').textContent = '';
+  dialog.showModal();
+  window.setTimeout(() => form.elements.activity.focus(), 40);
+}
+
 function getDayGuideRecommendation(plan, log, phase = getDayPhase()) {
   const phaseLabels = { morning: 'MANHÃ', afternoon: 'TARDE', evening: 'NOITE' };
   if (log) return {
@@ -2566,6 +2612,7 @@ function getDayGuideRecommendation(plan, log, phase = getDayPhase()) {
 function renderDailyGuide() {
   const section = document.getElementById('fb-day-guide');
   if (!section) return;
+  renderDashboardPlan();
   section.hidden = !currentProfile?.objective;
   if (!currentProfile?.objective) return;
   const today = localDayKey();
@@ -3741,6 +3788,35 @@ document.getElementById('fb-now-safety-action')?.addEventListener('click', event
   else openSafetyDialog(currentProfile, true);
 });
 
+document.getElementById('be-dashboard-plan-action')?.addEventListener('click', openDayPlanDialog);
+document.getElementById('be-day-plan-close')?.addEventListener('click', () => closeDialog(document.getElementById('be-day-plan-dialog')));
+document.getElementById('be-day-plan-cancel')?.addEventListener('click', () => closeDialog(document.getElementById('be-day-plan-dialog')));
+document.getElementById('be-day-plan-form')?.addEventListener('submit', event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const activity = form.elements.activity.value;
+  const time = form.elements.time.value;
+  const duration = Math.round(Number(form.elements.duration.value));
+  const note = form.elements.note.value.trim();
+  if (!Object.hasOwn(dayPlanActivityLabels, activity) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(time) || duration < 5 || duration > 600) {
+    document.getElementById('be-day-plan-feedback').textContent = 'Escolha a atividade, o horário e uma duração entre 5 e 600 minutos.';
+    return;
+  }
+  saveDailyPlan({
+    activity,
+    time,
+    duration,
+    note,
+    intention: activity === 'descanso' ? 'descanso' : 'movimento',
+    status: 'planned',
+    remindAt: '',
+    notifiedAt: '',
+    completedAt: ''
+  });
+  closeDialog(document.getElementById('be-day-plan-dialog'));
+  showCelebration('Plano do dia salvo!', `${dayPlanActivityLabels[activity]} às ${time}, por ${duration} minutos.`);
+});
+
 document.querySelectorAll('[data-day-intent]').forEach(button => {
   button.addEventListener('click', () => {
     saveDailyPlan({ intention: button.dataset.dayIntent, status: 'planned', remindAt: '', notifiedAt: '', completedAt: '' });
@@ -3892,13 +3968,15 @@ document.getElementById('fb-delete-daily-log')?.addEventListener('click', () => 
 document.getElementById('fb-export-profile')?.addEventListener('click', () => {
   let diary = [];
   try { diary = JSON.parse(localStorage.getItem('meuCaminhoBeDiaryV1') || '[]'); } catch (error) {}
-  if (!currentProfile && !diary.length) {
+  let meals = [];
+  try { meals = JSON.parse(localStorage.getItem('meuCaminhoBeMealsV1') || '[]'); } catch (error) {}
+  if (!currentProfile && !diary.length && !meals.length) {
     document.getElementById('fb-profile-feedback').textContent = 'Ainda não há dados para exportar.';
     return;
   }
   let routineTasks = [];
   try { routineTasks = JSON.parse(localStorage.getItem('meuCaminhoBeTasksV1') || '[]'); } catch (error) {}
-  const payload = JSON.stringify({ schemaVersion: PROFILE_SCHEMA_VERSION, exportedAt: new Date().toISOString(), profile: currentProfile, routineTasks, diary }, null, 2);
+  const payload = JSON.stringify({ schemaVersion: PROFILE_SCHEMA_VERSION, exportedAt: new Date().toISOString(), profile: currentProfile, routineTasks, diary, meals }, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -3954,6 +4032,17 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
     if (Array.isArray(parsed.diary)) {
       localStorage.setItem('meuCaminhoBeDiaryV1', JSON.stringify(parsed.diary.slice(0, 3000)));
       window.dispatchEvent(new CustomEvent('meuCaminhoBe:diary-imported'));
+    }
+    if (Array.isArray(parsed.meals)) {
+      const allowedMeals = new Set(['breakfast', 'snack', 'lunch', 'dinner']);
+      const meals = parsed.meals.filter(item => item && typeof item === 'object' && allowedMeals.has(item.type) && /^\d{4}-\d{2}-\d{2}$/.test(String(item.date || ''))).slice(-1200).map(item => ({
+        id: String(item.id || `meal-${Date.now()}-${Math.random().toString(16).slice(2)}`).replace(/[^a-zA-Z0-9-]/g, '').slice(0, 80),
+        type: item.type,
+        date: String(item.date),
+        createdAt: String(item.createdAt || new Date().toISOString()).slice(0, 40)
+      }));
+      localStorage.setItem('meuCaminhoBeMealsV1', JSON.stringify(meals));
+      window.dispatchEvent(new CustomEvent('meuCaminhoBe:meals-imported'));
     }
     renderPersonalizedExperience();
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:tasks-imported'));

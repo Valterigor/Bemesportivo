@@ -10,6 +10,7 @@ import {
 const PROFILE_KEY = 'meuCaminhoBeProfileV1';
 const TASK_KEY = 'meuCaminhoBeTasksV1';
 const DIARY_KEY = 'meuCaminhoBeDiaryV1';
+const MEALS_KEY = 'meuCaminhoBeMealsV1';
 const SYNC_KEY = 'meuCaminhoBeSyncStateV1';
 const CODE_KEY = 'meuCaminhoBeContinuityCodeV1';
 const CONSENT_VERSION = '2026-07-30';
@@ -38,11 +39,13 @@ function localSnapshot() {
   const profile = readJSON(PROFILE_KEY);
   const tasks = readJSON(TASK_KEY, []);
   const diary = readJSON(DIARY_KEY, []);
+  const meals = readJSON(MEALS_KEY, []);
   return {
-    schemaVersion: 4,
+    schemaVersion: 5,
     profile,
     tasks: Array.isArray(tasks) ? tasks.slice(-250) : [],
-    diary: Array.isArray(diary) ? diary.slice(0, 3000) : []
+    diary: Array.isArray(diary) ? diary.slice(0, 3000) : [],
+    meals: Array.isArray(meals) ? meals.slice(-1200) : []
   };
 }
 
@@ -61,7 +64,7 @@ function createMutationId() {
 }
 
 function hasLocalData(snapshot = localSnapshot()) {
-  return Boolean(snapshot.profile) || snapshot.tasks.length > 0 || snapshot.diary.length > 0;
+  return Boolean(snapshot.profile) || snapshot.tasks.length > 0 || snapshot.diary.length > 0 || snapshot.meals.length > 0;
 }
 
 function hasCloudConsent(profile = localSnapshot().profile) {
@@ -200,9 +203,11 @@ function applyRemote(data, revision, updatedAt) {
   else localStorage.removeItem(PROFILE_KEY);
   localStorage.setItem(TASK_KEY, JSON.stringify(Array.isArray(data?.tasks) ? data.tasks : []));
   localStorage.setItem(DIARY_KEY, JSON.stringify(Array.isArray(data?.diary) ? data.diary : []));
+  localStorage.setItem(MEALS_KEY, JSON.stringify(Array.isArray(data?.meals) ? data.meals : []));
   setSyncState({ revision, updatedAt });
   window.dispatchEvent(new CustomEvent('meuCaminhoBe:tasks-imported'));
   window.dispatchEvent(new CustomEvent('meuCaminhoBe:diary-imported'));
+  window.dispatchEvent(new CustomEvent('meuCaminhoBe:meals-imported'));
   window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated', {
     detail: { ready: Boolean(data?.profile?.objective), source: 'cloud' }
   }));
@@ -458,6 +463,7 @@ window.addEventListener('meuCaminhoBe:profile-updated', event => {
 });
 window.addEventListener('meuCaminhoBe:tasks-changed', queueSync);
 window.addEventListener('meuCaminhoBe:diary-changed', queueSync);
+window.addEventListener('meuCaminhoBe:meals-changed', queueSync);
 window.addEventListener('meuCaminhoBe:reset', queueSync);
 window.addEventListener('online', () => identity && upload());
 
