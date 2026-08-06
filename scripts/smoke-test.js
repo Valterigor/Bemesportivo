@@ -178,6 +178,7 @@ async function run() {
     assert.match(reportCss, /\.report-related > div\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
     assert.match(homeHtml, /class="hero-slide hero-slide-news hero-slide-elas active"/);
+    assert.match(homeHtml, /<main>\s*<section class="shell ecosystem-highlights" id="destaques"/, 'Destaques precisa ser a primeira seção da Home.');
     assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
     assert.doesNotMatch(elasReport, /mulheres-em-acao-funcional-serra-talhada/);
     for (const image of ['mulheres-em-movimento-serra-talhada-sem-logo-640.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-960.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-1440.webp']) {
