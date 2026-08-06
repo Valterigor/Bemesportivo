@@ -153,9 +153,16 @@ async function run() {
     assert.ok(fs.existsSync(path.join(root, 'img', 'elas-em-movimento-video-poster.jpg')));
     assert.match(elasReport, /<div class="elas-story-header">/);
     assert.doesNotMatch(elasReport, /<header class="elas-story-header">/);
-    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-9/);
+    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-10/);
     assert.doesNotMatch(elasReport, /elas-photo-badge/);
     assert.match(elasReport, /mulheres-em-movimento-serra-talhada-interna\.jpg/);
+    assert.match(elasReport, /class="report-byline"[\s\S]*4 min de leitura/);
+    assert.match(elasReport, /class="report-cover-caption"[\s\S]*Foto: acervo dos projetos/);
+    assert.equal((elasReport.match(/class="report-section-title"/g) || []).length, 2);
+    assert.match(elasReport, /class="report-video-layout"/);
+    assert.match(elasReport, /class="elas-story-summary"/);
+    assert.doesNotMatch(elasReport, /class="elas-story-quote"/);
+    assert.match(elasReport, /class="report-related"[\s\S]*Outras histórias do Bem Esportivo/);
     for (const image of ['mulheres-em-movimento-serra-talhada-interna.jpg', 'mulheres-em-movimento-serra-talhada-interna-640.webp', 'mulheres-em-movimento-serra-talhada-interna-960.webp', 'mulheres-em-movimento-serra-talhada-interna-1440.webp']) {
       assert.ok(fs.existsSync(path.join(root, 'img', image)), `Imagem interna da reportagem ausente: ${image}`);
     }
@@ -163,6 +170,9 @@ async function run() {
     assert.match(reportCss, /\.reportagens-page \.elas-story-header\s*\{[\s\S]*?display:\s*grid\s*!important/);
     assert.match(reportCss, /\.reportagens-page \.elas-story-header\s*\{[\s\S]*?position:\s*static\s*!important/);
     assert.match(reportCss, /\.report-card-elas \.report-media-stack > \.report-cover\s*\{[\s\S]*?object-position:\s*right center[\s\S]*?transform:\s*scale\(1\.22\)/);
+    assert.match(reportCss, /\.report-video-layout\s*\{[\s\S]*?grid-template-columns:/);
+    assert.match(reportCss, /\.elas-story-summary h2\s*\{[\s\S]*?color:\s*#fff\s*!important/);
+    assert.match(reportCss, /\.report-related > div\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
     assert.match(homeHtml, /class="hero-slide hero-slide-news hero-slide-elas active"/);
     assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
