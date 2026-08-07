@@ -188,6 +188,8 @@ async function run() {
     assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
     assert.match(homeHtml, /class="home-manifesto"[\s\S]*<h1>O esporte começa <strong>com pessoas\.<\/strong><\/h1>/, 'A Home precisa abrir com o manifesto da marca em uma linha.');
     assert.match(homeHtml, /class="shell ecosystem-hero home-path-feature"[\s\S]*Seu diário<\/span>\s*<span>esportivo digital\./, 'A seção abaixo dos destaques precisa apresentar o Meu Caminho Be.');
+    assert.match(homeHtml, /class="shell ecosystem-highlights"[\s\S]*class="shell ecosystem-hero home-path-feature"[\s\S]*class="shell path-launch"[\s\S]*class="shell ecosystem-hero ecosystem-discovery"/, 'Descubra seu caminho no esporte precisa ser a quarta seção da Home.');
+    assert.match(homeHtml, /id="ecosystem-discovery-title">Descubra seu caminho <span>no esporte\.<\/span>[\s\S]*id="como-funciona"/, 'A quarta seção precisa preservar a jornada personalizada e seus próximos passos.');
     assert.match(homeHtml, /href="\/meu-caminho-be#registrar">Registrar minha atividade<\/a>/, 'A chamada da Home precisa abrir o registro de atividade.');
     assert.doesNotMatch(homeHtml, /class="home-path-feature"[\s\S]*Dados ficam neste aparelho[\s\S]*<\/section>/, 'A prévia da Home não deve exibir o estado local do aparelho.');
     assert.match(homeHtml, /href="\/meu-caminho-be"[\s\S]*Meu Caminho Be[\s\S]*href="\/meu-caminho-be#perfil"[\s\S]*Perfil do atleta[\s\S]*href="\/game\.html"[\s\S]*Game 3D[\s\S]*href="\/reportagens"[\s\S]*Reportagens[\s\S]*href="\/beplay"[\s\S]*BEplay[\s\S]*href="\/profissionais"[\s\S]*Profissionais[\s\S]*href="\/produtos"[\s\S]*Produtos/, 'A Home precisa preservar o menu principal do Bem Esportivo.');
