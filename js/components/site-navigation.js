@@ -1,4 +1,4 @@
-import { normalizePath, primaryNavigation } from '../core/routes.js?v=20260806-1';
+import { normalizePath, primaryNavigation } from '../core/routes.js?v=20260807-1';
 
 const navigationSelector = [
   '.menu nav',

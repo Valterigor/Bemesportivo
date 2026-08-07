@@ -29,7 +29,7 @@ Todas as páginas públicas compartilham esta ordem:
 Início → Meu Caminho Be → Perfil do atleta → Game 3D → Reportagens → BEplay → Profissionais → Produtos
 ```
 
-O Perfil do atleta abre `/meu-caminho-be#perfil`. Links com hash do Meu Caminho Be permanecem aceitos por compatibilidade, enquanto as telas principais utilizam o parâmetro `tela` internamente.
+O Perfil do atleta abre `/meu-caminho-be/perfil`. Links antigos com hash ou com o parâmetro `tela` permanecem aceitos por compatibilidade, enquanto as áreas principais utilizam sub-rotas próprias.
 
 ## Regras
 

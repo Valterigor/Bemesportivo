@@ -44,17 +44,18 @@ O contrato para evolução do motor está documentado em [Be IA Esportiva](BE-IA
 
 ## Estado e URLs
 
-As telas principais usam o parâmetro `tela`:
+O Início funciona como a home pessoal. Jornada, Ferramentas e Perfil usam sub-rotas do Meu Caminho Be:
 
 ```text
-/meu-caminho-be?tela=hoje
-/meu-caminho-be?tela=jornada
-/meu-caminho-be?tela=evolucao
-/meu-caminho-be?tela=explorar
-/meu-caminho-be?tela=perfil
+/meu-caminho-be
+/meu-caminho-be/jornada
+/meu-caminho-be/jornada/evolucao
+/meu-caminho-be/jornada/historia
+/meu-caminho-be/ferramentas
+/meu-caminho-be/perfil
 ```
 
-O histórico do navegador acompanha as trocas de tela. Links antigos com hash continuam aceitos para não quebrar atalhos já publicados.
+Registrar permanece uma ação central e devolve a pessoa à área em que ela estava. O histórico do navegador acompanha as trocas de subpágina. Links antigos com hash ou `?tela=` continuam aceitos para não quebrar atalhos já publicados.
 
 ## Persistência
 
@@ -101,7 +102,7 @@ O Netlify Blobs atende esta etapa de MVP. Antes de consultas relacionais, compar
 ## PWA e offline
 
 - manifesto com identidade própria, atalhos e modo `standalone`;
-- navegação inicial em `?tela=hoje`;
+- navegação inicial em `/meu-caminho-be`;
 - shell essencial pré-armazenado;
 - CSS e JavaScript em estratégia network-first;
 - mídia estática em cache-first;
@@ -122,8 +123,8 @@ O Netlify Blobs atende esta etapa de MVP. Antes de consultas relacionais, compar
 2. Criar o Mapa BeM.
 3. Registrar o Meu Hoje.
 4. Confirmar atualização de Hoje e Evolução.
-5. Navegar pelos quatro destinos e pela ação Registrar na barra inferior, e pelos seis acessos diretos do menu lateral no desktop.
-6. Recarregar uma URL com `?tela=evolucao`.
+5. Navegar por Início, Jornada, Registrar, Ferramentas e Perfil na barra principal.
+6. Recarregar `/meu-caminho-be/jornada/evolucao` e usar voltar/avançar do navegador.
 7. Instalar o app e abrir pelo ícone.
 8. Desconectar a rede e confirmar acesso ao app local.
 9. Conectar uma conta e sincronizar em outro navegador.

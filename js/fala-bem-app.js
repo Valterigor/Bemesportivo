@@ -17,6 +17,7 @@ const PROFILE_SCHEMA_VERSION = 10;
 const BACKUP_KIND = 'meu-caminho-be-backup';
 const BACKUP_VERSION = 1;
 const BACKUP_MAX_BYTES = 5 * 1024 * 1024;
+const APP_BASE_PATH = '/meu-caminho-be';
 const dailyActivityLabels = {
   none: 'Sem treino', caminhada: 'Caminhada', corrida: 'Corrida', musculacao: 'Musculação',
   funcional: 'Treino funcional', futebol: 'Futebol', ciclismo: 'Ciclismo', natacao: 'Natação', outra: 'Outra atividade'
@@ -77,23 +78,23 @@ const viewTargets = {
   comunidade: ['.container.page > .platform-engagement'],
   trilhas: ['#trilhas']
 };
-const appRouteForView = {
-  inicio: 'hoje',
-  progresso: 'jornada',
-  jornada: 'jornada',
-  evolucao: 'evolucao',
-  explorar: 'explorar',
-  perfil: 'perfil',
-  conteudos: 'aprender',
-  ferramentas: 'explorar',
-  especialistas: 'explorar',
-  modalidades: 'explorar',
-  comunidade: 'explorar',
-  trilhas: 'explorar',
-  dicas: 'explorar',
-  gols: 'explorar'
+const appPathForView = {
+  inicio: APP_BASE_PATH,
+  progresso: `${APP_BASE_PATH}/jornada`,
+  jornada: `${APP_BASE_PATH}/jornada/mapa`,
+  evolucao: `${APP_BASE_PATH}/jornada/evolucao`,
+  explorar: `${APP_BASE_PATH}/jornada/historia`,
+  perfil: `${APP_BASE_PATH}/perfil`,
+  ferramentas: `${APP_BASE_PATH}/ferramentas`,
+  conteudos: `${APP_BASE_PATH}/ferramentas/conteudos`,
+  especialistas: `${APP_BASE_PATH}/ferramentas/profissionais`,
+  modalidades: `${APP_BASE_PATH}/ferramentas/modalidades`,
+  comunidade: `${APP_BASE_PATH}/ferramentas/comunidade`,
+  trilhas: `${APP_BASE_PATH}/ferramentas/trilhas`,
+  dicas: `${APP_BASE_PATH}/ferramentas/guias`,
+  gols: `${APP_BASE_PATH}/ferramentas/contador-de-gols`
 };
-const appViewForRoute = {
+const legacyViewForRoute = {
   hoje: 'inicio',
   jornada: 'progresso',
   evolucao: 'evolucao',
@@ -101,12 +102,28 @@ const appViewForRoute = {
   aprender: 'conteudos',
   perfil: 'perfil'
 };
+const primarySectionForView = {
+  inicio: 'inicio',
+  jornada: 'progresso',
+  progresso: 'progresso',
+  evolucao: 'progresso',
+  explorar: 'progresso',
+  ferramentas: 'ferramentas',
+  conteudos: 'ferramentas',
+  especialistas: 'ferramentas',
+  modalidades: 'ferramentas',
+  comunidade: 'ferramentas',
+  trilhas: 'ferramentas',
+  dicas: 'ferramentas',
+  gols: 'ferramentas',
+  perfil: 'perfil'
+};
 const viewPresentation = {
-  inicio: ['Meu Hoje', '#fb-today-zone-title'],
-  progresso: ['Jornada da Semana', '#fb-progress-title'],
-  jornada: ['Mapa BeM', '#journey-title'],
-  evolucao: ['Minha evolução', '#fb-evolution-title'],
-  explorar: ['Explorar', '#fb-explore-title'],
+  inicio: ['Início', '#be-dashboard-greeting'],
+  progresso: ['Minha Jornada', '#be-diary-title'],
+  jornada: ['Criar meu Mapa BeM', '#journey-title'],
+  evolucao: ['Minha evolução', '#be-evolution-main-title'],
+  explorar: ['Minha história', '#be-history-title'],
   perfil: ['Meu perfil', '#fb-profile-title'],
   conteudos: ['Aprender', '#be-learn-title'],
   ferramentas: ['Ferramentas', '#tools-title'],
@@ -579,6 +596,7 @@ function openView(requestedView, options = {}) {
   const view = resolveView(requestedView);
   const activePanel = panels.find(panel => panel.dataset.fbPanel === view);
   const isShellPanel = Boolean(activePanel);
+  const primarySection = primarySectionForView[view] || 'inicio';
 
   panels.forEach(panel => {
     const selected = panel.dataset.fbPanel === view;
@@ -591,35 +609,21 @@ function openView(requestedView, options = {}) {
     document.querySelector(selector)?.classList.add('fb-app-visible');
   });
 
-  shell.classList.toggle('fb-app-shell-compact', !isShellPanel);
+  shell.classList.toggle('fb-app-shell-compact', view !== 'inicio');
   document.body.classList.forEach(className => {
     if (className.startsWith('fb-view-')) document.body.classList.remove(className);
   });
   document.body.classList.add(`fb-view-${view}`);
 
   appNavButtons.forEach(button => {
-    const buttonView = button.dataset.fbView;
-    const desktopNavigation = window.matchMedia('(min-width: 901px)').matches;
-    const hasDirectNavigation = appNavButtons.some(item =>
-      item.dataset.fbView === view &&
-      (!item.classList.contains('fb-nav-desktop-only') || desktopNavigation)
-    );
-    const selected = buttonView === view || (!hasDirectNavigation && (
-      (view === 'jornada' && buttonView === 'progresso') ||
-      (view === 'progresso' && buttonView === 'jornada') ||
-      (view === 'perfil' && buttonView === 'inicio') ||
-      (['conteudos', 'ferramentas', 'especialistas', 'modalidades', 'comunidade', 'trilhas', 'dicas', 'gols'].includes(view) && buttonView === 'explorar')
-    ));
+    const selected = button.dataset.fbView === primarySection;
     button.classList.toggle('active', selected);
     if (selected) button.setAttribute('aria-current', 'page');
     else button.removeAttribute('aria-current');
   });
 
   mobileDrawerViewButtons.forEach(button => {
-    const buttonView = button.dataset.fbView;
-    const selected = buttonView === view ||
-      (view === 'progresso' && buttonView === 'jornada') ||
-      (view === 'comunidade' && buttonView === 'comunidade');
+    const selected = button.dataset.fbView === primarySection;
     button.classList.toggle('active', selected);
     if (selected) button.setAttribute('aria-current', 'page');
     else button.removeAttribute('aria-current');
@@ -650,22 +654,40 @@ function openView(requestedView, options = {}) {
   return true;
 }
 
+function normalizeAppPath(pathname = location.pathname) {
+  const normalized = String(pathname || '').replace(/\.html$/i, '').replace(/\/+$/, '');
+  return normalized || '/';
+}
+
+function viewFromAppPath(pathname = location.pathname) {
+  const path = normalizeAppPath(pathname);
+  if (path === APP_BASE_PATH) return 'inicio';
+  if (path === `${APP_BASE_PATH}/jornada`) return currentProfile?.objective ? 'progresso' : 'jornada';
+  const match = Object.entries(appPathForView).find(([, routePath]) => routePath === path);
+  return match?.[0] || null;
+}
+
 function updateAppRoute(view, replace = false) {
-  const route = appRouteForView[view];
-  if (!route || location.protocol === 'file:') return;
+  const routePath = view === 'jornada' && !currentProfile?.objective
+    ? `${APP_BASE_PATH}/jornada`
+    : appPathForView[view];
+  if (!routePath || location.protocol === 'file:') return;
   const url = new URL(location.href);
-  const legacyAppHashes = new Set(['#gols', '#perfil', '#ferramentas', '#participe', '#minha-jornada']);
-  if (legacyAppHashes.has(url.hash)) url.hash = '';
-  if (url.searchParams.get('tela') === route && url.href === location.href) return;
-  url.searchParams.set('tela', route);
+  url.hash = '';
+  url.pathname = routePath;
+  url.searchParams.delete('tela');
+  if (url.href === location.href) return;
   history[replace ? 'replaceState' : 'pushState']({ meuCaminhoView: view }, '', url);
 }
 
 function openViewFromRoute() {
-  const route = new URL(location.href).searchParams.get('tela');
-  const view = appViewForRoute[route];
+  const url = new URL(location.href);
+  const legacyRoute = url.searchParams.get('tela');
+  const legacyView = legacyRoute === 'jornada' && !currentProfile?.objective ? 'jornada' : legacyViewForRoute[legacyRoute];
+  const view = legacyView || viewFromAppPath(url.pathname);
   if (!view) return false;
   openView(view, { scroll: false, focus: false, instant: true, route: false });
+  if (legacyRoute) updateAppRoute(view, true);
   return true;
 }
 
@@ -689,8 +711,8 @@ navigationButtons.forEach(button => {
       return;
     }
     const requestedView = button.dataset.fbView;
-    const isContinueControl = button.closest('.fb-app-nav,.fb-mobile-drawer');
-    const view = requestedView === 'jornada' && currentProfile?.objective && isContinueControl ? 'progresso' : requestedView;
+    const isPrimaryNavigation = button.closest('.fb-app-nav,.fb-mobile-drawer');
+    const view = requestedView === 'progresso' && !currentProfile?.objective && isPrimaryNavigation ? 'jornada' : requestedView;
     openView(view);
   });
 });
@@ -4442,6 +4464,7 @@ function openLinkedContentFromHash() {
     }[requestedView];
     if (legacyView) {
       openView(legacyView, { scroll: legacyView !== 'gols', focus: false, instant: true, route: false });
+      updateAppRoute(legacyView, true);
       if (legacyView === 'gols') window.setTimeout(() => document.getElementById('fb-goals-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 180);
       return true;
     }

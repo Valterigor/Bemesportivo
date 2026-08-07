@@ -857,7 +857,10 @@ function resolveRequest(urlPath){
     'reportagens/dedicacao-talento-mirim':'reportagem-dedicacao-talento-mirim',
     'reportagens/duda-e-o-futebol':'reportagem-duda-e-o-futebol'
   };
-  const route = cleanRoutes[cleanPath] || cleanPath || 'index';
+  const appRoute = cleanPath === 'meu-caminho-be' || cleanPath.startsWith('meu-caminho-be/')
+    ? 'meu-caminho-be'
+    : '';
+  const route = appRoute || cleanRoutes[cleanPath] || cleanPath || 'index';
   const candidates = [
     path.join(root, route),
     path.join(root, `${route}.html`),

@@ -16,6 +16,11 @@ const pages = [
   '/reportagens/dedicacao-talento-mirim',
   '/reportagens/duda-e-o-futebol',
   '/meu-caminho-be',
+  '/meu-caminho-be/jornada',
+  '/meu-caminho-be/jornada/evolucao',
+  '/meu-caminho-be/jornada/historia',
+  '/meu-caminho-be/ferramentas',
+  '/meu-caminho-be/perfil',
   '/beplay',
   '/game.html',
   '/profissionais',
@@ -75,7 +80,8 @@ async function run() {
     assert.equal(manifestBody.id, '/meu-caminho-be');
     assert.equal(manifestBody.scope, '/meu-caminho-be');
     assert.equal(manifestBody.display, 'standalone');
-    assert.ok(manifestBody.shortcuts.some(shortcut => shortcut.url.includes('tela=evolucao')));
+    assert.equal(manifestBody.start_url, '/meu-caminho-be');
+    assert.ok(manifestBody.shortcuts.some(shortcut => shortcut.url === '/meu-caminho-be/jornada/evolucao'));
     for (const icon of manifestBody.icons) await expectOk(icon.src);
 
     const community = await expectOk('/api/community/comments?scope=path&id=meu-caminho-be');
@@ -139,6 +145,8 @@ async function run() {
     assert.equal((await reportVideo.arrayBuffer()).byteLength, 1024);
 
     const pathHtml = fs.readFileSync(path.join(root, 'meu-caminho-be.html'), 'utf8');
+    assert.doesNotMatch(pathHtml, /(?:src|href)="(?!\/|https?:|#|mailto:|tel:|data:)[^"]+"/, 'Recursos do app precisam usar caminhos absolutos para funcionar nas subpáginas.');
+    assert.doesNotMatch(pathHtml, /srcset="(?!\/)[^"]+"/, 'Imagens responsivas precisam funcionar nas subpáginas.');
     const reportListing = fs.readFileSync(path.join(root, 'reportagens.html'), 'utf8');
     const elasReport = fs.readFileSync(path.join(root, 'reportagem-elas-em-movimento-serra-talhada.html'), 'utf8');
     assert.match(elasReport, /Mulheres em ação e movimento/);
@@ -192,12 +200,13 @@ async function run() {
     assert.match(homeHtml, /id="ecosystem-discovery-title">Descubra seu caminho <span>no esporte\.<\/span>[\s\S]*id="como-funciona"/, 'A quarta seção precisa preservar a jornada personalizada e seus próximos passos.');
     assert.match(homeHtml, /href="\/meu-caminho-be#registrar">Registrar minha atividade<\/a>/, 'A chamada da Home precisa abrir o registro de atividade.');
     assert.doesNotMatch(homeHtml, /class="home-path-feature"[\s\S]*Dados ficam neste aparelho[\s\S]*<\/section>/, 'A prévia da Home não deve exibir o estado local do aparelho.');
-    assert.match(homeHtml, /href="\/meu-caminho-be"[\s\S]*Meu Caminho Be[\s\S]*href="\/meu-caminho-be#perfil"[\s\S]*Perfil do atleta[\s\S]*href="\/game\.html"[\s\S]*Game 3D[\s\S]*href="\/reportagens"[\s\S]*Reportagens[\s\S]*href="\/beplay"[\s\S]*BEplay[\s\S]*href="\/profissionais"[\s\S]*Profissionais[\s\S]*href="\/produtos"[\s\S]*Produtos/, 'A Home precisa preservar o menu principal do Bem Esportivo.');
+    assert.match(homeHtml, /href="\/meu-caminho-be"[\s\S]*Meu Caminho Be[\s\S]*href="\/meu-caminho-be\/perfil"[\s\S]*Perfil do atleta[\s\S]*href="\/game\.html"[\s\S]*Game 3D[\s\S]*href="\/reportagens"[\s\S]*Reportagens[\s\S]*href="\/beplay"[\s\S]*BEplay[\s\S]*href="\/profissionais"[\s\S]*Profissionais[\s\S]*href="\/produtos"[\s\S]*Produtos/, 'A Home precisa preservar o menu principal do Bem Esportivo.');
+    assert.match(homeHtml, /href="\/meu-caminho-be\/ferramentas"/, 'A Home precisa abrir Ferramentas pela subpágina canônica.');
     assert.match(homeHtml, /O conteúdo inspira\. A sua história começa quando você <span>vive o esporte\.<\/span>/);
     assert.doesNotMatch(homeHtml, /<h2>Meu Caminho Be<\/h2>/, 'Meu Caminho Be não deve ser usado como nome de coluna editorial.');
     assert.match(reportListing, /class="report-path-bridge"[\s\S]*Conhecer o Meu Caminho Be/);
     const routesScript = fs.readFileSync(path.join(root, 'js', 'core', 'routes.js'), 'utf8');
-    assert.match(routesScript, /'\/meu-caminho-be', 'Meu Caminho Be'[\s\S]*'\/meu-caminho-be#perfil', 'Perfil do atleta'[\s\S]*'\/game\.html', 'Game 3D'[\s\S]*'\/reportagens', 'Reportagens'[\s\S]*'\/beplay', 'BEplay'[\s\S]*'\/profissionais', 'Profissionais'[\s\S]*'\/produtos', 'Produtos'/);
+    assert.match(routesScript, /'\/meu-caminho-be', 'Meu Caminho Be'[\s\S]*'\/meu-caminho-be\/perfil', 'Perfil do atleta'[\s\S]*'\/game\.html', 'Game 3D'[\s\S]*'\/reportagens', 'Reportagens'[\s\S]*'\/beplay', 'BEplay'[\s\S]*'\/profissionais', 'Profissionais'[\s\S]*'\/produtos', 'Produtos'/);
     assert.doesNotMatch(routesScript, /'\/#treinos'|'\/#pessoas'/, 'O menu compartilhado não deve reintroduzir atalhos removidos da navegação principal.');
     assert.doesNotMatch(elasReport, /mulheres-em-acao-funcional-serra-talhada/);
     for (const image of ['mulheres-em-movimento-serra-talhada-sem-logo-640.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-960.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-1440.webp']) {
@@ -215,8 +224,11 @@ async function run() {
     for (const destination of ['inicio', 'progresso', 'ferramentas', 'perfil']) {
       assert.match(pathHtml, new RegExp(`class="fb-app-nav"[\\s\\S]*?data-fb-view="${destination}"`), `Navegação principal ausente: ${destination}`);
     }
+    const primaryNav = pathHtml.match(/<nav class="fb-app-nav"[\s\S]*?<\/nav>/)?.[0] || '';
+    assert.equal((primaryNav.match(/<button\b/g) || []).length, 5, 'A navegação principal deve ter quatro destinos e a ação Registrar.');
+    assert.doesNotMatch(primaryNav, /data-fb-view="evolucao"|data-fb-view="explorar"/, 'Evolução e História devem ficar dentro da Jornada.');
     assert.match(pathHtml, /class="[^"]*fb-nav-register[^"]*" data-be-new-entry/, 'Ação central de registro ausente.');
-    assert.match(pathHtml, /class="be-journey-switcher"[\s\S]*?data-fb-view="evolucao"/, 'Evolução precisa permanecer dentro da Jornada.');
+    assert.match(pathHtml, /class="be-journey-switcher"[\s\S]*?data-fb-view="progresso"[\s\S]*?data-fb-view="evolucao"[\s\S]*?data-fb-view="explorar"/, 'Diário, Evolução e História precisam permanecer dentro da Jornada.');
     assert.equal((pathHtml.match(/class="fb-section-actions(?:\s[^"]*)?"/g) || []).length, 6, 'As seis áreas principais precisam oferecer próximos passos contextuais.');
     assert.match(pathHtml, /id="fb-evolution-days"/);
     assert.match(pathHtml, /class="fb-explore-grid"/);
@@ -232,7 +244,7 @@ async function run() {
     assert.match(pathHtml, /id="fb-now-pause"/);
     assert.match(pathHtml, /id="fb-now-finish"/);
     assert.match(pathHtml, /id="fb-human-moment"/);
-    assert.match(pathHtml, /class="fb-human-media"[\s\S]*?id="fb-human-image" src="img\/bruno-rafael-resende-treino-funcional\.jpg"/);
+    assert.match(pathHtml, /class="fb-human-media"[\s\S]*?id="fb-human-image" src="\/img\/bruno-rafael-resende-treino-funcional\.jpg"/);
     assert.match(pathHtml, /id="fb-checkin-barrier"/);
     assert.match(pathHtml, /id="fb-week-review-form"/);
     assert.match(pathHtml, /id="fb-view-announcer"[^>]*aria-live="polite"/);
@@ -242,8 +254,9 @@ async function run() {
     assert.match(pathHtml, /js\/be-knowledge-library\.js\?v=20260807-1/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260806-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260807-3/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260807-1/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260807-4/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260807-2/);
+    assert.match(pathHtml, /js\/site-common\.js\?v=20260807-1/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
     assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260807-3/);
@@ -300,13 +313,18 @@ async function run() {
     assert.match(modernCss, /#fb-week-zone/);
 
     const diaryCss = fs.readFileSync(path.join(root, 'css/meu-caminho-diary.css'), 'utf8');
-    assert.match(diaryCss, /fb-nav-desktop-only\[data-fb-view="ferramentas"\]\{display:flex!important\}/, 'O menu lateral precisa exibir o acesso a Ferramentas.');
+    assert.match(diaryCss, /Navegação principal: as mesmas cinco ações em todas as telas/, 'Desktop e celular precisam compartilhar a mesma arquitetura principal.');
     assert.match(diaryCss, /fb-app-topbar \.fb-app-brand\{display:flex;min-width:0\}/, 'O cabeçalho mobile precisa manter o logo visível.');
     assert.match(diaryCss, /be-showcase-copy>a:not\(\.be-showcase-brand\)/, 'A marca da apresentação não pode receber o visual do botão principal.');
 
     const appScript = fs.readFileSync(path.join(root, 'js/fala-bem-app.js'), 'utf8');
     const diaryScript = fs.readFileSync(path.join(root, 'js/meu-caminho-diary.js'), 'utf8');
     assert.match(appScript, /function recordJourneyStep\(/);
+    assert.match(appScript, /APP_BASE_PATH = '\/meu-caminho-be'/);
+    assert.match(appScript, /function viewFromAppPath\(pathname = location\.pathname\)/);
+    assert.match(appScript, /url\.pathname = routePath/);
+    assert.match(appScript, /url\.searchParams\.delete\('tela'\)/);
+    assert.match(appScript, /shell\.classList\.toggle\('fb-app-shell-compact', view !== 'inicio'\)/, 'A apresentação deve ficar na Home, não nas subpáginas.');
     assert.match(appScript, /source: 'journey_form'/);
     assert.match(appScript, /source: 'be_now'/);
     assert.match(appScript, /function renderBeNow\(/);
@@ -359,21 +377,23 @@ async function run() {
     const redirects = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
     assert.match(redirects, /\/api\/analytics\/events\s+\/\.netlify\/functions\/analytics/);
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
+    assert.match(redirects, /\/meu-caminho-be\/\*\s+\/meu-caminho-be\.html\s+200/, 'As subpáginas do Meu Caminho Be precisam abrir diretamente.');
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v82'/);
-    assert.match(serviceWorker, /\/js\/site-common\.js\?v=20260806-1/);
-    assert.match(serviceWorker, /\/js\/core\/routes\.js\?v=20260806-1/);
-    assert.match(serviceWorker, /\/js\/components\/site-navigation\.js\?v=20260806-1/);
-    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260807-3/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v83'/);
+    assert.match(serviceWorker, /\/js\/site-common\.js\?v=20260807-1/);
+    assert.match(serviceWorker, /\/js\/core\/routes\.js\?v=20260807-1/);
+    assert.match(serviceWorker, /\/js\/components\/site-navigation\.js\?v=20260807-1/);
+    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260807-4/);
     assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
     assert.match(serviceWorker, /\/js\/be-knowledge-library\.js\?v=20260807-1/);
     assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260806-1/);
     assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260807-3/);
     assert.match(serviceWorker, /\/js\/routine-calendar\.js\?v=20260807-1/);
-    assert.match(serviceWorker, /\/css\/meu-caminho-diary\.css\?v=20260807-1/);
+    assert.match(serviceWorker, /\/css\/meu-caminho-diary\.css\?v=20260807-2/);
+    assert.match(serviceWorker, /url\.pathname\.startsWith\('\/meu-caminho-be\/'\)/, 'O app precisa continuar acessível offline em suas subpáginas.');
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 
     const syncFunction = fs.readFileSync(path.join(root, 'functions/api/meu-caminho-sync.js'), 'utf8');

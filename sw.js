@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v82';
+const CACHE_NAME = 'meu-caminho-be-v83';
 const APP_SHELL = [
   '/meu-caminho-be',
   '/site-common.css?v=20260723-3',
@@ -17,10 +17,10 @@ const APP_SHELL = [
   '/css/routine-calendar.css?v=20260722-1',
   '/css/ui-polish.css?v=20260723-3',
   '/css/meu-caminho-modern.css?v=20260806-1',
-  '/css/meu-caminho-diary.css?v=20260807-1',
-  '/js/site-common.js?v=20260806-1',
-  '/js/core/routes.js?v=20260806-1',
-  '/js/components/site-navigation.js?v=20260806-1',
+  '/css/meu-caminho-diary.css?v=20260807-2',
+  '/js/site-common.js?v=20260807-1',
+  '/js/core/routes.js?v=20260807-1',
+  '/js/components/site-navigation.js?v=20260807-1',
   '/js/components/site-breadcrumb.js',
   '/js/components/site-footer.js?v=20260723-1',
   '/js/components/privacy-consent.js',
@@ -31,7 +31,7 @@ const APP_SHELL = [
   '/js/meu-caminho-account.js?v=20260806-1',
   '/js/components/back-to-top.js',
   '/js/coluna-valtinho.js?v=20260722-2',
-  '/js/fala-bem-app.js?v=20260807-3',
+  '/js/fala-bem-app.js?v=20260807-4',
   '/js/be-knowledge-library.js?v=20260807-1',
   '/js/be-ia.js?v=20260806-1',
   '/js/meu-caminho-diary.js?v=20260807-3',
@@ -85,7 +85,7 @@ self.addEventListener('fetch', event => {
   if (url.pathname.startsWith('/api/')) return;
 
   if (request.mode === 'navigate') {
-    const isAppNavigation = url.pathname === '/meu-caminho-be' || url.pathname === '/meu-caminho-be.html';
+    const isAppNavigation = url.pathname === '/meu-caminho-be.html' || url.pathname === '/meu-caminho-be' || url.pathname.startsWith('/meu-caminho-be/');
     event.respondWith(fetch(request).then(response => {
       if (isAppNavigation && response.ok) {
         const copy = response.clone();
