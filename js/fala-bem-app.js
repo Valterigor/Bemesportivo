@@ -14,6 +14,9 @@ const ACCESS_STORAGE_KEY = 'meuCaminhoBeAccessV1';
 const BE_NOW_TIMER_KEY = 'meuCaminhoBeTimerV1';
 const SAFETY_CONSENT_VERSION = '2026-07-21';
 const PROFILE_SCHEMA_VERSION = 10;
+const BACKUP_KIND = 'meu-caminho-be-backup';
+const BACKUP_VERSION = 1;
+const BACKUP_MAX_BYTES = 5 * 1024 * 1024;
 const dailyActivityLabels = {
   none: 'Sem treino', caminhada: 'Caminhada', corrida: 'Corrida', musculacao: 'Musculação',
   funcional: 'Treino funcional', futebol: 'Futebol', ciclismo: 'Ciclismo', natacao: 'Natação', outra: 'Outra atividade'
@@ -359,6 +362,10 @@ function showProductFeedback({ type = 'success', title = '', message = '', rewar
 
 function showCelebration(title, message, options = {}) {
   showProductFeedback({ type: 'success', title, message, ...options });
+}
+
+function buildLocalInteraction(type, context, fallback) {
+  return window.BeKnowledgeLibrary?.buildInteraction?.(type, context) || fallback;
 }
 
 window.addEventListener('meuCaminhoBe:feedback', event => showProductFeedback(event.detail || {}));
@@ -3814,7 +3821,18 @@ document.getElementById('be-day-plan-form')?.addEventListener('submit', event =>
     completedAt: ''
   });
   closeDialog(document.getElementById('be-day-plan-dialog'));
-  showCelebration('Plano do dia salvo!', `${dayPlanActivityLabels[activity]} às ${time}, por ${duration} minutos.`);
+  const interaction = buildLocalInteraction('plan_saved', {
+    name: currentProfile?.name,
+    activityLabel: dayPlanActivityLabels[activity],
+    time,
+    duration,
+    isRest: activity === 'descanso'
+  }, {
+    title: 'Plano do dia salvo!',
+    message: `${dayPlanActivityLabels[activity]} às ${time}, por ${duration} minutos.`,
+    detail: 'Depois, registre o que realmente aconteceu.'
+  });
+  showCelebration(interaction.title, interaction.message, { detail: interaction.detail });
 });
 
 document.querySelectorAll('[data-day-intent]').forEach(button => {
@@ -3866,10 +3884,7 @@ document.querySelectorAll('#fb-day-reminder-options [data-reminder-minutes],#fb-
 
 document.getElementById('fb-day-reminder-cancel')?.addEventListener('click', () => { document.getElementById('fb-day-reminder-options').hidden = true; });
 document.getElementById('fb-day-guide-done')?.addEventListener('click', () => {
-  const plan = getDailyPlans().find(item => item.date === localDayKey());
-  if (!plan) return;
-  saveDailyPlan({ ...plan, status: 'done', remindAt: '', notifiedAt: '', completedAt: new Date().toISOString() });
-  showCelebration('Muito bem!', 'Sua intenção foi marcada como realizada. Registre o dia quando quiser atualizar seus resumos.');
+  openDailyJournal();
 });
 
 document.getElementById('fb-open-daily-form')?.addEventListener('click', () => {
@@ -3947,13 +3962,21 @@ document.getElementById('fb-daily-form')?.addEventListener('submit', event => {
   const weeklyPercent = Math.min(100, Math.round(registeredThisWeek / 3 * 100));
   const gameAfterDailyLog = getGamificationState();
   const dailyLevelUp = gameAfterDailyLog.level > gameBeforeDailyLog.level;
+  const interactionType = !isNewDailyLog
+    ? 'daily_checkin_updated'
+    : log.activity === 'none' ? 'rest_recorded' : 'daily_checkin_saved';
+  const interaction = buildLocalInteraction(interactionType, { name: currentProfile?.name }, {
+    title: isNewDailyLog ? (log.activity === 'none' ? 'Pausa registrada!' : 'Meu Hoje concluído!') : 'Meu Hoje atualizado!',
+    message: isNewDailyLog ? 'Seu painel, sua sequência e o resumo da semana já foram atualizados.' : 'As novas informações já aparecem no resumo do dia e da semana.',
+    detail: ''
+  });
   showCelebration(
-    dailyLevelUp ? 'Seu nível aumentou!' : (isNewDailyLog ? (log.activity === 'none' ? 'Pausa registrada!' : 'Meu Hoje concluído!') : 'Meu Hoje atualizado!'),
-    dailyLevelUp ? `Você chegou ao nível ${gameAfterDailyLog.level}: ${gameAfterDailyLog.levelName}.` : (isNewDailyLog ? 'Seu painel, sua sequência e o resumo da semana já foram atualizados.' : 'As novas informações já aparecem no resumo do dia e da semana.'),
+    dailyLevelUp ? 'Seu nível aumentou!' : interaction.title,
+    dailyLevelUp ? `Você chegou ao nível ${gameAfterDailyLog.level}: ${gameAfterDailyLog.levelName}.` : interaction.message,
     isNewDailyLog ? {
       type: 'progress', reward: '+15 XP',
-      detail: `Meta semanal: ${weeklyPercent}%${gameAfterDailyLog.streak ? ` · sequência: ${gameAfterDailyLog.streak} dia${gameAfterDailyLog.streak === 1 ? '' : 's'}` : ''}`
-    } : { detail: `Meta semanal: ${weeklyPercent}%` }
+      detail: `${interaction.detail}${interaction.detail ? ' · ' : ''}Meta semanal: ${weeklyPercent}%${gameAfterDailyLog.streak ? ` · sequência: ${gameAfterDailyLog.streak} dia${gameAfterDailyLog.streak === 1 ? '' : 's'}` : ''}`
+    } : { detail: interaction.detail || `Meta semanal: ${weeklyPercent}%` }
   );
 });
 document.getElementById('fb-delete-daily-log')?.addEventListener('click', () => {
@@ -3965,18 +3988,84 @@ document.getElementById('fb-delete-daily-log')?.addEventListener('click', () => 
   document.getElementById('fb-daily-feedback').textContent = 'Registro excluído deste aparelho.';
 });
 
+function readBackupArray(key, limit, keepNewest = false) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || '[]');
+    if (!Array.isArray(value)) return [];
+    return keepNewest ? value.slice(-limit) : value.slice(0, limit);
+  } catch {
+    return [];
+  }
+}
+
+function sanitizeBackupDiary(entries) {
+  const allowedTypes = new Set(['corrida', 'treino', 'jogo', 'caminhada', 'ciclismo', 'natacao', 'outro']);
+  return (Array.isArray(entries) ? entries : []).map((entry, index) => {
+    if (!entry || typeof entry !== 'object' || !/^\d{4}-\d{2}-\d{2}$/.test(String(entry.date || ''))) return null;
+    const rawDuration = Math.round(Number(entry.duration));
+    if (!Number.isFinite(rawDuration) || rawDuration < 1) return null;
+    const duration = Math.min(1440, rawDuration);
+    const distance = Number(entry.distance);
+    return {
+      id: String(entry.id || `imported-${Date.now()}-${index}`).replace(/[^a-zA-Z0-9-]/g, '').slice(0, 80),
+      date: String(entry.date),
+      type: allowedTypes.has(entry.type) ? entry.type : 'outro',
+      title: String(entry.title || '').trim().slice(0, 60),
+      duration,
+      distance: Number.isFinite(distance) && distance > 0 ? Math.round(Math.min(distance, 10000) * 100) / 100 : null,
+      result: String(entry.result || '').trim().slice(0, 60),
+      feeling: ['1', '2', '3', '4', '5'].includes(String(entry.feeling)) ? String(entry.feeling) : '3',
+      note: String(entry.note || '').trim().slice(0, 280),
+      createdAt: String(entry.createdAt || new Date().toISOString()).slice(0, 40),
+      updatedAt: String(entry.updatedAt || entry.createdAt || new Date().toISOString()).slice(0, 40)
+    };
+  }).filter(Boolean).slice(0, 3000);
+}
+
+function sanitizeBackupMeals(records) {
+  const allowedMeals = new Set(['breakfast', 'snack', 'lunch', 'dinner']);
+  const singleMeals = new Set(['breakfast', 'lunch', 'dinner']);
+  const seen = new Set();
+  return (Array.isArray(records) ? records : []).map((item, index) => {
+    if (!item || typeof item !== 'object' || !allowedMeals.has(item.type) || !/^\d{4}-\d{2}-\d{2}$/.test(String(item.date || ''))) return null;
+    const uniqueKey = `${item.date}:${item.type}`;
+    if (singleMeals.has(item.type) && seen.has(uniqueKey)) return null;
+    if (singleMeals.has(item.type)) seen.add(uniqueKey);
+    return {
+      id: String(item.id || `meal-imported-${Date.now()}-${index}`).replace(/[^a-zA-Z0-9-]/g, '').slice(0, 80),
+      type: item.type,
+      date: String(item.date),
+      description: String(item.description || '').trim().slice(0, 240),
+      createdAt: String(item.createdAt || new Date().toISOString()).slice(0, 40)
+    };
+  }).filter(Boolean).slice(-1200);
+}
+
+function restoreLocalBackup(values) {
+  Object.entries(values).forEach(([key, value]) => {
+    if (value === null) localStorage.removeItem(key);
+    else localStorage.setItem(key, value);
+  });
+}
+
 document.getElementById('fb-export-profile')?.addEventListener('click', () => {
-  let diary = [];
-  try { diary = JSON.parse(localStorage.getItem('meuCaminhoBeDiaryV1') || '[]'); } catch (error) {}
-  let meals = [];
-  try { meals = JSON.parse(localStorage.getItem('meuCaminhoBeMealsV1') || '[]'); } catch (error) {}
-  if (!currentProfile && !diary.length && !meals.length) {
+  const routineTasks = readBackupArray('meuCaminhoBeTasksV1', 250, true);
+  const diary = sanitizeBackupDiary(readBackupArray('meuCaminhoBeDiaryV1', 3000));
+  const meals = sanitizeBackupMeals(readBackupArray('meuCaminhoBeMealsV1', 1200, true));
+  if (!currentProfile && !routineTasks.length && !diary.length && !meals.length) {
     document.getElementById('fb-profile-feedback').textContent = 'Ainda não há dados para exportar.';
     return;
   }
-  let routineTasks = [];
-  try { routineTasks = JSON.parse(localStorage.getItem('meuCaminhoBeTasksV1') || '[]'); } catch (error) {}
-  const payload = JSON.stringify({ schemaVersion: PROFILE_SCHEMA_VERSION, exportedAt: new Date().toISOString(), profile: currentProfile, routineTasks, diary, meals }, null, 2);
+  const payload = JSON.stringify({
+    kind: BACKUP_KIND,
+    backupVersion: BACKUP_VERSION,
+    schemaVersion: PROFILE_SCHEMA_VERSION,
+    exportedAt: new Date().toISOString(),
+    profile: currentProfile,
+    routineTasks,
+    diary,
+    meals
+  }, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -3993,12 +4082,13 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
   const file = input.files?.[0];
   if (!file) return;
   try {
-    if (file.size > 1024 * 1024) throw new Error('too-large');
+    if (file.size > BACKUP_MAX_BYTES) throw new Error('too-large');
     const parsed = JSON.parse(await file.text());
     const profile = parsed?.profile;
     const allowedObjectives = Object.keys(journeyStepTemplates);
-    if (!profile || typeof profile !== 'object' || !allowedObjectives.includes(profile.objective) || typeof profile.name !== 'string' || ['ate-17', 'under-18'].includes(profile.age)) throw new Error('invalid');
-    const sanitized = {
+    if (!parsed || typeof parsed !== 'object' || (parsed.kind && parsed.kind !== BACKUP_KIND) || Number(parsed.backupVersion || 1) > BACKUP_VERSION) throw new Error('invalid');
+    if (profile && (typeof profile !== 'object' || !allowedObjectives.includes(profile.objective) || typeof profile.name !== 'string' || ['ate-17', 'under-18'].includes(profile.age))) throw new Error('invalid');
+    const sanitized = profile ? {
       ...profile,
       schemaVersion: PROFILE_SCHEMA_VERSION,
       createdAt: profile.createdAt || new Date().toISOString(),
@@ -4025,32 +4115,47 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
         contents: Array.isArray(profile.gamificationStats.contents) ? profile.gamificationStats.contents.slice(-40).map(value => String(value).slice(0, 80)) : []
       } : {},
       sportDiscovery: profile.sportDiscovery && typeof profile.sportDiscovery === 'object' ? profile.sportDiscovery : undefined
-    };
-    currentProfile = sanitized;
-    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(sanitized));
-    if (Array.isArray(parsed.routineTasks)) localStorage.setItem('meuCaminhoBeTasksV1', JSON.stringify(parsed.routineTasks.slice(-250)));
-    if (Array.isArray(parsed.diary)) {
-      localStorage.setItem('meuCaminhoBeDiaryV1', JSON.stringify(parsed.diary.slice(0, 3000)));
-      window.dispatchEvent(new CustomEvent('meuCaminhoBe:diary-imported'));
+    } : null;
+    const routineTasks = Array.isArray(parsed.routineTasks) ? parsed.routineTasks.filter(item => item && typeof item === 'object').slice(-250) : [];
+    const diary = sanitizeBackupDiary(parsed.diary);
+    const meals = sanitizeBackupMeals(parsed.meals);
+    if (!sanitized && !routineTasks.length && !diary.length && !meals.length) throw new Error('empty');
+    const hasCurrentData = Boolean(currentProfile)
+      || readBackupArray('meuCaminhoBeTasksV1', 1).length
+      || readBackupArray('meuCaminhoBeDiaryV1', 1).length
+      || readBackupArray('meuCaminhoBeMealsV1', 1).length;
+    if (hasCurrentData && !window.confirm('Importar este backup substituirá os dados atuais deste aparelho. Deseja continuar?')) {
+      document.getElementById('fb-profile-feedback').textContent = 'Importação cancelada. Seus dados atuais foram mantidos.';
+      return;
     }
-    if (Array.isArray(parsed.meals)) {
-      const allowedMeals = new Set(['breakfast', 'snack', 'lunch', 'dinner']);
-      const meals = parsed.meals.filter(item => item && typeof item === 'object' && allowedMeals.has(item.type) && /^\d{4}-\d{2}-\d{2}$/.test(String(item.date || ''))).slice(-1200).map(item => ({
-        id: String(item.id || `meal-${Date.now()}-${Math.random().toString(16).slice(2)}`).replace(/[^a-zA-Z0-9-]/g, '').slice(0, 80),
-        type: item.type,
-        date: String(item.date),
-        description: String(item.description || '').trim().slice(0, 240),
-        createdAt: String(item.createdAt || new Date().toISOString()).slice(0, 40)
-      }));
+    const keys = [PROFILE_STORAGE_KEY, 'meuCaminhoBeTasksV1', 'meuCaminhoBeDiaryV1', 'meuCaminhoBeMealsV1'];
+    const previousValues = Object.fromEntries(keys.map(key => [key, localStorage.getItem(key)]));
+    try {
+      if (sanitized) localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(sanitized));
+      else localStorage.removeItem(PROFILE_STORAGE_KEY);
+      localStorage.setItem('meuCaminhoBeTasksV1', JSON.stringify(routineTasks));
+      localStorage.setItem('meuCaminhoBeDiaryV1', JSON.stringify(diary));
       localStorage.setItem('meuCaminhoBeMealsV1', JSON.stringify(meals));
-      window.dispatchEvent(new CustomEvent('meuCaminhoBe:meals-imported'));
+    } catch (storageError) {
+      restoreLocalBackup(previousValues);
+      throw storageError;
     }
+    currentProfile = sanitized;
+    window.dispatchEvent(new CustomEvent('meuCaminhoBe:diary-imported'));
+    window.dispatchEvent(new CustomEvent('meuCaminhoBe:meals-imported'));
     renderPersonalizedExperience();
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:tasks-imported'));
-    document.getElementById('fb-profile-feedback').textContent = 'Backup restaurado neste aparelho.';
-    window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-onboarding', { detail: { ...sanitized } }));
+    window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated', { detail: { ready: Boolean(sanitized?.objective), source: 'backup' } }));
+    document.getElementById('fb-profile-feedback').textContent = `Backup restaurado: ${diary.length} ${diary.length === 1 ? 'atividade' : 'atividades'} e ${meals.length} ${meals.length === 1 ? 'refeição' : 'refeições'}.`;
+    showCelebration('Backup restaurado!', 'Tudo certo. Seus dados foram validados e já estão disponíveis neste aparelho.');
+    if (sanitized) window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-onboarding', { detail: { ...sanitized } }));
   } catch (error) {
-    document.getElementById('fb-profile-feedback').textContent = 'Não foi possível importar. Escolha um backup válido do Meu Caminho Be.';
+    const message = String(error?.message || error);
+    document.getElementById('fb-profile-feedback').textContent = message === 'too-large'
+      ? 'Esse arquivo ultrapassa 5 MB. Escolha um backup menor do Meu Caminho Be.'
+      : /quota|storage/i.test(message) || error?.name === 'QuotaExceededError'
+        ? 'Não há espaço suficiente neste aparelho. Seus dados anteriores foram preservados.'
+        : 'Não foi possível importar. Escolha um backup válido do Meu Caminho Be.';
   } finally {
     input.value = '';
   }

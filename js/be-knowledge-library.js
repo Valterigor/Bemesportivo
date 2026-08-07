@@ -7,8 +7,9 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function createBeKnowledgeLibrary() {
   'use strict';
 
-  const VERSION = '1.0.0';
-  const REVIEWED_AT = '2026-08-06';
+  const VERSION = '1.1.0';
+  const REVIEWED_AT = '2026-08-07';
+  const REVIEW_STATUS = 'editorial-pending-professional';
   const allowedActions = new Set(['movement', 'rest', 'nutrition', 'hydration', 'daily', 'journey', 'professional', 'profile']);
   const sources = Object.freeze({
     whoMovement: Object.freeze({
@@ -121,6 +122,7 @@
     return {
       libraryVersion: VERSION,
       reviewedAt: REVIEWED_AT,
+      reviewStatus: REVIEW_STATUS,
       sources: sourceIds.map(id => sources[id]).filter(Boolean)
     };
   }
@@ -147,6 +149,93 @@
       reasons: [...baseReasons(context), safety.reason, 'Segurança sempre tem prioridade sobre sequência, meta ou desempenho.'],
       primary: ['Ver profissionais', 'professional'], secondary: ['Revisar contexto de segurança', 'profile']
     }, ['returnToSport', 'iocLoad']);
+  }
+
+  function interaction(payload, sourceIds = ['whoMovement', 'iocLoad']) {
+    return Object.assign({ tone: 'success', detail: '' }, payload, metadata(sourceIds));
+  }
+
+  function buildInteraction(type, context = {}) {
+    const name = String(context.name || '').trim();
+    const greeting = name ? `${name}, ` : '';
+    const interactions = {
+      plan_saved: () => interaction({
+        interaction: type,
+        title: context.isRest ? 'Seu descanso entrou no plano.' : 'Seu plano ganhou forma.',
+        message: context.isRest
+          ? `${greeting}planejar uma pausa também é cuidar da continuidade da sua jornada.`
+          : `${greeting}${context.activityLabel || 'sua atividade'} ficou combinada para ${context.time || 'o horário escolhido'}, por ${Number(context.duration || 0)} minutos.`,
+        detail: 'O plano registra sua intenção. Depois, conte o que realmente aconteceu, mesmo que tenha sido diferente.'
+      }),
+      first_activity: () => interaction({
+        interaction: type,
+        title: 'Sua história começou.',
+        message: `${greeting}este é o primeiro registro do seu diário esportivo. Ele não precisa representar um desempenho perfeito — apenas o que você viveu.`,
+        detail: 'Cada novo registro ajudará a mostrar ritmo, pausas, retornos e descobertas.'
+      }),
+      activity_updated: () => interaction({
+        interaction: type,
+        title: 'Seu registro foi atualizado.',
+        message: 'A informação corrigida já faz parte da sua linha do tempo.',
+        detail: 'Sua história continua organizada sem criar uma atividade duplicada.'
+      }),
+      return_after_pause: () => interaction({
+        interaction: type,
+        title: 'Seu retorno também é evolução.',
+        message: `${greeting}você voltou depois de ${Number(context.gapDays || 0)} dias. A pausa não apagou o que veio antes, e este registro não precisa compensar o tempo parado.`,
+        detail: 'Observe como você se sentiu e escolha o próximo passo pelo momento atual.'
+      }, ['returnToSport', 'iocLoad']),
+      low_feeling_activity: () => interaction({
+        interaction: type,
+        tone: 'care',
+        title: 'Sua percepção também importa.',
+        message: `${greeting}você registrou a atividade e indicou que ela foi difícil ou cansativa. Isso é informação útil, não falta de compromisso.`,
+        detail: 'Considere recuperação, sono e desconfortos antes de decidir o próximo esforço.'
+      }, ['iocLoad', 'acsmRecovery']),
+      personal_milestone: () => interaction({
+        interaction: type,
+        title: 'Um novo marco no seu caminho.',
+        message: `${greeting}${context.milestone || 'você registrou uma evolução pessoal'} — sem apagar o valor dos dias comuns que tornaram isso possível.`,
+        detail: 'Use o marco como memória, não como obrigação para o próximo registro.'
+      }),
+      consistent_week: () => interaction({
+        interaction: type,
+        title: 'Sua semana ganhou ritmo.',
+        message: `${greeting}este é o ${Number(context.weekCount || 0)}º registro em sete dias. Constância também inclui sessões curtas, adaptações e descanso.`,
+        detail: 'Continue observando o que cabe na sua rotina sem aumentar tudo de uma vez.'
+      }, ['whoMovement', 'iocLoad']),
+      activity_saved: () => interaction({
+        interaction: type,
+        title: 'Isso já faz parte da sua história.',
+        message: `${context.activityLabel || 'Atividade'} por ${Number(context.duration || 0)} minutos. Mais uma página real do seu caminho esportivo.`,
+        detail: 'Você pode complementar ou corrigir este registro quando precisar.'
+      }),
+      daily_checkin_saved: () => interaction({
+        interaction: type,
+        title: 'Seu dia entrou na trajetória.',
+        message: `${greeting}o que você registrou agora ajuda a mostrar sua rotina como ela aconteceu, sem exigir um dia perfeito.`,
+        detail: 'Seu resumo e sua evolução foram atualizados com este contexto.'
+      }),
+      daily_checkin_updated: () => interaction({
+        interaction: type,
+        title: 'Seu dia foi atualizado.',
+        message: 'As informações corrigidas já aparecem no resumo e na evolução.',
+        detail: 'A atualização preserva um único registro para esta data.'
+      }),
+      rest_recorded: () => interaction({
+        interaction: type,
+        title: 'A pausa também foi registrada.',
+        message: `${greeting}reconhecer um dia sem atividade ajuda a contar sua trajetória sem esconder o que aconteceu de verdade.`,
+        detail: 'Descanso não cria dívida e não precisa ser compensado depois.'
+      }, ['iocLoad', 'acsmRecovery']),
+      meal_saved: () => interaction({
+        interaction: type,
+        title: 'Refeição registrada.',
+        message: `${context.mealLabel || 'Sua refeição'} entrou no seu dia como memória, sem nota, culpa ou classificação do prato.`,
+        detail: 'A Biblioteca BeM registra contexto; não prescreve dieta.'
+      }, ['acsmRecovery'])
+    };
+    return (interactions[type] || interactions.activity_saved)();
   }
 
   function buildResponse(query, context = {}) {
@@ -237,10 +326,12 @@
   return Object.freeze({
     version: VERSION,
     reviewedAt: REVIEWED_AT,
+    reviewStatus: REVIEW_STATUS,
     sources,
     normalize,
     assessSafety,
     classifyIntent,
-    buildResponse
+    buildResponse,
+    buildInteraction
   });
 });

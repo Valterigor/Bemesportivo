@@ -36,7 +36,22 @@ function assertContract(answer) {
   assert.ok(Array.isArray(answer.secondary) && answer.secondary.length === 2);
   assert.equal(answer.libraryVersion, library.version);
   assert.equal(answer.reviewedAt, library.reviewedAt);
+  assert.equal(answer.reviewStatus, 'editorial-pending-professional');
   assert.ok(Array.isArray(answer.sources) && answer.sources.length > 0);
+}
+
+function assertInteractionContract(answer, type) {
+  assert.equal(answer.interaction, type);
+  assert.ok(['success', 'care'].includes(answer.tone));
+  assert.ok(answer.title.length > 10);
+  assert.ok(answer.message.length > 20);
+  assert.ok(answer.detail.length > 20);
+  assert.equal(answer.libraryVersion, library.version);
+  assert.equal(answer.reviewedAt, library.reviewedAt);
+  assert.equal(answer.reviewStatus, 'editorial-pending-professional');
+  assert.ok(Array.isArray(answer.sources) && answer.sources.length > 0);
+  const normalized = library.normalize(`${answer.title} ${answer.message} ${answer.detail}`);
+  assert.doesNotMatch(normalized, /sem desculpas|voce falhou|quem quer da um jeito|compense o treino/);
 }
 
 assert.equal(library.classifyIntent('Estou sem vontade de treinar.', baseContext), 'motivation');
@@ -78,4 +93,24 @@ assert.match(emergency.nextTitle, /urgência/i);
   'Tenho uma dúvida sobre meu esporte.'
 ].forEach(query => assertContract(answerFor(query)));
 
-console.log(`Biblioteca BeM aprovada: versão ${library.version}, segurança, linguagem e 9 cenários validados.`);
+const interactionScenarios = [
+  ['plan_saved', { name: 'João', activityLabel: 'Corrida', time: '18:30', duration: 30 }],
+  ['first_activity', { name: 'João' }],
+  ['activity_updated', {}],
+  ['return_after_pause', { name: 'João', gapDays: 20 }],
+  ['low_feeling_activity', { name: 'João' }],
+  ['personal_milestone', { name: 'João', milestone: '5 km em corrida' }],
+  ['consistent_week', { name: 'João', weekCount: 3 }],
+  ['activity_saved', { activityLabel: 'Caminhada', duration: 25 }],
+  ['daily_checkin_saved', { name: 'João' }],
+  ['daily_checkin_updated', {}],
+  ['rest_recorded', { name: 'João' }],
+  ['meal_saved', { mealLabel: 'Almoço' }]
+];
+
+interactionScenarios.forEach(([type, context]) => assertInteractionContract(library.buildInteraction(type, context), type));
+assert.match(library.buildInteraction('return_after_pause', { gapDays: 20 }).message, /20 dias/);
+assert.match(library.buildInteraction('plan_saved', { activityLabel: 'Corrida', time: '18:30', duration: 30 }).detail, /intenção/i);
+assert.match(library.buildInteraction('meal_saved', { mealLabel: 'Almoço' }).message, /sem nota, culpa/i);
+
+console.log(`Biblioteca BeM aprovada: versão ${library.version}, segurança, linguagem e ${9 + interactionScenarios.length} cenários validados.`);

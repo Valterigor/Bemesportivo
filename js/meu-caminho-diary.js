@@ -53,8 +53,9 @@
   function sanitize(entry) {
     if (!entry || typeof entry !== 'object' || !/^\d{4}-\d{2}-\d{2}$/.test(String(entry.date || ''))) return null;
     const type = types[entry.type] ? entry.type : 'outro';
-    const duration = Math.min(1440, Math.max(1, Math.round(Number(entry.duration) || 0)));
-    if (!duration) return null;
+    const rawDuration = Math.round(Number(entry.duration));
+    if (!Number.isFinite(rawDuration) || rawDuration < 1) return null;
+    const duration = Math.min(1440, rawDuration);
     const distanceValue = Number(entry.distance);
     return {
       id: String(entry.id || `be-${Date.now()}-${Math.random().toString(16).slice(2)}`).slice(0, 80),
@@ -101,9 +102,14 @@
 
   function saveEntries() {
     entries.sort((a, b) => `${b.date}${b.createdAt}`.localeCompare(`${a.date}${a.createdAt}`));
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries.slice(0, 3000)));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries.slice(0, 3000)));
+    } catch {
+      return false;
+    }
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:diary-changed', { detail: { count: entries.length } }));
     renderAll();
+    return true;
   }
 
   function sanitizeMeal(record) {
@@ -135,9 +141,14 @@
   }
 
   function saveMeals() {
-    localStorage.setItem(MEALS_STORAGE_KEY, JSON.stringify(meals.slice(-1200)));
+    try {
+      localStorage.setItem(MEALS_STORAGE_KEY, JSON.stringify(meals.slice(-1200)));
+    } catch {
+      return false;
+    }
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:meals-changed', { detail: { count: meals.length } }));
     renderMeals();
+    return true;
   }
 
   function parseQuickText(raw) {
@@ -213,19 +224,47 @@
     return { totalMinutes, totalDistance, bestStreak, dates, favorite };
   }
 
-  function contextualMessage(entry, wasNew) {
+  function contextualFeedback(entry, wasNew) {
     const previous = entries.filter(item => item.id !== entry.id && item.type === entry.type);
     const priorDistance = Math.max(0, ...previous.map(item => item.distance || 0));
     const sameWeek = entries.filter(item => {
       const difference = (dateFromKey(entry.date) - dateFromKey(item.date)) / 86400000;
       return difference >= 0 && difference < 7;
     }).length;
-    if (!wasNew) return 'Seu registro foi atualizado. Sua história continua organizada.';
-    if (entries.length === 1) return `Este é o primeiro capítulo do seu diário: ${titleFor(entry)} por ${formatDuration(entry.duration)}.`;
-    if (entry.distance && entry.distance > priorDistance) return `Nova maior distância em ${types[entry.type].label.toLocaleLowerCase('pt-BR')}: ${formatNumber(entry.distance)} km. Um marco no seu caminho.`;
-    if (entry.feeling === '1' || entry.feeling === '2') return `Você registrou ${formatDuration(entry.duration)} e também como se sentiu. Respeitar essa percepção ajuda a entender seu ritmo.`;
-    if (sameWeek >= 3) return `Esta é sua ${sameWeek}ª atividade em sete dias. Sua constância está ganhando forma.`;
-    return `${titleFor(entry)} por ${formatDuration(entry.duration)}. Mais uma página real da sua história esportiva.`;
+    const previousEntry = entries
+      .filter(item => item.id !== entry.id && item.date <= entry.date)
+      .sort((a, b) => b.date.localeCompare(a.date))[0];
+    const gapDays = previousEntry ? Math.round((dateFromKey(entry.date) - dateFromKey(previousEntry.date)) / 86400000) : 0;
+    let interaction = 'activity_saved';
+    const context = {
+      activityLabel: titleFor(entry), duration: entry.duration, gapDays, weekCount: sameWeek,
+      milestone: entry.distance ? `${formatNumber(entry.distance)} km em ${types[entry.type].label.toLocaleLowerCase('pt-BR')}` : ''
+    };
+    if (!wasNew) interaction = 'activity_updated';
+    else if (entries.length === 1) interaction = 'first_activity';
+    else if (entry.feeling === '1' || entry.feeling === '2') interaction = 'low_feeling_activity';
+    else if (gapDays >= 14) interaction = 'return_after_pause';
+    else if (entry.distance && entry.distance > priorDistance) interaction = 'personal_milestone';
+    else if (sameWeek >= 3) interaction = 'consistent_week';
+    const fallback = {
+      title: wasNew ? 'Isso já faz parte da sua história.' : 'Seu registro foi atualizado.',
+      message: wasNew
+        ? `${titleFor(entry)} por ${formatDuration(entry.duration)}. Mais uma página real da sua história esportiva.`
+        : 'Sua história continua organizada.'
+    };
+    return window.BeKnowledgeLibrary?.buildInteraction?.(interaction, context) || fallback;
+  }
+
+  function emitFeedback(interaction, options = {}) {
+    window.dispatchEvent(new CustomEvent('meuCaminhoBe:feedback', {
+      detail: {
+        type: interaction.tone === 'care' ? 'info' : 'success',
+        title: interaction.title,
+        message: interaction.message,
+        detail: interaction.detail || '',
+        ...options
+      }
+    }));
   }
 
   function entryCard(entry) {
@@ -316,8 +355,14 @@
     const record = sanitizeMeal({ type, description: detail, date: today, createdAt: new Date().toISOString() });
     if (!record) return;
     meals.push(record);
-    saveMeals();
+    if (!saveMeals()) {
+      meals = meals.filter(meal => meal.id !== record.id);
+      $('#be-meal-feedback').textContent = 'Não foi possível salvar neste aparelho. Libere espaço e tente novamente.';
+      return;
+    }
     $('#be-meal-dialog')?.close();
+    const interaction = window.BeKnowledgeLibrary?.buildInteraction?.('meal_saved', { mealLabel: definition.label });
+    if (interaction) emitFeedback(interaction);
   }
 
   function currentStreak() {
@@ -541,11 +586,15 @@
     }
     const entry = sanitize({ ...parsed, date: dayKey(), feeling: '3', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
     entries.unshift(entry);
-    saveEntries();
+    if (!saveEntries()) {
+      entries = entries.filter(item => item.id !== entry.id);
+      $('#be-quick-feedback').textContent = 'Não foi possível salvar neste aparelho. Libere espaço e tente novamente.';
+      return;
+    }
     $('#be-quick-form').reset();
     $('#be-quick-feedback').textContent = '';
-    $('#be-success-message').textContent = contextualMessage(entry, true);
-    $('#be-success-dialog').showModal();
+    const interaction = contextualFeedback(entry, true);
+    emitFeedback(interaction);
   });
 
   $$('[data-be-activity]').forEach(button => button.addEventListener('click', () => openEntry({ type: button.dataset.beActivity, date: dayKey() })));
@@ -566,18 +615,27 @@
       $('#be-entry-feedback').textContent = 'Informe a atividade, a data e quanto tempo ela durou.';
       return;
     }
+    const previousEntries = [...entries];
     entries = previous ? entries.map(item => item.id === entry.id ? entry : item) : [entry, ...entries];
-    saveEntries();
+    if (!saveEntries()) {
+      entries = previousEntries;
+      $('#be-entry-feedback').textContent = 'Não foi possível salvar neste aparelho. Libere espaço e tente novamente.';
+      return;
+    }
     closeEntry();
-    $('#be-success-title').textContent = previous ? 'Seu registro foi atualizado.' : 'Isso já faz parte da sua história.';
-    $('#be-success-message').textContent = contextualMessage(entry, !previous);
-    $('#be-success-dialog').showModal();
+    const interaction = contextualFeedback(entry, !previous);
+    emitFeedback(interaction);
   });
   $('#be-entry-delete')?.addEventListener('click', () => {
     const id = $('#be-entry-id').value;
     if (!id || !window.confirm('Excluir esta atividade do seu diário?')) return;
+    const previousEntries = [...entries];
     entries = entries.filter(entry => entry.id !== id);
-    saveEntries();
+    if (!saveEntries()) {
+      entries = previousEntries;
+      $('#be-entry-feedback').textContent = 'Não foi possível excluir agora. Seus dados foram mantidos.';
+      return;
+    }
     closeEntry();
   });
   document.addEventListener('click', event => {
@@ -589,8 +647,13 @@
     if (mealChoice) selectMealType(mealChoice.dataset.beMeal);
     const removeMeal = event.target.closest('[data-be-meal-remove]');
     if (removeMeal && window.confirm('Remover este registro de alimentação?')) {
+      const previousMeals = [...meals];
       meals = meals.filter(meal => meal.id !== removeMeal.dataset.beMealRemove);
-      saveMeals();
+      if (!saveMeals()) {
+        meals = previousMeals;
+        renderMeals();
+        $('#be-meals-summary').textContent = 'Não foi possível remover agora. O registro foi mantido.';
+      }
     }
   });
   $('#be-meal-add')?.addEventListener('click', openMealDialog);
@@ -607,11 +670,6 @@
   $('#be-meal-detail-form')?.addEventListener('submit', event => {
     event.preventDefault();
     includeMeal(event.currentTarget.elements.type.value, event.currentTarget.elements.description.value);
-  });
-  $('#be-success-diary')?.addEventListener('click', () => $('#be-success-dialog')?.close());
-  $('#be-success-again')?.addEventListener('click', () => {
-    $('#be-success-dialog')?.close();
-    openEntry({ date: dayKey(), type: 'corrida' });
   });
   $('#be-diary-period')?.addEventListener('change', renderDiary);
   $('#be-diary-sport')?.addEventListener('change', renderDiary);
@@ -644,7 +702,9 @@
 
   entries = readEntries();
   meals = readMeals();
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-  localStorage.setItem(MEALS_STORAGE_KEY, JSON.stringify(meals));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+    localStorage.setItem(MEALS_STORAGE_KEY, JSON.stringify(meals));
+  } catch {}
   renderAll();
 })();

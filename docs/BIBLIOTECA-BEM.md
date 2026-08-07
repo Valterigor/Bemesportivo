@@ -2,11 +2,15 @@
 
 ## Objetivo
 
-A Biblioteca BeM é o núcleo editorial local do Meu Caminho Be. Ela transforma contexto e texto livre em orientações curtas, humanas e acionáveis sem depender de IA generativa, conexão com a internet ou envio da pergunta para terceiros.
+A Biblioteca BeM é o núcleo editorial local do Meu Caminho Be. Ela transforma contexto, texto livre e ações do produto em retornos curtos, humanos e acionáveis, sem depender de IA generativa, conexão com a internet ou envio de respostas pessoais para terceiros.
 
-O arquivo executável é `js/be-knowledge-library.js`. A interface e a coleta de contexto permanecem em `js/be-ia.js` para separar conteúdo editorial de comportamento de tela.
+O arquivo executável é `js/be-knowledge-library.js`. A interface de perguntas permanece em `js/be-ia.js`, enquanto as ações do diário e do planejamento consomem a mesma biblioteca. Assim, conteúdo editorial e comportamento de tela continuam separados.
 
-## Fluxo de decisão
+## Duas entradas, uma mesma voz
+
+### Perguntas em texto livre
+
+`buildResponse(query, context)` identifica sinais de alerta, intenção e contexto da jornada antes de selecionar uma orientação editorial.
 
 ```text
 mensagem da pessoa
@@ -24,6 +28,21 @@ resposta editorial versionada + próximo passo + referências
 
 Nenhuma pergunta livre é salva. O histórico guarda somente identificador, intenção, classificação de cuidado, data e feedback positivo ou negativo.
 
+### Interações do produto
+
+`buildInteraction(type, context)` oferece respostas determinísticas para acontecimentos reais do Meu Caminho Be. A versão 1.1.0 cobre:
+
+- plano do dia salvo;
+- primeira atividade e atividade atualizada;
+- retorno depois de uma pausa;
+- registro realizado em um dia difícil;
+- marco pessoal e semana consistente;
+- atividade e check-in diário salvos;
+- pausa registrada;
+- refeição registrada sem nota, culpa ou julgamento.
+
+O planejamento continua sendo uma intenção. Para contar o que realmente aconteceu, a pessoa é conduzida ao registro diário; o sistema não transforma automaticamente um plano em atividade concluída.
+
 ## Princípios editoriais
 
 - Falar com a pessoa, sem fingir ser uma pessoa ou profissional.
@@ -34,9 +53,9 @@ Nenhuma pergunta livre é salva. O histórico guarda somente identificador, inte
 - Não diagnosticar, prescrever treino, dieta, hidratação ou retorno clínico.
 - Encaminhar sinais de alerta antes de qualquer meta ou gamificação.
 
-## Conteúdo inicial
+## Conteúdo de orientação
 
-A versão 1.0.0 cobre:
+A biblioteca cobre:
 
 - desânimo e motivação;
 - falta de tempo;
@@ -57,9 +76,15 @@ A versão 1.0.0 cobre:
 
 As fontes sustentam princípios gerais. Elas não transformam respostas automáticas em avaliação individual.
 
-## Governança necessária
+## Versão e revisão
 
-Cada alteração editorial deve registrar versão e data de revisão, passar pelos testes automatizados e receber revisão humana de conteúdo. Conteúdo de saúde, dor, lesão, alimentação ou retorno deve ter revisão de profissional habilitado na área correspondente antes da publicação.
+- Versão atual: `1.1.0`
+- Revisão editorial interna: `2026-08-07`
+- Estado: `editorial-pending-professional`
+
+A data acima registra a revisão interna do produto; não representa aprovação por profissional habilitado. Textos de saúde, dor, lesão, alimentação, recuperação ou retorno precisam dessa revisão profissional antes da publicação definitiva.
+
+Cada alteração editorial deve registrar versão e data, passar pelos testes automatizados e receber revisão humana de conteúdo.
 
 Checklist de publicação:
 
@@ -69,6 +94,7 @@ Checklist de publicação:
 4. A porta de segurança continua tendo prioridade?
 5. A fonte é adequada e continua disponível?
 6. Os testes de contrato e cenários passam?
+7. A revisão profissional exigida foi documentada?
 
 Execute `npm test` para validar o contrato da biblioteca e `npm run verify` antes de publicar.
 

@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260806-1">
-<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260806-3">
+<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260807-1">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -316,7 +316,7 @@
 <section class="fb-day-guide fb-day-guide-priority" id="fb-day-guide" aria-labelledby="fb-day-guide-title" hidden>
 <header class="fb-day-guide-head"><div><span>SUA AÇÃO DE AGORA · UMA POR VEZ</span><h2 id="fb-day-guide-title">O que pode ajudar você agora?</h2></div><strong id="fb-day-guide-phase">AGORA</strong></header>
 <div class="fb-day-intentions"><p>Qual prioridade cabe melhor no seu dia?</p><div role="group" aria-label="Prioridade do dia"><button type="button" data-day-intent="movimento">Me movimentar</button><button type="button" data-day-intent="descanso">Descansar</button><button type="button" data-day-intent="alimentacao">Cuidar da alimentação</button><button type="button" data-day-intent="hidratacao">Melhorar a hidratação</button><button type="button" data-day-intent="registro">Só registrar meu dia</button></div></div>
-<article class="fb-day-recommendation" aria-live="polite"><span id="fb-day-recommendation-kicker">COMECE ESCOLHENDO</span><h3 id="fb-day-recommendation-title">Qual é a prioridade possível para hoje?</h3><p id="fb-day-recommendation-text">Sua escolha ajuda o sistema a mostrar apenas uma orientação por vez.</p><div class="fb-day-recommendation-actions" id="fb-day-recommendation-actions" hidden><button type="button" class="fb-primary-action" id="fb-day-guide-primary">Fazer agora</button><button type="button" id="fb-day-guide-later">Lembrar mais tarde</button><button type="button" id="fb-day-guide-done">Já fiz</button></div><button type="button" class="fb-day-why-toggle" id="fb-day-why-toggle" aria-expanded="false" aria-controls="fb-day-why">Por que estou vendo isso?</button><p class="fb-day-why" id="fb-day-why" hidden></p></article>
+<article class="fb-day-recommendation" aria-live="polite"><span id="fb-day-recommendation-kicker">COMECE ESCOLHENDO</span><h3 id="fb-day-recommendation-title">Qual é a prioridade possível para hoje?</h3><p id="fb-day-recommendation-text">Sua escolha ajuda o sistema a mostrar apenas uma orientação por vez.</p><div class="fb-day-recommendation-actions" id="fb-day-recommendation-actions" hidden><button type="button" class="fb-primary-action" id="fb-day-guide-primary">Fazer agora</button><button type="button" id="fb-day-guide-later">Lembrar mais tarde</button><button type="button" id="fb-day-guide-done">Registrar o que fiz</button></div><button type="button" class="fb-day-why-toggle" id="fb-day-why-toggle" aria-expanded="false" aria-controls="fb-day-why">Por que estou vendo isso?</button><p class="fb-day-why" id="fb-day-why" hidden></p></article>
 <div class="fb-day-reminder-options" id="fb-day-reminder-options" hidden><span>Lembrar neste aparelho:</span><button type="button" data-reminder-minutes="30">Em 30 min</button><button type="button" data-reminder-minutes="120">Em 2 horas</button><button type="button" data-reminder-period="evening">Hoje à noite</button><button type="button" id="fb-day-reminder-cancel">Cancelar</button><small>O aviso aparecerá quando você estiver usando ou voltar ao Meu Caminho Be.</small></div>
 <ol class="fb-day-timeline" id="fb-day-timeline" aria-label="Momentos do dia"><li data-day-period="morning"><span>Manhã</span><i aria-hidden="true"></i></li><li data-day-period="afternoon"><span>Tarde</span><i aria-hidden="true"></i></li><li data-day-period="evening"><span>Noite</span><i aria-hidden="true"></i></li></ol>
 </section>
@@ -771,7 +771,7 @@
 <div><span>CONTINUIDADE</span><h3 id="fb-account-title">Seu caminho em mais de um aparelho</h3><p id="fb-account-status" role="status">Verificando disponibilidade…</p><small id="fb-account-email"></small></div>
 <div class="fb-account-actions"><button type="button" class="fb-primary-action" id="fb-account-connect" hidden>Ativar continuidade</button><button type="button" id="fb-account-show-code" hidden>Ver meu código</button><button type="button" id="fb-account-sync-now" hidden>Sincronizar agora</button><button type="button" id="fb-account-logout" hidden>Desconectar código</button><button type="button" class="fb-account-danger" id="fb-account-cloud-delete" hidden>Excluir cópia da nuvem</button></div>
 </section>
-<div class="fb-profile-data"><strong>Seus dados, sob seu controle</strong><span>Baixe uma cópia ou restaure seu caminho neste navegador.</span><div><button type="button" id="fb-export-profile">Exportar meus dados</button><label for="fb-import-profile">Importar backup<input type="file" id="fb-import-profile" accept="application/json,.json" hidden></label></div><small>O arquivo pode conter informações pessoais e relatos da sua jornada. Guarde-o em local seguro.</small></div>
+<div class="fb-profile-data"><strong>Seus dados, sob seu controle</strong><span>Baixe uma cópia ou restaure seu caminho neste navegador.</span><div><button type="button" id="fb-export-profile">Exportar meus dados</button><label for="fb-import-profile">Importar backup<input type="file" id="fb-import-profile" accept="application/json,.json" hidden></label></div><small>O arquivo pode conter informações pessoais e relatos da sua jornada. A importação substitui os dados atuais somente depois da sua confirmação.</small></div>
 <div class="fb-profile-reset"><strong>Quer começar novamente?</strong><span>Apague os dados locais e refaça sua trajetória desde o nome.</span><button type="button" data-fb-reset>Zerar meu processo</button></div>
 </div>
 
@@ -1498,17 +1498,16 @@ Seu navegador não consegue reproduzir este vídeo.
 <footer><button type="button" id="be-entry-delete" class="be-delete-entry" hidden>Excluir</button><span></span><button type="button" id="be-entry-cancel">Cancelar</button><button type="submit" class="be-save-entry">Registrar no diário</button></footer>
 </form>
 </dialog>
-<dialog class="be-success-dialog" id="be-success-dialog" aria-labelledby="be-success-title"><div class="be-success-check" aria-hidden="true">✓</div><span>ATIVIDADE REGISTRADA</span><h2 id="be-success-title">Isso já faz parte da sua história.</h2><p id="be-success-message"></p><div><button type="button" id="be-success-diary" data-fb-view="progresso">Ver meu diário</button><button type="button" id="be-success-again">Registrar outra</button></div></dialog>
 
 <script type="module" src="js/site-common.js?v=20260806-1"></script>
 <script type="module" src="js/photo-checkin.js?v=20260723-1"></script>
-<script type="module" src="js/routine-calendar.js?v=20260730-1"></script>
+<script type="module" src="js/routine-calendar.js?v=20260807-1"></script>
 <script type="module" src="js/meu-caminho-account.js?v=20260806-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="js/fala-bem-app.js?v=20260806-4" defer></script>
-<script src="js/be-knowledge-library.js?v=20260806-1" defer></script>
+<script src="js/fala-bem-app.js?v=20260807-3" defer></script>
+<script src="js/be-knowledge-library.js?v=20260807-1" defer></script>
 <script src="js/be-ia.js?v=20260806-1" defer></script>
-<script src="js/meu-caminho-diary.js?v=20260806-3" defer></script>
+<script src="js/meu-caminho-diary.js?v=20260807-3" defer></script>
 
 </body>
 </html>
