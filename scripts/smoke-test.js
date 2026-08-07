@@ -191,6 +191,33 @@ async function run() {
     assert.match(reportCss, /\.elas-story-summary h2\s*\{[\s\S]*?color:\s*#fff\s*!important/);
     assert.match(reportCss, /\.report-related > div\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+    const adsensePublisher = 'ca-pub-5105345296041597';
+    const editorialAdPages = [
+      'index.html',
+      'sobre.html',
+      'reportagens.html',
+      'reportagem-dedicacao-talento-mirim.html',
+      'reportagem-duda-e-o-futebol.html',
+      'reportagem-elas-em-movimento-serra-talhada.html',
+      'reportagem-treino-funcional.html'
+    ];
+    for (const page of editorialAdPages) {
+      const pageHtml = fs.readFileSync(path.join(root, page), 'utf8');
+      assert.match(pageHtml, new RegExp(`google-adsense-account" content="${adsensePublisher}`), `Conta AdSense ausente em ${page}.`);
+      assert.match(pageHtml, /bem-adsense-enabled" content="true/, `AdSense editorial precisa estar habilitado em ${page}.`);
+      assert.match(pageHtml, /src="\/js\/adsense-consent-default\.js"[\s\S]*?<script async src="https:\/\/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-5105345296041597" crossorigin="anonymous"><\/script>/, `Código de análise do AdSense ausente ou sem consentimento padrão em ${page}.`);
+    }
+    assert.doesNotMatch(pathHtml, /bem-adsense-enabled/, 'O Meu Caminho Be não deve carregar publicidade em áreas pessoais.');
+    const adsTxt = fs.readFileSync(path.join(root, 'ads.txt'), 'utf8');
+    const adsenseConsentDefault = fs.readFileSync(path.join(root, 'js/adsense-consent-default.js'), 'utf8');
+    const privacyConsentScript = fs.readFileSync(path.join(root, 'js/components/privacy-consent.js'), 'utf8');
+    assert.match(adsTxt, /google\.com, pub-5105345296041597, DIRECT, f08c47fec0942fa0/);
+    assert.match(privacyConsentScript, /ADSENSE_CLIENT = 'ca-pub-5105345296041597'/);
+    assert.match(privacyConsentScript, /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=\$\{ADSENSE_CLIENT\}/);
+    assert.match(privacyConsentScript, /ad_storage: consent\?\.advertising \? 'granted' : 'denied'/);
+    assert.match(adsenseConsentDefault, /ad_storage: 'denied'/);
+    assert.match(adsenseConsentDefault, /ad_personalization: 'denied'/);
+    assert.doesNotMatch(privacyConsentScript, /ca-pub-5270723987412757/);
     assert.match(homeHtml, /class="hero-slide hero-slide-news hero-slide-elas active"/);
     assert.match(homeHtml, /<main>\s*<section class="shell ecosystem-highlights" id="destaques"/, 'Destaques precisa ser a primeira seção da Home.');
     assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
@@ -396,7 +423,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v84'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v85'/);
     assert.match(serviceWorker, /\/js\/site-common\.js\?v=20260807-1/);
     assert.match(serviceWorker, /\/js\/core\/routes\.js\?v=20260807-1/);
     assert.match(serviceWorker, /\/js\/components\/site-navigation\.js\?v=20260807-1/);

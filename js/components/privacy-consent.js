@@ -1,6 +1,6 @@
 const CONSENT_KEY = 'bemEsportivoPrivacyConsentV1';
 const CONSENT_VERSION = 2;
-const ADSENSE_CLIENT = 'ca-pub-5270723987412757';
+const ADSENSE_CLIENT = 'ca-pub-5105345296041597';
 
 function readConsent() {
   try {
@@ -28,7 +28,7 @@ function adsAreEnabledOnPage() {
 }
 
 function loadAdsense() {
-  if (!adsAreEnabledOnPage() || document.querySelector('script[data-bem-adsense]')) return;
+  if (!adsAreEnabledOnPage() || document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]')) return;
   const script = document.createElement('script');
   script.async = true;
   script.crossOrigin = 'anonymous';
@@ -40,6 +40,12 @@ function loadAdsense() {
 function applyConsent(consent) {
   document.documentElement.dataset.measurementConsent = consent?.measurement ? 'granted' : 'denied';
   document.documentElement.dataset.advertisingConsent = consent?.advertising ? 'granted' : 'denied';
+  window.gtag?.('consent', 'update', {
+    ad_storage: consent?.advertising ? 'granted' : 'denied',
+    ad_user_data: consent?.advertising ? 'granted' : 'denied',
+    ad_personalization: consent?.advertising ? 'granted' : 'denied',
+    analytics_storage: consent?.measurement ? 'granted' : 'denied'
+  });
   if (consent?.advertising) loadAdsense();
 }
 
