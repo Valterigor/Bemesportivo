@@ -197,7 +197,7 @@
     if (feeling) feeling.checked = true;
     $('#be-entry-delete').hidden = !entry;
     $('#be-entry-feedback').textContent = '';
-    $('#be-entry-dialog-title').textContent = entry ? 'Editar atividade' : 'Como foi sua atividade?';
+    $('#be-entry-dialog-title').textContent = entry ? 'Editar atividade' : 'Registrar atividade';
     dialog.showModal();
     setTimeout(() => (values.duration ? $('#be-entry-title') : $('#be-entry-duration'))?.focus(), 60);
   }

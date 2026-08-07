@@ -254,12 +254,12 @@ async function run() {
     assert.match(pathHtml, /js\/be-knowledge-library\.js\?v=20260807-1/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260806-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260807-4/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260807-2/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260807-5/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260807-3/);
     assert.match(pathHtml, /js\/site-common\.js\?v=20260807-1/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
-    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260807-3/);
+    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260807-4/);
     assert.match(pathHtml, /js\/routine-calendar\.js\?v=20260807-1/);
     assert.doesNotMatch(pathHtml, /id="be-success-dialog"/, 'Salvar uma atividade não deve bloquear a navegação com uma segunda janela.');
     assert.match(pathHtml, /id="fb-day-guide-done">Registrar o que fiz<\/button>/, 'O plano precisa encaminhar ao registro do que realmente aconteceu.');
@@ -280,6 +280,14 @@ async function run() {
     for (const id of ['fb-profile-photo', 'fb-profile-photo-preview', 'fb-profile-email', 'fb-profile-city', 'fb-profile-state']) {
       assert.match(pathHtml, new RegExp(`id="${id}"`), `Campo de cadastro ausente: ${id}`);
     }
+    for (const id of ['be-section-banner', 'be-section-banner-title', 'be-section-banner-text', 'be-section-banner-mark']) {
+      assert.match(pathHtml, new RegExp(`id="${id}"`), `Banner interno ausente: ${id}`);
+    }
+    assert.match(pathHtml, /class="be-profile-social-card"[\s\S]*class="be-profile-cover"[\s\S]*class="be-profile-social-identity"/, 'O Perfil precisa apresentar uma identidade social antes do cadastro.');
+    assert.match(pathHtml, /class="be-profile-form-section"[\s\S]*Informações básicas[\s\S]*IDENTIDADE ESPORTIVA/, 'O cadastro precisa estar organizado em blocos compreensíveis.');
+    assert.match(pathHtml, /REGISTRAR · MEU CAMINHO BE[\s\S]*id="be-entry-dialog-description"/, 'O registro precisa ter banner e explicação próprios.');
+    assert.doesNotMatch(pathHtml, /belief-block belief-block-compact/, 'A seção editorial genérica não deve se repetir dentro da experiência.');
+    assert.doesNotMatch(pathHtml, /Conhecimento de quem vive o esporte/, 'A chamada genérica repetida precisa ser substituída por contexto específico.');
     assert.match(pathHtml, /id="fb-safety-form" novalidate/);
     assert.match(pathHtml, /id="fb-safety-feedback"[^>]*aria-live="assertive"/);
     assert.match(pathHtml, /id="fb-safety-submit"/);
@@ -316,6 +324,11 @@ async function run() {
     assert.match(diaryCss, /Navegação principal: as mesmas cinco ações em todas as telas/, 'Desktop e celular precisam compartilhar a mesma arquitetura principal.');
     assert.match(diaryCss, /fb-app-topbar \.fb-app-brand\{display:flex;min-width:0\}/, 'O cabeçalho mobile precisa manter o logo visível.');
     assert.match(diaryCss, /be-showcase-copy>a:not\(\.be-showcase-brand\)/, 'A marca da apresentação não pode receber o visual do botão principal.');
+    assert.match(diaryCss, /be-section-banner\[data-section="progresso"\]/, 'Jornada precisa ter identidade visual própria.');
+    assert.match(diaryCss, /be-section-banner\[data-section="ferramentas"\]/, 'Ferramentas precisa ter identidade visual própria.');
+    assert.match(diaryCss, /be-section-banner\[data-section="perfil"\]/, 'Perfil precisa ter identidade visual própria.');
+    assert.match(diaryCss, /overflow-wrap:break-word/, 'Textos precisam quebrar dentro das margens em telas estreitas.');
+    assert.match(diaryCss, /be-profile-social-card/, 'O Perfil precisa usar apresentação visual de identidade social.');
 
     const appScript = fs.readFileSync(path.join(root, 'js/fala-bem-app.js'), 'utf8');
     const diaryScript = fs.readFileSync(path.join(root, 'js/meu-caminho-diary.js'), 'utf8');
@@ -325,6 +338,8 @@ async function run() {
     assert.match(appScript, /url\.pathname = routePath/);
     assert.match(appScript, /url\.searchParams\.delete\('tela'\)/);
     assert.match(appScript, /shell\.classList\.toggle\('fb-app-shell-compact', view !== 'inicio'\)/, 'A apresentação deve ficar na Home, não nas subpáginas.');
+    assert.match(appScript, /const sectionBannerContent = \{[\s\S]*progresso:[\s\S]*ferramentas:[\s\S]*perfil:/, 'Jornada, Ferramentas e Perfil precisam de banners contextualizados.');
+    assert.match(appScript, /function renderSectionBanner\(primarySection\)/);
     assert.match(appScript, /source: 'journey_form'/);
     assert.match(appScript, /source: 'be_now'/);
     assert.match(appScript, /function renderBeNow\(/);
@@ -381,18 +396,18 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v83'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v84'/);
     assert.match(serviceWorker, /\/js\/site-common\.js\?v=20260807-1/);
     assert.match(serviceWorker, /\/js\/core\/routes\.js\?v=20260807-1/);
     assert.match(serviceWorker, /\/js\/components\/site-navigation\.js\?v=20260807-1/);
-    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260807-4/);
+    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260807-5/);
     assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
     assert.match(serviceWorker, /\/js\/be-knowledge-library\.js\?v=20260807-1/);
     assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260806-1/);
-    assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260807-3/);
+    assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260807-4/);
     assert.match(serviceWorker, /\/js\/routine-calendar\.js\?v=20260807-1/);
-    assert.match(serviceWorker, /\/css\/meu-caminho-diary\.css\?v=20260807-2/);
+    assert.match(serviceWorker, /\/css\/meu-caminho-diary\.css\?v=20260807-3/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/meu-caminho-be\/'\)/, 'O app precisa continuar acessível offline em suas subpáginas.');
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 

@@ -134,6 +134,26 @@ const viewPresentation = {
   dicas: ['Dicas', '#fb-tips-title'],
   gols: ['Contador de gols', '#fb-goals-view-title']
 };
+const sectionBannerContent = {
+  progresso: {
+    kicker: 'SUA TRAJETÓRIA ESPORTIVA',
+    title: 'Jornada',
+    text: 'Diário, evolução e história reunidos para você compreender seu caminho sem transformar cada dia em cobrança.',
+    mark: '01'
+  },
+  ferramentas: {
+    kicker: 'RECURSOS PARA O DIA A DIA',
+    title: 'Ferramentas',
+    text: 'Planeje, calcule referências e encontre apoio para tomar decisões mais claras sobre sua rotina esportiva.',
+    mark: '02'
+  },
+  perfil: {
+    kicker: 'SUA IDENTIDADE NO ESPORTE',
+    title: 'Perfil',
+    text: 'Organize seu cadastro, sua modalidade e a forma como sua trajetória aparece no Meu Caminho Be.',
+    mark: '03'
+  }
+};
 
 const objectiveLabels = {
   comecar: 'Começar no esporte', saude: 'Melhorar a saúde', emagrecer: 'Criar hábitos saudáveis',
@@ -591,6 +611,22 @@ function resolveView(view) {
   return viewTargets[view] ? view : 'inicio';
 }
 
+function renderSectionBanner(primarySection) {
+  const banner = document.getElementById('be-section-banner');
+  const content = sectionBannerContent[primarySection];
+  if (!banner) return;
+  banner.hidden = !content;
+  if (!content) {
+    delete banner.dataset.section;
+    return;
+  }
+  banner.dataset.section = primarySection;
+  document.getElementById('be-section-banner-kicker').textContent = content.kicker;
+  document.getElementById('be-section-banner-title').textContent = content.title;
+  document.getElementById('be-section-banner-text').textContent = content.text;
+  document.getElementById('be-section-banner-mark').textContent = content.mark;
+}
+
 function openView(requestedView, options = {}) {
   if (isMinorRestrictedProfile() && ['jornada', 'progresso', 'perfil'].includes(requestedView)) requestedView = 'inicio';
   const view = resolveView(requestedView);
@@ -614,6 +650,7 @@ function openView(requestedView, options = {}) {
     if (className.startsWith('fb-view-')) document.body.classList.remove(className);
   });
   document.body.classList.add(`fb-view-${view}`);
+  renderSectionBanner(primarySection);
 
   appNavButtons.forEach(button => {
     const selected = button.dataset.fbView === primarySection;
