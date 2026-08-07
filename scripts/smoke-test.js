@@ -196,7 +196,7 @@ async function run() {
     for (const destination of ['inicio', 'progresso', 'ferramentas', 'perfil']) {
       assert.match(pathHtml, new RegExp(`class="fb-app-nav"[\\s\\S]*?data-fb-view="${destination}"`), `Navegação principal ausente: ${destination}`);
     }
-    assert.match(pathHtml, /class="fb-nav-register" data-be-new-entry/, 'Ação central de registro ausente.');
+    assert.match(pathHtml, /class="[^"]*fb-nav-register[^"]*" data-be-new-entry/, 'Ação central de registro ausente.');
     assert.match(pathHtml, /class="be-journey-switcher"[\s\S]*?data-fb-view="evolucao"/, 'Evolução precisa permanecer dentro da Jornada.');
     assert.equal((pathHtml.match(/class="fb-section-actions(?:\s[^"]*)?"/g) || []).length, 6, 'As seis áreas principais precisam oferecer próximos passos contextuais.');
     assert.match(pathHtml, /id="fb-evolution-days"/);
@@ -220,10 +220,11 @@ async function run() {
     assert.match(pathHtml, /id="be-ia"[^>]*aria-labelledby="be-ia-title"/);
     assert.match(pathHtml, /id="be-ia-context"/);
     assert.match(pathHtml, /id="be-ia-answer"[^>]*aria-live="polite"/);
-    assert.match(pathHtml, /js\/be-ia\.js\?v=20260729-1/);
-    assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260729-5/);
+    assert.match(pathHtml, /js\/be-knowledge-library\.js\?v=20260806-1/);
+    assert.match(pathHtml, /js\/be-ia\.js\?v=20260806-1/);
+    assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260806-2/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260806-2/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260806-3/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
     assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260806-2/);
@@ -250,9 +251,12 @@ async function run() {
     assert.match(pathHtml, /class="fb-app-menu fb-ecosystem-menu"[\s\S]*?data-fb-view="progresso"[\s\S]*?data-fb-view="evolucao"[\s\S]*?data-fb-view="perfil"[\s\S]*?data-fb-view="ferramentas"[\s\S]*?data-fb-view="conteudos"[\s\S]*?data-fb-view="especialistas"/);
 
     const beIa = fs.readFileSync(path.join(root, 'js/be-ia.js'), 'utf8');
+    const knowledgeLibrary = fs.readFileSync(path.join(root, 'js/be-knowledge-library.js'), 'utf8');
     assert.match(beIa, /function getJourneyContext\(profile\)/);
-    assert.match(beIa, /const safetyPatterns = \[/);
-    assert.match(beIa, /function buildResponse\(query, context\)/);
+    assert.match(beIa, /window\.BeKnowledgeLibrary/);
+    assert.match(knowledgeLibrary, /function assessSafety\(query, context/);
+    assert.match(knowledgeLibrary, /function buildResponse\(query, context/);
+    assert.match(knowledgeLibrary, /ALIMENTAÇÃO SEM JULGAMENTO/);
     assert.match(beIa, /bemEsportivo:analytics/);
     assert.doesNotMatch(beIa, /interactions\.push\(\{[^}]*query/, 'A Be IA não deve guardar o texto livre do usuário.');
 
@@ -306,11 +310,12 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v75'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v76'/);
     assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260806-2/);
-    assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260729-5/);
+    assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
-    assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260729-1/);
+    assert.match(serviceWorker, /\/js\/be-knowledge-library\.js\?v=20260806-1/);
+    assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260806-1/);
     assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260806-2/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 

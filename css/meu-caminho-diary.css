@@ -186,3 +186,21 @@ body.fala-bem-app-page .fb-app-shell.fb-app-shell-compact .fb-app-nav{grid-templ
  .be-meals-card{padding:16px;border-radius:17px}.be-meals-card .be-section-heading{align-items:center}.be-meals-card #be-meal-add{min-height:39px;padding:0 13px}.be-meal-dialog{width:100%;max-width:none;max-height:100dvh;margin:auto 0 0;border-radius:24px 24px 0 0}.be-meal-dialog-inner{max-height:100dvh;overflow:auto;padding:20px 18px calc(22px + env(safe-area-inset-bottom))}.be-meal-options{grid-template-columns:1fr}.be-meal-dialog h2{font-size:25px}
  .be-learn-page{padding:19px 15px 88px}.be-learn-feature{min-height:420px;border-radius:20px}.be-learn-feature::after{background:linear-gradient(0deg,rgba(16,14,13,.94),rgba(16,14,13,.08) 70%)}.be-learn-feature>div{align-content:end;min-height:420px;padding:23px}.be-learn-feature h3{font-size:29px}.be-learn-list button{grid-template-columns:38px minmax(0,1fr) auto}
 }
+
+/* Navegação adaptativa: cinco ações no celular e a estrutura editorial completa no desktop. */
+.fb-app-nav .fb-nav-desktop-label,.fb-app-nav .fb-nav-desktop-only{display:none!important}
+@media(min-width:901px){
+ body.fala-bem-app-page .fb-app-nav .fb-nav-mobile-label,
+ body.fala-bem-app-page .fb-app-nav .fb-nav-mobile-only{display:none!important}
+ body.fala-bem-app-page .fb-app-nav .fb-nav-desktop-label{display:block!important}
+ body.fala-bem-app-page .fb-app-nav .fb-nav-desktop-only{display:grid!important}
+ body.fala-bem-app-page .fb-app-shell.fb-app-shell-compact .fb-app-nav{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+}
+@media(max-width:900px){
+ body.fala-bem-app-page .fb-app-nav .fb-nav-desktop-label,
+ body.fala-bem-app-page .fb-app-nav .fb-nav-desktop-only{display:none!important}
+ body.fala-bem-app-page .fb-app-nav .fb-nav-mobile-label{display:block!important}
+ body.fala-bem-app-page .fb-app-nav .fb-nav-mobile-only{display:grid!important;order:3}
+ body.fala-bem-app-page .fb-app-nav .fb-nav-tools{order:4}
+ body.fala-bem-app-page .fb-app-nav .fb-nav-profile{order:5}
+}

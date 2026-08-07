@@ -238,6 +238,7 @@ body.fala-bem-app-page .be-ia-context li{border-color:#e7e1ed;background:#fff}
 body.fala-bem-app-page .be-ia-form>div{border-color:var(--mcb-line-strong);box-shadow:none}
 body.fala-bem-app-page .be-ia-answer{border:0;border-radius:16px;background:#28212f;box-shadow:none}
 body.fala-bem-app-page .be-ia-answer :is(h3,h4){color:#fff!important}
+body.fala-bem-app-page .be-ia-source{display:block;margin-top:12px;color:#c9bdcf;font-size:.7rem;line-height:1.45}
 
 /* Jornada, evolução e exploração */
 body.fala-bem-app-page .fb-progress-overview{margin-top:18px;padding:15px;border:1px solid var(--mcb-line);border-radius:14px;background:var(--mcb-surface-soft)}

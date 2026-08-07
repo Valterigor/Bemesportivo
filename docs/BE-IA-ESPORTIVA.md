@@ -1,4 +1,6 @@
-# Be IA Esportiva
+# Be IA Esportiva — contrato legado
+
+> A implementação atual foi substituída pela **Biblioteca BeM**, descrita em `docs/BIBLIOTECA-BEM.md`. Este documento permanece como histórico das decisões iniciais e não deve ser usado como fonte editorial vigente.
 
 ## Propósito
 

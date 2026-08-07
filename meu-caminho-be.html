@@ -30,8 +30,8 @@
 <link rel="stylesheet" href="css/photo-checkin.css?v=20260723-1">
 <link rel="stylesheet" href="css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
-<link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260729-5">
-<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260806-2">
+<link rel="stylesheet" href="css/meu-caminho-modern.css?v=20260806-1">
+<link rel="stylesheet" href="css/meu-caminho-diary.css?v=20260806-3">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -170,11 +170,13 @@
 </header>
 
 <nav class="fb-app-nav" aria-label="Navegação do Meu Caminho Be">
-<button type="button" class="active" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg><span>Início</span></button>
-<button type="button" data-fb-view="progresso"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg><span>Jornada</span></button>
-<button type="button" class="fb-nav-register" data-be-new-entry aria-label="Registrar uma atividade"><i aria-hidden="true">＋</i><span>Registrar</span></button>
-<button type="button" data-fb-view="ferramentas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg><span>Ferramentas</span></button>
-<button type="button" data-fb-view="perfil"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg><span>Perfil</span></button>
+<button type="button" class="active" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg><span class="fb-nav-mobile-label">Início</span><span class="fb-nav-desktop-label">Meu Hoje</span></button>
+<button type="button" data-fb-view="progresso"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg><span class="fb-nav-mobile-label">Jornada</span><span class="fb-nav-desktop-label">Meu Diário</span></button>
+<button type="button" class="fb-nav-desktop-only" data-fb-view="evolucao"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"></path></svg><span>Evolução</span></button>
+<button type="button" class="fb-nav-desktop-only" data-fb-view="explorar"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 21V4m0 2h10l-2 3 2 3H6"></path></svg><span>História</span></button>
+<button type="button" class="fb-nav-register fb-nav-mobile-only" data-be-new-entry aria-label="Registrar uma atividade"><i aria-hidden="true">＋</i><span>Registrar</span></button>
+<button type="button" class="fb-nav-profile" data-fb-view="perfil"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg><span class="fb-nav-mobile-label">Perfil</span><span class="fb-nav-desktop-label">Eu</span></button>
+<button type="button" class="fb-nav-tools" data-fb-view="ferramentas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg><span>Ferramentas</span></button>
 </nav>
 
 <div class="fb-app-panel active" data-fb-panel="inicio">
@@ -321,9 +323,9 @@
 <section class="be-ia" id="be-ia" aria-labelledby="be-ia-title" hidden>
 <header class="be-ia-head">
 <span class="be-ia-mark" aria-hidden="true">Be</span>
-<div><span>BE IA ESPORTIVA · BETA</span><h2 id="be-ia-title">Uma orientação que conhece sua jornada.</h2><p>Conte como você está. A resposta considera seu momento, objetivo, prática e histórico neste aparelho.</p></div>
+<div><span>BIBLIOTECA BEM · ORIENTAÇÃO LOCAL</span><h2 id="be-ia-title">Conteúdo humano para o seu momento.</h2><p>Conte como você está. A Biblioteca BeM cruza sua jornada com orientações esportivas revisadas, sem depender de IA generativa ou internet.</p></div>
 </header>
-<ul class="be-ia-context" id="be-ia-context" aria-label="Contexto usado pela Be IA"></ul>
+<ul class="be-ia-context" id="be-ia-context" aria-label="Contexto usado pela Biblioteca BeM"></ul>
 <div class="be-ia-prompts" role="group" aria-label="Situações frequentes">
 <button type="button" data-be-ia-prompt="Estou sem vontade de treinar.">Sem vontade</button>
 <button type="button" data-be-ia-prompt="Hoje tenho pouco tempo. O que faço?">Pouco tempo</button>
@@ -341,6 +343,7 @@
 <p id="be-ia-answer-message"></p>
 <section class="be-ia-next" aria-labelledby="be-ia-next-title"><span>PASSO POSSÍVEL</span><h4 id="be-ia-next-title"></h4><p id="be-ia-next-detail"></p></section>
 <details><summary>Por que recebi esta orientação?</summary><ul id="be-ia-reasons"></ul></details>
+<small class="be-ia-source" id="be-ia-source"></small>
 <div class="be-ia-actions"><button type="button" class="fb-primary-action" id="be-ia-primary"></button><button type="button" id="be-ia-secondary"></button></div>
 <footer><span>Isso ajudou?</span><button type="button" data-be-ia-feedback="yes" aria-label="Sim, esta orientação ajudou">Sim</button><button type="button" data-be-ia-feedback="no" aria-label="Não, esta orientação não ajudou">Não</button><small id="be-ia-feedback-status" role="status" aria-live="polite"></small></footer>
 </article>
@@ -1503,7 +1506,8 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="js/meu-caminho-account.js?v=20260806-1"></script>
 <script src="js/coluna-valtinho.js?v=20260722-2" defer></script>
 <script src="js/fala-bem-app.js?v=20260806-2" defer></script>
-<script src="js/be-ia.js?v=20260729-1" defer></script>
+<script src="js/be-knowledge-library.js?v=20260806-1" defer></script>
+<script src="js/be-ia.js?v=20260806-1" defer></script>
 <script src="js/meu-caminho-diary.js?v=20260806-2" defer></script>
 
 </body>
