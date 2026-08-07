@@ -6,6 +6,38 @@
 
 Essa distinção orienta produto, conteúdo, navegação e linguagem.
 
+## Arquitetura oficial da experiência
+
+O percurso principal do produto é:
+
+```text
+Home pública → conteúdo ou reportagem → Meu Caminho Be → planejamento → registro → memória e evolução
+```
+
+A Home apresenta as áreas do ecossistema sem assumir o papel de painel pessoal. Sua abertura preserva esta ordem:
+
+1. **Destaques** — manifesto da marca e seleção editorial atual.
+2. **Seu diário esportivo digital** — entrada direta para registrar uma atividade.
+3. **Ponte para a trajetória** — explica a relação entre conteúdo e Meu Caminho Be.
+4. **Descubra seu caminho no esporte** — organiza os próximos passos do ecossistema.
+
+Capas e imagens editoriais aprovadas não devem ser substituídas durante ajustes estruturais. Mudanças de ordem, navegação ou texto precisam manter a hierarquia visual e ser validadas em desktop e mobile.
+
+## Navegação pública oficial
+
+O menu principal, na mesma ordem em todas as páginas públicas, é:
+
+1. Início;
+2. Meu Caminho Be;
+3. Perfil do atleta;
+4. Game 3D;
+5. Reportagens;
+6. BEplay;
+7. Profissionais;
+8. Produtos.
+
+`js/core/routes.js` é a fonte compartilhada desse menu. A Home mantém sua apresentação própria, mas deve respeitar o mesmo conteúdo e a mesma ordem. Se um item mudar, o teste funcional precisa ser atualizado para impedir divergência entre páginas.
+
 ## Papel de cada ambiente
 
 ### BeMEsportivo.com
@@ -44,6 +76,12 @@ experiência aproxima da prática
         ↓
 Meu Caminho Be transforma em ação e memória
 ```
+
+## Regra para respostas e automação
+
+A Biblioteca BeM é o comportamento padrão para respostas, devolutivas e mensagens de continuidade. Ela deve funcionar localmente, com regras determinísticas, conteúdo real da área esportiva e linguagem revisável.
+
+IA é uma camada opcional. Sua indisponibilidade nunca pode impedir planejamento, registro, consulta da jornada, exportação ou recuperação dos dados. Quando usada, não pode diagnosticar, prescrever, substituir profissional habilitado nem modificar silenciosamente o histórico da pessoa.
 
 ## Frases centrais da marca
 

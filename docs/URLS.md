@@ -21,6 +21,16 @@
 
 O Game permanece temporariamente em `/game.html` para preservar integrações existentes. Modalidades futuras devem usar `/modalidades/{slug}`, por exemplo `/modalidades/futebol` e `/modalidades/corrida`, somente quando houver conteúdo próprio suficiente.
 
+## Menu público
+
+Todas as páginas públicas compartilham esta ordem:
+
+```text
+Início → Meu Caminho Be → Perfil do atleta → Game 3D → Reportagens → BEplay → Profissionais → Produtos
+```
+
+O Perfil do atleta abre `/meu-caminho-be#perfil`. Links com hash do Meu Caminho Be permanecem aceitos por compatibilidade, enquanto as telas principais utilizam o parâmetro `tela` internamente.
+
 ## Regras
 
 - URL canônica pública sem `.html`, exceto legados documentados.

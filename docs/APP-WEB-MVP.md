@@ -6,15 +6,15 @@ O Meu Caminho Be funciona como um aplicativo web instalável, mobile-first e com
 
 ## Navegação principal
 
-No mobile, o app possui cinco destinos fixos:
+No mobile, a barra inferior possui quatro destinos e uma ação central:
 
-1. **Hoje** — ação principal, registro diário e orientação do momento.
-2. **Jornada** — missão atual, etapas e conclusão do ciclo.
-3. **Evolução** — semana, sequência, registros, nível e leitura do histórico.
-4. **Explorar** — conteúdos, ferramentas, profissionais, modalidades, comunidade e contador de gols.
-5. **Perfil** — identidade esportiva, conta, sincronização, exportação e exclusão.
+1. **Início** — plano do dia, registro diário e orientação do momento.
+2. **Jornada** — diário, história e continuidade da trajetória.
+3. **Registrar** — abre diretamente o formulário de atividade.
+4. **Perfil** — identidade esportiva, conta, sincronização, exportação e exclusão.
+5. **Ferramentas** — recursos práticos do Meu Caminho Be.
 
-Os destinos ficam na barra inferior e respeitam a área segura do aparelho. No desktop, o menu lateral oferece sete acessos diretos: **Meu Hoje**, **Jornada da Semana**, **Perfil**, **Ferramentas**, **Conteúdos**, **Profissionais** e **Gols**. Evolução e os demais recursos continuam acessíveis dentro das áreas contextuais.
+Os destinos respeitam a área segura do aparelho. No desktop, o menu lateral oferece seis acessos diretos, na ordem aprovada: **Meu Hoje**, **Meu Diário**, **Evolução**, **História**, **Eu** e **Ferramentas**. Conteúdos, profissionais, modalidades, comunidade, dicas e contador de gols continuam acessíveis de maneira contextual, sem sobrecarregar a navegação principal.
 
 Cada troca de área atualiza o título da página, anuncia a tela para tecnologia assistiva e posiciona o foco no título principal.
 
@@ -122,7 +122,7 @@ O Netlify Blobs atende esta etapa de MVP. Antes de consultas relacionais, compar
 2. Criar o Mapa BeM.
 3. Registrar o Meu Hoje.
 4. Confirmar atualização de Hoje e Evolução.
-5. Navegar pelas cinco áreas usando apenas a barra inferior e pelos sete acessos diretos do menu lateral no desktop.
+5. Navegar pelos quatro destinos e pela ação Registrar na barra inferior, e pelos seis acessos diretos do menu lateral no desktop.
 6. Recarregar uma URL com `?tela=evolucao`.
 7. Instalar o app e abrir pelo ícone.
 8. Desconectar a rede e confirmar acesso ao app local.

@@ -197,8 +197,8 @@ async function run() {
     assert.doesNotMatch(homeHtml, /<h2>Meu Caminho Be<\/h2>/, 'Meu Caminho Be não deve ser usado como nome de coluna editorial.');
     assert.match(reportListing, /class="report-path-bridge"[\s\S]*Conhecer o Meu Caminho Be/);
     const routesScript = fs.readFileSync(path.join(root, 'js', 'core', 'routes.js'), 'utf8');
-    assert.match(routesScript, /'\/reportagens', 'Reportagens'[\s\S]*'\/#pessoas', 'Histórias'[\s\S]*'\/#treinos', 'Conteúdos'/);
-    assert.match(routesScript, /'\/meu-caminho-be', 'Meu Caminho Be'/);
+    assert.match(routesScript, /'\/meu-caminho-be', 'Meu Caminho Be'[\s\S]*'\/meu-caminho-be#perfil', 'Perfil do atleta'[\s\S]*'\/game\.html', 'Game 3D'[\s\S]*'\/reportagens', 'Reportagens'[\s\S]*'\/beplay', 'BEplay'[\s\S]*'\/profissionais', 'Profissionais'[\s\S]*'\/produtos', 'Produtos'/);
+    assert.doesNotMatch(routesScript, /'\/#treinos'|'\/#pessoas'/, 'O menu compartilhado não deve reintroduzir atalhos removidos da navegação principal.');
     assert.doesNotMatch(elasReport, /mulheres-em-acao-funcional-serra-talhada/);
     for (const image of ['mulheres-em-movimento-serra-talhada-sem-logo-640.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-960.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-1440.webp']) {
       assert.ok(fs.existsSync(path.join(root, 'img', image)), `Imagem da reportagem ausente: ${image}`);
@@ -332,7 +332,10 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v78'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v79'/);
+    assert.match(serviceWorker, /\/js\/site-common\.js\?v=20260806-1/);
+    assert.match(serviceWorker, /\/js\/core\/routes\.js\?v=20260806-1/);
+    assert.match(serviceWorker, /\/js\/components\/site-navigation\.js\?v=20260806-1/);
     assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260806-4/);
     assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
