@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="/css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="/css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="/css/meu-caminho-modern.css?v=20260806-1">
-<link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260807-3">
+<link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260807-4">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -170,11 +170,11 @@
 </header>
 
 <nav class="fb-app-nav" aria-label="Navegação do Meu Caminho Be">
-<button type="button" class="active" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg><span>Início</span></button>
-<button type="button" data-fb-view="progresso"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg><span>Jornada</span></button>
-<button type="button" class="fb-nav-register" data-be-new-entry aria-label="Registrar uma atividade"><i aria-hidden="true">＋</i><span>Registrar</span></button>
-<button type="button" class="fb-nav-tools" data-fb-view="ferramentas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg><span>Ferramentas</span></button>
-<button type="button" class="fb-nav-profile" data-fb-view="perfil"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg><span>Perfil</span></button>
+<a class="active" href="/meu-caminho-be" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg><span>Início</span></a>
+<a href="/meu-caminho-be/jornada" data-fb-view="progresso"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg><span>Jornada</span></a>
+<a class="fb-nav-register" href="/meu-caminho-be/registrar" data-fb-view="registrar" aria-label="Abrir a página de registro"><i aria-hidden="true">＋</i><span>Registrar</span></a>
+<a class="fb-nav-tools" href="/meu-caminho-be/ferramentas" data-fb-view="ferramentas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg><span>Ferramentas</span></a>
+<a class="fb-nav-profile" href="/meu-caminho-be/perfil" data-fb-view="perfil"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg><span>Perfil</span></a>
 </nav>
 
 <section class="be-section-banner" id="be-section-banner" aria-labelledby="be-section-banner-title" hidden>
@@ -710,12 +710,33 @@
 </div>
 </div>
 
+<div class="fb-app-panel be-register-panel" data-fb-panel="registrar" hidden>
+<main class="be-register-page" aria-labelledby="be-register-page-title">
+<header><span>REGISTRAR</span><h2 id="be-register-page-title">Guarde o que você viveu no esporte.</h2><p>Um registro simples transforma atividades soltas em uma trajetória que você consegue acompanhar.</p></header>
+<section class="be-register-invitation"><div><span aria-hidden="true">＋</span><div><strong>Novo registro</strong><p>Informe atividade, duração, resultado e como você se sentiu. Você poderá editar depois.</p></div></div><button type="button" data-be-new-entry>Registrar minha atividade</button></section>
+<ol class="be-register-guide" aria-label="Como funciona o registro"><li><span>1</span><div><strong>Conte o que fez</strong><p>Escolha a atividade e a data.</p></div></li><li><span>2</span><div><strong>Registre os detalhes</strong><p>Duração, distância e uma lembrança são opcionais.</p></div></li><li><span>3</span><div><strong>Continue sua história</strong><p>O registro aparece imediatamente na Jornada.</p></div></li></ol>
+<aside><strong>Seus registros ficam neste aparelho.</strong><p>Você mantém o controle e pode ativar a continuidade protegida pelo Perfil.</p></aside>
+</main>
+</div>
+
 <div class="fb-app-panel fb-profile-panel" data-fb-panel="perfil" hidden>
 <section class="fb-profile-next-step" id="fb-profile-next-step" aria-labelledby="fb-profile-next-title" hidden>
 <span>SEU PRÓXIMO PASSO</span>
 <h3 id="fb-profile-next-title">Antes de começar, converse com um profissional.</h3>
 <p>As respostas do questionário de contexto e segurança indicam que uma orientação individual é o caminho mais seguro antes de iniciar ou retomar exercícios.</p>
 <div><button type="button" class="fb-primary-action" id="fb-profile-next-professionals">Encontrar um profissional</button><button type="button" data-fb-view="inicio">Ir para Meu Hoje</button></div>
+</section>
+<section class="be-profile-presentation" id="be-profile-presentation" aria-labelledby="be-profile-display-name" hidden>
+<div class="be-profile-presentation-cover"><span>MEU CAMINHO BE</span><strong>Minha trajetória esportiva</strong></div>
+<div class="be-profile-presentation-body">
+<div class="be-profile-presentation-avatar"><img id="be-profile-card-photo" alt="Foto do perfil esportivo" hidden><span id="be-profile-card-fallback" aria-hidden="true">BE</span></div>
+<div class="be-profile-presentation-identity"><span>PERFIL ESPORTIVO</span><h2 id="be-profile-display-name" tabindex="-1">Seu perfil</h2><p id="be-profile-display-handle">@meucaminhobe</p><div id="be-profile-display-tags" class="be-profile-display-tags"></div></div>
+<button type="button" id="be-profile-edit" class="be-profile-edit-action">Editar perfil</button>
+</div>
+<p class="be-profile-presentation-bio" id="be-profile-display-bio">O esporte faz parte da minha história.</p>
+<dl class="be-profile-social-stats"><div><dt id="be-profile-stat-records">0</dt><dd>registros</dd></div><div><dt id="be-profile-stat-days">0</dt><dd>dias ativos</dd></div><div><dt id="be-profile-stat-sports">1</dt><dd>modalidade</dd></div><div><dt id="be-profile-stat-since">Hoje</dt><dd>no caminho</dd></div></dl>
+<div class="be-profile-presentation-actions"><a href="/meu-caminho-be/jornada" data-fb-view="progresso">Ver minha jornada</a><a href="/meu-caminho-be/registrar" data-fb-view="registrar">Registrar atividade</a></div>
+<p class="be-profile-presentation-status" id="be-profile-presentation-status" role="status">Perfil salvo neste aparelho.</p>
 </section>
 <form id="fb-profile-form" class="fb-profile-form">
 <section class="be-profile-social-card" aria-labelledby="fb-profile-title">
@@ -758,7 +779,7 @@
 <div class="fb-profile-summary" id="fb-profile-summary"></div>
 </div>
 </section>
-<footer class="be-profile-form-footer"><p class="be-profile-privacy">🔒 Seus dados ficam neste aparelho e só entram na nuvem quando você ativa a continuidade criptografada.</p><button type="submit" class="fb-primary-action" id="fb-profile-save">Salvar meu cadastro</button></footer>
+<footer class="be-profile-form-footer"><p class="be-profile-privacy">🔒 Seus dados ficam neste aparelho e só entram na nuvem quando você ativa a continuidade criptografada.</p><div><button type="button" id="be-profile-cancel-edit" hidden>Cancelar</button><button type="submit" class="fb-primary-action" id="fb-profile-save">Salvar e ver meu perfil</button></div></footer>
 </form>
 <p class="fb-profile-feedback" id="fb-profile-feedback" aria-live="polite"></p>
 <nav class="fb-section-actions" aria-label="Próximos passos após o perfil">
@@ -1500,7 +1521,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <script type="module" src="/js/routine-calendar.js?v=20260807-1"></script>
 <script type="module" src="/js/meu-caminho-account.js?v=20260806-1"></script>
 <script src="/js/coluna-valtinho.js?v=20260722-2" defer></script>
-<script src="/js/fala-bem-app.js?v=20260807-5" defer></script>
+<script src="/js/fala-bem-app.js?v=20260807-6" defer></script>
 <script src="/js/be-knowledge-library.js?v=20260807-1" defer></script>
 <script src="/js/be-ia.js?v=20260806-1" defer></script>
 <script src="/js/meu-caminho-diary.js?v=20260807-4" defer></script>
