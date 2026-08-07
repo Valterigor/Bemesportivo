@@ -4,6 +4,9 @@
 const shell = document.getElementById('fala-bem-app');
 if (!shell) return;
 
+const toolsMount = document.getElementById('fb-tools-mount');
+const toolsSection = document.getElementById('ferramentas');
+if (toolsMount && toolsSection) toolsMount.append(toolsSection);
 const panels = [...shell.querySelectorAll('[data-fb-panel]')];
 const navigationButtons = [...document.querySelectorAll('[data-fb-view]')];
 const appNavButtons = [...shell.querySelectorAll('.fb-app-nav [data-fb-view]')];
@@ -709,7 +712,7 @@ function normalizeAppPath(pathname = location.pathname) {
 function viewFromAppPath(pathname = location.pathname) {
   const path = normalizeAppPath(pathname);
   if (path === APP_BASE_PATH) return 'inicio';
-  if (path === `${APP_BASE_PATH}/jornada`) return currentProfile?.objective ? 'progresso' : 'jornada';
+  if (path === `${APP_BASE_PATH}/jornada`) return 'progresso';
   const match = Object.entries(appPathForView).find(([, routePath]) => routePath === path);
   return match?.[0] || null;
 }
@@ -758,10 +761,7 @@ navigationButtons.forEach(button => {
       openDailyJournal();
       return;
     }
-    const requestedView = button.dataset.fbView;
-    const isPrimaryNavigation = button.closest('.fb-app-nav,.fb-mobile-drawer');
-    const view = requestedView === 'progresso' && !currentProfile?.objective && isPrimaryNavigation ? 'jornada' : requestedView;
-    openView(view);
+    openView(button.dataset.fbView);
   });
 });
 
