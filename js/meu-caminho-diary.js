@@ -353,7 +353,9 @@
       const months = Math.floor(elapsedDays / 30);
       $('#be-dashboard-since').textContent = months
         ? `Você registra sua jornada há ${months} ${months === 1 ? 'mês' : 'meses'}.`
-        : 'Sua jornada esportiva está começando agora.';
+        : 'Sua jornada esportiva está começando agora. Não existe começo pequeno.';
+    } else {
+      $('#be-dashboard-since').textContent = 'Seu caminho não precisa ser perfeito. Precisa fazer sentido para você.';
     }
 
     const goals = {

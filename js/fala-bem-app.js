@@ -2388,17 +2388,17 @@ function renderHomeDashboard() {
   document.getElementById('fb-home-week-count').textContent = `${registeredDays} de ${weeklyTarget} dias registrado${registeredDays === 1 ? '' : 's'}`;
   document.getElementById('fb-home-streak').textContent = `${game.streak} dia${game.streak === 1 ? '' : 's'}`;
   document.getElementById('fb-home-streak-message').textContent = game.streak
-    ? 'Cada novo dia registrado mantém sua história em movimento.'
-    : 'Seu primeiro registro inicia a sequência.';
+    ? 'Sua sequência mostra presença, não obrigação.'
+    : 'Seu primeiro registro não precisa ser perfeito. Só precisa ser verdadeiro.';
   document.getElementById('fb-home-level').textContent = `Nível ${game.level}`;
   document.getElementById('fb-home-xp').textContent = `${game.xp} XP · ${game.levelName}`;
   document.getElementById('fb-home-dashboard-title').textContent = currentProfile?.name ? `Olá, ${currentProfile.name} 👋` : 'Olá 👋';
   document.getElementById('fb-home-return-message').textContent = currentProfile?.name
-    ? `Hoje você está no nível ${identityLabel}. O objetivo atual é ${objectiveLabel.toLocaleLowerCase('pt-BR')}.`
-    : `Hoje você está no nível ${identityLabel}. Seu objetivo atual já aparece aqui quando o perfil está salvo.`;
+    ? `Este é o retrato do seu momento: ${identityLabel.toLocaleLowerCase('pt-BR')}, com o objetivo de ${objectiveLabel.toLocaleLowerCase('pt-BR')}.`
+    : 'Este é o lugar para reconhecer seu momento e escolher como continuar.';
   document.getElementById('fb-home-hero-title').textContent = currentProfile?.name
-    ? `${currentProfile.name}, seu caminho ganha forma quando o painel responde ao que você faz.`
-    : 'Seu caminho ganha forma quando o painel responde ao que você faz.';
+    ? `${currentProfile.name}, cada registro ajuda você a entender a própria história.`
+    : 'Cada registro ajuda você a entender a própria história.';
   document.getElementById('fb-home-hero-text').textContent = todayLog
     ? `Hoje já existe um registro. O painel abaixo está refletindo seu ritmo, sua sequência e seu próximo passo.`
     : `Complete um registro simples para ver progresso, sequência, nível e próximos passos mudarem em tempo real.`;
@@ -2423,8 +2423,8 @@ function renderHomeDashboard() {
   const primary = document.getElementById('fb-home-primary');
   primary.textContent = todayLog ? 'Atualizar Meu Hoje' : 'Registrar Meu Hoje';
   document.getElementById('fb-home-return-message').textContent = currentProfile?.name
-    ? `Hoje você está no nível ${identityLabel}. O objetivo atual é ${objectiveLabel.toLocaleLowerCase('pt-BR')}.`
-    : `Hoje você está no nível ${identityLabel}. Seu objetivo atual já aparece aqui quando o perfil está salvo.`;
+    ? `Este é o retrato do seu momento: ${identityLabel.toLocaleLowerCase('pt-BR')}, com o objetivo de ${objectiveLabel.toLocaleLowerCase('pt-BR')}.`
+    : 'Este é o lugar para reconhecer seu momento e escolher como continuar.';
   document.getElementById('fb-home-next-title').textContent = todayLog ? nextMission : 'Comece pelo registro de hoje.';
   document.getElementById('fb-home-next-summary').textContent = todayLog
     ? 'Sua próxima missão continua disponível na Jornada da Semana.'
@@ -4323,6 +4323,11 @@ function openLinkedContentFromHash() {
 
   try {
     const requestedView = decodeURIComponent(window.location.hash.slice(1));
+    if (requestedView === 'registrar') {
+      openView('inicio', { scroll: false, focus: false, instant: true, route: false });
+      window.setTimeout(() => document.querySelector('[data-be-new-entry]')?.click(), 220);
+      return true;
+    }
     const legacyView = {
       gols: 'gols',
       perfil: 'perfil',

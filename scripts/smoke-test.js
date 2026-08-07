@@ -139,6 +139,7 @@ async function run() {
     assert.equal((await reportVideo.arrayBuffer()).byteLength, 1024);
 
     const pathHtml = fs.readFileSync(path.join(root, 'meu-caminho-be.html'), 'utf8');
+    const reportListing = fs.readFileSync(path.join(root, 'reportagens.html'), 'utf8');
     const elasReport = fs.readFileSync(path.join(root, 'reportagem-elas-em-movimento-serra-talhada.html'), 'utf8');
     assert.match(elasReport, /Mulheres em ação e movimento/);
     assert.match(elasReport, /Shuenia Menezes e Daiana Cruz/);
@@ -153,7 +154,7 @@ async function run() {
     assert.ok(fs.existsSync(path.join(root, 'img', 'elas-em-movimento-video-poster.jpg')));
     assert.match(elasReport, /<div class="elas-story-header">/);
     assert.doesNotMatch(elasReport, /<header class="elas-story-header">/);
-    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260805-11/);
+    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260806-1/);
     assert.doesNotMatch(elasReport, /elas-photo-badge/);
     assert.match(elasReport, /mulheres-em-movimento-serra-talhada-interna\.jpg/);
     assert.match(elasReport, /class="report-byline"[\s\S]*4 min de leitura/);
@@ -166,6 +167,11 @@ async function run() {
     assert.match(elasReport, /class="report-lead"/);
     assert.equal((elasReport.match(/class="report-related-meta"/g) || []).length, 3);
     assert.match(elasReport, /report-related[\s\S]*banner-treino-funcional-professores-v3-640\.webp[\s\S]*IMG_0957-optimized\.webp[\s\S]*duda\.jpg/);
+    for (const reportFile of ['reportagem-elas-em-movimento-serra-talhada.html', 'reportagem-treino-funcional.html', 'reportagem-dedicacao-talento-mirim.html', 'reportagem-duda-e-o-futebol.html']) {
+      const reportHtml = fs.readFileSync(path.join(root, reportFile), 'utf8');
+      assert.match(reportHtml, /reportagens\.css\?v=20260806-1/, `A reportagem precisa carregar a ponte editorial atualizada: ${reportFile}`);
+      assert.match(reportHtml, /class="report-path-bridge"[\s\S]*Começar minha trajetória/, `A reportagem precisa conectar leitura e trajetória: ${reportFile}`);
+    }
     for (const image of ['mulheres-em-movimento-serra-talhada-interna.jpg', 'mulheres-em-movimento-serra-talhada-interna-640.webp', 'mulheres-em-movimento-serra-talhada-interna-960.webp', 'mulheres-em-movimento-serra-talhada-interna-1440.webp']) {
       assert.ok(fs.existsSync(path.join(root, 'img', image)), `Imagem interna da reportagem ausente: ${image}`);
     }
@@ -180,6 +186,17 @@ async function run() {
     assert.match(homeHtml, /class="hero-slide hero-slide-news hero-slide-elas active"/);
     assert.match(homeHtml, /<main>\s*<section class="shell ecosystem-highlights" id="destaques"/, 'Destaques precisa ser a primeira seção da Home.');
     assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
+    assert.match(homeHtml, /class="home-manifesto"[\s\S]*<h1>O esporte começa <strong>com pessoas\.<\/strong><\/h1>/, 'A Home precisa abrir com o manifesto da marca em uma linha.');
+    assert.match(homeHtml, /class="shell ecosystem-hero home-path-feature"[\s\S]*Seu diário<\/span>\s*<span>esportivo digital\./, 'A seção abaixo dos destaques precisa apresentar o Meu Caminho Be.');
+    assert.match(homeHtml, /href="\/meu-caminho-be#registrar">Registrar minha atividade<\/a>/, 'A chamada da Home precisa abrir o registro de atividade.');
+    assert.doesNotMatch(homeHtml, /class="home-path-feature"[\s\S]*Dados ficam neste aparelho[\s\S]*<\/section>/, 'A prévia da Home não deve exibir o estado local do aparelho.');
+    assert.match(homeHtml, /href="\/meu-caminho-be"[\s\S]*Meu Caminho Be[\s\S]*href="\/meu-caminho-be#perfil"[\s\S]*Perfil do atleta[\s\S]*href="\/game\.html"[\s\S]*Game 3D[\s\S]*href="\/reportagens"[\s\S]*Reportagens[\s\S]*href="\/beplay"[\s\S]*BEplay[\s\S]*href="\/profissionais"[\s\S]*Profissionais[\s\S]*href="\/produtos"[\s\S]*Produtos/, 'A Home precisa preservar o menu principal do Bem Esportivo.');
+    assert.match(homeHtml, /O conteúdo inspira\. A sua história começa quando você <span>vive o esporte\.<\/span>/);
+    assert.doesNotMatch(homeHtml, /<h2>Meu Caminho Be<\/h2>/, 'Meu Caminho Be não deve ser usado como nome de coluna editorial.');
+    assert.match(reportListing, /class="report-path-bridge"[\s\S]*Conhecer o Meu Caminho Be/);
+    const routesScript = fs.readFileSync(path.join(root, 'js', 'core', 'routes.js'), 'utf8');
+    assert.match(routesScript, /'\/reportagens', 'Reportagens'[\s\S]*'\/#pessoas', 'Histórias'[\s\S]*'\/#treinos', 'Conteúdos'/);
+    assert.match(routesScript, /'\/meu-caminho-be', 'Meu Caminho Be'/);
     assert.doesNotMatch(elasReport, /mulheres-em-acao-funcional-serra-talhada/);
     for (const image of ['mulheres-em-movimento-serra-talhada-sem-logo-640.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-960.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-1440.webp']) {
       assert.ok(fs.existsSync(path.join(root, 'img', image)), `Imagem da reportagem ausente: ${image}`);
@@ -223,11 +240,11 @@ async function run() {
     assert.match(pathHtml, /js\/be-knowledge-library\.js\?v=20260806-1/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260806-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260806-2/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260806-4/);
     assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260806-3/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
-    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260806-2/);
+    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260806-3/);
     assert.doesNotMatch(pathHtml, /class="be-showcase-phones"/);
     for (const id of ['be-quick-form', 'be-entry-form', 'be-diary-timeline', 'be-week-chart', 'be-history-timeline']) {
       assert.match(pathHtml, new RegExp(`id="${id}"`), `Experiência de diário ausente: ${id}`);
@@ -259,6 +276,9 @@ async function run() {
     assert.match(knowledgeLibrary, /ALIMENTAÇÃO SEM JULGAMENTO/);
     assert.match(beIa, /bemEsportivo:analytics/);
     assert.doesNotMatch(beIa, /interactions\.push\(\{[^}]*query/, 'A Be IA não deve guardar o texto livre do usuário.');
+
+    const pathApp = fs.readFileSync(path.join(root, 'js/fala-bem-app.js'), 'utf8');
+    assert.match(pathApp, /requestedView === 'registrar'[\s\S]*?querySelector\('\[data-be-new-entry\]'\)\?\.click\(\)/, 'A chamada Registrar minha atividade precisa abrir o formulário real.');
 
     const platformCss = fs.readFileSync(path.join(root, 'css/fala-bem-platform.css'), 'utf8');
     assert.match(platformCss, /@media\(min-width:761px\)\{[\s\S]*?body\.fala-bem-app-page \.fb-app-nav\{[\s\S]*?position:static;/);
@@ -310,13 +330,13 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v76'/);
-    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260806-2/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v78'/);
+    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260806-4/);
     assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
     assert.match(serviceWorker, /\/js\/be-knowledge-library\.js\?v=20260806-1/);
     assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260806-1/);
-    assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260806-2/);
+    assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260806-3/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 
     const syncFunction = fs.readFileSync(path.join(root, 'functions/api/meu-caminho-sync.js'), 'utf8');
