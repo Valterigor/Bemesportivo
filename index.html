@@ -2229,6 +2229,251 @@
       .ecosystem-secondary-action,
       .ecosystem-hub-card { transition: none; }
     }
+
+    .home-redesign > .ecosystem-discovery,
+    .home-redesign > .path-launch,
+    .home-redesign > .brand-film,
+    .home-redesign > .section { display: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .home-redesign { padding-top: 0; }
+    .home-hero-v2 { position: relative; display: grid; grid-template-columns: minmax(300px, .72fr) minmax(0, 1.28fr); align-items: center; min-height: clamp(430px, 58svh, 610px); overflow: hidden; background: linear-gradient(90deg, #fff 0%, #fff 34%, rgba(255,255,255,.78) 50%, rgba(255,255,255,0) 74%); }
+    .home-hero-copy { position: relative; z-index: 3; max-width: 500px; padding: clamp(38px, 6vw, 74px) 0 clamp(64px, 8vw, 104px); }
+    .home-kicker, .home-section-head-v2 > span, .home-journey-copy > span, .home-game-panel span, .home-panel-head > span, .home-report-grid span { color: #ff5a00; font-size: 12px; font-weight: 950; letter-spacing: 0; text-transform: uppercase; }
+    .home-hero-copy h1 { max-width: 10ch; margin: 0 0 16px; color: #050505; font-size: clamp(42px, 5.2vw, 76px); font-weight: 950; line-height: .91; letter-spacing: 0; }
+    .home-hero-copy h1 span, .home-section-head-v2 h2 em, .home-journey-copy h2 em { color: #ff5a00; font-style: normal; }
+    .home-hero-copy p { max-width: 380px; color: #626262; font-size: clamp(14px, 1.5vw, 17px); line-height: 1.5; }
+    .home-hero-actions, .home-primary, .home-secondary, .home-dark-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+    .home-hero-actions { flex-wrap: wrap; margin-top: 22px; }
+    .home-primary, .home-dark-btn { min-height: 48px; padding: 0 22px; border: 0; border-radius: 999px; background: #ff5a00; color: #fff; box-shadow: 0 18px 35px rgba(255,90,0,.25); font-size: 14px; font-weight: 900; }
+    .home-secondary { min-height: 50px; padding: 0 20px; border: 1px solid #e8e1dc; border-radius: 999px; background: #fff; color: #171717; font-size: 14px; font-weight: 850; }
+    .home-hero-media { position: absolute; inset: 0 0 0 34%; overflow: hidden; border-radius: 0 0 0 70px; }
+    .home-hero-media picture, .home-hero-media img { width: 100%; height: 100%; }
+    .home-hero-media img { object-fit: cover; object-position: center; filter: saturate(1.04) contrast(1.03); }
+    .home-hero-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #fff 0, rgba(255,255,255,.88) 15%, rgba(255,255,255,.2) 43%, rgba(255,255,255,0) 100%); }
+    .hero-orbit { position: absolute; border: 1px solid rgba(255,90,0,.35); border-radius: 50%; pointer-events: none; }
+    .hero-orbit-one { width: min(55vw, 760px); aspect-ratio: 1; right: 5%; top: 8%; }
+    .hero-orbit-two { width: min(34vw, 470px); aspect-ratio: 1; right: 16%; top: 22%; background: rgba(255,122,0,.12); }
+    .home-steps { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: -52px; margin-bottom: clamp(54px, 8vw, 92px); }
+    .home-steps article { position: relative; display: grid; gap: 9px; padding-top: 24px; color: #111; }
+    .home-steps article:not(:last-child)::after { content: ""; position: absolute; top: 47px; left: 76px; right: -12px; height: 1px; background: linear-gradient(90deg, rgba(255,90,0,.55), rgba(255,90,0,.12)); }
+    .home-steps span { display: grid; place-items: center; width: 64px; height: 64px; border: 1px solid rgba(17,17,17,.08); border-radius: 50%; background: rgba(255,255,255,.94); box-shadow: 0 16px 34px rgba(17,17,17,.1); color: #ff5a00; }
+    .home-steps svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .home-steps strong { font-size: 16px; font-weight: 950; }
+    .home-steps p { max-width: 210px; color: #717171; font-size: 14px; line-height: 1.45; }
+    .home-section-v2 { margin-bottom: clamp(46px, 7vw, 82px); }
+    .home-section-head-v2 { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 20px; margin-bottom: 24px; }
+    .home-section-head-v2 h2 { max-width: 570px; margin-top: 8px; color: #070707; font-size: clamp(34px, 4vw, 50px); font-weight: 950; line-height: 1; letter-spacing: 0; }
+    .home-section-head-v2 > a, .home-panel-head a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 18px; border: 1px solid #ece6e1; border-radius: 999px; background: #fff; font-size: 13px; font-weight: 900; }
+    .home-card-grid, .home-report-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+    .home-content-card { position: relative; display: flex; min-height: 430px; overflow: hidden; flex-direction: column; justify-content: flex-end; padding: 22px; border-radius: 18px; isolation: isolate; background: #111; color: #fff; scroll-snap-align: start; box-shadow: 0 20px 48px rgba(17,17,17,.12); }
+    .home-content-card img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+    .home-content-card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.78)); }
+    .home-content-card::before { content: "→"; position: absolute; right: 20px; bottom: 20px; z-index: 1; display: grid; width: 36px; height: 36px; place-items: center; border: 1px solid rgba(255,90,0,.9); border-radius: 50%; color: #ff5a00; font-size: 18px; font-weight: 900; }
+    .home-content-card:nth-child(3) img,
+    .home-content-card:nth-child(4) img { object-position: center 22%; }
+    .home-content-card:hover img { transform: scale(1.04); }
+    .home-content-card span { align-self: flex-start; margin-bottom: 14px; padding: 7px 10px; border-radius: 8px; background: #ff5a00; color: #fff; font-size: 11px; font-weight: 950; text-transform: uppercase; }
+    .home-content-card h3 { max-width: calc(100% - 34px); font-size: 22px; line-height: 1.08; }
+    .home-content-card small, .home-report-grid small { margin-top: 18px; color: rgba(255,255,255,.78); font-size: 13px; }
+    .home-journey { position: relative; display: grid; grid-template-columns: minmax(280px, .72fr) minmax(0, 1.28fr); min-height: clamp(520px, 48vw, 620px); margin-bottom: clamp(36px, 6vw, 70px); overflow: hidden; border: 1px solid rgba(17,17,17,.08); border-radius: 24px; background: #f8f3ef; box-shadow: 0 18px 60px rgba(17,17,17,.08); isolation: isolate; }
+    .home-journey::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, #fbf6f0 0%, rgba(251,246,240,.94) 25%, rgba(251,246,240,.34) 54%, rgba(251,246,240,0) 76%); pointer-events: none; }
+    .home-journey-copy { position: relative; z-index: 3; display: flex; flex-direction: column; justify-content: center; padding: clamp(30px, 5vw, 58px); }
+    .home-journey-copy h2 { max-width: 11ch; margin: 10px 0 20px; color: #111; font-size: clamp(36px, 4.3vw, 56px); font-weight: 950; line-height: .96; }
+    .home-journey-copy p { max-width: 420px; color: #5f5f5f; font-size: 16px; line-height: 1.7; }
+    .home-dark-btn { align-self: flex-start; margin-top: 28px; background: #090909; box-shadow: none; }
+    .home-journey-media { position: absolute; inset: 0; z-index: 2; min-height: 480px; overflow: hidden; }
+    .home-journey-media picture, .home-journey-media img { width: 100%; height: 100%; }
+    .home-journey-media img { object-fit: cover; object-position: 67% center; transform: scale(1.02); }
+    .home-journey-media::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(248,243,239,.92) 0%, rgba(248,243,239,.74) 31%, rgba(248,243,239,.1) 62%); pointer-events: none; }
+    .home-journey-media::after { content: ""; position: absolute; left: 41%; top: 18%; z-index: 2; width: 38%; height: 58%; border: 2px dashed rgba(255,90,0,.56); border-left: 0; border-bottom: 0; border-radius: 48% 52% 42% 58%; transform: rotate(10deg); filter: drop-shadow(0 0 6px rgba(255,90,0,.3)); pointer-events: none; }
+    .home-journey-media article { position: absolute; z-index: 3; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 0 12px; width: min(255px, 28%); min-height: 86px; align-content: center; padding: 16px 18px; border: 1px solid rgba(17,17,17,.08); border-radius: 18px; background: rgba(255,255,255,.94); box-shadow: 0 18px 40px rgba(17,17,17,.16); backdrop-filter: blur(10px); }
+    .home-journey-media article::before { grid-row: 1 / span 2; display: grid; width: 34px; height: 34px; place-items: center; border: 2px solid #ff5a00; border-radius: 12px; color: #ff5a00; font-size: 22px; line-height: 1; content: "♡"; }
+    .home-journey-media article:nth-of-type(1) { left: 46%; top: 17%; }
+    .home-journey-media article:nth-of-type(2) { left: 38%; top: 39%; }
+    .home-journey-media article:nth-of-type(3) { left: 42%; bottom: 8%; }
+    .home-journey-media article:nth-of-type(4) { right: 14%; top: 6%; }
+    .home-journey-media article:nth-of-type(2)::before { content: "♙"; border-radius: 50%; }
+    .home-journey-media article:nth-of-type(3)::before { content: "↗"; }
+    .home-journey-media article:nth-of-type(4)::before { content: "☆"; }
+    .home-journey-media strong { display: block; color: #161616; font-size: 14px; font-weight: 950; line-height: 1.1; }
+    .home-journey-media small { display: block; margin-top: 5px; color: #696969; font-size: 12px; line-height: 1.35; }
+    .home-split { display: grid; grid-template-columns: .96fr 1.04fr; gap: 18px; margin-bottom: clamp(52px, 8vw, 92px); align-items: stretch; }
+    .home-game-panel, .home-beplay-panel { min-height: clamp(292px, 30vw, 350px); overflow: hidden; border: 1px solid rgba(17,17,17,.08); border-radius: 16px; box-shadow: 0 18px 44px rgba(17,17,17,.1); }
+    .home-game-panel { position: relative; display: flex; align-items: center; padding: clamp(22px, 3vw, 32px); isolation: isolate; background: #07111f; color: #fff; }
+    .home-game-panel video { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 62% center; }
+    .home-game-panel::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.46) 36%, rgba(0,0,0,.1) 78%); }
+    .home-game-panel h2, .home-panel-head h2 { margin: 7px 0 10px; font-size: clamp(28px, 3.5vw, 42px); font-weight: 950; line-height: .98; letter-spacing: 0; }
+    .home-game-panel p { max-width: 265px; margin-bottom: 20px; color: rgba(255,255,255,.86); font-size: 14px; line-height: 1.42; }
+    .home-game-panel .home-primary { min-height: 48px; padding-inline: 22px 18px; border-radius: 14px; background: #ff5a00; box-shadow: none; }
+    .home-game-panel .home-primary svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .home-beplay-panel { display: flex; flex-direction: column; padding: clamp(20px, 3vw, 28px); background: #f8f3ef; }
+    .home-panel-head { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 14px; margin-bottom: 18px; }
+    .home-panel-head > span, .home-panel-head h2 { grid-column: 1; }
+    .home-panel-head a { grid-column: 2; grid-row: 1 / span 2; align-self: center; min-height: 38px; padding-inline: 18px; border-radius: 999px; box-shadow: 0 10px 24px rgba(17,17,17,.05); }
+    .home-video-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: auto; }
+    .home-video-list a, .home-report-grid a { display: grid; gap: 9px; color: #111; }
+    .home-video-list a { position: relative; align-content: start; gap: 8px; }
+    .home-video-list a::after { content: "▶"; position: absolute; top: clamp(30px, 4.2vw, 44px); left: 50%; display: grid; width: 38px; height: 38px; place-items: center; border: 2px solid rgba(255,255,255,.9); border-radius: 50%; background: rgba(0,0,0,.34); color: #fff; font-size: 13px; transform: translate(-50%, -50%); box-shadow: 0 10px 22px rgba(0,0,0,.24); }
+    .home-video-list img { width: 100%; aspect-ratio: 16 / 10; border-radius: 10px; object-fit: cover; background: #ddd; }
+    .home-video-list strong { font-size: clamp(13px, 1.2vw, 15px); line-height: 1.08; }
+    .home-video-list small { color: #777; font-size: 12px; }
+    .home-report-section .home-section-head-v2 { align-items: center; margin-bottom: 28px; }
+    .home-report-section .home-section-head-v2 h2 { max-width: 500px; font-size: clamp(34px, 4vw, 50px); line-height: .98; }
+    .home-report-section .home-section-head-v2 > a { min-height: 58px; padding-inline: 28px; border-radius: 999px; box-shadow: 0 10px 28px rgba(17,17,17,.05); }
+    .home-report-grid a { gap: 0; }
+    .home-report-grid img { width: 100%; aspect-ratio: 16 / 9.5; margin-bottom: 18px; border-radius: 12px; object-fit: cover; background: #ddd; box-shadow: 0 14px 30px rgba(17,17,17,.08); }
+    .home-report-grid a:nth-child(2) img { object-position: center 28%; }
+    .home-report-grid a:nth-child(3) img { object-position: center 35%; }
+    .home-report-grid span { margin-bottom: 9px; color: #ff5a00; font-size: 12px; font-weight: 950; text-transform: uppercase; }
+    .home-report-grid strong { max-width: 94%; color: #111; font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; line-height: 1.12; }
+    .home-report-grid small { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: #969696; font-size: 13px; font-weight: 750; }
+    .home-report-section .home-report-grid small { color: #969696; }
+    .home-report-grid small::before { content: ""; width: 18px; height: 18px; border: 2px solid #b6b6b6; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #b6b6b6 0 2px, transparent 3px), linear-gradient(#b6b6b6, #b6b6b6) 50% 18% / 2px 7px no-repeat, linear-gradient(#b6b6b6, #b6b6b6) 72% 55% / 7px 2px no-repeat; }
+    .home-people-quote { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(160px, .52fr) minmax(280px, .9fr); gap: clamp(24px, 5vw, 70px); align-items: center; margin-bottom: clamp(28px, 5vw, 56px); padding: clamp(28px, 4.8vw, 52px); border: 1px solid rgba(17,17,17,.06); border-radius: 28px; background: rgba(255,255,255,.78); box-shadow: 0 20px 60px rgba(17,17,17,.06); }
+    .home-people-quote blockquote { position: relative; margin: 0; padding-left: 30px; color: #111; font-size: clamp(30px, 3.6vw, 48px); font-weight: 950; line-height: 1.16; letter-spacing: 0; }
+    .home-people-quote blockquote::before { content: "“"; position: absolute; left: 0; top: -.18em; color: #ff5a00; font-size: clamp(54px, 6vw, 84px); line-height: 1; }
+    .home-people-logo { justify-self: center; width: min(180px, 100%); }
+    .home-people-signup { display: grid; gap: 18px; }
+    .home-people-signup strong { max-width: 320px; color: #111; font-size: clamp(20px, 2vw, 28px); font-weight: 950; line-height: 1.08; }
+    .home-people-signup form { display: grid; grid-template-columns: minmax(0, 1fr) 54px; min-height: 58px; overflow: hidden; border: 1px solid rgba(17,17,17,.08); border-radius: 10px; background: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.8); }
+    .home-people-signup input { min-width: 0; border: 0; padding: 0 18px; color: #111; font: inherit; outline: 0; }
+    .home-people-signup input::placeholder { color: #b6b6b6; }
+    .home-people-signup button { display: grid; place-items: center; border: 0; background: #ff5a00; color: #fff; cursor: pointer; }
+    .home-people-signup button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    @media (max-width: 980px) {
+      .home-hero-v2, .home-journey, .home-split { grid-template-columns: 1fr; }
+      .home-hero-v2 {
+        min-height: 0;
+        padding-top: clamp(330px, 54vw, 470px);
+        background: #ffffff;
+      }
+      .home-hero-copy {
+        max-width: 620px;
+        padding: 0 0 clamp(38px, 7vw, 62px);
+      }
+      .home-hero-media {
+        inset: 0 0 auto;
+        height: clamp(330px, 54vw, 470px);
+        min-height: 0;
+        border-radius: 0 0 34px 34px;
+      }
+      .home-hero-media img { object-position: 58% center; }
+      .home-hero-media::after {
+        background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.22) 54%, #ffffff 94%);
+      }
+      .hero-orbit-one { width: min(78vw, 560px); right: 2%; top: 8%; }
+      .hero-orbit-two { width: min(48vw, 360px); right: 16%; top: 20%; }
+      .home-steps, .home-report-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .home-card-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(280px, 42vw);
+        grid-template-columns: none;
+        gap: 18px;
+        margin-inline: -16px;
+        padding: 4px 16px 18px;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scroll-padding-inline: 16px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .home-card-grid::-webkit-scrollbar { display: none; }
+      .home-steps {
+        gap: 18px;
+        margin-top: 0;
+      }
+      .home-steps article { padding-top: 0; }
+      .home-steps article::after { display: none; }
+      .home-journey { min-height: 660px; align-content: start; }
+      .home-journey::before { background: linear-gradient(180deg, #fbf6f0 0%, rgba(251,246,240,.9) 36%, rgba(251,246,240,.08) 72%); }
+      .home-journey-copy { max-width: 560px; }
+      .home-journey-media { min-height: 100%; }
+      .home-journey-media::before { background: linear-gradient(180deg, rgba(248,243,239,.96) 0%, rgba(248,243,239,.78) 38%, rgba(248,243,239,.12) 74%); }
+      .home-journey-media article { width: min(245px, 34%); }
+      .home-journey-media article:nth-of-type(1) { left: 52%; top: 35%; }
+      .home-journey-media article:nth-of-type(2) { left: 8%; top: 49%; }
+      .home-journey-media article:nth-of-type(3) { left: 36%; bottom: 8%; }
+      .home-journey-media article:nth-of-type(4) { right: 6%; top: 17%; }
+      .home-people-quote { grid-template-columns: 1fr; gap: 24px; }
+      .home-people-logo { justify-self: start; width: 150px; }
+    }
+    @media (max-width: 640px) {
+      .shell { width: min(calc(100% - 24px), var(--max)); }
+      .home-hero-v2 { padding-top: clamp(260px, 68vw, 340px); }
+      .home-hero-media { height: clamp(260px, 68vw, 340px); }
+      .home-hero-media img { object-position: 62% center; }
+      .home-hero-copy { padding-bottom: 34px; }
+      .home-hero-copy h1 { max-width: 9ch; font-size: clamp(40px, 13vw, 56px); }
+      .home-hero-copy p { max-width: 100%; font-size: 15px; }
+      .home-hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        width: 100%;
+      }
+      .home-primary, .home-secondary, .home-dark-btn {
+        width: 100%;
+        min-height: 48px;
+        padding-inline: 16px;
+        text-align: center;
+      }
+      .home-steps, .home-report-grid, .home-video-list { grid-template-columns: 1fr; }
+      .home-card-grid {
+        grid-auto-columns: minmax(268px, 82vw);
+        gap: 14px;
+        margin-inline: -12px;
+        padding-inline: 12px;
+      }
+      .home-steps {
+        gap: 12px;
+        margin-bottom: 48px;
+      }
+      .home-steps article {
+        grid-template-columns: 54px minmax(0, 1fr);
+        align-items: center;
+        gap: 4px 12px;
+        min-height: 74px;
+        padding: 10px 12px;
+        border: 1px solid #eeeeee;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 10px 24px rgba(17,17,17,.06);
+      }
+      .home-steps span {
+        grid-row: 1 / span 2;
+        width: 50px;
+        height: 50px;
+        box-shadow: none;
+      }
+      .home-steps svg { width: 23px; height: 23px; }
+      .home-steps strong { font-size: 15px; }
+      .home-steps p { max-width: none; font-size: 13px; line-height: 1.35; }
+      .hero-orbit-one { width: 92vw; right: -28%; top: 4%; }
+      .hero-orbit-two { width: 56vw; right: 4%; top: 22%; }
+      .home-section-head-v2, .home-panel-head { grid-template-columns: 1fr; }
+      .home-section-head-v2 > a, .home-panel-head a { grid-column: auto; grid-row: auto; width: fit-content; }
+      .home-content-card { min-height: 380px; }
+      .home-game-panel, .home-beplay-panel { min-height: 330px; }
+      .home-video-list a::after { top: 30%; }
+      .home-journey { min-height: 0; }
+      .home-journey-copy { padding: 28px 22px 22px; }
+      .home-journey-media { position: relative; display: flex; flex-direction: column; min-height: 0; padding-bottom: 12px; }
+      .home-journey-media picture { height: 300px; order: -1; }
+      .home-journey-media::before { background: linear-gradient(180deg, rgba(248,243,239,.05), rgba(248,243,239,.16)); }
+      .home-journey-media::after { display: none; }
+      .home-journey-media article { position: relative; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: auto; min-height: 82px; margin: 10px 14px; }
+      .home-people-quote { padding: 26px 20px; border-radius: 22px; }
+      .home-people-quote blockquote { padding-left: 24px; font-size: clamp(28px, 8vw, 38px); }
+      .home-people-signup form { grid-template-columns: minmax(0, 1fr) 50px; min-height: 54px; }
+      .home-people-logo { max-width: 132px; }
+    }
+    @media (max-width: 380px) {
+      .home-hero-copy h1 { font-size: clamp(36px, 12.5vw, 46px); }
+      .home-hero-copy p { font-size: 14px; }
+      .home-steps article { padding-inline: 10px; }
+    }
   </style>
   <link rel="stylesheet" href="css/components/privacy-consent.css?v=20260723-1">
   <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-2">
@@ -2256,59 +2501,124 @@
       </div>
     </header>
 
-    <main>
-      <section class="shell ecosystem-highlights" id="destaques" aria-labelledby="ecosystem-highlights-title">
-        <div class="home-manifesto">
-          <h1>O esporte começa <strong>com pessoas.</strong></h1>
-        </div>
-        <div class="ecosystem-section-head">
-          <div><span>Conteúdo que movimenta</span><h2 id="ecosystem-highlights-title">Em destaque agora</h2></div>
-          <p>O esporte é feito de resultados, mas também de pessoas, escolhas, territórios e caminhos.</p>
-        </div>
-        <div class="hero showing-news" aria-label="Destaques do Bem Esportivo">
-          <article class="hero-slide hero-slide-news hero-slide-elas active" aria-hidden="false">
-            <div class="hero-content">
-              <span class="eyebrow">Nova reportagem · Serra Talhada</span>
-              <h2>Mulheres em ação e movimento.</h2>
-              <p>Duas iniciativas, dois horários e uma rede de mulheres que fortalece a prática esportiva em Serra Talhada.</p>
-              <div class="hero-meta"><span>História, saúde e comunidade</span><a class="primary-btn" href="/reportagens/elas-em-movimento-serra-talhada">Ler reportagem</a></div>
-            </div>
-          </article>
-          <article class="hero-slide hero-slide-football" aria-hidden="true">
-            <div class="hero-content">
-              <span class="eyebrow">Bem Esportivo · Informação que movimenta</span>
-              <h2>Viva o esporte por inteiro.</h2>
-              <p>Conteúdo, orientação e experiências para ajudar você a começar, continuar e evoluir no esporte.</p>
-              <div class="hero-meta">
-                <a class="primary-btn" href="/meu-caminho-be">Começar meu caminho</a>
-                <a class="hero-secondary-btn" href="/reportagens">Explorar reportagens</a>
-              </div>
-            </div>
-          </article>
-          <article class="hero-slide hero-slide-news hero-slide-funcional" aria-hidden="true">
-            <div class="hero-content">
-              <span class="eyebrow">Reportagem · Movimento e saúde</span>
-              <h2>Um dia de treino funcional na quadra</h2>
-              <p>Bruno Resende e Rafael Resende conduzem uma manhã de exercícios, orientação profissional e energia coletiva com a BR Assessoria.</p>
-              <div class="hero-meta"><span>Nova reportagem · 6 min</span><a class="primary-btn" href="/reportagens/treino-funcional-br-assessoria">Ler reportagem</a></div>
-            </div>
-          </article>
-          <article class="hero-slide hero-slide-news hero-slide-opiniao" aria-hidden="true">
-            <div class="hero-content">
-              <span class="eyebrow">Opinião Be · Futebol</span>
-              <h2>O amistoso que o Corinthians precisava</h2>
-              <p>Pressão, intensidade e um ambiente hostil: contra o Cascavel, o Timão encontrou um teste que pode valer muito para a temporada.</p>
-              <div class="hero-meta"><span>4 min de leitura</span><a class="primary-btn" href="/reportagens">Explorar opiniões</a></div>
-            </div>
-          </article>
-          <div class="hero-controls" aria-label="Controles dos destaques">
-            <button class="hero-arrow hero-prev" type="button" aria-label="Destaque anterior">‹</button>
-            <button class="hero-dot active" type="button" aria-label="Mostrar destaque 1" aria-current="true"></button>
-            <button class="hero-dot" type="button" aria-label="Mostrar destaque 2"></button>
-            <button class="hero-dot" type="button" aria-label="Mostrar destaque 3"></button>
-            <button class="hero-dot" type="button" aria-label="Mostrar destaque 4"></button>
-            <button class="hero-arrow hero-next" type="button" aria-label="Próximo destaque">›</button>
+    <main class="home-redesign">
+      <section class="shell home-hero-v2" id="inicio" aria-labelledby="home-hero-title">
+        <div class="home-hero-copy">
+          <span class="home-kicker">Bem Esportivo</span>
+          <h1 id="home-hero-title">Descubra <span>seu caminho</span> no esporte.</h1>
+          <p>Não importa onde você está hoje. Nós mostramos o próximo passo com conteúdo, ferramentas, histórias e experiências do BeMEsportivo.</p>
+          <div class="home-hero-actions">
+            <a class="home-primary" href="/meu-caminho-be">Criar meu Caminho <span aria-hidden="true">→</span></a>
+            <a class="home-secondary" href="#conteudos">Ver conteúdos</a>
           </div>
+        </div>
+        <div class="home-hero-media" aria-label="Imagem principal do Bem Esportivo">
+          <picture>
+            <source type="image/webp" srcset="img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w, img/fala-bem-hero-pessoas-optimized-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 64vw">
+            <img src="img/fala-bem-hero-pessoas-optimized.jpg" alt="Pessoas correndo ao ar livre em uma jornada esportiva" width="1536" height="1024" decoding="async">
+          </picture>
+          <span class="hero-orbit hero-orbit-one" aria-hidden="true"></span>
+          <span class="hero-orbit hero-orbit-two" aria-hidden="true"></span>
+        </div>
+      </section>
+
+      <section class="shell home-steps" aria-label="Etapas do caminho esportivo">
+        <article><span><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"></path><circle cx="12" cy="12" r="7"></circle></svg></span><strong>Descobrir</strong><p>Entenda quem você é e onde quer chegar.</p></article>
+        <article><span><svg viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"></path></svg></span><strong>Começar</strong><p>Dê o primeiro passo com direção.</p></article>
+        <article><span><svg viewBox="0 0 24 24"><path d="m4 17 6-6 4 4 6-9"></path><path d="M14 6h6v6"></path></svg></span><strong>Evoluir</strong><p>Acompanhe seu progresso e continue avançando.</p></article>
+        <article><span><svg viewBox="0 0 24 24"><path d="m12 3 3 6 6 .9-4.5 4.4 1 6.2L12 17.5 6.5 20.5l1-6.2L3 9.9 9 9l3-6Z"></path></svg></span><strong>Permanecer</strong><p>Transforme o esporte em estilo de vida.</p></article>
+      </section>
+
+      <section class="shell home-section-v2" id="conteudos" aria-labelledby="home-content-title">
+        <div class="home-section-head-v2">
+          <span>Destaques</span>
+          <h2 id="home-content-title">Conteúdos que <em>inspiram</em> e movem.</h2>
+          <a href="/reportagens">Ver todos <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="home-card-grid">
+          <a class="home-content-card" href="/reportagens/elas-em-movimento-serra-talhada">
+            <img src="img/mulheres-em-movimento-serra-talhada-sem-logo-640.webp" alt="Mulheres reunidas para atividades funcionais em Serra Talhada" loading="lazy">
+            <span>Reportagem</span>
+            <h3>Mulheres em ação e movimento</h3>
+            <small>5 min de leitura</small>
+          </a>
+          <a class="home-content-card" href="/reportagens/treino-funcional-br-assessoria">
+            <img src="img/banner-treino-funcional-professores-v3-640.webp" alt="Participantes e professores do treino funcional da BR Assessoria" loading="lazy">
+            <span>Treino</span>
+            <h3>Treino funcional reúne movimento, orientação e comunidade na quadra</h3>
+            <small>5 min de leitura</small>
+          </a>
+          <a class="home-content-card" href="/reportagens/dedicacao-talento-mirim">
+            <img src="img/IMG_0957-optimized.jpg" alt="Treino técnico na Academia de Futebol Portela" loading="lazy">
+            <span>Base</span>
+            <h3>Dedicação e Talento Mirim em Campo</h3>
+            <small>5 min de leitura</small>
+          </a>
+          <a class="home-content-card" href="/reportagens/duda-e-o-futebol">
+            <img src="img/duda.jpg" alt="Duda em sua trajetória no futebol" loading="lazy">
+            <span>Futebol feminino</span>
+            <h3>Duda e o Futebol</h3>
+            <small>4 min de leitura</small>
+          </a>
+        </div>
+      </section>
+
+      <section class="shell home-journey" id="meu-caminho" aria-labelledby="home-journey-title">
+        <div class="home-journey-copy">
+          <span>Sobre o caminho</span>
+          <h2 id="home-journey-title">Cada jornada começa com <em>uma escolha.</em></h2>
+          <p>O esporte transforma. Ele ensina, fortalece, conecta e revela o melhor de cada um de nós. Aqui, você encontra orientação, ferramentas e profissionais que caminham ao seu lado em cada etapa.</p>
+          <a class="home-dark-btn" href="/meu-caminho-be">Criar meu Caminho <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="home-journey-media">
+          <picture>
+            <source type="image/webp" srcset="img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w, img/fala-bem-hero-pessoas-optimized-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 100vw">
+            <img src="img/fala-bem-hero-pessoas-optimized.jpg" alt="Pessoas correndo ao ar livre no pôr do sol" loading="lazy">
+          </picture>
+          <article><strong>Autoconhecimento</strong><small>Descubra seus talentos, limites e potencial.</small></article>
+          <article><strong>Coragem</strong><small>Enfrente desafios e supere seus medos.</small></article>
+          <article><strong>Persistência</strong><small>Pequenas ações diárias geram grandes resultados.</small></article>
+          <article><strong>Transformação</strong><small>Torne-se sua melhor versão dentro e fora das quadras.</small></article>
+        </div>
+      </section>
+
+      <section class="shell home-split">
+        <article class="home-game-panel">
+          <video autoplay muted loop playsinline preload="metadata" poster="img/personagens.jpeg">
+            <source src="video%20bonecos.mp4" type="video/mp4">
+          </video>
+          <div>
+            <span>Game</span>
+            <h2>Corrida da Hidratação</h2>
+            <p>Beba água, supere desafios e chegue ao topo.</p>
+            <a class="home-primary" href="/game.html">Jogar agora <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.5 9h11a4 4 0 0 1 3.8 5.2l-.7 2.1a2.4 2.4 0 0 1-4.1.8L15 15.5H9l-1.5 1.6a2.4 2.4 0 0 1-4.1-.8l-.7-2.1A4 4 0 0 1 6.5 9Z"></path><path d="M8 12v3M6.5 13.5h3M16.5 13h.01M18.5 15h.01"></path></svg></a>
+          </div>
+        </article>
+        <article class="home-beplay-panel" aria-labelledby="home-beplay-title">
+          <div class="home-panel-head">
+            <span>BePlay</span>
+            <h2 id="home-beplay-title">Assista. Inspire-se. Evolua sempre.</h2>
+            <a href="/beplay">Ver todos <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="home-video-list">
+            <a href="beplay.html?video=gBkon6LC2OU"><img src="img/beplay-treino-agilidade-futebol.jpg" alt="Treino de agilidade no futebol" loading="lazy"><strong>Bastidores da preparação intensa de um atleta</strong><small>05:21</small></a>
+            <a href="beplay.html?video=dYiX4fvxGG8"><img src="img/beplay-treino-forca-performance.jpg" alt="Treino de força e performance" loading="lazy"><strong>Rotina de treinos que transformam vidas</strong><small>04:10</small></a>
+            <a href="beplay.html?video=Qi1lRW18kvM"><img src="img/duda.jpg" alt="Duda e o futebol" loading="lazy"><strong>Superação que vai além do esporte</strong><small>06:32</small></a>
+          </div>
+        </article>
+      </section>
+
+      <section class="shell home-section-v2 home-report-section" aria-labelledby="home-report-title">
+        <div class="home-section-head-v2">
+          <span>Reportagens</span>
+          <h2 id="home-report-title">Histórias reais que <em>inspiram</em> o esporte.</h2>
+          <a href="/reportagens">Ver todas <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="home-report-grid">
+          <a href="/reportagens/duda-e-o-futebol"><img src="img/duda.jpg" alt="Duda em sua trajetória no futebol" loading="lazy"><span>Futebol feminino</span><strong>Duda e o Futebol</strong><small>4 min de leitura</small></a>
+          <a href="/reportagens/elas-em-movimento-serra-talhada"><img src="img/mulheres-em-movimento-serra-talhada-interna-640.webp" alt="Mulheres em movimento em Serra Talhada" loading="lazy"><span>Saúde e comunidade</span><strong>Mulheres em ação e movimento</strong><small>5 min de leitura</small></a>
+          <a href="/reportagens/treino-funcional-br-assessoria"><img src="img/banner-treino-funcional-professores-v3-640.webp" alt="Participantes e professores do treino funcional da BR Assessoria" loading="lazy"><span>Treinamento</span><strong>Treino funcional reúne movimento, orientação e comunidade na quadra</strong><small>5 min de leitura</small></a>
+          <a href="/reportagens/dedicacao-talento-mirim"><img src="img/IMG_0957-optimized.jpg" alt="Treino técnico na Academia de Futebol Portela" loading="lazy"><span>Futebol de base</span><strong>Dedicação e Talento Mirim em Campo</strong><small>5 min de leitura</small></a>
         </div>
       </section>
 
@@ -2374,7 +2684,7 @@
         </div>
       </section>
 
-      <section class="shell path-launch" id="meu-caminho" aria-labelledby="path-launch-title">
+      <section class="shell path-launch" id="meu-caminho-legado" aria-labelledby="path-launch-title">
         <div class="path-launch-copy">
           <span class="path-launch-badge">Meu Caminho Be · sua trajetória</span>
           <h2 id="path-launch-title">O conteúdo inspira. A sua história começa quando você <span>vive o esporte.</span></h2>
@@ -2605,6 +2915,21 @@
             <div class="video-thumb"><img src="https://img.youtube.com/vi/dYiX4fvxGG8/hqdefault.jpg" alt="Futebol e areia"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">7min 33s</span></div>
             <div class="video-body"><span class="eyebrow">Performance</span><h3>Futebol e areia</h3></div>
           </a>
+        </div>
+      </section>
+
+      <section class="shell home-people-quote" aria-label="Mensagem final do Bem Esportivo">
+        <blockquote>O esporte começa com pessoas</blockquote>
+        <img class="home-people-logo" src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo" loading="lazy">
+        <div class="home-people-signup">
+          <strong>Receba conteúdos que inspiram e transformam.</strong>
+          <form action="/contato" method="get">
+            <label class="sr-only" for="home-people-email">Seu melhor e-mail</label>
+            <input id="home-people-email" name="email" type="email" placeholder="Seu melhor e-mail" autocomplete="email">
+            <button type="submit" aria-label="Enviar e-mail">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+            </button>
+          </form>
         </div>
       </section>
     </main>
