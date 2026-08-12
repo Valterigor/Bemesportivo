@@ -2233,7 +2233,8 @@
     .home-redesign > .ecosystem-discovery,
     .home-redesign > .path-launch,
     .home-redesign > .brand-film,
-    .home-redesign > .section { display: none; }
+    .home-redesign > .section,
+    .home-redesign > .home-path-feature { display: none; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .home-redesign { padding-top: 0; }
     .home-hero-v2 { position: relative; display: grid; grid-template-columns: minmax(300px, .72fr) minmax(0, 1.28fr); align-items: center; min-height: clamp(430px, 58svh, 610px); overflow: hidden; background: linear-gradient(90deg, #fff 0%, #fff 34%, rgba(255,255,255,.78) 50%, rgba(255,255,255,0) 74%); }
@@ -2265,6 +2266,7 @@
     .home-section-head-v2 h2 { max-width: 570px; margin-top: 8px; color: #070707; font-size: clamp(34px, 4vw, 50px); font-weight: 950; line-height: 1; letter-spacing: 0; }
     .home-section-head-v2 > a, .home-panel-head a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 18px; border: 1px solid #ece6e1; border-radius: 999px; background: #fff; font-size: 13px; font-weight: 900; }
     .home-card-grid, .home-report-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+    .home-intent-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .home-content-card { position: relative; display: flex; min-height: 430px; overflow: hidden; flex-direction: column; justify-content: flex-end; padding: 22px; border-radius: 18px; isolation: isolate; background: #111; color: #fff; scroll-snap-align: start; box-shadow: 0 20px 48px rgba(17,17,17,.12); }
     .home-content-card img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
     .home-content-card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.78)); }
@@ -2379,6 +2381,7 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
       }
+      .home-intent-grid { grid-template-columns: none; }
       .home-card-grid::-webkit-scrollbar { display: none; }
       .home-steps {
         gap: 18px;
@@ -2459,11 +2462,12 @@
       .home-video-list a::after { top: 30%; }
       .home-journey { min-height: 0; }
       .home-journey-copy { padding: 28px 22px 22px; }
-      .home-journey-media { position: relative; display: flex; flex-direction: column; min-height: 0; padding-bottom: 12px; }
-      .home-journey-media picture { height: 300px; order: -1; }
-      .home-journey-media::before { background: linear-gradient(180deg, rgba(248,243,239,.05), rgba(248,243,239,.16)); }
+      .home-journey-media { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 10px; min-height: 560px; padding: 20px; overflow: hidden; }
+      .home-journey-media picture { position: absolute; inset: 0; height: auto; }
+      .home-journey-media img { object-position: 68% center; }
+      .home-journey-media::before { z-index: 1; background: transparent; }
       .home-journey-media::after { display: none; }
-      .home-journey-media article { position: relative; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: auto; min-height: 82px; margin: 10px 14px; }
+      .home-journey-media article { position: relative; z-index: 3; align-self: center; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: min(100%, 440px); min-height: 82px; margin: 0; background: rgba(255,255,255,.42); }
       .home-people-quote { padding: 26px 20px; border-radius: 22px; }
       .home-people-quote blockquote { padding-left: 24px; font-size: clamp(28px, 8vw, 38px); }
       .home-people-signup form { grid-template-columns: minmax(0, 1fr) 50px; min-height: 54px; }
@@ -2506,10 +2510,10 @@
         <div class="home-hero-copy">
           <span class="home-kicker">Bem Esportivo</span>
           <h1 id="home-hero-title">Descubra <span>seu caminho</span> no esporte.</h1>
-          <p>Não importa onde você está hoje. Nós mostramos o próximo passo com conteúdo, ferramentas, histórias e experiências do BeMEsportivo.</p>
+          <p>O esporte não é só desempenho. É pertencimento, rotina e caminho. Encontre um próximo passo possível para o seu momento.</p>
           <div class="home-hero-actions">
             <a class="home-primary" href="/meu-caminho-be">Criar meu Caminho <span aria-hidden="true">→</span></a>
-            <a class="home-secondary" href="#conteudos">Ver conteúdos</a>
+            <a class="home-secondary" href="#seu-momento">Encontrar meu momento</a>
           </div>
         </div>
         <div class="home-hero-media" aria-label="Imagem principal do Bem Esportivo">
@@ -2517,8 +2521,6 @@
             <source type="image/webp" srcset="img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w, img/fala-bem-hero-pessoas-optimized-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 64vw">
             <img src="img/fala-bem-hero-pessoas-optimized.jpg" alt="Pessoas correndo ao ar livre em uma jornada esportiva" width="1536" height="1024" decoding="async">
           </picture>
-          <span class="hero-orbit hero-orbit-one" aria-hidden="true"></span>
-          <span class="hero-orbit hero-orbit-two" aria-hidden="true"></span>
         </div>
       </section>
 
@@ -2529,56 +2531,50 @@
         <article><span><svg viewBox="0 0 24 24"><path d="m12 3 3 6 6 .9-4.5 4.4 1 6.2L12 17.5 6.5 20.5l1-6.2L3 9.9 9 9l3-6Z"></path></svg></span><strong>Permanecer</strong><p>Transforme o esporte em estilo de vida.</p></article>
       </section>
 
-      <section class="shell home-section-v2" id="conteudos" aria-labelledby="home-content-title">
+      <section class="shell home-section-v2" id="seu-momento" aria-labelledby="home-content-title">
         <div class="home-section-head-v2">
-          <span>Destaques</span>
-          <h2 id="home-content-title">Conteúdos que <em>inspiram</em> e movem.</h2>
-          <a href="/reportagens">Ver todos <span aria-hidden="true">→</span></a>
+          <span>Reportagens em destaque</span>
+          <h2 id="home-content-title">Histórias que aproximam você do <em>esporte.</em></h2>
+          <a href="/meu-caminho-be">Criar meu Caminho <span aria-hidden="true">→</span></a>
         </div>
-        <div class="home-card-grid">
+        <div class="home-card-grid home-intent-grid">
           <a class="home-content-card" href="/reportagens/elas-em-movimento-serra-talhada">
             <img src="img/mulheres-em-movimento-serra-talhada-sem-logo-640.webp" alt="Mulheres reunidas para atividades funcionais em Serra Talhada" loading="lazy">
-            <span>Reportagem</span>
+            <span>Saúde e comunidade</span>
             <h3>Mulheres em ação e movimento</h3>
             <small>5 min de leitura</small>
           </a>
           <a class="home-content-card" href="/reportagens/treino-funcional-br-assessoria">
             <img src="img/banner-treino-funcional-professores-v3-640.webp" alt="Participantes e professores do treino funcional da BR Assessoria" loading="lazy">
-            <span>Treino</span>
-            <h3>Treino funcional reúne movimento, orientação e comunidade na quadra</h3>
+            <span>Treinamento</span>
+            <h3>Treino funcional: movimento, orientação e comunidade</h3>
             <small>5 min de leitura</small>
           </a>
           <a class="home-content-card" href="/reportagens/dedicacao-talento-mirim">
             <img src="img/IMG_0957-optimized.jpg" alt="Treino técnico na Academia de Futebol Portela" loading="lazy">
-            <span>Base</span>
-            <h3>Dedicação e Talento Mirim em Campo</h3>
+            <span>Futebol de base</span>
+            <h3>Dedicação e talento mirim em campo</h3>
             <small>5 min de leitura</small>
-          </a>
-          <a class="home-content-card" href="/reportagens/duda-e-o-futebol">
-            <img src="img/duda.jpg" alt="Duda em sua trajetória no futebol" loading="lazy">
-            <span>Futebol feminino</span>
-            <h3>Duda e o Futebol</h3>
-            <small>4 min de leitura</small>
           </a>
         </div>
       </section>
 
       <section class="shell home-journey" id="meu-caminho" aria-labelledby="home-journey-title">
         <div class="home-journey-copy">
-          <span>Sobre o caminho</span>
-          <h2 id="home-journey-title">Cada jornada começa com <em>uma escolha.</em></h2>
-          <p>O esporte transforma. Ele ensina, fortalece, conecta e revela o melhor de cada um de nós. Aqui, você encontra orientação, ferramentas e profissionais que caminham ao seu lado em cada etapa.</p>
-          <a class="home-dark-btn" href="/meu-caminho-be">Criar meu Caminho <span aria-hidden="true">→</span></a>
+          <span>Meu Caminho Be</span>
+          <h2 id="home-journey-title">O seu esporte merece <em>continuar.</em></h2>
+          <p>Registre o que viveu, reconheça seu ritmo e encontre uma forma mais leve de permanecer em movimento. Sem comparação, sem pressa — do seu jeito.</p>
+          <a class="home-dark-btn" href="/meu-caminho-be">Começar meu Caminho <span aria-hidden="true">→</span></a>
         </div>
         <div class="home-journey-media">
           <picture>
-            <source type="image/webp" srcset="img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w, img/fala-bem-hero-pessoas-optimized-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 100vw">
-            <img src="img/fala-bem-hero-pessoas-optimized.jpg" alt="Pessoas correndo ao ar livre no pôr do sol" loading="lazy">
+            <source type="image/webp" srcset="img/jornada-esportiva-atleta-por-do-sol.webp" sizes="(max-width: 900px) 100vw, 100vw">
+            <img src="img/jornada-esportiva-atleta-por-do-sol.png" alt="Atleta em uma pista ao pôr do sol, em um momento de pausa e continuidade esportiva" loading="lazy" width="1536" height="1024">
           </picture>
-          <article><strong>Autoconhecimento</strong><small>Descubra seus talentos, limites e potencial.</small></article>
-          <article><strong>Coragem</strong><small>Enfrente desafios e supere seus medos.</small></article>
-          <article><strong>Persistência</strong><small>Pequenas ações diárias geram grandes resultados.</small></article>
-          <article><strong>Transformação</strong><small>Torne-se sua melhor versão dentro e fora das quadras.</small></article>
+          <article><strong>Registre</strong><small>Guarde cada treino, jogo ou recomeço.</small></article>
+          <article><strong>Perceba</strong><small>Entenda o que faz sentido para sua rotina.</small></article>
+          <article><strong>Continue</strong><small>Valorize pequenas ações que mantêm você em movimento.</small></article>
+          <article><strong>Compartilhe</strong><small>Faça do esporte uma história que é sua.</small></article>
         </div>
       </section>
 
@@ -2603,7 +2599,7 @@
           <div class="home-video-list">
             <a href="beplay.html?video=gBkon6LC2OU"><img src="img/beplay-treino-agilidade-futebol.jpg" alt="Treino de agilidade no futebol" loading="lazy"><strong>Bastidores da preparação intensa de um atleta</strong><small>05:21</small></a>
             <a href="beplay.html?video=dYiX4fvxGG8"><img src="img/beplay-treino-forca-performance.jpg" alt="Treino de força e performance" loading="lazy"><strong>Rotina de treinos que transformam vidas</strong><small>04:10</small></a>
-            <a href="beplay.html?video=Qi1lRW18kvM"><img src="img/duda.jpg" alt="Duda e o futebol" loading="lazy"><strong>Superação que vai além do esporte</strong><small>06:32</small></a>
+            <a href="beplay.html?video=o-esporte-comeca-nas-pessoas"><img src="img/3.jpeg" alt="Pessoas praticando diferentes modalidades esportivas" loading="lazy"><strong>O esporte começa com pessoas</strong><small>00:09</small></a>
           </div>
         </article>
       </section>
