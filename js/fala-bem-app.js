@@ -362,7 +362,15 @@ function saveProfile(updates) {
     createdAt: currentProfile?.createdAt || updates.createdAt || now,
     updatedAt: now
   };
-  try { localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(currentProfile)); } catch (error) {}
+  try {
+    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(currentProfile));
+  } catch (error) {
+    showProductFeedback({
+      type: 'warning', title: 'Não foi possível salvar neste aparelho.',
+      message: 'Libere espaço no navegador ou verifique se o armazenamento do site está bloqueado e tente novamente.'
+    });
+    return null;
+  }
   window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated', { detail: { ready: Boolean(currentProfile?.objective) } }));
   renderPersonalizedExperience();
   return currentProfile;
@@ -572,15 +580,11 @@ function openResetDialog() {
 
 function resetLocalJourney() {
   clearBeNowExecution();
-  try {
-    localStorage.removeItem(PROFILE_STORAGE_KEY);
-    localStorage.removeItem(ACCESS_STORAGE_KEY);
-    localStorage.removeItem('meuCaminhoBeCommunityName');
-    localStorage.removeItem('meuCaminhoBeTasksV1');
-    localStorage.removeItem('meuCaminhoBeTaskNotifiedV1');
-    localStorage.removeItem('meuCaminhoBeDiaryV1');
-    localStorage.removeItem('meuCaminhoBeMealsV1');
-  } catch (error) {}
+  const localKeys = [PROFILE_STORAGE_KEY, ACCESS_STORAGE_KEY, 'meuCaminhoBeCommunityName', 'meuCaminhoBeTasksV1', 'meuCaminhoBeTaskNotifiedV1', 'meuCaminhoBeDiaryV1', 'meuCaminhoBeMealsV1'];
+  try { localKeys.forEach(key => localStorage.removeItem(key)); } catch (error) {
+    showProductFeedback({ type: 'warning', title: 'Não foi possível apagar todos os dados.', message: 'Verifique as permissões de armazenamento do navegador e tente novamente.' });
+    return;
+  }
   currentProfile = null;
   const status = document.getElementById('fb-checkin-status');
   const note = document.getElementById('fb-checkin-note');
