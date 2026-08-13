@@ -3402,6 +3402,7 @@ function renderPersonalizedExperience() {
   const profileTriggerLabel = shell.querySelector('.fb-profile-trigger>span:last-child');
   const nameInput = document.getElementById('fb-profile-name');
   const journeyNameInput = document.getElementById('journey-name');
+  const firstAccessGuide = document.getElementById('be-first-access-guide');
   const pathEntry = document.getElementById('fb-path-entry');
   const todayCard = document.getElementById('fb-today-card');
   const todayZone = document.getElementById('fb-today-zone');
@@ -3417,6 +3418,7 @@ function renderPersonalizedExperience() {
   const hasJourney = Boolean(currentProfile?.objective);
   shell.classList.toggle('fb-first-access', !hasJourney && !minorRestricted);
   if (minorRestriction) minorRestriction.hidden = !minorRestricted;
+  if (firstAccessGuide) firstAccessGuide.hidden = hasJourney || minorRestricted;
   if (minorRestricted) {
     pathEntry.hidden = true;
     todayCard.hidden = true;
@@ -4405,6 +4407,12 @@ document.querySelectorAll('[data-fb-start-objective]').forEach(button => {
       document.getElementById('journey-assistant')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 220);
   });
+});
+
+document.getElementById('be-first-access-start')?.addEventListener('click', () => {
+  const pathEntry = document.getElementById('fb-path-entry');
+  pathEntry?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  window.setTimeout(() => pathEntry?.querySelector('[data-fb-start-objective]')?.focus({ preventScroll: true }), 350);
 });
 
 const practicalTips = {
