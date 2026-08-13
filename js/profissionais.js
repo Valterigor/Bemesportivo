@@ -85,8 +85,8 @@ card.innerHTML=`
 <span>${p.especialidades[0]}</span>
 </div>
 <div class='actions'>
-<button class='btn btn-primary' onclick='perfil(${JSON.stringify(p)})'>Ver perfil</button>
-<button class='btn btn-dark' onclick='whats(${JSON.stringify(p)})'>Solicitar horário</button>
+<button class='btn btn-primary' type='button' onclick='perfil(${JSON.stringify(p)})'>Ver perfil</button>
+<button class='btn btn-dark' type='button' onclick='whats(${JSON.stringify(p)})'>Solicitar horário</button>
 </div>
 </div>`;
 lista.appendChild(card)
@@ -147,7 +147,7 @@ modalBox.innerHTML=`
 <button class='btn btn-dark' type='submit'>Enviar preferência</button>
 <small>O pedido não confirma agendamento. O horário será validado no contato.</small>
 </form>
-<button class='close-modal' onclick='fechar()'>Fechar</button>`;
+<button class='close-modal' type='button' onclick='fechar()'>Fechar</button>`;
 const scheduleForm=modalBox.querySelector('.profile-schedule');
 const today=new Date();
 const localDate=[today.getFullYear(),String(today.getMonth()+1).padStart(2,'0'),String(today.getDate()).padStart(2,'0')].join('-');

@@ -36,8 +36,19 @@ const modalCategory=document.getElementById('modalCategory');
 const modalTitle=document.getElementById('modalTitle');
 const modalSummary=document.getElementById('modalSummary');
 const modalBuy=document.getElementById('modalBuy');
+const closeModalButton=document.querySelector('.fechar');
+let modalReturnFocus=null;
+
+function closeProductDetails(){
+if(modal.style.display!=='flex')return;
+modal.style.display='none';
+modal.setAttribute('aria-hidden','true');
+if(modalReturnFocus instanceof HTMLElement)modalReturnFocus.focus();
+modalReturnFocus=null;
+}
 
 function openProductDetails(card){
+modalReturnFocus=document.activeElement;
 const image=card.querySelector('.card-media img');
 const title=card.querySelector('h3')?.textContent.trim() || 'Produto';
 const category=card.querySelector('.card-body p')?.textContent.trim() || 'Produto esportivo';
@@ -51,6 +62,8 @@ modalTitle.textContent=title;
 modalSummary.textContent=summary;
 modalBuy.href=buyLink;
 modal.style.display='flex';
+modal.setAttribute('aria-hidden','false');
+closeModalButton?.focus();
 }
 
 document.querySelectorAll('.card img').forEach(img=>{
@@ -65,12 +78,25 @@ openProductDetails(button.closest('.product'));
 });
 });
 
-document.querySelector('.fechar').onclick=()=>{
-modal.style.display='none';
-}
+closeModalButton?.addEventListener('click',closeProductDetails);
 
 modal.onclick=e=>{
 if(e.target===modal){
-modal.style.display='none';
+closeProductDetails();
 }
 }
+
+document.addEventListener('keydown',event=>{
+if(modal.style.display!=='flex')return;
+if(event.key==='Escape'){
+closeProductDetails();
+return;
+}
+if(event.key!=='Tab')return;
+const focusable=[...modal.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])')];
+if(!focusable.length)return;
+const first=focusable[0];
+const last=focusable[focusable.length-1];
+if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+});
