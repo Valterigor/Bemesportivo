@@ -219,14 +219,14 @@ async function run() {
     assert.match(adsenseConsentDefault, /ad_storage: 'denied'/);
     assert.match(adsenseConsentDefault, /ad_personalization: 'denied'/);
     assert.doesNotMatch(privacyConsentScript, /ca-pub-5270723987412757/);
-    assert.match(homeHtml, /class="hero-slide hero-slide-news hero-slide-elas active"/);
-    assert.match(homeHtml, /<main>\s*<section class="shell ecosystem-highlights" id="destaques"/, 'Destaques precisa ser a primeira seção da Home.');
-    assert.match(homeHtml, /href="\/reportagens\/elas-em-movimento-serra-talhada">Ler reportagem/);
-    assert.match(homeHtml, /class="home-manifesto"[\s\S]*<h1>O esporte começa <strong>com pessoas\.<\/strong><\/h1>/, 'A Home precisa abrir com o manifesto da marca em uma linha.');
-    assert.match(homeHtml, /class="shell ecosystem-hero home-path-feature"[\s\S]*Seu diário<\/span>\s*<span>esportivo digital\./, 'A seção abaixo dos destaques precisa apresentar o Meu Caminho Be.');
-    assert.match(homeHtml, /class="shell ecosystem-highlights"[\s\S]*class="shell ecosystem-hero home-path-feature"[\s\S]*class="shell path-launch"[\s\S]*class="shell ecosystem-hero ecosystem-discovery"/, 'Descubra seu caminho no esporte precisa ser a quarta seção da Home.');
-    assert.match(homeHtml, /id="ecosystem-discovery-title">Descubra seu caminho <span>no esporte\.<\/span>[\s\S]*id="como-funciona"/, 'A quarta seção precisa preservar a jornada personalizada e seus próximos passos.');
-    assert.match(homeHtml, /href="\/meu-caminho-be#registrar">Registrar minha atividade<\/a>/, 'A chamada da Home precisa abrir o registro de atividade.');
+    assert.match(homeHtml, /<main class="home-redesign">\s*<section class="shell home-hero-v2" id="inicio"/, 'A Home precisa abrir com o novo hero de jornada.');
+    assert.match(homeHtml, /id="home-hero-title">Descubra <span>seu caminho<\/span> no esporte\./, 'O novo hero precisa preservar a chamada principal do Bem Esportivo.');
+    assert.match(homeHtml, /class="shell home-steps"[\s\S]*Descobrir[\s\S]*Começar[\s\S]*Evoluir[\s\S]*Permanecer/, 'A Home precisa apresentar as quatro etapas da jornada.');
+    assert.match(homeHtml, /id="home-content-title">Histórias que aproximam você do <em>esporte\.<\/em>/, 'A Home precisa apresentar os cards editoriais.');
+    assert.match(homeHtml, /class="shell home-journey"[\s\S]*O seu esporte merece <em>continuar\.<\/em>/, 'A Home precisa preservar o bloco do Meu Caminho Be.');
+    assert.match(homeHtml, /class="shell home-split"[\s\S]*Corrida da Hidratação[\s\S]*Assista\. Inspire-se\. Evolua sempre\./, 'A Home precisa conectar Game e BePlay.');
+    assert.match(homeHtml, /id="home-report-title">Histórias reais que <em>inspiram<\/em> o esporte\./, 'A Home precisa preservar a vitrine de reportagens.');
+    assert.match(homeHtml, /href="\/meu-caminho-be">Criar meu Caminho/, 'A chamada da Home precisa abrir o Meu Caminho Be.');
     assert.doesNotMatch(homeHtml, /class="home-path-feature"[\s\S]*Dados ficam neste aparelho[\s\S]*<\/section>/, 'A prévia da Home não deve exibir o estado local do aparelho.');
     assert.match(homeHtml, /href="\/meu-caminho-be"[\s\S]*Meu Caminho Be[\s\S]*href="\/meu-caminho-be\/perfil"[\s\S]*Perfil do atleta[\s\S]*href="\/game\.html"[\s\S]*Game 3D[\s\S]*href="\/reportagens"[\s\S]*Reportagens[\s\S]*href="\/beplay"[\s\S]*BEplay[\s\S]*href="\/profissionais"[\s\S]*Profissionais[\s\S]*href="\/produtos"[\s\S]*Produtos/, 'A Home precisa preservar o menu principal do Bem Esportivo.');
     assert.match(homeHtml, /href="\/meu-caminho-be\/ferramentas"/, 'A Home precisa abrir Ferramentas pela subpágina canônica.');
@@ -240,7 +240,7 @@ async function run() {
     for (const image of ['mulheres-em-movimento-serra-talhada-sem-logo-640.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-960.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-1440.webp']) {
       assert.ok(fs.existsSync(path.join(root, 'img', image)), `Imagem da reportagem ausente: ${image}`);
     }
-    assert.match(pathHtml, /id="fb-photo-checkin"[^>]*data-feature-state="paused"[^>]*hidden/);
+    assert.doesNotMatch(pathHtml, /fb-photo-checkin|photo-checkin\.js|Analisar minha foto/);
     for (const id of ['fb-continuity-create', 'fb-continuity-output', 'fb-continuity-connect-form', 'fb-continuity-input']) {
       assert.match(pathHtml, new RegExp(`id="${id}"`), `Fluxo de continuidade ausente: ${id}`);
     }
@@ -441,7 +441,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v87'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v88'/);
     assert.match(serviceWorker, /\/js\/site-common\.js\?v=20260807-1/);
     assert.match(serviceWorker, /\/js\/core\/routes\.js\?v=20260807-1/);
     assert.match(serviceWorker, /\/js\/components\/site-navigation\.js\?v=20260807-1/);

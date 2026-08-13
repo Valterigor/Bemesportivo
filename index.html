@@ -2313,12 +2313,22 @@
     .home-panel-head > span, .home-panel-head h2 { grid-column: 1; }
     .home-panel-head a { grid-column: 2; grid-row: 1 / span 2; align-self: center; min-height: 38px; padding-inline: 18px; border-radius: 999px; box-shadow: 0 10px 24px rgba(17,17,17,.05); }
     .home-video-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: auto; }
-    .home-video-list a, .home-report-grid a { display: grid; gap: 9px; color: #111; }
-    .home-video-list a { position: relative; align-content: start; gap: 8px; }
-    .home-video-list a::after { content: "▶"; position: absolute; top: clamp(30px, 4.2vw, 44px); left: 50%; display: grid; width: 38px; height: 38px; place-items: center; border: 2px solid rgba(255,255,255,.9); border-radius: 50%; background: rgba(0,0,0,.34); color: #fff; font-size: 13px; transform: translate(-50%, -50%); box-shadow: 0 10px 22px rgba(0,0,0,.24); }
+    .home-video-list button, .home-report-grid a { display: grid; gap: 9px; color: #111; }
+    .home-video-list button { position: relative; align-content: start; gap: 8px; border: 0; padding: 0; background: transparent; font: inherit; text-align: left; cursor: pointer; }
+    .home-video-cover { position: relative; display: block; }
+    .home-video-cover::after { content: "▶"; position: absolute; top: 50%; left: 50%; display: grid; width: 38px; height: 38px; place-items: center; border: 2px solid rgba(255,255,255,.9); border-radius: 50%; background: rgba(0,0,0,.34); color: #fff; font-size: 13px; transform: translate(-50%, -50%); box-shadow: 0 10px 22px rgba(0,0,0,.24); transition: transform .2s ease, background .2s ease; }
+    .home-video-list button:hover .home-video-cover::after, .home-video-list button:focus-visible .home-video-cover::after { background: #ff5a00; transform: translate(-50%, -50%) scale(1.08); }
     .home-video-list img { width: 100%; aspect-ratio: 16 / 10; border-radius: 10px; object-fit: cover; background: #ddd; }
     .home-video-list strong { font-size: clamp(13px, 1.2vw, 15px); line-height: 1.08; }
     .home-video-list small { color: #777; font-size: 12px; }
+    .home-video-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: rgba(0,0,0,.78); }
+    .home-video-modal[hidden] { display: none; }
+    .home-video-modal-dialog { position: relative; width: min(900px, 100%); overflow: hidden; border-radius: 18px; background: #111; box-shadow: 0 28px 80px rgba(0,0,0,.4); }
+    .home-video-modal video { display: block; width: 100%; max-height: min(72svh, 640px); background: #000; }
+    .home-video-modal-close { position: absolute; top: 12px; right: 12px; z-index: 1; display: grid; width: 40px; height: 40px; place-items: center; border: 0; border-radius: 50%; background: rgba(0,0,0,.66); color: #fff; font-size: 25px; line-height: 1; cursor: pointer; }
+    .home-video-modal-footer { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px 20px; color: #fff; }
+    .home-video-modal-footer strong { max-width: 62%; font-size: 15px; font-weight: 700; line-height: 1.24; letter-spacing: -.025em; }
+    .home-video-modal-footer a { color: #ff8a42; font-size: 12px; font-weight: 700; line-height: 1.25; letter-spacing: .015em; }
     .home-report-section .home-section-head-v2 { align-items: center; margin-bottom: 28px; }
     .home-report-section .home-section-head-v2 h2 { max-width: 500px; font-size: clamp(34px, 4vw, 50px); line-height: .98; }
     .home-report-section .home-section-head-v2 > a { min-height: 58px; padding-inline: 28px; border-radius: 999px; box-shadow: 0 10px 28px rgba(17,17,17,.05); }
@@ -2597,9 +2607,9 @@
             <a href="/beplay">Ver todos <span aria-hidden="true">→</span></a>
           </div>
           <div class="home-video-list">
-            <a href="beplay.html?video=gBkon6LC2OU"><img src="img/beplay-treino-agilidade-futebol.jpg" alt="Treino de agilidade no futebol" loading="lazy"><strong>Bastidores da preparação intensa de um atleta</strong><small>05:21</small></a>
-            <a href="beplay.html?video=dYiX4fvxGG8"><img src="img/beplay-treino-forca-performance.jpg" alt="Treino de força e performance" loading="lazy"><strong>Rotina de treinos que transformam vidas</strong><small>04:10</small></a>
-            <a href="beplay.html?video=o-esporte-comeca-nas-pessoas"><img src="img/3.jpeg" alt="Pessoas praticando diferentes modalidades esportivas" loading="lazy"><strong>O esporte começa com pessoas</strong><small>00:09</small></a>
+            <button type="button" data-home-video="videos/treino-agilidade-futebol.mp4" data-home-video-title="Bastidores da preparação intensa de um atleta" data-home-video-link="/beplay?video=treino-agilidade-futebol"><span class="home-video-cover"><img src="img/beplay-capa-agilidade-futebol.webp" alt="Atleta treinando agilidade com bola e cones em um campo de futebol" loading="lazy" width="960" height="640"></span><strong>Bastidores da preparação intensa de um atleta</strong><small>05:21</small></button>
+            <button type="button" data-home-video="videos/treino-forca-performance.mp4" data-home-video-title="Rotina de treinos que transformam vidas" data-home-video-link="/beplay?video=treino-forca-performance"><span class="home-video-cover"><img src="img/beplay-capa-forca-performance.webp" alt="Atleta em treino funcional de força e performance" loading="lazy" width="960" height="640"></span><strong>Rotina de treinos que transformam vidas</strong><small>04:10</small></button>
+            <button type="button" data-home-video="videos/beplay-o-esporte-comeca-nas-pessoas.mp4" data-home-video-title="O esporte começa com pessoas" data-home-video-link="/beplay?video=o-esporte-comeca-nas-pessoas"><span class="home-video-cover"><img src="img/beplay-capa-pessoas.webp" alt="Pessoas reunidas após uma atividade esportiva comunitária" loading="lazy" width="960" height="640"></span><strong>O esporte começa com pessoas</strong><small>00:09</small></button>
           </div>
         </article>
       </section>
@@ -2930,6 +2940,14 @@
       </section>
     </main>
 
+    <section class="home-video-modal" id="home-video-modal" aria-label="Reprodutor de vídeo do BEplay" aria-modal="true" role="dialog" hidden>
+      <div class="home-video-modal-dialog">
+        <button class="home-video-modal-close" type="button" aria-label="Fechar vídeo">×</button>
+        <video id="home-video-player" controls playsinline preload="metadata"></video>
+        <div class="home-video-modal-footer"><strong id="home-video-title"></strong><a id="home-video-link" href="/beplay">Ver no BEplay →</a></div>
+      </div>
+    </section>
+
     <footer class="footer">
       <div class="shell footer-grid">
         <div class="footer-col">
@@ -2968,6 +2986,30 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const topBtn = document.getElementById('topBtn');
+      const homeVideoModal = document.getElementById('home-video-modal');
+      const homeVideoPlayer = document.getElementById('home-video-player');
+      const homeVideoTitle = document.getElementById('home-video-title');
+      const homeVideoLink = document.getElementById('home-video-link');
+      const closeHomeVideo = () => {
+        if (!homeVideoModal || !homeVideoPlayer) return;
+        homeVideoPlayer.pause();
+        homeVideoPlayer.removeAttribute('src');
+        homeVideoPlayer.load();
+        homeVideoModal.hidden = true;
+      };
+      document.querySelectorAll('[data-home-video]').forEach(button => {
+        button.addEventListener('click', async () => {
+          if (!homeVideoModal || !homeVideoPlayer) return;
+          homeVideoPlayer.src = button.dataset.homeVideo;
+          homeVideoTitle.textContent = button.dataset.homeVideoTitle || 'Vídeo BEplay';
+          homeVideoLink.href = button.dataset.homeVideoLink || '/beplay';
+          homeVideoModal.hidden = false;
+          try { await homeVideoPlayer.play(); } catch (error) { /* controles continuam disponíveis */ }
+        });
+      });
+      document.querySelector('.home-video-modal-close')?.addEventListener('click', closeHomeVideo);
+      homeVideoModal?.addEventListener('click', event => { if (event.target === homeVideoModal) closeHomeVideo(); });
+      document.addEventListener('keydown', event => { if (event.key === 'Escape' && !homeVideoModal?.hidden) closeHomeVideo(); });
       if (topBtn) {
         topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
       }
