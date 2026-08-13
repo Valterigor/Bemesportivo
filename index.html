@@ -2245,6 +2245,10 @@
     .home-hero-copy p { max-width: 380px; color: #626262; font-size: clamp(14px, 1.5vw, 17px); line-height: 1.5; }
     .home-hero-actions, .home-primary, .home-secondary, .home-dark-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
     .home-hero-actions { flex-wrap: wrap; margin-top: 22px; }
+    .home-moment-choices { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .home-moment-choices > span { flex-basis: 100%; color: #737373; font-size: 12px; font-weight: 700; }
+    .home-moment-choices a { min-height: 34px; padding: 0 12px; display: inline-flex; align-items: center; border: 1px solid #e7e0db; border-radius: 999px; background: rgba(255,255,255,.72); color: #35302c; font-size: 12px; font-weight: 800; transition: border-color .2s ease, color .2s ease, background .2s ease; }
+    .home-moment-choices a:hover, .home-moment-choices a:focus-visible { border-color: #ff5a00; background: #fff5ef; color: #a63d00; }
     .home-primary, .home-dark-btn { min-height: 48px; padding: 0 22px; border: 0; border-radius: 999px; background: #ff5a00; color: #fff; box-shadow: 0 18px 35px rgba(255,90,0,.25); font-size: 14px; font-weight: 900; }
     .home-secondary { min-height: 50px; padding: 0 20px; border: 1px solid #e8e1dc; border-radius: 999px; background: #fff; color: #171717; font-size: 14px; font-weight: 850; }
     .home-hero-media { position: absolute; inset: 0 0 0 34%; overflow: hidden; border-radius: 0 0 0 70px; }
@@ -2282,23 +2286,41 @@
     .home-journey-copy { position: relative; z-index: 3; display: flex; flex-direction: column; justify-content: center; padding: clamp(30px, 5vw, 58px); }
     .home-journey-copy h2 { max-width: 11ch; margin: 10px 0 20px; color: #111; font-size: clamp(36px, 4.3vw, 56px); font-weight: 950; line-height: .96; }
     .home-journey-copy p { max-width: 420px; color: #5f5f5f; font-size: 16px; line-height: 1.7; }
+    .home-journey-proof { display: grid; gap: 9px; margin-top: 23px; padding: 15px 0; border-top: 1px solid rgba(17,17,17,.1); border-bottom: 1px solid rgba(17,17,17,.1); }
+    .home-journey-proof span { color: #777; font-size: 11px; font-weight: 900; letter-spacing: .07em; text-transform: uppercase; }
+    .home-journey-proof div { display: flex; align-items: center; gap: 8px; color: #2c2a28; font-size: 13px; font-weight: 800; }
+    .home-journey-proof i { width: 5px; height: 5px; border-radius: 50%; background: #ff5a00; }
     .home-dark-btn { align-self: flex-start; margin-top: 28px; background: #090909; box-shadow: none; }
     .home-journey-media { position: absolute; inset: 0; z-index: 2; min-height: 480px; overflow: hidden; }
     .home-journey-media picture, .home-journey-media img { width: 100%; height: 100%; }
     .home-journey-media img { object-fit: cover; object-position: 67% center; transform: scale(1.02); }
     .home-journey-media::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(248,243,239,.92) 0%, rgba(248,243,239,.74) 31%, rgba(248,243,239,.1) 62%); pointer-events: none; }
     .home-journey-media::after { content: ""; position: absolute; left: 41%; top: 18%; z-index: 2; width: 38%; height: 58%; border: 2px dashed rgba(255,90,0,.56); border-left: 0; border-bottom: 0; border-radius: 48% 52% 42% 58%; transform: rotate(10deg); filter: drop-shadow(0 0 6px rgba(255,90,0,.3)); pointer-events: none; }
-    .home-journey-media article { position: absolute; z-index: 3; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 0 12px; width: min(255px, 28%); min-height: 86px; align-content: center; padding: 16px 18px; border: 1px solid rgba(17,17,17,.08); border-radius: 18px; background: rgba(255,255,255,.94); box-shadow: 0 18px 40px rgba(17,17,17,.16); backdrop-filter: blur(10px); }
-    .home-journey-media article::before { grid-row: 1 / span 2; display: grid; width: 34px; height: 34px; place-items: center; border: 2px solid #ff5a00; border-radius: 12px; color: #ff5a00; font-size: 22px; line-height: 1; content: "♡"; }
-    .home-journey-media article:nth-of-type(1) { left: 46%; top: 17%; }
-    .home-journey-media article:nth-of-type(2) { left: 38%; top: 39%; }
-    .home-journey-media article:nth-of-type(3) { left: 42%; bottom: 8%; }
-    .home-journey-media article:nth-of-type(4) { right: 14%; top: 6%; }
-    .home-journey-media article:nth-of-type(2)::before { content: "♙"; border-radius: 50%; }
-    .home-journey-media article:nth-of-type(3)::before { content: "↗"; }
-    .home-journey-media article:nth-of-type(4)::before { content: "☆"; }
+    .home-journey-media .home-journey-action { position: absolute; z-index: 3; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 0 12px; width: min(255px, 28%); min-height: 86px; align-content: center; padding: 16px 18px; border: 1px solid rgba(17,17,17,.08); border-radius: 18px; background: rgba(255,255,255,.94); box-shadow: 0 18px 40px rgba(17,17,17,.16); backdrop-filter: blur(10px); transition: transform .2s ease, background .2s ease; }
+    .home-journey-media .home-journey-action::before { grid-row: 1 / span 2; display: grid; width: 34px; height: 34px; place-items: center; border: 2px solid #ff5a00; border-radius: 12px; color: #ff5a00; font-size: 22px; line-height: 1; content: "♡"; }
+    .home-journey-media .home-journey-action:nth-of-type(1) { left: 46%; top: 17%; }
+    .home-journey-media .home-journey-action:nth-of-type(2) { left: 38%; top: 39%; }
+    .home-journey-media .home-journey-action:nth-of-type(3) { left: 42%; bottom: 8%; }
+    .home-journey-media .home-journey-action:nth-of-type(4) { right: 14%; top: 6%; }
+    .home-journey-media .home-journey-action:nth-of-type(2)::before { content: "♙"; border-radius: 50%; }
+    .home-journey-media .home-journey-action:nth-of-type(3)::before { content: "↗"; }
+    .home-journey-media .home-journey-action:nth-of-type(4)::before { content: "☆"; }
+    .home-journey-media .home-journey-action:hover, .home-journey-media .home-journey-action:focus-visible { background: rgba(255,255,255,1); transform: translateY(-3px); }
     .home-journey-media strong { display: block; color: #161616; font-size: 14px; font-weight: 950; line-height: 1.1; }
     .home-journey-media small { display: block; margin-top: 5px; color: #696969; font-size: 12px; line-height: 1.35; }
+    .home-tools-bridge { display: grid; grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr); gap: 24px; align-items: center; margin: 0 0 clamp(52px, 8vw, 92px); padding: clamp(24px, 3.5vw, 38px); border: 1px solid rgba(17,17,17,.08); border-radius: 20px; background: #fff; box-shadow: 0 18px 48px rgba(17,17,17,.06); }
+    .home-tools-bridge > div > span { display: block; color: #ff5a00; font-size: 12px; font-weight: 950; text-transform: uppercase; }
+    .home-tools-bridge h2 { max-width: 360px; margin: 8px 0 10px; color: #111; font-size: clamp(28px, 3vw, 40px); font-weight: 950; line-height: .98; letter-spacing: -.035em; }
+    .home-tools-bridge p { max-width: 370px; color: #6c6c6c; font-size: 14px; line-height: 1.55; }
+    .home-tools-bridge > div > a { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: #111; font-size: 13px; font-weight: 900; }
+    .home-tools-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .home-tools-list a { display: grid; gap: 9px; min-height: 136px; padding: 17px; border: 1px solid #ece7e2; border-radius: 14px; background: #fcfbfa; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+    .home-tools-list a::before { display: grid; width: 34px; height: 34px; place-items: center; border: 1.5px solid #ff5a00; border-radius: 11px; color: #ff5a00; font-size: 18px; font-weight: 900; content: "＋"; }
+    .home-tools-list a:nth-child(2)::before { content: "◷"; }
+    .home-tools-list a:nth-child(3)::before { content: "↗"; }
+    .home-tools-list strong { color: #171717; font-size: 14px; font-weight: 900; line-height: 1.1; }
+    .home-tools-list small { color: #777; font-size: 12px; line-height: 1.38; }
+    .home-tools-list a:hover, .home-tools-list a:focus-visible { border-color: rgba(255,90,0,.55); background: #fff; box-shadow: 0 12px 28px rgba(255,90,0,.1); transform: translateY(-3px); }
     .home-split { display: grid; grid-template-columns: .96fr 1.04fr; gap: 18px; margin-bottom: clamp(52px, 8vw, 92px); align-items: stretch; }
     .home-game-panel, .home-beplay-panel { min-height: clamp(292px, 30vw, 350px); overflow: hidden; border: 1px solid rgba(17,17,17,.08); border-radius: 16px; box-shadow: 0 18px 44px rgba(17,17,17,.1); }
     .home-game-panel { position: relative; display: flex; align-items: center; padding: clamp(22px, 3vw, 32px); isolation: isolate; background: #07111f; color: #fff; }
@@ -2321,6 +2343,11 @@
     .home-video-list img { width: 100%; aspect-ratio: 16 / 10; border-radius: 10px; object-fit: cover; background: #ddd; }
     .home-video-list strong { font-size: clamp(13px, 1.2vw, 15px); line-height: 1.08; }
     .home-video-list small { color: #777; font-size: 12px; }
+    .home-content-bridge { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: -34px 0 clamp(52px, 8vw, 92px); padding: 20px 24px; border: 1px solid #ebe5df; border-radius: 16px; background: #fffaf6; }
+    .home-content-bridge div { display: grid; gap: 4px; }
+    .home-content-bridge span { color: #ff5a00; font-size: 11px; font-weight: 950; text-transform: uppercase; }
+    .home-content-bridge strong { color: #171717; font-size: 17px; font-weight: 900; line-height: 1.15; }
+    .home-content-bridge a { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; min-height: 44px; padding: 0 17px; border-radius: 999px; background: #111; color: #fff; font-size: 13px; font-weight: 900; }
     .home-video-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: rgba(0,0,0,.78); }
     .home-video-modal[hidden] { display: none; }
     .home-video-modal-dialog { position: relative; width: min(900px, 100%); overflow: hidden; border-radius: 18px; background: #111; box-shadow: 0 28px 80px rgba(0,0,0,.4); }
@@ -2352,8 +2379,10 @@
     .home-people-signup input::placeholder { color: #b6b6b6; }
     .home-people-signup button { display: grid; place-items: center; border: 0; background: #ff5a00; color: #fff; cursor: pointer; }
     .home-people-signup button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .home-people-signup small { color: #706b67; font-size: 11px; line-height: 1.45; }
+    .home-people-signup .home-newsletter-status { margin: -8px 0 0; color: #20734d; font-size: 12px; font-weight: 750; }
     @media (max-width: 980px) {
-      .home-hero-v2, .home-journey, .home-split { grid-template-columns: 1fr; }
+      .home-hero-v2, .home-journey, .home-split, .home-tools-bridge { grid-template-columns: 1fr; }
       .home-hero-v2 {
         min-height: 0;
         padding-top: clamp(330px, 54vw, 470px);
@@ -2404,11 +2433,12 @@
       .home-journey-copy { max-width: 560px; }
       .home-journey-media { min-height: 100%; }
       .home-journey-media::before { background: linear-gradient(180deg, rgba(248,243,239,.96) 0%, rgba(248,243,239,.78) 38%, rgba(248,243,239,.12) 74%); }
-      .home-journey-media article { width: min(245px, 34%); }
-      .home-journey-media article:nth-of-type(1) { left: 52%; top: 35%; }
-      .home-journey-media article:nth-of-type(2) { left: 8%; top: 49%; }
-      .home-journey-media article:nth-of-type(3) { left: 36%; bottom: 8%; }
-      .home-journey-media article:nth-of-type(4) { right: 6%; top: 17%; }
+      .home-journey-media .home-journey-action { width: min(245px, 34%); }
+      .home-journey-media .home-journey-action:nth-of-type(1) { left: 52%; top: 35%; }
+      .home-journey-media .home-journey-action:nth-of-type(2) { left: 8%; top: 49%; }
+      .home-journey-media .home-journey-action:nth-of-type(3) { left: 36%; bottom: 8%; }
+      .home-journey-media .home-journey-action:nth-of-type(4) { right: 6%; top: 17%; }
+      .home-tools-bridge { gap: 22px; }
       .home-people-quote { grid-template-columns: 1fr; gap: 24px; }
       .home-people-logo { justify-self: start; width: 150px; }
     }
@@ -2426,6 +2456,9 @@
         gap: 10px;
         width: 100%;
       }
+      .home-moment-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .home-moment-choices > span { grid-column: 1 / -1; }
+      .home-moment-choices a { justify-content: center; padding-inline: 8px; text-align: center; }
       .home-primary, .home-secondary, .home-dark-btn {
         width: 100%;
         min-height: 48px;
@@ -2433,6 +2466,11 @@
         text-align: center;
       }
       .home-steps, .home-report-grid, .home-video-list { grid-template-columns: 1fr; }
+      .home-tools-list { grid-template-columns: 1fr; }
+      .home-tools-list a { grid-template-columns: 34px minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 12px; min-height: 0; }
+      .home-tools-list a::before { grid-row: 1 / span 2; }
+      .home-content-bridge { flex-direction: column; align-items: flex-start; margin-top: -32px; padding: 20px; }
+      .home-content-bridge a { width: 100%; }
       .home-card-grid {
         grid-auto-columns: minmax(268px, 82vw);
         gap: 14px;
@@ -2477,7 +2515,7 @@
       .home-journey-media img { object-position: 68% center; }
       .home-journey-media::before { z-index: 1; background: transparent; }
       .home-journey-media::after { display: none; }
-      .home-journey-media article { position: relative; z-index: 3; align-self: center; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: min(100%, 440px); min-height: 82px; margin: 0; background: rgba(255,255,255,.42); }
+      .home-journey-media .home-journey-action { position: relative; z-index: 3; align-self: center; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: min(100%, 440px); min-height: 82px; margin: 0; background: rgba(255,255,255,.42); }
       .home-people-quote { padding: 26px 20px; border-radius: 22px; }
       .home-people-quote blockquote { padding-left: 24px; font-size: clamp(28px, 8vw, 38px); }
       .home-people-signup form { grid-template-columns: minmax(0, 1fr) 50px; min-height: 54px; }
@@ -2525,6 +2563,12 @@
             <a class="home-primary" href="/meu-caminho-be">Criar meu Caminho <span aria-hidden="true">→</span></a>
             <a class="home-secondary" href="#seu-momento">Encontrar meu momento</a>
           </div>
+          <nav class="home-moment-choices" aria-label="Escolha uma intenção para sua jornada">
+            <span>Hoje eu quero:</span>
+            <a href="/meu-caminho-be/registrar">Começar</a>
+            <a href="/meu-caminho-be/jornada/evolucao">Evoluir</a>
+            <a href="/reportagens">Inspirar-me</a>
+          </nav>
         </div>
         <div class="home-hero-media" aria-label="Imagem principal do Bem Esportivo">
           <picture>
@@ -2572,8 +2616,14 @@
       <section class="shell home-journey" id="meu-caminho" aria-labelledby="home-journey-title">
         <div class="home-journey-copy">
           <span>Meu Caminho Be</span>
-          <h2 id="home-journey-title">O seu esporte merece <em>continuar.</em></h2>
+          <h2 id="home-journey-title">Seu diário <em>esportivo digital.</em></h2>
           <p>Registre o que viveu, reconheça seu ritmo e encontre uma forma mais leve de permanecer em movimento. Sem comparação, sem pressa — do seu jeito.</p>
+          <div class="home-journey-proof" aria-label="Como funciona o Meu Caminho Be">
+            <span>Seu caminho em três movimentos</span>
+            <div><i aria-hidden="true"></i>Registre o que aconteceu</div>
+            <div><i aria-hidden="true"></i>Perceba o seu ritmo</div>
+            <div><i aria-hidden="true"></i>Escolha um próximo passo possível</div>
+          </div>
           <a class="home-dark-btn" href="/meu-caminho-be">Começar meu Caminho <span aria-hidden="true">→</span></a>
         </div>
         <div class="home-journey-media">
@@ -2581,10 +2631,24 @@
             <source type="image/webp" srcset="img/jornada-esportiva-atleta-por-do-sol.webp" sizes="(max-width: 900px) 100vw, 100vw">
             <img src="img/jornada-esportiva-atleta-por-do-sol.png" alt="Atleta em uma pista ao pôr do sol, em um momento de pausa e continuidade esportiva" loading="lazy" width="1536" height="1024">
           </picture>
-          <article><strong>Registre</strong><small>Guarde cada treino, jogo ou recomeço.</small></article>
-          <article><strong>Perceba</strong><small>Entenda o que faz sentido para sua rotina.</small></article>
-          <article><strong>Continue</strong><small>Valorize pequenas ações que mantêm você em movimento.</small></article>
-          <article><strong>Compartilhe</strong><small>Faça do esporte uma história que é sua.</small></article>
+          <a class="home-journey-action" href="/meu-caminho-be/registrar"><strong>Registre</strong><small>Guarde cada treino, jogo ou recomeço.</small></a>
+          <a class="home-journey-action" href="/meu-caminho-be/jornada/evolucao"><strong>Perceba</strong><small>Entenda o que faz sentido para sua rotina.</small></a>
+          <a class="home-journey-action" href="/meu-caminho-be/jornada"><strong>Continue</strong><small>Valorize pequenas ações que mantêm você em movimento.</small></a>
+          <a class="home-journey-action" href="/meu-caminho-be#participe"><strong>Compartilhe</strong><small>Faça do esporte uma história que é sua.</small></a>
+        </div>
+      </section>
+
+      <section class="shell home-tools-bridge" aria-labelledby="home-tools-title">
+        <div>
+          <span>Ferramentas Be</span>
+          <h2 id="home-tools-title">Ferramentas para o seu ritmo.</h2>
+          <p>Referências simples para ajudar você a compreender melhor a sua rotina esportiva.</p>
+          <a href="/meu-caminho-be/ferramentas">Ver todas as ferramentas <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="home-tools-list">
+          <a href="/meu-caminho-be/ferramentas?ferramenta=imc"><strong>Calculadora IMC</strong><small>Use peso e altura como referência educativa.</small></a>
+          <a href="/meu-caminho-be/ferramentas?ferramenta=pace"><strong>Calculadora Pace</strong><small>Entenda o seu ritmo por quilômetro.</small></a>
+          <a href="/meu-caminho-be/ferramentas?ferramenta=agua"><strong>Água diária</strong><small>Defina uma meta de hidratação possível.</small></a>
         </div>
       </section>
 
@@ -2612,6 +2676,11 @@
             <button type="button" data-home-video="videos/beplay-o-esporte-comeca-nas-pessoas.mp4" data-home-video-title="O esporte começa com pessoas" data-home-video-link="/beplay?video=o-esporte-comeca-nas-pessoas"><span class="home-video-cover"><img src="img/beplay-capa-pessoas.webp" alt="Pessoas reunidas após uma atividade esportiva comunitária" loading="lazy" width="960" height="640"></span><strong>O esporte começa com pessoas</strong><small>00:09</small></button>
           </div>
         </article>
+      </section>
+
+      <section class="shell home-content-bridge" aria-label="Continue sua jornada esportiva">
+        <div><span>Depois de assistir</span><strong>Transforme inspiração em um próximo passo.</strong></div>
+        <a href="/meu-caminho-be/registrar">Registrar minha atividade <span aria-hidden="true">→</span></a>
       </section>
 
       <section class="shell home-section-v2 home-report-section" aria-labelledby="home-report-title">
@@ -2924,18 +2993,22 @@
         </div>
       </section>
 
-      <section class="shell home-people-quote" aria-label="Mensagem final do Bem Esportivo">
+      <section class="shell home-people-quote" id="receba-conteudos" aria-label="Mensagem final do Bem Esportivo">
         <blockquote>O esporte começa com pessoas</blockquote>
         <img class="home-people-logo" src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo" loading="lazy">
         <div class="home-people-signup">
           <strong>Receba conteúdos que inspiram e transformam.</strong>
-          <form action="/contato" method="get">
+          <form name="newsletter-bem" method="post" action="/?newsletter=recebido#receba-conteudos" data-netlify="true" netlify-honeypot="website">
+            <input type="hidden" name="form-name" value="newsletter-bem">
+            <p hidden><label>Não preencha este campo: <input name="website"></label></p>
             <label class="sr-only" for="home-people-email">Seu melhor e-mail</label>
-            <input id="home-people-email" name="email" type="email" placeholder="Seu melhor e-mail" autocomplete="email">
+            <input id="home-people-email" name="email" type="email" placeholder="Seu melhor e-mail" autocomplete="email" required>
             <button type="submit" aria-label="Enviar e-mail">
               <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
             </button>
           </form>
+          <small>Ao se inscrever, você concorda em receber conteúdos do BeMEsportivo. Consulte nossa <a href="/politica-de-privacidade">Política de Privacidade</a>.</small>
+          <p class="home-newsletter-status" id="home-newsletter-status" role="status" aria-live="polite" hidden tabindex="-1">Inscrição confirmada. Em breve você receberá nossos conteúdos.</p>
         </div>
       </section>
     </main>
@@ -2985,6 +3058,12 @@
   <script type="module" src="js/privacy-entry.js?v=20260723-2"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      if (new URLSearchParams(window.location.search).get('newsletter') === 'recebido') {
+        const newsletterStatus = document.getElementById('home-newsletter-status');
+        newsletterStatus.hidden = false;
+        newsletterStatus.focus();
+        window.history.replaceState({}, '', `${window.location.pathname}#receba-conteudos`);
+      }
       const topBtn = document.getElementById('topBtn');
       const homeVideoModal = document.getElementById('home-video-modal');
       const homeVideoPlayer = document.getElementById('home-video-player');

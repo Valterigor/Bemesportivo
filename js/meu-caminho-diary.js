@@ -390,6 +390,20 @@
     $('#be-dashboard-records').textContent = String(entries.length);
     const streak = currentStreak();
     $('#be-dashboard-streak').textContent = `${streak} ${streak === 1 ? 'dia' : 'dias'}`;
+    const fourteenDaysAgo = new Date();
+    fourteenDaysAgo.setHours(0, 0, 0, 0);
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 13);
+    const recentEntries = entries.filter(entry => {
+      const entryDate = new Date(`${entry.date}T12:00:00`);
+      return !Number.isNaN(entryDate) && entryDate >= fourteenDaysAgo;
+    }).length;
+    const dashboardWelcome = window.BeKnowledgeLibrary?.buildDashboardWelcome?.({
+      name: profile?.name,
+      objective: profile?.objective,
+      entries: entries.length,
+      streak,
+      recentEntries
+    });
 
     const startedAt = profile?.identityCreatedAt || profile?.createdAt || entries.at(-1)?.date;
     if (startedAt) {
@@ -403,6 +417,8 @@
       $('#be-dashboard-since').textContent = 'Seu caminho não precisa ser perfeito. Precisa fazer sentido para você.';
     }
 
+    if (dashboardWelcome?.message) $('#be-dashboard-since').textContent = dashboardWelcome.message;
+
     const goals = {
       comecar: ['Criar ritmo', 'Comece com uma atividade possível.'],
       saude: ['Cuidar de você', 'Movimento também é autocuidado.'],
@@ -412,8 +428,8 @@
       recuperacao: ['Voltar bem', 'Retome com calma e segurança.']
     };
     const goal = goals[profile?.objective] || ['Começar', 'Um passo possível hoje.'];
-    $('#be-dashboard-goal').textContent = goal[0];
-    $('#be-dashboard-goal-note').textContent = goal[1];
+    $('#be-dashboard-goal').textContent = dashboardWelcome?.goalLabel || goal[0];
+    $('#be-dashboard-goal-note').textContent = dashboardWelcome?.goalNote || goal[1];
     const avatar = $('#be-dashboard-avatar');
     avatar.textContent = name ? name.slice(0, 2).toLocaleUpperCase('pt-BR') : 'BE';
     if (String(profile?.photoDataUrl || '').startsWith('data:image/')) {

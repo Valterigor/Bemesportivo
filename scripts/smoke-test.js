@@ -223,7 +223,7 @@ async function run() {
     assert.match(homeHtml, /id="home-hero-title">Descubra <span>seu caminho<\/span> no esporte\./, 'O novo hero precisa preservar a chamada principal do Bem Esportivo.');
     assert.match(homeHtml, /class="shell home-steps"[\s\S]*Descobrir[\s\S]*Começar[\s\S]*Evoluir[\s\S]*Permanecer/, 'A Home precisa apresentar as quatro etapas da jornada.');
     assert.match(homeHtml, /id="home-content-title">Histórias que aproximam você do <em>esporte\.<\/em>/, 'A Home precisa apresentar os cards editoriais.');
-    assert.match(homeHtml, /class="shell home-journey"[\s\S]*O seu esporte merece <em>continuar\.<\/em>/, 'A Home precisa preservar o bloco do Meu Caminho Be.');
+    assert.match(homeHtml, /class="shell home-journey"[\s\S]*Seu diário <em>esportivo digital\.<\/em>/, 'A Home precisa preservar o bloco do Meu Caminho Be.');
     assert.match(homeHtml, /class="shell home-split"[\s\S]*Corrida da Hidratação[\s\S]*Assista\. Inspire-se\. Evolua sempre\./, 'A Home precisa conectar Game e BePlay.');
     assert.match(homeHtml, /id="home-report-title">Histórias reais que <em>inspiram<\/em> o esporte\./, 'A Home precisa preservar a vitrine de reportagens.');
     assert.match(homeHtml, /href="\/meu-caminho-be">Criar meu Caminho/, 'A chamada da Home precisa abrir o Meu Caminho Be.');

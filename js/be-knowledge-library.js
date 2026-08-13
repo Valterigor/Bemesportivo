@@ -7,7 +7,7 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function createBeKnowledgeLibrary() {
   'use strict';
 
-  const VERSION = '1.1.0';
+  const VERSION = '1.2.0';
   const REVIEWED_AT = '2026-08-07';
   const REVIEW_STATUS = 'editorial-pending-professional';
   const allowedActions = new Set(['movement', 'rest', 'nutrition', 'hydration', 'daily', 'journey', 'professional', 'profile']);
@@ -131,6 +131,55 @@
     const primaryAction = allowedActions.has(payload.primary?.[1]) ? payload.primary : ['Ver minha jornada', 'journey'];
     const secondaryAction = allowedActions.has(payload.secondary?.[1]) ? payload.secondary : ['Registrar Meu Hoje', 'daily'];
     return Object.assign({}, payload, { primary: primaryAction, secondary: secondaryAction }, metadata(sourceIds));
+  }
+
+  function buildDashboardWelcome(context = {}) {
+    const name = String(context.name || '').trim().split(/\s+/)[0];
+    const greeting = name ? `${name}, ` : '';
+    const entries = Math.max(0, Number(context.entries || 0));
+    const streak = Math.max(0, Number(context.streak || 0));
+    const recentEntries = Math.max(0, Number(context.recentEntries || 0));
+    const objective = String(context.objective || '').trim();
+
+    if (!entries) return response({
+      label: 'SEU ESPAÇO PARA COMEÇAR',
+      message: `${greeting}você não precisa ter tudo definido para dar o primeiro passo. Este espaço existe para acompanhar o que faz sentido para a sua vida — esporte, saúde e lazer.`,
+      goalLabel: 'Começar com calma',
+      goalNote: 'Um registro verdadeiro já é um começo.'
+    });
+
+    if (!recentEntries) return response({
+      label: 'SEU CAMINHO CONTINUA',
+      message: `${greeting}voltar depois de uma pausa também é fazer parte da jornada. Não há nada para compensar: escolha apenas o próximo passo que cabe hoje.`,
+      goalLabel: 'Retomar no seu ritmo',
+      goalNote: 'Recomeçar é continuar de outro jeito.'
+    });
+
+    if (streak >= 3) return response({
+      label: 'PRESENÇA CONSTRUÍDA',
+      message: `${greeting}seus registros mostram presença. Use esse histórico para se conhecer melhor, sem transformar a sequência em obrigação.`,
+      goalLabel: 'Seguir com presença',
+      goalNote: 'Seu ritmo vale mais do que uma sequência.'
+    });
+
+    return response({
+      label: 'UM PASSO DE CADA VEZ',
+      message: `${greeting}cada registro ajuda a enxergar o que apoia sua rotina. Você não está sozinho na busca por mais movimento, saúde e momentos de lazer.`,
+      goalLabel: objective === 'saude' ? 'Cuidar de você' : 'Construir seu ritmo',
+      goalNote: 'O que cabe hoje também conta.'
+    });
+  }
+
+  function buildArrivalMoment(arrival) {
+    const moments = {
+      ready: ['Que bom ter disposição hoje. Escolha um passo que preserve essa energia também para amanhã.', 'Movimento com presença'],
+      short: ['Um dia cheio não diminui sua intenção. Uma versão curta, uma pausa ou um registro já podem fazer sentido.', 'Um passo que caiba hoje'],
+      tired: ['Cansaço merece escuta, não cobrança. Você pode descansar, observar como está ou apenas registrar este momento.', 'Cuidar da recuperação'],
+      returning: ['Voltar aos poucos é uma forma corajosa de continuar. Não há nada para compensar.', 'Retomar no seu ritmo'],
+      present: ['Estar aqui já é uma escolha por você. Quando quiser, conte uma coisa pequena sobre o seu dia.', 'Reconhecer seu momento']
+    };
+    const [message, focus] = moments[arrival] || ['Seu momento importa. Escolha a opção que melhor descreve como você chega hoje.', 'Um passo possível'];
+    return response({ label: 'SEU MOMENTO DE HOJE', message, focus });
   }
 
   function careResponse(context, safety) {
@@ -332,6 +381,8 @@
     assessSafety,
     classifyIntent,
     buildResponse,
-    buildInteraction
+    buildInteraction,
+    buildDashboardWelcome,
+    buildArrivalMoment
   });
 });

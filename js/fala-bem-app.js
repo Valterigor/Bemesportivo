@@ -474,6 +474,7 @@ function sanitizeDailyPlan(plan) {
   };
   return {
     date: String(plan.date), intention: plan.intention,
+    arrival: ['ready', 'short', 'tired', 'returning', 'present'].includes(plan.arrival) ? plan.arrival : '',
     activity: Object.hasOwn(dayPlanActivityLabels, plan.activity) ? plan.activity : '',
     time: /^([01]\d|2[0-3]):[0-5]\d$/.test(String(plan.time || '')) ? String(plan.time) : '',
     duration: Math.min(600, Math.max(0, Math.round(Number(plan.duration) || 0))),
@@ -2661,12 +2662,26 @@ function saveDailyPlan(updates) {
   return plan;
 }
 
+function renderArrivalCheckin() {
+  const message = document.getElementById('be-arrival-message');
+  if (!message) return;
+  const plan = getDailyPlans().find(item => item.date === localDayKey()) || null;
+  const moment = window.BeKnowledgeLibrary?.buildArrivalMoment?.(plan?.arrival);
+  if (moment?.message) message.textContent = moment.message;
+  document.querySelectorAll('[data-be-arrival]').forEach(button => {
+    const selected = button.dataset.beArrival === plan?.arrival;
+    button.setAttribute('aria-pressed', String(selected));
+    button.classList.toggle('is-selected', selected);
+  });
+}
+
 function renderDashboardPlan() {
   const card = document.getElementById('be-dashboard-plan');
   const title = document.getElementById('be-dashboard-plan-title');
   const detail = document.getElementById('be-dashboard-plan-detail');
   const action = document.getElementById('be-dashboard-plan-action');
   if (!card || !title || !detail || !action) return;
+  renderArrivalCheckin();
   const plan = getDailyPlans().find(item => item.date === localDayKey()) || null;
   const hasScheduledActivity = Boolean(plan?.activity && plan?.time && plan?.duration);
   card.classList.toggle('is-planned', hasScheduledActivity);
@@ -4014,6 +4029,20 @@ document.querySelectorAll('[data-day-intent]').forEach(button => {
   });
 });
 
+document.querySelectorAll('[data-be-arrival]').forEach(button => {
+  button.addEventListener('click', () => {
+    const arrival = button.dataset.beArrival;
+    const existing = getDailyPlans().find(item => item.date === localDayKey()) || null;
+    const defaultIntentions = { ready: 'movimento', short: 'movimento', tired: 'descanso', returning: 'movimento', present: 'registro' };
+    saveDailyPlan({
+      intention: existing?.intention || defaultIntentions[arrival], arrival,
+      status: existing?.status || 'planned', remindAt: existing?.remindAt || '',
+      notifiedAt: existing?.notifiedAt || '', completedAt: existing?.completedAt || ''
+    });
+    renderDailyGuide();
+  });
+});
+
 document.getElementById('fb-day-why-toggle')?.addEventListener('click', event => {
   const why = document.getElementById('fb-day-why');
   const expanded = event.currentTarget.getAttribute('aria-expanded') === 'true';
@@ -4698,5 +4727,10 @@ showPracticalTip('correr', { open: false });
 const sharedQuestion = new URLSearchParams(window.location.search).get('pergunta')?.trim();
 if (sharedQuestion && sharedQuestion.length >= 3) {
   showPracticalTip('constancia');
+}
+const sharedTool = new URLSearchParams(window.location.search).get('ferramenta')?.trim();
+if (['imc', 'pace', 'calorias', 'agua', 'proteina'].includes(sharedTool)) {
+  openView('ferramentas');
+  window.setTimeout(() => document.querySelector(`[data-tool="${sharedTool}"]`)?.click(), 180);
 }
 })();
