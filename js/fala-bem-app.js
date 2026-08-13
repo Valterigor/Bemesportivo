@@ -329,6 +329,7 @@ function readStoredProfile() {
         state: String(profile.location?.state || '').trim().toLocaleUpperCase('pt-BR').slice(0, 2)
       },
       photoDataUrl: sanitizeProfilePhoto(profile.photoDataUrl),
+      story: sanitizeProfileStory(profile.story),
       sportProfile: normalizeSportProfile(profile.sportProfile),
       sportStats: normalizeSportStats(profile.sportStats),
       checkins: Array.isArray(profile.checkins) ? profile.checkins : [],
@@ -347,6 +348,10 @@ function readStoredProfile() {
 function sanitizeProfilePhoto(value) {
   const photo = String(value || '');
   return /^data:image\/(?:jpeg|png|webp);base64,[a-z0-9+/=]+$/i.test(photo) && photo.length <= 250000 ? photo : '';
+}
+
+function sanitizeProfileStory(value) {
+  return String(value || '').replace(/\r\n/g, '\n').trim().slice(0, 600);
 }
 
 function saveProfile(updates) {
@@ -1668,7 +1673,7 @@ function renderProfilePresentation() {
   }
   document.getElementById('be-profile-display-name').textContent = name;
   document.getElementById('be-profile-display-handle').textContent = profileHandle(name);
-  document.getElementById('be-profile-display-bio').textContent = `${sportProfile.modalityLabel}${sportProfile.roleLabel ? ` · ${sportProfile.roleLabel}` : ''}. O esporte faz parte da minha história.`;
+  document.getElementById('be-profile-display-bio').textContent = sanitizeProfileStory(currentProfile?.story) || `${sportProfile.modalityLabel}${sportProfile.roleLabel ? ` · ${sportProfile.roleLabel}` : ''}. O esporte faz parte da minha história.`;
   document.getElementById('be-profile-stat-records').textContent = String(diary.length);
   document.getElementById('be-profile-stat-days').textContent = String(activeDays);
   document.getElementById('be-profile-stat-sports').textContent = String(sports);
@@ -1737,6 +1742,8 @@ function syncProfileFormValues() {
   const sportInput = document.getElementById('fb-profile-sport');
   const roleInput = document.getElementById('fb-profile-role');
   const visualInput = document.getElementById('fb-profile-visual');
+  const storyInput = document.getElementById('fb-profile-story');
+  const storyCount = document.getElementById('fb-profile-story-count');
   const sportProfile = getSportProfile();
   if (nameInput && document.activeElement !== nameInput) nameInput.value = currentProfile?.name || '';
   if (emailInput && document.activeElement !== emailInput) emailInput.value = currentProfile?.email || '';
@@ -1745,6 +1752,8 @@ function syncProfileFormValues() {
   if (sportInput && document.activeElement !== sportInput) sportInput.value = sportProfile.modality;
   if (roleInput && document.activeElement !== roleInput) roleInput.value = sportProfile.roleLabel === sportProfile.fallbackRole ? '' : sportProfile.roleLabel;
   if (visualInput && document.activeElement !== visualInput) visualInput.value = sportProfile.visual;
+  if (storyInput && document.activeElement !== storyInput) storyInput.value = sanitizeProfileStory(currentProfile?.story);
+  if (storyCount) storyCount.textContent = String(storyInput?.value.length || 0);
   renderProfilePhoto();
 }
 
@@ -3779,6 +3788,11 @@ document.getElementById('be-profile-cancel-edit')?.addEventListener('click', () 
   document.getElementById('be-profile-presentation')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
+document.getElementById('fb-profile-story')?.addEventListener('input', event => {
+  const counter = document.getElementById('fb-profile-story-count');
+  if (counter) counter.textContent = String(event.currentTarget.value.length);
+});
+
 document.getElementById('fb-profile-form')?.addEventListener('submit', event => {
   event.preventDefault();
   const name = document.getElementById('fb-profile-name').value.trim();
@@ -3792,17 +3806,18 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
     role: document.getElementById('fb-profile-role')?.value.trim() || '',
     visual: document.getElementById('fb-profile-visual')?.value || 'energia'
   };
+  const story = sanitizeProfileStory(document.getElementById('fb-profile-story')?.value);
   const photoDataUrl = pendingProfilePhoto === undefined
     ? sanitizeProfilePhoto(currentProfile?.photoDataUrl)
     : sanitizeProfilePhoto(pendingProfilePhoto);
   profileEditMode = false;
-  saveProfile({ name, email, location, photoDataUrl, sportProfile, identityCreatedAt: currentProfile?.identityCreatedAt || new Date().toISOString() });
+  saveProfile({ name, email, location, photoDataUrl, sportProfile, story, identityCreatedAt: currentProfile?.identityCreatedAt || new Date().toISOString() });
   pendingProfilePhoto = undefined;
   renderProfilePhoto();
   if (name) registerFirstIdentityAccess();
   const sportLabel = getSportProfile({ sportProfile }).modalityLabel;
   document.getElementById('fb-profile-feedback').textContent = name
-    ? `Perfil salvo, ${name}. Modalidade base: ${sportLabel}.`
+    ? `Perfil salvo, ${name}.${story ? ' Sua história também foi guardada.' : ` Modalidade base: ${sportLabel}.`}`
     : `Perfil salvo neste navegador. Modalidade base: ${sportLabel}.`;
   showCelebration('Perfil atualizado!', name
     ? `Muito bem, ${name}. Seu perfil agora tem uma identidade por modalidade.`
@@ -4304,6 +4319,7 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
         state: String(profile.location?.state || '').trim().toLocaleUpperCase('pt-BR').slice(0, 2)
       },
       photoDataUrl: sanitizeProfilePhoto(profile.photoDataUrl),
+      story: sanitizeProfileStory(profile.story),
       sportProfile: normalizeSportProfile(profile.sportProfile),
       sportStats: normalizeSportStats(profile.sportStats),
       checkins: Array.isArray(profile.checkins) ? profile.checkins.slice(-10) : [],
