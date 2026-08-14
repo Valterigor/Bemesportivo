@@ -2,6 +2,8 @@
 
 O painel operacional fica em `/admin` e não aparece na navegação pública. A página não contém dados administrativos no HTML: todos os indicadores e itens de moderação dependem da API protegida `/api/admin/*`.
 
+Status de produção: segredo de acesso configurado no Cloudflare Pages em 13 de agosto de 2026. O valor não é mantido neste repositório.
+
 ## Proteção de acesso
 
 A API exige a variável secreta `BE_ADMIN_TOKEN`, com pelo menos 32 caracteres aleatórios. Sem essa configuração, o servidor responde `503` e nenhum dado é entregue. Uma chave incorreta responde `401`.
