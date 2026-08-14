@@ -66,7 +66,6 @@ const COMMUNITY_ROOT=location.protocol==='file:'?'':'/api/community';
 const CLIENT_KEY='bemEsportivoCommunityClientId';
 const COMMENT_NAME_KEY='bemBeplayCommentName';
 const HISTORY_KEY='bemBeplayWatchHistory';
-const SUBSCRIPTION_KEY='bemBeplaySubscriptionV2';
 
 function escapeHtml(value){
   return String(value||'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -445,67 +444,6 @@ document.getElementById('saveVideo').addEventListener('click',()=>{
   showToast('Vídeo salvo');
 });
 
-function readChannelSubscription(){
-  try{
-    const state=JSON.parse(localStorage.getItem(SUBSCRIPTION_KEY)||'null');
-    if(state && typeof state==='object') return state;
-    if(localStorage.getItem('bemBeplaySubscribed')==='true') return {subscribed:true,subscribedAt:'',knownVideoIds:[]};
-  }catch(error){}
-  return {subscribed:false,subscribedAt:'',knownVideoIds:[]};
-}
-
-function saveChannelSubscription(state){
-  localStorage.setItem(SUBSCRIPTION_KEY,JSON.stringify(state));
-  localStorage.removeItem('bemBeplaySubscribed');
-}
-
-function renderChannelSubscription(state,newCount=0){
-  const button=document.getElementById('subscribeChannel');
-  const status=document.getElementById('channelSubscriptionStatus');
-  button.setAttribute('aria-pressed',String(Boolean(state.subscribed)));
-  button.textContent=state.subscribed?'Inscrito ✓':'Inscrever-se';
-  button.title=state.subscribed?'Clique para cancelar a inscrição':'Acompanhar novidades do BEPlay neste aparelho';
-  if(!status) return;
-  if(!state.subscribed) status.textContent='Acompanhe novos vídeos neste aparelho.';
-  else if(newCount>0) status.textContent=`${newCount} ${newCount===1?'vídeo novo encontrado':'vídeos novos encontrados'} desde sua última visita.`;
-  else status.textContent='Inscrição ativa neste aparelho. Mostraremos novidades quando você visitar o BEPlay.';
-}
-
-function initializeChannelSubscription(){
-  const state=readChannelSubscription();
-  if(!state.subscribed){
-    renderChannelSubscription(state);
-    return;
-  }
-  const publishedIds=videos.filter(video=>video.kind!=='institutional').map(video=>video.id);
-  const knownIds=Array.isArray(state.knownVideoIds)?state.knownVideoIds:[];
-  const newCount=publishedIds.filter(id=>!knownIds.includes(id)).length;
-  const updated={...state,knownVideoIds:publishedIds,lastVisitedAt:new Date().toISOString()};
-  saveChannelSubscription(updated);
-  renderChannelSubscription(updated,newCount);
-  if(newCount>0) showToast(`${newCount} ${newCount===1?'novo vídeo no BEPlay':'novos vídeos no BEPlay'}`);
-}
-
-document.getElementById('subscribeChannel').addEventListener('click',()=>{
-  const current=readChannelSubscription();
-  if(current.subscribed){
-    const next={subscribed:false,subscribedAt:'',knownVideoIds:[]};
-    saveChannelSubscription(next);
-    renderChannelSubscription(next);
-    showToast('Inscrição cancelada neste aparelho');
-    return;
-  }
-  const next={
-    subscribed:true,
-    subscribedAt:new Date().toISOString(),
-    lastVisitedAt:new Date().toISOString(),
-    knownVideoIds:videos.filter(video=>video.kind!=='institutional').map(video=>video.id)
-  };
-  saveChannelSubscription(next);
-  renderChannelSubscription(next);
-  showToast('Inscrição ativada neste aparelho');
-});
-
 document.getElementById('videoSearch').addEventListener('input',renderRelated);
 
 document.querySelectorAll('[data-video-filter]').forEach(button=>{
@@ -555,7 +493,6 @@ try{
     document.getElementById('profileActions').textContent=`Último vídeo salvo: ${saved.title}`;
   }
 }catch(error){}
-initializeChannelSubscription();
 const savedCommentName=localStorage.getItem(COMMENT_NAME_KEY);
 if(savedCommentName && document.getElementById('videoCommentName')){
   document.getElementById('videoCommentName').value=savedCommentName;

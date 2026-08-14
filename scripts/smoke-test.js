@@ -378,10 +378,14 @@ async function run() {
     assert.match(pathHtml, /data-community-scope="path" data-community-id="meu-caminho-be"/, 'A comunidade do Meu Caminho precisa usar o componente global padronizado.');
     const beplayHtml = fs.readFileSync(path.join(root, 'beplay.html'), 'utf8');
     assert.match(beplayHtml, /id="videoComments" data-community-scope="beplay"/, 'O BEplay precisa usar os comentários globais padronizados.');
+    assert.match(beplayHtml, /class="channel-follow"[^>]*href="https:\/\/www\.instagram\.com\/bemesportivo\/"/, 'O card do canal precisa oferecer uma ação real para acompanhar novidades.');
+    assert.doesNotMatch(beplayHtml, /id="subscribeChannel"|>Inscrever-se</, 'O BEplay não pode simular uma inscrição que não envia novidades.');
     const journeyReset = fs.readFileSync(path.join(root, 'js/components/journey-reset.js'), 'utf8');
     assert.match(journeyReset, /addEventListener\('click',[\s\S]*true\);/, 'O reset precisa funcionar por delegação independente em modo de captura.');
     assert.match(journeyReset, /event\.stopImmediatePropagation\(\)/, 'O controlador independente precisa impedir acionamento duplicado do reset.');
     assert.match(journeyReset, /journeyKeys\(\)\.forEach[\s\S]*location\.replace/, 'O reset independente precisa apagar a jornada e recarregar o início.');
+    const beplayApp = fs.readFileSync(path.join(root, 'js/beplay.js'), 'utf8');
+    assert.doesNotMatch(beplayApp, /SUBSCRIPTION_KEY|subscribeChannel|readChannelSubscription/, 'A falsa inscrição local do BEplay precisa permanecer removida.');
 
     const platformCss = fs.readFileSync(path.join(root, 'css/fala-bem-platform.css'), 'utf8');
     assert.match(platformCss, /@media\(min-width:761px\)\{[\s\S]*?body\.fala-bem-app-page \.fb-app-nav\{[\s\S]*?position:static;/);

@@ -148,19 +148,33 @@ body.beplay-page > header.topbar {
   line-height: 1.4;
 }
 
-.channel-card button,
+.channel-card .channel-follow,
 .comment-form button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   min-height: 44px;
+  padding: 0 18px;
   border: 0;
   border-radius: 999px;
   background: #ff6a00;
   color: #111111;
   font-weight: 900;
+  text-decoration: none;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
 }
 
-.channel-card button[aria-pressed="true"] {
-  background: #171717;
-  color: #ffffff;
+.channel-card .channel-follow:hover,
+.channel-card .channel-follow:focus-visible {
+  background: #ff7c1f;
+  box-shadow: 0 8px 22px rgba(255,106,0,.24);
+  transform: translateY(-1px);
+}
+
+.channel-card .channel-follow span {
+  color: inherit;
+  font-size: 15px;
 }
 
 .beplay-layout {
