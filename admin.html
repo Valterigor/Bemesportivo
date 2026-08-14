@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Painel operacional privado do Bem Esportivo.">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#111111">
+  <title>Painel Be | Operação</title>
+  <link rel="icon" href="img/app-icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css?v=20260813-1">
+</head>
+<body>
+  <header class="admin-header">
+    <a href="/" aria-label="Voltar ao Bem Esportivo"><img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo" width="122" height="67"></a>
+    <div><span class="admin-private">Área privada</span><button type="button" id="adminExit" hidden>Sair com segurança</button></div>
+  </header>
+
+  <main>
+    <section class="admin-login" id="adminLogin" aria-labelledby="adminLoginTitle">
+      <div class="admin-login-copy">
+        <p class="admin-eyebrow">Operação Be</p>
+        <h1 id="adminLoginTitle">Cuidar da plataforma também faz parte da jornada.</h1>
+        <p>Acompanhe os serviços e trate conversas denunciadas em um ambiente protegido. A chave permanece apenas nesta aba.</p>
+      </div>
+      <form id="adminLoginForm" class="admin-login-card">
+        <label for="adminToken">Chave administrativa</label>
+        <input type="password" id="adminToken" name="token" minlength="32" autocomplete="current-password" required>
+        <button type="submit">Entrar no painel</button>
+        <p id="adminLoginFeedback" class="admin-feedback" role="status" aria-live="polite">Use a chave configurada com segurança no servidor.</p>
+      </form>
+    </section>
+
+    <section class="admin-dashboard" id="adminDashboard" hidden aria-labelledby="adminTitle">
+      <div class="admin-title-row">
+        <div><p class="admin-eyebrow">Visão operacional</p><h1 id="adminTitle">Painel Be</h1><p id="adminUpdated">Carregando estado do sistema…</p></div>
+        <button type="button" id="adminRefresh">Atualizar dados</button>
+      </div>
+
+      <section class="admin-metrics" aria-label="Indicadores do sistema">
+        <article><span>Comentários</span><strong id="metricComments">—</strong><small id="metricReplies">— respostas</small></article>
+        <article><span>Precisam de atenção</span><strong id="metricReported">—</strong><small id="metricHidden">— ocultos</small></article>
+        <article><span>Jornadas na nuvem</span><strong id="metricContinuity">—</strong><small>cópias criptografadas</small></article>
+        <article><span>Lembretes ativos</span><strong id="metricNotifications">—</strong><small>instalações registradas</small></article>
+        <article><span>Eventos de produto</span><strong id="metricAnalytics">—</strong><small>lotes dos últimos 90 dias</small></article>
+        <article><span>Ranking do game</span><strong id="metricRanking">—</strong><small>participantes armazenados</small></article>
+      </section>
+
+      <section class="admin-panel" aria-labelledby="moderationTitle">
+        <div class="admin-panel-title"><div><p class="admin-eyebrow">Comunidade</p><h2 id="moderationTitle">Fila de moderação</h2></div><span id="moderationCount">0 itens</span></div>
+        <div id="moderationList" class="admin-moderation-list"><p class="admin-empty">Nenhum item aguardando análise.</p></div>
+      </section>
+      <p id="adminFeedback" class="admin-feedback" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script type="module" src="js/admin.js?v=20260813-1"></script>
+</body>
+</html>

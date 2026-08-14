@@ -26,6 +26,8 @@ out/
 *.cache
 .tmp-*/
 .wrangler/
+playwright-report/
+test-results/
 
 # Logs
 *.log

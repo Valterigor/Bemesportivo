@@ -8,6 +8,7 @@
 /coluna-valtinho /meu-caminho-be 301
 /coluna-valtinho.html /meu-caminho-be 301
 /meucaminhobe /meu-caminho-be 301
+/admin /admin.html 200
 /meu-caminho-be/* /meu-caminho-be.html 200
 /diretrizes-da-comunidade /diretrizes-da-comunidade.html 200
 /reportagens/treino-funcional-br-assessoria /reportagem-treino-funcional.html 200

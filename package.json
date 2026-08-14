@@ -4,7 +4,7 @@
   "description": "Plataforma de esportes e gamificação - Bem Esportivo",
   "main": "dev-server.js",
   "dependencies": {
-    "@netlify/blobs": "^9.1.0",
+    "@netlify/blobs": "^10.7.13",
     "@netlify/identity": "^1.2.0",
     "esbuild": "^0.28.1",
     "web-push": "^3.6.7"
@@ -17,8 +17,11 @@
     "structure": "node scripts/structure-check.js",
     "check": "npm run lint && npm run structure",
     "build": "node build.js",
-    "test": "node scripts/smoke-test.js && node scripts/knowledge-library-test.js",
+    "test": "node scripts/smoke-test.js && node scripts/knowledge-library-test.js && node scripts/admin-api-test.mjs",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
     "verify": "npm run check && npm run build && npm test",
+    "verify:full": "npm run verify && npm run test:e2e",
     "push:keys": "node scripts/generate-vapid-keys.js",
     "deploy:notifications": "npx --yes wrangler@4.80.0 deploy --config wrangler.notifications.jsonc",
     "dev:notifications": "npx --yes wrangler@4.80.0 dev --test-scheduled --config wrangler.notifications.jsonc",
@@ -35,6 +38,7 @@
   "author": "Valterigor",
   "license": "MIT",
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "sharp": "^0.35.3"
   }
 }

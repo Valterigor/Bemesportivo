@@ -10,6 +10,7 @@ const port = 3197;
 const baseUrl = `http://127.0.0.1:${port}`;
 const pages = [
   '/',
+  '/admin',
   '/reportagens',
   '/reportagens/treino-funcional-br-assessoria',
   '/reportagens/elas-em-movimento-serra-talhada',
@@ -386,6 +387,15 @@ async function run() {
     assert.match(journeyReset, /journeyKeys\(\)\.forEach[\s\S]*location\.replace/, 'O reset independente precisa apagar a jornada e recarregar o início.');
     const beplayApp = fs.readFileSync(path.join(root, 'js/beplay.js'), 'utf8');
     assert.doesNotMatch(beplayApp, /SUBSCRIPTION_KEY|subscribeChannel|readChannelSubscription/, 'A falsa inscrição local do BEplay precisa permanecer removida.');
+    const adminHtml = fs.readFileSync(path.join(root, 'admin.html'), 'utf8');
+    assert.match(adminHtml, /name="robots" content="noindex, nofollow, noarchive"/, 'O painel administrativo não pode ser indexado.');
+    assert.match(adminHtml, /id="adminLoginForm"[\s\S]*id="adminDashboard"/, 'O painel precisa exigir autenticação antes de mostrar a operação.');
+    const adminApp = fs.readFileSync(path.join(root, 'js/admin.js'), 'utf8');
+    assert.match(adminApp, /sessionStorage[\s\S]*X-BE-Admin-Token/, 'A chave administrativa precisa permanecer restrita à sessão da aba.');
+    assert.doesNotMatch(adminApp, /localStorage/, 'O painel não pode persistir a chave administrativa entre sessões.');
+    const adminApi = fs.readFileSync(path.join(root, 'functions/api/admin/[[path]].js'), 'utf8');
+    assert.match(adminApi, /BE_ADMIN_TOKEN[\s\S]*sameSecret/, 'A API administrativa precisa validar uma chave configurada no servidor.');
+    assert.match(adminApi, /admin:audit:/, 'A moderação administrativa precisa manter trilha de auditoria.');
 
     const platformCss = fs.readFileSync(path.join(root, 'css/fala-bem-platform.css'), 'utf8');
     assert.match(platformCss, /@media\(min-width:761px\)\{[\s\S]*?body\.fala-bem-app-page \.fb-app-nav\{[\s\S]*?position:static;/);
