@@ -6,6 +6,7 @@ import { initPrivacyConsent } from './components/privacy-consent.js';
 import { initMediaQuality } from './components/media-quality.js?v=20260723-1';
 import { initAnalytics } from './components/analytics.js?v=20260723-1';
 import { initCommunityComments } from './components/community-comments.js?v=20260813-1';
+import { initJourneyReset } from './components/journey-reset.js?v=20260813-1';
 
 initSiteNavigation();
 initSiteBreadcrumb();
@@ -14,4 +15,5 @@ initBackToTop();
 initPrivacyConsent();
 initAnalytics();
 initMediaQuality();
+initJourneyReset();
 initCommunityComments();

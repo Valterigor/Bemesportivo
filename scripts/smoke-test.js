@@ -313,7 +313,7 @@ async function run() {
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260813-4/);
     assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260813-3/);
-    assert.match(pathHtml, /js\/site-common\.js\?v=20260813-1/);
+    assert.match(pathHtml, /js\/site-common\.js\?v=20260813-2/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
     assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260813-3/);
@@ -378,6 +378,10 @@ async function run() {
     assert.match(pathHtml, /data-community-scope="path" data-community-id="meu-caminho-be"/, 'A comunidade do Meu Caminho precisa usar o componente global padronizado.');
     const beplayHtml = fs.readFileSync(path.join(root, 'beplay.html'), 'utf8');
     assert.match(beplayHtml, /id="videoComments" data-community-scope="beplay"/, 'O BEplay precisa usar os comentários globais padronizados.');
+    const journeyReset = fs.readFileSync(path.join(root, 'js/components/journey-reset.js'), 'utf8');
+    assert.match(journeyReset, /addEventListener\('click',[\s\S]*true\);/, 'O reset precisa funcionar por delegação independente em modo de captura.');
+    assert.match(journeyReset, /event\.stopImmediatePropagation\(\)/, 'O controlador independente precisa impedir acionamento duplicado do reset.');
+    assert.match(journeyReset, /journeyKeys\(\)\.forEach[\s\S]*location\.replace/, 'O reset independente precisa apagar a jornada e recarregar o início.');
 
     const platformCss = fs.readFileSync(path.join(root, 'css/fala-bem-platform.css'), 'utf8');
     assert.match(platformCss, /@media\(min-width:761px\)\{[\s\S]*?body\.fala-bem-app-page \.fb-app-nav\{[\s\S]*?position:static;/);
