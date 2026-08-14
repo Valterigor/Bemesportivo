@@ -136,7 +136,7 @@
         </div>
       </section>
 
-      <section class="section panel comment-panel" aria-labelledby="commentsTitle">
+      <section class="section panel comment-panel" id="videoComments" data-community-scope="beplay" data-community-id="o-esporte-comeca-nas-pessoas" aria-labelledby="commentsTitle">
         <div class="section-title">
           <h2 id="commentsTitle">Comentários</h2>
           <span>comunidade</span>
@@ -146,6 +146,7 @@
           <input id="videoCommentName" maxlength="40" autocomplete="nickname" placeholder="Seu nome ou apelido">
           <label class="sr-only" for="videoCommentText">Comentário sobre o vídeo</label>
           <textarea id="videoCommentText" maxlength="280" placeholder="Escreva um comentário sobre o vídeo atual..." required></textarea>
+          <label><input id="videoCommentAdult" type="checkbox" required> Confirmo que tenho 18 anos ou mais e aceito as <a href="/diretrizes-da-comunidade" target="_blank" rel="noopener noreferrer">Diretrizes da Comunidade</a>.</label>
           <button type="submit">Publicar comentário</button>
         </form>
         <div class="comment-list" id="videoCommentList" aria-live="polite"></div>
@@ -204,7 +205,7 @@
 
 <div class="toast" id="pageToast" role="status" aria-live="polite"></div>
 
-<script type="module" src="js/site-common.js?v=20260806-1"></script>
-<script src="js/beplay.js?v=20260721-1" defer></script>
+<script type="module" src="js/site-common.js?v=20260813-1"></script>
+<script src="js/beplay.js?v=20260813-1" defer></script>
 </body>
 </html>

@@ -74,6 +74,8 @@ let beNowCompactMode = false;
 let pendingBeNowStatus = '';
 let beNowTimerInterval = null;
 let profileEditMode = false;
+let activeSaveSubmitter = null;
+let saveButtonRestoreTimer = null;
 const viewTargets = {
   jornada: ['#minha-jornada'],
   ferramentas: ['#ferramentas'],
@@ -355,6 +357,7 @@ function sanitizeProfileStory(value) {
 }
 
 function saveProfile(updates) {
+  const previousProfile = currentProfile;
   const now = new Date().toISOString();
   const sportProfile = normalizeSportProfile(updates?.sportProfile ?? currentProfile?.sportProfile);
   const sportStats = normalizeSportStats(updates?.sportStats ?? currentProfile?.sportStats);
@@ -370,6 +373,7 @@ function saveProfile(updates) {
   try {
     localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(currentProfile));
   } catch (error) {
+    currentProfile = previousProfile;
     showProductFeedback({
       type: 'warning', title: 'Não foi possível salvar neste aparelho.',
       message: 'Libere espaço no navegador ou verifique se o armazenamento do site está bloqueado e tente novamente.'
@@ -421,6 +425,42 @@ function showProductFeedback({ type = 'success', title = '', message = '', rewar
     toast.classList.add('show');
     celebrationTimer = window.setTimeout(hideCelebration, feedbackType === 'progress' ? 6000 : 4800);
   });
+  if (['success', 'progress'].includes(feedbackType)) showSaveReceipt(title, message, detail);
+}
+
+function nextStepForFeedback(title = '') {
+  const normalized = String(title).toLocaleLowerCase('pt-BR');
+  if (/perfil|mapa bem|esportivo concluído/.test(normalized)) return { view: 'progresso', label: 'Ver meu próximo passo →' };
+  if (/plano do dia|prioridade|lembrete/.test(normalized)) return { view: 'registrar', label: 'Registrar o que aconteceu →' };
+  if (/atividade|meu hoje|pausa|registro/.test(normalized)) return { view: 'progresso', label: 'Ver minha evolução →' };
+  if (/tarefa|aliment|refeição/.test(normalized)) return { view: 'inicio', label: 'Continuar no Meu Hoje →' };
+  return { view: currentProfile?.objective ? 'inicio' : 'jornada', label: currentProfile?.objective ? 'Continuar no Meu Hoje →' : 'Criar meu caminho →' };
+}
+
+function showSaveReceipt(title, message, detail = '') {
+  const receipt = document.getElementById('fb-save-receipt');
+  const receiptTitle = document.getElementById('fb-save-receipt-title');
+  const receiptMessage = document.getElementById('fb-save-receipt-message');
+  const nextButton = document.getElementById('fb-save-receipt-next');
+  if (!receipt || !receiptTitle || !receiptMessage || !nextButton) return;
+  const next = nextStepForFeedback(title);
+  receiptTitle.textContent = title || 'Tudo certo. Seus dados foram salvos.';
+  receiptMessage.textContent = [message, detail].filter(Boolean).join(' · ') || 'Seu painel já foi atualizado.';
+  nextButton.dataset.nextView = next.view;
+  nextButton.textContent = next.label;
+  receipt.hidden = false;
+  const submitter = activeSaveSubmitter || (document.activeElement?.matches?.('button, input[type="submit"]') ? document.activeElement : null);
+  if (submitter) {
+    const idleLabel = submitter.dataset.saveIdleLabel || submitter.textContent.trim();
+    submitter.dataset.saveIdleLabel = idleLabel;
+    submitter.textContent = 'Salvo';
+    submitter.classList.add('fb-save-confirmed');
+    window.clearTimeout(saveButtonRestoreTimer);
+    saveButtonRestoreTimer = window.setTimeout(() => {
+      submitter.textContent = idleLabel;
+      submitter.classList.remove('fb-save-confirmed');
+    }, 2600);
+  }
 }
 
 function showCelebration(title, message, options = {}) {
@@ -434,6 +474,24 @@ function buildLocalInteraction(type, context, fallback) {
 window.addEventListener('meuCaminhoBe:feedback', event => showProductFeedback(event.detail || {}));
 
 document.getElementById('fb-celebration-close')?.addEventListener('click', hideCelebration);
+document.addEventListener('submit', event => {
+  const submitter = event.submitter;
+  if (!submitter || !/salvar|registrar|concluir|atualizar/i.test(submitter.textContent || submitter.value || '')) return;
+  activeSaveSubmitter = submitter;
+  const idleLabel = submitter.dataset.saveIdleLabel || submitter.textContent.trim();
+  submitter.dataset.saveIdleLabel = idleLabel;
+  submitter.textContent = 'Salvando…';
+  window.setTimeout(() => {
+    if (activeSaveSubmitter === submitter) activeSaveSubmitter = null;
+    if (!submitter.classList.contains('fb-save-confirmed') && submitter.textContent === 'Salvando…') submitter.textContent = idleLabel;
+  }, 5000);
+}, true);
+document.getElementById('fb-save-receipt-next')?.addEventListener('click', event => {
+  const view = event.currentTarget.dataset.nextView || 'inicio';
+  openView(view);
+  const receipt = document.getElementById('fb-save-receipt');
+  if (receipt) receipt.hidden = true;
+});
 
 function readAccessState() {
   try {
@@ -585,9 +643,25 @@ function openResetDialog() {
 
 function resetLocalJourney() {
   clearBeNowExecution();
-  const localKeys = [PROFILE_STORAGE_KEY, ACCESS_STORAGE_KEY, 'meuCaminhoBeCommunityName', 'meuCaminhoBeTasksV1', 'meuCaminhoBeTaskNotifiedV1', 'meuCaminhoBeDiaryV1', 'meuCaminhoBeMealsV1'];
-  try { localKeys.forEach(key => localStorage.removeItem(key)); } catch (error) {
+  const resetButton = document.getElementById('fb-reset-confirm');
+  if (resetButton) { resetButton.disabled = true; resetButton.textContent = 'Zerando…'; }
+  try {
+    const localKeys = [];
+    for (let index = 0; index < localStorage.length; index += 1) {
+      const key = localStorage.key(index);
+      if (/^meuCaminhoBe/i.test(String(key || ''))) localKeys.push(key);
+    }
+    localKeys.forEach(key => localStorage.removeItem(key));
+    sessionStorage.removeItem(BE_NOW_TIMER_KEY);
+    const remainingJourneyKeys = [];
+    for (let index = 0; index < localStorage.length; index += 1) {
+      const key = localStorage.key(index);
+      if (/^meuCaminhoBe/i.test(String(key || ''))) remainingJourneyKeys.push(key);
+    }
+    if (remainingJourneyKeys.length) throw new Error('reset-incomplete');
+  } catch (error) {
     showProductFeedback({ type: 'warning', title: 'Não foi possível apagar todos os dados.', message: 'Verifique as permissões de armazenamento do navegador e tente novamente.' });
+    if (resetButton) { resetButton.disabled = false; resetButton.textContent = 'Sim, zerar e recomeçar'; }
     return;
   }
   currentProfile = null;
@@ -598,12 +672,11 @@ function resetLocalJourney() {
   resultsContainer?.replaceChildren();
   if (answerStatus) answerStatus.textContent = '';
   window.dispatchEvent(new CustomEvent('meuCaminhoBe:reset'));
-  renderPersonalizedExperience();
   closeDialog(document.getElementById('fb-daily-welcome'));
   closeDialog(document.getElementById('fb-reset-dialog'));
   closeMobileDrawer(false);
-  openView('jornada');
-  window.setTimeout(() => document.getElementById('journey-name')?.focus(), 280);
+  try { sessionStorage.setItem('meuCaminhoBeResetNotice', '1'); } catch (error) {}
+  window.location.replace(APP_BASE_PATH);
 }
 
 function registerDailyAccess() {
@@ -4706,6 +4779,17 @@ function checkDailyGuideReminder() {
 }
 
 renderPersonalizedExperience();
+try {
+  if (sessionStorage.getItem('meuCaminhoBeResetNotice') === '1') {
+    sessionStorage.removeItem('meuCaminhoBeResetNotice');
+    showProductFeedback({
+      type: 'success',
+      title: 'Processo zerado com sucesso.',
+      message: 'Seu aparelho está pronto para uma nova jornada. Comece dizendo como quer ser chamado.',
+      detail: 'Nenhum dado anterior será restaurado automaticamente.'
+    });
+  }
+} catch (error) {}
 if (!openLinkedContentFromHash()) {
   if (!openViewFromRoute()) openView('inicio', { scroll: false, focus: false, instant: true, route: false });
 }

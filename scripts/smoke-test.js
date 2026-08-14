@@ -114,6 +114,31 @@ async function run() {
     const readReportCommentsBody = await readReportComments.json();
     assert.ok(readReportCommentsBody.comments.some(comment => comment.id === createdReportCommentBody.comment.id));
 
+    const likeReportComment = await fetch(`${baseUrl}/api/community/comment-action`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scope: 'report', id: reportCommentId, commentId: createdReportCommentBody.comment.id,
+        action: 'like', clientId: `${reportClientId}-like`
+      })
+    });
+    assert.equal(likeReportComment.status, 200);
+    const likedCommentBody = await likeReportComment.json();
+    assert.equal(likedCommentBody.comment?.likes, 1);
+
+    const replyReportComment = await fetch(`${baseUrl}/api/community/comment-action`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scope: 'report', id: reportCommentId, commentId: createdReportCommentBody.comment.id,
+        action: 'reply', clientId: `${reportClientId}-reply`, name: 'Resposta funcional',
+        text: 'Resposta pública temporária do teste automatizado.', adultConfirmed: true
+      })
+    });
+    assert.equal(replyReportComment.status, 200);
+    const repliedCommentBody = await replyReportComment.json();
+    assert.ok(repliedCommentBody.comment?.replies?.some(reply => reply.name === 'Resposta funcional'));
+
     const reportComment = await fetch(`${baseUrl}/api/community/comment-action`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -286,9 +311,9 @@ async function run() {
     assert.match(pathHtml, /js\/be-knowledge-library\.js\?v=20260813-3/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260806-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260813-3/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260813-4/);
     assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260813-3/);
-    assert.match(pathHtml, /js\/site-common\.js\?v=20260807-1/);
+    assert.match(pathHtml, /js\/site-common\.js\?v=20260813-1/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
     assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260813-3/);
@@ -343,6 +368,16 @@ async function run() {
 
     const pathApp = fs.readFileSync(path.join(root, 'js/fala-bem-app.js'), 'utf8');
     assert.match(pathApp, /requestedView === 'registrar'[\s\S]*?querySelector\('\[data-be-new-entry\]'\)\?\.click\(\)/, 'A chamada Registrar minha atividade precisa abrir o formulário real.');
+    assert.match(pathHtml, /id="fb-save-receipt"[^>]*aria-live="polite"/, 'Cada salvamento precisa deixar uma confirmação persistente.');
+    assert.match(pathApp, /function showSaveReceipt\(/, 'O app precisa transformar o salvamento em recibo e próximo passo.');
+    assert.match(pathApp, /\^meuCaminhoBe\/i[\s\S]*location\.replace\(APP_BASE_PATH\)/, 'Zerar precisa remover todos os dados da jornada e reiniciar o app.');
+    const communityComponent = fs.readFileSync(path.join(root, 'js/components/community-comments.js'), 'utf8');
+    assert.match(communityComponent, /adultConfirmed:/, 'Comentários públicos precisam enviar a confirmação de maioridade exigida pela API.');
+    assert.match(communityComponent, /action: 'reply'/, 'O componente comunitário precisa aceitar respostas públicas.');
+    assert.match(communityComponent, /data-community-action="like"/, 'O componente comunitário precisa aceitar curtidas.');
+    assert.match(pathHtml, /data-community-scope="path" data-community-id="meu-caminho-be"/, 'A comunidade do Meu Caminho precisa usar o componente global padronizado.');
+    const beplayHtml = fs.readFileSync(path.join(root, 'beplay.html'), 'utf8');
+    assert.match(beplayHtml, /id="videoComments" data-community-scope="beplay"/, 'O BEplay precisa usar os comentários globais padronizados.');
 
     const platformCss = fs.readFileSync(path.join(root, 'css/fala-bem-platform.css'), 'utf8');
     assert.match(platformCss, /@media\(min-width:761px\)\{[\s\S]*?body\.fala-bem-app-page \.fb-app-nav\{[\s\S]*?position:static;/);

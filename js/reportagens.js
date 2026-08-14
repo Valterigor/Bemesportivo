@@ -278,7 +278,7 @@ async function renderReportComments(section, forceOnline = false) {
     : '<span class="report-comments-empty">Seja o primeiro a comentar esta reportagem.</span>';
 }
 
-document.querySelectorAll("[data-report-comments]").forEach(section => {
+document.querySelectorAll("[data-report-comments]:not([data-community-standard])").forEach(section => {
   const form = section.querySelector(".report-comment-form");
   const feedback = document.createElement("p");
   feedback.className = "report-comment-feedback";
@@ -349,7 +349,7 @@ document.querySelectorAll("[data-report-comments]").forEach(section => {
 
 function refreshAllReportComments() {
   if (document.hidden) return;
-  document.querySelectorAll("[data-report-comments]").forEach(section => renderReportComments(section, true));
+  document.querySelectorAll("[data-report-comments]:not([data-community-standard])").forEach(section => renderReportComments(section, true));
 }
 
 window.setInterval(refreshAllReportComments, 30000);

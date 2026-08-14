@@ -217,6 +217,7 @@ function setVideo(video,options={}){
   if(scroll) document.getElementById('videos').scrollIntoView({behavior:'smooth',block:'start'});
   if(toast) showToast(`Agora assistindo: ${video.title}`);
   renderRelated();
+  window.dispatchEvent(new CustomEvent('beplay:video-change',{detail:{id:video.id,title:video.title}}));
   renderVideoComments();
   loadVideoCommunity();
 }
@@ -339,6 +340,7 @@ function renderWatchHistory(){
 }
 
 function renderVideoComments(){
+  if(document.getElementById('videoComments')?.dataset.communityStandard==='true') return;
   const list=document.getElementById('videoCommentList');
   if(!list) return;
   const comments=videoCommentCache[currentVideo.id];
@@ -364,6 +366,7 @@ function formatCommentDate(value){
 }
 
 async function loadVideoComments(video=currentVideo){
+  if(document.getElementById('videoComments')?.dataset.communityStandard==='true') return;
   const videoId=video.id;
   const payload=await communityRequest(`/comments?scope=beplay&id=${encodeURIComponent(videoId)}`);
   videoCommentCache[videoId]=Array.isArray(payload.comments) ? payload.comments : [];
@@ -513,7 +516,8 @@ document.querySelectorAll('[data-video-filter]').forEach(button=>{
   });
 });
 
-document.getElementById('videoCommentForm').addEventListener('submit',async event=>{
+document.getElementById('videoCommentForm')?.addEventListener('submit',async event=>{
+  if(document.getElementById('videoComments')?.dataset.communityStandard==='true') return;
   event.preventDefault();
   const nameInput=document.getElementById('videoCommentName');
   const textarea=document.getElementById('videoCommentText');
@@ -528,7 +532,7 @@ document.getElementById('videoCommentForm').addEventListener('submit',async even
     const videoId=currentVideo.id;
     const payload=await communityRequest('/comment',{
       method:'POST',
-      body:JSON.stringify({scope:'beplay',id:videoId,name,text:text.slice(0,280),clientId:getClientId()})
+      body:JSON.stringify({scope:'beplay',id:videoId,name,text:text.slice(0,280),clientId:getClientId(),adultConfirmed:document.getElementById('videoCommentAdult')?.checked===true})
     });
     videoCommentCache[videoId]=Array.isArray(payload.comments) ? payload.comments : [];
     textarea.value='';

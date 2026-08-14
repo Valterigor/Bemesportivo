@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="/site-common.css?v=20260723-3">
 <link rel="stylesheet" href="/css/coluna-valtinho.css?v=20260721-1">
-<link rel="stylesheet" href="/css/fala-bem-platform.css?v=20260730-1">
+<link rel="stylesheet" href="/css/fala-bem-platform.css?v=20260813-1">
 <link rel="stylesheet" href="/css/be-ia.css?v=20260729-1">
 <link rel="stylesheet" href="/css/premium-refinement.css?v=20260723-2">
 <link rel="stylesheet" href="/css/routine-calendar.css?v=20260722-1">
@@ -54,6 +54,11 @@
 <button type="button" class="fb-profile-trigger" data-fb-view="perfil" aria-label="Abrir meu perfil"><span class="fb-app-avatar" aria-hidden="true">BE</span><span>Meu perfil</span></button>
 </div>
 </header>
+<section class="fb-save-receipt" id="fb-save-receipt" role="status" aria-live="polite" aria-atomic="true" hidden>
+<span class="fb-save-receipt-icon" aria-hidden="true">✓</span>
+<div><small>SALVAMENTO CONCLUÍDO</small><strong id="fb-save-receipt-title">Tudo certo. Seus dados foram salvos.</strong><p id="fb-save-receipt-message">Agora você pode continuar para a próxima etapa.</p></div>
+<button type="button" id="fb-save-receipt-next" data-next-view="inicio">Continuar →</button>
+</section>
 <dialog class="fb-daily-welcome" id="fb-daily-welcome" aria-labelledby="fb-welcome-title">
 <button type="button" class="fb-welcome-close" id="fb-welcome-close" aria-label="Fechar saudação">×</button>
 <span>SEU ACESSO NESTE DISPOSITIVO</span>
@@ -65,7 +70,7 @@
 <dialog class="fb-reset-dialog" id="fb-reset-dialog" aria-labelledby="fb-reset-title">
 <span>RECOMEÇAR COM SEGURANÇA</span>
 <h2 id="fb-reset-title">Zerar todo o processo?</h2>
-<p>Isso apagará deste aparelho seu nome, respostas, trajetória e progresso. Essa ação não afeta nenhum outro usuário.</p>
+<p>Isso apagará deste aparelho seu nome, respostas, trajetória, agenda, diário, refeições e progresso. O código de continuidade será desconectado para que os dados não voltem automaticamente.</p>
 <div><button type="button" id="fb-reset-cancel">Manter meu caminho</button><button type="button" class="fb-reset-confirm" id="fb-reset-confirm">Sim, zerar e recomeçar</button></div>
 </dialog>
 <dialog class="fb-account-dialog" id="fb-account-dialog" aria-labelledby="fb-account-dialog-title">
@@ -1297,7 +1302,7 @@ Seu navegador não consegue reproduzir este vídeo.
 </div>
 </section>
 
-<section class="community-invite" id="participe" aria-labelledby="community-invite-title">
+<section class="community-invite" id="participe" data-community-scope="path" data-community-id="meu-caminho-be" aria-labelledby="community-invite-title">
 <span>ESSA CONVERSA TAMBÉM É SUA</span>
 <h2 id="community-invite-title">Quem pratica, ensina, aprende ou recomeça tem algo para compartilhar.</h2>
 <p>Envie uma pergunta, proponha um tema, conte uma experiência ou apresente um projeto que aproxima pessoas do esporte.</p>
@@ -1489,12 +1494,12 @@ Seu navegador não consegue reproduzir este vídeo.
 </form>
 </dialog>
 
-<script type="module" src="/js/site-common.js?v=20260807-1"></script>
+<script type="module" src="/js/site-common.js?v=20260813-1"></script>
 <script type="module" src="/js/routine-calendar.js?v=20260807-1"></script>
 <script type="module" src="/js/meu-caminho-account.js?v=20260806-1"></script>
 <script src="/js/coluna-valtinho.js?v=20260722-2" defer></script>
 <script src="/js/be-knowledge-library.js?v=20260813-3" defer></script>
-<script src="/js/fala-bem-app.js?v=20260813-3" defer></script>
+<script src="/js/fala-bem-app.js?v=20260813-4" defer></script>
 <script src="/js/be-ia.js?v=20260806-1" defer></script>
 <script src="/js/meu-caminho-diary.js?v=20260813-3" defer></script>
 
