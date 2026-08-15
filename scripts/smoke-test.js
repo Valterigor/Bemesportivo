@@ -331,6 +331,10 @@ async function run() {
     for (const id of ['be-meal-add', 'be-meals-list', 'be-meal-dialog', 'be-meal-feedback', 'be-meal-detail-form', 'be-meal-description', 'be-meal-description-count']) {
       assert.match(pathHtml, new RegExp(`id="${id}"`), `Registro de alimentação ausente: ${id}`);
     }
+    assert.ok(
+      pathHtml.indexOf('class="be-meals-card"') < pathHtml.indexOf('class="be-diary-welcome"'),
+      'As refeições devem aparecer antes do registro “O que você fez hoje?”.'
+    );
     for (const id of ['be-dashboard-plan-action', 'be-day-plan-dialog', 'be-day-plan-form', 'be-day-plan-activity', 'be-day-plan-time', 'be-day-plan-duration']) {
       assert.match(pathHtml, new RegExp(`id="${id}"`), `Planejamento do dia ausente: ${id}`);
     }

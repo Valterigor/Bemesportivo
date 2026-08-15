@@ -194,6 +194,12 @@
 <div class="be-dashboard-plan" id="be-dashboard-plan"><div><span>PLANO DO DIA</span><h3 id="be-dashboard-plan-title">O que você pretende fazer hoje?</h3><p id="be-dashboard-plan-detail">Escolha uma atividade, um horário e uma duração possível.</p></div><button type="button" id="be-dashboard-plan-action">Planejar meu dia</button></div>
 <section class="be-arrival-checkin" aria-labelledby="be-arrival-title"><header><span>SEU MOMENTO DE HOJE</span><h3 id="be-arrival-title">Como você chega hoje?</h3><p id="be-arrival-message">Escolha o que mais combina com o seu momento. Você pode mudar depois.</p></header><div class="be-arrival-options" role="group" aria-label="Como você chega hoje"><button type="button" data-be-arrival="ready"><i aria-hidden="true">✦</i><strong>Com disposição</strong></button><button type="button" data-be-arrival="short"><i aria-hidden="true">◷</i><strong>Pouco tempo</strong></button><button type="button" data-be-arrival="tired"><i aria-hidden="true">☁</i><strong>Cansado(a)</strong></button><button type="button" data-be-arrival="returning"><i aria-hidden="true">↗</i><strong>Voltando</strong></button><button type="button" data-be-arrival="present"><i aria-hidden="true">●</i><strong>Só estar aqui</strong></button></div></section>
 </section>
+<section class="be-meals-card" aria-labelledby="be-meals-title">
+<div class="be-section-heading"><div><span>ALIMENTAÇÃO DO DIA</span><h3 id="be-meals-title">Suas refeições de hoje</h3></div><button type="button" id="be-meal-add">＋ Incluir</button></div>
+<p class="be-meals-summary" id="be-meals-summary">Nenhuma refeição incluída hoje.</p>
+<div class="be-meals-list" id="be-meals-list" aria-live="polite"></div>
+<small class="be-meals-note">Café da manhã, almoço e jantar podem ser incluídos uma vez por dia. Lanches extras continuam disponíveis.</small>
+</section>
 <section class="be-diary-welcome">
 <div><span class="be-diary-eyebrow" id="be-diary-date-label">MEU CAMINHO BE · HOJE</span><h2 id="be-diary-home-title">O que você fez hoje?</h2><p>Registre em segundos. Nós organizamos sua história.</p></div>
 <div class="be-diary-today-count"><strong id="be-today-count">0</strong><span>atividades hoje</span></div>
@@ -208,12 +214,6 @@
 <div class="be-activity-grid" role="list">
 <button type="button" data-be-activity="corrida"><span>🏃</span>Corrida</button><button type="button" data-be-activity="treino"><span>🏋️</span>Treino</button><button type="button" data-be-activity="jogo"><span>🏐</span>Jogo</button><button type="button" data-be-activity="caminhada"><span>🚶</span>Caminhada</button><button type="button" data-be-activity="ciclismo"><span>🚲</span>Ciclismo</button><button type="button" data-be-activity="natacao"><span>🏊</span>Natação</button><button type="button" data-be-activity="outro"><span>＋</span>Outro</button>
 </div>
-</section>
-<section class="be-meals-card" aria-labelledby="be-meals-title">
-<div class="be-section-heading"><div><span>ALIMENTAÇÃO DO DIA</span><h3 id="be-meals-title">Suas refeições de hoje</h3></div><button type="button" id="be-meal-add">＋ Incluir</button></div>
-<p class="be-meals-summary" id="be-meals-summary">Nenhuma refeição incluída hoje.</p>
-<div class="be-meals-list" id="be-meals-list" aria-live="polite"></div>
-<small class="be-meals-note">Café da manhã, almoço e jantar podem ser incluídos uma vez por dia. Lanches extras continuam disponíveis.</small>
 </section>
 <section class="be-today-preview" aria-labelledby="be-today-preview-title"><div class="be-section-heading"><div><span>SEU DIA</span><h3 id="be-today-preview-title">Hoje no diário</h3></div><button type="button" data-fb-view="progresso">Ver diário completo →</button></div><div id="be-today-list" class="be-entry-list"></div></section>
 </main>
