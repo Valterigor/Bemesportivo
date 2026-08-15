@@ -16,6 +16,9 @@ const pages = [
   '/reportagens/elas-em-movimento-serra-talhada',
   '/reportagens/dedicacao-talento-mirim',
   '/reportagens/duda-e-o-futebol',
+  '/reportagens/elas-trazem-esperanca',
+  '/reportagens/mayara-magnolia-papo-bem-esportivo',
+  '/reportagens/sergio-lima-exemplo-de-vida',
   '/meu-caminho-be',
   '/meu-caminho-be/registrar',
   '/meu-caminho-be/jornada',
@@ -189,7 +192,7 @@ async function run() {
     assert.ok(fs.existsSync(path.join(root, 'img', 'elas-em-movimento-video-poster.jpg')));
     assert.match(elasReport, /<div class="elas-story-header">/);
     assert.doesNotMatch(elasReport, /<header class="elas-story-header">/);
-    assert.match(elasReport, /site-common\.css\?v=20260814-1[\s\S]*reportagens\.css\?v=20260814-1/);
+    assert.match(elasReport, /site-common\.css\?v=20260814-1[\s\S]*reportagens\.css\?v=20260814-7/);
     assert.doesNotMatch(elasReport, /elas-photo-badge/);
     assert.match(elasReport, /mulheres-em-movimento-serra-talhada-interna\.jpg/);
     assert.match(elasReport, /class="report-byline"[\s\S]*4 min de leitura/);
@@ -202,9 +205,47 @@ async function run() {
     assert.match(elasReport, /class="report-lead"/);
     assert.equal((elasReport.match(/class="report-related-meta"/g) || []).length, 3);
     assert.match(elasReport, /report-related[\s\S]*banner-treino-funcional-professores-v3-640\.webp[\s\S]*IMG_0957-optimized\.webp[\s\S]*duda\.jpg/);
-    for (const reportFile of ['reportagem-elas-em-movimento-serra-talhada.html', 'reportagem-treino-funcional.html', 'reportagem-dedicacao-talento-mirim.html', 'reportagem-duda-e-o-futebol.html']) {
+    const archiveReport = fs.readFileSync(path.join(root, 'reportagem-elas-trazem-esperanca.html'), 'utf8');
+    assert.match(archiveReport, /<h1>Elas trazem esperança<\/h1>/);
+    assert.match(archiveReport, /datePublished\":\"2019-06-10/);
+    assert.match(archiveReport, /Por Válter Igor/);
+    assert.match(archiveReport, /Eduarda “Duda” Mielczarek Martins/);
+    assert.match(archiveReport, /<h3>Lara<\/h3>/);
+    assert.match(archiveReport, /class="report-archive-note"/);
+    assert.match(archiveReport, /class="report-athlete-profiles"/);
+    assert.match(archiveReport, /class="report-archive-photo-gallery"/);
+    assert.match(archiveReport, /data-share-cover="\/img\/elas-trazem-esperanca-lara-duda-portela\.webp"/);
+    assert.match(archiveReport, /data-report-comments="elas-trazem-esperanca"/);
+    assert.match(reportListing, /href="\/reportagens\/elas-trazem-esperanca"[\s\S]*Elas trazem esperança/);
+    assert.match(reportListing, /class="report-preview-hope"[^>]*elas-trazem-esperanca-lara-duda-portela\.webp/);
+    for (const image of ['elas-trazem-esperanca-lara.webp', 'elas-trazem-esperanca-duda.webp', 'elas-trazem-esperanca-lara-duda-portela.webp']) {
+      assert.ok(fs.existsSync(path.join(root, 'img', image)), `Imagem da reportagem de arquivo ausente: ${image}`);
+      assert.match(archiveReport, new RegExp(image.replace('.', '\\.')), `A reportagem precisa usar a imagem: ${image}`);
+    }
+    const interviewReport = fs.readFileSync(path.join(root, 'reportagem-mayara-magnolia-papo-bem-esportivo.html'), 'utf8');
+    assert.match(interviewReport, /<h1>Mayara e Magnólia no Papo Bem Esportivo<\/h1>/);
+    assert.match(interviewReport, /datePublished":"2017-01-16/);
+    assert.match(interviewReport, /youtube-nocookie\.com\/embed\/_ry3RHB8uCA/);
+    assert.match(interviewReport, /duration":"PT13M42S/);
+    assert.match(interviewReport, /fotos e edição de Válter Igor; vídeo de Anderson/);
+    assert.match(interviewReport, /data-report-comments="mayara-magnolia-papo-bem-esportivo"/);
+    assert.match(interviewReport, /data-share-cover="\/img\/mayara-magnolia-papo-bem-esportivo\.jpg"/);
+    assert.match(interviewReport, /class="report-cover-theme"[\s\S]*Papo Bem Esportivo[\s\S]*Mayara e Magnólia[\s\S]*Tênis, educação e determinação/);
+    assert.match(reportListing, /href="\/reportagens\/mayara-magnolia-papo-bem-esportivo"[\s\S]*Mayara e Magnólia no Papo Bem Esportivo/);
+    assert.ok(fs.existsSync(path.join(root, 'img', 'mayara-magnolia-papo-bem-esportivo.jpg')), 'Capa da entrevista de Mayara e Magnólia ausente.');
+    const sergioReport = fs.readFileSync(path.join(root, 'reportagem-sergio-lima-exemplo-de-vida.html'), 'utf8');
+    assert.match(sergioReport, /<h1>Sergio Lima, aos 61 anos, grande exemplo de vida<\/h1>/);
+    assert.match(sergioReport, /datePublished":"2017-01-03/);
+    assert.match(sergioReport, /youtube-nocookie\.com\/embed\/GzXDxAVdsnQ/);
+    assert.match(sergioReport, /duration":"PT5M48S/);
+    assert.match(sergioReport, /data-report-comments="sergio-lima-exemplo-de-vida"/);
+    assert.match(sergioReport, /data-share-cover="\/img\/sergio-lima-exemplo-de-vida\.jpg"/);
+    assert.match(sergioReport, /class="report-cover-theme"[\s\S]*Papo do Bem Esportivo[\s\S]*Sergio Lima[\s\S]*Aos 61 anos, um exemplo de vida/);
+    assert.match(reportListing, /href="\/reportagens\/sergio-lima-exemplo-de-vida"[\s\S]*Sergio Lima, aos 61 anos, grande exemplo de vida/);
+    assert.ok(fs.existsSync(path.join(root, 'img', 'sergio-lima-exemplo-de-vida.jpg')), 'Capa da entrevista de Sergio Lima ausente.');
+    for (const reportFile of ['reportagem-elas-em-movimento-serra-talhada.html', 'reportagem-treino-funcional.html', 'reportagem-dedicacao-talento-mirim.html', 'reportagem-duda-e-o-futebol.html', 'reportagem-elas-trazem-esperanca.html', 'reportagem-mayara-magnolia-papo-bem-esportivo.html', 'reportagem-sergio-lima-exemplo-de-vida.html']) {
       const reportHtml = fs.readFileSync(path.join(root, reportFile), 'utf8');
-      assert.match(reportHtml, /reportagens\.css\?v=20260814-1/, `A reportagem precisa carregar o modelo editorial atualizado: ${reportFile}`);
+      assert.match(reportHtml, /reportagens\.css\?v=20260814-7/, `A reportagem precisa carregar o modelo editorial atualizado: ${reportFile}`);
       assert.match(reportHtml, /data-share-copy/, `A reportagem precisa oferecer cópia direta do link: ${reportFile}`);
       assert.match(reportHtml, /class="report-path-bridge"[\s\S]*Começar minha trajetória/, `A reportagem precisa conectar leitura e trajetória: ${reportFile}`);
     }
@@ -217,6 +258,8 @@ async function run() {
     assert.match(reportCss, /\.report-card-elas \.report-media-stack > \.report-cover\s*\{[\s\S]*?object-position:\s*right center[\s\S]*?transform:\s*scale\(1\.22\)/);
     assert.match(reportCss, /\.report-video-layout\s*\{[\s\S]*?grid-template-columns:/);
     assert.match(reportCss, /\.elas-story-summary h2\s*\{[\s\S]*?color:\s*#fff\s*!important/);
+    assert.match(reportCss, /\.reportagens-page \.be-community-heading\s*\{[\s\S]*?position:\s*static;[\s\S]*?background:\s*transparent;/);
+    assert.match(reportCss, /\.report-preview-media \.report-preview-hope\s*\{[\s\S]*?object-fit:\s*contain;/);
     assert.match(reportCss, /\.report-related > div\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
     const adsensePublisher = 'ca-pub-5105345296041597';
@@ -226,6 +269,9 @@ async function run() {
       'reportagens.html',
       'reportagem-dedicacao-talento-mirim.html',
       'reportagem-duda-e-o-futebol.html',
+      'reportagem-elas-trazem-esperanca.html',
+      'reportagem-mayara-magnolia-papo-bem-esportivo.html',
+      'reportagem-sergio-lima-exemplo-de-vida.html',
       'reportagem-elas-em-movimento-serra-talhada.html',
       'reportagem-treino-funcional.html'
     ];

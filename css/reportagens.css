@@ -416,6 +416,20 @@ body.reportagens-page {
   line-height: 1.55;
 }
 
+/* O componente usa <header> internamente; neutraliza o cabeçalho legado preto. */
+.reportagens-page .be-community-heading {
+  position: static;
+  top: auto;
+  z-index: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #24201d;
+}
+
+.reportagens-page .be-community-heading h2 { color: #171513 !important; }
+.reportagens-page .be-community-heading p { color: #6d635d !important; }
+
 .reportagens-page .report-comment-form input,
 .reportagens-page .report-comment-form textarea {
   border: 1px solid #dcd6d1;
@@ -929,6 +943,16 @@ body.reportagens-page {
   object-position: center 24%;
 }
 
+.reportagens-page .report-preview-media .report-preview-hope {
+  object-fit: contain;
+  object-position: center;
+  background: #181411;
+}
+
+.reportagens-page .report-preview-media:hover .report-preview-hope {
+  transform: none;
+}
+
 .reportagens-page .report-preview-body {
   display: flex;
   flex-direction: column;
@@ -1333,6 +1357,149 @@ body.reportagens-page {
 
 .reportagens-page .report-cover-caption span { color: #3b3531; font-weight: 700; }
 
+/* Reportagem de arquivo: contexto histórico, perfis e memória editorial. */
+.reportagens-page .report-card-archive .report-media-stack {
+  place-items: center;
+  background: linear-gradient(135deg, #15110f, #2a201b);
+}
+
+.reportagens-page .report-card-archive .report-cover-archive {
+  justify-self: center;
+  width: min(560px, 100%);
+  height: auto !important;
+  min-height: 0;
+  max-height: 680px !important;
+  object-fit: contain;
+}
+
+.reportagens-page .report-archive-note {
+  margin-top: 2px;
+  margin-bottom: 30px;
+  padding: 22px 24px;
+  border: 1px solid #eadfd7;
+  border-left: 4px solid #f2762e;
+  border-radius: 16px;
+  background: #fffaf6;
+}
+
+.reportagens-page .report-archive-note > span,
+.reportagens-page .report-athlete-profiles > span {
+  color: #cf4d1d;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.reportagens-page .report-archive-note h2,
+.reportagens-page .report-athlete-profiles > h2 {
+  margin: 7px 0 10px;
+  font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+  line-height: 1.2;
+}
+
+.reportagens-page .report-archive-note p { margin: 0 !important; color: #625a54 !important; font-size: .9rem !important; line-height: 1.65 !important; }
+.reportagens-page .report-article-section > p { margin: 0 0 1.25em; color: #403b37; font-size: 1.04rem; line-height: 1.78; }
+
+.reportagens-page .report-athlete-profiles {
+  margin-top: 36px;
+  margin-bottom: 36px;
+  padding: 26px;
+  border: 1px solid #e9e1da;
+  border-radius: 22px;
+  background: #fcfaf8;
+}
+
+.reportagens-page .report-athlete-profiles > div { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 19px; }
+.reportagens-page .report-athlete-profiles article { padding: 20px; border: 1px solid #e9dfd7; border-radius: 16px; background: #fff; }
+.reportagens-page .report-athlete-profiles article > span { display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: 14px; border-radius: 50%; background: #fff0e8; color: #d94e18; font-size: .72rem; font-weight: 900; }
+.reportagens-page .report-athlete-profiles h3 { margin: 0 0 10px; font-size: 1.08rem; line-height: 1.3; }
+.reportagens-page .report-athlete-profiles article p { margin: 0 0 10px; color: #5f5852; font-size: .9rem; line-height: 1.65; }
+.reportagens-page .report-athlete-profiles article p:last-child { margin-bottom: 0; }
+
+.reportagens-page .report-archive-photo-gallery {
+  margin: 38px 0;
+}
+
+.reportagens-page .report-archive-photo-gallery-heading {
+  max-width: 680px;
+  margin-bottom: 18px;
+}
+
+.reportagens-page .report-archive-photo-gallery-heading > span {
+  color: #cf4d1d;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.reportagens-page .report-archive-photo-gallery-heading h2 {
+  margin: 7px 0 8px;
+  font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+  line-height: 1.2;
+}
+
+.reportagens-page .report-archive-photo-gallery-heading p {
+  margin: 0;
+  color: #625a54;
+  font-size: .92rem;
+  line-height: 1.65;
+}
+
+.reportagens-page .report-archive-photo-gallery > div:last-child {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.reportagens-page .report-archive-photo-gallery figure {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #e9e1da;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.reportagens-page .report-archive-photo-gallery img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.reportagens-page .report-archive-photo-gallery figcaption {
+  padding: 13px 15px 15px;
+  color: #504a45;
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+.reportagens-page .report-archive-photo-gallery figcaption span {
+  display: block;
+  margin-top: 3px;
+  color: #7b746e;
+  font-size: .73rem;
+}
+
+.reportagens-page .report-archive-quote {
+  margin-top: 38px;
+  margin-bottom: 38px;
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: 22px;
+  background: #181513;
+  color: #fff;
+}
+
+.reportagens-page .report-archive-quote blockquote { margin: 0; color: #fff; font-family: var(--be-ds-font-display); font-size: clamp(1.25rem, 2.6vw, 1.75rem); font-weight: 700; line-height: 1.45; }
+.reportagens-page .report-archive-quote p { margin: 17px 0 0 !important; color: #ffb28f !important; font-size: .78rem !important; font-weight: 800; letter-spacing: .04em; }
+
+@media (max-width: 720px) {
+  .reportagens-page .report-athlete-profiles { padding: 19px; }
+  .reportagens-page .report-athlete-profiles > div { grid-template-columns: 1fr; }
+  .reportagens-page .report-archive-photo-gallery > div:last-child { grid-template-columns: 1fr; }
+}
+
 .reportagens-page .report-section-title {
   position: relative;
   max-width: 720px;
@@ -1492,4 +1659,198 @@ body.reportagens-page {
   .reportagens-page .report-related { margin: 30px 0 26px; padding: 22px 16px; border-radius: 18px; }
   .reportagens-page .report-related > div { grid-template-columns: 1fr; }
   .reportagens-page .report-related a { min-height: 0; }
+}
+
+/* Entrevista de arquivo: capa horizontal, vídeo e canais históricos. */
+.reportagens-page .report-card-interview .report-media-stack {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  background: #171513;
+}
+
+.reportagens-page .report-card-interview .report-media-stack > .report-cover-interview {
+  width: 100%;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: 16 / 9 !important;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.reportagens-page .report-cover-theme {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  height: auto !important;
+  min-height: 43%;
+  justify-content: flex-end;
+  padding: clamp(24px, 4vw, 48px);
+  flex-direction: column;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(11, 10, 9, .95) 0%, rgba(11, 10, 9, .72) 48%, transparent 100%);
+  color: #fff;
+}
+
+.reportagens-page .report-cover-theme span {
+  margin-bottom: 7px;
+  color: #ff851f;
+  font-size: clamp(.68rem, 1.2vw, .9rem);
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.reportagens-page .report-cover-theme strong {
+  color: #fff;
+  font-family: var(--be-ds-font-display);
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 900;
+  line-height: .98;
+  letter-spacing: -.045em;
+}
+
+.reportagens-page .report-cover-theme small {
+  margin-top: 8px;
+  color: #fff;
+  font-size: clamp(.85rem, 1.7vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.reportagens-page .report-interview-highlight {
+  margin: 36px 0;
+  padding: clamp(24px, 4vw, 34px);
+  border-radius: 22px;
+  background: linear-gradient(135deg, #181513, #302118);
+  color: #fff;
+}
+
+.reportagens-page .report-interview-highlight > span,
+.reportagens-page .report-interview-video > div:first-child > span,
+.reportagens-page .report-archive-channels > span {
+  color: #ff9a58;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.reportagens-page .report-interview-highlight h2 {
+  margin: 8px 0 12px;
+  color: #fff !important;
+  font-size: clamp(1.55rem, 3vw, 2.25rem);
+  line-height: 1.14;
+  letter-spacing: -.03em;
+}
+
+.reportagens-page .report-interview-highlight p {
+  margin: 0;
+  color: #ddd4ce !important;
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.reportagens-page .report-interview-video {
+  margin: 40px 0;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid #eadfd8;
+  border-radius: 22px;
+  background: #fffaf6;
+}
+
+.reportagens-page .report-interview-video h2,
+.reportagens-page .report-archive-channels h2 {
+  margin: 8px 0 10px;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  line-height: 1.18;
+  letter-spacing: -.025em;
+}
+
+.reportagens-page .report-interview-video > div:first-child p {
+  margin: 0 0 20px;
+  color: #625a54;
+  font-size: .94rem;
+  line-height: 1.65;
+}
+
+.reportagens-page .report-interview-video .video-container {
+  width: 100%;
+  margin: 0;
+  border-radius: 16px;
+}
+
+.reportagens-page .report-interview-video > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: #c94516;
+  font-size: .84rem;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.reportagens-page .report-interview-video > a:hover { color: #8e2d0c; }
+
+.reportagens-page .report-archive-channels {
+  margin: 36px 0;
+  padding: clamp(22px, 4vw, 30px);
+  border: 1px solid #e9e1da;
+  border-radius: 20px;
+  background: #fcfaf8;
+}
+
+.reportagens-page .report-archive-channels > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.reportagens-page .report-archive-channels a {
+  display: flex;
+  min-height: 92px;
+  justify-content: center;
+  padding: 17px 18px;
+  flex-direction: column;
+  border: 1px solid #eadfd8;
+  border-radius: 14px;
+  background: #fff;
+  color: #241f1c;
+  text-decoration: none;
+  transition: border-color .2s ease, transform .2s ease;
+}
+
+.reportagens-page .report-archive-channels a:hover { border-color: #f5a476; transform: translateY(-2px); }
+.reportagens-page .report-archive-channels small { margin-top: 4px; color: #776f69; font-size: .76rem; }
+
+@media (max-width: 520px) {
+  .reportagens-page .report-card-interview .report-media-stack {
+    display: block;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .reportagens-page .report-card-interview .report-media-stack > .report-cover-interview {
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .reportagens-page .report-cover-theme {
+    min-height: 58%;
+    padding: 14px 16px;
+  }
+
+  .reportagens-page .report-cover-theme span { margin-bottom: 4px; font-size: .58rem; }
+  .reportagens-page .report-cover-theme strong { font-size: clamp(1.42rem, 7vw, 1.82rem); }
+  .reportagens-page .report-cover-theme small { margin-top: 4px; font-size: .72rem; }
+
+  .reportagens-page .report-archive-channels > div { grid-template-columns: 1fr; }
 }
