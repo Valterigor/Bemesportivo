@@ -1,4 +1,4 @@
-@import url("css/design-system.css?v=20260723-2");
+@import url("css/design-system.css?v=20260814-1");
 @import url("css/premium-refinement.css?v=20260723-2");
 
 /* Shared institutional elements */
@@ -3479,10 +3479,21 @@ body > header.topbar {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* Inter e a fonte oficial da interface em todas as paginas padronizadas. */
+/* Inter preserva a leitura; Manrope cria a hierarquia editorial dos titulos. */
 body.be-standard-page,
-body.be-standard-page :where(h1, h2, h3, h4, h5, h6, p, a, button, input, select, textarea, label, li, small, strong, span, time, summary) {
+body.be-standard-page :where(p, a, button, input, select, textarea, label, li, small, strong, span, time, summary) {
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+:where(h1, h2, h3, h4, h5, h6, .be-title, .be-card__title) {
+  font-family: var(--be-ds-font-display) !important;
+  font-synthesis: none;
+}
+
+/* Banners preservam a tipografia anterior; secoes e conteudo usam Manrope. */
+:where(.hero, .page-hero, .banner-top, .values-hero, .platform-hero, .ds-hero, .be-section-banner) :where(h1, h2) {
+  font-family: var(--be-ds-font-body) !important;
+  font-synthesis: none;
 }
 
 :where(.btn, .primary-btn, .btn-contato, .site-contact, button[type="submit"]) {

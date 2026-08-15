@@ -34,6 +34,7 @@
 :where(h1, h2, h3, h4, h5, h6) {
   color: var(--be-ds-color-ink);
   font-family: var(--be-ds-font-display);
+  font-synthesis: none;
   letter-spacing: var(--be-ds-tracking-tight);
 }
 

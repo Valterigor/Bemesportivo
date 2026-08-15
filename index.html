@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -30,7 +30,7 @@
   <link rel="icon" href="img/logobemoficial.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -68,6 +68,8 @@
       --radius-lg: 26px;
       --radius-md: 18px;
       --max: 1280px;
+      --font-display: "Manrope", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     * {
@@ -86,8 +88,13 @@
       overflow-x: hidden;
       background: var(--white);
       color: var(--black);
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font-body);
       letter-spacing: 0;
+    }
+
+    :where(h1, h2, h3, h4, h5, h6) {
+      font-family: var(--font-display);
+      font-synthesis: none;
     }
 
     img {
@@ -2149,9 +2156,9 @@
       max-width: none;
       margin: 0;
       color: #ffffff;
-      font-family: Inter, Arial, sans-serif;
+      font-family: var(--font-display);
       font-size: clamp(34px, 6.7vw, 86px);
-      font-weight: 950;
+      font-weight: 800;
       letter-spacing: -.065em;
       line-height: .95;
       white-space: nowrap;
@@ -2368,6 +2375,133 @@
     .home-report-grid small { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: #969696; font-size: 13px; font-weight: 750; }
     .home-report-section .home-report-grid small { color: #969696; }
     .home-report-grid small::before { content: ""; width: 18px; height: 18px; border: 2px solid #b6b6b6; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #b6b6b6 0 2px, transparent 3px), linear-gradient(#b6b6b6, #b6b6b6) 50% 18% / 2px 7px no-repeat, linear-gradient(#b6b6b6, #b6b6b6) 72% 55% / 7px 2px no-repeat; }
+    .home-editorial-feature { padding-top: clamp(12px, 2vw, 24px); }
+    .home-editorial-feature .home-section-head-v2 { grid-template-columns: minmax(0, 1fr) auto; align-items: center; margin-bottom: 30px; }
+    .home-editorial-feature .home-section-head-v2 > :not(a) { grid-column: 1; }
+    .home-editorial-feature .home-section-head-v2 > span { grid-row: 1; }
+    .home-editorial-feature .home-section-head-v2 > :is(h1, h2) { grid-row: 2; max-width: 700px; margin-top: 8px; font-size: clamp(34px, 4vw, 50px); font-weight: 950; line-height: 1; letter-spacing: 0; }
+    .home-editorial-feature .home-section-head-v2 > p { grid-row: 3; max-width: 620px; margin-top: 12px; color: #6f6a66; font-size: 15px; line-height: 1.6; }
+    .home-editorial-feature .home-section-head-v2 > a { grid-column: 2; grid-row: 1 / span 3; min-height: 50px; padding-inline: 22px; }
+    .home-editorial-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: stretch; }
+    .home-editorial-card { display: flex; min-width: 0; overflow: hidden; flex-direction: column; padding-bottom: 20px; border: 1px solid #ebe7e3; border-radius: 18px; background: #fff; color: #151515; box-shadow: 0 14px 34px rgba(17,17,17,.06); transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
+    .home-editorial-card:hover, .home-editorial-card:focus-visible { border-color: rgba(255,90,0,.55); box-shadow: 0 20px 44px rgba(17,17,17,.1); transform: translateY(-4px); }
+    .home-editorial-card img { width: 100%; aspect-ratio: 16 / 10; margin-bottom: 20px; object-fit: cover; background: #eee; }
+    .home-editorial-card:first-child img { object-position: 68% center; }
+    .home-editorial-card:nth-child(3) img { object-position: center 24%; }
+    .home-editorial-card > :not(img) { margin-right: 20px; margin-left: 20px; }
+    .home-editorial-category { margin-bottom: 10px; color: #d94e00; font-size: 11px; font-weight: 950; letter-spacing: .045em; text-transform: uppercase; }
+    .home-editorial-card :is(h2, h3) { font-size: clamp(20px, 2vw, 28px); font-weight: 950; line-height: 1.08; letter-spacing: -.025em; }
+    .home-editorial-card p { margin-top: 12px; color: #6a6662; font-size: 14px; line-height: 1.55; }
+    .home-editorial-card small { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 20px; color: #79746f; font-size: 12px; font-weight: 800; }
+    .home-editorial-card small b { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: #ff5a00; color: #fff; font-size: 15px; }
+    .home-editorial-card-lead :is(h2, h3) { max-width: none; font-size: clamp(20px, 2vw, 28px); }
+    .home-editorial-card-lead p { max-width: none; font-size: 14px; }
+    .home-editorial-launch { margin-top: clamp(20px, 3vw, 36px); margin-bottom: clamp(24px, 4vw, 46px); padding: clamp(28px, 4.5vw, 56px); border-radius: 28px; background: radial-gradient(circle at 92% 4%, rgba(255,90,0,.2), transparent 30%), #111111; box-shadow: 0 24px 70px rgba(17,17,17,.16); }
+    .home-editorial-launch .home-section-head-v2 > span { color: #ff7a2e; }
+    .home-editorial-launch .home-section-head-v2 > :is(h1, h2) { color: #ffffff; }
+    .home-editorial-launch .home-section-head-v2 > :is(h1, h2) em { color: #ff6818; font-style: normal; }
+    .home-editorial-launch .home-section-head-v2 > p { color: rgba(255,255,255,.7); }
+    .home-editorial-launch .home-section-head-v2 > a { border-color: #ff6818; background: #ff6818; color: #ffffff; box-shadow: 0 12px 28px rgba(255,90,0,.2); }
+    .home-editorial-launch .home-section-head-v2 > a:hover { background: #ff7b32; transform: translateY(-2px); }
+    .home-editorial-launch .home-editorial-card { border-color: rgba(255,255,255,.12); box-shadow: 0 16px 38px rgba(0,0,0,.22); }
+    .home-editorial-launch + .home-hero-v2 { border: 1px solid #eee8e3; border-radius: 28px; box-shadow: 0 18px 54px rgba(17,17,17,.07); }
+
+    /* Sistema de ações clean: hierarquia clara e menos peso visual. */
+    .home-page .nav-chip {
+      min-height: 40px;
+      padding: 0 10px;
+      border-color: transparent;
+      border-radius: 10px;
+      background: transparent;
+      font-weight: 750;
+      transition: background .18s ease, color .18s ease;
+    }
+    .home-page .nav-chip:hover,
+    .home-page .nav-chip.active {
+      border-color: transparent;
+      background: #f2efec;
+      color: #171412;
+      box-shadow: inset 0 -2px 0 #ff5a00;
+      transform: none;
+    }
+    .home-page .nav-chip.nav-chip-path { border-color: transparent; background: #fff7f1; color: #8e3900; }
+    .home-page .nav-chip.nav-chip-path:hover { border-color: transparent; background: #f7eee7; color: #6f2d00; }
+    .home-primary,
+    .home-dark-btn {
+      min-height: 46px;
+      padding-inline: 18px;
+      border-radius: 10px;
+      box-shadow: none;
+      font-weight: 850;
+      transition: background .18s ease, color .18s ease;
+    }
+    .home-primary:hover,
+    .home-primary:focus-visible { background: #e95000; transform: none; }
+    .home-dark-btn:hover,
+    .home-dark-btn:focus-visible { background: #2a2725; transform: none; }
+    .home-secondary {
+      min-height: 44px;
+      padding: 0 4px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #4c4540;
+      font-size: 13px;
+      font-weight: 750;
+      text-decoration: underline;
+      text-decoration-color: #c9bfb7;
+      text-underline-offset: 5px;
+    }
+    .home-secondary:hover,
+    .home-secondary:focus-visible { color: #b64400; text-decoration-color: #ff5a00; }
+    .home-moment-choices { gap: 6px 18px; }
+    .home-moment-choices a {
+      min-height: 30px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #59524d;
+      font-weight: 750;
+    }
+    .home-moment-choices a:hover,
+    .home-moment-choices a:focus-visible { border-color: transparent; background: transparent; color: #c34800; }
+    .home-section-head-v2 > a,
+    .home-panel-head a {
+      min-height: 40px;
+      padding: 0 4px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      color: #27221f;
+      font-weight: 800;
+    }
+    .home-editorial-launch .home-section-head-v2 > a {
+      min-height: 44px;
+      padding-inline: 14px;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 10px;
+      background: transparent;
+      color: #ffffff;
+      box-shadow: none;
+    }
+    .home-editorial-launch .home-section-head-v2 > a:hover,
+    .home-editorial-launch .home-section-head-v2 > a:focus-visible { border-color: #ff6818; background: rgba(255,104,24,.1); transform: none; }
+    .home-editorial-card small b {
+      width: auto;
+      height: auto;
+      border-radius: 0;
+      background: transparent;
+      color: #d94e00;
+      font-size: 18px;
+    }
+    .home-content-bridge a { min-height: 42px; border-radius: 10px; box-shadow: none; }
+    .home-game-panel .home-primary { border-radius: 10px; }
+    .home-page :is(.nav-chip, .home-primary, .home-dark-btn, .home-secondary, .home-section-head-v2 > a, .home-panel-head a, .home-content-bridge a):focus-visible {
+      outline: 3px solid rgba(255,90,0,.28);
+      outline-offset: 3px;
+    }
     .home-people-quote { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(160px, .52fr) minmax(280px, .9fr); gap: clamp(24px, 5vw, 70px); align-items: center; margin-bottom: clamp(28px, 5vw, 56px); padding: clamp(28px, 4.8vw, 52px); border: 1px solid rgba(17,17,17,.06); border-radius: 28px; background: rgba(255,255,255,.78); box-shadow: 0 20px 60px rgba(17,17,17,.06); }
     .home-people-quote blockquote { position: relative; margin: 0; padding-left: 30px; color: #111; font-size: clamp(30px, 3.6vw, 48px); font-weight: 950; line-height: 1.16; letter-spacing: 0; }
     .home-people-quote blockquote::before { content: "“"; position: absolute; left: 0; top: -.18em; color: #ff5a00; font-size: clamp(54px, 6vw, 84px); line-height: 1; }
@@ -2405,6 +2539,9 @@
       .hero-orbit-one { width: min(78vw, 560px); right: 2%; top: 8%; }
       .hero-orbit-two { width: min(48vw, 360px); right: 16%; top: 20%; }
       .home-steps, .home-report-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .home-editorial-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .home-editorial-card-lead { grid-column: auto; }
+      .home-editorial-card-lead img { aspect-ratio: 16 / 10; }
       .home-card-grid {
         display: grid;
         grid-auto-flow: column;
@@ -2444,6 +2581,8 @@
     }
     @media (max-width: 640px) {
       .shell { width: min(calc(100% - 24px), var(--max)); }
+      .home-editorial-launch { padding: 22px 16px 18px; border-radius: 22px; }
+      .home-editorial-launch .home-section-head-v2 { margin-bottom: 22px; }
       .home-hero-v2 { padding-top: clamp(260px, 68vw, 340px); }
       .home-hero-media { height: clamp(260px, 68vw, 340px); }
       .home-hero-media img { object-position: 62% center; }
@@ -2466,6 +2605,13 @@
         text-align: center;
       }
       .home-steps, .home-report-grid, .home-video-list { grid-template-columns: 1fr; }
+      .home-editorial-feature .home-section-head-v2 { grid-template-columns: 1fr; }
+      .home-editorial-feature .home-section-head-v2 > a { grid-column: 1; grid-row: 4; width: 100%; margin-top: 4px; }
+      .home-editorial-grid { grid-auto-flow: column; grid-auto-columns: minmax(272px, 84vw); grid-template-columns: none; gap: 14px; margin-inline: -4px; padding: 2px 4px 14px; overflow-x: auto; overscroll-behavior-inline: contain; scroll-padding-inline: 4px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+      .home-editorial-grid::-webkit-scrollbar { display: none; }
+      .home-editorial-card { scroll-snap-align: start; }
+      .home-editorial-card-lead { grid-column: auto; }
+      .home-editorial-card-lead img { aspect-ratio: 16 / 10; }
       .home-tools-list { grid-template-columns: 1fr; }
       .home-tools-list a { grid-template-columns: 34px minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 12px; min-height: 0; }
       .home-tools-list a::before { grid-row: 1 / span 2; }
@@ -2526,6 +2672,17 @@
       .home-hero-copy p { font-size: 14px; }
       .home-steps article { padding-inline: 10px; }
     }
+
+    /* Hierarquia tipografica da home: Manrope nos titulos, Inter na leitura. */
+    body.home-page :where(h1, h2, h3, h4, h5, h6) {
+      font-family: var(--font-display) !important;
+      font-synthesis: none !important;
+    }
+
+    body.home-page :where(.hero, .home-hero-v2, .home-journey, .home-game-panel, .ecosystem-hero) :where(h1, h2) {
+      font-family: var(--font-body) !important;
+      font-synthesis: none !important;
+    }
   </style>
   <link rel="stylesheet" href="css/components/privacy-consent.css?v=20260723-1">
   <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-2">
@@ -2542,7 +2699,7 @@
           <nav class="category-nav" aria-label="Categorias">
             <a class="nav-chip active" href="/"><svg class="icon" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>Início</a>
             <a class="nav-chip" href="/meu-caminho-be"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"></path></svg>Meu Caminho Be</a>
-            <a class="nav-chip" href="/meu-caminho-be/perfil"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg>Perfil do atleta</a>
+            <a class="nav-chip" href="/meu-caminho-be/perfil" aria-label="Abrir Perfil no Meu Caminho Be"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg>Perfil</a>
             <a class="nav-chip" href="/game.html"><svg class="icon" viewBox="0 0 24 24"><path d="M6 8h12a4 4 0 0 1 4 4v3a3 3 0 0 1-5 2l-2-2H9l-2 2a3 3 0 0 1-5-2v-3a4 4 0 0 1 4-4Z"></path><path d="M7 11v4M5 13h4M16 12h.01M19 14h.01"></path></svg>Game 3D</a>
             <a class="nav-chip" href="/reportagens"><svg class="icon" viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>Reportagens</a>
             <a class="nav-chip" href="/beplay"><svg class="icon" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg>BEplay</a>
@@ -2554,6 +2711,38 @@
     </header>
 
     <main class="home-redesign">
+      <section class="shell home-section-v2 home-editorial-feature home-editorial-launch" id="reportagens-em-destaque" aria-labelledby="home-content-title">
+        <div class="home-section-head-v2">
+          <span>Reportagens Bem Esportivo</span>
+          <h2 id="home-content-title">Histórias que colocam o esporte <em>em movimento.</em></h2>
+          <p>Conheça pessoas, projetos e iniciativas que transformam treino, oportunidade e comunidade em histórias que merecem ser contadas.</p>
+          <a href="/reportagens">Explorar todas as reportagens <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="home-editorial-grid">
+          <a class="home-editorial-card home-editorial-card-lead" href="/reportagens/elas-em-movimento-serra-talhada">
+            <img src="img/mulheres-em-movimento-serra-talhada-sem-logo-640.webp" alt="Mulheres reunidas para atividades funcionais em Serra Talhada" width="640" height="360" fetchpriority="high" decoding="async">
+            <span class="home-editorial-category">Saúde e comunidade</span>
+            <h3>Mulheres em ação e movimento</h3>
+            <p>Duas iniciativas aproximam acolhimento, movimento e constância em Serra Talhada.</p>
+            <small>5 min de leitura <b aria-hidden="true">→</b></small>
+          </a>
+          <a class="home-editorial-card" href="/reportagens/treino-funcional-br-assessoria">
+            <img src="img/banner-treino-funcional-professores-v3-640.webp" alt="Participantes e professores do treino funcional da BR Assessoria" loading="lazy" width="640" height="360">
+            <span class="home-editorial-category">Treino e comunidade</span>
+            <h3>Treino funcional: movimento, orientação e comunidade</h3>
+            <p>Orientação profissional, convivência e uma prática possível para diferentes ritmos.</p>
+            <small>5 min de leitura <b aria-hidden="true">→</b></small>
+          </a>
+          <a class="home-editorial-card" href="/reportagens/dedicacao-talento-mirim">
+            <img src="img/IMG_0957-optimized.jpg" alt="Treino técnico na Academia de Futebol Portela" loading="lazy" width="1600" height="2400">
+            <span class="home-editorial-category">Futebol de base</span>
+            <h3>Dedicação e talento mirim em campo</h3>
+            <p>Disciplina, técnica e confiança construídas desde os primeiros treinos.</p>
+            <small>5 min de leitura <b aria-hidden="true">→</b></small>
+          </a>
+        </div>
+      </section>
+
       <section class="shell home-hero-v2" id="inicio" aria-labelledby="home-hero-title">
         <div class="home-hero-copy">
           <span class="home-kicker">Bem Esportivo</span>
@@ -2561,7 +2750,7 @@
           <p>O esporte não é só desempenho. É pertencimento, rotina e caminho. Encontre um próximo passo possível para o seu momento.</p>
           <div class="home-hero-actions">
             <a class="home-primary" href="/meu-caminho-be">Criar meu Caminho <span aria-hidden="true">→</span></a>
-            <a class="home-secondary" href="#seu-momento">Encontrar meu momento</a>
+            <a class="home-secondary" href="#meu-caminho">Encontrar meu momento</a>
           </div>
           <nav class="home-moment-choices" aria-label="Escolha uma intenção para sua jornada">
             <span>Hoje eu quero:</span>
@@ -2583,34 +2772,6 @@
         <article><span><svg viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"></path></svg></span><strong>Começar</strong><p>Dê o primeiro passo com direção.</p></article>
         <article><span><svg viewBox="0 0 24 24"><path d="m4 17 6-6 4 4 6-9"></path><path d="M14 6h6v6"></path></svg></span><strong>Evoluir</strong><p>Acompanhe seu progresso e continue avançando.</p></article>
         <article><span><svg viewBox="0 0 24 24"><path d="m12 3 3 6 6 .9-4.5 4.4 1 6.2L12 17.5 6.5 20.5l1-6.2L3 9.9 9 9l3-6Z"></path></svg></span><strong>Permanecer</strong><p>Transforme o esporte em estilo de vida.</p></article>
-      </section>
-
-      <section class="shell home-section-v2" id="seu-momento" aria-labelledby="home-content-title">
-        <div class="home-section-head-v2">
-          <span>Reportagens em destaque</span>
-          <h2 id="home-content-title">Histórias que aproximam você do <em>esporte.</em></h2>
-          <a href="/meu-caminho-be">Criar meu Caminho <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="home-card-grid home-intent-grid">
-          <a class="home-content-card" href="/reportagens/elas-em-movimento-serra-talhada">
-            <img src="img/mulheres-em-movimento-serra-talhada-sem-logo-640.webp" alt="Mulheres reunidas para atividades funcionais em Serra Talhada" loading="lazy">
-            <span>Saúde e comunidade</span>
-            <h3>Mulheres em ação e movimento</h3>
-            <small>5 min de leitura</small>
-          </a>
-          <a class="home-content-card" href="/reportagens/treino-funcional-br-assessoria">
-            <img src="img/banner-treino-funcional-professores-v3-640.webp" alt="Participantes e professores do treino funcional da BR Assessoria" loading="lazy">
-            <span>Treinamento</span>
-            <h3>Treino funcional: movimento, orientação e comunidade</h3>
-            <small>5 min de leitura</small>
-          </a>
-          <a class="home-content-card" href="/reportagens/dedicacao-talento-mirim">
-            <img src="img/IMG_0957-optimized.jpg" alt="Treino técnico na Academia de Futebol Portela" loading="lazy">
-            <span>Futebol de base</span>
-            <h3>Dedicação e talento mirim em campo</h3>
-            <small>5 min de leitura</small>
-          </a>
-        </div>
       </section>
 
       <section class="shell home-journey" id="meu-caminho" aria-labelledby="home-journey-title">
@@ -2681,20 +2842,6 @@
       <section class="shell home-content-bridge" aria-label="Continue sua jornada esportiva">
         <div><span>Depois de assistir</span><strong>Transforme inspiração em um próximo passo.</strong></div>
         <a href="/meu-caminho-be/registrar">Registrar minha atividade <span aria-hidden="true">→</span></a>
-      </section>
-
-      <section class="shell home-section-v2 home-report-section" aria-labelledby="home-report-title">
-        <div class="home-section-head-v2">
-          <span>Reportagens</span>
-          <h2 id="home-report-title">Histórias reais que <em>inspiram</em> o esporte.</h2>
-          <a href="/reportagens">Ver todas <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="home-report-grid">
-          <a href="/reportagens/duda-e-o-futebol"><img src="img/duda.jpg" alt="Duda em sua trajetória no futebol" loading="lazy"><span>Futebol feminino</span><strong>Duda e o Futebol</strong><small>4 min de leitura</small></a>
-          <a href="/reportagens/elas-em-movimento-serra-talhada"><img src="img/mulheres-em-movimento-serra-talhada-interna-640.webp" alt="Mulheres em movimento em Serra Talhada" loading="lazy"><span>Saúde e comunidade</span><strong>Mulheres em ação e movimento</strong><small>5 min de leitura</small></a>
-          <a href="/reportagens/treino-funcional-br-assessoria"><img src="img/banner-treino-funcional-professores-v3-640.webp" alt="Participantes e professores do treino funcional da BR Assessoria" loading="lazy"><span>Treinamento</span><strong>Treino funcional reúne movimento, orientação e comunidade na quadra</strong><small>5 min de leitura</small></a>
-          <a href="/reportagens/dedicacao-talento-mirim"><img src="img/IMG_0957-optimized.jpg" alt="Treino técnico na Academia de Futebol Portela" loading="lazy"><span>Futebol de base</span><strong>Dedicação e Talento Mirim em Campo</strong><small>5 min de leitura</small></a>
-        </div>
       </section>
 
       <section class="shell ecosystem-hero home-path-feature" aria-labelledby="ecosystem-hero-title">

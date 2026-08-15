@@ -128,6 +128,7 @@ function initReportSharing() {
     const shareUrl = articleUrl.href;
     const shareText = `${title} | Bem Esportivo`;
     const whatsapp = section.querySelector("[data-share-whatsapp]");
+    const copyButton = section.querySelector("[data-share-copy]");
     const coverButton = section.querySelector("[data-share-cover-button]");
     const download = section.querySelector("[data-share-download]");
     const status = section.querySelector("[data-share-status]");
@@ -135,6 +136,17 @@ function initReportSharing() {
     if (whatsapp) {
       whatsapp.href = `https://wa.me/?text=${encodeURIComponent(`${shareText}\n${shareUrl}`)}`;
     }
+
+    copyButton?.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        if (status) status.textContent = "Link copiado. Agora é só enviar para quem você quiser.";
+        copyButton.textContent = "Link copiado";
+        window.setTimeout(() => { copyButton.textContent = "Copiar link"; }, 2200);
+      } catch (error) {
+        if (status) status.textContent = `Copie este endereço: ${shareUrl}`;
+      }
+    });
 
     const coverBlobPromise = coverPath
       ? fetch(new URL(coverPath, location.href))

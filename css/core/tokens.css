@@ -37,7 +37,7 @@
   --be-ds-chart-5: #7a4cad;
 
   /* Typography */
-  --be-ds-font-display: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --be-ds-font-display: "Manrope", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --be-ds-font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --be-ds-text-2xs: 0.6875rem;
   --be-ds-text-xs: 0.75rem;
@@ -51,7 +51,7 @@
   --be-ds-weight-medium: 500;
   --be-ds-weight-semibold: 600;
   --be-ds-weight-bold: 700;
-  --be-ds-weight-black: 900;
+  --be-ds-weight-black: 800;
   --be-ds-leading-none: 1;
   --be-ds-leading-tight: 1.12;
   --be-ds-leading-ui: 1.4;

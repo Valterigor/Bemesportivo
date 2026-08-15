@@ -26,7 +26,7 @@ Escala: 0 a 10. O critério mínimo de aceite deste ciclo é 9,5 em todas as dim
 
 ## Critérios validados
 
-- Identidade preservada: preto, branco, laranja `#FA8A01` e fonte Rubik.
+- Identidade preservada: preto, branco, laranja `#FA8A01`, Manrope nos títulos e Inter nos textos.
 - Tokens centralizados para cores, tipografia, raios, sombras, espaçamentos, estados e movimento.
 - Sombras suaves, bordas consistentes, foco visível e microinterações discretas.
 - Alvos de interação com pelo menos 44 px e suporte a `prefers-reduced-motion`.

@@ -14,7 +14,7 @@ Fonte oficial para decisões de interface do BeMEsportivo.
 
 1. Clareza antes de decoração.
 2. Uma ação primária por contexto.
-3. Inter em toda a interface.
+3. Manrope nos títulos; Inter nos textos, controles e navegação.
 4. Grid de espaçamento baseado em 4 px.
 5. Controles com no mínimo 44 px; padrão de 50 px.
 6. Raio padrão de 12 px para controles.

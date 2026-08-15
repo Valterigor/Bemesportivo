@@ -189,7 +189,7 @@ async function run() {
     assert.ok(fs.existsSync(path.join(root, 'img', 'elas-em-movimento-video-poster.jpg')));
     assert.match(elasReport, /<div class="elas-story-header">/);
     assert.doesNotMatch(elasReport, /<header class="elas-story-header">/);
-    assert.match(elasReport, /site-common\.css\?v=20260723-3[\s\S]*reportagens\.css\?v=20260806-1/);
+    assert.match(elasReport, /site-common\.css\?v=20260814-1[\s\S]*reportagens\.css\?v=20260814-1/);
     assert.doesNotMatch(elasReport, /elas-photo-badge/);
     assert.match(elasReport, /mulheres-em-movimento-serra-talhada-interna\.jpg/);
     assert.match(elasReport, /class="report-byline"[\s\S]*4 min de leitura/);
@@ -204,7 +204,8 @@ async function run() {
     assert.match(elasReport, /report-related[\s\S]*banner-treino-funcional-professores-v3-640\.webp[\s\S]*IMG_0957-optimized\.webp[\s\S]*duda\.jpg/);
     for (const reportFile of ['reportagem-elas-em-movimento-serra-talhada.html', 'reportagem-treino-funcional.html', 'reportagem-dedicacao-talento-mirim.html', 'reportagem-duda-e-o-futebol.html']) {
       const reportHtml = fs.readFileSync(path.join(root, reportFile), 'utf8');
-      assert.match(reportHtml, /reportagens\.css\?v=20260806-1/, `A reportagem precisa carregar a ponte editorial atualizada: ${reportFile}`);
+      assert.match(reportHtml, /reportagens\.css\?v=20260814-1/, `A reportagem precisa carregar o modelo editorial atualizado: ${reportFile}`);
+      assert.match(reportHtml, /data-share-copy/, `A reportagem precisa oferecer cópia direta do link: ${reportFile}`);
       assert.match(reportHtml, /class="report-path-bridge"[\s\S]*Começar minha trajetória/, `A reportagem precisa conectar leitura e trajetória: ${reportFile}`);
     }
     for (const image of ['mulheres-em-movimento-serra-talhada-interna.jpg', 'mulheres-em-movimento-serra-talhada-interna-640.webp', 'mulheres-em-movimento-serra-talhada-interna-960.webp', 'mulheres-em-movimento-serra-talhada-interna-1440.webp']) {
@@ -245,22 +246,24 @@ async function run() {
     assert.match(adsenseConsentDefault, /ad_storage: 'denied'/);
     assert.match(adsenseConsentDefault, /ad_personalization: 'denied'/);
     assert.doesNotMatch(privacyConsentScript, /ca-pub-5270723987412757/);
-    assert.match(homeHtml, /<main class="home-redesign">\s*<section class="shell home-hero-v2" id="inicio"/, 'A Home precisa abrir com o novo hero de jornada.');
+    assert.match(homeHtml, /<main class="home-redesign">\s*<section class="shell home-section-v2 home-editorial-feature home-editorial-launch"[\s\S]*<section class="shell home-hero-v2" id="inicio"/, 'A Home precisa abrir com reportagens e conduzir para o hero de jornada.');
     assert.match(homeHtml, /id="home-hero-title">Descubra <span>seu caminho<\/span> no esporte\./, 'O novo hero precisa preservar a chamada principal do Bem Esportivo.');
     assert.match(homeHtml, /class="shell home-steps"[\s\S]*Descobrir[\s\S]*Começar[\s\S]*Evoluir[\s\S]*Permanecer/, 'A Home precisa apresentar as quatro etapas da jornada.');
-    assert.match(homeHtml, /id="home-content-title">Histórias que aproximam você do <em>esporte\.<\/em>/, 'A Home precisa apresentar os cards editoriais.');
+    assert.match(homeHtml, /id="home-content-title">Histórias que colocam o esporte <em>em movimento\.<\/em>/, 'A Home precisa apresentar a vitrine editorial principal.');
+    assert.match(homeHtml, /class="home-editorial-grid"[\s\S]*Mulheres em ação e movimento[\s\S]*Treino funcional:[\s\S]*Dedicação e talento mirim/, 'A vitrine editorial precisa destacar histórias reais e variadas.');
     assert.match(homeHtml, /class="shell home-journey"[\s\S]*Seu diário <em>esportivo digital\.<\/em>/, 'A Home precisa preservar o bloco do Meu Caminho Be.');
     assert.match(homeHtml, /class="shell home-split"[\s\S]*Corrida da Hidratação[\s\S]*Assista\. Inspire-se\. Evolua sempre\./, 'A Home precisa conectar Game e BePlay.');
-    assert.match(homeHtml, /id="home-report-title">Histórias reais que <em>inspiram<\/em> o esporte\./, 'A Home precisa preservar a vitrine de reportagens.');
-    assert.match(homeHtml, /href="\/meu-caminho-be">Criar meu Caminho/, 'A chamada da Home precisa abrir o Meu Caminho Be.');
+    assert.doesNotMatch(homeHtml, /id="home-report-title"/, 'A Home não deve repetir a mesma vitrine de reportagens.');
+    assert.match(homeHtml, /href="\/reportagens">Explorar todas as reportagens/, 'A vitrine editorial precisa abrir o acervo completo.');
+    assert.match(homeHtml, /href="\/meu-caminho-be">Começar meu Caminho/, 'A chamada da jornada precisa abrir o Meu Caminho Be.');
     assert.doesNotMatch(homeHtml, /class="home-path-feature"[\s\S]*Dados ficam neste aparelho[\s\S]*<\/section>/, 'A prévia da Home não deve exibir o estado local do aparelho.');
-    assert.match(homeHtml, /href="\/meu-caminho-be"[\s\S]*Meu Caminho Be[\s\S]*href="\/meu-caminho-be\/perfil"[\s\S]*Perfil do atleta[\s\S]*href="\/game\.html"[\s\S]*Game 3D[\s\S]*href="\/reportagens"[\s\S]*Reportagens[\s\S]*href="\/beplay"[\s\S]*BEplay[\s\S]*href="\/profissionais"[\s\S]*Profissionais[\s\S]*href="\/produtos"[\s\S]*Produtos/, 'A Home precisa preservar o menu principal do Bem Esportivo.');
+    assert.match(homeHtml, /href="\/meu-caminho-be"[\s\S]*Meu Caminho Be[\s\S]*href="\/meu-caminho-be\/perfil"[\s\S]*Perfil[\s\S]*href="\/game\.html"[\s\S]*Game 3D[\s\S]*href="\/reportagens"[\s\S]*Reportagens[\s\S]*href="\/beplay"[\s\S]*BEplay[\s\S]*href="\/profissionais"[\s\S]*Profissionais[\s\S]*href="\/produtos"[\s\S]*Produtos/, 'A Home precisa preservar o menu principal e o Perfil do Meu Caminho Be.');
     assert.match(homeHtml, /href="\/meu-caminho-be\/ferramentas"/, 'A Home precisa abrir Ferramentas pela subpágina canônica.');
     assert.match(homeHtml, /O conteúdo inspira\. A sua história começa quando você <span>vive o esporte\.<\/span>/);
     assert.doesNotMatch(homeHtml, /<h2>Meu Caminho Be<\/h2>/, 'Meu Caminho Be não deve ser usado como nome de coluna editorial.');
     assert.match(reportListing, /class="report-path-bridge"[\s\S]*Conhecer o Meu Caminho Be/);
     const routesScript = fs.readFileSync(path.join(root, 'js', 'core', 'routes.js'), 'utf8');
-    assert.match(routesScript, /'\/meu-caminho-be', 'Meu Caminho Be'[\s\S]*'\/meu-caminho-be\/perfil', 'Perfil do atleta'[\s\S]*'\/game\.html', 'Game 3D'[\s\S]*'\/reportagens', 'Reportagens'[\s\S]*'\/beplay', 'BEplay'[\s\S]*'\/profissionais', 'Profissionais'[\s\S]*'\/produtos', 'Produtos'/);
+    assert.match(routesScript, /'\/meu-caminho-be', 'Meu Caminho Be'[\s\S]*'\/meu-caminho-be\/perfil', 'Perfil'[\s\S]*'\/game\.html', 'Game 3D'[\s\S]*'\/reportagens', 'Reportagens'[\s\S]*'\/beplay', 'BEplay'[\s\S]*'\/profissionais', 'Profissionais'[\s\S]*'\/produtos', 'Produtos'/);
     assert.doesNotMatch(routesScript, /'\/#treinos'|'\/#pessoas'/, 'O menu compartilhado não deve reintroduzir atalhos removidos da navegação principal.');
     assert.doesNotMatch(elasReport, /mulheres-em-acao-funcional-serra-talhada/);
     for (const image of ['mulheres-em-movimento-serra-talhada-sem-logo-640.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-960.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-1440.webp']) {
