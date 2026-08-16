@@ -16,6 +16,7 @@ const PROFILE_STORAGE_KEY = 'meuCaminhoBeProfileV1';
 const ACCESS_STORAGE_KEY = 'meuCaminhoBeAccessV1';
 const BE_NOW_TIMER_KEY = 'meuCaminhoBeTimerV1';
 const SAFETY_CONSENT_VERSION = '2026-07-21';
+const PUBLIC_PROFILE_TERMS_VERSION = '2026-08-15';
 const PROFILE_SCHEMA_VERSION = 10;
 const BACKUP_KIND = 'meu-caminho-be-backup';
 const BACKUP_VERSION = 1;
@@ -329,6 +330,9 @@ function readStoredProfile() {
       publicAge: Number.isFinite(Number(profile.publicAge)) && Number(profile.publicAge) >= 18 && Number(profile.publicAge) <= 120 ? Math.round(Number(profile.publicAge)) : null,
       profession: String(profile.profession || '').trim().slice(0, 60),
       publicEnabled: profile.publicEnabled === true,
+      publicTermsAccepted: profile.publicTermsAccepted === true && profile.publicTermsVersion === PUBLIC_PROFILE_TERMS_VERSION,
+      publicTermsVersion: String(profile.publicTermsVersion || ''),
+      publicTermsAcceptedAt: String(profile.publicTermsAcceptedAt || ''),
       location: {
         city: String(profile.location?.city || '').trim().slice(0, 60),
         state: String(profile.location?.state || '').trim().toLocaleUpperCase('pt-BR').slice(0, 2)
@@ -394,6 +398,13 @@ function saveProfile(updates) {
 
 let celebrationTimer = null;
 let celebrationHideTimer = null;
+let saveReceiptHideTimer = null;
+
+function hideSaveReceipt() {
+  const receipt = document.getElementById('fb-save-receipt');
+  window.clearTimeout(saveReceiptHideTimer);
+  if (receipt) receipt.hidden = true;
+}
 
 function hideCelebration() {
   const toast = document.getElementById('fb-celebration-toast');
@@ -432,7 +443,10 @@ function showProductFeedback({ type = 'success', title = '', message = '', rewar
     toast.classList.add('show');
     celebrationTimer = window.setTimeout(hideCelebration, feedbackType === 'progress' ? 6000 : 4800);
   });
-  if (['success', 'progress'].includes(feedbackType)) showSaveReceipt(title, message, detail);
+  if (['success', 'progress'].includes(feedbackType)) {
+    if (window.matchMedia('(max-width: 760px)').matches) hideSaveReceipt();
+    else showSaveReceipt(title, message, detail);
+  }
 }
 
 function nextStepForFeedback(title = '') {
@@ -456,6 +470,8 @@ function showSaveReceipt(title, message, detail = '') {
   nextButton.dataset.nextView = next.view;
   nextButton.textContent = next.label;
   receipt.hidden = false;
+  window.clearTimeout(saveReceiptHideTimer);
+  saveReceiptHideTimer = window.setTimeout(hideSaveReceipt, 7000);
   const submitter = activeSaveSubmitter || (document.activeElement?.matches?.('button, input[type="submit"]') ? document.activeElement : null);
   if (submitter) {
     const idleLabel = submitter.dataset.saveIdleLabel || submitter.textContent.trim();
@@ -496,8 +512,7 @@ document.addEventListener('submit', event => {
 document.getElementById('fb-save-receipt-next')?.addEventListener('click', event => {
   const view = event.currentTarget.dataset.nextView || 'inicio';
   openView(view);
-  const receipt = document.getElementById('fb-save-receipt');
-  if (receipt) receipt.hidden = true;
+  hideSaveReceipt();
 });
 
 function readAccessState() {
@@ -648,10 +663,17 @@ function openResetDialog() {
   try { dialog.showModal(); } catch (error) { dialog.setAttribute('open', ''); }
 }
 
-function resetLocalJourney() {
+async function resetLocalJourney() {
   clearBeNowExecution();
   const resetButton = document.getElementById('fb-reset-confirm');
   if (resetButton) { resetButton.disabled = true; resetButton.textContent = 'Zerando…'; }
+  try {
+    await window.BePublicProfile?.deleteProfile?.();
+  } catch (error) {
+    showProductFeedback({ type: 'warning', title: 'Não foi possível retirar sua página pública.', message: 'Conecte-se à internet e tente novamente antes de apagar os dados deste aparelho.' });
+    if (resetButton) { resetButton.disabled = false; resetButton.textContent = 'Sim, zerar e recomeçar'; }
+    return;
+  }
   try {
     const localKeys = [];
     for (let index = 0; index < localStorage.length; index += 1) {
@@ -1822,6 +1844,7 @@ function syncProfileFormValues() {
   const ageInput = document.getElementById('fb-profile-age');
   const professionInput = document.getElementById('fb-profile-profession');
   const publicInput = document.getElementById('fb-profile-public-enabled');
+  const publicConsentInput = document.getElementById('fb-profile-public-consent');
   const sportInput = document.getElementById('fb-profile-sport');
   const roleInput = document.getElementById('fb-profile-role');
   const visualInput = document.getElementById('fb-profile-visual');
@@ -1835,6 +1858,9 @@ function syncProfileFormValues() {
   if (ageInput && document.activeElement !== ageInput) ageInput.value = currentProfile?.publicAge || '';
   if (professionInput && document.activeElement !== professionInput) professionInput.value = currentProfile?.profession || '';
   if (publicInput && document.activeElement !== publicInput) publicInput.checked = currentProfile?.publicEnabled === true;
+  if (publicConsentInput && document.activeElement !== publicConsentInput) publicConsentInput.checked = currentProfile?.publicTermsAccepted === true && currentProfile?.publicTermsVersion === PUBLIC_PROFILE_TERMS_VERSION;
+  const publicConsentWrap = document.getElementById('fb-profile-public-consent-wrap');
+  if (publicConsentWrap) publicConsentWrap.hidden = !publicInput?.checked;
   if (sportInput && document.activeElement !== sportInput) sportInput.value = sportProfile.modality;
   if (roleInput && document.activeElement !== roleInput) roleInput.value = sportProfile.roleLabel === sportProfile.fallbackRole ? '' : sportProfile.roleLabel;
   if (visualInput && document.activeElement !== visualInput) visualInput.value = sportProfile.visual;
@@ -3881,6 +3907,11 @@ document.getElementById('fb-profile-story')?.addEventListener('input', event => 
   if (counter) counter.textContent = String(event.currentTarget.value.length);
 });
 
+document.getElementById('fb-profile-public-enabled')?.addEventListener('change', event => {
+  const consent = document.getElementById('fb-profile-public-consent-wrap');
+  if (consent) consent.hidden = !event.currentTarget.checked;
+});
+
 document.getElementById('fb-profile-form')?.addEventListener('submit', event => {
   event.preventDefault();
   const name = document.getElementById('fb-profile-name').value.trim();
@@ -3893,9 +3924,15 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
   const publicAge = Number.isFinite(publicAgeValue) && publicAgeValue >= 18 && publicAgeValue <= 120 ? Math.round(publicAgeValue) : null;
   const profession = document.getElementById('fb-profile-profession')?.value.trim().slice(0, 60) || '';
   const publicEnabled = document.getElementById('fb-profile-public-enabled')?.checked === true;
+  const publicTermsAccepted = document.getElementById('fb-profile-public-consent')?.checked === true;
   if (publicEnabled && (!publicAge || !profession)) {
-    document.getElementById('fb-profile-feedback').textContent = 'Para ativar o perfil público, informe sua idade e profissão.';
+    document.getElementById('fb-profile-feedback').textContent = 'Para ativar o Meu Diário BE, informe sua idade e profissão.';
     document.getElementById(!publicAge ? 'fb-profile-age' : 'fb-profile-profession')?.focus();
+    return;
+  }
+  if (publicEnabled && !publicTermsAccepted) {
+    document.getElementById('fb-profile-feedback').textContent = 'Confirme que você tem 18 anos ou mais e aceite os termos para ativar o Meu Diário BE.';
+    document.getElementById('fb-profile-public-consent')?.focus();
     return;
   }
   const sportProfile = {
@@ -3908,13 +3945,23 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
     ? sanitizeProfilePhoto(currentProfile?.photoDataUrl)
     : sanitizeProfilePhoto(pendingProfilePhoto);
   profileEditMode = false;
-  saveProfile({ name, email, location, photoDataUrl, sportProfile, story, publicAge, profession, publicEnabled, identityCreatedAt: currentProfile?.identityCreatedAt || new Date().toISOString() });
+  saveProfile({
+    name, email, location, photoDataUrl, sportProfile, story, publicAge, profession, publicEnabled,
+    publicTermsAccepted: publicEnabled ? publicTermsAccepted : currentProfile?.publicTermsAccepted === true,
+    publicTermsVersion: publicEnabled ? PUBLIC_PROFILE_TERMS_VERSION : currentProfile?.publicTermsVersion || '',
+    publicTermsAcceptedAt: publicEnabled && publicTermsAccepted
+      ? currentProfile?.publicTermsVersion === PUBLIC_PROFILE_TERMS_VERSION && currentProfile?.publicTermsAcceptedAt
+        ? currentProfile.publicTermsAcceptedAt
+        : new Date().toISOString()
+      : currentProfile?.publicTermsAcceptedAt || '',
+    identityCreatedAt: currentProfile?.identityCreatedAt || new Date().toISOString()
+  });
   pendingProfilePhoto = undefined;
   renderProfilePhoto();
   if (name) registerFirstIdentityAccess();
   const sportLabel = getSportProfile({ sportProfile }).modalityLabel;
   document.getElementById('fb-profile-feedback').textContent = name
-    ? `Perfil salvo, ${name}.${publicEnabled ? ' O perfil público será enviado para moderação.' : story ? ' Sua história também foi guardada.' : ` Modalidade base: ${sportLabel}.`}`
+    ? `Perfil salvo, ${name}.${publicEnabled ? ' Sua página pública já pode ser aberta e compartilhada.' : story ? ' Sua história também foi guardada.' : ` Modalidade base: ${sportLabel}.`}`
     : `Perfil salvo neste navegador. Modalidade base: ${sportLabel}.`;
   showCelebration('Perfil atualizado!', name
     ? `Muito bem, ${name}. Seu perfil agora tem uma identidade por modalidade.`
@@ -4414,6 +4461,9 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
       publicAge: Number.isFinite(Number(profile.publicAge)) && Number(profile.publicAge) >= 18 && Number(profile.publicAge) <= 120 ? Math.round(Number(profile.publicAge)) : null,
       profession: String(profile.profession || '').trim().slice(0, 60),
       publicEnabled: profile.publicEnabled === true,
+      publicTermsAccepted: profile.publicTermsAccepted === true && profile.publicTermsVersion === PUBLIC_PROFILE_TERMS_VERSION,
+      publicTermsVersion: String(profile.publicTermsVersion || ''),
+      publicTermsAcceptedAt: String(profile.publicTermsAcceptedAt || ''),
       location: {
         city: String(profile.location?.city || '').trim().slice(0, 60),
         state: String(profile.location?.state || '').trim().toLocaleUpperCase('pt-BR').slice(0, 2)

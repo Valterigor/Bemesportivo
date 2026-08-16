@@ -59,7 +59,6 @@
     const duration = Math.min(1440, rawDuration);
     const distanceValue = Number(entry.distance);
     const imageDataUrl = /^data:image\/(?:jpeg|webp);base64,[a-z0-9+/=]+$/i.test(String(entry.imageDataUrl || '')) && String(entry.imageDataUrl).length <= 480000 ? String(entry.imageDataUrl) : '';
-    const videoUrl = /^https:\/\/(?:www\.|m\.)?(?:youtube\.com\/|youtu\.be\/)/i.test(String(entry.videoUrl || '')) ? String(entry.videoUrl).trim().slice(0, 200) : '';
     const visibility = entry.visibility === 'public' ? 'public' : 'private';
     return {
       id: String(entry.id || `be-${Date.now()}-${Math.random().toString(16).slice(2)}`).slice(0, 80),
@@ -72,9 +71,8 @@
       feeling: ['1', '2', '3', '4', '5'].includes(String(entry.feeling)) ? String(entry.feeling) : '3',
       note: String(entry.note || '').trim().slice(0, 600),
       imageDataUrl,
-      videoUrl,
       visibility,
-      publicStatus: visibility === 'public' && ['pending', 'approved', 'failed'].includes(entry.publicStatus) ? entry.publicStatus : '',
+      publicStatus: visibility === 'public' && ['pending', 'approved', 'published', 'hidden', 'failed'].includes(entry.publicStatus) ? entry.publicStatus : '',
       createdAt: String(entry.createdAt || new Date().toISOString()).slice(0, 40),
       updatedAt: String(entry.updatedAt || new Date().toISOString()).slice(0, 40)
     };
@@ -201,7 +199,6 @@
     $('#be-entry-distance').value = values.distance || '';
     $('#be-entry-result').value = values.result || '';
     $('#be-entry-note').value = values.note || '';
-    $('#be-entry-video').value = values.videoUrl || '';
     pendingEntryImage = values.imageDataUrl || '';
     renderEntryPhotoPreview();
     const visibility = form.querySelector(`input[name="visibility"][value="${values.visibility === 'public' ? 'public' : 'private'}"]`);
@@ -319,8 +316,8 @@
       entry.distance ? `${formatNumber(entry.distance)} km` : '',
       entry.result
     ].filter(Boolean).join(' · ');
-    const media = entry.imageDataUrl ? `<img class="be-entry-card-photo" src="${entry.imageDataUrl}" alt="Foto de ${escapeHtml(titleFor(entry))}">` : entry.videoUrl ? '<span class="be-entry-card-media-badge">Vídeo</span>' : '';
-    const visibility = entry.visibility === 'public' ? `<small class="be-entry-public-state" data-state="${entry.publicStatus || 'pending'}">${entry.publicStatus === 'failed' ? 'Envio público pendente' : entry.publicStatus === 'approved' ? 'Público' : 'Em moderação'}</small>` : '<small class="be-entry-private-state">Só você</small>';
+    const media = entry.imageDataUrl ? `<img class="be-entry-card-photo" src="${entry.imageDataUrl}" alt="Foto de ${escapeHtml(titleFor(entry))}">` : '';
+    const visibility = entry.visibility === 'public' ? `<small class="be-entry-public-state" data-state="${entry.publicStatus || 'pending'}">${entry.publicStatus === 'failed' ? 'Envio público pendente' : entry.publicStatus === 'hidden' ? 'Oculto pela fiscalização' : ['approved', 'published'].includes(entry.publicStatus) ? 'Público' : 'Publicando'}</small>` : '<small class="be-entry-private-state">Só você</small>';
     return `<article class="be-entry-card">${media}<span class="be-entry-icon" aria-hidden="true">${types[entry.type].icon}</span><div><h4>${escapeHtml(titleFor(entry))}</h4><p>${escapeHtml(details)}${entry.note ? ` · ${escapeHtml(entry.note)}` : ''}</p>${visibility}</div><span class="be-entry-feeling" aria-label="Como se sentiu: ${entry.feeling} de 5">${feelingIcons[entry.feeling]}</span><button type="button" data-be-edit="${escapeHtml(entry.id)}" aria-label="Editar ${escapeHtml(titleFor(entry))}">•••</button></article>`;
   }
 
@@ -671,16 +668,15 @@
     const previous = entries.find(entry => entry.id === id);
     const note = String(form.get('note') || '').trim();
     const visibility = form.get('visibility') === 'public' ? 'public' : 'private';
-    const videoUrl = String(form.get('videoUrl') || '').trim();
-    if ((visibility === 'public' || pendingEntryImage || videoUrl) && note.length < 3) {
-      $('#be-entry-feedback').textContent = 'Conte como foi e o que aconteceu antes de guardar esta foto, vídeo ou publicação.';
+    if ((visibility === 'public' || pendingEntryImage) && note.length < 3) {
+      $('#be-entry-feedback').textContent = 'Conte como foi e o que aconteceu antes de guardar esta foto ou publicação.';
       $('#be-entry-note')?.focus();
       return;
     }
     const entry = sanitize({
       id: id || undefined, date: form.get('date'), type: form.get('type'), title: form.get('title'),
       duration: form.get('duration'), distance: form.get('distance'), result: form.get('result'),
-      feeling: form.get('feeling'), note, imageDataUrl: pendingEntryImage, videoUrl, visibility,
+      feeling: form.get('feeling'), note, imageDataUrl: pendingEntryImage, visibility,
       publicStatus: visibility === 'public' ? 'pending' : '',
       createdAt: previous?.createdAt || new Date().toISOString(), updatedAt: new Date().toISOString()
     });
@@ -704,12 +700,14 @@
     if (visibility === 'public') {
       try {
         if (!window.BePublicProfile) throw new Error('O envio público ainda não está disponível.');
-        await window.BePublicProfile.publishEntry(entry);
-        emitFeedback({ title: 'Enviado para moderação.', message: 'O registro continua no seu diário e só ficará público depois da análise.' });
+        const result = await window.BePublicProfile.publishEntry(entry);
+        entries = entries.map(item => item.id === entry.id ? { ...item, publicStatus: result.postStatus || 'published' } : item);
+        saveEntries();
+        emitFeedback({ title: 'Publicado no seu diário público!', message: 'O registro já pode ser visto pelo seu link e continua sob seu controle.' });
       } catch (error) {
         entries = entries.map(item => item.id === entry.id ? { ...item, publicStatus: 'failed' } : item);
         saveEntries();
-        emitFeedback({ tone: 'care', title: 'Registro salvo apenas no diário.', message: error?.message || 'Não foi possível enviar para moderação agora.' });
+        emitFeedback({ tone: 'care', title: 'Registro salvo apenas no diário.', message: error?.message || 'Não foi possível publicar agora.' });
       }
     }
   });

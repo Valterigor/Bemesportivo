@@ -108,27 +108,28 @@ async function summarizePublicProfiles(store) {
   let pending = 0;
   for (const record of records.filter(Boolean)) {
     profiles += 1;
-    if (record.profileStatus === 'approved') approvedProfiles += 1;
-    if (record.profileStatus !== 'approved') {
-      pending += 1;
-      moderation.push({
-        type: 'public-profile', channel: 'Perfil público', id: record.slug,
-        name: record.profile?.displayName || 'Pessoa',
-        text: `${record.profile?.age || '—'} anos · ${record.profile?.profession || 'Profissão não informada'} · ${record.profile?.favoriteSport || 'Esporte não informado'} · ${record.profile?.bio || 'Sem apresentação'}`,
-        createdAt: record.updatedAt, reportCount: 0, hidden: record.profileStatus === 'hidden', pending: record.profileStatus === 'pending', hasImage: Boolean(record.profile?.photoDataUrl)
-      });
-    }
+    const profileVisible = ['published', 'approved'].includes(record.profileStatus);
+    const profileReportCount = Array.isArray(record.reports) ? record.reports.length : 0;
+    if (profileVisible) approvedProfiles += 1;
+    if (['hidden', 'pending'].includes(record.profileStatus) || profileReportCount) pending += 1;
+    moderation.push({
+      type: 'public-profile', channel: 'Perfil público', id: record.slug,
+      name: record.profile?.displayName || 'Pessoa',
+      text: `${record.profile?.age || '—'} anos · ${record.profile?.profession || 'Profissão não informada'} · ${record.profile?.favoriteSport || 'Esporte não informado'} · ${record.profile?.bio || 'Sem apresentação'}`,
+      createdAt: record.updatedAt, reportCount: profileReportCount, hidden: record.profileStatus === 'hidden',
+      pending: record.profileStatus === 'pending', disabled: record.profileStatus === 'disabled', published: profileVisible, hasImage: Boolean(record.profile?.photoDataUrl)
+    });
     for (const post of Array.isArray(record.posts) ? record.posts : []) {
       posts += 1;
       const reportCount = Array.isArray(post.reports) ? post.reports.length : 0;
-      if (post.status !== 'approved' || reportCount) {
-        pending += 1;
-        moderation.push({
-          type: 'public-post', channel: `Publicação · ${post.kind || 'texto'}`, id: post.id,
-          profileId: record.slug, name: record.profile?.displayName || 'Pessoa', text: post.text || '',
-          createdAt: post.createdAt, reportCount, hidden: post.status === 'hidden', pending: post.status === 'pending', hasImage: Boolean(post.imageDataUrl), videoId: post.videoId || ''
-        });
-      }
+      const postVisible = ['published', 'approved'].includes(post.status);
+      if (!postVisible || reportCount) pending += 1;
+      moderation.push({
+        type: 'public-post', channel: `Publicação · ${post.kind || 'texto'}`, id: post.id,
+        profileId: record.slug, name: record.profile?.displayName || 'Pessoa', text: post.text || '',
+        createdAt: post.createdAt, reportCount, hidden: post.status === 'hidden', pending: post.status === 'pending',
+        published: postVisible, hasImage: Boolean(post.imageDataUrl), videoId: post.videoId || ''
+      });
     }
   }
   moderation.sort((first, second) => String(second.createdAt).localeCompare(String(first.createdAt)));
@@ -217,7 +218,8 @@ async function moderatePublic(env, body) {
   if (type === 'public-profile') {
     if (action === 'delete') await getDataStore(env).delete(key);
     else {
-      record.profileStatus = action === 'approve' || action === 'restore' ? 'approved' : 'hidden';
+      record.profileStatus = action === 'approve' || action === 'restore' ? 'published' : 'hidden';
+      if (action === 'restore') record.reports = [];
       record.updatedAt = new Date().toISOString();
       await writeJson(env, key, record);
     }
@@ -226,7 +228,7 @@ async function moderatePublic(env, body) {
     if (index < 0) return { status: 404, payload: { error: 'Publicação não encontrada.' } };
     if (action === 'delete') record.posts.splice(index, 1);
     else {
-      record.posts[index].status = action === 'approve' || action === 'restore' ? 'approved' : 'hidden';
+      record.posts[index].status = action === 'approve' || action === 'restore' ? 'published' : 'hidden';
       if (action === 'restore') record.posts[index].reports = [];
       record.posts[index].updatedAt = new Date().toISOString();
     }

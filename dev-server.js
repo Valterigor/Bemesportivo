@@ -11,6 +11,8 @@ const gameRankingFile = path.join(root, 'data', 'game-ranking.json');
 const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const SELECAO_NEWS_RSS_URL = 'https://news.google.com/rss/search?q=sele%C3%A7%C3%A3o%20brasileira%20futebol%20when%3A1d&hl=pt-BR&gl=BR&ceid=BR:pt-419';
 const apiCache = new Map();
+const publicProfileRecords = new Map();
+let publicProfileHandlerPromise;
 const REPORT_HIDE_THRESHOLD = 3;
 const COMMUNITY_RETENTION_MS = 1000 * 60 * 60 * 24 * 730;
 
@@ -743,6 +745,41 @@ function readGameRanking(){
   }catch(error){ return {entries:[], sessions:[], updatedAt:null}; }
 }
 
+async function handlePublicProfilesApi(request, response, parsedUrl){
+  if(!parsedUrl.pathname.startsWith('/api/public-profiles')) return false;
+  try{
+    const chunks = [];
+    let total = 0;
+    if(!['GET', 'HEAD'].includes(request.method || 'GET')){
+      for await (const chunk of request){
+        total += chunk.length;
+        if(total > 2_000_000) throw new Error('A publicação excedeu o limite permitido.');
+        chunks.push(chunk);
+      }
+    }
+    publicProfileHandlerPromise ||= import('./server/public-profile-core.mjs').then(module => module.default);
+    const handler = await publicProfileHandlerPromise;
+    const origin = `http://${request.headers.host || 'localhost'}`;
+    const webRequest = new Request(new URL(request.url || '/', origin), {
+      method: request.method,
+      headers: request.headers,
+      body: chunks.length ? Buffer.concat(chunks) : undefined
+    });
+    const webResponse = await handler(webRequest, {
+      read: async (key, fallback = null) => publicProfileRecords.has(key) ? structuredClone(publicProfileRecords.get(key)) : fallback,
+      write: async (key, value) => publicProfileRecords.set(key, structuredClone(value)),
+      remove: async key => publicProfileRecords.delete(key)
+    });
+    const headers = Object.fromEntries(webResponse.headers.entries());
+    const payload = Buffer.from(await webResponse.arrayBuffer());
+    response.writeHead(webResponse.status, {...headers, 'Content-Length':payload.length});
+    response.end(payload);
+  }catch(error){
+    sendJson(response, 500, {ok:false, error:error.message || 'Não foi possível processar o perfil público.'});
+  }
+  return true;
+}
+
 function writeGameRanking(data){
   fs.mkdirSync(path.dirname(gameRankingFile), {recursive:true});
   data.updatedAt = new Date().toISOString();
@@ -799,7 +836,8 @@ function resolveRequest(urlPath){
   const appRoute = cleanPath === 'meu-caminho-be' || cleanPath.startsWith('meu-caminho-be/')
     ? 'meu-caminho-be'
     : '';
-  const route = appRoute || cleanRoutes[cleanPath] || cleanPath || 'index';
+  const publicDiaryRoute = /^diario\/be-[a-f0-9]{12}$/.test(cleanPath) ? 'perfil-publico' : '';
+  const route = appRoute || publicDiaryRoute || cleanRoutes[cleanPath] || cleanPath || 'index';
   const candidates = [
     path.join(root, route),
     path.join(root, `${route}.html`),
@@ -839,6 +877,11 @@ const server = http.createServer(async (request, response) => {
 
   if(parsedUrl.pathname.startsWith('/api/community/')){
     const handled = await handleCommunityApi(request, response, parsedUrl);
+    if(handled) return;
+  }
+
+  if(parsedUrl.pathname.startsWith('/api/public-profiles')){
+    const handled = await handlePublicProfilesApi(request, response, parsedUrl);
     if(handled) return;
   }
 

@@ -61,7 +61,15 @@ function moderationItem(item) {
   created.textContent = dateTime(item.createdAt);
   const badge = document.createElement('span');
   badge.className = `admin-badge${item.hidden ? ' hidden' : ''}`;
-  badge.textContent = item.hidden ? 'Oculto' : item.pending ? 'Aguardando análise' : `${number(item.reportCount)} denúncia${item.reportCount === 1 ? '' : 's'}`;
+  badge.textContent = item.disabled
+    ? 'Desativado pela pessoa'
+    : item.hidden
+      ? 'Oculto'
+      : item.pending
+      ? 'Legado aguardando análise'
+      : item.reportCount
+        ? `${number(item.reportCount)} denúncia${item.reportCount === 1 ? '' : 's'}`
+        : 'Publicado';
   meta.append(author, channel, created, badge);
   const text = document.createElement('p');
   text.className = 'admin-comment-text';
@@ -119,7 +127,7 @@ function render(data) {
   setMetric('metricAnalytics', data.services.analytics.count);
   setMetric('metricRanking', data.services.ranking.count);
   setMetric('metricPublicProfiles', data.publicProfiles?.profiles);
-  document.getElementById('metricPublicPending').textContent = `${number(data.publicProfiles?.pending)} aguardando análise`;
+  document.getElementById('metricPublicPending').textContent = `${number(data.publicProfiles?.pending)} exigem atenção`;
   document.getElementById('adminUpdated').textContent = `Atualizado em ${dateTime(data.generatedAt)}`;
 
   const items = data.community.moderation || [];
@@ -129,7 +137,7 @@ function render(data) {
   if (!items.length) {
     const empty = document.createElement('p');
     empty.className = 'admin-empty';
-    empty.textContent = 'Tudo certo. Nenhum comentário precisa de análise.';
+    empty.textContent = 'Nenhum conteúdo público ou comentário encontrado.';
     list.append(empty);
   } else {
     items.forEach(item => list.append(moderationItem(item)));
