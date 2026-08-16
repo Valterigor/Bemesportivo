@@ -48,6 +48,11 @@ const store = new MemoryKv({
   'sync:test': '{}',
   'routine:install:test': '{}',
   'analytics:test': '{}'
+  ,'public-profile:be-aaaaaaaaaaaa': JSON.stringify({
+    slug: 'be-aaaaaaaaaaaa', profileStatus: 'pending', updatedAt: '2026-08-15T12:00:00.000Z',
+    profile: { displayName: 'Atleta pública', age: 34, profession: 'Professora', favoriteSport: 'Corrida', bio: 'Minha história.' },
+    posts: [{ id: 'public-post-1', clientId: 'entry-1', kind: 'text', text: 'Meu treino de hoje.', status: 'pending', reports: [], createdAt: '2026-08-15T12:00:00.000Z' }]
+  })
 });
 const env = { BE_DATA: store, BE_ADMIN_TOKEN: token };
 
@@ -80,11 +85,28 @@ assert.equal(overview.status, 200);
 const summary = await overview.json();
 assert.equal(summary.community.comments, 1);
 assert.equal(summary.community.reported, 1);
-assert.equal(summary.community.moderation[0].text, comment.text);
+assert.equal(summary.community.moderation.find(item => !item.type)?.text, comment.text);
 assert.equal(summary.services.continuity.count, 1);
 assert.equal(summary.services.notifications.count, 1);
 assert.equal(summary.services.analytics.count, 1);
 assert.equal(summary.services.ranking.count, 1);
+assert.equal(summary.publicProfiles.profiles, 1);
+assert.equal(summary.publicProfiles.posts, 1);
+assert.equal(summary.publicProfiles.pending, 2);
+assert.ok(summary.community.moderation.some(item => item.type === 'public-profile'));
+assert.ok(summary.community.moderation.some(item => item.type === 'public-post'));
+
+const approveProfile = await call('moderate', {
+  method: 'POST', body: { action: 'approve', type: 'public-profile', profileId: 'be-aaaaaaaaaaaa', itemId: 'be-aaaaaaaaaaaa' }
+});
+assert.equal(approveProfile.status, 200);
+assert.equal(JSON.parse(store.entries.get('public-profile:be-aaaaaaaaaaaa')).profileStatus, 'approved');
+
+const approvePost = await call('moderate', {
+  method: 'POST', body: { action: 'approve', type: 'public-post', profileId: 'be-aaaaaaaaaaaa', itemId: 'public-post-1' }
+});
+assert.equal(approvePost.status, 200);
+assert.equal(JSON.parse(store.entries.get('public-profile:be-aaaaaaaaaaaa')).posts[0].status, 'approved');
 
 const hide = await call('moderate', {
   method: 'POST',

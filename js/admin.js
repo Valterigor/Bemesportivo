@@ -61,19 +61,43 @@ function moderationItem(item) {
   created.textContent = dateTime(item.createdAt);
   const badge = document.createElement('span');
   badge.className = `admin-badge${item.hidden ? ' hidden' : ''}`;
-  badge.textContent = item.hidden ? 'Oculto' : `${number(item.reportCount)} denúncia${item.reportCount === 1 ? '' : 's'}`;
+  badge.textContent = item.hidden ? 'Oculto' : item.pending ? 'Aguardando análise' : `${number(item.reportCount)} denúncia${item.reportCount === 1 ? '' : 's'}`;
   meta.append(author, channel, created, badge);
   const text = document.createElement('p');
   text.className = 'admin-comment-text';
   text.textContent = item.text;
   content.append(meta, text);
+  if (item.hasImage) {
+    const media = document.createElement('div');
+    media.className = 'admin-moderation-media';
+    media.textContent = 'Carregando imagem protegida…';
+    content.append(media);
+    const profileId = item.type === 'public-profile' ? item.id : item.profileId;
+    request(`media?profileId=${encodeURIComponent(profileId)}&itemId=${encodeURIComponent(item.id)}&type=${encodeURIComponent(item.type)}`)
+      .then(payload => {
+        const image = document.createElement('img');
+        image.src = payload.imageDataUrl;
+        image.alt = `Imagem enviada por ${item.name || 'pessoa usuária'}`;
+        media.replaceChildren(image);
+      })
+      .catch(() => { media.textContent = 'Não foi possível carregar a imagem.'; });
+  }
+  if (item.videoId) {
+    const link = document.createElement('a');
+    link.className = 'admin-moderation-video';
+    link.href = `https://www.youtube.com/watch?v=${item.videoId}`;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = 'Abrir vídeo para análise →';
+    content.append(link);
+  }
 
   const actions = document.createElement('div');
   actions.className = 'admin-moderation-actions';
   const primary = document.createElement('button');
   primary.type = 'button';
-  primary.dataset.action = item.hidden ? 'restore' : 'hide';
-  primary.textContent = item.hidden ? 'Restaurar' : 'Ocultar';
+  primary.dataset.action = item.hidden ? 'restore' : item.pending ? 'approve' : 'hide';
+  primary.textContent = item.hidden ? 'Restaurar' : item.pending ? 'Aprovar' : 'Ocultar';
   const remove = document.createElement('button');
   remove.type = 'button';
   remove.dataset.action = 'delete';
@@ -94,6 +118,8 @@ function render(data) {
   setMetric('metricNotifications', data.services.notifications.count);
   setMetric('metricAnalytics', data.services.analytics.count);
   setMetric('metricRanking', data.services.ranking.count);
+  setMetric('metricPublicProfiles', data.publicProfiles?.profiles);
+  document.getElementById('metricPublicPending').textContent = `${number(data.publicProfiles?.pending)} aguardando análise`;
   document.getElementById('adminUpdated').textContent = `Atualizado em ${dateTime(data.generatedAt)}`;
 
   const items = data.community.moderation || [];
@@ -130,16 +156,18 @@ async function moderate(event, item, container) {
   const button = event.target.closest('button[data-action]');
   if (!button || button.disabled) return;
   const action = button.dataset.action;
-  if (action === 'delete' && !confirm('Excluir definitivamente este comentário? Esta ação não pode ser desfeita.')) return;
+  if (action === 'delete' && !confirm('Excluir definitivamente este conteúdo? Esta ação não pode ser desfeita.')) return;
   container.querySelectorAll('button').forEach(control => { control.disabled = true; });
   setFeedback(feedback, 'Aplicando moderação…');
   try {
     await request('moderate', {
       method: 'POST',
-      body: JSON.stringify({ action, channel: item.channel, commentId: item.id })
+      body: JSON.stringify(item.type?.startsWith('public-')
+        ? { action, type: item.type, profileId: item.type === 'public-profile' ? item.id : item.profileId, itemId: item.id }
+        : { action, channel: item.channel, commentId: item.id })
     });
     await loadDashboard();
-    setFeedback(feedback, action === 'delete' ? 'Comentário excluído.' : action === 'restore' ? 'Comentário restaurado.' : 'Comentário ocultado.', 'success');
+    setFeedback(feedback, action === 'delete' ? 'Conteúdo excluído.' : action === 'approve' ? 'Conteúdo aprovado.' : action === 'restore' ? 'Conteúdo restaurado.' : 'Conteúdo ocultado.', 'success');
   } catch (error) {
     setFeedback(feedback, error.message, 'error');
     container.querySelectorAll('button').forEach(control => { control.disabled = false; });

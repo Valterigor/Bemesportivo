@@ -16,7 +16,8 @@ No navegador, a chave fica somente em `sessionStorage`: ela é removida ao sair 
 
 - contagem de comentários, respostas, denúncias e conteúdos ocultos;
 - contagem de jornadas criptografadas, lembretes, lotes de métricas e participantes do game;
-- fila com comentários denunciados ou ocultos;
+- fila com comentários denunciados ou ocultos, novos perfis públicos e publicações de foto, vídeo ou texto;
+- pré-moderação obrigatória de perfis e registros compartilhados pelo Meu Caminho Be;
 - ações de ocultar, restaurar e excluir;
 - registro de auditoria para cada decisão, retido por 365 dias;
 - respostas administrativas sem cache e página marcada como `noindex`.
@@ -24,7 +25,7 @@ No navegador, a chave fica somente em `sessionStorage`: ela é removida ao sair 
 ## Operação segura
 
 1. Analise contexto, linguagem e risco antes de agir.
-2. Use **Ocultar** quando o conteúdo precisar sair do ar sem ser apagado.
+2. Use **Aprovar** somente depois de conferir identificação pública, relato e mídia; use **Ocultar** quando o conteúdo precisar sair do ar sem ser apagado.
 3. Use **Restaurar** somente depois de concluir a análise; as denúncias anteriores são zeradas.
 4. Use **Excluir** para conteúdo ilegal, exposição de dados pessoais, spam ou violação inequívoca. A exclusão não pode ser desfeita.
 5. Registre decisões sensíveis no controle operacional da equipe, sem copiar dados pessoais além do necessário.

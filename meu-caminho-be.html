@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="/css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="/css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="/css/meu-caminho-modern.css?v=20260806-1">
-<link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260813-3">
+<link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260815-1">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -145,7 +145,7 @@
 <button type="button" data-fb-view="inicio"><span>⌂</span>Meu início</button>
 <button type="button" data-fb-view="progresso"><span>◇</span>Abrir minha Jornada</button>
 <button type="button" data-fb-view="dicas"><span>✓</span>Dicas práticas</button>
-<button type="button" data-fb-view="perfil"><span>○</span>Meu perfil</button>
+<button type="button" data-fb-view="perfil" aria-label="Abrir Perfil BE"><span>○</span>Perfil BE</button>
 <button type="button" data-fb-reset><span>↺</span>Zerar processo</button>
 </nav>
 </section>
@@ -683,9 +683,9 @@
 <div class="fb-app-panel be-register-panel" data-fb-panel="registrar" hidden>
 <main class="be-register-page" aria-labelledby="be-register-page-title">
 <header><span>REGISTRAR</span><h2 id="be-register-page-title">Guarde o que você viveu no esporte.</h2><p>Um registro simples transforma atividades soltas em uma trajetória que você consegue acompanhar.</p></header>
-<section class="be-register-invitation"><div><span aria-hidden="true">＋</span><div><strong>Novo registro</strong><p>Informe atividade, duração, resultado e como você se sentiu. Você poderá editar depois.</p></div></div><button type="button" data-be-new-entry>Registrar minha atividade</button></section>
-<ol class="be-register-guide" aria-label="Como funciona o registro"><li><span>1</span><div><strong>Conte o que fez</strong><p>Escolha a atividade e a data.</p></div></li><li><span>2</span><div><strong>Registre os detalhes</strong><p>Duração, distância e uma lembrança são opcionais.</p></div></li><li><span>3</span><div><strong>Continue sua história</strong><p>O registro aparece imediatamente na Jornada.</p></div></li></ol>
-<aside><strong>Seus registros ficam neste aparelho.</strong><p>Você mantém o controle e pode ativar a continuidade protegida pelo Perfil.</p></aside>
+<section class="be-register-invitation"><div><span aria-hidden="true">＋</span><div><strong>Novo registro</strong><p>Informe atividade, duração, como você se sentiu e, se quiser, inclua foto ou vídeo.</p></div></div><button type="button" data-be-new-entry>Registrar minha atividade</button></section>
+<ol class="be-register-guide" aria-label="Como funciona o registro"><li><span>1</span><div><strong>Conte o que fez</strong><p>Escolha a atividade e a data.</p></div></li><li><span>2</span><div><strong>Guarde o momento</strong><p>Adicione detalhes, relato, foto ou vídeo.</p></div></li><li><span>3</span><div><strong>Escolha a privacidade</strong><p>Mantenha no diário ou envie para moderação pública.</p></div></li></ol>
+<aside><strong>Privado é sempre o padrão.</strong><p>Só os registros que você marcar como públicos serão enviados para análise e possível exibição no seu perfil.</p></aside>
 </main>
 </div>
 
@@ -725,6 +725,8 @@
 <div class="be-profile-form-grid">
 <label for="fb-profile-name">Nome ou apelido<input id="fb-profile-name" name="name" maxlength="40" placeholder="Como podemos chamar você?" autocomplete="name" required></label>
 <label for="fb-profile-email">E-mail<input id="fb-profile-email" name="email" type="email" maxlength="120" placeholder="voce@email.com" autocomplete="email" required></label>
+<label for="fb-profile-age">Idade <em>(necessária no perfil público)</em><input id="fb-profile-age" name="age" type="number" min="18" max="120" inputmode="numeric" placeholder="Ex.: 34"></label>
+<label for="fb-profile-profession">Profissão <em>(opcional no diário privado)</em><input id="fb-profile-profession" name="profession" maxlength="60" placeholder="Ex.: professora, estudante, autônomo" autocomplete="organization-title"></label>
 <label for="fb-profile-city">Cidade <em>(opcional)</em><input id="fb-profile-city" name="city" maxlength="60" placeholder="Sua cidade" autocomplete="address-level2"></label>
 <label for="fb-profile-state">Estado <em>(opcional)</em><input id="fb-profile-state" name="state" maxlength="2" pattern="[A-Za-z]{2}" placeholder="UF" autocomplete="address-level1"></label>
 </div>
@@ -756,6 +758,12 @@
 <section class="be-profile-form-section be-profile-story-section" aria-labelledby="be-profile-story-title">
 <header><span>MINHA HISTÓRIA</span><h3 id="be-profile-story-title">O que o esporte representa para você?</h3><p>Se quiser, conte sobre seus começos, pausas, pessoas, lembranças ou objetivos. Esse texto é privado e fica neste aparelho.</p></header>
 <label for="fb-profile-story">Minha história no esporte <em>(opcional)</em><textarea id="fb-profile-story" name="story" maxlength="600" rows="6" placeholder="Ex.: Comecei a jogar com amigos na escola. Hoje quero voltar a me movimentar e criar mais momentos de lazer na semana."></textarea><small><span id="fb-profile-story-count">0</span>/600 caracteres</small></label>
+</section>
+<section class="be-profile-form-section be-public-profile-settings" aria-labelledby="be-public-profile-settings-title">
+<header><span>PERFIL PÚBLICO</span><h3 id="be-public-profile-settings-title">Você decide o que outras pessoas podem ver.</h3><p>O diário continua privado. Somente registros marcados para compartilhar serão enviados para análise antes de aparecer no seu perfil público.</p></header>
+<label class="be-public-profile-toggle"><input type="checkbox" id="fb-profile-public-enabled" name="publicEnabled"><span><strong>Ativar meu perfil público</strong><small>Exibirá foto, idade, profissão, esporte favorito e apenas as publicações aprovadas.</small></span></label>
+<div class="be-public-profile-status" id="be-public-profile-status" role="status"><span aria-hidden="true">◌</span><p>Ative a continuidade protegida para criar uma identidade pública verificável.</p></div>
+<a class="be-public-profile-link" id="be-public-profile-link" href="/perfil-publico" target="_blank" rel="noopener noreferrer" hidden>Ver minha página pública →</a>
 </section>
 <footer class="be-profile-form-footer"><p class="be-profile-privacy">🔒 Seus dados ficam neste aparelho e só entram na nuvem quando você ativa a continuidade criptografada.</p><div><button type="button" id="be-profile-cancel-edit" hidden>Cancelar</button><button type="submit" class="fb-primary-action" id="fb-profile-save">Salvar e ver meu perfil</button></div></footer>
 </form>
@@ -1488,7 +1496,14 @@ Seu navegador não consegue reproduzir este vídeo.
 <div class="be-form-grid be-entry-numbers"><label for="be-entry-duration">Por quanto tempo?<span><input type="number" id="be-entry-duration" name="duration" min="1" max="1440" inputmode="numeric" placeholder="45" required><small>min</small></span></label><label for="be-entry-distance">Distância <em>(opcional)</em><span><input type="number" id="be-entry-distance" name="distance" min="0" max="10000" step="0.01" inputmode="decimal" placeholder="5"><small>km</small></span></label></div>
 <label for="be-entry-result">Resultado ou marca <em>(opcional)</em><input type="text" id="be-entry-result" name="result" maxlength="60" placeholder="Ex.: 2 × 1, 10 repetições, novo percurso"></label>
 <fieldset class="be-feeling-field"><legend>Como você se sentiu?</legend><div><label><input type="radio" name="feeling" value="1"><span>😣</span><small>Difícil</small></label><label><input type="radio" name="feeling" value="2"><span>😕</span><small>Cansado</small></label><label><input type="radio" name="feeling" value="3" checked><span>🙂</span><small>Bem</small></label><label><input type="radio" name="feeling" value="4"><span>😄</span><small>Ótimo</small></label><label><input type="radio" name="feeling" value="5"><span>🔥</span><small>Incrível</small></label></div></fieldset>
-<label for="be-entry-note">Uma lembrança do dia <em>(opcional)</em><textarea id="be-entry-note" name="note" maxlength="280" rows="3" placeholder="O que aconteceu? O que vale lembrar?"></textarea></label>
+<label for="be-entry-note">Como foi e o que aconteceu? <em>(obrigatório ao compartilhar)</em><textarea id="be-entry-note" name="note" maxlength="600" rows="4" placeholder="Conte como foi o treino, o momento ou o que vale lembrar."></textarea></label>
+<section class="be-entry-media" aria-labelledby="be-entry-media-title">
+<div><span>MÍDIA DO REGISTRO</span><h3 id="be-entry-media-title">Inclua uma foto ou um vídeo</h3><p>A foto é ajustada apenas no tamanho, sem mudar as pessoas ou o conteúdo. Para vídeo, use um link do YouTube.</p></div>
+<div class="be-entry-media-actions"><label for="be-entry-photo">Escolher foto<input type="file" id="be-entry-photo" accept="image/jpeg,image/png,image/webp" hidden></label><button type="button" id="be-entry-photo-remove" hidden>Remover foto</button></div>
+<figure class="be-entry-photo-preview" id="be-entry-photo-preview" hidden><img id="be-entry-photo-preview-image" alt="Prévia da foto do registro"><figcaption>A foto será guardada com este registro.</figcaption></figure>
+<label for="be-entry-video">Link do vídeo <em>(opcional)</em><input type="url" id="be-entry-video" name="videoUrl" maxlength="200" inputmode="url" placeholder="https://youtu.be/..."></label>
+</section>
+<fieldset class="be-entry-visibility"><legend>Onde deseja guardar?</legend><div><label><input type="radio" name="visibility" value="private" checked><span><strong>Só no meu diário</strong><small>Privado e disponível apenas para você.</small></span></label><label><input type="radio" name="visibility" value="public"><span><strong>Compartilhar com todos</strong><small>Vai para moderação antes de aparecer no perfil público.</small></span></label></div><p id="be-entry-public-help">Nada é publicado automaticamente.</p></fieldset>
 <p class="be-form-feedback" id="be-entry-feedback" role="alert" aria-live="assertive"></p>
 <footer><button type="button" id="be-entry-delete" class="be-delete-entry" hidden>Excluir</button><span></span><button type="button" id="be-entry-cancel">Cancelar</button><button type="submit" class="be-save-entry">Registrar no diário</button></footer>
 </form>
@@ -1496,12 +1511,13 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script type="module" src="/js/site-common.js?v=20260813-2"></script>
 <script type="module" src="/js/routine-calendar.js?v=20260807-1"></script>
-<script type="module" src="/js/meu-caminho-account.js?v=20260806-1"></script>
+<script type="module" src="/js/meu-caminho-account.js?v=20260815-1"></script>
 <script src="/js/coluna-valtinho.js?v=20260722-2" defer></script>
 <script src="/js/be-knowledge-library.js?v=20260813-3" defer></script>
-<script src="/js/fala-bem-app.js?v=20260813-4" defer></script>
+<script src="/js/fala-bem-app.js?v=20260815-2" defer></script>
 <script src="/js/be-ia.js?v=20260806-1" defer></script>
-<script src="/js/meu-caminho-diary.js?v=20260813-3" defer></script>
+<script src="/js/meu-caminho-public.js?v=20260815-1" defer></script>
+<script src="/js/meu-caminho-diary.js?v=20260815-1" defer></script>
 
 </body>
 </html>

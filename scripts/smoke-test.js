@@ -26,6 +26,7 @@ const pages = [
   '/meu-caminho-be/jornada/historia',
   '/meu-caminho-be/ferramentas',
   '/meu-caminho-be/perfil',
+  '/perfil-publico',
   '/beplay',
   '/game.html',
   '/profissionais',
@@ -316,6 +317,18 @@ async function run() {
       assert.ok(fs.existsSync(path.join(root, 'img', image)), `Imagem da reportagem ausente: ${image}`);
     }
     assert.doesNotMatch(pathHtml, /fb-photo-checkin|photo-checkin\.js|Analisar minha foto/);
+    for (const id of ['be-entry-photo', 'be-entry-note', 'be-entry-video', 'be-entry-public-help', 'fb-profile-public-enabled', 'fb-profile-age', 'fb-profile-profession']) {
+      assert.match(pathHtml, new RegExp(`id="${id}"`), `Fluxo de diário público/privado ausente: ${id}`);
+    }
+    assert.match(pathHtml, /name="visibility" value="private" checked[\s\S]*name="visibility" value="public"/, 'O diário precisa permanecer privado por padrão e oferecer compartilhamento público explícito.');
+    assert.match(pathHtml, /Como foi e o que aconteceu\?[\s\S]*obrigatório ao compartilhar/, 'Fotos, vídeos e publicações precisam ter um relato contextual.');
+    const publicProfileHtml = fs.readFileSync(path.join(root, 'perfil-publico.html'), 'utf8');
+    const publicProfileScript = fs.readFileSync(path.join(root, 'js/perfil-publico.js'), 'utf8');
+    const publicDiaryScript = fs.readFileSync(path.join(root, 'js/meu-caminho-public.js'), 'utf8');
+    assert.match(publicProfileHtml, /PERFIL PÚBLICO MODERADO[\s\S]*DIÁRIO COMPARTILHADO/);
+    assert.match(publicProfileScript, /api\/public-profiles\/\$\{slug\}/);
+    assert.match(publicDiaryScript, /Ative a continuidade protegida antes de publicar/);
+    assert.match(publicDiaryScript, /post:[\s\S]*clientId:[\s\S]*text:[\s\S]*imageDataUrl:[\s\S]*videoUrl:/);
     for (const id of ['fb-continuity-create', 'fb-continuity-output', 'fb-continuity-connect-form', 'fb-continuity-input']) {
       assert.match(pathHtml, new RegExp(`id="${id}"`), `Fluxo de continuidade ausente: ${id}`);
     }
@@ -361,12 +374,12 @@ async function run() {
     assert.match(pathHtml, /js\/be-knowledge-library\.js\?v=20260813-3/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260806-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260813-4/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260813-3/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260815-2/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260815-1/);
     assert.match(pathHtml, /js\/site-common\.js\?v=20260813-2/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
-    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260813-3/);
+    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260815-1/);
     assert.match(pathHtml, /js\/routine-calendar\.js\?v=20260807-1/);
     assert.doesNotMatch(pathHtml, /id="be-success-dialog"/, 'Salvar uma atividade não deve bloquear a navegação com uma segunda janela.');
     assert.match(pathHtml, /id="fb-day-guide-done">Registrar o que fiz<\/button>/, 'O plano precisa encaminhar ao registro do que realmente aconteceu.');
@@ -449,6 +462,7 @@ async function run() {
     const adminApi = fs.readFileSync(path.join(root, 'functions/api/admin/[[path]].js'), 'utf8');
     assert.match(adminApi, /BE_ADMIN_TOKEN[\s\S]*sameSecret/, 'A API administrativa precisa validar uma chave configurada no servidor.');
     assert.match(adminApi, /admin:audit:/, 'A moderação administrativa precisa manter trilha de auditoria.');
+    assert.match(adminApi, /summarizePublicProfiles[\s\S]*moderatePublic/, 'Perfis e publicações públicas precisam entrar na fila administrativa.');
 
     const platformCss = fs.readFileSync(path.join(root, 'css/fala-bem-platform.css'), 'utf8');
     assert.match(platformCss, /@media\(min-width:761px\)\{[\s\S]*?body\.fala-bem-app-page \.fb-app-nav\{[\s\S]*?position:static;/);
@@ -527,6 +541,8 @@ async function run() {
     assert.match(diaryScript, /buildInteraction\?\.\('meal_saved'/);
     assert.match(diaryScript, /meuCaminhoBe:feedback/);
     assert.match(diaryScript, /function emitFeedback\(interaction, options/);
+    assert.match(diaryScript, /function resizeEntryPhoto\(file\)/);
+    assert.match(diaryScript, /visibility === 'public'[\s\S]*publishEntry\(entry\)/);
     assert.doesNotMatch(diaryScript, /be-success-dialog/, 'A confirmação de atividade deve usar retorno leve e não um modal intermediário.');
 
     const routineScript = fs.readFileSync(path.join(root, 'js/routine-calendar.js'), 'utf8');
@@ -547,7 +563,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v91'/);
+    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v92'/);
     assert.match(serviceWorker, /\/js\/site-common\.js\?v=20260807-1/);
     assert.match(serviceWorker, /\/js\/core\/routes\.js\?v=20260807-1/);
     assert.match(serviceWorker, /\/js\/components\/site-navigation\.js\?v=20260807-1/);
@@ -556,9 +572,9 @@ async function run() {
     assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
     assert.match(serviceWorker, /\/js\/be-knowledge-library\.js\?v=20260813-3/);
     assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260806-1/);
-    assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260813-3/);
+    assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260815-1/);
     assert.match(serviceWorker, /\/js\/routine-calendar\.js\?v=20260807-1/);
-    assert.match(serviceWorker, /\/css\/meu-caminho-diary\.css\?v=20260813-3/);
+    assert.match(serviceWorker, /\/css\/meu-caminho-diary\.css\?v=20260815-1/);
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/meu-caminho-be\/'\)/, 'O app precisa continuar acessível offline em suas subpáginas.');
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 

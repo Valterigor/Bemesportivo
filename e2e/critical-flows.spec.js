@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const path = require('node:path');
 
 test('BEPlay oferece uma ação real para acompanhar o canal', async ({ page }) => {
   await page.goto('/beplay');
@@ -90,4 +91,47 @@ test('painel mantém a chave na sessão e apresenta a fila de moderação', asyn
   await expect(page.getByRole('button', { name: 'Ocultar' })).toBeVisible();
   expect(await page.evaluate(() => localStorage.getItem('beAdminSessionToken'))).toBeNull();
   expect(await page.evaluate(() => sessionStorage.getItem('beAdminSessionToken'))).toBe(token);
+});
+
+test('diário guarda foto local e envia publicação somente após escolha explícita', async ({ page }) => {
+  let publishedBody = null;
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({ version: 2, necessary: true, measurement: false, advertising: false }));
+    localStorage.setItem('meuCaminhoBeContinuityCodeV1', 'A'.repeat(32));
+    localStorage.setItem('meuCaminhoBeProfileV1', JSON.stringify({
+      name: 'Atleta Teste', email: 'atleta@example.com', objective: 'comecar', publicAge: 32,
+      profession: 'Professora', publicEnabled: true, story: 'Minha rotina esportiva.',
+      sportProfile: { modality: 'corrida', role: '', visual: 'energia' }, createdAt: new Date().toISOString()
+    }));
+  });
+  await page.route('**/api/public-profiles/**', async route => {
+    if (route.request().method() === 'POST') publishedBody = route.request().postDataJSON();
+    await route.fulfill({
+      status: route.request().method() === 'POST' ? 202 : 200,
+      contentType: 'application/json',
+      body: JSON.stringify(route.request().method() === 'POST'
+        ? { ok: true, slug: 'be-aaaaaaaaaaaa', profileStatus: 'pending', postStatus: 'pending', publicUrl: '/perfil-publico?perfil=be-aaaaaaaaaaaa' }
+        : { ok: true, slug: 'be-aaaaaaaaaaaa', record: null })
+    });
+  });
+  await page.goto('/meu-caminho-be/registrar');
+  await page.locator('.fb-app-nav [data-fb-view="registrar"]').click();
+  await page.locator('.be-register-panel [data-be-new-entry]').click();
+  const dialog = page.getByRole('dialog', { name: 'Registrar atividade' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByLabel('Só no meu diário')).toBeChecked();
+  await dialog.getByLabel('Por quanto tempo?').fill('45');
+  await dialog.getByLabel(/Como foi e o que aconteceu/).fill('Treino leve no parque com boa disposição.');
+  await dialog.getByLabel('Escolher foto').setInputFiles(path.join(process.cwd(), 'img', 'app-icon-192.png'));
+  await expect(dialog.locator('#be-entry-photo-preview')).toBeVisible();
+  await dialog.getByLabel('Compartilhar com todos').check();
+  await dialog.getByRole('button', { name: 'Registrar no diário' }).click();
+  await expect(dialog).toBeHidden();
+  await expect.poll(() => publishedBody).not.toBeNull();
+  expect(publishedBody.post.text).toContain('Treino leve no parque');
+  expect(publishedBody.post.imageDataUrl).toMatch(/^data:image\/jpeg;base64,/);
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('meuCaminhoBeDiaryV1') || '[]')[0]);
+  expect(saved.visibility).toBe('public');
+  expect(saved.publicStatus).toBe('pending');
+  expect(saved.imageDataUrl).toMatch(/^data:image\/jpeg;base64,/);
 });

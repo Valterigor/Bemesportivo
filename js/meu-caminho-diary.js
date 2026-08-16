@@ -26,6 +26,7 @@
   };
   let entries = [];
   let meals = [];
+  let pendingEntryImage = '';
 
   const $ = selector => document.querySelector(selector);
   const $$ = selector => [...document.querySelectorAll(selector)];
@@ -57,6 +58,9 @@
     if (!Number.isFinite(rawDuration) || rawDuration < 1) return null;
     const duration = Math.min(1440, rawDuration);
     const distanceValue = Number(entry.distance);
+    const imageDataUrl = /^data:image\/(?:jpeg|webp);base64,[a-z0-9+/=]+$/i.test(String(entry.imageDataUrl || '')) && String(entry.imageDataUrl).length <= 480000 ? String(entry.imageDataUrl) : '';
+    const videoUrl = /^https:\/\/(?:www\.|m\.)?(?:youtube\.com\/|youtu\.be\/)/i.test(String(entry.videoUrl || '')) ? String(entry.videoUrl).trim().slice(0, 200) : '';
+    const visibility = entry.visibility === 'public' ? 'public' : 'private';
     return {
       id: String(entry.id || `be-${Date.now()}-${Math.random().toString(16).slice(2)}`).slice(0, 80),
       date: String(entry.date),
@@ -66,7 +70,11 @@
       distance: Number.isFinite(distanceValue) && distanceValue > 0 ? round(Math.min(distanceValue, 10000)) : null,
       result: String(entry.result || '').trim().slice(0, 60),
       feeling: ['1', '2', '3', '4', '5'].includes(String(entry.feeling)) ? String(entry.feeling) : '3',
-      note: String(entry.note || '').trim().slice(0, 280),
+      note: String(entry.note || '').trim().slice(0, 600),
+      imageDataUrl,
+      videoUrl,
+      visibility,
+      publicStatus: visibility === 'public' && ['pending', 'approved', 'failed'].includes(entry.publicStatus) ? entry.publicStatus : '',
       createdAt: String(entry.createdAt || new Date().toISOString()).slice(0, 40),
       updatedAt: String(entry.updatedAt || new Date().toISOString()).slice(0, 40)
     };
@@ -193,6 +201,11 @@
     $('#be-entry-distance').value = values.distance || '';
     $('#be-entry-result').value = values.result || '';
     $('#be-entry-note').value = values.note || '';
+    $('#be-entry-video').value = values.videoUrl || '';
+    pendingEntryImage = values.imageDataUrl || '';
+    renderEntryPhotoPreview();
+    const visibility = form.querySelector(`input[name="visibility"][value="${values.visibility === 'public' ? 'public' : 'private'}"]`);
+    if (visibility) visibility.checked = true;
     const feeling = form.querySelector(`input[name="feeling"][value="${values.feeling || '3'}"]`);
     if (feeling) feeling.checked = true;
     $('#be-entry-delete').hidden = !entry;
@@ -203,7 +216,40 @@
   }
 
   function closeEntry() {
+    pendingEntryImage = '';
     $('#be-entry-dialog')?.close();
+  }
+
+  function renderEntryPhotoPreview() {
+    const preview = $('#be-entry-photo-preview');
+    const image = $('#be-entry-photo-preview-image');
+    const remove = $('#be-entry-photo-remove');
+    if (preview) preview.hidden = !pendingEntryImage;
+    if (remove) remove.hidden = !pendingEntryImage;
+    if (image) {
+      if (pendingEntryImage) image.src = pendingEntryImage;
+      else image.removeAttribute('src');
+    }
+  }
+
+  async function resizeEntryPhoto(file) {
+    if (!file || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 10 * 1024 * 1024) throw new Error('invalid-photo');
+    const bitmap = await createImageBitmap(file);
+    const maximum = 1200;
+    const scale = Math.min(1, maximum / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+    const context = canvas.getContext('2d', { alpha: false });
+    context.fillStyle = '#fff';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close?.();
+    for (const quality of [0.78, 0.68, 0.58]) {
+      const result = canvas.toDataURL('image/jpeg', quality);
+      if (result.length <= 480000) return result;
+    }
+    throw new Error('photo-too-large');
   }
 
   function metrics(source = entries) {
@@ -273,7 +319,9 @@
       entry.distance ? `${formatNumber(entry.distance)} km` : '',
       entry.result
     ].filter(Boolean).join(' · ');
-    return `<article class="be-entry-card"><span class="be-entry-icon" aria-hidden="true">${types[entry.type].icon}</span><div><h4>${escapeHtml(titleFor(entry))}</h4><p>${escapeHtml(details)}${entry.note ? ` · ${escapeHtml(entry.note)}` : ''}</p></div><span class="be-entry-feeling" aria-label="Como se sentiu: ${entry.feeling} de 5">${feelingIcons[entry.feeling]}</span><button type="button" data-be-edit="${escapeHtml(entry.id)}" aria-label="Editar ${escapeHtml(titleFor(entry))}">•••</button></article>`;
+    const media = entry.imageDataUrl ? `<img class="be-entry-card-photo" src="${entry.imageDataUrl}" alt="Foto de ${escapeHtml(titleFor(entry))}">` : entry.videoUrl ? '<span class="be-entry-card-media-badge">Vídeo</span>' : '';
+    const visibility = entry.visibility === 'public' ? `<small class="be-entry-public-state" data-state="${entry.publicStatus || 'pending'}">${entry.publicStatus === 'failed' ? 'Envio público pendente' : entry.publicStatus === 'approved' ? 'Público' : 'Em moderação'}</small>` : '<small class="be-entry-private-state">Só você</small>';
+    return `<article class="be-entry-card">${media}<span class="be-entry-icon" aria-hidden="true">${types[entry.type].icon}</span><div><h4>${escapeHtml(titleFor(entry))}</h4><p>${escapeHtml(details)}${entry.note ? ` · ${escapeHtml(entry.note)}` : ''}</p>${visibility}</div><span class="be-entry-feeling" aria-label="Como se sentiu: ${entry.feeling} de 5">${feelingIcons[entry.feeling]}</span><button type="button" data-be-edit="${escapeHtml(entry.id)}" aria-label="Editar ${escapeHtml(titleFor(entry))}">•••</button></article>`;
   }
 
   function emptyState(title, text, action = '') {
@@ -616,15 +664,24 @@
   $$('[data-be-activity]').forEach(button => button.addEventListener('click', () => openEntry({ type: button.dataset.beActivity, date: dayKey() })));
   $('#be-entry-close')?.addEventListener('click', closeEntry);
   $('#be-entry-cancel')?.addEventListener('click', closeEntry);
-  $('#be-entry-form')?.addEventListener('submit', event => {
+  $('#be-entry-form')?.addEventListener('submit', async event => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const id = String(form.get('id') || '');
     const previous = entries.find(entry => entry.id === id);
+    const note = String(form.get('note') || '').trim();
+    const visibility = form.get('visibility') === 'public' ? 'public' : 'private';
+    const videoUrl = String(form.get('videoUrl') || '').trim();
+    if ((visibility === 'public' || pendingEntryImage || videoUrl) && note.length < 3) {
+      $('#be-entry-feedback').textContent = 'Conte como foi e o que aconteceu antes de guardar esta foto, vídeo ou publicação.';
+      $('#be-entry-note')?.focus();
+      return;
+    }
     const entry = sanitize({
       id: id || undefined, date: form.get('date'), type: form.get('type'), title: form.get('title'),
       duration: form.get('duration'), distance: form.get('distance'), result: form.get('result'),
-      feeling: form.get('feeling'), note: form.get('note'),
+      feeling: form.get('feeling'), note, imageDataUrl: pendingEntryImage, videoUrl, visibility,
+      publicStatus: visibility === 'public' ? 'pending' : '',
       createdAt: previous?.createdAt || new Date().toISOString(), updatedAt: new Date().toISOString()
     });
     if (!entry) {
@@ -641,10 +698,25 @@
     closeEntry();
     const interaction = contextualFeedback(entry, !previous);
     emitFeedback(interaction);
+    if (previous?.visibility === 'public' && visibility === 'private') {
+      window.BePublicProfile?.unpublishEntry(entry.id).catch(() => {});
+    }
+    if (visibility === 'public') {
+      try {
+        if (!window.BePublicProfile) throw new Error('O envio público ainda não está disponível.');
+        await window.BePublicProfile.publishEntry(entry);
+        emitFeedback({ title: 'Enviado para moderação.', message: 'O registro continua no seu diário e só ficará público depois da análise.' });
+      } catch (error) {
+        entries = entries.map(item => item.id === entry.id ? { ...item, publicStatus: 'failed' } : item);
+        saveEntries();
+        emitFeedback({ tone: 'care', title: 'Registro salvo apenas no diário.', message: error?.message || 'Não foi possível enviar para moderação agora.' });
+      }
+    }
   });
   $('#be-entry-delete')?.addEventListener('click', () => {
     const id = $('#be-entry-id').value;
     if (!id || !window.confirm('Excluir esta atividade do seu diário?')) return;
+    const removed = entries.find(entry => entry.id === id);
     const previousEntries = [...entries];
     entries = entries.filter(entry => entry.id !== id);
     if (!saveEntries()) {
@@ -653,6 +725,27 @@
       return;
     }
     closeEntry();
+    if (removed?.visibility === 'public') window.BePublicProfile?.unpublishEntry(id).catch(() => {});
+  });
+  $('#be-entry-photo')?.addEventListener('change', async event => {
+    const input = event.currentTarget;
+    const file = input.files?.[0];
+    if (!file) return;
+    $('#be-entry-feedback').textContent = 'Preparando a foto…';
+    try {
+      pendingEntryImage = await resizeEntryPhoto(file);
+      renderEntryPhotoPreview();
+      $('#be-entry-feedback').textContent = 'Foto pronta. Agora conte como foi e o que aconteceu.';
+      $('#be-entry-note')?.focus();
+    } catch {
+      $('#be-entry-feedback').textContent = 'Use uma foto JPG, PNG ou WebP de até 10 MB.';
+    } finally {
+      input.value = '';
+    }
+  });
+  $('#be-entry-photo-remove')?.addEventListener('click', () => {
+    pendingEntryImage = '';
+    renderEntryPhotoPreview();
   });
   document.addEventListener('click', event => {
     const edit = event.target.closest('[data-be-edit]');

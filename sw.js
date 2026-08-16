@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v91';
+const CACHE_NAME = 'meu-caminho-be-v92';
 const APP_SHELL = [
   '/meu-caminho-be',
   '/site-common.css?v=20260723-3',
@@ -16,7 +16,8 @@ const APP_SHELL = [
   '/css/routine-calendar.css?v=20260722-1',
   '/css/ui-polish.css?v=20260723-3',
   '/css/meu-caminho-modern.css?v=20260806-1',
-  '/css/meu-caminho-diary.css?v=20260813-3',
+  '/css/meu-caminho-diary.css?v=20260815-1',
+  '/css/perfil-publico.css?v=20260815-1',
   '/js/site-common.js?v=20260807-1',
   '/js/core/routes.js?v=20260807-1',
   '/js/components/site-navigation.js?v=20260807-1',
@@ -26,13 +27,16 @@ const APP_SHELL = [
   '/js/components/analytics.js?v=20260723-1',
   '/js/components/media-quality.js?v=20260723-1',
   '/js/routine-calendar.js?v=20260807-1',
-  '/js/meu-caminho-account.js?v=20260806-1',
+  '/js/meu-caminho-account.js?v=20260815-1',
   '/js/components/back-to-top.js',
   '/js/coluna-valtinho.js?v=20260722-2',
   '/js/be-knowledge-library.js?v=20260813-3',
   '/js/fala-bem-app.js?v=20260813-3',
   '/js/be-ia.js?v=20260806-1',
-  '/js/meu-caminho-diary.js?v=20260813-3',
+  '/js/meu-caminho-diary.js?v=20260815-1',
+  '/js/meu-caminho-public.js?v=20260815-1',
+  '/js/perfil-publico.js?v=20260815-1',
+  '/perfil-publico.html',
   '/img/logobemoficial.png',
   '/img/app-icon-192.png',
   '/img/app-icon-512.png',

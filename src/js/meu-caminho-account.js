@@ -44,7 +44,8 @@ function localSnapshot() {
     schemaVersion: 5,
     profile,
     tasks: Array.isArray(tasks) ? tasks.slice(-250) : [],
-    diary: Array.isArray(diary) ? diary.slice(0, 3000) : [],
+    // Fotos permanecem somente no aparelho ou na publicação moderada; não entram no pacote criptografado para evitar exceder o limite da continuidade.
+    diary: Array.isArray(diary) ? diary.slice(0, 3000).map(({ imageDataUrl, ...entry }) => entry) : [],
     meals: Array.isArray(meals) ? meals.slice(-1200) : []
   };
 }

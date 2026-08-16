@@ -326,6 +326,9 @@ function readStoredProfile() {
       ...profile,
       schemaVersion: PROFILE_SCHEMA_VERSION,
       email: String(profile.email || '').trim().toLocaleLowerCase('pt-BR').slice(0, 120),
+      publicAge: Number.isFinite(Number(profile.publicAge)) && Number(profile.publicAge) >= 18 && Number(profile.publicAge) <= 120 ? Math.round(Number(profile.publicAge)) : null,
+      profession: String(profile.profession || '').trim().slice(0, 60),
+      publicEnabled: profile.publicEnabled === true,
       location: {
         city: String(profile.location?.city || '').trim().slice(0, 60),
         state: String(profile.location?.state || '').trim().toLocaleUpperCase('pt-BR').slice(0, 2)
@@ -381,7 +384,11 @@ function saveProfile(updates) {
     return null;
   }
   window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated', { detail: { ready: Boolean(currentProfile?.objective) } }));
-  renderPersonalizedExperience();
+  try {
+    renderPersonalizedExperience();
+  } catch (error) {
+    console.error('O perfil foi salvo, mas a interface não conseguiu ser atualizada.', error);
+  }
   return currentProfile;
 }
 
@@ -1812,6 +1819,9 @@ function syncProfileFormValues() {
   const emailInput = document.getElementById('fb-profile-email');
   const cityInput = document.getElementById('fb-profile-city');
   const stateInput = document.getElementById('fb-profile-state');
+  const ageInput = document.getElementById('fb-profile-age');
+  const professionInput = document.getElementById('fb-profile-profession');
+  const publicInput = document.getElementById('fb-profile-public-enabled');
   const sportInput = document.getElementById('fb-profile-sport');
   const roleInput = document.getElementById('fb-profile-role');
   const visualInput = document.getElementById('fb-profile-visual');
@@ -1822,6 +1832,9 @@ function syncProfileFormValues() {
   if (emailInput && document.activeElement !== emailInput) emailInput.value = currentProfile?.email || '';
   if (cityInput && document.activeElement !== cityInput) cityInput.value = currentProfile?.location?.city || '';
   if (stateInput && document.activeElement !== stateInput) stateInput.value = currentProfile?.location?.state || '';
+  if (ageInput && document.activeElement !== ageInput) ageInput.value = currentProfile?.publicAge || '';
+  if (professionInput && document.activeElement !== professionInput) professionInput.value = currentProfile?.profession || '';
+  if (publicInput && document.activeElement !== publicInput) publicInput.checked = currentProfile?.publicEnabled === true;
   if (sportInput && document.activeElement !== sportInput) sportInput.value = sportProfile.modality;
   if (roleInput && document.activeElement !== roleInput) roleInput.value = sportProfile.roleLabel === sportProfile.fallbackRole ? '' : sportProfile.roleLabel;
   if (visualInput && document.activeElement !== visualInput) visualInput.value = sportProfile.visual;
@@ -3876,6 +3889,15 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
     city: document.getElementById('fb-profile-city')?.value.trim().slice(0, 60) || '',
     state: document.getElementById('fb-profile-state')?.value.trim().toLocaleUpperCase('pt-BR').slice(0, 2) || ''
   };
+  const publicAgeValue = Number(document.getElementById('fb-profile-age')?.value || 0);
+  const publicAge = Number.isFinite(publicAgeValue) && publicAgeValue >= 18 && publicAgeValue <= 120 ? Math.round(publicAgeValue) : null;
+  const profession = document.getElementById('fb-profile-profession')?.value.trim().slice(0, 60) || '';
+  const publicEnabled = document.getElementById('fb-profile-public-enabled')?.checked === true;
+  if (publicEnabled && (!publicAge || !profession)) {
+    document.getElementById('fb-profile-feedback').textContent = 'Para ativar o perfil público, informe sua idade e profissão.';
+    document.getElementById(!publicAge ? 'fb-profile-age' : 'fb-profile-profession')?.focus();
+    return;
+  }
   const sportProfile = {
     modality: document.getElementById('fb-profile-sport')?.value || 'outro',
     role: document.getElementById('fb-profile-role')?.value.trim() || '',
@@ -3886,13 +3908,13 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
     ? sanitizeProfilePhoto(currentProfile?.photoDataUrl)
     : sanitizeProfilePhoto(pendingProfilePhoto);
   profileEditMode = false;
-  saveProfile({ name, email, location, photoDataUrl, sportProfile, story, identityCreatedAt: currentProfile?.identityCreatedAt || new Date().toISOString() });
+  saveProfile({ name, email, location, photoDataUrl, sportProfile, story, publicAge, profession, publicEnabled, identityCreatedAt: currentProfile?.identityCreatedAt || new Date().toISOString() });
   pendingProfilePhoto = undefined;
   renderProfilePhoto();
   if (name) registerFirstIdentityAccess();
   const sportLabel = getSportProfile({ sportProfile }).modalityLabel;
   document.getElementById('fb-profile-feedback').textContent = name
-    ? `Perfil salvo, ${name}.${story ? ' Sua história também foi guardada.' : ` Modalidade base: ${sportLabel}.`}`
+    ? `Perfil salvo, ${name}.${publicEnabled ? ' O perfil público será enviado para moderação.' : story ? ' Sua história também foi guardada.' : ` Modalidade base: ${sportLabel}.`}`
     : `Perfil salvo neste navegador. Modalidade base: ${sportLabel}.`;
   showCelebration('Perfil atualizado!', name
     ? `Muito bem, ${name}. Seu perfil agora tem uma identidade por modalidade.`
@@ -4389,6 +4411,9 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
       createdAt: profile.createdAt || new Date().toISOString(),
       name: profile.name.trim().slice(0, 40),
       email: String(profile.email || '').trim().toLocaleLowerCase('pt-BR').slice(0, 120),
+      publicAge: Number.isFinite(Number(profile.publicAge)) && Number(profile.publicAge) >= 18 && Number(profile.publicAge) <= 120 ? Math.round(Number(profile.publicAge)) : null,
+      profession: String(profile.profession || '').trim().slice(0, 60),
+      publicEnabled: profile.publicEnabled === true,
       location: {
         city: String(profile.location?.city || '').trim().slice(0, 60),
         state: String(profile.location?.state || '').trim().toLocaleUpperCase('pt-BR').slice(0, 2)
@@ -4650,13 +4675,15 @@ document.getElementById('fb-safety-form')?.addEventListener('submit', event => {
     submitButton.textContent = 'Salvando...';
   }
   try {
-    saveProfile({
+    const savedProfile = saveProfile({
       ...profileUpdate,
       safety,
       progress: sameObjective ? getCompletedSteps() : 1,
       checkins: sameObjective ? (currentProfile?.checkins || []) : []
     });
+    if (!savedProfile) throw new Error('profile-storage-failed');
   } catch (error) {
+    console.error('Falha ao salvar o contexto e segurança.', error);
     if (feedback) {
       feedback.textContent = 'Não foi possível salvar agora. Seus dados não foram apagados; tente novamente.';
       feedback.hidden = false;

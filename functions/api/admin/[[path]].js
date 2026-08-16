@@ -98,19 +98,60 @@ function summarizeCommunity(state) {
   return { comments, replies, hidden, reported, moderation: moderation.slice(0, 100), updatedAt: state?.updatedAt || null };
 }
 
+async function summarizePublicProfiles(store) {
+  const result = await store.list({ prefix: 'public-profile:', limit: 200 });
+  const records = await Promise.all((result.keys || []).map(key => store.get(key.name, { type: 'json' })));
+  const moderation = [];
+  let profiles = 0;
+  let approvedProfiles = 0;
+  let posts = 0;
+  let pending = 0;
+  for (const record of records.filter(Boolean)) {
+    profiles += 1;
+    if (record.profileStatus === 'approved') approvedProfiles += 1;
+    if (record.profileStatus !== 'approved') {
+      pending += 1;
+      moderation.push({
+        type: 'public-profile', channel: 'Perfil público', id: record.slug,
+        name: record.profile?.displayName || 'Pessoa',
+        text: `${record.profile?.age || '—'} anos · ${record.profile?.profession || 'Profissão não informada'} · ${record.profile?.favoriteSport || 'Esporte não informado'} · ${record.profile?.bio || 'Sem apresentação'}`,
+        createdAt: record.updatedAt, reportCount: 0, hidden: record.profileStatus === 'hidden', pending: record.profileStatus === 'pending', hasImage: Boolean(record.profile?.photoDataUrl)
+      });
+    }
+    for (const post of Array.isArray(record.posts) ? record.posts : []) {
+      posts += 1;
+      const reportCount = Array.isArray(post.reports) ? post.reports.length : 0;
+      if (post.status !== 'approved' || reportCount) {
+        pending += 1;
+        moderation.push({
+          type: 'public-post', channel: `Publicação · ${post.kind || 'texto'}`, id: post.id,
+          profileId: record.slug, name: record.profile?.displayName || 'Pessoa', text: post.text || '',
+          createdAt: post.createdAt, reportCount, hidden: post.status === 'hidden', pending: post.status === 'pending', hasImage: Boolean(post.imageDataUrl), videoId: post.videoId || ''
+        });
+      }
+    }
+  }
+  moderation.sort((first, second) => String(second.createdAt).localeCompare(String(first.createdAt)));
+  return { profiles, approvedProfiles, posts, pending, moderation };
+}
+
 async function overview(env) {
   const store = getDataStore(env);
-  const [community, ranking, sync, notifications, analytics] = await Promise.all([
+  const [community, ranking, sync, notifications, analytics, publicProfiles] = await Promise.all([
     readJson(env, 'community:state', { comments: {}, updatedAt: null }),
     readJson(env, 'game:ranking', { entries: [], updatedAt: null }),
     countPrefix(store, 'sync:'),
     countPrefix(store, 'routine:install:'),
-    countPrefix(store, 'analytics:')
+    countPrefix(store, 'analytics:'),
+    summarizePublicProfiles(store)
   ]);
+  const communitySummary = summarizeCommunity(community);
+  communitySummary.moderation = [...publicProfiles.moderation, ...communitySummary.moderation].slice(0, 150);
   return {
     ok: true,
     generatedAt: new Date().toISOString(),
-    community: summarizeCommunity(community),
+    community: communitySummary,
+    publicProfiles,
     services: {
       continuity: sync,
       notifications,
@@ -162,6 +203,58 @@ async function moderate(env, body) {
   return { status: 200, payload: { ok: true, action, updatedAt: state.updatedAt } };
 }
 
+async function moderatePublic(env, body) {
+  const type = String(body?.type || '');
+  const profileId = String(body?.profileId || body?.targetId || '');
+  const itemId = String(body?.itemId || '');
+  const action = String(body?.action || '');
+  if (!/^be-[a-f0-9]{12}$/.test(profileId) || !['approve', 'hide', 'restore', 'delete'].includes(action)) {
+    return { status: 400, payload: { error: 'Item público inválido.' } };
+  }
+  const key = `public-profile:${profileId}`;
+  const record = await readJson(env, key, null);
+  if (!record) return { status: 404, payload: { error: 'Perfil público não encontrado.' } };
+  if (type === 'public-profile') {
+    if (action === 'delete') await getDataStore(env).delete(key);
+    else {
+      record.profileStatus = action === 'approve' || action === 'restore' ? 'approved' : 'hidden';
+      record.updatedAt = new Date().toISOString();
+      await writeJson(env, key, record);
+    }
+  } else if (type === 'public-post') {
+    const index = (record.posts || []).findIndex(post => post.id === itemId);
+    if (index < 0) return { status: 404, payload: { error: 'Publicação não encontrada.' } };
+    if (action === 'delete') record.posts.splice(index, 1);
+    else {
+      record.posts[index].status = action === 'approve' || action === 'restore' ? 'approved' : 'hidden';
+      if (action === 'restore') record.posts[index].reports = [];
+      record.posts[index].updatedAt = new Date().toISOString();
+    }
+    record.updatedAt = new Date().toISOString();
+    await writeJson(env, key, record);
+  } else return { status: 400, payload: { error: 'Tipo de moderação inválido.' } };
+  const now = new Date().toISOString();
+  await writeJson(env, `admin:audit:${now}:${crypto.randomUUID()}`, {
+    schemaVersion: 1, action, target: { type, profileId, itemId }, createdAt: now
+  }, { expirationTtl: 60 * 60 * 24 * 365 });
+  return { status: 200, payload: { ok: true, action, updatedAt: now } };
+}
+
+async function publicMedia(env, url) {
+  const profileId = String(url.searchParams.get('profileId') || '');
+  const itemId = String(url.searchParams.get('itemId') || '');
+  const type = String(url.searchParams.get('type') || '');
+  if (!/^be-[a-f0-9]{12}$/.test(profileId)) return { status: 400, payload: { error: 'Perfil inválido.' } };
+  const record = await readJson(env, `public-profile:${profileId}`, null);
+  if (!record) return { status: 404, payload: { error: 'Perfil não encontrado.' } };
+  const imageDataUrl = type === 'public-profile'
+    ? record.profile?.photoDataUrl || ''
+    : (record.posts || []).find(post => post.id === itemId)?.imageDataUrl || '';
+  return imageDataUrl
+    ? { status: 200, payload: { ok: true, imageDataUrl } }
+    : { status: 404, payload: { error: 'Imagem não encontrada.' } };
+}
+
 export async function onRequest({ request, env, params }) {
   if (!allowedOrigin(request)) return response({ error: 'Origem não autorizada.' }, 403);
   const authorization = await authorize(request, env);
@@ -170,10 +263,14 @@ export async function onRequest({ request, env, params }) {
   const action = Array.isArray(params?.path) ? params.path[0] : String(params?.path || '').split('/')[0];
   try {
     if (request.method === 'GET' && (!action || action === 'overview')) return response(await overview(env));
+    if (request.method === 'GET' && action === 'media') {
+      const result = await publicMedia(env, new URL(request.url));
+      return response(result.payload, result.status);
+    }
     if (request.method === 'POST' && action === 'moderate') {
       const body = await parseBody(request);
       if (!body) return response({ error: 'Conteúdo inválido ou muito grande.' }, 400);
-      const result = await moderate(env, body);
+      const result = String(body.type || '').startsWith('public-') ? await moderatePublic(env, body) : await moderate(env, body);
       return response(result.payload, result.status);
     }
     return response({ error: 'Rota administrativa não encontrada.' }, 404);
