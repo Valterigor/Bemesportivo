@@ -577,7 +577,7 @@ async function run() {
     assert.match(redirects, /\/api\/analytics\/events\s+\/\.netlify\/functions\/analytics/);
     assert.match(redirects, /\/api\/routine-notifications\/\*/);
     assert.match(redirects, /\/meu-caminho-be\/\*\s+\/meu-caminho-be\.html\s+200/, 'As subpáginas do Meu Caminho Be precisam abrir diretamente.');
-    assert.match(redirects, /\/diario\/\*\s+\/perfil-publico\.html\s+200/, 'Os links públicos do Diário BE precisam abrir diretamente.');
+    assert.match(redirects, /\/diario\/\*\s+\/perfil-publico\?perfil=:splat\s+200/, 'Os links públicos do Diário BE precisam preservar o identificador ao abrir.');
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
