@@ -4,6 +4,222 @@
   const loading = document.getElementById('be-public-loading');
   const content = document.getElementById('be-public-content');
   const escapeText = value => String(value || '');
+  const OWNER_CODE_KEYS = ['meuCaminhoBePublicCodeV1', 'meuCaminhoBeContinuityCodeV1'];
+  const encoder = new TextEncoder();
+  let loadedProfile = null;
+  let loadedPosts = [];
+  let ownerDevice = false;
+  const postShareFeedbackTimers = new WeakMap();
+
+  function postDisplayTitle(post) {
+    const title = String(post?.activity || '').trim();
+    return !title || title.toLocaleLowerCase('pt-BR') === 'publicação'
+      ? 'O meu momento Bem esportivo'
+      : title;
+  }
+
+  async function hashHex(value) {
+    const digest = await crypto.subtle.digest('SHA-256', encoder.encode(value));
+    return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function isOwnerDevice() {
+    for (const key of OWNER_CODE_KEYS) {
+      const code = String(localStorage.getItem(key) || '').replace(/[^a-fA-F0-9]/g, '').toUpperCase();
+      if (code.length !== 32) continue;
+      const id = await hashHex(`be-sync-id:${code}`);
+      if (`be-${id.slice(0, 12)}` === slug) return true;
+    }
+    return false;
+  }
+
+  function showPostShareFeedback(button, message) {
+    const feedback = button.closest('.be-public-post')?.querySelector('.be-public-post-share-feedback');
+    if (!feedback) return;
+    window.clearTimeout(postShareFeedbackTimers.get(feedback));
+    feedback.textContent = message;
+    postShareFeedbackTimers.set(feedback, window.setTimeout(() => {
+      feedback.textContent = '';
+      postShareFeedbackTimers.delete(feedback);
+    }, 3200));
+  }
+
+  function drawWrappedText(context, text, x, y, maxWidth, lineHeight, maxLines = 4) {
+    const words = String(text || '').trim().split(/\s+/).filter(Boolean);
+    const lines = [];
+    let line = '';
+    words.forEach(word => {
+      const candidate = line ? `${line} ${word}` : word;
+      if (context.measureText(candidate).width <= maxWidth || !line) line = candidate;
+      else { lines.push(line); line = word; }
+    });
+    if (line) lines.push(line);
+    const visible = lines.slice(0, maxLines);
+    if (lines.length > maxLines) visible[maxLines - 1] = `${visible[maxLines - 1].replace(/[.,;:!?]?$/, '')}…`;
+    visible.forEach((value, index) => context.fillText(value, x, y + (index * lineHeight)));
+    return y + (visible.length * lineHeight);
+  }
+
+  function loadCanvasImage(source) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+      image.src = source;
+    });
+  }
+
+  function drawCoverImage(context, image, x, y, size) {
+    const scale = Math.max(size / image.naturalWidth, size / image.naturalHeight);
+    const width = image.naturalWidth * scale;
+    const height = image.naturalHeight * scale;
+    context.save();
+    context.beginPath();
+    context.arc(x + size / 2, y + size / 2, size / 2, 0, Math.PI * 2);
+    context.clip();
+    context.drawImage(image, x + (size - width) / 2, y + (size - height) / 2, width, height);
+    context.restore();
+    context.strokeStyle = '#ffffff';
+    context.lineWidth = 12;
+    context.beginPath();
+    context.arc(x + size / 2, y + size / 2, size / 2 - 6, 0, Math.PI * 2);
+    context.stroke();
+  }
+
+  function drawStoryImage(context, image, x, y, width, height) {
+    const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
+    const drawWidth = image.naturalWidth * scale;
+    const drawHeight = image.naturalHeight * scale;
+    context.save();
+    context.beginPath();
+    context.roundRect(x, y, width, height, 34);
+    context.clip();
+    context.fillStyle = 'rgba(12,10,9,.72)';
+    context.fillRect(x, y, width, height);
+    context.drawImage(image, x + (width - drawWidth) / 2, y + (height - drawHeight) / 2, drawWidth, drawHeight);
+    context.restore();
+    context.strokeStyle = 'rgba(255,255,255,.36)';
+    context.lineWidth = 3;
+    context.beginPath();
+    context.roundRect(x, y, width, height, 34);
+    context.stroke();
+  }
+
+  async function buildStoryCover(post) {
+    if (!loadedProfile || !post) throw new Error('Publicação ainda não carregada.');
+    await document.fonts?.ready;
+    const canvas = document.createElement('canvas');
+    canvas.width = 1080;
+    canvas.height = 1920;
+    const context = canvas.getContext('2d');
+    const gradient = context.createLinearGradient(0, 0, 1080, 1920);
+    gradient.addColorStop(0, '#171311');
+    gradient.addColorStop(.52, '#5f2a1d');
+    gradient.addColorStop(1, '#ff5a1f');
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 1080, 1920);
+    context.strokeStyle = 'rgba(255,255,255,.15)';
+    context.lineWidth = 3;
+    [220, 340, 470].forEach(radius => { context.beginPath(); context.arc(940, 140, radius, 0, Math.PI * 2); context.stroke(); });
+    context.fillStyle = '#ff6a25';
+    context.font = '900 74px Manrope, Inter, Arial';
+    context.textAlign = 'left';
+    context.fillText('Be', 78, 122);
+    context.fillStyle = '#ffffff';
+    context.font = '800 25px Inter, Arial';
+    context.fillText('PUBLICAÇÃO · MEU DIÁRIO BE', 78, 205);
+    context.textAlign = 'right';
+    context.fillStyle = 'rgba(255,255,255,.76)';
+    context.font = '700 24px Inter, Arial';
+    context.fillText(loadedProfile.displayName, 1000, 205);
+
+    let contentTop = 350;
+    if (post.kind === 'photo' && post.imageDataUrl) {
+      try {
+        drawStoryImage(context, await loadCanvasImage(post.imageDataUrl), 80, 280, 920, 780);
+        contentTop = 1170;
+      } catch (error) {}
+    }
+    if (contentTop === 350) {
+      const photoSize = 230;
+      const photoX = (1080 - photoSize) / 2;
+      let photoDrawn = false;
+      if (loadedProfile.photoDataUrl) {
+        try {
+          drawCoverImage(context, await loadCanvasImage(loadedProfile.photoDataUrl), photoX, 290, photoSize);
+          photoDrawn = true;
+        } catch (error) {}
+      }
+      if (!photoDrawn) {
+        context.fillStyle = '#ff672d';
+        context.beginPath();
+        context.arc(540, 405, 115, 0, Math.PI * 2);
+        context.fill();
+        context.fillStyle = '#ffffff';
+        context.font = '900 90px Inter, Arial';
+        context.textAlign = 'center';
+        context.fillText(String(loadedProfile.displayName || 'B').charAt(0).toLocaleUpperCase('pt-BR'), 540, 437);
+      }
+      contentTop = 660;
+    }
+
+    context.textAlign = 'center';
+    const displayTitle = postDisplayTitle(post);
+    context.fillStyle = '#ffffff';
+    context.font = '850 57px Manrope, Inter, Arial';
+    const titleEnd = drawWrappedText(context, displayTitle, 540, contentTop + 30, 860, 66, 2);
+    context.fillStyle = 'rgba(255,255,255,.12)';
+    context.beginPath();
+    context.roundRect(80, titleEnd + 28, 920, 280, 32);
+    context.fill();
+    context.fillStyle = '#ffffff';
+    context.font = '650 34px Inter, Arial';
+    drawWrappedText(context, post.text || 'Um registro do meu caminho no esporte.', 540, titleEnd + 100, 790, 49, 4);
+
+    context.fillStyle = 'rgba(255,255,255,.78)';
+    context.font = '600 24px Inter, Arial';
+    context.fillText('Veja a publicação completa', 540, 1720);
+    context.fillStyle = '#ffffff';
+    context.font = '800 27px Inter, Arial';
+    context.fillText(`bemesportivo.com/diario/${slug}`, 540, 1770);
+    context.fillStyle = 'rgba(255,255,255,.55)';
+    context.font = '600 20px Inter, Arial';
+    context.fillText('BEM ESPORTIVO · ESPORTE, HISTÓRIA E COMUNIDADE', 540, 1860);
+    return new Promise((resolve, reject) => canvas.toBlob(blob => blob
+      ? resolve(new File([blob], `meu-diario-be-${post.id || 'publicacao'}.png`, { type: 'image/png' }))
+      : reject(new Error('Não foi possível criar a capa.')), 'image/png', .94));
+  }
+
+  function downloadStoryCover(file) {
+    const link = document.createElement('a');
+    const objectUrl = URL.createObjectURL(file);
+    link.href = objectUrl;
+    link.download = file.name;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  }
+
+  async function sharePublication(post, button) {
+    button.disabled = true;
+    showPostShareFeedback(button, 'Criando a capa desta publicação…');
+    const url = new URL(`/diario/${slug}`, location.origin).href;
+    try {
+      const file = await buildStoryCover(post);
+      const shareData = { title: `${postDisplayTitle(post)} | Meu Diário BE`, text: post.text || 'Veja esta publicação no Meu Diário BE.', url, files: [file] };
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share(shareData);
+        showPostShareFeedback(button, 'Escolha Instagram Stories ou WhatsApp.');
+        return;
+      }
+      downloadStoryCover(file);
+      await navigator.clipboard?.writeText(url);
+      showPostShareFeedback(button, 'Capa baixada e link copiado.');
+    } catch (error) {
+      if (error?.name !== 'AbortError') showPostShareFeedback(button, error.message || 'Não foi possível criar a capa.');
+    } finally {
+      button.disabled = false;
+    }
+  }
 
   function postCard(post) {
     const article = document.createElement('article');
@@ -27,12 +243,30 @@
     const time = document.createElement('time');
     time.dateTime = post.occurredAt;
     time.textContent = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'long' }).format(new Date(`${post.occurredAt}T12:00:00`));
+    const origin = document.createElement('span');
+    origin.className = 'be-public-post-origin';
+    origin.textContent = `Meu Diário BE · @${slug}`;
     const report = document.createElement('button');
     report.type = 'button';
     report.className = 'be-public-report-post';
     report.dataset.postId = post.id;
     report.textContent = 'Denunciar publicação';
-    copy.append(label, text, time, report);
+    const meta = document.createElement('div');
+    meta.className = 'be-public-post-meta';
+    meta.append(time, report, origin);
+    if (ownerDevice) {
+      const share = document.createElement('button');
+      share.type = 'button';
+      share.className = 'be-public-share-post';
+      share.dataset.publicSharePost = post.id;
+      share.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"></path></svg><span>Compartilhar publicação</span>';
+      const shareFeedback = document.createElement('span');
+      shareFeedback.className = 'be-public-post-share-feedback';
+      shareFeedback.setAttribute('role', 'status');
+      shareFeedback.setAttribute('aria-live', 'polite');
+      meta.append(share, shareFeedback);
+    }
+    copy.append(label, text, meta);
     article.append(copy);
     return article;
   }
@@ -60,6 +294,9 @@
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(payload.error || 'Perfil não encontrado.');
     const profile = payload.profile;
+    loadedProfile = profile;
+    loadedPosts = Array.isArray(payload.posts) ? payload.posts : [];
+    ownerDevice = await isOwnerDevice();
     document.title = `${profile.displayName} | Meu Caminho Be`;
     document.querySelector('meta[name="robots"]')?.setAttribute('content', 'index, follow');
     document.querySelector('meta[name="description"]')?.setAttribute('content', `Diário esportivo público de ${profile.displayName} no Meu Caminho Be.`);
@@ -73,7 +310,7 @@
     document.getElementById('be-public-age').textContent = `${profile.age} anos`;
     document.getElementById('be-public-profession').textContent = profile.profession;
     document.getElementById('be-public-sport').textContent = profile.favoriteSport;
-    document.getElementById('be-public-count').textContent = String(payload.posts.length);
+    document.getElementById('be-public-count').textContent = String(loadedPosts.length);
     const photo = document.getElementById('be-public-photo');
     const fallback = document.getElementById('be-public-fallback');
     if (profile.photoDataUrl) {
@@ -82,7 +319,7 @@
       fallback.hidden = true;
     } else fallback.textContent = profile.displayName.charAt(0).toLocaleUpperCase('pt-BR');
     const posts = document.getElementById('be-public-posts');
-    if (payload.posts.length) posts.replaceChildren(...payload.posts.map(postCard));
+    if (loadedPosts.length) posts.replaceChildren(...loadedPosts.map(postCard));
     else {
       const empty = document.createElement('p');
       empty.className = 'be-public-empty';
@@ -100,6 +337,12 @@
     }).finally(() => { event.currentTarget.disabled = false; });
   });
   document.getElementById('be-public-posts')?.addEventListener('click', event => {
+    const shareButton = event.target.closest('[data-public-share-post]');
+    if (shareButton && !shareButton.disabled) {
+      const post = loadedPosts.find(item => item.id === shareButton.dataset.publicSharePost);
+      if (post) sharePublication(post, shareButton);
+      return;
+    }
     const button = event.target.closest('[data-post-id]');
     if (!button || button.disabled) return;
     button.disabled = true;

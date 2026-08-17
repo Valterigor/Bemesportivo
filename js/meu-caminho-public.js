@@ -412,7 +412,7 @@
         id: clientId,
         note: text,
         imageDataUrl: pendingPublicPhoto,
-        title: 'Publicação',
+        title: 'O meu momento Bem esportivo',
         type: 'publicacao',
         date: previous?.occurredAt || new Date().toISOString().slice(0, 10)
       });

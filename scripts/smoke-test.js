@@ -297,7 +297,7 @@ async function run() {
     assert.match(homeHtml, /id="home-hero-title">Descubra <span>seu caminho<\/span> no esporte\./, 'O novo hero precisa preservar a chamada principal do Bem Esportivo.');
     assert.match(homeHtml, /class="shell home-steps"[\s\S]*Descobrir[\s\S]*Começar[\s\S]*Evoluir[\s\S]*Permanecer/, 'A Home precisa apresentar as quatro etapas da jornada.');
     assert.match(homeHtml, /id="home-content-title">Histórias que colocam o esporte <em>em movimento\.<\/em>/, 'A Home precisa apresentar a vitrine editorial principal.');
-    assert.match(homeHtml, /class="home-editorial-grid"[\s\S]*Mulheres em ação e movimento[\s\S]*Treino funcional:[\s\S]*Dedicação e talento mirim/, 'A vitrine editorial precisa destacar histórias reais e variadas.');
+    assert.match(homeHtml, /class="home-editorial-grid" data-report-order="inclusion-desc"[\s\S]*Sergio Lima, aos 61 anos[\s\S]*Mayara e Magnólia no Papo Bem Esportivo[\s\S]*Elas trazem esperança/, 'A vitrine editorial precisa exibir as reportagens pela ordem de inclusão, da mais recente para a mais antiga.');
     assert.match(homeHtml, /class="shell home-journey"[\s\S]*Seu diário <em>esportivo digital\.<\/em>/, 'A Home precisa preservar o bloco do Meu Caminho Be.');
     assert.match(homeHtml, /class="shell home-split"[\s\S]*Corrida da Hidratação[\s\S]*Assista\. Inspire-se\. Evolua sempre\./, 'A Home precisa conectar Game e BePlay.');
     assert.doesNotMatch(homeHtml, /id="home-report-title"/, 'A Home não deve repetir a mesma vitrine de reportagens.');
@@ -329,9 +329,13 @@ async function run() {
     assert.match(publicProfileHtml, /MEU DIÁRIO BE[\s\S]*PUBLICAÇÕES/);
     assert.match(publicProfileHtml, /id="be-public-report-profile"/, 'Visitantes precisam conseguir denunciar um perfil público.');
     assert.doesNotMatch(publicProfileHtml, /id="be-public-share"/, 'Visitantes não devem receber um botão para compartilhar o diário.');
+    assert.doesNotMatch(publicProfileHtml, /be-public-owner-share-button|be-public-owner-cover-download/, 'A capa do perfil não deve concentrar as ações de compartilhamento.');
     assert.match(pathHtml, /id="be-public-share-owner"/, 'Somente a área privada do proprietário deve oferecer o compartilhamento do link.');
     assert.match(publicProfileHtml, /class="be-public-print-block"/, 'A impressão da página pública precisa ocultar o conteúdo.');
     assert.match(publicProfileScript, /dataset\.watermark/, 'Publicações públicas precisam exibir identificação contra cópias sem origem.');
+    assert.match(publicProfileScript, /buildStoryCover\(post\)[\s\S]*canvas\.width = 1080[\s\S]*canvas\.height = 1920[\s\S]*files: \[file\][\s\S]*navigator\.share/, 'Cada publicação precisa gerar sua própria capa vertical para o compartilhamento nativo.');
+    assert.match(publicProfileScript, /if \(ownerDevice\)[\s\S]*dataset\.publicSharePost = post\.id/, 'Somente o proprietário deve receber o botão de compartilhar em cada publicação.');
+    assert.match(publicProfileScript, /be-public-post-meta[\s\S]*meta\.append\(time, report, origin\)/, 'Data, denúncia e origem da publicação precisam permanecer visualmente separadas.');
     assert.match(publicProfileScript, /api\/public-profiles\/\$\{slug\}/);
     assert.match(publicProfileScript, /targetType, postId/, 'A página pública precisa enviar denúncias de perfil e publicação.');
     assert.match(publicDiaryScript, /PUBLIC_CODE_KEY = 'meuCaminhoBePublicCodeV1'/, 'A pÃ¡gina pÃºblica precisa ter identidade local prÃ³pria.');
@@ -386,7 +390,7 @@ async function run() {
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260815-6/);
     assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260816-1/);
-    assert.match(pathHtml, /js\/site-common\.js\?v=20260813-2/);
+    assert.match(pathHtml, /js\/site-common\.js\?v=20260816-1/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
     assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260815-3/);
@@ -453,7 +457,9 @@ async function run() {
     assert.match(pathHtml, /id="fb-save-receipt"[^>]*aria-live="polite"/, 'Cada salvamento precisa deixar uma confirmação clara no desktop.');
     assert.match(pathApp, /function showSaveReceipt\(/, 'O app precisa transformar o salvamento em recibo e próximo passo.');
     assert.match(pathApp, /\^meuCaminhoBe\/i[\s\S]*location\.replace\(APP_BASE_PATH\)/, 'Zerar precisa remover todos os dados da jornada e reiniciar o app.');
+    const commonScript = fs.readFileSync(path.join(root, 'js/site-common.js'), 'utf8');
     const communityComponent = fs.readFileSync(path.join(root, 'js/components/community-comments.js'), 'utf8');
+    assert.match(commonScript, /TRANSIENT_SUCCESS_PATTERN[\s\S]*setTimeout\([\s\S]*5000/, 'Confirmações de salvamento e publicação precisam desaparecer automaticamente.');
     assert.match(communityComponent, /adultConfirmed:/, 'Comentários públicos precisam enviar a confirmação de maioridade exigida pela API.');
     assert.match(communityComponent, /action: 'reply'/, 'O componente comunitário precisa aceitar respostas públicas.');
     assert.match(communityComponent, /data-community-action="like"/, 'O componente comunitário precisa aceitar curtidas.');
