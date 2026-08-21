@@ -31,9 +31,82 @@
 <link rel="stylesheet" href="/css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="/css/meu-caminho-modern.css?v=20260806-1">
 <link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260816-1">
+<link rel="stylesheet" href="/css/meu-caminho-auth.css?v=20260821-1">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
+<section class="be-auth-gateway" id="be-auth-gateway" aria-labelledby="be-auth-title" hidden>
+<div class="be-auth-gateway-inner">
+<a class="be-auth-logo" href="/" aria-label="Voltar para a página inicial do Bem Esportivo"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="Bem Esportivo"></a>
+<article class="be-auth-card" data-auth-view="login">
+<button type="button" class="be-auth-close" id="be-auth-close" aria-label="Fechar acesso" hidden>×</button>
+<div class="be-auth-heading">
+<span>MEU CAMINHO BE</span>
+<h1 id="be-auth-title">Acesse sua conta</h1>
+<p id="be-auth-intro">Continue sua trajetória esportiva com segurança.</p>
+</div>
+
+<form class="be-auth-form" id="be-auth-login-form" data-auth-panel="login" novalidate>
+<label for="be-auth-login-email">E-mail<input id="be-auth-login-email" name="email" type="email" autocomplete="email" maxlength="160" placeholder="seuemail@exemplo.com" required></label>
+<label for="be-auth-login-password">Senha<span class="be-auth-password-field"><input id="be-auth-login-password" name="password" type="password" autocomplete="current-password" minlength="8" maxlength="128" placeholder="Insira sua senha" required><button type="button" data-password-toggle="be-auth-login-password" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
+<button type="button" class="be-auth-text-action" data-auth-view-target="recovery">Esqueci minha senha</button>
+<button type="submit" class="be-auth-primary" data-idle-label="Entrar">Entrar</button>
+<p class="be-auth-feedback" data-auth-feedback role="status" aria-live="polite"></p>
+</form>
+
+<form class="be-auth-form" id="be-auth-signup-form" data-auth-panel="signup" hidden novalidate>
+<label for="be-auth-signup-name">Como podemos chamar você?<input id="be-auth-signup-name" name="name" autocomplete="name" maxlength="60" placeholder="Seu nome ou apelido" required></label>
+<label for="be-auth-signup-email">E-mail<input id="be-auth-signup-email" name="email" type="email" autocomplete="email" maxlength="160" placeholder="seuemail@exemplo.com" required></label>
+<label for="be-auth-signup-password">Crie uma senha<span class="be-auth-password-field"><input id="be-auth-signup-password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="No mínimo 8 caracteres" required><button type="button" data-password-toggle="be-auth-signup-password" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
+<label for="be-auth-signup-confirm">Confirme a senha<span class="be-auth-password-field"><input id="be-auth-signup-confirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="Digite novamente" required><button type="button" data-password-toggle="be-auth-signup-confirm" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
+<label class="be-auth-consent"><input type="checkbox" name="terms" required><span>Li e aceito os <a href="/termos" target="_blank" rel="noopener noreferrer">Termos de Uso</a> e a <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.</span></label>
+<button type="submit" class="be-auth-primary" data-idle-label="Criar minha conta">Criar minha conta</button>
+<p class="be-auth-feedback" data-auth-feedback role="status" aria-live="polite"></p>
+</form>
+
+<form class="be-auth-form" id="be-auth-recovery-form" data-auth-panel="recovery" hidden novalidate>
+<p class="be-auth-form-copy">Informe seu e-mail e enviaremos um link seguro para criar uma nova senha.</p>
+<label for="be-auth-recovery-email">E-mail<input id="be-auth-recovery-email" name="email" type="email" autocomplete="email" maxlength="160" placeholder="seuemail@exemplo.com" required></label>
+<button type="submit" class="be-auth-primary" data-idle-label="Enviar link de recuperação">Enviar link de recuperação</button>
+<button type="button" class="be-auth-text-action" data-auth-view-target="login">Voltar para entrar</button>
+<p class="be-auth-feedback" data-auth-feedback role="status" aria-live="polite"></p>
+</form>
+
+<form class="be-auth-form" id="be-auth-update-form" data-auth-panel="update" hidden novalidate>
+<p class="be-auth-form-copy">Crie uma nova senha para voltar ao seu caminho.</p>
+<label for="be-auth-update-password">Nova senha<span class="be-auth-password-field"><input id="be-auth-update-password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="No mínimo 8 caracteres" required><button type="button" data-password-toggle="be-auth-update-password" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
+<label for="be-auth-update-confirm">Confirme a nova senha<span class="be-auth-password-field"><input id="be-auth-update-confirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="Digite novamente" required><button type="button" data-password-toggle="be-auth-update-confirm" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
+<button type="submit" class="be-auth-primary" data-idle-label="Salvar nova senha">Salvar nova senha</button>
+<p class="be-auth-feedback" data-auth-feedback role="status" aria-live="polite"></p>
+</form>
+
+<section class="be-auth-account" data-auth-panel="account" hidden>
+<span class="be-auth-account-check" aria-hidden="true">✓</span>
+<h2>Conta conectada</h2>
+<p id="be-auth-account-email"></p>
+<div class="be-auth-sync-choice" id="be-auth-sync-choice" hidden>
+<strong>Levar os dados deste aparelho para sua conta?</strong>
+<p>Seu perfil, planos, atividades e refeições poderão continuar em outros dispositivos.</p>
+<label class="be-auth-consent"><input type="checkbox" id="be-auth-sync-consent"><span>Autorizo salvar na minha conta os dados pessoais e de saúde que decidi registrar.</span></label>
+<button type="button" class="be-auth-primary" id="be-auth-sync-enable">Salvar na minha conta</button>
+<button type="button" class="be-auth-secondary" id="be-auth-sync-later">Agora não</button>
+</div>
+<p class="be-auth-account-status" id="be-auth-account-status" role="status" aria-live="polite"></p>
+<button type="button" class="be-auth-primary" id="be-auth-continue">Continuar para o Meu Caminho</button>
+<button type="button" class="be-auth-secondary" id="be-auth-signout">Sair da conta</button>
+</section>
+
+<div class="be-auth-options" data-auth-public-options>
+<div class="be-auth-divider"><span>ou acesse via</span></div>
+<button type="button" class="be-auth-provider" id="be-auth-google"><span aria-hidden="true">G</span>Continuar com Google</button>
+<p>Não tem uma conta? <button type="button" data-auth-view-target="signup">Cadastre-se</button></p>
+<button type="button" class="be-auth-local" id="be-auth-local">Continuar sem conta neste aparelho</button>
+</div>
+<p class="be-auth-setup" id="be-auth-setup" role="status" hidden>O acesso por conta está sendo configurado. Você ainda pode usar o Meu Caminho Be neste aparelho.</p>
+<small class="be-auth-trust-note">Seus dados não são usados para publicidade. Você pode exportar ou excluir sua conta.</small>
+</article>
+</div>
+</section>
 <aside class="fb-celebration-toast" id="fb-celebration-toast" role="status" aria-live="polite" aria-atomic="true" hidden>
 <span class="fb-celebration-icon" aria-hidden="true">✓</span>
 <div><strong id="fb-celebration-title">Muito bem!</strong><p id="fb-celebration-message">Seu progresso foi salvo.</p><div class="fb-celebration-meta" id="fb-celebration-meta" hidden><b id="fb-celebration-reward"></b><span id="fb-celebration-detail"></span></div></div>
@@ -50,6 +123,7 @@
 </a>
 <div class="fb-app-topbar-actions">
 <span class="fb-app-saved-status" id="fb-connectivity-status"><i aria-hidden="true"></i>Dados ficam neste aparelho</span>
+<button type="button" class="be-auth-open" id="be-auth-open"><span aria-hidden="true">○</span><b>Entrar</b></button>
 <button type="button" class="fb-mobile-menu-toggle" id="fb-mobile-menu-toggle" aria-label="Abrir menu" aria-controls="fb-mobile-drawer" aria-expanded="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
 <button type="button" class="fb-profile-trigger" data-fb-view="perfil" aria-label="Abrir meu perfil"><span class="fb-app-avatar" aria-hidden="true">BE</span><span>Meu perfil</span></button>
 </div>
@@ -1529,6 +1603,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script type="module" src="/js/site-common.js?v=20260816-1"></script>
 <script type="module" src="/js/routine-calendar.js?v=20260807-1"></script>
+<script type="module" src="/js/meu-caminho-auth.js?v=20260821-1"></script>
 <script type="module" src="/js/meu-caminho-account.js?v=20260815-1"></script>
 <script src="/js/coluna-valtinho.js?v=20260722-2" defer></script>
 <script src="/js/be-knowledge-library.js?v=20260813-3" defer></script>

@@ -6,6 +6,7 @@
   "dependencies": {
     "@netlify/blobs": "^10.7.13",
     "@netlify/identity": "^1.2.0",
+    "@supabase/supabase-js": "^2.109.0",
     "esbuild": "^0.28.1",
     "web-push": "^3.6.7"
   },
@@ -17,7 +18,8 @@
     "structure": "node scripts/structure-check.js",
     "check": "npm run lint && npm run structure",
     "build": "node build.js",
-    "test": "node scripts/smoke-test.js && node scripts/knowledge-library-test.js && node scripts/public-profile-test.mjs && node scripts/admin-api-test.mjs",
+    "test": "node scripts/smoke-test.js && node scripts/knowledge-library-test.js && node scripts/public-profile-test.mjs && node scripts/admin-api-test.mjs && node scripts/auth-system-test.mjs",
+    "test:auth": "node scripts/auth-system-test.mjs",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "verify": "npm run check && npm run build && npm test",
