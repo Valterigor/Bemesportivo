@@ -108,7 +108,7 @@ async function syncLatestReports() {
     if (!response.ok) throw new Error(`Reportagens indisponíveis (${response.status})`);
 
     const documentSource = new DOMParser().parseFromString(await response.text(), "text/html");
-    const previews = [...documentSource.querySelectorAll(".report-grid .report-preview")];
+    const previews = [...documentSource.querySelectorAll(".report-listing .report-preview")];
     const reports = previews
       .map(preview => reportFromPreview(preview, sourceUrl, detailsById))
       .filter(Boolean)
