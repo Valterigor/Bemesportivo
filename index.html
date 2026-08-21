@@ -2386,8 +2386,8 @@
     .home-editorial-card { display: flex; min-width: 0; overflow: hidden; flex-direction: column; padding-bottom: 20px; border: 1px solid #ebe7e3; border-radius: 18px; background: #fff; color: #151515; box-shadow: 0 14px 34px rgba(17,17,17,.06); transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
     .home-editorial-card:hover, .home-editorial-card:focus-visible { border-color: rgba(255,90,0,.55); box-shadow: 0 20px 44px rgba(17,17,17,.1); transform: translateY(-4px); }
     .home-editorial-card img { width: 100%; aspect-ratio: 16 / 10; margin-bottom: 20px; object-fit: cover; background: #eee; }
-    .home-editorial-card:first-child img { object-position: 68% center; }
-    .home-editorial-card:nth-child(3) img { object-position: center 24%; }
+    .home-editorial-card[data-report-id="thais-garcez-metamorfose"] img { object-position: center 38%; }
+    .home-editorial-card[data-report-id="elas-trazem-esperanca"] img { object-position: center 24%; }
     .home-editorial-card > :not(img) { margin-right: 20px; margin-left: 20px; }
     .home-editorial-category { margin-bottom: 10px; color: #d94e00; font-size: 11px; font-weight: 950; letter-spacing: .045em; text-transform: uppercase; }
     .home-editorial-card :is(h2, h3) { font-size: clamp(20px, 2vw, 28px); font-weight: 950; line-height: 1.08; letter-spacing: -.025em; }
@@ -2718,28 +2718,28 @@
           <p>Conheça pessoas, projetos e iniciativas que transformam treino, oportunidade e comunidade em histórias que merecem ser contadas.</p>
           <a href="/reportagens">Explorar todas as reportagens <span aria-hidden="true">→</span></a>
         </div>
-        <!-- Ordem editorial: inclusão mais recente no site primeiro. -->
-        <div class="home-editorial-grid" data-report-order="inclusion-desc">
-          <a class="home-editorial-card home-editorial-card-lead" href="/reportagens/sergio-lima-exemplo-de-vida" data-inclusion-order="3">
-            <img src="img/sergio-lima-exemplo-de-vida.jpg" alt="Sergio Lima durante entrevista ao Bem Esportivo" width="1280" height="720" fetchpriority="high" decoding="async">
-            <span class="home-editorial-category">Papo do Bem Esportivo</span>
-            <h3>Sergio Lima, aos 61 anos, grande exemplo de vida</h3>
-            <p>Formado em Educação Física aos 61 anos, ele mostra que novos objetivos não têm idade.</p>
-            <small>3 min de leitura <b aria-hidden="true">→</b></small>
+        <!-- Fallback estático e sincronização automática com as primeiras matérias de /reportagens. -->
+        <div class="home-editorial-grid" data-report-order="inclusion-desc" data-latest-reports-source="/reportagens">
+          <a class="home-editorial-card home-editorial-card-lead" href="/reportagens/thais-garcez-metamorfose" data-report-id="thais-garcez-metamorfose" data-inclusion-order="8">
+            <img src="img/Thais%20Garcez/thais-garcez-capa.jpg" alt="Thais Garcez em ambiente de academia" width="738" height="1600" fetchpriority="high" decoding="async">
+            <span class="home-editorial-category">Musculação, saúde e transformação pessoal</span>
+            <h3>Thais Garcez, uma nova versão</h3>
+            <p>Uma mudança física que se transformou em disciplina, conhecimento e uma nova forma de viver.</p>
+            <small>7 min de leitura <b aria-hidden="true">→</b></small>
           </a>
-          <a class="home-editorial-card" href="/reportagens/mayara-magnolia-papo-bem-esportivo" data-inclusion-order="2">
-            <img src="img/mayara-magnolia-papo-bem-esportivo.jpg" alt="Mayara e Magnólia durante entrevista ao Bem Esportivo" loading="lazy" width="1280" height="720">
-            <span class="home-editorial-category">Tênis e formação</span>
+          <a class="home-editorial-card" href="/reportagens/elas-trazem-esperanca" data-report-id="elas-trazem-esperanca" data-inclusion-order="7">
+            <img src="img/elas-trazem-esperanca-lara-duda-portela.webp" alt="Lara e Duda em um campo de futebol" loading="lazy" width="1120" height="1405" decoding="async">
+            <span class="home-editorial-category">Futebol feminino · Arquivo</span>
+            <h3>Elas trazem esperança</h3>
+            <p>Os primeiros passos de Duda e Lara no futebol, entre amizade, formação e sonhos em movimento.</p>
+            <small>4 min de leitura <b aria-hidden="true">→</b></small>
+          </a>
+          <a class="home-editorial-card" href="/reportagens/mayara-magnolia-papo-bem-esportivo" data-report-id="mayara-magnolia-papo-bem-esportivo" data-inclusion-order="6">
+            <img src="img/mayara-magnolia-papo-bem-esportivo.jpg" alt="Mayara e Magnólia durante entrevista ao Bem Esportivo" loading="lazy" width="1280" height="720" decoding="async">
+            <span class="home-editorial-category">Papo Bem Esportivo · Arquivo</span>
             <h3>Mayara e Magnólia no Papo Bem Esportivo</h3>
             <p>As gêmeas contam como o tênis, os estudos e a determinação abriram caminho para a Educação Física.</p>
             <small>4 min de leitura <b aria-hidden="true">→</b></small>
-          </a>
-          <a class="home-editorial-card" href="/reportagens/elas-trazem-esperanca" data-inclusion-order="1">
-            <img src="img/elas-trazem-esperanca-lara-duda-portela.webp" alt="Lara e Duda em um campo de futebol" loading="lazy" width="1120" height="1405">
-            <span class="home-editorial-category">Futebol feminino</span>
-            <h3>Elas trazem esperança</h3>
-            <p>Duas jovens atletas constroem seus primeiros passos no futebol com dedicação, alegria e apoio.</p>
-            <small>5 min de leitura <b aria-hidden="true">→</b></small>
           </a>
         </div>
       </section>
@@ -3204,6 +3204,7 @@
     <button id="topBtn" type="button" aria-label="Voltar ao topo">↑</button>
   </div>
   <script type="module" src="js/privacy-entry.js?v=20260723-2"></script>
+  <script type="module" src="js/home-latest-reports.js?v=20260820-1"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       if (new URLSearchParams(window.location.search).get('newsletter') === 'recebido') {

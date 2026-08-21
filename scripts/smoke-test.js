@@ -297,7 +297,11 @@ async function run() {
     assert.match(homeHtml, /id="home-hero-title">Descubra <span>seu caminho<\/span> no esporte\./, 'O novo hero precisa preservar a chamada principal do Bem Esportivo.');
     assert.match(homeHtml, /class="shell home-steps"[\s\S]*Descobrir[\s\S]*Começar[\s\S]*Evoluir[\s\S]*Permanecer/, 'A Home precisa apresentar as quatro etapas da jornada.');
     assert.match(homeHtml, /id="home-content-title">Histórias que colocam o esporte <em>em movimento\.<\/em>/, 'A Home precisa apresentar a vitrine editorial principal.');
-    assert.match(homeHtml, /class="home-editorial-grid" data-report-order="inclusion-desc"[\s\S]*Sergio Lima, aos 61 anos[\s\S]*Mayara e Magnólia no Papo Bem Esportivo[\s\S]*Elas trazem esperança/, 'A vitrine editorial precisa exibir as reportagens pela ordem de inclusão, da mais recente para a mais antiga.');
+    assert.match(homeHtml, /class="home-editorial-grid" data-report-order="inclusion-desc" data-latest-reports-source="\/reportagens"[\s\S]*Thais Garcez, uma nova versão[\s\S]*Elas trazem esperança[\s\S]*Mayara e Magnólia no Papo Bem Esportivo/, 'A vitrine editorial precisa manter como fallback as três reportagens mais recentes do acervo.');
+    assert.match(homeHtml, /src="js\/home-latest-reports\.js\?v=20260820-1"/, 'A Home precisa sincronizar seus destaques com a listagem de reportagens.');
+    const latestReportsScript = fs.readFileSync(path.join(root, 'js', 'home-latest-reports.js'), 'utf8');
+    assert.match(latestReportsScript, /querySelectorAll\("\.report-grid \.report-preview"\)/);
+    assert.match(latestReportsScript, /slice\(0, FEATURE_LIMIT\)/);
     assert.match(homeHtml, /class="shell home-journey"[\s\S]*Seu diário <em>esportivo digital\.<\/em>/, 'A Home precisa preservar o bloco do Meu Caminho Be.');
     assert.match(homeHtml, /class="shell home-split"[\s\S]*Corrida da Hidratação[\s\S]*Assista\. Inspire-se\. Evolua sempre\./, 'A Home precisa conectar Game e BePlay.');
     assert.doesNotMatch(homeHtml, /id="home-report-title"/, 'A Home não deve repetir a mesma vitrine de reportagens.');
