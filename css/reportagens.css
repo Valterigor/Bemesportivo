@@ -1796,6 +1796,44 @@ body.reportagens-page {
 
 .reportagens-page .report-interview-video > a:hover { color: #8e2d0c; }
 
+/* Espaços editoriais preparados antes do recebimento dos arquivos finais. */
+.reportagens-page .report-media-placeholder,
+.reportagens-page .report-media-slot-frame,
+.reportagens-page .report-preview-media-placeholder {
+  display: grid;
+  min-height: 280px;
+  padding: clamp(24px, 4vw, 46px);
+  border: 1px dashed rgba(255, 90, 0, .48);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fff6f0, #f5eee9);
+  color: #4b3224;
+  place-content: center;
+  text-align: center;
+}
+.reportagens-page .report-media-placeholder span,
+.reportagens-page .report-media-slot > span,
+.reportagens-page .report-photo-slot > div:first-child > span {
+  color: #d94e00;
+  font-size: .7rem;
+  font-weight: 900;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+.reportagens-page .report-media-placeholder strong { margin-top: 9px; font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1; }
+.reportagens-page .report-media-placeholder small { margin-top: 10px; color: #725d51; font-size: .9rem; }
+.reportagens-page .report-media-slot,
+.reportagens-page .report-photo-slot { margin: 40px 0; padding: clamp(22px, 4vw, 34px); border: 1px solid #eadfd8; border-radius: 22px; background: #fffaf6; }
+.reportagens-page .report-media-slot h2,
+.reportagens-page .report-photo-slot h2 { margin: 8px 0 10px; font-size: clamp(1.45rem, 3vw, 2rem); line-height: 1.18; letter-spacing: -.025em; }
+.reportagens-page .report-media-slot > p,
+.reportagens-page .report-photo-slot > div:first-child > p { margin: 0 0 20px; color: #625a54; line-height: 1.65; }
+.reportagens-page .report-media-slot-frame { min-height: 260px; gap: 12px; }
+.reportagens-page .report-media-slot-frame > span { display: grid; width: 48px; height: 48px; border-radius: 50%; background: #ff5a00; color: #fff; place-items: center; }
+.reportagens-page .report-media-slot-frame strong { font-size: 1rem; }
+.reportagens-page .report-photo-slot-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.reportagens-page .report-photo-slot-grid span { display: grid; min-height: 144px; border: 1px dashed #d5c4b8; border-radius: 13px; background: #fff; color: #8c7668; font-size: .78rem; font-weight: 800; place-items: center; }
+@media (max-width: 640px) { .reportagens-page .report-photo-slot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
 .reportagens-page .report-archive-channels {
   margin: 36px 0;
   padding: clamp(22px, 4vw, 30px);

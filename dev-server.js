@@ -831,7 +831,8 @@ function resolveRequest(urlPath){
     'reportagens/duda-e-o-futebol':'reportagem-duda-e-o-futebol',
     'reportagens/elas-trazem-esperanca':'reportagem-elas-trazem-esperanca',
     'reportagens/mayara-magnolia-papo-bem-esportivo':'reportagem-mayara-magnolia-papo-bem-esportivo',
-    'reportagens/sergio-lima-exemplo-de-vida':'reportagem-sergio-lima-exemplo-de-vida'
+    'reportagens/sergio-lima-exemplo-de-vida':'reportagem-sergio-lima-exemplo-de-vida',
+    'reportagens/thais-garcez-metamorfose':'reportagem-thais-garcez-metamorfose'
   };
   const appRoute = cleanPath === 'meu-caminho-be' || cleanPath.startsWith('meu-caminho-be/')
     ? 'meu-caminho-be'
