@@ -1834,6 +1834,120 @@ body.reportagens-page {
 .reportagens-page .report-photo-slot-grid span { display: grid; min-height: 144px; border: 1px dashed #d5c4b8; border-radius: 13px; background: #fff; color: #8c7668; font-size: .78rem; font-weight: 800; place-items: center; }
 @media (max-width: 640px) { .reportagens-page .report-photo-slot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
+.reportagens-page .report-card-thais .report-photo-story {
+  position: relative;
+  overflow: hidden;
+  border-color: #e4d3c7;
+  background: linear-gradient(145deg, #fffaf6 0%, #fff 55%, #f7eee8 100%);
+  box-shadow: 0 20px 48px rgba(48, 29, 20, .08);
+}
+.reportagens-page .report-card-thais .report-photo-story::before {
+  position: absolute;
+  top: -110px;
+  right: -90px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 90, 0, .13), transparent 68%);
+  content: "";
+  pointer-events: none;
+}
+.reportagens-page .report-card-thais .report-photo-story-heading {
+  position: relative;
+  max-width: 690px;
+  margin-bottom: 24px;
+}
+.reportagens-page .report-card-thais .report-photo-story-heading h2 {
+  max-width: 620px;
+  font-size: clamp(1.75rem, 4vw, 2.65rem);
+  letter-spacing: -.04em;
+}
+.reportagens-page .report-card-thais .report-photo-story-heading > p {
+  max-width: 640px;
+  margin-bottom: 0;
+  font-size: 1rem;
+}
+.reportagens-page .report-card-thais .report-photo-story .report-photo-slot-grid {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.reportagens-page .report-card-thais .report-photo-story-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e9ddd5;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(42, 27, 20, .07);
+}
+.reportagens-page .report-card-thais .report-photo-story-trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: #171513;
+  cursor: zoom-in;
+}
+.reportagens-page .report-card-thais .report-photo-story-trigger img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  transition: transform .35s ease, filter .35s ease;
+}
+.reportagens-page .report-card-thais .report-photo-story-trigger:hover img { transform: scale(1.035); filter: saturate(1.05); }
+.reportagens-page .report-card-thais .report-photo-story-trigger:focus-visible { outline: 3px solid #ff5a00; outline-offset: -3px; }
+.reportagens-page .report-card-thais .report-photo-story-trigger .report-photo-story-number {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: grid;
+  min-height: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, .45);
+  border-radius: 50%;
+  background: rgba(20, 17, 15, .72);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 900;
+  backdrop-filter: blur(8px);
+  place-items: center;
+}
+.reportagens-page .report-card-thais .report-photo-story-card > div { padding: 13px 13px 15px; }
+.reportagens-page .report-card-thais .report-photo-story-card > div span {
+  display: block;
+  min-height: 0;
+  margin-bottom: 5px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #d94e00;
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: .09em;
+  place-items: initial;
+  text-transform: uppercase;
+}
+.reportagens-page .report-card-thais .report-photo-story-card > div strong {
+  display: block;
+  color: #29231f;
+  font-size: .82rem;
+  line-height: 1.35;
+}
+@media (max-width: 640px) {
+  .reportagens-page .report-card-thais .report-photo-story { padding: 21px 15px; }
+  .reportagens-page .report-card-thais .report-photo-story-heading { padding: 0 4px; }
+  .reportagens-page .report-card-thais .report-photo-story-heading h2 { font-size: clamp(1.65rem, 8vw, 2.15rem); }
+  .reportagens-page .report-card-thais .report-photo-story .report-photo-slot-grid { gap: 9px; }
+  .reportagens-page .report-card-thais .report-photo-story-card { border-radius: 13px; }
+  .reportagens-page .report-card-thais .report-photo-story-card > div { padding: 11px 10px 13px; }
+  .reportagens-page .report-card-thais .report-photo-story-card > div strong { font-size: .76rem; }
+}
+
 .reportagens-page .report-archive-channels {
   margin: 36px 0;
   padding: clamp(22px, 4vw, 30px);
