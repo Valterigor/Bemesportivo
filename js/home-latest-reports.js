@@ -25,7 +25,7 @@ function existingCardDetails(grid) {
 }
 
 function reportFromPreview(preview, sourceUrl, detailsById) {
-  const titleLink = preview.querySelector("h3 a");
+  const titleLink = preview.querySelector(":is(h2, h3) a");
   const media = preview.querySelector(".report-preview-media img");
   if (!titleLink || !media) return null;
 

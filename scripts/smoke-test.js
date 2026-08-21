@@ -299,9 +299,10 @@ async function run() {
     assert.match(homeHtml, /class="shell home-steps"[\s\S]*Descobrir[\s\S]*Começar[\s\S]*Evoluir[\s\S]*Permanecer/, 'A Home precisa apresentar as quatro etapas da jornada.');
     assert.match(homeHtml, /id="home-content-title">Histórias que colocam o esporte <em>em movimento\.<\/em>/, 'A Home precisa apresentar a vitrine editorial principal.');
     assert.match(homeHtml, /class="home-editorial-grid" data-report-order="inclusion-desc" data-latest-reports-source="\/reportagens"[\s\S]*Thais Garcez, uma nova versão[\s\S]*Elas trazem esperança[\s\S]*Mayara e Magnólia no Papo Bem Esportivo/, 'A vitrine editorial precisa manter como fallback as três reportagens mais recentes do acervo.');
-    assert.match(homeHtml, /src="js\/home-latest-reports\.js\?v=20260820-2"/, 'A Home precisa sincronizar seus destaques com a listagem de reportagens.');
+    assert.match(homeHtml, /src="js\/home-latest-reports\.js\?v=20260821-1"/, 'A Home precisa sincronizar seus destaques com a listagem de reportagens.');
     const latestReportsScript = fs.readFileSync(path.join(root, 'js', 'home-latest-reports.js'), 'utf8');
     assert.match(latestReportsScript, /querySelectorAll\("\.report-listing \.report-preview"\)/);
+    assert.match(latestReportsScript, /querySelector\(":is\(h2, h3\) a"\)/, 'O sincronizador precisa reconhecer tanto o título em destaque quanto os títulos da grade.');
     assert.match(latestReportsScript, /slice\(0, FEATURE_LIMIT\)/);
     assert.match(homeHtml, /class="shell home-journey"[\s\S]*Seu diário <em>esportivo digital\.<\/em>/, 'A Home precisa preservar o bloco do Meu Caminho Be.');
     assert.match(homeHtml, /class="shell home-split"[\s\S]*Corrida da Hidratação[\s\S]*Assista\. Inspire-se\. Evolua sempre\./, 'A Home precisa conectar Game e BePlay.');
