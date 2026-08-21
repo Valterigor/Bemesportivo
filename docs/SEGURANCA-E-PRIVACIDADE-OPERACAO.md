@@ -12,7 +12,7 @@ Antes de lançar contas, sincronização entre aparelhos, análise de imagens ou
 - canal monitorado para titulares e incidentes;
 - lista de operadores, contratos e locais de tratamento.
 
-Canal atual: `contato@bemesportivo.com`.
+Canal atual: `bemesportivo@yahoo.com`.
 
 ## Inventário mínimo
 

@@ -24,7 +24,7 @@ npx --yes wrangler@4.80.0 secret put WEB_PUSH_PRIVATE_KEY --config wrangler.noti
 npx --yes wrangler@4.80.0 secret put WEB_PUSH_SUBJECT --config wrangler.notifications.jsonc
 ```
 
-O valor de `WEB_PUSH_SUBJECT` deve ser `mailto:contato@bemesportivo.com`. Nunca salve a chave privada no Git. O arquivo `wrangler.notifications.jsonc` configura o Cron `* * * * *` e o binding `BE_DATA`.
+O valor de `WEB_PUSH_SUBJECT` deve ser `mailto:bemesportivo@yahoo.com`. Nunca salve a chave privada no Git. O arquivo `wrangler.notifications.jsonc` configura o Cron `* * * * *` e o binding `BE_DATA`.
 
 Depois dos segredos, faça uma nova implantação do Worker. Na primeira execução ele publica somente a chave pública no KV; a API do Pages usa essa chave para cadastrar os navegadores.
 

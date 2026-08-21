@@ -1,0 +1,21 @@
+.contact-intro { max-width: 760px; }
+.contact-channel { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(250px, .82fr); gap: clamp(24px, 5vw, 64px); margin: 34px 0 52px; padding: clamp(24px, 4vw, 42px); border: 1px solid #eadfd6; border-radius: 24px; background: linear-gradient(135deg, #fffaf6, #f7eee7); box-shadow: 0 18px 48px rgba(79,44,20,.08); }
+.contact-channel-copy span { color: #c64700; font-size: 12px; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
+.contact-channel-copy h2 { margin-top: 10px; font-size: clamp(26px, 3vw, 38px); line-height: 1.08; }
+.contact-channel-copy p { color: #625b55; line-height: 1.65; }
+.contact-channel-copy a { color: #a83d00; font-weight: 800; }
+.contact-form { display: grid; gap: 14px; }
+.contact-form label { display: grid; gap: 7px; color: #352d28; font-size: 13px; font-weight: 800; }
+.contact-form :is(input, select, textarea) { width: 100%; border: 1px solid #d9cec6; border-radius: 10px; background: #fff; color: #171412; font: inherit; }
+.contact-form :is(input, select) { min-height: 48px; padding: 0 14px; }
+.contact-form textarea { min-height: 132px; padding: 13px 14px; resize: vertical; line-height: 1.5; }
+.contact-form :is(input, select, textarea):focus { border-color: #e95400; outline: 3px solid rgba(233,84,0,.14); }
+.contact-form button { min-height: 48px; border: 0; border-radius: 10px; background: #e95400; color: #fff; font: 850 15px/1 Inter, sans-serif; cursor: pointer; }
+.contact-form button:hover { background: #d94e00; }
+.contact-form button:disabled { cursor: wait; opacity: .65; }
+.contact-form-status { margin: 0; padding: 11px 13px; border-radius: 9px; background: #f1ece8; color: #4e4742; font-size: 13px; line-height: 1.45; }
+.contact-form-status[data-state="success"] { background: #e9f7ef; color: #176540; }
+.contact-form-status[data-state="error"] { background: #fff0ed; color: #9b2f1c; }
+.contact-form-status[data-state="fallback"] { background: #fff5e7; color: #7a4200; }
+.contact-honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
+@media (max-width: 760px) { .contact-channel { grid-template-columns: 1fr; padding: 22px 18px; border-radius: 18px; } }

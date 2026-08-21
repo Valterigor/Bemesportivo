@@ -15,7 +15,7 @@ async function writeJson(store, key, value, options = {}) {
 function configuration(env) {
   const publicKey = String(env.WEB_PUSH_PUBLIC_KEY || '');
   const privateKey = String(env.WEB_PUSH_PRIVATE_KEY || '');
-  const subject = String(env.WEB_PUSH_SUBJECT || 'mailto:contato@bemesportivo.com');
+  const subject = String(env.WEB_PUSH_SUBJECT || 'mailto:bemesportivo@yahoo.com');
   return { publicKey, privateKey, subject, ready: Boolean(publicKey && privateKey) };
 }
 

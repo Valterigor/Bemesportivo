@@ -819,6 +819,34 @@ async function handleGameRankingApi(request, response){
   return true;
 }
 
+async function handleContactApi(request, response){
+  if(request.method !== 'POST'){
+    sendJson(response, 405, {ok:false, error:'Método não permitido.'});
+    return true;
+  }
+  try{
+    const body = await readJsonBody(request, 12000);
+    if(cleanText(body.website, 120)){
+      sendJson(response, 200, {ok:true, simulated:true});
+      return true;
+    }
+    const email = cleanText(body.email, 160).toLowerCase();
+    const message = String(body.message || '').trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email)){
+      sendJson(response, 400, {ok:false, error:'Informe um e-mail válido.'});
+      return true;
+    }
+    if(message.length < 10){
+      sendJson(response, 400, {ok:false, error:'Escreva uma mensagem com pelo menos 10 caracteres.'});
+      return true;
+    }
+    sendJson(response, 200, {ok:true, simulated:true});
+  }catch(error){
+    sendJson(response, 400, {ok:false, error:'Dados inválidos.'});
+  }
+  return true;
+}
+
 function resolveRequest(urlPath){
   const cleanPath = decodeURIComponent(urlPath.split('?')[0]).replace(/^\/+/, '');
   if(cleanPath === 'data' || cleanPath.startsWith('data/')){
@@ -888,6 +916,11 @@ const server = http.createServer(async (request, response) => {
 
   if(parsedUrl.pathname === '/api/game-ranking'){
     const handled = await handleGameRankingApi(request, response);
+    if(handled) return;
+  }
+
+  if(parsedUrl.pathname === '/api/contact'){
+    const handled = await handleContactApi(request, response);
     if(handled) return;
   }
 

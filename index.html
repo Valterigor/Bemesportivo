@@ -2396,14 +2396,14 @@
     .home-editorial-card small b { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: #ff5a00; color: #fff; font-size: 15px; }
     .home-editorial-card-lead :is(h2, h3) { max-width: none; font-size: clamp(20px, 2vw, 28px); }
     .home-editorial-card-lead p { max-width: none; font-size: 14px; }
-    .home-editorial-launch { margin-top: clamp(20px, 3vw, 36px); margin-bottom: clamp(24px, 4vw, 46px); padding: clamp(28px, 4.5vw, 56px); border-radius: 28px; background: radial-gradient(circle at 92% 4%, rgba(255,90,0,.2), transparent 30%), #111111; box-shadow: 0 24px 70px rgba(17,17,17,.16); }
-    .home-editorial-launch .home-section-head-v2 > span { color: #ff7a2e; }
-    .home-editorial-launch .home-section-head-v2 > :is(h1, h2) { color: #ffffff; }
-    .home-editorial-launch .home-section-head-v2 > :is(h1, h2) em { color: #ff6818; font-style: normal; }
-    .home-editorial-launch .home-section-head-v2 > p { color: rgba(255,255,255,.7); }
-    .home-editorial-launch .home-section-head-v2 > a { border-color: #ff6818; background: #ff6818; color: #ffffff; box-shadow: 0 12px 28px rgba(255,90,0,.2); }
-    .home-editorial-launch .home-section-head-v2 > a:hover { background: #ff7b32; transform: translateY(-2px); }
-    .home-editorial-launch .home-editorial-card { border-color: rgba(255,255,255,.12); box-shadow: 0 16px 38px rgba(0,0,0,.22); }
+    .home-editorial-launch { margin-top: clamp(20px, 3vw, 36px); margin-bottom: clamp(24px, 4vw, 46px); padding: clamp(28px, 4.5vw, 56px); border: 1px solid #ead8cb; border-radius: 28px; background: radial-gradient(circle at 92% 2%, rgba(255,104,24,.28) 0%, rgba(255,104,24,.12) 26%, transparent 52%), radial-gradient(circle at 5% 100%, rgba(255,151,76,.14) 0%, transparent 38%), linear-gradient(135deg, #fffaf6 0%, #f4e7dc 100%); box-shadow: 0 20px 54px rgba(79,44,20,.1); }
+    .home-editorial-launch .home-section-head-v2 > span { color: #c64700; }
+    .home-editorial-launch .home-section-head-v2 > :is(h1, h2) { color: #211b17; }
+    .home-editorial-launch .home-section-head-v2 > :is(h1, h2) em { color: #e95400; font-style: normal; }
+    .home-editorial-launch .home-section-head-v2 > p { color: #625b55; }
+    .home-editorial-launch .home-section-head-v2 > a { border-color: #e95400; background: #e95400; color: #ffffff; box-shadow: 0 10px 24px rgba(185,66,0,.16); }
+    .home-editorial-launch .home-section-head-v2 > a:hover { background: #d94e00; transform: translateY(-2px); }
+    .home-editorial-launch .home-editorial-card { border-color: #e5d9d0; box-shadow: 0 14px 32px rgba(79,44,20,.1); }
     .home-editorial-launch + .home-hero-v2 { border: 1px solid #eee8e3; border-radius: 28px; box-shadow: 0 18px 54px rgba(17,17,17,.07); }
 
     /* Sistema de ações clean: hierarquia clara e menos peso visual. */
@@ -2480,14 +2480,14 @@
     .home-editorial-launch .home-section-head-v2 > a {
       min-height: 44px;
       padding-inline: 14px;
-      border: 1px solid rgba(255,255,255,.3);
+      border: 1px solid #d7a98d;
       border-radius: 10px;
-      background: transparent;
-      color: #ffffff;
+      background: rgba(255,255,255,.58);
+      color: #7a3007;
       box-shadow: none;
     }
     .home-editorial-launch .home-section-head-v2 > a:hover,
-    .home-editorial-launch .home-section-head-v2 > a:focus-visible { border-color: #ff6818; background: rgba(255,104,24,.1); transform: none; }
+    .home-editorial-launch .home-section-head-v2 > a:focus-visible { border-color: #e95400; background: #fff3e9; color: #5c2304; transform: none; }
     .home-editorial-card small b {
       width: auto;
       height: auto;
@@ -2508,13 +2508,21 @@
     .home-people-logo { justify-self: center; width: min(180px, 100%); }
     .home-people-signup { display: grid; gap: 18px; }
     .home-people-signup strong { max-width: 320px; color: #111; font-size: clamp(20px, 2vw, 28px); font-weight: 950; line-height: 1.08; }
-    .home-people-signup form { display: grid; grid-template-columns: minmax(0, 1fr) 54px; min-height: 58px; overflow: hidden; border: 1px solid rgba(17,17,17,.08); border-radius: 10px; background: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.8); }
-    .home-people-signup input { min-width: 0; border: 0; padding: 0 18px; color: #111; font: inherit; outline: 0; }
-    .home-people-signup input::placeholder { color: #b6b6b6; }
-    .home-people-signup button { display: grid; place-items: center; border: 0; background: #ff5a00; color: #fff; cursor: pointer; }
+    .home-people-signup form { display: grid; gap: 10px; }
+    .home-people-signup :is(input, select, textarea) { min-width: 0; width: 100%; border: 1px solid rgba(17,17,17,.1); border-radius: 10px; background: #fff; color: #111; font: inherit; outline: 0; }
+    .home-people-signup :is(input, select) { min-height: 50px; padding: 0 14px; }
+    .home-people-signup textarea { min-height: 92px; padding: 13px 14px; resize: vertical; line-height: 1.45; }
+    .home-people-signup :is(input, textarea)::placeholder { color: #9d9792; }
+    .home-people-signup :is(input, select, textarea):focus { border-color: #ff5a00; outline: 3px solid rgba(255,90,0,.13); }
+    .home-people-signup button { min-height: 48px; border: 0; border-radius: 10px; background: #ff5a00; color: #fff; font: 850 14px/1 Inter, sans-serif; cursor: pointer; }
+    .home-people-signup button:disabled { cursor: wait; opacity: .65; }
     .home-people-signup button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
     .home-people-signup small { color: #706b67; font-size: 11px; line-height: 1.45; }
-    .home-people-signup .home-newsletter-status { margin: -8px 0 0; color: #20734d; font-size: 12px; font-weight: 750; }
+    .home-people-signup .home-newsletter-status { margin: -8px 0 0; padding: 10px 12px; border-radius: 8px; background: #f1ece8; color: #4e4742; font-size: 12px; font-weight: 750; line-height: 1.45; }
+    .home-people-signup .home-newsletter-status[data-state="success"] { background: #e9f7ef; color: #176540; }
+    .home-people-signup .home-newsletter-status[data-state="error"] { background: #fff0ed; color: #9b2f1c; }
+    .home-people-signup .home-newsletter-status[data-state="fallback"] { background: #fff5e7; color: #7a4200; }
+    .home-contact-honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
     @media (max-width: 980px) {
       .home-hero-v2, .home-journey, .home-split, .home-tools-bridge { grid-template-columns: 1fr; }
       .home-hero-v2 {
@@ -2664,7 +2672,7 @@
       .home-journey-media .home-journey-action { position: relative; z-index: 3; align-self: center; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: min(100%, 440px); min-height: 82px; margin: 0; background: rgba(255,255,255,.42); }
       .home-people-quote { padding: 26px 20px; border-radius: 22px; }
       .home-people-quote blockquote { padding-left: 24px; font-size: clamp(28px, 8vw, 38px); }
-      .home-people-signup form { grid-template-columns: minmax(0, 1fr) 50px; min-height: 54px; }
+      .home-people-signup form { grid-template-columns: minmax(0, 1fr); }
       .home-people-logo { max-width: 132px; }
     }
     @media (max-width: 380px) {
@@ -3145,18 +3153,19 @@
         <blockquote>O esporte começa com pessoas</blockquote>
         <img class="home-people-logo" src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo" loading="lazy">
         <div class="home-people-signup">
-          <strong>Receba conteúdos que inspiram e transformam.</strong>
-          <form name="newsletter-bem" method="post" action="/?newsletter=recebido#receba-conteudos" data-netlify="true" netlify-honeypot="website">
-            <input type="hidden" name="form-name" value="newsletter-bem">
-            <p hidden><label>Não preencha este campo: <input name="website"></label></p>
-            <label class="sr-only" for="home-people-email">Seu melhor e-mail</label>
-            <input id="home-people-email" name="email" type="email" placeholder="Seu melhor e-mail" autocomplete="email" required>
-            <button type="submit" aria-label="Enviar e-mail">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
-            </button>
+          <strong>Tem uma dúvida ou solicitação?</strong>
+          <form data-contact-form data-contact-source="Home" aria-describedby="home-contact-status">
+            <label class="sr-only" for="home-people-email">Seu e-mail</label>
+            <input id="home-people-email" name="email" type="email" placeholder="Seu e-mail para resposta" autocomplete="email" required>
+            <label class="sr-only" for="home-contact-subject">Assunto</label>
+            <select id="home-contact-subject" name="subject" required><option value="duvida">Dúvida</option><option value="solicitacao">Solicitação</option><option value="pauta">Sugestão de pauta</option><option value="correcao">Correção de conteúdo</option><option value="parceria">Parceria ou proposta</option><option value="privacidade">Privacidade e dados</option><option value="outro">Outro assunto</option></select>
+            <label class="sr-only" for="home-contact-message">Sua mensagem</label>
+            <textarea id="home-contact-message" name="message" minlength="10" maxlength="3000" placeholder="Como podemos ajudar?" required></textarea>
+            <label class="home-contact-honeypot" aria-hidden="true">Não preencha este campo<input name="website" tabindex="-1" autocomplete="off"></label>
+            <button type="submit">Enviar mensagem</button>
           </form>
-          <small>Ao se inscrever, você concorda em receber conteúdos do BeMEsportivo. Consulte nossa <a href="/politica-de-privacidade">Política de Privacidade</a>.</small>
-          <p class="home-newsletter-status" id="home-newsletter-status" role="status" aria-live="polite" hidden tabindex="-1">Inscrição confirmada. Em breve você receberá nossos conteúdos.</p>
+          <small>A mensagem será encaminhada para <a href="mailto:bemesportivo@yahoo.com">bemesportivo@yahoo.com</a>. Consulte nossa <a href="/politica-de-privacidade">Política de Privacidade</a>.</small>
+          <p class="home-newsletter-status" id="home-contact-status" data-contact-status role="status" aria-live="polite" hidden tabindex="-1"></p>
         </div>
       </section>
     </main>
@@ -3205,14 +3214,9 @@
   </div>
   <script type="module" src="js/privacy-entry.js?v=20260723-2"></script>
   <script type="module" src="js/home-latest-reports.js?v=20260821-1"></script>
+  <script type="module" src="js/contact-form.js?v=20260821-1"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      if (new URLSearchParams(window.location.search).get('newsletter') === 'recebido') {
-        const newsletterStatus = document.getElementById('home-newsletter-status');
-        newsletterStatus.hidden = false;
-        newsletterStatus.focus();
-        window.history.replaceState({}, '', `${window.location.pathname}#receba-conteudos`);
-      }
       const topBtn = document.getElementById('topBtn');
       const homeVideoModal = document.getElementById('home-video-modal');
       const homeVideoPlayer = document.getElementById('home-video-player');
