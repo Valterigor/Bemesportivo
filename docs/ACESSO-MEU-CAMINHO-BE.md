@@ -16,14 +16,17 @@ Os dados locais nunca são enviados automaticamente no primeiro acesso. Depois d
    - Redirect URLs: `https://bemesportivo.com/meu-caminho-be*`
    - desenvolvimento: `http://localhost:3100/meu-caminho-be*`
 3. Manter a confirmação de e-mail ativa.
+   Em **Authentication > Bot and Abuse Protection**, ativar Cloudflare Turnstile ou hCaptcha para cadastro, login e recuperação. Em **Authentication > Rate Limits**, revisar os limites de produção. Em **Password Security**, exigir no mínimo 12 caracteres e, quando o plano permitir, bloquear senhas vazadas.
 4. Executar no SQL Editor o arquivo `supabase/migrations/202608210001_meu_caminho_accounts.sql`.
+   Depois, executar `supabase/migrations/202608210002_account_consent_records.sql`.
 5. No Cloudflare Pages, criar as variáveis:
    - `SUPABASE_URL`
    - `SUPABASE_PUBLISHABLE_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`, somente como segredo do backend, para a exclusão solicitada pela própria pessoa.
    - `SUPABASE_GOOGLE_ENABLED=true` somente depois de configurar o Google no Supabase.
 6. Fazer um novo deploy.
 
-A chave pública pode chegar ao navegador. Nunca configure `service_role`, `secret key` ou credenciais administrativas como chave pública do site.
+A chave pública pode chegar ao navegador. A `SUPABASE_SERVICE_ROLE_KEY` nunca pode ser retornada pela API de configuração, incluída no bundle ou configurada como variável pública.
 
 ## Teste de aceite
 
@@ -37,3 +40,4 @@ A chave pública pode chegar ao navegador. Nunca configure `service_role`, `secr
 8. Abrir outro navegador, entrar e confirmar a recuperação da jornada.
 9. Confirmar no Supabase que cada usuário enxerga somente a própria linha.
 10. Ativar Google, testar o retorno e somente então definir `SUPABASE_GOOGLE_ENABLED=true`.
+11. Excluir uma conta de teste, confirmar a remoção de `auth.users`, da jornada e dos consentimentos, e verificar que os dados locais foram preservados.

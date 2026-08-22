@@ -7,8 +7,11 @@ const MEALS_KEY = 'meuCaminhoBeMealsV1';
 const GUEST_KEY = 'meuCaminhoBeLocalAccessV1';
 const ACCOUNT_SYNC_KEY = 'meuCaminhoBeAccountSyncV1';
 const PENDING_REGISTER_KEY = 'meuCaminhoBePendingRegisterV1';
-const CONSENT_VERSION = '2026-08-21';
+const CONSENT_VERSION = '2026-08-21-account-sync-v2';
+const ACCOUNT_TERMS_VERSION = '2026-08-21';
+const PASSWORD_MIN_LENGTH = 12;
 const JOURNEY_TABLE = 'meu_caminho_journeys';
+const CONSENT_TABLE = 'meu_caminho_consent_records';
 
 const gateway = document.getElementById('be-auth-gateway');
 const card = gateway?.querySelector('.be-auth-card');
@@ -21,11 +24,13 @@ const setupMessage = document.getElementById('be-auth-setup');
 const accountEmail = document.getElementById('be-auth-account-email');
 const accountStatus = document.getElementById('be-auth-account-status');
 const syncChoice = document.getElementById('be-auth-sync-choice');
+const syncDisable = document.getElementById('be-auth-sync-disable');
 let authClient = null;
 let currentSession = null;
 let authConfigured = false;
 let syncTimer = 0;
 let pendingRegistrationAction = null;
+let pendingCloudSnapshot = null;
 const replayingActions = new WeakSet();
 
 function readJSON(key, fallback = null) {
@@ -52,6 +57,13 @@ function localSnapshot() {
   };
 }
 
+function cloudSnapshot() {
+  const snapshot = localSnapshot();
+  if (!snapshot.profile || typeof snapshot.profile !== 'object') return snapshot;
+  const { email, ...profileWithoutAccountEmail } = snapshot.profile;
+  return { ...snapshot, profile: profileWithoutAccountEmail };
+}
+
 function hasLocalData(snapshot = localSnapshot()) {
   return Boolean(snapshot.profile)
     || snapshot.tasks.length > 0
@@ -62,7 +74,9 @@ function hasLocalData(snapshot = localSnapshot()) {
 function applySnapshot(snapshot) {
   if (!snapshot || typeof snapshot !== 'object') return;
   const values = [
-    [PROFILE_KEY, snapshot.profile],
+    [PROFILE_KEY, snapshot.profile && typeof snapshot.profile === 'object'
+      ? { ...snapshot.profile, email: snapshot.profile.email || currentSession?.user?.email || '' }
+      : snapshot.profile],
     [TASK_KEY, Array.isArray(snapshot.tasks) ? snapshot.tasks : []],
     [DIARY_KEY, Array.isArray(snapshot.diary) ? snapshot.diary : []],
     [MEALS_KEY, Array.isArray(snapshot.meals) ? snapshot.meals : []]
@@ -97,8 +111,8 @@ function friendlyError(error) {
   const message = String(error?.message || error || '');
   if (/invalid login credentials/i.test(message)) return 'E-mail ou senha incorretos.';
   if (/email not confirmed/i.test(message)) return 'Confirme o e-mail enviado antes de entrar.';
-  if (/user already registered/i.test(message)) return 'Este e-mail já possui uma conta.';
-  if (/password.*(least|characters|weak)/i.test(message)) return 'Use uma senha com pelo menos 8 caracteres.';
+  if (/user already registered/i.test(message)) return 'Não foi possível criar a conta. Tente entrar ou recuperar sua senha.';
+  if (/password.*(least|characters|weak)/i.test(message)) return `Use uma senha com pelo menos ${PASSWORD_MIN_LENGTH} caracteres.`;
   if (/rate limit|too many/i.test(message)) return 'Muitas tentativas seguidas. Aguarde um pouco e tente novamente.';
   if (/network|fetch/i.test(message)) return 'Não foi possível conectar agora. Confira sua internet.';
   return 'Não foi possível concluir agora. Tente novamente.';
@@ -295,12 +309,23 @@ async function uploadJourney() {
   if (!authClient || !currentSession?.user || !readJSON(ACCOUNT_SYNC_KEY)) return;
   const { error } = await authClient.from(JOURNEY_TABLE).upsert({
     user_id: currentSession.user.id,
-    snapshot: localSnapshot(),
+    snapshot: cloudSnapshot(),
     consent_version: CONSENT_VERSION,
     updated_at: new Date().toISOString()
   }, { onConflict: 'user_id' });
   if (error) throw error;
   accountStatus.textContent = 'Jornada sincronizada com sua conta.';
+}
+
+async function recordSyncConsent(status) {
+  if (!authClient || !currentSession?.user) return;
+  const { error } = await authClient.from(CONSENT_TABLE).insert({
+    user_id: currentSession.user.id,
+    purpose: 'account_sync',
+    consent_version: CONSENT_VERSION,
+    status
+  });
+  if (error) throw error;
 }
 
 function queueJourneyUpload() {
@@ -314,8 +339,11 @@ function queueJourneyUpload() {
 async function prepareAccount() {
   renderSession();
   syncChoice.hidden = true;
+  syncDisable.hidden = true;
   accountStatus.textContent = '';
   if (!currentSession?.user || !authClient) return;
+
+  pendingCloudSnapshot = null;
 
   const { data, error } = await authClient
     .from(JOURNEY_TABLE)
@@ -328,14 +356,44 @@ async function prepareAccount() {
     return;
   }
 
+  const { data: consentRecord, error: consentError } = await authClient
+    .from(CONSENT_TABLE)
+    .select('status, consent_version, occurred_at')
+    .eq('user_id', currentSession.user.id)
+    .eq('purpose', 'account_sync')
+    .order('occurred_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (consentError) {
+    accountStatus.textContent = 'Sua conta está ativa. A sincronização aguarda a configuração do registro seguro de consentimento.';
+    return;
+  }
+
   const localData = localSnapshot();
   const localExists = hasLocalData(localData);
-  const syncEnabled = Boolean(readJSON(ACCOUNT_SYNC_KEY));
+  const syncEnabled = consentRecord?.status === 'granted';
+  syncDisable.hidden = !syncEnabled;
+  if (syncEnabled) {
+    localStorage.setItem(ACCOUNT_SYNC_KEY, JSON.stringify({
+      consentVersion: consentRecord.consent_version,
+      consentedAt: consentRecord.occurred_at
+    }));
+  } else {
+    localStorage.removeItem(ACCOUNT_SYNC_KEY);
+  }
   if (data?.snapshot && !localExists) {
-    applySnapshot(data.snapshot);
-    localStorage.setItem(ACCOUNT_SYNC_KEY, JSON.stringify({ consentVersion: CONSENT_VERSION, consentedAt: new Date().toISOString() }));
-    accountStatus.textContent = 'Sua jornada foi recuperada nesta conta.';
-    window.setTimeout(() => window.location.reload(), 700);
+    if (syncEnabled) {
+      applySnapshot(data.snapshot);
+      accountStatus.textContent = 'Sua jornada foi recuperada nesta conta.';
+      window.setTimeout(() => window.location.reload(), 700);
+      return;
+    }
+    pendingCloudSnapshot = data.snapshot;
+    syncChoice.hidden = false;
+    syncChoice.querySelector('strong').textContent = 'Trazer sua jornada para este aparelho?';
+    syncChoice.querySelector('p').textContent = 'Existe uma jornada nesta conta. Nada será baixado até você autorizar.';
+    document.getElementById('be-auth-sync-enable').textContent = 'Autorizar e baixar';
+    accountStatus.textContent = 'Sua conta está conectada, mas a jornada continua protegida na nuvem.';
     return;
   }
   if (syncEnabled) {
@@ -347,6 +405,9 @@ async function prepareAccount() {
   }
   if (localExists) {
     syncChoice.hidden = false;
+    syncChoice.querySelector('strong').textContent = 'Levar os dados deste aparelho para sua conta?';
+    syncChoice.querySelector('p').textContent = 'Seu perfil, planos, atividades e refeições poderão continuar em outros dispositivos.';
+    document.getElementById('be-auth-sync-enable').textContent = 'Salvar na minha conta';
     accountStatus.textContent = data?.snapshot
       ? 'Há dados nesta conta e neste aparelho. Nada será substituído sem sua escolha.'
       : 'Seus dados continuam somente neste aparelho até você autorizar.';
@@ -365,8 +426,8 @@ async function handleAuthenticated(session, { openAccount = false } = {}) {
 function validatePasswordPair(form) {
   const password = form.elements.password.value;
   const confirmation = form.elements.passwordConfirm.value;
-  if (password.length < 8) {
-    form.elements.password.setCustomValidity('Use pelo menos 8 caracteres.');
+  if (password.length < PASSWORD_MIN_LENGTH) {
+    form.elements.password.setCustomValidity(`Use pelo menos ${PASSWORD_MIN_LENGTH} caracteres.`);
     form.elements.password.reportValidity();
     return false;
   }
@@ -415,7 +476,12 @@ document.getElementById('be-auth-signup-form')?.addEventListener('submit', async
       password: form.elements.password.value,
       options: {
         emailRedirectTo: `${location.origin}/meu-caminho-be?conta=confirmada`,
-        data: { display_name: form.elements.name.value.trim() }
+        data: {
+          display_name: form.elements.name.value.trim(),
+          terms_version: ACCOUNT_TERMS_VERSION,
+          privacy_version: ACCOUNT_TERMS_VERSION,
+          terms_accepted_at: new Date().toISOString()
+        }
       }
     });
     if (error) throw error;
@@ -500,6 +566,42 @@ document.getElementById('be-auth-signout')?.addEventListener('click', async () =
   renderSession();
   setView('login');
 });
+document.getElementById('be-auth-delete-account')?.addEventListener('click', async event => {
+  if (!authClient || !currentSession?.access_token || !currentSession.user?.email) return;
+  const typedEmail = window.prompt('Para excluir sua conta e os dados sincronizados, digite o e-mail da conta:');
+  if (typedEmail === null) return;
+  if (typedEmail.trim().toLocaleLowerCase('pt-BR') !== currentSession.user.email.toLocaleLowerCase('pt-BR')) {
+    accountStatus.textContent = 'O e-mail informado não corresponde à conta conectada.';
+    return;
+  }
+  if (!window.confirm('Esta exclusão é definitiva. Os dados mantidos somente neste aparelho continuarão aqui. Deseja excluir a conta?')) return;
+  const button = event.currentTarget;
+  setLoading(button, true, 'Excluindo conta…');
+  accountStatus.textContent = 'Confirmando sua identidade e excluindo os dados sincronizados…';
+  try {
+    const response = await fetch('/api/account/delete', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${currentSession.access_token}`
+      },
+      body: JSON.stringify({ confirmation: 'DELETE_MY_ACCOUNT' })
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(payload.error || 'Não foi possível excluir a conta agora.');
+    await authClient.auth.signOut({ scope: 'local' }).catch(() => {});
+    currentSession = null;
+    localStorage.removeItem(ACCOUNT_SYNC_KEY);
+    renderSession();
+    setView('login');
+    feedback(document.getElementById('be-auth-login-form'), 'Conta e dados sincronizados excluídos. Os dados deste aparelho foram mantidos.', 'success');
+  } catch (error) {
+    accountStatus.textContent = error.message;
+  } finally {
+    setLoading(button, false);
+  }
+});
 document.getElementById('be-auth-sync-enable')?.addEventListener('click', async () => {
   const consent = document.getElementById('be-auth-sync-consent');
   if (!consent.checked) {
@@ -507,15 +609,36 @@ document.getElementById('be-auth-sync-enable')?.addEventListener('click', async 
     accountStatus.textContent = 'Confirme a autorização antes de sincronizar.';
     return;
   }
-  localStorage.setItem(ACCOUNT_SYNC_KEY, JSON.stringify({
-    consentVersion: CONSENT_VERSION,
-    consentedAt: new Date().toISOString()
-  }));
   try {
+    await recordSyncConsent('granted');
+    localStorage.setItem(ACCOUNT_SYNC_KEY, JSON.stringify({
+      consentVersion: CONSENT_VERSION,
+      consentedAt: new Date().toISOString()
+    }));
+    if (pendingCloudSnapshot) {
+      applySnapshot(pendingCloudSnapshot);
+      pendingCloudSnapshot = null;
+      accountStatus.textContent = 'Sua jornada foi recuperada nesta conta.';
+      window.setTimeout(() => window.location.reload(), 700);
+      return;
+    }
     await uploadJourney();
     syncChoice.hidden = true;
+    syncDisable.hidden = false;
   } catch {
+    localStorage.removeItem(ACCOUNT_SYNC_KEY);
     accountStatus.textContent = 'Não foi possível sincronizar agora. Tente novamente.';
+  }
+});
+syncDisable?.addEventListener('click', async () => {
+  if (!window.confirm('Parar a sincronização? A cópia já salva permanecerá protegida na conta até você excluí-la.')) return;
+  try {
+    await recordSyncConsent('revoked');
+    localStorage.removeItem(ACCOUNT_SYNC_KEY);
+    syncDisable.hidden = true;
+    accountStatus.textContent = 'Sincronização interrompida. Novas alterações ficarão somente neste aparelho.';
+  } catch {
+    accountStatus.textContent = 'Não foi possível interromper a sincronização agora. Tente novamente.';
   }
 });
 document.getElementById('be-auth-sync-later')?.addEventListener('click', () => {

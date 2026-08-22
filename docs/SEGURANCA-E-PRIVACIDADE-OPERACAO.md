@@ -19,12 +19,14 @@ Canal atual: `bemesportivo@yahoo.com`.
 | Recurso | Dados | Local | Retenção/controle |
 | --- | --- | --- | --- |
 | Meu Caminho Be | perfil, contexto de saúde, diário e progresso | navegador do usuário | até exclusão pelo usuário; histórico limitado pela aplicação |
-| Comunidade | apelido, texto, data, reações e denúncias | Netlify Blobs | até 24 meses e até 250 comentários por área |
+| Conta Meu Caminho Be | e-mail, identificador da conta, consentimento e jornada sem fotos do diário | Supabase | até exclusão da conta pela pessoa ou atendimento de solicitação válida |
+| Perfil público | nome/apelido, idade adulta, profissão, foto e publicações escolhidas | Cloudflare KV | enquanto ativo; perfil desativado expira em 180 dias se não for reativado |
+| Comunidade | apelido, texto, data, reações e denúncias | Cloudflare KV | até 24 meses e até 250 comentários por área |
 | Antispam | resumo criptográfico de IP e identificador do dispositivo | estado da API | janelas ativas de limitação; revisar e eliminar entradas antigas |
 | Privacidade | escolha sobre publicidade | navegador do usuário | até nova escolha ou limpeza do navegador |
 | Contato | dados enviados voluntariamente | canal de atendimento | somente pelo tempo necessário ao pedido e às obrigações legais |
 
-O segredo `COMMUNITY_RATE_LIMIT_SECRET` deve ser criado no ambiente da Netlify, com valor apropriado e nunca incluído no Git.
+Segredos de limitação, autenticação e operação devem existir apenas nos ambientes Cloudflare e Supabase apropriados, com acesso mínimo, rotação e nunca incluídos no Git.
 
 ## Atendimento de direitos LGPD
 
@@ -53,7 +55,7 @@ O segredo `COMMUNITY_RATE_LIMIT_SECRET` deve ser criado no ambiente da Netlify, 
 
 ## Rotina mensal
 
-- revisar acessos à Netlify, domínio, e-mail e repositório;
+- revisar acessos à Cloudflare, Supabase, domínio, e-mail e repositório;
 - remover contas e tokens sem uso;
 - verificar dependências, logs de erro, backups e formulários públicos;
 - testar exclusão/exportação do Meu Caminho Be;
@@ -70,3 +72,11 @@ O segredo `COMMUNITY_RATE_LIMIT_SECRET` deve ser criado no ambiente da Netlify, 
 - autenticação, recuperação de conta e proteção contra tomada de conta;
 - plano de resposta a incidentes com responsáveis nomeados;
 - comprovação de autorização de imagens, especialmente de menores.
+
+## Documentos operacionais obrigatórios
+
+- `docs/LGPD-REGISTRO-DE-TRATAMENTO.md` — inventário, finalidades, bases e retenção;
+- `docs/LGPD-DIREITOS-E-RETENCAO.md` — atendimento e exclusão;
+- `docs/LGPD-RESPOSTA-A-INCIDENTES.md` — contenção, comunicação e registro;
+- `docs/LGPD-RIPD-MEU-CAMINHO.md` — avaliação de impacto e risco residual;
+- `docs/LGPD-FORNECEDORES-E-TRANSFERENCIAS.md` — contratos e transferências.

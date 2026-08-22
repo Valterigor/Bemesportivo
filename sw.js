@@ -1,45 +1,47 @@
 'use strict';
 
-const CACHE_NAME = 'meu-caminho-be-v101';
-const APP_SHELL = [
+const CACHE_PREFIX = 'meu-caminho-be-';
+const CACHE_NAME = `${CACHE_PREFIX}v102`;
+const CORE_SHELL = [
   '/meu-caminho-be',
-  '/site-common.css?v=20260723-3',
-  '/css/design-system.css?v=20260723-2',
-  '/css/core/tokens.css?v=20260723-2',
-  '/css/core/primitives.css?v=20260723-1',
-  '/css/components/ui.css?v=20260723-1',
-  '/css/coluna-valtinho.css?v=20260721-1',
-  '/css/fala-bem-platform.css?v=20260815-2',
-  '/css/be-ia.css?v=20260729-1',
-  '/css/components/privacy-consent.css?v=20260723-1',
-  '/css/premium-refinement.css?v=20260723-2',
-  '/css/routine-calendar.css?v=20260722-1',
-  '/css/ui-polish.css?v=20260723-3',
-  '/css/meu-caminho-modern.css?v=20260806-1',
-  '/css/meu-caminho-diary.css?v=20260816-1',
-  '/css/meu-caminho-auth.css?v=20260821-1',
-  '/css/perfil-publico.css?v=20260815-1',
-  '/css/perfil-publico-controls.css?v=20260816-1',
-  '/js/site-common.js?v=20260807-1',
-  '/js/core/routes.js?v=20260807-1',
-  '/js/components/site-navigation.js?v=20260807-1',
+  '/site-common.css',
+  '/css/design-system.css',
+  '/css/core/tokens.css',
+  '/css/core/primitives.css',
+  '/css/components/ui.css',
+  '/css/components/privacy-consent.css',
+  '/css/components/community-comments.css',
+  '/css/coluna-valtinho.css',
+  '/css/fala-bem-platform.css',
+  '/css/be-ia.css',
+  '/css/premium-refinement.css',
+  '/css/routine-calendar.css',
+  '/css/ui-polish.css',
+  '/css/meu-caminho-modern.css',
+  '/css/meu-caminho-diary.css',
+  '/css/meu-caminho-auth.css',
+  '/js/site-common.js',
+  '/js/core/routes.js',
+  '/js/components/site-navigation.js',
   '/js/components/site-breadcrumb.js',
-  '/js/components/site-footer.js?v=20260723-1',
+  '/js/components/site-footer.js',
   '/js/components/privacy-consent.js',
-  '/js/components/analytics.js?v=20260723-1',
-  '/js/components/media-quality.js?v=20260723-1',
-  '/js/routine-calendar.js?v=20260807-1',
-  '/js/meu-caminho-auth.js?v=20260821-1',
-  '/js/meu-caminho-account.js?v=20260815-1',
+  '/js/components/analytics.js',
+  '/js/components/media-quality.js',
   '/js/components/back-to-top.js',
-  '/js/coluna-valtinho.js?v=20260722-2',
-  '/js/be-knowledge-library.js?v=20260813-3',
-  '/js/fala-bem-app.js?v=20260815-6',
-  '/js/be-ia.js?v=20260806-1',
-  '/js/meu-caminho-diary.js?v=20260815-3',
-  '/js/meu-caminho-public.js?v=20260816-1',
-  '/js/perfil-publico.js?v=20260816-1',
-  '/perfil-publico.html',
+  '/js/components/community-comments.js',
+  '/js/components/journey-reset.js',
+  '/js/routine-calendar.js',
+  '/js/meu-caminho-auth.js',
+  '/js/meu-caminho-account.js',
+  '/js/coluna-valtinho.js',
+  '/js/be-knowledge-library.js',
+  '/js/fala-bem-app.js',
+  '/js/be-ia.js',
+  '/js/meu-caminho-diary.js',
+  '/js/meu-caminho-public.js'
+];
+const OPTIONAL_SHELL = [
   '/img/logobemoficial.png',
   '/img/app-icon-192.png',
   '/img/app-icon-512.png',
@@ -50,7 +52,10 @@ const APP_SHELL = [
 ];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)));
+  event.waitUntil(caches.open(CACHE_NAME).then(async cache => {
+    await cache.addAll(CORE_SHELL);
+    await Promise.allSettled(OPTIONAL_SHELL.map(asset => cache.add(asset)));
+  }));
   self.skipWaiting();
 });
 
@@ -78,7 +83,9 @@ self.addEventListener('notificationclick', event => {
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))));
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys
+    .filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
+    .map(key => caches.delete(key)))));
   self.clients.claim();
 });
 
@@ -112,7 +119,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(fetch(request).then(response => {
       if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
       return response;
-    }).catch(() => caches.match(request)));
+    }).catch(() => caches.match(request, { ignoreSearch: true })));
     return;
   }
 

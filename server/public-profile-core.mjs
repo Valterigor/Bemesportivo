@@ -4,6 +4,7 @@ const slugPattern = /^be-[a-f0-9]{12}$/;
 const maximumBodyBytes = 900_000;
 const publicTermsVersion = '2026-08-15';
 const reportHideThreshold = 3;
+const disabledRetentionSeconds = 180 * 24 * 60 * 60;
 
 function json(payload, status = 200, cache = 'no-store') {
   return new Response(JSON.stringify(payload), {
@@ -180,7 +181,12 @@ export default async function publicProfileHandler(request, runtime) {
     if (!record) return json({ ok: true, disabled: true });
     record.profileStatus = 'disabled';
     record.updatedAt = new Date().toISOString();
-    await runtime.write(`public-profile:${owner.slug}`, record);
+    const ownerKey = `public-owner:${owner.id}`;
+    const ownerRecord = await runtime.read(ownerKey, null);
+    await Promise.all([
+      runtime.write(`public-profile:${owner.slug}`, record, { expirationTtl: disabledRetentionSeconds }),
+      ownerRecord ? runtime.write(ownerKey, ownerRecord, { expirationTtl: disabledRetentionSeconds }) : Promise.resolve()
+    ]);
     return json({ ok: true, disabled: true, slug: owner.slug });
   }
 
@@ -198,6 +204,8 @@ export default async function publicProfileHandler(request, runtime) {
     if (body.post && !post) return json({ error: 'Conte como foi e o que aconteceu antes de publicar.' }, 400);
     const now = new Date().toISOString();
     const current = await runtime.read(`public-profile:${owner.slug}`, null);
+    const ownerKey = `public-owner:${owner.id}`;
+    const ownerRecord = await runtime.read(ownerKey, null);
     const previousPost = post && Array.isArray(current?.posts) ? current.posts.find(item => item.clientId === post.clientId) : null;
     const posts = Array.isArray(current?.posts) ? current.posts.filter(item => !post || item.clientId !== post.clientId) : [];
     const profileStatus = current?.profileStatus === 'hidden' ? 'hidden' : 'published';
@@ -218,7 +226,10 @@ export default async function publicProfileHandler(request, runtime) {
       createdAt: current?.createdAt || now,
       updatedAt: now
     };
-    await runtime.write(`public-profile:${owner.slug}`, record);
+    await Promise.all([
+      runtime.write(`public-profile:${owner.slug}`, record),
+      ownerRecord ? runtime.write(ownerKey, ownerRecord) : Promise.resolve()
+    ]);
     return json({ ok: true, slug: owner.slug, profileStatus: record.profileStatus, postStatus: post ? postStatus : null, publicUrl: `/diario/${owner.slug}` }, current ? 200 : 201);
   }
 
@@ -243,4 +254,4 @@ export default async function publicProfileHandler(request, runtime) {
   return json({ error: 'Rota não encontrada.' }, 404);
 }
 
-export { sanitizeProfile, sanitizePost, publicRecord, publicTermsVersion };
+export { sanitizeProfile, sanitizePost, publicRecord, publicTermsVersion, disabledRetentionSeconds };

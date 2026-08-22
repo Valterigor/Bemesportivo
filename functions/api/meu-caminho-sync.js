@@ -1,4 +1,4 @@
-import { apiJson, apiOptions } from '../../server/cloudflare-api.mjs';
+import { apiJson, apiOptions, isSameOrigin } from '../../server/cloudflare-api.mjs';
 import { readJson, writeJson, getDataStore } from '../../server/cloudflare-kv.mjs';
 
 const maximumBodyBytes = 650_000;
@@ -58,6 +58,7 @@ async function authorizedRecord(env, id, token) {
 
 export async function onRequest({ request, env }) {
   if (request.method === 'OPTIONS') return apiOptions();
+  if (!isSameOrigin(request)) return apiJson({ error: 'Origem não autorizada.' }, 403);
 
   let body = {};
   if (['PUT', 'DELETE'].includes(request.method)) {

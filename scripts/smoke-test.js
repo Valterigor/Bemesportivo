@@ -19,6 +19,7 @@ const pages = [
   '/reportagens/elas-trazem-esperanca',
   '/reportagens/mayara-magnolia-papo-bem-esportivo',
   '/reportagens/sergio-lima-exemplo-de-vida',
+  '/reportagens/thais-garcez-metamorfose',
   '/meu-caminho-be',
   '/meu-caminho-be/registrar',
   '/meu-caminho-be/jornada',
@@ -180,6 +181,20 @@ async function run() {
     assert.doesNotMatch(pathHtml, /srcset="(?!\/)[^"]+"/, 'Imagens responsivas precisam funcionar nas subpáginas.');
     const reportListing = fs.readFileSync(path.join(root, 'reportagens.html'), 'utf8');
     assert.match(reportListing, /data-report-created="2026-08-20T21:24:51-03:00"[\s\S]*Thais Garcez, uma nova versão[\s\S]*Elas trazem esperança[\s\S]*Mayara e Magnólia no Papo Bem Esportivo[\s\S]*Sergio Lima, aos 61 anos[\s\S]*Mulheres em ação e movimento[\s\S]*Treino funcional reúne movimento[\s\S]*Dedicação e Talento Mirim em Campo[\s\S]*Duda e o Futebol/, 'As reportagens precisam aparecer da criação mais recente para a mais antiga.');
+    const thaisReport = fs.readFileSync(path.join(root, 'reportagem-thais-garcez-metamorfose.html'), 'utf8');
+    assert.match(thaisReport, /<h1>Thais Garcez, uma nova versão<\/h1>/);
+    assert.match(thaisReport, /class="report-video-layout"/);
+    assert.match(thaisReport, /img\/Thais%20Garcez\/thais-garcez-relato\.mp4/);
+    assert.match(thaisReport, /data-share-cover="\/img\/Thais%20Garcez\/thais-garcez-capa\.jpg"/);
+    assert.match(thaisReport, /data-share-cover-button/);
+    assert.match(thaisReport, /data-share-download/);
+    assert.ok(fs.existsSync(path.join(root, 'img', 'Thais Garcez', 'thais-garcez-relato.mp4')), 'Vídeo do relato de Thais ausente.');
+    const thaisVideo = await fetch(`${baseUrl}/img/Thais%20Garcez/thais-garcez-relato.mp4`, {
+      headers: { Range: 'bytes=0-1023' }
+    });
+    assert.equal(thaisVideo.status, 206);
+    assert.match(thaisVideo.headers.get('content-type') || '', /video\/mp4/);
+    assert.equal((await thaisVideo.arrayBuffer()).byteLength, 1024);
     const elasReport = fs.readFileSync(path.join(root, 'reportagem-elas-em-movimento-serra-talhada.html'), 'utf8');
     assert.match(elasReport, /Mulheres em ação e movimento/);
     assert.match(elasReport, /Shuenia Menezes e Daiana Cruz/);
@@ -250,6 +265,27 @@ async function run() {
       assert.match(reportHtml, /reportagens\.css\?v=20260814-7/, `A reportagem precisa carregar o modelo editorial atualizado: ${reportFile}`);
       assert.match(reportHtml, /data-share-copy/, `A reportagem precisa oferecer cópia direta do link: ${reportFile}`);
       assert.match(reportHtml, /class="report-path-bridge"[\s\S]*Começar minha trajetória/, `A reportagem precisa conectar leitura e trajetória: ${reportFile}`);
+    }
+    const allReportFiles = [
+      'reportagem-elas-em-movimento-serra-talhada.html',
+      'reportagem-treino-funcional.html',
+      'reportagem-dedicacao-talento-mirim.html',
+      'reportagem-duda-e-o-futebol.html',
+      'reportagem-elas-trazem-esperanca.html',
+      'reportagem-mayara-magnolia-papo-bem-esportivo.html',
+      'reportagem-sergio-lima-exemplo-de-vida.html',
+      'reportagem-thais-garcez-metamorfose.html'
+    ];
+    for (const reportFile of allReportFiles) {
+      const reportHtml = fs.readFileSync(path.join(root, reportFile), 'utf8');
+      assert.match(reportHtml, /data-report-comments="[^"]+"/, `A reportagem precisa incluir a seção de comentários: ${reportFile}`);
+      assert.match(reportHtml, /class="report-related"/, `A reportagem precisa incluir leituras relacionadas: ${reportFile}`);
+      assert.equal((reportHtml.match(/class="report-related-meta"/g) || []).length, 3, `A reportagem precisa recomendar três leituras: ${reportFile}`);
+    }
+    for (const reportFile of ['reportagem-treino-funcional.html', 'reportagem-dedicacao-talento-mirim.html', 'reportagem-duda-e-o-futebol.html']) {
+      const reportHtml = fs.readFileSync(path.join(root, reportFile), 'utf8');
+      assert.ok((reportHtml.match(/class="report-article-section"/g) || []).length >= 3, `A reportagem antiga precisa usar blocos editoriais padronizados: ${reportFile}`);
+      assert.match(reportHtml, /class="report-lead"/, `A reportagem antiga precisa destacar a abertura editorial: ${reportFile}`);
     }
     for (const image of ['mulheres-em-movimento-serra-talhada-interna.jpg', 'mulheres-em-movimento-serra-talhada-interna-640.webp', 'mulheres-em-movimento-serra-talhada-interna-960.webp', 'mulheres-em-movimento-serra-talhada-interna-1440.webp']) {
       assert.ok(fs.existsSync(path.join(root, 'img', image)), `Imagem interna da reportagem ausente: ${image}`);
@@ -593,20 +629,22 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = 'meu-caminho-be-v101'/);
-    assert.match(serviceWorker, /\/js\/site-common\.js\?v=20260807-1/);
-    assert.match(serviceWorker, /\/js\/core\/routes\.js\?v=20260807-1/);
-    assert.match(serviceWorker, /\/js\/components\/site-navigation\.js\?v=20260807-1/);
-    assert.match(serviceWorker, /\/js\/fala-bem-app\.js\?v=20260815-6/);
-    assert.match(serviceWorker, /\/css\/fala-bem-platform\.css\?v=20260815-2/);
-    assert.match(serviceWorker, /\/css\/meu-caminho-diary\.css\?v=20260816-1/);
-    assert.match(serviceWorker, /\/js\/meu-caminho-public\.js\?v=20260816-1/);
-    assert.match(serviceWorker, /\/css\/meu-caminho-modern\.css\?v=20260806-1/);
-    assert.match(serviceWorker, /\/img\/bruno-rafael-resende-treino-funcional\.jpg/);
-    assert.match(serviceWorker, /\/js\/be-knowledge-library\.js\?v=20260813-3/);
-    assert.match(serviceWorker, /\/js\/be-ia\.js\?v=20260806-1/);
-    assert.match(serviceWorker, /\/js\/meu-caminho-diary\.js\?v=20260815-3/);
-    assert.match(serviceWorker, /\/js\/routine-calendar\.js\?v=20260807-1/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v102`/);
+    const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
+    const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
+    const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]
+      .map(match => match[1]);
+    for (const asset of currentAppAssets) {
+      assert.ok(coreShell.includes(asset), `O cache offline precisa incluir a dependência atual ${asset}.`);
+    }
+    for (const asset of coreShell) {
+      assert.doesNotMatch(asset, /\?v=/, 'O app shell deve usar caminhos estáveis e ignorar a query somente no fallback offline.');
+    }
+    assert.ok(coreShell.includes('/css/components/community-comments.css'), 'O estilo carregado dinamicamente pelos comentários precisa funcionar offline.');
+    assert.match(serviceWorker, /cache\.addAll\(CORE_SHELL\)/, 'As dependências essenciais precisam ser instaladas como um conjunto completo.');
+    assert.match(serviceWorker, /Promise\.allSettled\(OPTIONAL_SHELL\.map/, 'Uma mídia opcional indisponível não pode cancelar a instalação do PWA.');
+    assert.match(serviceWorker, /caches\.match\(request, \{ ignoreSearch: true \}\)/, 'O fallback offline precisa aceitar a versão atual do HTML sem manter URLs antigas manualmente.');
+    assert.match(serviceWorker, /key\.startsWith\(CACHE_PREFIX\)/, 'A ativação deve remover apenas caches pertencentes ao Meu Caminho Be.');
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/meu-caminho-be\/'\)/, 'O app precisa continuar acessível offline em suas subpáginas.');
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 

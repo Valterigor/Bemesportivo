@@ -169,6 +169,7 @@ body.be-auth-locked {
 
 .be-auth-primary,
 .be-auth-secondary,
+.be-auth-danger,
 .be-auth-provider,
 .be-auth-local,
 .be-auth-text-action {
@@ -201,6 +202,16 @@ body.be-auth-locked {
   border: 1px solid var(--be-auth-line);
   background: #fff;
   color: var(--be-auth-ink);
+}
+
+.be-auth-danger {
+  border: 1px solid #c8412d;
+  background: #fff7f5;
+  color: #9d2d1d;
+}
+
+.be-auth-danger:hover {
+  background: #fee9e4;
 }
 
 .be-auth-text-action {

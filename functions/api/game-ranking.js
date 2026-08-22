@@ -1,4 +1,4 @@
-import { apiJson, apiOptions } from '../../server/cloudflare-api.mjs';
+import { apiJson, apiOptions, isSameOrigin } from '../../server/cloudflare-api.mjs';
 import { readJson, writeJson } from '../../server/cloudflare-kv.mjs';
 
 const rankingKey = 'game:ranking';
@@ -42,6 +42,9 @@ async function writeRanking(env, data) {
 
 export async function onRequest({ request, env }) {
   if (request.method === 'OPTIONS') return apiOptions();
+  if (request.method === 'POST' && !isSameOrigin(request)) {
+    return apiJson({ ok: false, error: 'Origem não autorizada.' }, 403);
+  }
 
   let data;
   try {
@@ -66,7 +69,6 @@ export async function onRequest({ request, env }) {
   if (request.method !== 'POST') {
     return apiJson({ ok: false, error: 'Método não permitido.' }, 405);
   }
-
   const input = await parseBody(request);
   const name = clean(input.name) || 'Atleta BE';
   const deviceId = clean(input.deviceId, 64);

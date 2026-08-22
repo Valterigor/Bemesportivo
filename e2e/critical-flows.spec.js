@@ -1,6 +1,44 @@
 const { test, expect } = require('@playwright/test');
 const path = require('node:path');
 
+test('PWA abre uma subpágina do Meu Caminho Be sem conexão', async ({ page, context }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const runtimeErrors = [];
+  page.on('pageerror', error => runtimeErrors.push(error.message));
+  page.on('console', message => {
+    if (message.type() === 'error' && !message.text().startsWith('Failed to load resource:')) runtimeErrors.push(message.text());
+  });
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+  });
+  await page.goto('/meu-caminho-be');
+  await page.evaluate(() => navigator.serviceWorker.ready);
+  await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+
+  await context.setOffline(true);
+  try {
+    const response = await page.goto('/meu-caminho-be/jornada');
+    expect(response?.status()).toBe(200);
+    await expect(page.locator('#fala-bem-app')).toBeVisible();
+    await expect(page.locator('.fb-app-nav [data-fb-view="progresso"]')).toHaveAttribute('aria-current', 'page');
+    const localStyles = await page.evaluate(() => [...document.styleSheets]
+      .filter(sheet => sheet.href?.startsWith(location.origin))
+      .map(sheet => {
+        try { return { href: sheet.href, rules: sheet.cssRules.length }; } catch { return { href: sheet.href, rules: -1 }; }
+      }));
+    expect(localStyles.filter(sheet => sheet.rules < 1), JSON.stringify(localStyles, null, 2)).toEqual([]);
+    expect(runtimeErrors).toEqual([]);
+  } finally {
+    await context.setOffline(false);
+  }
+});
+
 test('BEPlay oferece uma ação real para acompanhar o canal', async ({ page }) => {
   await page.goto('/beplay');
   const follow = page.getByRole('link', { name: 'Seguir o Bem Esportivo no Instagram' });
@@ -97,6 +135,7 @@ test('diário guarda foto local e envia publicação somente após escolha expl�
   let publishedBody = null;
   await page.addInitScript(() => {
     localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({ version: 2, necessary: true, measurement: false, advertising: false }));
+    localStorage.setItem('meuCaminhoBeLocalAccessV1', '1');
     localStorage.setItem('meuCaminhoBeContinuityCodeV1', 'A'.repeat(32));
     localStorage.setItem('meuCaminhoBeProfileV1', JSON.stringify({
       name: 'Atleta Teste', email: 'atleta@example.com', objective: 'comecar', publicAge: 32,

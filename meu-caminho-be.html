@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="/css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="/css/meu-caminho-modern.css?v=20260806-1">
 <link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260816-1">
-<link rel="stylesheet" href="/css/meu-caminho-auth.css?v=20260821-1">
+<link rel="stylesheet" href="/css/meu-caminho-auth.css?v=20260821-2">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -57,8 +57,8 @@
 <form class="be-auth-form" id="be-auth-signup-form" data-auth-panel="signup" hidden novalidate>
 <label for="be-auth-signup-name">Como podemos chamar você?<input id="be-auth-signup-name" name="name" autocomplete="name" maxlength="60" placeholder="Seu nome ou apelido" required></label>
 <label for="be-auth-signup-email">E-mail<input id="be-auth-signup-email" name="email" type="email" autocomplete="email" maxlength="160" placeholder="seuemail@exemplo.com" required></label>
-<label for="be-auth-signup-password">Crie uma senha<span class="be-auth-password-field"><input id="be-auth-signup-password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="No mínimo 8 caracteres" required><button type="button" data-password-toggle="be-auth-signup-password" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
-<label for="be-auth-signup-confirm">Confirme a senha<span class="be-auth-password-field"><input id="be-auth-signup-confirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="Digite novamente" required><button type="button" data-password-toggle="be-auth-signup-confirm" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
+<label for="be-auth-signup-password">Crie uma senha<span class="be-auth-password-field"><input id="be-auth-signup-password" name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" placeholder="No mínimo 12 caracteres" required><button type="button" data-password-toggle="be-auth-signup-password" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
+<label for="be-auth-signup-confirm">Confirme a senha<span class="be-auth-password-field"><input id="be-auth-signup-confirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="12" maxlength="128" placeholder="Digite novamente" required><button type="button" data-password-toggle="be-auth-signup-confirm" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
 <label class="be-auth-consent"><input type="checkbox" name="terms" required><span>Li e aceito os <a href="/termos" target="_blank" rel="noopener noreferrer">Termos de Uso</a> e a <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.</span></label>
 <button type="submit" class="be-auth-primary" data-idle-label="Criar minha conta">Criar minha conta</button>
 <p class="be-auth-feedback" data-auth-feedback role="status" aria-live="polite"></p>
@@ -74,8 +74,8 @@
 
 <form class="be-auth-form" id="be-auth-update-form" data-auth-panel="update" hidden novalidate>
 <p class="be-auth-form-copy">Crie uma nova senha para voltar ao seu caminho.</p>
-<label for="be-auth-update-password">Nova senha<span class="be-auth-password-field"><input id="be-auth-update-password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="No mínimo 8 caracteres" required><button type="button" data-password-toggle="be-auth-update-password" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
-<label for="be-auth-update-confirm">Confirme a nova senha<span class="be-auth-password-field"><input id="be-auth-update-confirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="Digite novamente" required><button type="button" data-password-toggle="be-auth-update-confirm" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
+<label for="be-auth-update-password">Nova senha<span class="be-auth-password-field"><input id="be-auth-update-password" name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" placeholder="No mínimo 12 caracteres" required><button type="button" data-password-toggle="be-auth-update-password" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
+<label for="be-auth-update-confirm">Confirme a nova senha<span class="be-auth-password-field"><input id="be-auth-update-confirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="12" maxlength="128" placeholder="Digite novamente" required><button type="button" data-password-toggle="be-auth-update-confirm" aria-label="Mostrar senha"><span aria-hidden="true">◉</span></button></span></label>
 <button type="submit" class="be-auth-primary" data-idle-label="Salvar nova senha">Salvar nova senha</button>
 <p class="be-auth-feedback" data-auth-feedback role="status" aria-live="polite"></p>
 </form>
@@ -93,7 +93,9 @@
 </div>
 <p class="be-auth-account-status" id="be-auth-account-status" role="status" aria-live="polite"></p>
 <button type="button" class="be-auth-primary" id="be-auth-continue">Continuar para o Meu Caminho</button>
+<button type="button" class="be-auth-secondary" id="be-auth-sync-disable" hidden>Parar sincronização</button>
 <button type="button" class="be-auth-secondary" id="be-auth-signout">Sair da conta</button>
+<button type="button" class="be-auth-danger" id="be-auth-delete-account" data-idle-label="Excluir conta e dados sincronizados">Excluir conta e dados sincronizados</button>
 </section>
 
 <div class="be-auth-options" data-auth-public-options>
@@ -103,7 +105,7 @@
 <button type="button" class="be-auth-local" id="be-auth-local">Continuar sem conta neste aparelho</button>
 </div>
 <p class="be-auth-setup" id="be-auth-setup" role="status" hidden>O acesso por conta está sendo configurado. Você ainda pode usar o Meu Caminho Be neste aparelho.</p>
-<small class="be-auth-trust-note">Seus dados não são usados para publicidade. Você pode exportar ou excluir sua conta.</small>
+<small class="be-auth-trust-note">Seus dados não são usados para publicidade. A sincronização é opcional e você pode excluir a conta e a cópia sincronizada.</small>
 </article>
 </div>
 </section>
@@ -847,7 +849,7 @@
 <div class="be-public-profile-status" id="be-public-profile-status" role="status"><span aria-hidden="true">◌</span><p>Ative, aceite os termos e salve. Sua página entrará no ar.</p></div>
 <a class="be-public-profile-link" id="be-public-profile-link" href="/perfil-publico" target="_blank" rel="noopener noreferrer" hidden>Visualizar Meu Diário BE</a>
 </section>
-<footer class="be-profile-form-footer"><p class="be-profile-privacy">🔒 Seus dados ficam neste aparelho e só entram na nuvem quando você ativa a continuidade criptografada.</p><div><button type="button" id="be-profile-cancel-edit" hidden>Cancelar</button><button type="submit" class="fb-primary-action" id="fb-profile-save">Salvar e ver meu perfil</button></div></footer>
+<footer class="be-profile-form-footer"><p class="be-profile-privacy">🔒 Seus dados ficam neste aparelho por padrão. Eles só entram na nuvem quando você autoriza a continuidade criptografada ou a sincronização com sua conta.</p><div><button type="button" id="be-profile-cancel-edit" hidden>Cancelar</button><button type="submit" class="fb-primary-action" id="fb-profile-save">Salvar e ver meu perfil</button></div></footer>
 </form>
 <p class="fb-profile-feedback" id="fb-profile-feedback" aria-live="polite"></p>
 <nav class="fb-section-actions" aria-label="Próximos passos após o perfil">
@@ -1603,7 +1605,7 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script type="module" src="/js/site-common.js?v=20260816-1"></script>
 <script type="module" src="/js/routine-calendar.js?v=20260807-1"></script>
-<script type="module" src="/js/meu-caminho-auth.js?v=20260821-1"></script>
+<script type="module" src="/js/meu-caminho-auth.js?v=20260821-2"></script>
 <script type="module" src="/js/meu-caminho-account.js?v=20260815-1"></script>
 <script src="/js/coluna-valtinho.js?v=20260722-2" defer></script>
 <script src="/js/be-knowledge-library.js?v=20260813-3" defer></script>

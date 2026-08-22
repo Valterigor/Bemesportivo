@@ -21,6 +21,16 @@ export function apiOptions() {
   return new Response(null, { status: 204, headers: corsHeaders });
 }
 
+export function isSameOrigin(request) {
+  const origin = request.headers.get('origin');
+  if (!origin) return true;
+  try {
+    return new URL(origin).origin === new URL(request.url).origin;
+  } catch {
+    return false;
+  }
+}
+
 export async function fetchText(url, accept, timeoutMs = 8000) {
   const response = await fetch(url, {
     headers: {

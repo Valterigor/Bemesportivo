@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import publicProfileHandler, { publicTermsVersion } from '../server/public-profile-core.mjs';
+import publicProfileHandler, { disabledRetentionSeconds, publicTermsVersion } from '../server/public-profile-core.mjs';
 
 const encoder = new TextEncoder();
 async function hashHex(value) {
@@ -8,9 +8,13 @@ async function hashHex(value) {
 }
 
 const records = new Map();
+const writeOptions = new Map();
 const runtime = {
   read: async (key, fallback = null) => records.has(key) ? structuredClone(records.get(key)) : fallback,
-  write: async (key, value) => records.set(key, structuredClone(value)),
+  write: async (key, value, options) => {
+    records.set(key, structuredClone(value));
+    writeOptions.set(key, structuredClone(options || {}));
+  },
   remove: async key => records.delete(key)
 };
 const id = 'a'.repeat(64);
@@ -71,10 +75,14 @@ assert.equal('ownerId' in visible, false);
 
 assert.equal((await call('disable', { method: 'POST', body: {} })).status, 200);
 assert.equal(records.get(key).profileStatus, 'disabled');
+assert.equal(writeOptions.get(key).expirationTtl, disabledRetentionSeconds);
+assert.equal(writeOptions.get(`public-owner:${id}`).expirationTtl, disabledRetentionSeconds);
 assert.equal((await call(published.slug, { authorized: false })).status, 404);
 const republish = await call('publish', { method: 'POST', body: { profile, acceptance } });
 assert.equal(republish.status, 200);
 assert.equal(records.get(key).profileStatus, 'published');
+assert.deepEqual(writeOptions.get(key), {});
+assert.deepEqual(writeOptions.get(`public-owner:${id}`), {});
 
 for (const reporter of ['visitor-1', 'visitor-2', 'visitor-3']) {
   const report = await call(`${published.slug}/report`, {
