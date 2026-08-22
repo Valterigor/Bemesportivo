@@ -131,8 +131,9 @@ test('painel mantém a chave na sessão e apresenta a fila de moderação', asyn
   expect(await page.evaluate(() => sessionStorage.getItem('beAdminSessionToken'))).toBe(token);
 });
 
-test('diário guarda foto local e envia publicação somente após escolha explícita', async ({ page }) => {
+test('diário mantém registros e fotos somente no aparelho durante o modo local', async ({ page }) => {
   let publishedBody = null;
+  let syncRequests = 0;
   await page.addInitScript(() => {
     localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({ version: 2, necessary: true, measurement: false, advertising: false }));
     localStorage.setItem('meuCaminhoBeLocalAccessV1', '1');
@@ -153,6 +154,10 @@ test('diário guarda foto local e envia publicação somente após escolha expl�
         : { ok: true, slug: 'be-aaaaaaaaaaaa', record: null })
     });
   });
+  await page.route('**/api/meu-caminho-sync**', async route => {
+    syncRequests += 1;
+    await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: 'Não deveria sincronizar no modo local.' }) });
+  });
   await page.goto('/meu-caminho-be/registrar');
   await page.locator('.fb-app-nav [data-fb-view="registrar"]').click();
   await page.locator('.be-register-panel [data-be-new-entry]').click();
@@ -163,14 +168,13 @@ test('diário guarda foto local e envia publicação somente após escolha expl�
   await dialog.getByLabel(/Como foi e o que aconteceu/).fill('Treino leve no parque com boa disposição.');
   await dialog.getByLabel('Escolher foto').setInputFiles(path.join(process.cwd(), 'img', 'app-icon-192.png'));
   await expect(dialog.locator('#be-entry-photo-preview')).toBeVisible();
-  await dialog.getByLabel('Compartilhar com todos').check();
+  await expect(dialog.getByLabel('Compartilhar com todos')).toBeDisabled();
   await dialog.getByRole('button', { name: 'Registrar no diário' }).click();
   await expect(dialog).toBeHidden();
-  await expect.poll(() => publishedBody).not.toBeNull();
-  expect(publishedBody.post.text).toContain('Treino leve no parque');
-  expect(publishedBody.post.imageDataUrl).toMatch(/^data:image\/jpeg;base64,/);
+  expect(publishedBody).toBeNull();
+  expect(syncRequests).toBe(0);
   const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('meuCaminhoBeDiaryV1') || '[]')[0]);
-  expect(saved.visibility).toBe('public');
-  expect(saved.publicStatus).toBe('pending');
+  expect(saved.visibility).toBe('private');
+  expect(saved.publicStatus).toBe('');
   expect(saved.imageDataUrl).toMatch(/^data:image\/jpeg;base64,/);
 });

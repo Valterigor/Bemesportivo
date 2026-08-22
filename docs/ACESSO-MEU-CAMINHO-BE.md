@@ -1,5 +1,11 @@
 # Acesso ao Meu Caminho Be
 
+## Estado temporário: modo local
+
+Enquanto o envio de e-mails de autenticação não estiver estável, a página usa `be-meu-caminho-mode=local-only`. Nesse modo, ações de registro e inclusão são liberadas sem login; perfil, agenda, diário, refeições e progresso permanecem no armazenamento do aparelho. Login, sincronização por conta, continuidade criptografada entre aparelhos e publicações externas ficam pausados. Nenhum dado local existente é apagado.
+
+Para reativar contas, primeiro valide cadastro, confirmação e recuperação de senha em produção. Depois altere o marcador da página, restaure o módulo de publicação, atualize a versão do cache e execute `npm run verify:full` antes do deploy.
+
 ## Experiência implementada
 
 O Meu Caminho Be abre normalmente, sem bloquear a leitura ou a navegação. A tela de acesso aparece quando a pessoa aciona uma ação que registra, inclui, altera ou exclui informações, ou quando escolhe **Entrar** no topo.

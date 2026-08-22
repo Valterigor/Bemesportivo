@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="be-meu-caminho-mode" content="local-only">
 
 <meta name="google-adsense-account" content="ca-pub-5105345296041597">
 <meta name="description" content="Meu Caminho Be é a sua trajetória esportiva: planeje o dia, registre o que viveu e compreenda sua história no esporte.">
@@ -124,8 +125,8 @@
 <span><strong>Meu Caminho Be</strong><small>por BeMEsportivo</small></span>
 </a>
 <div class="fb-app-topbar-actions">
-<span class="fb-app-saved-status" id="fb-connectivity-status"><i aria-hidden="true"></i>Dados ficam neste aparelho</span>
-<button type="button" class="be-auth-open" id="be-auth-open"><span aria-hidden="true">○</span><b>Entrar</b></button>
+<span class="fb-app-saved-status" id="fb-connectivity-status"><i aria-hidden="true"></i>Acesso livre · dados neste aparelho</span>
+<button type="button" class="be-auth-open" id="be-auth-open" hidden><span aria-hidden="true">○</span><b>Entrar</b></button>
 <button type="button" class="fb-mobile-menu-toggle" id="fb-mobile-menu-toggle" aria-label="Abrir menu" aria-controls="fb-mobile-drawer" aria-expanded="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
 <button type="button" class="fb-profile-trigger" data-fb-view="perfil" aria-label="Abrir meu perfil"><span class="fb-app-avatar" aria-hidden="true">BE</span><span>Meu perfil</span></button>
 </div>
@@ -807,7 +808,7 @@
 <header><span>CADASTRO</span><h3 id="be-profile-registration-title">Informações básicas</h3><p>Use os dados pelos quais você deseja ser reconhecido dentro da sua experiência.</p></header>
 <div class="be-profile-form-grid">
 <label for="fb-profile-name">Nome ou apelido<input id="fb-profile-name" name="name" maxlength="40" placeholder="Como podemos chamar você?" autocomplete="name" required></label>
-<label for="fb-profile-email">E-mail<input id="fb-profile-email" name="email" type="email" maxlength="120" placeholder="voce@email.com" autocomplete="email" required></label>
+<label for="fb-profile-email">E-mail <em>(opcional e salvo somente neste aparelho)</em><input id="fb-profile-email" name="email" type="email" maxlength="120" placeholder="voce@email.com" autocomplete="email"></label>
 <label for="fb-profile-age">Idade <em>(necessária no Meu Diário BE)</em><input id="fb-profile-age" name="age" type="number" min="18" max="120" inputmode="numeric" placeholder="Ex.: 34"></label>
 <label for="fb-profile-profession">Profissão <em>(opcional no diário privado)</em><input id="fb-profile-profession" name="profession" maxlength="60" placeholder="Ex.: professora, estudante, autônomo" autocomplete="organization-title"></label>
 <label for="fb-profile-city">Cidade <em>(opcional)</em><input id="fb-profile-city" name="city" maxlength="60" placeholder="Sua cidade" autocomplete="address-level2"></label>
@@ -842,7 +843,7 @@
 <header><span>MINHA HISTÓRIA</span><h3 id="be-profile-story-title">O que o esporte representa para você?</h3><p>Se quiser, conte sobre seus começos, pausas, pessoas, lembranças ou objetivos. O texto fica privado enquanto o Meu Diário BE estiver desativado.</p></header>
 <label for="fb-profile-story">Minha história no esporte <em>(opcional)</em><textarea id="fb-profile-story" name="story" maxlength="600" rows="6" placeholder="Ex.: Comecei a jogar com amigos na escola. Hoje quero voltar a me movimentar e criar mais momentos de lazer na semana."></textarea><small><span id="fb-profile-story-count">0</span>/600 caracteres</small></label>
 </section>
-<section class="be-profile-form-section be-public-profile-settings" aria-labelledby="be-public-profile-settings-title">
+<section class="be-profile-form-section be-public-profile-settings" aria-labelledby="be-public-profile-settings-title" hidden>
 <header><span>MEU DIÁRIO BE</span><h3 id="be-public-profile-settings-title">Quer ter um diário público?</h3><p>Ative esta opção para ter uma página simples com seus dados, textos e fotos. Seus registros de atividade continuam privados por padrão.</p></header>
 <label class="be-public-profile-toggle"><input type="checkbox" id="fb-profile-public-enabled" name="publicEnabled"><span><strong>Quero ativar o Meu Diário BE</strong><small>As pessoas verão sua foto, idade, profissão, esporte favorito, apresentação e somente as publicações que você compartilhar.</small></span></label>
 <label class="be-public-profile-consent" id="fb-profile-public-consent-wrap" hidden><input type="checkbox" id="fb-profile-public-consent" name="publicConsent"><span><strong>Confirmo que tenho 18 anos ou mais e quero publicar esta página.</strong><small>Li e aceito os <a href="/termos" target="_blank" rel="noopener noreferrer">Termos de Uso</a> e as <a href="/diretrizes-da-comunidade" target="_blank" rel="noopener noreferrer">Diretrizes da Comunidade</a>. A página entrará no ar imediatamente e poderá ser fiscalizada, denunciada ou removida.</small></span></label>
@@ -869,7 +870,7 @@
 </dl>
 </section>
 <section class="fb-account-card" id="fb-account-card" aria-labelledby="fb-account-title" data-account="unavailable">
-<div><span>CONTINUIDADE</span><h3 id="fb-account-title">Seu caminho em mais de um aparelho</h3><p id="fb-account-status" role="status">Verificando disponibilidade…</p><small id="fb-account-email"></small></div>
+<div><span>MODO LOCAL</span><h3 id="fb-account-title">Seu caminho permanece neste aparelho</h3><p id="fb-account-status" role="status">Acesso livre para registros e inclusões.</p><small id="fb-account-email"></small></div>
 <div class="fb-account-actions"><button type="button" class="fb-primary-action" id="fb-account-connect" hidden>Ativar continuidade</button><button type="button" id="fb-account-show-code" hidden>Ver meu código</button><button type="button" id="fb-account-sync-now" hidden>Sincronizar agora</button><button type="button" id="fb-account-logout" hidden>Desconectar código</button><button type="button" class="fb-account-danger" id="fb-account-cloud-delete" hidden>Excluir cópia da nuvem</button></div>
 </section>
 <div class="fb-profile-data"><strong>Seus dados, sob seu controle</strong><span>Baixe uma cópia ou restaure seu caminho neste navegador.</span><div><button type="button" id="fb-export-profile">Exportar meus dados</button><label for="fb-import-profile">Importar backup<input type="file" id="fb-import-profile" accept="application/json,.json" hidden></label></div><small>O arquivo pode conter informações pessoais e relatos da sua jornada. A importação substitui os dados atuais somente depois da sua confirmação.</small></div>
@@ -1597,7 +1598,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <div class="be-entry-media-actions"><label for="be-entry-photo">Escolher foto<input type="file" id="be-entry-photo" accept="image/jpeg,image/png,image/webp" hidden></label><button type="button" id="be-entry-photo-remove" hidden>Remover foto</button></div>
 <figure class="be-entry-photo-preview" id="be-entry-photo-preview" hidden><img id="be-entry-photo-preview-image" alt="Prévia da foto do registro"><figcaption>A foto será guardada com este registro.</figcaption></figure>
 </section>
-<fieldset class="be-entry-visibility"><legend>Onde deseja guardar?</legend><div><label><input type="radio" name="visibility" value="private" checked><span><strong>Só no meu diário</strong><small>Privado e disponível apenas para você.</small></span></label><label><input type="radio" name="visibility" value="public"><span><strong>Compartilhar com todos</strong><small>Aparece imediatamente na sua página pública e fica sujeito à fiscalização.</small></span></label></div><p id="be-entry-public-help">Privado é sempre o padrão. Somente esta escolha publica o registro.</p></fieldset>
+<fieldset class="be-entry-visibility"><legend>Onde deseja guardar?</legend><div><label><input type="radio" name="visibility" value="private" checked><span><strong>Só no meu diário</strong><small>Privado e disponível apenas neste aparelho.</small></span></label><label hidden><input type="radio" name="visibility" value="public" disabled><span><strong>Compartilhar com todos</strong><small>Publicações temporariamente pausadas.</small></span></label></div><p id="be-entry-public-help">Enquanto o acesso por conta está em ajuste, todos os registros ficam somente neste aparelho.</p></fieldset>
 <p class="be-form-feedback" id="be-entry-feedback" role="alert" aria-live="assertive"></p>
 <footer><button type="button" id="be-entry-delete" class="be-delete-entry" hidden>Excluir</button><span></span><button type="button" id="be-entry-cancel">Cancelar</button><button type="submit" class="be-save-entry">Registrar no diário</button></footer>
 </form>
@@ -1605,13 +1606,12 @@ Seu navegador não consegue reproduzir este vídeo.
 
 <script type="module" src="/js/site-common.js?v=20260816-1"></script>
 <script type="module" src="/js/routine-calendar.js?v=20260807-1"></script>
-<script type="module" src="/js/meu-caminho-auth.js?v=20260821-2"></script>
-<script type="module" src="/js/meu-caminho-account.js?v=20260815-1"></script>
+<script type="module" src="/js/meu-caminho-auth.js?v=20260822-1"></script>
+<script type="module" src="/js/meu-caminho-account.js?v=20260822-1"></script>
 <script src="/js/coluna-valtinho.js?v=20260722-2" defer></script>
 <script src="/js/be-knowledge-library.js?v=20260813-3" defer></script>
 <script src="/js/fala-bem-app.js?v=20260815-6" defer></script>
 <script src="/js/be-ia.js?v=20260806-1" defer></script>
-<script src="/js/meu-caminho-public.js?v=20260816-2" defer></script>
 <script src="/js/meu-caminho-diary.js?v=20260815-3" defer></script>
 
 </body>

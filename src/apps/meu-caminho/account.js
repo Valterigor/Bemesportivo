@@ -15,6 +15,7 @@ const SYNC_KEY = 'meuCaminhoBeSyncStateV1';
 const CODE_KEY = 'meuCaminhoBeContinuityCodeV1';
 const CONSENT_VERSION = '2026-07-30';
 const endpoint = '/api/meu-caminho-sync';
+const LOCAL_ONLY_MODE = document.querySelector('meta[name="be-meu-caminho-mode"]')?.content === 'local-only';
 
 const card = document.getElementById('fb-account-card');
 const dialog = document.getElementById('fb-account-dialog');
@@ -98,6 +99,10 @@ function setMessage(message, type = '') {
 
 function setTopStatus(connected) {
   if (!topStatus) return;
+  if (LOCAL_ONLY_MODE) {
+    topStatus.innerHTML = '<i aria-hidden="true"></i>Acesso livre · dados neste aparelho';
+    return;
+  }
   topStatus.innerHTML = connected
     ? '<i aria-hidden="true"></i>Continuidade protegida'
     : '<i aria-hidden="true"></i>Dados ficam neste aparelho';
@@ -182,6 +187,7 @@ async function copyCode() {
 }
 
 async function api(method = 'GET', body, activeIdentity = identity) {
+  if (LOCAL_ONLY_MODE) throw new Error('local-only-mode');
   if (!activeIdentity) throw new Error('missing-continuity-code');
   const url = `${endpoint}?id=${activeIdentity.id}`;
   const response = await fetch(url, {
@@ -216,6 +222,7 @@ function applyRemote(data, revision, updatedAt) {
 }
 
 async function upload({ force = false } = {}) {
+  if (LOCAL_ONLY_MODE) return;
   if (!identity || syncing) {
     queued = Boolean(identity);
     return;
@@ -260,6 +267,7 @@ async function upload({ force = false } = {}) {
 }
 
 async function initialSync() {
+  if (LOCAL_ONLY_MODE) return;
   if (!identity) return;
   setMessage('Verificando sua continuidade…');
   try {
@@ -293,12 +301,14 @@ async function initialSync() {
 }
 
 function queueSync() {
+  if (LOCAL_ONLY_MODE) return;
   if (!identity) return;
   window.clearTimeout(syncTimer);
   syncTimer = window.setTimeout(() => upload(), 1200);
 }
 
 async function connectWithCode(rawCode) {
+  if (LOCAL_ONLY_MODE) throw new Error('local-only-mode');
   const candidate = await deriveContinuityIdentity(rawCode);
   const remote = await api('GET', undefined, candidate);
   if (!remote.exists) throw new Error('continuity-code-not-found');
@@ -324,6 +334,16 @@ async function connectWithCode(rawCode) {
 
 async function initialize() {
   if (!card) return;
+  if (LOCAL_ONLY_MODE) {
+    identity = null;
+    card.dataset.account = 'local-only';
+    document.getElementById('fb-account-email').textContent = '';
+    ['fb-account-connect', 'fb-account-show-code', 'fb-account-sync-now', 'fb-account-logout', 'fb-account-cloud-delete']
+      .forEach(id => { document.getElementById(id).hidden = true; });
+    setMessage('A continuidade entre aparelhos está temporariamente pausada. Seus registros permanecem somente neste aparelho.', 'success');
+    setTopStatus(false);
+    return;
+  }
   const savedCode = localStorage.getItem(CODE_KEY);
   if (savedCode) {
     try {

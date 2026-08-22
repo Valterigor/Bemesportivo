@@ -1,3 +1,5 @@
+const meuCaminhoLocalOnly=document.querySelector('meta[name="be-meu-caminho-mode"]')?.content==='local-only';
+
 function toggleTexto(id,button){
 const el=document.getElementById(id);
 const willOpen=el.style.display!=='block';
@@ -460,6 +462,9 @@ try{return String(JSON.parse(localStorage.getItem('meuCaminhoBeProfileV1')||'nul
 }
 
 async function pathCommunityRequest(path,options={}){
+if(meuCaminhoLocalOnly&&String(options.method||'GET').toUpperCase()!=='GET'){
+throw new Error('Publicações comunitárias temporariamente pausadas. Seus registros pessoais continuam somente neste aparelho.');
+}
 if(!pathCommunityApi) throw new Error('Comunidade indisponível em arquivo local.');
 const response=await fetch(`${pathCommunityApi}${path}`,{headers:{'Content-Type':'application/json',...(options.headers||{})},cache:'no-store',...options});
 const payload=await response.json();

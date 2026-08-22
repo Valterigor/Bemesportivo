@@ -12,6 +12,7 @@ const ACCOUNT_TERMS_VERSION = '2026-08-21';
 const PASSWORD_MIN_LENGTH = 12;
 const JOURNEY_TABLE = 'meu_caminho_journeys';
 const CONSENT_TABLE = 'meu_caminho_consent_records';
+const LOCAL_ONLY_MODE = document.querySelector('meta[name="be-meu-caminho-mode"]')?.content === 'local-only';
 
 const gateway = document.getElementById('be-auth-gateway');
 const card = gateway?.querySelector('.be-auth-card');
@@ -232,7 +233,7 @@ function protectedForm(form) {
 }
 
 function accessDecisionMade() {
-  return Boolean(currentSession) || localStorage.getItem(GUEST_KEY) === '1';
+  return LOCAL_ONLY_MODE || Boolean(currentSession) || localStorage.getItem(GUEST_KEY) === '1';
 }
 
 document.addEventListener('click', event => {
@@ -654,6 +655,18 @@ window.addEventListener('online', queueJourneyUpload);
 
 async function initialize() {
   if (!gateway || !card) return;
+  if (LOCAL_ONLY_MODE) {
+    localStorage.setItem(GUEST_KEY, '1');
+    localStorage.removeItem(ACCOUNT_SYNC_KEY);
+    sessionStorage.removeItem(PENDING_REGISTER_KEY);
+    pendingRegistrationAction = null;
+    currentSession = null;
+    openButton.hidden = true;
+    setupMessage.hidden = false;
+    setupMessage.textContent = 'Acesso livre temporário: registros, diário e perfil ficam somente neste aparelho.';
+    hideGateway();
+    return;
+  }
   bindViewTargets();
   const config = await loadConfiguration();
   if (!authConfigured) setUnavailable();
