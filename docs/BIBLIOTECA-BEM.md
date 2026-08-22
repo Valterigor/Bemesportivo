@@ -30,7 +30,7 @@ Nenhuma pergunta livre é salva. O histórico guarda somente identificador, inte
 
 ### Interações do produto
 
-`buildInteraction(type, context)` oferece respostas determinísticas para acontecimentos reais do Meu Caminho Be. A versão 1.1.0 cobre:
+`buildInteraction(type, context)` oferece respostas determinísticas para acontecimentos reais do Meu Caminho Be. A versão 1.3.0 cobre 18 tipos de interação e três variações editoriais por mensagem central:
 
 - plano do dia salvo;
 - primeira atividade e atividade atualizada;
@@ -40,6 +40,23 @@ Nenhuma pergunta livre é salva. O histórico guarda somente identificador, inte
 - atividade e check-in diário salvos;
 - pausa registrada;
 - refeição registrada sem nota, culpa ou julgamento.
+- perfil atualizado;
+- revisão semanal concluída;
+- tarefa concluída e lembrete combinado;
+- confirmação de armazenamento local;
+- restauração de backup.
+
+## Variedade com coerência
+
+A biblioteca não sorteia frases sem contexto. Ela escolhe uma variação a partir do tipo de acontecimento, da data e de elementos não sensíveis do próprio registro. Assim:
+
+- a mesma ação mantém uma resposta estável no mesmo contexto;
+- novos dias e novos registros podem receber outras formulações;
+- cada frase continua obedecendo à mesma intenção editorial e ao mesmo limite de segurança;
+- o sistema não usa diagnóstico, aparência, peso ou informação clínica para escolher uma frase;
+- alertas de segurança permanecem diretos e não são suavizados pela variação editorial.
+
+A cobertura declarada pela versão 1.3.0 inclui 9 intenções de resposta, 18 tipos de interação, 5 momentos de chegada e pelo menos 3 variações em cada núcleo de comunicação. Isso representa dezenas de frases editoriais e centenas de combinações possíveis entre título, mensagem, orientação e contexto.
 
 O planejamento continua sendo uma intenção. Para contar o que realmente aconteceu, a pessoa é conduzida ao registro diário; o sistema não transforma automaticamente um plano em atividade concluída.
 
@@ -78,8 +95,8 @@ As fontes sustentam princípios gerais. Elas não transformam respostas automát
 
 ## Versão e revisão
 
-- Versão atual: `1.1.0`
-- Revisão editorial interna: `2026-08-07`
+- Versão atual: `1.3.0`
+- Revisão editorial interna: `2026-08-21`
 - Estado: `editorial-pending-professional`
 
 A data acima registra a revisão interna do produto; não representa aprovação por profissional habilitado. Textos de saúde, dor, lesão, alimentação, recuperação ou retorno precisam dessa revisão profissional antes da publicação definitiva.

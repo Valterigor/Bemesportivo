@@ -2791,7 +2791,7 @@ function renderArrivalCheckin() {
   const message = document.getElementById('be-arrival-message');
   if (!message) return;
   const plan = getDailyPlans().find(item => item.date === localDayKey()) || null;
-  const moment = window.BeKnowledgeLibrary?.buildArrivalMoment?.(plan?.arrival);
+  const moment = window.BeKnowledgeLibrary?.buildArrivalMoment?.(plan?.arrival, { date: plan?.date || localDayKey() });
   if (moment?.message) message.textContent = moment.message;
   document.querySelectorAll('[data-be-arrival]').forEach(button => {
     const selected = button.dataset.beArrival === plan?.arrival;
@@ -3882,7 +3882,16 @@ document.getElementById('fb-week-review-form')?.addEventListener('submit', event
   const weeklyReviews = [...(currentProfile?.weeklyReviews || []).filter(item => item.weekStart !== weekStart), review].slice(-26);
   saveProfile({ weeklyReviews });
   window.dispatchEvent(new CustomEvent('bemEsportivo:analytics', { detail: { name: 'weekly_review', detail: review.decision } }));
-  showCelebration('Semana revisada!', `Sua próxima direção é ${weeklyDecisionLabels[review.decision]}.`);
+  const interaction = buildLocalInteraction('weekly_review_saved', {
+    name: currentProfile?.name,
+    date: weekStart,
+    decision: review.decision
+  }, {
+    title: 'Semana revisada!',
+    message: `Sua próxima direção é ${weeklyDecisionLabels[review.decision]}.`,
+    detail: 'Você pode rever essa escolha se a sua realidade mudar.'
+  });
+  showCelebration(interaction.title, interaction.message, { detail: interaction.detail });
 });
 
 document.getElementById('be-profile-edit')?.addEventListener('click', () => {
@@ -3963,9 +3972,12 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
   document.getElementById('fb-profile-feedback').textContent = name
     ? `Perfil salvo, ${name}.${publicEnabled ? ' Sua página pública já pode ser aberta e compartilhada.' : story ? ' Sua história também foi guardada.' : ` Modalidade base: ${sportLabel}.`}`
     : `Perfil salvo neste navegador. Modalidade base: ${sportLabel}.`;
-  showCelebration('Perfil atualizado!', name
-    ? `Muito bem, ${name}. Seu perfil agora tem uma identidade por modalidade.`
-    : 'Seu perfil agora tem uma identidade por modalidade.');
+  const interaction = buildLocalInteraction('profile_saved', { name, activityLabel: sportLabel }, {
+    title: 'Perfil atualizado!',
+    message: name ? `Muito bem, ${name}. Seu perfil agora tem uma identidade por modalidade.` : 'Seu perfil agora tem uma identidade por modalidade.',
+    detail: 'Você pode atualizar essas informações quando quiser.'
+  });
+  showCelebration(interaction.title, interaction.message, { detail: interaction.detail });
   window.setTimeout(() => {
     const presentation = document.getElementById('be-profile-presentation');
     presentation?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -4242,7 +4254,17 @@ document.querySelectorAll('#fb-day-reminder-options [data-reminder-minutes],#fb-
       if (remindAt <= new Date()) remindAt.setHours(new Date().getHours() + 1, 0, 0, 0);
     }
     saveDailyPlan({ ...plan, status: 'snoozed', remindAt: remindAt.toISOString(), notifiedAt: '' });
-    showCelebration('Lembrete combinado!', `Vamos lembrar você às ${new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' }).format(remindAt)}.`);
+    const reminderTime = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' }).format(remindAt);
+    const interaction = buildLocalInteraction('reminder_saved', {
+      name: currentProfile?.name,
+      time: reminderTime,
+      date: localDayKey()
+    }, {
+      title: 'Lembrete combinado!',
+      message: `Vamos lembrar você às ${reminderTime}.`,
+      detail: 'Você pode adaptar o plano se o dia mudar.'
+    });
+    showCelebration(interaction.title, interaction.message, { detail: interaction.detail });
   });
 });
 
@@ -4518,7 +4540,12 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:tasks-imported'));
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated', { detail: { ready: Boolean(sanitized?.objective), source: 'backup' } }));
     document.getElementById('fb-profile-feedback').textContent = `Backup restaurado: ${diary.length} ${diary.length === 1 ? 'atividade' : 'atividades'} e ${meals.length} ${meals.length === 1 ? 'refeição' : 'refeições'}.`;
-    showCelebration('Backup restaurado!', 'Tudo certo. Seus dados foram validados e já estão disponíveis neste aparelho.');
+    const interaction = buildLocalInteraction('backup_restored', { name: sanitized?.name }, {
+      title: 'Backup restaurado!',
+      message: 'Tudo certo. Seus dados foram validados e já estão disponíveis neste aparelho.',
+      detail: 'Revise o painel para confirmar as informações restauradas.'
+    });
+    showCelebration(interaction.title, interaction.message, { detail: interaction.detail });
     if (sanitized) window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-onboarding', { detail: { ...sanitized } }));
   } catch (error) {
     const message = String(error?.message || error);

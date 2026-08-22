@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'meu-caminho-be-';
-const CACHE_NAME = `${CACHE_PREFIX}v103`;
+const CACHE_NAME = `${CACHE_PREFIX}v104`;
 const CORE_SHELL = [
   '/meu-caminho-be',
   '/site-common.css',

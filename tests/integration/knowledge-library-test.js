@@ -70,7 +70,7 @@ const fatigue = answerFor('Estou cansado e dormi mal.', { latestLog: { feeling: 
 assert.equal(fatigue.intent, 'fatigue');
 assert.equal(fatigue.tone, 'care');
 assert.equal(fatigue.primary[1], 'rest');
-assert.match(fatigue.title, /não falta de compromisso/i);
+assert.match(fatigue.title, /falta de compromisso/i);
 
 const nutrition = answerFor('O que faço com minha alimentação?');
 assert.equal(nutrition.primary[1], 'nutrition');
@@ -105,12 +105,44 @@ const interactionScenarios = [
   ['daily_checkin_saved', { name: 'João' }],
   ['daily_checkin_updated', {}],
   ['rest_recorded', { name: 'João' }],
-  ['meal_saved', { mealLabel: 'Almoço' }]
+  ['meal_saved', { mealLabel: 'Almoço' }],
+  ['profile_saved', { name: 'João' }],
+  ['weekly_review_saved', { name: 'João', date: '2026-08-17' }],
+  ['task_completed', { name: 'João' }],
+  ['reminder_saved', { name: 'João', time: '18:30' }],
+  ['local_data_saved', {}],
+  ['backup_restored', { name: 'João' }]
 ];
 
 interactionScenarios.forEach(([type, context]) => assertInteractionContract(library.buildInteraction(type, context), type));
 assert.match(library.buildInteraction('return_after_pause', { gapDays: 20 }).message, /20 dias/);
-assert.match(library.buildInteraction('plan_saved', { activityLabel: 'Corrida', time: '18:30', duration: 30 }).detail, /intenção/i);
+assert.match(library.buildInteraction('plan_saved', { activityLabel: 'Corrida', time: '18:30', duration: 30 }).detail, /intenção|planejar/i);
 assert.match(library.buildInteraction('meal_saved', { mealLabel: 'Almoço' }).message, /sem nota, culpa/i);
+
+assert.deepEqual(library.coverage, {
+  responseIntents: 9,
+  interactionTypes: 18,
+  arrivalMoments: 5,
+  variantsPerCoreMessage: 3
+});
+
+const stableA = library.buildInteraction('activity_saved', { activityLabel: 'Corrida', duration: 20, variantSeed: 'registro-1' });
+const stableB = library.buildInteraction('activity_saved', { activityLabel: 'Corrida', duration: 20, variantSeed: 'registro-1' });
+assert.deepEqual(stableA, stableB, 'A mesma interação deve manter a mesma frase para o mesmo contexto.');
+
+const interactionVariants = new Set(Array.from({ length: 24 }, (_, index) => library.buildInteraction('activity_saved', {
+  activityLabel: 'Corrida', duration: 20, variantSeed: `registro-${index}`
+}).title));
+assert.equal(interactionVariants.size, 3, 'Os acontecimentos centrais devem oferecer três variações editoriais.');
+
+const responseVariants = new Set(Array.from({ length: 24 }, (_, index) => library.buildResponse('Estou sem tempo hoje.', {
+  ...baseContext, variantSeed: `resposta-${index}`
+}).title));
+assert.equal(responseVariants.size, 3, 'As respostas por intenção devem oferecer três variações editoriais.');
+
+['ready', 'short', 'tired', 'returning', 'present'].forEach(arrival => {
+  const messages = new Set(Array.from({ length: 24 }, (_, index) => library.buildArrivalMoment(arrival, { variantSeed: `chegada-${index}` }).message));
+  assert.equal(messages.size, 3, `O momento ${arrival} deve oferecer três formas de acolhimento.`);
+});
 
 console.log(`Biblioteca BeM aprovada: versão ${library.version}, segurança, linguagem e ${9 + interactionScenarios.length} cenários validados.`);

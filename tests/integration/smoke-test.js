@@ -333,6 +333,10 @@ async function run() {
     assert.match(homeHtml, /<main class="home-redesign">\s*<section class="shell home-section-v2 home-editorial-feature home-editorial-launch"[\s\S]*<section class="shell home-hero-v2" id="inicio"/, 'A Home precisa abrir com reportagens e conduzir para o hero de jornada.');
     assert.match(homeHtml, /id="home-hero-title">Descubra <span>seu caminho<\/span> no esporte\./, 'O novo hero precisa preservar a chamada principal do Bem Esportivo.');
     assert.match(homeHtml, /class="shell home-steps"[\s\S]*Descobrir[\s\S]*Começar[\s\S]*Evoluir[\s\S]*Permanecer/, 'A Home precisa apresentar as quatro etapas da jornada.');
+    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\/jornada\/mapa"/, 'Descobrir precisa abrir a criação do Mapa BeM.');
+    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\/registrar"/, 'Começar precisa abrir o registro do primeiro passo.');
+    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\/jornada\/evolucao"/, 'Evoluir precisa abrir a leitura de evolução.');
+    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\/jornada"/, 'Permanecer precisa abrir o diário da jornada.');
     assert.match(homeHtml, /id="home-content-title">Histórias que colocam o esporte <em>em movimento\.<\/em>/, 'A Home precisa apresentar a vitrine editorial principal.');
     assert.match(homeHtml, /class="home-editorial-grid" data-report-order="inclusion-desc" data-latest-reports-source="\/reportagens"[\s\S]*Thais Garcez, uma nova versão[\s\S]*Elas trazem esperança[\s\S]*Mayara e Magnólia no Papo Bem Esportivo/, 'A vitrine editorial precisa manter como fallback as três reportagens mais recentes do acervo.');
     assert.match(homeHtml, /src="js\/home-latest-reports\.js\?v=20260821-1"/, 'A Home precisa sincronizar seus destaques com a listagem de reportagens.');
@@ -427,7 +431,7 @@ async function run() {
     assert.match(pathHtml, /id="be-ia"[^>]*aria-labelledby="be-ia-title"/);
     assert.match(pathHtml, /id="be-ia-context"/);
     assert.match(pathHtml, /id="be-ia-answer"[^>]*aria-live="polite"/);
-    assert.match(pathHtml, /js\/be-knowledge-library\.js\?v=20260813-3/);
+    assert.match(pathHtml, /js\/be-knowledge-library\.js\?v=20260821-4/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260806-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260815-6/);
@@ -628,7 +632,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v103`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v104`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]
