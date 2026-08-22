@@ -2252,10 +2252,6 @@
     .home-hero-copy p { max-width: 380px; color: #626262; font-size: clamp(14px, 1.5vw, 17px); line-height: 1.5; }
     .home-hero-actions, .home-primary, .home-secondary, .home-dark-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
     .home-hero-actions { flex-wrap: wrap; margin-top: 22px; }
-    .home-moment-choices { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-    .home-moment-choices > span { flex-basis: 100%; color: #737373; font-size: 12px; font-weight: 700; }
-    .home-moment-choices a { min-height: 34px; padding: 0 12px; display: inline-flex; align-items: center; border: 1px solid #e7e0db; border-radius: 999px; background: rgba(255,255,255,.72); color: #35302c; font-size: 12px; font-weight: 800; transition: border-color .2s ease, color .2s ease, background .2s ease; }
-    .home-moment-choices a:hover, .home-moment-choices a:focus-visible { border-color: #ff5a00; background: #fff5ef; color: #a63d00; }
     .home-primary, .home-dark-btn { min-height: 48px; padding: 0 22px; border: 0; border-radius: 999px; background: #ff5a00; color: #fff; box-shadow: 0 18px 35px rgba(255,90,0,.25); font-size: 14px; font-weight: 900; }
     .home-secondary { min-height: 50px; padding: 0 20px; border: 1px solid #e8e1dc; border-radius: 999px; background: #fff; color: #171717; font-size: 14px; font-weight: 850; }
     .home-hero-media { position: absolute; inset: 0 0 0 34%; overflow: hidden; border-radius: 0 0 0 70px; }
@@ -2408,7 +2404,7 @@
     .home-editorial-launch .home-section-head-v2 > a { border-color: #e95400; background: #e95400; color: #ffffff; box-shadow: 0 10px 24px rgba(185,66,0,.16); }
     .home-editorial-launch .home-section-head-v2 > a:hover { background: #d94e00; transform: translateY(-2px); }
     .home-editorial-launch .home-editorial-card { border-color: #e5d9d0; box-shadow: 0 14px 32px rgba(79,44,20,.1); }
-    .home-editorial-launch + .home-hero-v2 { border: 1px solid #eee8e3; border-radius: 28px; box-shadow: 0 18px 54px rgba(17,17,17,.07); }
+    .home-redesign > .home-hero-v2 { margin-top: clamp(20px, 3vw, 36px); border: 1px solid #eee8e3; border-radius: 28px; box-shadow: 0 18px 54px rgba(17,17,17,.07); }
 
     /* Sistema de ações clean: hierarquia clara e menos peso visual. */
     .home-page .nav-chip {
@@ -2458,18 +2454,6 @@
     }
     .home-secondary:hover,
     .home-secondary:focus-visible { color: #b64400; text-decoration-color: #ff5a00; }
-    .home-moment-choices { gap: 6px 18px; }
-    .home-moment-choices a {
-      min-height: 30px;
-      padding: 0;
-      border: 0;
-      border-radius: 0;
-      background: transparent;
-      color: #59524d;
-      font-weight: 750;
-    }
-    .home-moment-choices a:hover,
-    .home-moment-choices a:focus-visible { border-color: transparent; background: transparent; color: #c34800; }
     .home-section-head-v2 > a,
     .home-panel-head a {
       min-height: 40px;
@@ -2607,9 +2591,6 @@
         gap: 10px;
         width: 100%;
       }
-      .home-moment-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .home-moment-choices > span { grid-column: 1 / -1; }
-      .home-moment-choices a { justify-content: center; padding-inline: 8px; text-align: center; }
       .home-primary, .home-secondary, .home-dark-btn {
         width: 100%;
         min-height: 48px;
@@ -2716,7 +2697,7 @@
           <nav class="category-nav" aria-label="Categorias">
             <a class="nav-chip active" href="/"><svg class="icon" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>Início</a>
             <a class="nav-chip" href="/meu-caminho-be"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"></path></svg>Meu Caminho Be</a>
-            <a class="nav-chip" href="/meu-caminho-be/perfil" aria-label="Abrir Perfil no Meu Caminho Be"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg>Perfil</a>
+            <a class="nav-chip" href="/meu-caminho-be?tela=perfil" aria-label="Abrir Perfil no Meu Caminho Be"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg>Perfil</a>
             <a class="nav-chip" href="/game.html"><svg class="icon" viewBox="0 0 24 24"><path d="M6 8h12a4 4 0 0 1 4 4v3a3 3 0 0 1-5 2l-2-2H9l-2 2a3 3 0 0 1-5-2v-3a4 4 0 0 1 4-4Z"></path><path d="M7 11v4M5 13h4M16 12h.01M19 14h.01"></path></svg>Game 3D</a>
             <a class="nav-chip" href="/reportagens"><svg class="icon" viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>Reportagens</a>
             <a class="nav-chip" href="/beplay"><svg class="icon" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg>BEplay</a>
@@ -2728,6 +2709,55 @@
     </header>
 
     <main class="home-redesign">
+      <section class="shell home-hero-v2" id="inicio" aria-labelledby="home-hero-title">
+        <div class="home-hero-copy">
+          <span class="home-kicker">Bem Esportivo</span>
+          <h1 id="home-hero-title">Descubra <span>seu caminho</span> no esporte.</h1>
+          <p><strong>O Meu Caminho Be é uma experiência gratuita:</strong> você conta seu momento, recebe um próximo passo e acompanha sua evolução sem comparação ou cobrança.</p>
+          <div class="home-hero-actions">
+            <a class="home-primary" href="/meu-caminho-be?tela=mapa">Descobrir meu caminho <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="home-hero-media" aria-label="Imagem principal do Bem Esportivo">
+          <picture>
+            <source type="image/webp" srcset="img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w, img/fala-bem-hero-pessoas-optimized-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 64vw">
+            <img src="img/fala-bem-hero-pessoas-optimized.jpg" alt="Pessoas correndo ao ar livre em uma jornada esportiva" width="1536" height="1024" decoding="async">
+          </picture>
+        </div>
+      </section>
+
+      <nav class="shell home-steps" id="como-funciona" aria-label="Como funciona o Meu Caminho Be em quatro etapas">
+        <a href="/meu-caminho-be?tela=mapa" aria-label="Descobrir: criar meu Mapa BeM"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"></path><circle cx="12" cy="12" r="7"></circle></svg></span><strong>Descobrir</strong><p>Entenda quem você é e onde quer chegar.</p><small>Criar meu Mapa BeM →</small></a>
+        <a href="/meu-caminho-be?tela=registrar" aria-label="Começar: registrar meu primeiro passo"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"></path></svg></span><strong>Começar</strong><p>Dê o primeiro passo com direção.</p><small>Registrar meu passo →</small></a>
+        <a href="/meu-caminho-be?tela=evolucao" aria-label="Evoluir: acompanhar minha evolução"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 17 6-6 4 4 6-9"></path><path d="M14 6h6v6"></path></svg></span><strong>Evoluir</strong><p>Acompanhe seu progresso e continue avançando.</p><small>Ver minha evolução →</small></a>
+        <a href="/meu-caminho-be?tela=progresso" aria-label="Permanecer: continuar minha jornada"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 3 6 6 .9-4.5 4.4 1 6.2L12 17.5 6.5 20.5l1-6.2L3 9.9 9 9l3-6Z"></path></svg></span><strong>Permanecer</strong><p>Transforme o esporte em estilo de vida.</p><small>Continuar minha jornada →</small></a>
+      </nav>
+
+      <section class="shell home-journey" id="meu-caminho" aria-labelledby="home-journey-title">
+        <div class="home-journey-copy">
+          <span>Meu Caminho Be</span>
+          <h2 id="home-journey-title">Seu diário <em>esportivo digital.</em></h2>
+          <p>Registre o que viveu, reconheça seu ritmo e encontre uma forma mais leve de permanecer em movimento. Sem comparação, sem pressa — do seu jeito.</p>
+          <div class="home-journey-proof" aria-label="Como funciona o Meu Caminho Be">
+            <span>Seu caminho em três movimentos</span>
+            <div><i aria-hidden="true"></i>Registre o que aconteceu</div>
+            <div><i aria-hidden="true"></i>Perceba o seu ritmo</div>
+            <div><i aria-hidden="true"></i>Escolha um próximo passo possível</div>
+          </div>
+          <a class="home-dark-btn" href="/meu-caminho-be?tela=mapa">Começar meu Caminho <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="home-journey-media">
+          <picture>
+            <source type="image/webp" srcset="img/jornada-esportiva-atleta-por-do-sol.webp" sizes="(max-width: 900px) 100vw, 100vw">
+            <img src="img/jornada-esportiva-atleta-por-do-sol.png" alt="Atleta em uma pista ao pôr do sol, em um momento de pausa e continuidade esportiva" loading="lazy" width="1536" height="1024">
+          </picture>
+          <a class="home-journey-action" href="/meu-caminho-be?tela=registrar"><strong>Registre</strong><small>Guarde cada treino, jogo ou recomeço.</small></a>
+          <a class="home-journey-action" href="/meu-caminho-be?tela=evolucao"><strong>Perceba</strong><small>Entenda o que faz sentido para sua rotina.</small></a>
+          <a class="home-journey-action" href="/meu-caminho-be?tela=progresso"><strong>Continue</strong><small>Valorize pequenas ações que mantêm você em movimento.</small></a>
+          <a class="home-journey-action" href="/meu-caminho-be?tela=comunidade"><strong>Compartilhe</strong><small>Faça do esporte uma história que é sua.</small></a>
+        </div>
+      </section>
+
       <section class="shell home-section-v2 home-editorial-feature home-editorial-launch" id="reportagens-em-destaque" aria-labelledby="home-content-title">
         <div class="home-section-head-v2">
           <span>Reportagens Bem Esportivo</span>
@@ -2738,7 +2768,7 @@
         <!-- Fallback estático e sincronização automática com as primeiras matérias de /reportagens. -->
         <div class="home-editorial-grid" data-report-order="inclusion-desc" data-latest-reports-source="/reportagens">
           <a class="home-editorial-card home-editorial-card-lead" href="/reportagens/thais-garcez-metamorfose" data-report-id="thais-garcez-metamorfose" data-inclusion-order="8">
-            <img src="img/Thais%20Garcez/thais-garcez-capa.jpg" alt="Thais Garcez em ambiente de academia" width="738" height="1600" fetchpriority="high" decoding="async">
+            <img src="img/Thais%20Garcez/thais-garcez-capa.jpg" alt="Thais Garcez em ambiente de academia" width="738" height="1600" loading="lazy" decoding="async">
             <span class="home-editorial-category">Musculação, saúde e transformação pessoal</span>
             <h3>Thais Garcez, uma nova versão</h3>
             <p>Uma mudança física que se transformou em disciplina, conhecimento e uma nova forma de viver.</p>
@@ -2761,73 +2791,17 @@
         </div>
       </section>
 
-      <section class="shell home-hero-v2" id="inicio" aria-labelledby="home-hero-title">
-        <div class="home-hero-copy">
-          <span class="home-kicker">Bem Esportivo</span>
-          <h1 id="home-hero-title">Descubra <span>seu caminho</span> no esporte.</h1>
-          <p>O esporte não é só desempenho. É pertencimento, rotina e caminho. Encontre um próximo passo possível para o seu momento.</p>
-          <div class="home-hero-actions">
-            <a class="home-primary" href="/meu-caminho-be">Criar meu Caminho <span aria-hidden="true">→</span></a>
-            <a class="home-secondary" href="#meu-caminho">Encontrar meu momento</a>
-          </div>
-          <nav class="home-moment-choices" aria-label="Escolha uma intenção para sua jornada">
-            <span>Hoje eu quero:</span>
-            <a href="/meu-caminho-be/registrar">Começar</a>
-            <a href="/meu-caminho-be/jornada/evolucao">Evoluir</a>
-            <a href="/reportagens">Inspirar-me</a>
-          </nav>
-        </div>
-        <div class="home-hero-media" aria-label="Imagem principal do Bem Esportivo">
-          <picture>
-            <source type="image/webp" srcset="img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w, img/fala-bem-hero-pessoas-optimized-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 64vw">
-            <img src="img/fala-bem-hero-pessoas-optimized.jpg" alt="Pessoas correndo ao ar livre em uma jornada esportiva" width="1536" height="1024" decoding="async">
-          </picture>
-        </div>
-      </section>
-
-      <nav class="shell home-steps" aria-label="Etapas do caminho esportivo">
-        <a href="/meu-caminho-be?tela=mapa" aria-label="Descobrir: criar meu Mapa BeM"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"></path><circle cx="12" cy="12" r="7"></circle></svg></span><strong>Descobrir</strong><p>Entenda quem você é e onde quer chegar.</p><small>Criar meu Mapa BeM →</small></a>
-        <a href="/meu-caminho-be?tela=registrar" aria-label="Começar: registrar meu primeiro passo"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"></path></svg></span><strong>Começar</strong><p>Dê o primeiro passo com direção.</p><small>Registrar meu passo →</small></a>
-        <a href="/meu-caminho-be?tela=evolucao" aria-label="Evoluir: acompanhar minha evolução"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 17 6-6 4 4 6-9"></path><path d="M14 6h6v6"></path></svg></span><strong>Evoluir</strong><p>Acompanhe seu progresso e continue avançando.</p><small>Ver minha evolução →</small></a>
-        <a href="/meu-caminho-be?tela=progresso" aria-label="Permanecer: continuar minha jornada"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 3 6 6 .9-4.5 4.4 1 6.2L12 17.5 6.5 20.5l1-6.2L3 9.9 9 9l3-6Z"></path></svg></span><strong>Permanecer</strong><p>Transforme o esporte em estilo de vida.</p><small>Continuar minha jornada →</small></a>
-      </nav>
-
-      <section class="shell home-journey" id="meu-caminho" aria-labelledby="home-journey-title">
-        <div class="home-journey-copy">
-          <span>Meu Caminho Be</span>
-          <h2 id="home-journey-title">Seu diário <em>esportivo digital.</em></h2>
-          <p>Registre o que viveu, reconheça seu ritmo e encontre uma forma mais leve de permanecer em movimento. Sem comparação, sem pressa — do seu jeito.</p>
-          <div class="home-journey-proof" aria-label="Como funciona o Meu Caminho Be">
-            <span>Seu caminho em três movimentos</span>
-            <div><i aria-hidden="true"></i>Registre o que aconteceu</div>
-            <div><i aria-hidden="true"></i>Perceba o seu ritmo</div>
-            <div><i aria-hidden="true"></i>Escolha um próximo passo possível</div>
-          </div>
-          <a class="home-dark-btn" href="/meu-caminho-be">Começar meu Caminho <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="home-journey-media">
-          <picture>
-            <source type="image/webp" srcset="img/jornada-esportiva-atleta-por-do-sol.webp" sizes="(max-width: 900px) 100vw, 100vw">
-            <img src="img/jornada-esportiva-atleta-por-do-sol.png" alt="Atleta em uma pista ao pôr do sol, em um momento de pausa e continuidade esportiva" loading="lazy" width="1536" height="1024">
-          </picture>
-          <a class="home-journey-action" href="/meu-caminho-be/registrar"><strong>Registre</strong><small>Guarde cada treino, jogo ou recomeço.</small></a>
-          <a class="home-journey-action" href="/meu-caminho-be/jornada/evolucao"><strong>Perceba</strong><small>Entenda o que faz sentido para sua rotina.</small></a>
-          <a class="home-journey-action" href="/meu-caminho-be/jornada"><strong>Continue</strong><small>Valorize pequenas ações que mantêm você em movimento.</small></a>
-          <a class="home-journey-action" href="/meu-caminho-be#participe"><strong>Compartilhe</strong><small>Faça do esporte uma história que é sua.</small></a>
-        </div>
-      </section>
-
       <section class="shell home-tools-bridge" aria-labelledby="home-tools-title">
         <div>
           <span>Ferramentas Be</span>
           <h2 id="home-tools-title">Ferramentas para o seu ritmo.</h2>
           <p>Referências simples para ajudar você a compreender melhor a sua rotina esportiva.</p>
-          <a href="/meu-caminho-be/ferramentas">Ver todas as ferramentas <span aria-hidden="true">→</span></a>
+          <a href="/meu-caminho-be?tela=ferramentas">Ver todas as ferramentas <span aria-hidden="true">→</span></a>
         </div>
         <div class="home-tools-list">
-          <a href="/meu-caminho-be/ferramentas?ferramenta=imc"><strong>Calculadora IMC</strong><small>Use peso e altura como referência educativa.</small></a>
-          <a href="/meu-caminho-be/ferramentas?ferramenta=pace"><strong>Calculadora Pace</strong><small>Entenda o seu ritmo por quilômetro.</small></a>
-          <a href="/meu-caminho-be/ferramentas?ferramenta=agua"><strong>Água diária</strong><small>Defina uma meta de hidratação possível.</small></a>
+          <a href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=imc"><strong>Calculadora IMC</strong><small>Use peso e altura como referência educativa.</small></a>
+          <a href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=pace"><strong>Calculadora Pace</strong><small>Entenda o seu ritmo por quilômetro.</small></a>
+          <a href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=agua"><strong>Água diária</strong><small>Defina uma meta de hidratação possível.</small></a>
         </div>
       </section>
 
@@ -2859,7 +2833,7 @@
 
       <section class="shell home-content-bridge" aria-label="Continue sua jornada esportiva">
         <div><span>Depois de assistir</span><strong>Transforme inspiração em um próximo passo.</strong></div>
-        <a href="/meu-caminho-be/registrar">Registrar minha atividade <span aria-hidden="true">→</span></a>
+        <a href="/meu-caminho-be?tela=registrar">Registrar minha atividade <span aria-hidden="true">→</span></a>
       </section>
 
       <section class="shell ecosystem-hero home-path-feature" aria-labelledby="ecosystem-hero-title">
@@ -2974,7 +2948,7 @@
             <span>Descobrir</span><i aria-hidden="true">→</i><span>Começar</span><i aria-hidden="true">→</i><span>Evoluir</span><i aria-hidden="true">→</i><span>Permanecer</span>
           </div>
         </div>
-        <div class="ecosystem-hub" id="como-funciona" aria-label="Áreas conectadas do Bem Esportivo">
+        <div class="ecosystem-hub" id="como-funciona-legado" aria-label="Áreas conectadas do Bem Esportivo">
           <div class="ecosystem-hub-head">
             <span class="ecosystem-hub-mark" aria-hidden="true">Be</span>
             <span><small>Escolha seu próximo passo</small><strong>O que você precisa agora?</strong></span>

@@ -11,6 +11,9 @@ test('etapas da home abrem o assunto e o próximo passo correspondentes', async 
       updatedAt: new Date().toISOString()
     }));
   });
+  await page.goto('/');
+  await expect(page.locator('.home-redesign > section').first()).toHaveAttribute('id', 'inicio');
+  await expect(page.getByText('O Meu Caminho Be é uma experiência gratuita:')).toBeVisible();
   const stages = [
     ['Descobrir: criar meu Mapa BeM', /\/meu-caminho-be\/jornada$/, '#minha-jornada'],
     ['Começar: registrar meu primeiro passo', /\/meu-caminho-be\/registrar$/, '[data-fb-panel="registrar"]'],

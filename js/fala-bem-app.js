@@ -107,6 +107,8 @@ const legacyViewForRoute = {
   mapa: 'jornada',
   registrar: 'registrar',
   progresso: 'progresso',
+  ferramentas: 'ferramentas',
+  comunidade: 'comunidade',
   jornada: 'progresso',
   evolucao: 'evolucao',
   explorar: 'explorar',
