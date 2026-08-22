@@ -1,5 +1,7 @@
 # Meu Caminho Be 2.0
 
+> Nota de arquitetura (21/08/2026): este documento preserva decisões e alternativas avaliadas durante a evolução do produto. Referências à Netlify descrevem a proposta anterior. A produção atual usa Cloudflare Pages, Pages Functions, Workers KV e Supabase. Consulte [ARCHITECTURE.md](ARCHITECTURE.md) para a arquitetura vigente.
+
 ## Especificação de produto, experiência e arquitetura
 
 Status: proposta para implementação incremental

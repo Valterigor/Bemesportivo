@@ -1,0 +1,7 @@
+name = "bemesportivo"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-07-30"
+
+[[env.production.kv_namespaces]]
+binding = "BE_DATA"
+id = "c14e9a5a746c4f459063ce7d7711efeb"

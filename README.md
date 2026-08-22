@@ -1,31 +1,54 @@
 # Bem Esportivo
 
-Site editorial e plataforma esportiva publicados estaticamente a partir da raiz do repositório.
+Plataforma editorial e esportiva publicada no Cloudflare Pages, com páginas estáticas, APIs em Pages Functions, autenticação Supabase e tarefas agendadas em Cloudflare Workers.
 
-## Desenvolvimento
+## Começar
+
+Requisitos: Node.js 20.18 ou superior, dentro da linha 20–22, e npm.
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-O servidor local disponibiliza o site em `http://localhost:3100`. Antes de publicar:
+O servidor local fica disponível em `http://localhost:3100`.
+
+## Comandos principais
 
 ```bash
-npm run verify
-git diff --check
-git status --short
+npm run check        # qualidade de código e estrutura
+npm run build        # gera dist/
+npm test             # testes de integração
+npm run test:e2e     # fluxos reais no navegador
+npm run verify:full  # validação completa
 ```
 
-## Organização
+## Estrutura
 
-- `*.html`: páginas públicas; permanecem na raiz para preservar URLs e SEO.
-- `css/` e `js/`: estilos e scripts compartilhados ou específicos de páginas.
-- `img/` e `videos/`: somente mídia efetivamente publicada.
-- `functions/`, `server/`, `workers/` e `netlify/`: APIs e compatibilidade de infraestrutura.
-- `scripts/`: build, testes e manutenção.
-- `docs/`: arquitetura, decisões e documentação histórica.
-- `testes/`: protótipos isolados que não participam do deploy.
-- `.local-reference/`: importações, capturas e fontes locais; não é versionada nem publicada.
+```text
+├── *.html                  páginas públicas e URLs canônicas
+├── css/ e js/              arquivos entregues ao navegador
+├── img/ e videos/          mídia publicada e referenciada
+├── src/apps/               fontes editáveis que geram bundles em js/
+├── functions/              APIs do Cloudflare Pages
+├── server/                 regras compartilhadas pelo backend
+├── workers/                tarefas agendadas e suas configurações
+├── supabase/               configuração e migrações do banco
+├── scripts/                build, servidor local e manutenção
+├── tests/                  testes de integração e navegador
+├── docs/                   arquitetura, operação, segurança e produto
+├── archive/                código histórico fora do build
+└── .local-reference/       mídia bruta e referências locais ignoradas
+```
 
-Consulte [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para as regras completas, [docs/PROJECT-INVENTORY.md](docs/PROJECT-INVENTORY.md) para o inventário e [ESTRUTURA.md](ESTRUTURA.md) para a rotina operacional.
+As páginas permanecem na raiz para preservar URLs, SEO e edição direta. O build entrega somente a seleção pública em `dist/`.
+
+## Fluxo de contribuição
+
+1. Trabalhe em uma alteração de escopo único.
+2. Não coloque segredos, logs ou mídia bruta no repositório.
+3. Execute `npm run verify:full`.
+4. Revise `git diff --check` e `git status --short`.
+5. Só publique após aprovação explícita.
+
+Consulte [estrutura do projeto](docs/PROJECT-STRUCTURE.md), [arquitetura](docs/ARCHITECTURE.md), [desenvolvimento](docs/DEVELOPMENT.md), [publicação](docs/DEPLOYMENT.md), [contribuição](CONTRIBUTING.md) e [segurança](SECURITY.md).

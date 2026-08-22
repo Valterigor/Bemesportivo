@@ -7,8 +7,7 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const rootDir = path.resolve(__dirname, '..');
-const ignoredDirectories = new Set(['.git', 'dist', 'node_modules']);
-const ignoredLegacyFiles = new Set(['script.js']);
+const ignoredDirectories = new Set(['.git', 'archive', 'dist', 'node_modules']);
 const failures = [];
 
 function walk(directory, extension) {
@@ -19,7 +18,6 @@ function walk(directory, extension) {
       return walk(path.join(directory, entry.name), extension);
     }
     const filePath = path.join(directory, entry.name);
-    if (ignoredLegacyFiles.has(relative(filePath))) return [];
     return entry.name.endsWith(extension) ? [filePath] : [];
   });
 }

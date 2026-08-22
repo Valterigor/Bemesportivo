@@ -1,7 +1,7 @@
 const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
-  testDir: './e2e',
+  testDir: './tests/e2e',
   fullyParallel: false,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
@@ -16,7 +16,7 @@ module.exports = defineConfig({
     ...(process.env.CI ? {} : { channel: 'chrome' })
   },
   webServer: {
-    command: 'node dev-server.js',
+    command: 'node scripts/dev-server.js',
     url: 'http://127.0.0.1:3100',
     reuseExistingServer: !process.env.CI,
     timeout: 30_000

@@ -1,10 +1,3 @@
-/api/community/* /.netlify/functions/community/:splat 200
-/api/game-ranking /.netlify/functions/game-ranking 200
-/api/brasileirao/* /.netlify/functions/brasileirao/:splat 200
-/api/selecaobrasileira/* /.netlify/functions/selecaobrasileira/:splat 200
-/api/routine-notifications/* /.netlify/functions/routine-notifications/:splat 200
-/api/meu-caminho-sync /.netlify/functions/meu-caminho-sync 200
-/api/analytics/events /.netlify/functions/analytics 200
 /coluna-valtinho /meu-caminho-be 301
 /coluna-valtinho.html /meu-caminho-be 301
 /meucaminhobe /meu-caminho-be 301

@@ -1,5 +1,7 @@
 # Meu Caminho Be — App Web MVP
 
+> Nota de arquitetura (21/08/2026): referências à Netlify registram o desenho inicial. A implementação vigente usa Cloudflare Pages/Functions/KV e Supabase; [ARCHITECTURE.md](ARCHITECTURE.md) é a fonte técnica oficial.
+
 ## Objetivo
 
 O Meu Caminho Be funciona como um aplicativo web instalável, mobile-first e com continuidade opcional entre aparelhos. O site público continua estático; a experiência pessoal permanece isolada em `/meu-caminho-be`.

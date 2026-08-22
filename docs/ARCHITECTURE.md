@@ -1,66 +1,71 @@
 # Arquitetura técnica
 
-O Bem Esportivo continua sendo publicado como site estático a partir da raiz. Esta é uma decisão consciente: preserva as URLs, o SEO e o deploy atual enquanto a base é organizada de forma incremental.
+## Visão geral
 
-## Estrutura oficial
+O Bem Esportivo usa uma arquitetura estática com backend serverless:
 
 ```text
-/
-├── *.html                 # entradas e páginas públicas
-├── css/
-│   ├── core/              # tokens e primitivas globais
-│   ├── components/        # componentes visuais reutilizáveis
-│   └── *.css              # estilos específicos de páginas/produtos
-├── js/
-│   ├── core/              # dados, rotas e utilitários sem interface
-│   ├── components/        # comportamentos reutilizáveis
-│   └── *.js               # entradas compartilhadas e scripts de páginas
-├── img/ e videos/         # mídia publicada
-├── functions/api/         # APIs publicadas pelo Cloudflare Pages
-├── workers/               # tarefas agendadas do Cloudflare Workers
-├── server/                # regras compartilhadas das APIs
-├── netlify/functions/     # compatibilidade temporária durante a migração
-├── scripts/               # qualidade, build e manutenção
-├── docs/                  # decisões e padrões técnicos
-├── _redirects             # URLs públicas e rotas de API
-├── _headers               # cache e cabeçalhos de segurança
-└── sw.js                  # cache offline controlado
+navegador
+  ├── páginas, CSS, JavaScript e mídia em dist/
+  ├── /api/* → Cloudflare Pages Functions
+  └── autenticação e dados privados → Supabase Auth/Postgres
+
+Cloudflare Worker agendado → notificações e rotinas
 ```
 
-## Materiais locais
+O Cloudflare Pages executa `npm run build` e publica `dist/`. As Pages Functions são compiladas a partir de `functions/` e usam módulos compartilhados de `server/`.
 
-Capturas de navegador, páginas baixadas de redes sociais, arquivos brutos recebidos e referências ainda não aprovadas ficam em `.local-reference/`. Esse diretório é ignorado pelo Git e não participa do build.
+## Camadas
 
-O diretório `img/` deve conter somente imagens publicadas ou referenciadas pelo site. A raiz não deve receber capturas de teste, logs ou exportações temporárias.
+### Interface pública
 
-O inventário das áreas publicadas, locais e legadas está em [PROJECT-INVENTORY.md](PROJECT-INVENTORY.md).
+- `*.html`: entradas públicas, metadados, conteúdo e URLs canônicas.
+- `css/`: tokens, componentes e estilos por experiência.
+- `js/`: módulos e bundles entregues ao navegador.
+- `img/` e `videos/`: somente mídia final utilizada pelo site.
+
+### Fontes de aplicação
+
+`src/apps/` contém código editável que precisa ser empacotado. O build atual gera:
+
+- `src/apps/meu-caminho/auth.js` → `js/meu-caminho-auth.js`
+- `src/apps/meu-caminho/account.js` → `js/meu-caminho-account.js`
+
+Os arquivos gerados em `js/` não devem ser editados manualmente.
+
+### Backend
+
+- `functions/api/`: endpoints HTTP do Cloudflare Pages.
+- `functions/_middleware.js`: headers comuns de segurança.
+- `server/`: regras reutilizadas por Functions e pelo servidor local.
+- `workers/`: tarefas agendadas independentes do deploy das páginas.
+- `supabase/migrations/`: esquema, permissões e RLS versionados.
+
+### Operação
+
+- `scripts/build.js`: gera o artefato público reproduzível.
+- `scripts/dev-server.js`: simula páginas e APIs localmente.
+- `scripts/quality-check.js`: valida JavaScript, CSS e HTML.
+- `scripts/structure-check.js`: impede resíduos e mídia bruta no espaço público.
+- `tests/`: valida comportamento sem misturar testes com ferramentas.
 
 ## Direção das dependências
 
-Uma página pode depender de componentes, e componentes podem depender do núcleo. O núcleo nunca depende de uma página.
-
 ```text
-página → componente → core
+página → componente → núcleo
+Function → regra em server/ → armazenamento externo
+scripts/ e tests/ → código de produção
 ```
 
-`js/site-common.js` é a entrada da camada compartilhada. Navegação, breadcrumb, rodapé e botão de voltar ao topo vivem em módulos separados. `site-common.css` preserva a compatibilidade visual atual e importa `css/design-system.css`, a entrada estável do design system.
+Código de produção nunca depende de `tests/`, `archive/`, `.local-reference/` ou `dist/`.
 
-## Componentes compartilhados
+## Dados e confiança
 
-- Navegação principal: `js/components/site-navigation.js`
-- Breadcrumb e Schema.org: `js/components/site-breadcrumb.js`
-- Rodapé: `js/components/site-footer.js`
-- Voltar ao topo: `js/components/back-to-top.js`
-- Botões, cards, modais e estados: `css/components/ui.css`
+- Dados privados do Meu Caminho usam Supabase e RLS por `user_id`.
+- Segredos existem somente no ambiente do Cloudflare ou Supabase.
+- A chave pública do Supabase pode ser entregue ao navegador; a chave administrativa nunca pode ser exposta.
+- Escritas sensíveis exigem autenticação, origem válida e validação de entrada.
 
-## Migração segura
+## Compatibilidade
 
-O diretório `src/` é um protótipo antigo e não participa do site publicado. Não devem ser criadas novas dependências nele. Sua remoção ou migração completa será feita em uma tarefa separada, depois de comparar cada recurso com as páginas reais.
-
-A Home, o Meu Caminho Be e o Game podem ter shells visuais próprios. Eles devem reutilizar tokens, acessibilidade e padrões de interação, sem perder sua identidade ou mecânica específica.
-
-## Evolução do Meu Caminho Be
-
-A transição do produto local para uma aplicação autenticada, sincronizada e preparada para inteligência está definida em [Meu Caminho Be 2.0](MEU-CAMINHO-BE-2.0.md). A implementação deve respeitar as fases, manter separados os dados privados e comunitários e preservar a experiência atual até cada substituição estar validada.
-
-O shell mobile, as cinco áreas principais, as rotas de tela, o contrato de sincronização e o teste de aceite do MVP estão documentados em [App Web MVP](APP-WEB-MVP.md).
+As URLs públicas são controladas por `_redirects`, e os headers por `_headers`. Mover arquivos-fonte não autoriza alterar URLs canônicas. Código Netlify e protótipos antigos permanecem em `archive/` apenas para consulta histórica e não participam do build.
