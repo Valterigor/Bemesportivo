@@ -1,6 +1,32 @@
 const { test, expect } = require('@playwright/test');
 const path = require('node:path');
 
+test('etapas da home abrem o assunto e o próximo passo correspondentes', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+  });
+  const stages = [
+    ['Descobrir: criar meu Mapa BeM', /\/meu-caminho-be\/jornada$/, '#minha-jornada'],
+    ['Começar: registrar meu primeiro passo', /\/meu-caminho-be\/registrar$/, '[data-fb-panel="registrar"]'],
+    ['Evoluir: acompanhar minha evolução', /\/meu-caminho-be\/jornada\/evolucao$/, '[data-fb-panel="evolucao"]'],
+    ['Permanecer: continuar minha jornada', /\/meu-caminho-be\/jornada$/, '[data-fb-panel="progresso"]']
+  ];
+
+  for (const [label, destination, subject] of stages) {
+    await page.goto('/');
+    await page.getByRole('link', { name: label }).click();
+    await expect(page).toHaveURL(destination);
+    await expect(page.locator('#fala-bem-app')).toBeVisible();
+    await expect(page.locator(subject)).toBeVisible();
+  }
+});
+
 test('PWA abre uma subpágina do Meu Caminho Be sem conexão', async ({ page, context }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const runtimeErrors = [];

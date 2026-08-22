@@ -104,6 +104,9 @@ const appPathForView = {
 };
 const legacyViewForRoute = {
   hoje: 'inicio',
+  mapa: 'jornada',
+  registrar: 'registrar',
+  progresso: 'progresso',
   jornada: 'progresso',
   evolucao: 'evolucao',
   explorar: 'explorar',
