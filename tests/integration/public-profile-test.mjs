@@ -61,6 +61,8 @@ assert.equal((await call(published.slug, { authorized: false })).status, 200);
 const key = `public-profile:${published.slug}`;
 const stored = records.get(key);
 assert.equal(stored.profileStatus, 'published');
+assert.equal('age' in stored.profile, false);
+assert.equal('profession' in stored.profile, false);
 assert.equal(stored.posts[0].status, 'published');
 assert.equal(stored.posts[0].kind, 'text');
 assert.equal('videoId' in stored.posts[0], false);
@@ -70,6 +72,8 @@ const visibleResponse = await call(published.slug, { authorized: false });
 assert.equal(visibleResponse.status, 200);
 const visible = await visibleResponse.json();
 assert.equal(visible.profile.displayName, profile.displayName);
+assert.equal('age' in visible.profile, false);
+assert.equal('profession' in visible.profile, false);
 assert.equal(visible.posts.length, 1);
 assert.equal('ownerId' in visible, false);
 

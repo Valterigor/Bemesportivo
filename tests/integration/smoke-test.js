@@ -398,18 +398,23 @@ async function run() {
     for (const panel of ['inicio', 'registrar', 'progresso', 'evolucao', 'conteudos', 'explorar', 'perfil']) {
       assert.match(pathHtml, new RegExp(`data-fb-panel="${panel}"`), `Área principal do app ausente: ${panel}`);
     }
-    for (const destination of ['inicio', 'registrar', 'progresso', 'ferramentas', 'perfil']) {
+    for (const destination of ['perfil', 'inicio', 'registrar', 'progresso', 'conteudos', 'ferramentas']) {
       assert.match(pathHtml, new RegExp(`class="fb-app-nav"[\\s\\S]*?data-fb-view="${destination}"`), `Navegação principal ausente: ${destination}`);
     }
     const primaryNav = pathHtml.match(/<nav class="fb-app-nav"[\s\S]*?<\/nav>/)?.[0] || '';
-    assert.equal((primaryNav.match(/<a\b/g) || []).length, 5, 'A navegação principal deve ter cinco links reais para as subpáginas.');
-    assert.match(primaryNav, /href="\/meu-caminho-be"[\s\S]*href="\/meu-caminho-be\/jornada"[\s\S]*href="\/meu-caminho-be\/registrar"[\s\S]*href="\/meu-caminho-be\/ferramentas"[\s\S]*href="\/meu-caminho-be\/perfil"/, 'Cada item principal precisa expor sua URL canônica.');
+    assert.equal((primaryNav.match(/<a\b/g) || []).length, 6, 'A navegação principal deve manter Perfil, Meu Hoje, Registrar, Jornada, Explorar e Ferramentas.');
+    assert.match(primaryNav, /href="\/meu-caminho-be\/perfil"[\s\S]*href="\/meu-caminho-be"[\s\S]*href="\/meu-caminho-be\/registrar"[\s\S]*href="\/meu-caminho-be\/jornada"[\s\S]*href="\/meu-caminho-be\/ferramentas\/conteudos"[\s\S]*href="\/meu-caminho-be\/ferramentas"/, 'Cada item principal precisa expor sua URL canônica na ordem editorial definida.');
+    assert.match(primaryNav, />Perfil<[\s\S]*>Meu Hoje<[\s\S]*>Registrar<[\s\S]*>Jornada<[\s\S]*>Explorar<[\s\S]*>Ferramentas</, 'Os rótulos da navegação precisam expressar a sequência editorial completa.');
     assert.doesNotMatch(primaryNav, /data-fb-view="evolucao"|data-fb-view="explorar"/, 'Evolução e História devem ficar dentro da Jornada.');
     assert.match(pathHtml, /class="[^"]*fb-nav-register[^"]*" href="\/meu-caminho-be\/registrar"/, 'Subpágina central de registro ausente.');
     assert.match(pathHtml, /data-fb-panel="registrar"[\s\S]*id="be-register-page-title"[\s\S]*data-be-new-entry/, 'Registrar precisa ter página própria antes do formulário.');
     assert.match(pathHtml, /data-fb-panel="ferramentas"[\s\S]*id="fb-tools-mount"/, 'Ferramentas precisa ficar dentro de um painel próprio do aplicativo.');
     assert.match(pathHtml, /aria-label="Próximos passos após usar uma ferramenta"[\s\S]*?data-fb-view="dicas">Dicas práticas<\/button>[\s\S]*?data-fb-view="especialistas">Ver profissionais<\/button>/, 'O primeiro próximo passo de Ferramentas precisa abrir somente Dicas práticas.');
     assert.match(pathHtml, /class="be-journey-switcher"[\s\S]*?data-fb-view="progresso"[\s\S]*?data-fb-view="evolucao"[\s\S]*?data-fb-view="explorar"/, 'Diário, Evolução e História precisam permanecer dentro da Jornada.');
+    assert.match(pathHtml, /id="be-profile-onboarding"[\s\S]*Perfil Be[\s\S]*Mapa BeM[\s\S]*Próximo passo/, 'O primeiro acesso precisa explicar a sequência antes de coletar os dados do Perfil Be.');
+    assert.match(pathHtml, /id="be-profile-onboarding-title">Primeiro, queremos conhecer você no esporte\./, 'O Perfil Be precisa ser apresentado como o primeiro passo do sistema.');
+    assert.doesNotMatch(pathHtml, /id="journey-name"/, 'O Mapa BeM não deve perguntar novamente o nome já salvo no Perfil Be.');
+    assert.match(pathHtml, /data-step-indicator="1"[^>]*>[\s\S]*Perfil Be/, 'O Mapa BeM precisa reconhecer o Perfil Be como etapa concluída.');
     assert.equal((pathHtml.match(/class="fb-section-actions(?:\s[^"]*)?"/g) || []).length, 6, 'As seis áreas principais precisam oferecer próximos passos contextuais.');
     assert.match(pathHtml, /id="fb-evolution-days"/);
     assert.match(pathHtml, /class="fb-explore-grid"/);
@@ -435,16 +440,20 @@ async function run() {
     assert.match(pathHtml, /js\/be-knowledge-library\.js\?v=20260821-4/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260806-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260822-2/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260816-1/);
-    assert.match(pathHtml, /js\/site-common\.js\?v=20260816-1/);
+    assert.match(pathHtml, /js\/meu-caminho-navigation\.js\?v=20260823-1/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260823-8/);
+    assert.match(pathHtml, /js\/coluna-valtinho\.js\?v=20260823-1/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260823-5/);
+    assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260823-1/);
+    assert.match(pathHtml, /js\/site-common\.js\?v=20260823-1/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
-    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260815-3/);
+    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260823-1/);
     assert.match(pathHtml, /id="be-profile-public-access-action"[^>]*>Ativar Meu Diário BE<\/button>/, 'O Perfil BE precisa deixar clara a ativação do Diário BE.');
     assert.match(publicDiaryScript, /Visualizar Meu Diário BE/, 'O botão deve mudar para visualizar o diário depois da publicação.');
     assert.match(publicDiaryScript, /dataset\.bePublicEdit/, 'A pessoa precisa conseguir editar publicações do Diário BE.');
     assert.match(publicDiaryScript, /dataset\.bePublicRemove/, 'A pessoa precisa conseguir retirar publicações do ar.');
+    assert.doesNotMatch(publicDiaryScript, /age:\s*profile\?\.publicAge|profession:\s*String\(profile\?\.profession/, 'Idade e profissão não podem integrar o perfil público.');
     assert.doesNotMatch(pathHtml, /id="be-profile-public-copy"/, 'O acesso ao blog deve ter apenas um botão principal.');
     assert.match(pathHtml, /js\/routine-calendar\.js\?v=20260807-1/);
     assert.doesNotMatch(pathHtml, /id="be-success-dialog"/, 'Salvar uma atividade não deve bloquear a navegação com uma segunda janela.');
@@ -559,6 +568,7 @@ async function run() {
     assert.match(diaryCss, /be-profile-social-card/, 'O Perfil precisa usar apresentação visual de identidade social.');
 
     const appScript = fs.readFileSync(path.join(root, 'js/fala-bem-app.js'), 'utf8');
+    const navigationScript = fs.readFileSync(path.join(root, 'js/meu-caminho-navigation.js'), 'utf8');
     const diaryScript = fs.readFileSync(path.join(root, 'js/meu-caminho-diary.js'), 'utf8');
     assert.match(appScript, /function recordJourneyStep\(/);
     assert.match(appScript, /saveReceiptHideTimer = window\.setTimeout\(hideSaveReceipt, 7000\)/, 'A confirmação interna precisa desaparecer automaticamente.');
@@ -571,7 +581,18 @@ async function run() {
     assert.match(appScript, /if \(path === `\$\{APP_BASE_PATH\}\/jornada`\) return 'progresso'/, 'A URL de Jornada deve abrir a subpágina interna mesmo antes do perfil ser criado.');
     assert.doesNotMatch(appScript, /requestedView === 'progresso' && !currentProfile\?\.objective/, 'A navegação principal não deve desviar Jornada para um fluxo externo.');
     assert.match(appScript, /const sectionBannerContent = \{[\s\S]*progresso:[\s\S]*ferramentas:[\s\S]*perfil:/, 'Jornada, Ferramentas e Perfil precisam de banners contextualizados.');
+    assert.match(appScript, /registrar:\s*\{[\s\S]*?mark: '03'/, 'Registrar precisa representar a etapa 03.');
+    assert.match(appScript, /progresso:\s*\{[\s\S]*?mark: '04'/, 'Jornada precisa representar a etapa 04.');
+    assert.match(appScript, /conteudos:\s*\{[\s\S]*?mark: '05'/, 'Explorar precisa representar a etapa 05.');
+    assert.match(appScript, /ferramentas:\s*\{[\s\S]*?mark: '06'/, 'Ferramentas precisa representar a etapa 06.');
+    assert.match(appScript, /perfil:\s*\{[\s\S]*?mark: '01'/, 'Perfil precisa representar a etapa 01.');
     assert.match(appScript, /function renderSectionBanner\(primarySection\)/);
+    assert.match(navigationScript, /resolveRequestedView/);
+    assert.match(navigationScript, /updateGates/);
+    assert.match(navigationScript, /Registrar e Jornada serão liberados após o Mapa BeM/);
+    assert.match(appScript, /function hasProfileIdentity\(profile = currentProfile\)/);
+    assert.match(navigationScript, /!hasIdentity && requested !== 'perfil'/, 'Areas avancadas devem aguardar a criacao do Perfil Be.');
+    assert.match(appScript, /wasIdentityPending && hasProfileIdentity\(\)[\s\S]*openView\('jornada'\)/, 'Salvar o primeiro Perfil Be precisa continuar automaticamente para o Mapa BeM.');
     assert.match(appScript, /registrar: `\$\{APP_BASE_PATH\}\/registrar`/);
     assert.match(appScript, /function renderProfilePresentation\(\)/);
     assert.match(appScript, /profileEditMode = false;[\s\S]*saveProfile\(\{[\s\S]*name, email, location, photoDataUrl, sportProfile, story, publicAge, profession, publicEnabled/);
@@ -633,7 +654,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v106`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v115`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]

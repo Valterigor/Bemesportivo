@@ -15,7 +15,8 @@ const SYNC_KEY = 'meuCaminhoBeSyncStateV1';
 const CODE_KEY = 'meuCaminhoBeContinuityCodeV1';
 const CONSENT_VERSION = '2026-07-30';
 const endpoint = '/api/meu-caminho-sync';
-const LOCAL_ONLY_MODE = document.querySelector('meta[name="be-meu-caminho-mode"]')?.content === 'local-only';
+const CONTINUITY_MODE = document.querySelector('meta[name="be-continuity-mode"]')?.content || 'local-only';
+const LOCAL_ONLY_MODE = CONTINUITY_MODE !== 'encrypted-code';
 
 const card = document.getElementById('fb-account-card');
 const dialog = document.getElementById('fb-account-dialog');

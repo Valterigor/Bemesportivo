@@ -1,0 +1,281 @@
+/* Componente canônico de navegação e divulgação progressiva do Meu Caminho Be. */
+body.fala-bem-app-page .fb-app-nav > a {
+  position: relative;
+}
+
+body.fala-bem-app-page .fb-app-shell.fb-onboarding-active .fb-app-nav,
+body.fala-bem-app-page .fb-app-shell.fb-identity-pending .fb-app-nav,
+body.fala-bem-app-page .fb-app-shell.fb-onboarding-active.fb-first-access .fb-app-nav,
+body.fala-bem-app-page .fb-app-shell.fb-identity-pending.fb-first-access .fb-app-nav {
+  display: none !important;
+}
+
+body.fala-bem-app-page .fb-map-gate-note {
+  margin: 6px 4px 2px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #fff3ec;
+  color: #7a3a1e;
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+body.fala-bem-app-page .fb-map-gate-note[hidden] {
+  display: none !important;
+}
+
+@media (min-width: 901px) {
+  body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-nav > a {
+    grid-template-columns: 28px minmax(0, 1fr);
+    min-height: 48px;
+    margin: 0;
+    padding: 8px 12px;
+    background: transparent;
+    color: #5e5954;
+  }
+
+  body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-nav > a.fb-nav-register {
+    margin: 0;
+    background: transparent;
+    color: #5e5954;
+  }
+
+  body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-nav > a.active {
+    background: var(--be-app-ink);
+    color: #fff;
+  }
+
+  body.fala-bem-app-page:is(.fb-view-perfil,.fb-view-registrar,.fb-view-progresso,.fb-view-conteudos,.fb-view-ferramentas) .fb-app-shell.fb-app-shell-compact {
+    display: grid !important;
+    grid-template-columns: 224px minmax(0, 1fr) !important;
+    grid-template-rows: auto auto auto !important;
+    column-gap: 32px;
+    row-gap: 0;
+    padding: 0 30px 38px;
+  }
+
+  body.fala-bem-app-page:is(.fb-view-perfil,.fb-view-registrar,.fb-view-progresso,.fb-view-conteudos,.fb-view-ferramentas) .fb-app-shell.fb-app-shell-compact .fb-app-topbar {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    margin: 0 -30px;
+  }
+
+  body.fala-bem-app-page:is(.fb-view-perfil,.fb-view-registrar,.fb-view-progresso,.fb-view-conteudos,.fb-view-ferramentas) .fb-app-shell.fb-app-shell-compact .fb-app-nav {
+    position: sticky !important;
+    top: 20px !important;
+    display: flex !important;
+    grid-column: 1;
+    grid-row: 2 / 4;
+    align-self: start;
+    flex-direction: column;
+    gap: 7px;
+    width: 100%;
+    max-width: 224px;
+    margin: 24px 0 0;
+    padding: 12px;
+    border-radius: 22px;
+    background: #fff !important;
+    box-shadow: 0 12px 35px rgba(33, 28, 24, .07) !important;
+  }
+
+  body.fala-bem-app-page:is(.fb-view-perfil,.fb-view-registrar,.fb-view-progresso,.fb-view-conteudos,.fb-view-ferramentas) .fb-app-shell.fb-app-shell-compact .fb-app-nav > a {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    align-items: center;
+    justify-content: stretch;
+    min-height: 48px;
+    margin: 0;
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  body.fala-bem-app-page:is(.fb-view-perfil,.fb-view-registrar,.fb-view-progresso,.fb-view-conteudos,.fb-view-ferramentas) .fb-app-shell.fb-app-shell-compact .fb-app-nav > a.fb-nav-register:not(.active) {
+    background: transparent;
+    color: #5e5954;
+  }
+
+  body.fala-bem-app-page:is(.fb-view-perfil,.fb-view-registrar,.fb-view-progresso,.fb-view-conteudos,.fb-view-ferramentas) .fb-app-shell.fb-app-shell-compact .be-section-banner {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    width: 100%;
+    min-height: 240px;
+    margin: 24px 0 18px;
+    padding: 34px 38px;
+  }
+
+  body.fala-bem-app-page:is(.fb-view-perfil,.fb-view-registrar,.fb-view-progresso,.fb-view-conteudos,.fb-view-ferramentas) .fb-app-shell.fb-app-shell-compact .fb-app-panel {
+    grid-column: 2;
+    grid-row: 3;
+    width: 100%;
+    max-width: none !important;
+    padding: 0;
+  }
+
+  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-app-shell-compact.fb-onboarding-active .fb-app-nav,
+  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-app-shell-compact.fb-identity-pending .fb-app-nav {
+    display: flex !important;
+  }
+
+  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-app-nav > a {
+    background: transparent !important;
+    color: #5e5954 !important;
+    box-shadow: none !important;
+  }
+
+  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-app-nav > a:not([data-fb-view="perfil"]) {
+    opacity: .52;
+  }
+
+  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-app-nav > a[data-fb-view="perfil"] {
+    background: var(--be-app-ink) !important;
+    color: #fff !important;
+    opacity: 1;
+  }
+
+  body.fala-bem-app-page .fb-app-nav > a[data-fb-gated="true"]::after {
+    justify-self: end;
+    padding: 3px 6px;
+    border-radius: 999px;
+    background: #fff0e8;
+    color: #a44720;
+    content: "Mapa";
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: .04em;
+  }
+
+  body.fala-bem-app-page .fb-app-nav > a[data-fb-gated="true"] {
+    grid-template-columns: 28px minmax(0, 1fr) auto !important;
+    opacity: .72 !important;
+  }
+}
+
+@media (max-width: 900px) {
+  body.fala-bem-app-page .fb-app-nav {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  }
+
+  body.fala-bem-app-page .fb-app-nav > a {
+    align-content: center;
+    order: initial !important;
+    min-height: 56px;
+    padding: 5px 1px !important;
+  }
+
+  body.fala-bem-app-page .fb-app-nav > a svg {
+    width: 19px !important;
+    height: 19px !important;
+  }
+
+  body.fala-bem-app-page .fb-app-nav > a[data-fb-gated="true"]::after {
+    position: absolute;
+    top: 5px;
+    right: calc(50% - 17px);
+    width: 6px;
+    height: 6px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: var(--be-app-orange);
+    content: "";
+  }
+
+  body.fala-bem-app-page .fb-map-gate-note {
+    display: none !important;
+  }
+}
+
+body.fala-bem-app-page .fb-mobile-drawer [data-fb-view][data-fb-gated="true"]::after {
+  margin-left: auto;
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: #fff0e8;
+  color: #a44720;
+  content: "Concluir Mapa";
+  font-size: 8px;
+  font-weight: 900;
+}
+
+body.fala-bem-app-page .fb-app-shell.fb-first-access:not(.fb-identity-pending) .fb-app-nav > a[data-fb-gated="true"],
+body.fala-bem-app-page .fb-mobile-drawer [data-fb-view][data-fb-gated="true"] {
+  opacity: .52;
+}
+
+.be-profile-optional-fields,
+.be-profile-management {
+  border: 1px solid #e7ddd6;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.be-profile-optional-fields > summary,
+.be-profile-management > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  color: #332d29;
+  font-weight: 850;
+  cursor: pointer;
+  list-style: none;
+}
+
+.be-profile-optional-fields > summary::after,
+.be-profile-management > summary::after {
+  color: var(--be-app-orange);
+  content: "+";
+  font-size: 22px;
+}
+
+.be-profile-optional-fields[open] > summary::after,
+.be-profile-management[open] > summary::after {
+  content: "−";
+}
+
+.be-profile-optional-fields > summary::-webkit-details-marker,
+.be-profile-management > summary::-webkit-details-marker {
+  display: none;
+}
+
+.be-profile-optional-fields > .be-profile-form-grid,
+.be-profile-management-body {
+  padding: 0 18px 18px;
+}
+
+.be-profile-management {
+  margin-top: 14px;
+}
+
+.be-profile-management > summary {
+  align-items: flex-start;
+}
+
+.be-profile-management > summary span,
+.be-profile-management > summary small {
+  display: block;
+}
+
+.be-profile-management > summary small {
+  margin-top: 3px;
+  color: #756d67;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.be-profile-management-body {
+  display: grid;
+  gap: 12px;
+}
+
+body.fala-bem-app-page .fb-app-shell.fb-identity-pending .be-profile-optional-fields {
+  display: none !important;
+}
+
+@media (max-width: 600px) {
+  .be-profile-management > summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}

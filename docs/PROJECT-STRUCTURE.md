@@ -14,6 +14,8 @@
 
 - `dist/`: sempre regenerado.
 - `js/meu-caminho-auth.js` e `js/meu-caminho-account.js`: bundles gerados.
+- `js/meu-caminho-navigation.js`: regras editaveis de navegacao e liberacao progressiva.
+- `css/meu-caminho-navigation.css`: fonte canonica do menu e da navegacao responsiva.
 - `archive/`: referência histórica congelada.
 - `.local-reference/` e `testes/`: materiais locais fora do produto.
 

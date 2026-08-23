@@ -40,7 +40,7 @@ const journeyNameInput=document.getElementById('journey-name');
 const journeyPracticeName=document.getElementById('journey-practice-name');
 const journeyPracticeDetail=document.getElementById('journey-practice-detail');
 let activeFilter='';
-let journeyStep=1;
+let journeyStep=2;
 const journeyState={name:'',objective:'',practice:'',practiceName:'',age:'',availability:''};
 
 function updateJourneyGuidance(tag){
@@ -258,7 +258,7 @@ journeyNext.setAttribute('aria-disabled',String(journeyNext.disabled));
 }
 
 function resetJourneyForm(keepName=false){
-const savedName=keepName?journeyState.name:'';
+const savedName=journeyState.name;
 Object.keys(journeyState).forEach(key=>{journeyState[key]='';});
 journeyState.name=savedName;
 if(journeyNameInput) journeyNameInput.value=savedName;
@@ -268,7 +268,7 @@ journeyOptions.forEach(option=>{
 option.classList.remove('selected');
 option.setAttribute('aria-pressed','false');
 });
-renderJourneyStep(1);
+renderJourneyStep(2);
 }
 
 function loadJourneyAnswers(profile={}){
@@ -290,7 +290,7 @@ const selected=journeyState[option.dataset.journeyField]===option.dataset.journe
 option.classList.toggle('selected',selected);
 option.setAttribute('aria-pressed',String(selected));
 });
-renderJourneyStep(1);
+renderJourneyStep(2);
 }
 
 function renderJourneyResult(){
@@ -342,7 +342,7 @@ filter:recommendation.filter
 }
 
 function renderJourneyStep(step,focusHeading=true){
-journeyStep=Math.max(1,Math.min(6,step));
+journeyStep=Math.max(2,Math.min(6,step));
 if(journeyStep===6) renderJourneyResult();
 journeyStages.forEach(stage=>{
 stage.hidden=Number(stage.dataset.journeyStep)!==journeyStep;
@@ -350,12 +350,12 @@ stage.hidden=Number(stage.dataset.journeyStep)!==journeyStep;
 journeyIndicators.forEach(indicator=>{
 const indicatorStep=Number(indicator.dataset.stepIndicator);
 indicator.classList.toggle('active',indicatorStep===journeyStep);
-indicator.classList.toggle('complete',indicatorStep<journeyStep);
+indicator.classList.toggle('complete',indicatorStep===1||indicatorStep<journeyStep);
 if(indicatorStep===journeyStep) indicator.setAttribute('aria-current','step');
 else indicator.removeAttribute('aria-current');
 });
 const field=getJourneyField(journeyStep);
-journeyBack.hidden=journeyStep===1;
+journeyBack.hidden=journeyStep===2;
 journeyNext.hidden=journeyStep===6;
 journeyNext.disabled=field ? !isJourneyStepComplete(journeyStep) : true;
 journeyNext.setAttribute('aria-disabled',String(journeyNext.disabled));
@@ -430,14 +430,14 @@ journeySeeContent.addEventListener('click',()=>filterPosts(journeySeeContent.dat
 
 if(journeyRestart){
 journeyRestart.addEventListener('click',()=>{
-renderJourneyStep(1);
+renderJourneyStep(2);
 });
 }
 
 window.addEventListener('meuCaminhoBe:reset',()=>resetJourneyForm(false));
 window.addEventListener('meuCaminhoBe:edit-onboarding',event=>loadJourneyAnswers(event.detail||{}));
 
-if(journeyAssistant) renderJourneyStep(1,false);
+if(journeyAssistant) renderJourneyStep(2,false);
 
 const pollOptions=document.querySelectorAll('.poll-option');
 const pollFeedback=document.getElementById('poll-feedback');

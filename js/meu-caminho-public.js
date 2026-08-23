@@ -57,8 +57,6 @@
   function profilePayload(profile = readProfile()) {
     return {
       displayName: String(profile?.name || '').trim(),
-      age: profile?.publicAge,
-      profession: String(profile?.profession || '').trim(),
       favoriteSport: sportLabel(profile),
       bio: String(profile?.story || '').trim(),
       photoDataUrl: String(profile?.photoDataUrl || '')
@@ -68,7 +66,7 @@
   function acceptancePayload(profile = readProfile()) {
     return {
       accepted: profile?.publicTermsAccepted === true && profile?.publicTermsVersion === PUBLIC_TERMS_VERSION,
-      adultConfirmed: Number(profile?.publicAge) >= 18,
+      adultConfirmed: profile?.publicTermsAccepted === true,
       termsVersion: String(profile?.publicTermsVersion || ''),
       acceptedAt: String(profile?.publicTermsAcceptedAt || '')
     };

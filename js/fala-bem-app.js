@@ -11,6 +11,7 @@ const panels = [...shell.querySelectorAll('[data-fb-panel]')];
 const navigationButtons = [...document.querySelectorAll('[data-fb-view]')];
 const appNavButtons = [...shell.querySelectorAll('.fb-app-nav [data-fb-view]')];
 const mobileDrawerViewButtons = [...shell.querySelectorAll('.fb-mobile-drawer [data-fb-view]')];
+const navigationFlow = window.MeuCaminhoNavigation;
 const managedSections = [...document.querySelectorAll('.container.page > :not(.fb-app-shell)')];
 const PROFILE_STORAGE_KEY = 'meuCaminhoBeProfileV1';
 const ACCESS_STORAGE_KEY = 'meuCaminhoBeAccessV1';
@@ -64,7 +65,7 @@ const sportIdentityPresets = {
   natacao: { label: 'Natação', metric: 'Tempos e séries', role: 'Piscina, mar ou águas abertas' },
   lutas: { label: 'Lutas', metric: 'Vitórias e rounds', role: 'Boxe, judô, jiu-jítsu ou karatê' },
   musculacao: { label: 'Musculação', metric: 'Carga e progressão', role: 'Força, hipertrofia ou condicionamento' },
-  outro: { label: 'Outro esporte', metric: 'Progresso', role: 'Descreva a modalidade ou atividade' }
+  outro: { label: 'Esporte ou atividade', metric: 'Progresso', role: 'Descreva a modalidade ou atividade' }
 };
 let currentProfile = readStoredProfile();
 let pendingProfileUpdate = null;
@@ -77,6 +78,12 @@ let beNowTimerInterval = null;
 let profileEditMode = false;
 let activeSaveSubmitter = null;
 let saveButtonRestoreTimer = null;
+
+function hasProfileIdentity(profile = currentProfile) {
+  const name = String(profile?.name || '').trim();
+  return name.length >= 2 && Boolean(profile?.identityCreatedAt || profile?.objective);
+}
+
 const viewTargets = {
   jornada: ['#minha-jornada'],
   ferramentas: ['#ferramentas'],
@@ -123,7 +130,7 @@ const primarySectionForView = {
   evolucao: 'progresso',
   explorar: 'progresso',
   ferramentas: 'ferramentas',
-  conteudos: 'ferramentas',
+  conteudos: 'conteudos',
   especialistas: 'ferramentas',
   modalidades: 'ferramentas',
   comunidade: 'ferramentas',
@@ -140,7 +147,7 @@ const viewPresentation = {
   evolucao: ['Minha evolução', '#be-evolution-main-title'],
   explorar: ['Minha história', '#be-history-title'],
   perfil: ['Meu perfil', '#fb-profile-title'],
-  conteudos: ['Aprender', '#be-learn-title'],
+  conteudos: ['Explorar', '#be-learn-title'],
   ferramentas: ['Ferramentas', '#tools-title'],
   especialistas: ['Profissionais', '#specialists-title'],
   modalidades: ['Modalidades', '#modalidades-title'],
@@ -154,25 +161,31 @@ const sectionBannerContent = {
     kicker: 'UM MOMENTO DA SUA HISTÓRIA',
     title: 'Registrar',
     text: 'Conte o que aconteceu de verdade e transforme cada atividade em parte da sua trajetória esportiva.',
-    mark: '+'
+    mark: '03'
   },
   progresso: {
     kicker: 'SUA TRAJETÓRIA ESPORTIVA',
     title: 'Jornada',
     text: 'Diário, evolução e história reunidos para você compreender seu caminho sem transformar cada dia em cobrança.',
-    mark: '01'
+    mark: '04'
+  },
+  conteudos: {
+    kicker: 'CONHECIMENTO PARA SEGUIR',
+    title: 'Explorar',
+    text: 'Encontre conteúdos e referências para compreender melhor o esporte e descobrir novas possibilidades para o seu caminho.',
+    mark: '05'
   },
   ferramentas: {
     kicker: 'RECURSOS PARA O DIA A DIA',
     title: 'Ferramentas',
     text: 'Planeje, calcule referências e encontre apoio para tomar decisões mais claras sobre sua rotina esportiva.',
-    mark: '02'
+    mark: '06'
   },
   perfil: {
     kicker: 'SUA IDENTIDADE NO ESPORTE',
     title: 'Perfil',
     text: 'Organize seu cadastro, sua modalidade e a forma como sua trajetória aparece no Meu Caminho Be.',
-    mark: '03'
+    mark: '01'
   }
 };
 
@@ -758,6 +771,11 @@ function renderSectionBanner(primarySection) {
 }
 
 function openView(requestedView, options = {}) {
+  const gate = navigationFlow.resolveRequestedView(requestedView, {
+    hasIdentity: hasProfileIdentity(),
+    hasJourney: Boolean(currentProfile?.objective)
+  });
+  requestedView = gate.view;
   if (isMinorRestrictedProfile() && ['jornada', 'progresso', 'perfil'].includes(requestedView)) requestedView = 'inicio';
   const view = resolveView(requestedView);
   const activePanel = panels.find(panel => panel.dataset.fbPanel === view);
@@ -782,8 +800,9 @@ function openView(requestedView, options = {}) {
   document.body.classList.add(`fb-view-${view}`);
   renderSectionBanner(primarySection);
 
+  const exactNavView = appNavButtons.some(button => button.dataset.fbView === view) ? view : primarySection;
   appNavButtons.forEach(button => {
-    const selected = button.dataset.fbView === primarySection;
+    const selected = button.dataset.fbView === exactNavView;
     button.classList.toggle('active', selected);
     if (selected) button.setAttribute('aria-current', 'page');
     else button.removeAttribute('aria-current');
@@ -807,7 +826,7 @@ function openView(requestedView, options = {}) {
   const [viewLabel, headingSelector] = viewPresentation[view] || ['Meu Caminho Be', ''];
   document.title = `${viewLabel} | Meu Caminho Be`;
   const announcer = document.getElementById('fb-view-announcer');
-  if (announcer) announcer.textContent = `Tela ${viewLabel} aberta.`;
+  if (announcer) announcer.textContent = gate.message || `Tela ${viewLabel} aberta.`;
   if (options.focus !== false) {
     const heading = headingSelector ? document.querySelector(headingSelector) : null;
     if (heading) {
@@ -818,7 +837,7 @@ function openView(requestedView, options = {}) {
       }, options.instant ? 0 : 180);
     }
   }
-  return true;
+  return view;
 }
 
 function normalizeAppPath(pathname = location.pathname) {
@@ -853,8 +872,8 @@ function openViewFromRoute() {
   const legacyView = legacyRoute === 'jornada' && !currentProfile?.objective ? 'jornada' : legacyViewForRoute[legacyRoute];
   const view = legacyView || viewFromAppPath(url.pathname);
   if (!view) return false;
-  openView(view, { scroll: false, focus: false, instant: true, route: false });
-  if (legacyRoute) updateAppRoute(view, true);
+  const openedView = openView(view, { scroll: false, focus: false, instant: true, route: false });
+  if (legacyRoute) updateAppRoute(openedView, true);
   return true;
 }
 
@@ -1754,8 +1773,7 @@ function renderProfilePresentation() {
   const cancelButton = document.getElementById('be-profile-cancel-edit');
   if (!presentation || !form) return;
   const name = String(currentProfile?.name || '').trim();
-  const email = String(currentProfile?.email || '').trim();
-  const hasSavedProfile = name.length >= 2 && Boolean(email);
+  const hasSavedProfile = hasProfileIdentity();
   presentation.hidden = !hasSavedProfile;
   form.hidden = hasSavedProfile && !profileEditMode;
   if (cancelButton) cancelButton.hidden = !hasSavedProfile;
@@ -2629,7 +2647,7 @@ function buildHomeNextActions(profile = currentProfile, todayLog = null, nextMis
   const mealCount = Object.values(todayLog?.meals || {}).filter(Boolean).length;
   return [
     { label: todayLog?.activity && todayLog.activity !== 'none' ? dailyActivityLabels[todayLog.activity] : 'Registrar meu dia', note: todayLog?.activity && todayLog.activity !== 'none' ? `${todayLog.minutes} min registrados` : 'Ainda não registrado', done: Boolean(todayLog?.activity && todayLog.activity !== 'none') },
-    { label: 'Hidratação', note: todayLog?.water !== null ? `${String(todayLog.water).replace('.', ',')} L` : 'Ainda sem água informada', done: todayLog?.water !== null },
+    { label: 'Hidratação', note: todayLog?.water != null ? `${String(todayLog.water).replace('.', ',')} L` : 'Ainda sem água informada', done: todayLog?.water != null },
     { label: 'Próximo passo', note: nextMission || (mealCount ? `${mealCount} refeição${mealCount === 1 ? '' : 'ões'} registradas` : 'Seu próximo passo aparece aqui'), done: completed >= getJourneySteps(profile).length }
   ];
 }
@@ -3532,8 +3550,14 @@ function renderPersonalizedExperience() {
   const heroProgressValue = document.getElementById('fb-hero-progress-value');
   const minorRestriction = document.getElementById('fb-minor-restriction');
   const minorRestricted = isMinorRestrictedProfile();
+  const hasIdentity = hasProfileIdentity();
   const hasJourney = Boolean(currentProfile?.objective);
+  const profileOnboarding = document.getElementById('be-profile-onboarding');
+  shell.classList.toggle('fb-identity-pending', !hasIdentity && !minorRestricted);
+  shell.classList.toggle('fb-onboarding-active', !hasIdentity && !minorRestricted);
   shell.classList.toggle('fb-first-access', !hasJourney && !minorRestricted);
+  navigationFlow.updateGates([...appNavButtons, ...mobileDrawerViewButtons], { hasIdentity, hasJourney, minorRestricted });
+  if (profileOnboarding) profileOnboarding.hidden = hasIdentity || minorRestricted;
   if (minorRestriction) minorRestriction.hidden = !minorRestricted;
   if (firstAccessGuide) firstAccessGuide.hidden = hasJourney || minorRestricted;
   if (minorRestricted) {
@@ -3928,6 +3952,7 @@ document.getElementById('fb-profile-public-enabled')?.addEventListener('change',
 
 document.getElementById('fb-profile-form')?.addEventListener('submit', event => {
   event.preventDefault();
+  const wasIdentityPending = !hasProfileIdentity();
   const name = document.getElementById('fb-profile-name').value.trim();
   const email = document.getElementById('fb-profile-email')?.value.trim().toLocaleLowerCase('pt-BR') || '';
   const location = {
@@ -3939,11 +3964,6 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
   const profession = document.getElementById('fb-profile-profession')?.value.trim().slice(0, 60) || '';
   const publicEnabled = document.getElementById('fb-profile-public-enabled')?.checked === true;
   const publicTermsAccepted = document.getElementById('fb-profile-public-consent')?.checked === true;
-  if (publicEnabled && (!publicAge || !profession)) {
-    document.getElementById('fb-profile-feedback').textContent = 'Para ativar o Meu Diário BE, informe sua idade e profissão.';
-    document.getElementById(!publicAge ? 'fb-profile-age' : 'fb-profile-profession')?.focus();
-    return;
-  }
   if (publicEnabled && !publicTermsAccepted) {
     document.getElementById('fb-profile-feedback').textContent = 'Confirme que você tem 18 anos ou mais e aceite os termos para ativar o Meu Diário BE.';
     document.getElementById('fb-profile-public-consent')?.focus();
@@ -3983,6 +4003,13 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
     detail: 'Você pode atualizar essas informações quando quiser.'
   });
   showCelebration(interaction.title, interaction.message, { detail: interaction.detail });
+  if (wasIdentityPending && hasProfileIdentity()) {
+    window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-onboarding', { detail: { ...(currentProfile || {}) } }));
+    openView('jornada');
+    const feedback = document.getElementById('fb-profile-feedback');
+    if (feedback) feedback.textContent = 'Perfil Be criado. Agora vamos entender seu momento e preparar o seu Mapa BeM.';
+    return;
+  }
   window.setTimeout(() => {
     const presentation = document.getElementById('be-profile-presentation');
     presentation?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -4888,6 +4915,9 @@ function checkDailyGuideReminder() {
 }
 
 renderPersonalizedExperience();
+if (hasProfileIdentity()) {
+  window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-onboarding', { detail: { ...(currentProfile || {}) } }));
+}
 try {
   if (sessionStorage.getItem('meuCaminhoBeResetNotice') === '1') {
     sessionStorage.removeItem('meuCaminhoBeResetNotice');

@@ -46,11 +46,8 @@ function cleanPhoto(value, maximum = 480_000) {
 }
 
 function sanitizeProfile(value = {}) {
-  const age = Math.round(Number(value.age));
   return {
     displayName: cleanText(value.displayName, 40),
-    age: Number.isFinite(age) && age >= 18 && age <= 120 ? age : null,
-    profession: cleanText(value.profession, 60),
     favoriteSport: cleanText(value.favoriteSport, 50),
     bio: cleanText(value.bio, 400),
     photoDataUrl: cleanPhoto(value.photoDataUrl, 260_000)
@@ -102,7 +99,7 @@ function publicRecord(record) {
     .map(({ status, reports, ...post }) => post);
   return {
     slug: record.slug,
-    profile: record.profile,
+    profile: sanitizeProfile(record.profile),
     posts,
     createdAt: record.createdAt,
     updatedAt: record.updatedAt
@@ -195,8 +192,8 @@ export default async function publicProfileHandler(request, runtime) {
     if (!body) return json({ error: 'Publicação inválida ou muito grande.' }, 400);
     const profile = sanitizeProfile(body.profile);
     const post = body.post ? sanitizePost(body.post) : null;
-    if (!profile.displayName || !profile.age || !profile.profession || !profile.favoriteSport) {
-      return json({ error: 'Complete nome, idade, profissão e esporte favorito no perfil.' }, 400);
+    if (!profile.displayName || !profile.favoriteSport) {
+      return json({ error: 'Complete o nome de exibição e o esporte do Perfil Be.' }, 400);
     }
     if (!validAcceptance(body.acceptance)) {
       return json({ error: 'Aceite os termos da página pública e confirme que você tem 18 anos ou mais.' }, 400);

@@ -16,6 +16,7 @@ function createNavigationLink([href, label, icon]) {
 function markCurrentLinks() {
   const currentPath = normalizePath(window.location.pathname);
   document.querySelectorAll('nav a[href]').forEach(link => {
+    if (link.closest('.fb-app-nav')) return;
     const rawHref = link.getAttribute('href');
     if (!rawHref || rawHref.startsWith('#')) return;
     const href = normalizePath(rawHref);

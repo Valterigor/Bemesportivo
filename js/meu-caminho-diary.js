@@ -11,7 +11,7 @@
     caminhada: { label: 'Caminhada', icon: '🚶' },
     ciclismo: { label: 'Ciclismo', icon: '🚲' },
     natacao: { label: 'Natação', icon: '🏊' },
-    outro: { label: 'Outro esporte', icon: '＋' }
+    outro: { label: 'Esporte ou atividade', icon: '＋' }
   };
   const feelingIcons = { 1: '😣', 2: '😕', 3: '🙂', 4: '😄', 5: '🔥' };
   const mealTypes = {

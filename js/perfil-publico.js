@@ -307,8 +307,6 @@
     document.getElementById('be-public-name').textContent = profile.displayName;
     document.getElementById('be-public-handle').textContent = `@${payload.slug}`;
     document.getElementById('be-public-bio').textContent = profile.bio || 'O esporte faz parte da minha história.';
-    document.getElementById('be-public-age').textContent = `${profile.age} anos`;
-    document.getElementById('be-public-profession').textContent = profile.profession;
     document.getElementById('be-public-sport').textContent = profile.favoriteSport;
     document.getElementById('be-public-count').textContent = String(loadedPosts.length);
     const photo = document.getElementById('be-public-photo');

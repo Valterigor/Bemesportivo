@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const path = require('node:path');
 
-test('etapas da home abrem o assunto e o próximo passo correspondentes', async ({ page }) => {
+test('primeiro acesso começa pelo Perfil Be antes de liberar a jornada', async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
       version: 2,
@@ -14,8 +14,94 @@ test('etapas da home abrem o assunto e o próximo passo correspondentes', async 
   await page.goto('/');
   await expect(page.locator('.home-redesign > section').first()).toHaveAttribute('id', 'inicio');
   await expect(page.getByText('O Meu Caminho Be é uma experiência gratuita:')).toBeVisible();
+  await page.getByRole('link', { name: 'Descobrir meu caminho' }).click();
+  await expect(page).toHaveURL(/\/meu-caminho-be\/perfil$/);
+  await expect(page.locator('#fala-bem-app')).toHaveClass(/fb-onboarding-active/);
+  await expect(page.getByRole('heading', { name: 'Primeiro, queremos conhecer você no esporte.' })).toBeVisible();
+  await expect(page.locator('.fb-app-nav')).toBeVisible();
+  await expect(page.locator('.fb-app-nav [data-fb-view="perfil"]')).toHaveAttribute('aria-current', 'page');
+  await expect(page.locator('.fb-app-nav [data-fb-view="inicio"]')).not.toHaveClass(/is-active/);
+  await expect(page.locator('#fb-profile-name')).toBeVisible();
+  await expect(page.locator('#fb-profile-email')).toBeHidden();
+  await page.locator('#fb-profile-name').fill('Pessoa Teste');
+  await page.locator('#fb-profile-sport').selectOption('corrida');
+  await page.getByRole('button', { name: 'Salvar Perfil Be e continuar' }).click();
+  await expect(page).toHaveURL(/\/meu-caminho-be\/jornada$/);
+  await expect(page.getByRole('heading', { name: 'Qual é o seu principal objetivo?' })).toBeVisible();
+  await expect(page.locator('#journey-name')).toHaveCount(0);
+  await expect(page.locator('[data-step-indicator="1"]')).toHaveClass(/complete/);
+  await expect(page.locator('.fb-app-nav')).toBeVisible();
+  await expect(page.locator('.fb-app-nav [data-fb-view="ferramentas"]')).not.toHaveAttribute('data-fb-gated', 'true');
+  await page.locator('.fb-app-nav [data-fb-view="ferramentas"]').click();
+  await expect(page).toHaveURL(/\/meu-caminho-be\/ferramentas$/);
+  await expect(page.locator('[data-fb-panel="ferramentas"]')).toBeVisible();
+  await expect(page.locator('.fb-app-nav [data-fb-view="registrar"]')).toHaveAttribute('data-fb-gated', 'true');
+  await page.locator('.fb-app-nav [data-fb-view="registrar"]').click();
+  await expect(page).toHaveURL(/\/meu-caminho-be\/jornada$/);
+  await expect(page.getByRole('heading', { name: 'Qual é o seu principal objetivo?' })).toBeVisible();
+});
+
+test('menu móvel segue as seis etapas e o Perfil revela opções sob demanda', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+    localStorage.setItem('meuCaminhoBeProfileV1', JSON.stringify({
+      name: 'Pessoa Teste',
+      email: 'pessoa@example.com',
+      identityCreatedAt: new Date().toISOString(),
+      objective: 'comecar',
+      practice: 'none',
+      availability: '15',
+      progress: 1,
+      createdAt: new Date().toISOString()
+    }));
+  });
+
+  await page.goto('/meu-caminho-be/perfil');
+  await page.locator('#fb-mobile-menu-toggle').click();
+  const primaryLabels = await page.locator('#fb-mobile-drawer section').first().locator('[data-fb-view]').evaluateAll(buttons =>
+    buttons.map(button => button.textContent.replace(/^[^\p{L}\p{N}]+/u, '').trim())
+  );
+  expect(primaryLabels).toEqual(['Perfil', 'Meu Hoje', 'Registrar', 'Jornada', 'Explorar', 'Ferramentas']);
+  await page.locator('#fb-mobile-drawer-close').click();
+
+  await page.locator('#be-profile-edit').click();
+  await expect(page.locator('.be-profile-optional-fields')).toBeVisible();
+  await expect(page.locator('#fb-profile-email')).toBeHidden();
+  await page.locator('.be-profile-optional-fields > summary').click();
+  await expect(page.locator('#fb-profile-email')).toBeVisible();
+  await expect(page.locator('.be-profile-management')).toBeVisible();
+  await expect(page.locator('.be-profile-management')).not.toHaveAttribute('open', '');
+});
+
+test('etapas da home abrem o assunto correspondente para quem já tem um caminho', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+    localStorage.setItem('meuCaminhoBeProfileV1', JSON.stringify({
+      name: 'Pessoa Teste',
+      identityCreatedAt: new Date().toISOString(),
+      objective: 'comecar',
+      practice: 'none',
+      age: '30-44',
+      availability: '15',
+      progress: 1,
+      createdAt: new Date().toISOString()
+    }));
+  });
   const stages = [
-    ['Descobrir: criar meu Mapa BeM', /\/meu-caminho-be\/jornada$/, '#minha-jornada'],
+    ['Descobrir: criar meu Mapa BeM', /\/meu-caminho-be\/jornada\/mapa$/, '#minha-jornada'],
     ['Começar: registrar meu primeiro passo', /\/meu-caminho-be\/registrar$/, '[data-fb-panel="registrar"]'],
     ['Evoluir: acompanhar minha evolução', /\/meu-caminho-be\/jornada\/evolucao$/, '[data-fb-panel="evolucao"]'],
     ['Permanecer: continuar minha jornada', /\/meu-caminho-be\/jornada$/, '[data-fb-panel="progresso"]']
@@ -44,6 +130,16 @@ test('PWA abre uma subpágina do Meu Caminho Be sem conexão', async ({ page, co
       measurement: false,
       advertising: false,
       updatedAt: new Date().toISOString()
+    }));
+    localStorage.setItem('meuCaminhoBeProfileV1', JSON.stringify({
+      name: 'Pessoa Offline',
+      identityCreatedAt: new Date().toISOString(),
+      objective: 'comecar',
+      practice: 'none',
+      age: '30-44',
+      availability: '15',
+      progress: 1,
+      createdAt: new Date().toISOString()
     }));
   });
   await page.goto('/meu-caminho-be');
@@ -97,7 +193,7 @@ test('zerar processo apaga a jornada e confirma o recomeço', async ({ page }) =
     }
   });
   await page.goto('/meu-caminho-be/perfil');
-  await page.getByRole('link', { name: 'Perfil', exact: true }).click();
+  await page.locator('.be-profile-management > summary').click();
   const reset = page.locator('.fb-profile-reset [data-fb-reset]');
   await expect(reset).toBeVisible();
   await reset.click();
@@ -160,7 +256,7 @@ test('painel mantém a chave na sessão e apresenta a fila de moderação', asyn
   expect(await page.evaluate(() => sessionStorage.getItem('beAdminSessionToken'))).toBe(token);
 });
 
-test('diário mantém registros e fotos somente no aparelho durante o modo local', async ({ page }) => {
+test('diário preserva a cópia local quando a continuidade criptografada está indisponível', async ({ page }) => {
   let publishedBody = null;
   let syncRequests = 0;
   await page.addInitScript(() => {
@@ -201,7 +297,7 @@ test('diário mantém registros e fotos somente no aparelho durante o modo local
   await dialog.getByRole('button', { name: 'Registrar no diário' }).click();
   await expect(dialog).toBeHidden();
   expect(publishedBody).toBeNull();
-  expect(syncRequests).toBe(0);
+  expect(syncRequests).toBe(1);
   const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('meuCaminhoBeDiaryV1') || '[]')[0]);
   expect(saved.visibility).toBe('private');
   expect(saved.publicStatus).toBe('');

@@ -20,7 +20,7 @@ Canal atual: `bemesportivo@yahoo.com`.
 | --- | --- | --- | --- |
 | Meu Caminho Be | perfil, contexto de saúde, diário e progresso | navegador do usuário | até exclusão pelo usuário; histórico limitado pela aplicação |
 | Conta Meu Caminho Be | e-mail, identificador da conta, consentimento e jornada sem fotos do diário | Supabase | até exclusão da conta pela pessoa ou atendimento de solicitação válida |
-| Perfil público | nome/apelido, idade adulta, profissão, foto e publicações escolhidas | Cloudflare KV | enquanto ativo; perfil desativado expira em 180 dias se não for reativado |
+| Perfil público | nome de exibição, esporte, apresentação, foto e publicações escolhidas | Cloudflare KV | enquanto ativo; perfil desativado expira em 180 dias se não for reativado |
 | Comunidade | apelido, texto, data, reações e denúncias | Cloudflare KV | até 24 meses e até 250 comentários por área |
 | Antispam | resumo criptográfico de IP e identificador do dispositivo | estado da API | janelas ativas de limitação; revisar e eliminar entradas antigas |
 | Privacidade | escolha sobre publicidade | navegador do usuário | até nova escolha ou limpeza do navegador |

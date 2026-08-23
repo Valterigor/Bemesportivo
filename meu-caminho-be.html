@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="be-meu-caminho-mode" content="local-only">
+<meta name="be-continuity-mode" content="encrypted-code">
 
 <meta name="google-adsense-account" content="ca-pub-5105345296041597">
 <meta name="description" content="Meu Caminho Be é a sua trajetória esportiva: planeje o dia, registre o que viveu e compreenda sua história no esporte.">
@@ -31,8 +32,9 @@
 <link rel="stylesheet" href="/css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="/css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="/css/meu-caminho-modern.css?v=20260806-1">
-<link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260816-1">
+<link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260823-5">
 <link rel="stylesheet" href="/css/meu-caminho-auth.css?v=20260821-2">
+<link rel="stylesheet" href="/css/meu-caminho-navigation.css?v=20260823-1">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -217,30 +219,32 @@
 <header><div><span>MEU CAMINHO BE</span><h2 id="fb-mobile-drawer-title">Navegue pelo seu caminho</h2></div><button type="button" id="fb-mobile-drawer-close" aria-label="Fechar menu">×</button></header>
 <div class="fb-mobile-drawer-body">
 <section aria-labelledby="fb-drawer-journey-title">
-<h3 id="fb-drawer-journey-title">Jornada da Semana</h3>
-<nav aria-label="Navegação da Jornada da Semana">
-<button type="button" data-fb-view="inicio"><span>⌂</span>Meu início</button>
-<button type="button" data-fb-view="progresso"><span>◇</span>Abrir minha Jornada</button>
-<button type="button" data-fb-view="dicas"><span>✓</span>Dicas práticas</button>
-<button type="button" data-fb-view="perfil" aria-label="Abrir Perfil BE"><span>○</span>Perfil BE</button>
-<button type="button" data-fb-reset><span>↺</span>Zerar processo</button>
+<h3 id="fb-drawer-journey-title">Seu caminho</h3>
+<nav aria-label="Navegação do Meu Caminho Be">
+<button type="button" data-fb-view="perfil"><span>○</span>Perfil</button>
+<button type="button" data-fb-view="inicio"><span>⌂</span>Meu Hoje</button>
+<button type="button" data-fb-view="registrar"><span>＋</span>Registrar</button>
+<button type="button" data-fb-view="progresso"><span>◇</span>Jornada</button>
+<button type="button" data-fb-view="conteudos"><span>▤</span>Explorar</button>
+<button type="button" data-fb-view="ferramentas"><span>⌁</span>Ferramentas</button>
 </nav>
 </section>
 <section aria-labelledby="fb-drawer-ecosystem-title">
-<h3 id="fb-drawer-ecosystem-title">Ecossistema</h3>
-<nav aria-label="Navegação do ecossistema">
-<button type="button" data-fb-view="conteudos"><span>▤</span>Conhecimento</button>
-<button type="button" data-fb-view="ferramentas"><span>＋</span>Ferramentas</button>
+<h3 id="fb-drawer-ecosystem-title">Mais recursos</h3>
+<nav aria-label="Recursos complementares">
+<button type="button" data-fb-view="dicas"><span>✓</span>Dicas práticas</button>
 <button type="button" data-fb-view="especialistas"><span>◎</span>Especialistas</button>
 <button type="button" data-fb-view="gols"><span>⚽</span>Gols</button>
 <button type="button" data-fb-view="comunidade"><span>♧</span>Comunidade</button>
 <button type="button" data-fb-view="modalidades"><span>◈</span>Modalidades</button>
+<button type="button" data-fb-reset><span>↺</span>Zerar processo</button>
 </nav>
 </section>
 </div>
 <footer><button type="button" id="fb-install-app" hidden>Instalar Meu Caminho Be</button><a href="/game.html">Abrir Game 3D</a><a href="/">Ir para o BeMEsportivo</a></footer>
 </aside>
 <header class="fb-app-intro be-product-showcase">
+<strong class="be-showcase-sequence" aria-hidden="true">02</strong>
 <div class="be-showcase-copy">
 <a class="be-showcase-brand" href="/" aria-label="Voltar para a página inicial do BeMEsportivo"><strong>MEU CAMINHO BE</strong></a>
 <h1>Seu diário<br>esportivo digital.</h1>
@@ -251,11 +255,13 @@
 </header>
 
 <nav class="fb-app-nav" aria-label="Navegação do Meu Caminho Be">
-<a class="active" href="/meu-caminho-be" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg><span>Início</span></a>
-<a href="/meu-caminho-be/jornada" data-fb-view="progresso"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg><span>Jornada</span></a>
-<a class="fb-nav-register" href="/meu-caminho-be/registrar" data-fb-view="registrar" aria-label="Abrir a página de registro"><i aria-hidden="true">＋</i><span>Registrar</span></a>
-<a class="fb-nav-tools" href="/meu-caminho-be/ferramentas" data-fb-view="ferramentas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg><span>Ferramentas</span></a>
 <a class="fb-nav-profile" href="/meu-caminho-be/perfil" data-fb-view="perfil"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg><span>Perfil</span></a>
+<a class="fb-nav-today active" href="/meu-caminho-be" data-fb-view="inicio" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"></path></svg><span>Meu Hoje</span></a>
+<a class="fb-nav-register" href="/meu-caminho-be/registrar" data-fb-view="registrar" aria-label="Abrir a página de registro"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg><span>Registrar</span></a>
+<a href="/meu-caminho-be/jornada" data-fb-view="progresso"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg><span>Jornada</span></a>
+<a class="fb-nav-explore" href="/meu-caminho-be/ferramentas/conteudos" data-fb-view="conteudos"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"></path></svg><span>Explorar</span></a>
+<a class="fb-nav-tools" href="/meu-caminho-be/ferramentas" data-fb-view="ferramentas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg><span>Ferramentas</span></a>
+<p class="fb-map-gate-note" id="fb-map-gate-note">Conclua o Perfil Be para continuar.</p>
 </nav>
 
 <section class="be-section-banner" id="be-section-banner" aria-labelledby="be-section-banner-title" hidden>
@@ -771,6 +777,12 @@
 </div>
 
 <div class="fb-app-panel fb-profile-panel" data-fb-panel="perfil" hidden>
+<section class="be-onboarding-sequence" id="be-profile-onboarding" aria-labelledby="be-profile-onboarding-title" hidden>
+<ol aria-label="Etapas para criar seu caminho"><li class="current"><span>1</span><strong>Perfil Be</strong></li><li><span>2</span><strong>Mapa BeM</strong></li><li><span>3</span><strong>Próximo passo</strong></li></ol>
+<span>ETAPA 1 DE 3</span>
+<h1 id="be-profile-onboarding-title">Primeiro, queremos conhecer você no esporte.</h1>
+<p>Conte como prefere ser chamado, qual prática faz parte da sua vida e o que o esporte representa para você. Com esse ponto de partida, o sistema poderá fazer as perguntas certas — sem comparar você com ninguém.</p>
+</section>
 <section class="fb-profile-next-step" id="fb-profile-next-step" aria-labelledby="fb-profile-next-title" hidden>
 <span>SEU PRÓXIMO PASSO</span>
 <h3 id="fb-profile-next-title">Antes de começar, converse com um profissional.</h3>
@@ -806,20 +818,25 @@
 </section>
 <section class="be-profile-form-section" aria-labelledby="be-profile-registration-title">
 <header><span>CADASTRO</span><h3 id="be-profile-registration-title">Informações básicas</h3><p>Use os dados pelos quais você deseja ser reconhecido dentro da sua experiência.</p></header>
-<div class="be-profile-form-grid">
+<div class="be-profile-form-grid be-profile-essential-fields">
 <label for="fb-profile-name">Nome ou apelido<input id="fb-profile-name" name="name" maxlength="40" placeholder="Como podemos chamar você?" autocomplete="name" required></label>
+</div>
+<details class="be-profile-optional-fields">
+<summary>Adicionar informações opcionais</summary>
+<div class="be-profile-form-grid">
 <label for="fb-profile-email">E-mail <em>(opcional e salvo somente neste aparelho)</em><input id="fb-profile-email" name="email" type="email" maxlength="120" placeholder="voce@email.com" autocomplete="email"></label>
-<label for="fb-profile-age">Idade <em>(necessária no Meu Diário BE)</em><input id="fb-profile-age" name="age" type="number" min="18" max="120" inputmode="numeric" placeholder="Ex.: 34"></label>
+<label for="fb-profile-age">Idade <em>(opcional e salva somente neste aparelho)</em><input id="fb-profile-age" name="age" type="number" min="18" max="120" inputmode="numeric" placeholder="Ex.: 34"></label>
 <label for="fb-profile-profession">Profissão <em>(opcional no diário privado)</em><input id="fb-profile-profession" name="profession" maxlength="60" placeholder="Ex.: professora, estudante, autônomo" autocomplete="organization-title"></label>
 <label for="fb-profile-city">Cidade <em>(opcional)</em><input id="fb-profile-city" name="city" maxlength="60" placeholder="Sua cidade" autocomplete="address-level2"></label>
 <label for="fb-profile-state">Estado <em>(opcional)</em><input id="fb-profile-state" name="state" maxlength="2" pattern="[A-Za-z]{2}" placeholder="UF" autocomplete="address-level1"></label>
 </div>
+</details>
 </section>
 <section class="be-profile-form-section" aria-labelledby="be-profile-sport-title">
 <header><span>IDENTIDADE ESPORTIVA</span><h3 id="be-profile-sport-title">Como o esporte faz parte da sua vida?</h3><p>Essas informações ajudam a organizar sua experiência sem limitar novas possibilidades.</p></header>
 <div class="be-profile-form-grid">
 <label for="fb-profile-sport">Modalidade principal<select id="fb-profile-sport" name="sport">
-<option value="outro">Outro esporte ou atividade</option>
+<option value="outro">Esporte ou atividade</option>
 <option value="futebol">Futebol</option>
 <option value="futsal">Futsal</option>
 <option value="volei">Vôlei</option>
@@ -844,13 +861,13 @@
 <label for="fb-profile-story">Minha história no esporte <em>(opcional)</em><textarea id="fb-profile-story" name="story" maxlength="600" rows="6" placeholder="Ex.: Comecei a jogar com amigos na escola. Hoje quero voltar a me movimentar e criar mais momentos de lazer na semana."></textarea><small><span id="fb-profile-story-count">0</span>/600 caracteres</small></label>
 </section>
 <section class="be-profile-form-section be-public-profile-settings" aria-labelledby="be-public-profile-settings-title" hidden>
-<header><span>MEU DIÁRIO BE</span><h3 id="be-public-profile-settings-title">Quer ter um diário público?</h3><p>Ative esta opção para ter uma página simples com seus dados, textos e fotos. Seus registros de atividade continuam privados por padrão.</p></header>
-<label class="be-public-profile-toggle"><input type="checkbox" id="fb-profile-public-enabled" name="publicEnabled"><span><strong>Quero ativar o Meu Diário BE</strong><small>As pessoas verão sua foto, idade, profissão, esporte favorito, apresentação e somente as publicações que você compartilhar.</small></span></label>
+<header><span>MEU DIÁRIO BE</span><h3 id="be-public-profile-settings-title">Quer ter um diário público?</h3><p>Ative esta opção para criar uma página com seu Perfil Be básico e somente os textos e fotos que você decidir compartilhar. Seus dados de cadastro e registros de atividade continuam privados.</p></header>
+<label class="be-public-profile-toggle"><input type="checkbox" id="fb-profile-public-enabled" name="publicEnabled"><span><strong>Quero ativar o Meu Diário BE</strong><small>As pessoas verão apenas seu nome de exibição, foto, esporte, apresentação e as publicações que você escolher compartilhar.</small></span></label>
 <label class="be-public-profile-consent" id="fb-profile-public-consent-wrap" hidden><input type="checkbox" id="fb-profile-public-consent" name="publicConsent"><span><strong>Confirmo que tenho 18 anos ou mais e quero publicar esta página.</strong><small>Li e aceito os <a href="/termos" target="_blank" rel="noopener noreferrer">Termos de Uso</a> e as <a href="/diretrizes-da-comunidade" target="_blank" rel="noopener noreferrer">Diretrizes da Comunidade</a>. A página entrará no ar imediatamente e poderá ser fiscalizada, denunciada ou removida.</small></span></label>
 <div class="be-public-profile-status" id="be-public-profile-status" role="status"><span aria-hidden="true">◌</span><p>Ative, aceite os termos e salve. Sua página entrará no ar.</p></div>
 <a class="be-public-profile-link" id="be-public-profile-link" href="/perfil-publico" target="_blank" rel="noopener noreferrer" hidden>Visualizar Meu Diário BE</a>
 </section>
-<footer class="be-profile-form-footer"><p class="be-profile-privacy">🔒 Seus dados ficam neste aparelho por padrão. Eles só entram na nuvem quando você autoriza a continuidade criptografada ou a sincronização com sua conta.</p><div><button type="button" id="be-profile-cancel-edit" hidden>Cancelar</button><button type="submit" class="fb-primary-action" id="fb-profile-save">Salvar e ver meu perfil</button></div></footer>
+<footer class="be-profile-form-footer"><p class="be-profile-privacy">🔒 Seus dados ficam neste aparelho por padrão. Eles só entram na nuvem quando você autoriza a continuidade criptografada ou a sincronização com sua conta.</p><div><button type="button" id="be-profile-cancel-edit" hidden>Cancelar</button><button type="submit" class="fb-primary-action" id="fb-profile-save">Salvar Perfil Be e continuar</button></div></footer>
 </form>
 <p class="fb-profile-feedback" id="fb-profile-feedback" aria-live="polite"></p>
 <nav class="fb-section-actions" aria-label="Próximos passos após o perfil">
@@ -859,6 +876,9 @@
 <button type="button" data-fb-view="especialistas">Ver profissionais</button>
 <button type="button" data-fb-view="ferramentas">Abrir ferramentas</button>
 </nav>
+<details class="be-profile-management">
+<summary><span>Configurações, privacidade e dados<small>Histórico, continuidade, backup e controle do perfil</small></span></summary>
+<div class="be-profile-management-body">
 <button type="button" class="fb-profile-edit" data-fb-edit-onboarding>Editar minhas respostas iniciais</button>
 <button type="button" class="fb-profile-edit" id="fb-review-safety">Revisar contexto e segurança</button>
 <section class="fb-profile-history" id="fb-profile-history" aria-labelledby="fb-history-title">
@@ -870,11 +890,13 @@
 </dl>
 </section>
 <section class="fb-account-card" id="fb-account-card" aria-labelledby="fb-account-title" data-account="unavailable">
-<div><span>MODO LOCAL</span><h3 id="fb-account-title">Seu caminho permanece neste aparelho</h3><p id="fb-account-status" role="status">Acesso livre para registros e inclusões.</p><small id="fb-account-email"></small></div>
+<div><span>CONTINUIDADE OPCIONAL</span><h3 id="fb-account-title">Continue em outro aparelho sem depender de e-mail</h3><p id="fb-account-status" role="status">Se preferir, seus registros continuam somente neste aparelho.</p><small id="fb-account-email"></small></div>
 <div class="fb-account-actions"><button type="button" class="fb-primary-action" id="fb-account-connect" hidden>Ativar continuidade</button><button type="button" id="fb-account-show-code" hidden>Ver meu código</button><button type="button" id="fb-account-sync-now" hidden>Sincronizar agora</button><button type="button" id="fb-account-logout" hidden>Desconectar código</button><button type="button" class="fb-account-danger" id="fb-account-cloud-delete" hidden>Excluir cópia da nuvem</button></div>
 </section>
 <div class="fb-profile-data"><strong>Seus dados, sob seu controle</strong><span>Baixe uma cópia ou restaure seu caminho neste navegador.</span><div><button type="button" id="fb-export-profile">Exportar meus dados</button><label for="fb-import-profile">Importar backup<input type="file" id="fb-import-profile" accept="application/json,.json" hidden></label></div><small>O arquivo pode conter informações pessoais e relatos da sua jornada. A importação substitui os dados atuais somente depois da sua confirmação.</small></div>
 <div class="fb-profile-reset"><strong>Quer começar novamente?</strong><span>Apague os dados locais e refaça sua trajetória desde o nome.</span><button type="button" data-fb-reset>Zerar meu processo</button></div>
+</div>
+</details>
 </div>
 
 <div class="fb-app-panel fb-answer-panel fb-goals-panel" data-fb-panel="gols" hidden>
@@ -934,14 +956,14 @@
 <section class="journey-paths" id="minha-jornada" aria-labelledby="journey-title">
 <div class="journey-head">
 <div>
-<span>SEU PONTO DE PARTIDA</span>
+<span>ETAPA 2 DE 3 · SEU MAPA BEM</span>
 <h2 id="journey-title">Crie seu Mapa BeM</h2>
 </div>
-<p>Conte seu contexto e receba caminhos educacionais para escolher o próximo passo. Você sempre poderá revisar ou corrigir as respostas.</p>
+<p>Agora que conhecemos seu Perfil Be, precisamos entender seu objetivo, seu momento atual e o tempo que cabe na sua vida. Ao final, você receberá um próximo passo claro.</p>
 </div>
 <div class="journey-assistant" id="journey-assistant">
 <ol class="journey-progress" aria-label="Progresso de criação do Mapa BeM">
-<li class="active" data-step-indicator="1"><span>1</span><small>Você</small></li>
+<li class="complete" data-step-indicator="1"><span>✓</span><small>Perfil Be</small></li>
 <li data-step-indicator="2"><span>2</span><small>Objetivo</small></li>
 <li data-step-indicator="3"><span>3</span><small>Prática atual</small></li>
 <li data-step-indicator="4"><span>4</span><small>Seu momento</small></li>
@@ -949,13 +971,6 @@
 <li data-step-indicator="6"><span>6</span><small>Mapa BeM</small></li>
 </ol>
 <div class="journey-reset-bar"><span>Suas respostas ficam somente neste aparelho.</span><button type="button" data-fb-reset>↺ Recomeçar do zero</button></div>
-
-<div class="journey-stage" data-journey-step="1" aria-labelledby="journey-step-1-title">
-<span class="journey-stage-kicker">ETAPA 1 DE 6</span>
-<h3 id="journey-step-1-title">Como você quer ser chamado?</h3>
-<p>Este nome será usado para tornar sua experiência mais pessoal neste dispositivo.</p>
-<label class="journey-text-field" for="journey-name"><span>Seu nome ou apelido</span><input id="journey-name" type="text" minlength="2" maxlength="40" autocomplete="given-name" placeholder="Ex.: Valter" required></label>
-</div>
 
 <div class="journey-stage" data-journey-step="2" aria-labelledby="journey-step-2-title" hidden>
 <span class="journey-stage-kicker">ETAPA 2 DE 6</span>
@@ -1604,15 +1619,16 @@ Seu navegador não consegue reproduzir este vídeo.
 </form>
 </dialog>
 
-<script type="module" src="/js/site-common.js?v=20260816-1"></script>
+<script type="module" src="/js/site-common.js?v=20260823-1"></script>
 <script type="module" src="/js/routine-calendar.js?v=20260807-1"></script>
 <script type="module" src="/js/meu-caminho-auth.js?v=20260822-1"></script>
-<script type="module" src="/js/meu-caminho-account.js?v=20260822-1"></script>
-<script src="/js/coluna-valtinho.js?v=20260722-2" defer></script>
+<script type="module" src="/js/meu-caminho-account.js?v=20260823-1"></script>
+<script src="/js/coluna-valtinho.js?v=20260823-1" defer></script>
 <script src="/js/be-knowledge-library.js?v=20260821-4" defer></script>
-<script src="/js/fala-bem-app.js?v=20260822-2" defer></script>
+<script src="/js/meu-caminho-navigation.js?v=20260823-1" defer></script>
+<script src="/js/fala-bem-app.js?v=20260823-8" defer></script>
 <script src="/js/be-ia.js?v=20260806-1" defer></script>
-<script src="/js/meu-caminho-diary.js?v=20260815-3" defer></script>
+<script src="/js/meu-caminho-diary.js?v=20260823-1" defer></script>
 
 </body>
 </html>

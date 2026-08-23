@@ -161,7 +161,7 @@ body.be-public-page > main.be-public-profile {
 
 .be-public-facts {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   margin: 25px clamp(24px, 4vw, 40px) 34px;
 }
