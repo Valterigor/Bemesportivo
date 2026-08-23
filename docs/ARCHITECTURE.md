@@ -8,7 +8,7 @@ O Bem Esportivo usa uma arquitetura estática com backend serverless:
 navegador
   ├── páginas, CSS, JavaScript e mídia em dist/
   ├── /api/* → Cloudflare Pages Functions
-  └── autenticação e dados privados → Supabase Auth/Postgres
+  └── continuidade opcional → cópia criptografada no Cloudflare
 
 Cloudflare Worker agendado → notificações e rotinas
 ```
@@ -28,7 +28,6 @@ O Cloudflare Pages executa `npm run build` e publica `dist/`. As Pages Functions
 
 `src/apps/` contém código editável que precisa ser empacotado. O build atual gera:
 
-- `src/apps/meu-caminho/auth.js` → `js/meu-caminho-auth.js`
 - `src/apps/meu-caminho/account.js` → `js/meu-caminho-account.js`
 - `js/meu-caminho-navigation.js`: regras de sequencia, bloqueios orientativos e destinos do Meu Caminho Be.
 - `css/meu-caminho-navigation.css`: layout canonico do menu lateral, barra movel e divulgacao progressiva do Perfil.

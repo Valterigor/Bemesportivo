@@ -68,6 +68,10 @@ const sportIdentityPresets = {
   outro: { label: 'Esporte ou atividade', metric: 'Progresso', role: 'Descreva a modalidade ou atividade' }
 };
 let currentProfile = readStoredProfile();
+if (currentProfile && Object.hasOwn(currentProfile, 'email')) {
+  delete currentProfile.email;
+  try { localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(currentProfile)); } catch (error) { /* mantém a jornada disponível mesmo sem espaço para migrar */ }
+}
 let pendingProfileUpdate = null;
 let pendingProfilePhoto;
 let lastBeNowTransition = null;
@@ -88,9 +92,12 @@ const viewTargets = {
   jornada: ['#minha-jornada'],
   ferramentas: ['#ferramentas'],
   especialistas: ['#especialistas'],
-  modalidades: ['.container.page > .platform-duo'],
+  modalidades: ['#modalidades'],
   comunidade: ['.container.page > .platform-engagement'],
   trilhas: ['#trilhas']
+};
+const managedViewContainers = {
+  modalidades: '.container.page > .platform-duo'
 };
 const appPathForView = {
   inicio: APP_BASE_PATH,
@@ -184,7 +191,7 @@ const sectionBannerContent = {
   perfil: {
     kicker: 'SUA IDENTIDADE NO ESPORTE',
     title: 'Perfil',
-    text: 'Organize seu cadastro, sua modalidade e a forma como sua trajetória aparece no Meu Caminho Be.',
+    text: 'Organize seu nome de acesso, sua modalidade e a forma como sua trajetória aparece no Meu Caminho Be.',
     mark: '01'
   }
 };
@@ -395,6 +402,7 @@ function saveProfile(updates) {
     createdAt: currentProfile?.createdAt || updates.createdAt || now,
     updatedAt: now
   };
+  delete currentProfile.email;
   try {
     localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(currentProfile));
   } catch (error) {
@@ -790,7 +798,8 @@ function openView(requestedView, options = {}) {
 
   managedSections.forEach(section => section.classList.remove('fb-app-visible'));
   (viewTargets[view] || []).forEach(selector => {
-    document.querySelector(selector)?.classList.add('fb-app-visible');
+    const destination = document.querySelector(managedViewContainers[view] || selector);
+    destination?.classList.add('fb-app-visible');
   });
 
   shell.classList.toggle('fb-app-shell-compact', view !== 'inicio');
@@ -808,8 +817,9 @@ function openView(requestedView, options = {}) {
     else button.removeAttribute('aria-current');
   });
 
+  const exactDrawerView = mobileDrawerViewButtons.some(button => button.dataset.fbView === view) ? view : primarySection;
   mobileDrawerViewButtons.forEach(button => {
-    const selected = button.dataset.fbView === primarySection;
+    const selected = button.dataset.fbView === exactDrawerView;
     button.classList.toggle('active', selected);
     if (selected) button.setAttribute('aria-current', 'page');
     else button.removeAttribute('aria-current');
@@ -1861,7 +1871,6 @@ function renderProfileSummary() {
 
 function syncProfileFormValues() {
   const nameInput = document.getElementById('fb-profile-name');
-  const emailInput = document.getElementById('fb-profile-email');
   const cityInput = document.getElementById('fb-profile-city');
   const stateInput = document.getElementById('fb-profile-state');
   const ageInput = document.getElementById('fb-profile-age');
@@ -1875,7 +1884,6 @@ function syncProfileFormValues() {
   const storyCount = document.getElementById('fb-profile-story-count');
   const sportProfile = getSportProfile();
   if (nameInput && document.activeElement !== nameInput) nameInput.value = currentProfile?.name || '';
-  if (emailInput && document.activeElement !== emailInput) emailInput.value = currentProfile?.email || '';
   if (cityInput && document.activeElement !== cityInput) cityInput.value = currentProfile?.location?.city || '';
   if (stateInput && document.activeElement !== stateInput) stateInput.value = currentProfile?.location?.state || '';
   if (ageInput && document.activeElement !== ageInput) ageInput.value = currentProfile?.publicAge || '';
@@ -3954,7 +3962,6 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
   event.preventDefault();
   const wasIdentityPending = !hasProfileIdentity();
   const name = document.getElementById('fb-profile-name').value.trim();
-  const email = document.getElementById('fb-profile-email')?.value.trim().toLocaleLowerCase('pt-BR') || '';
   const location = {
     city: document.getElementById('fb-profile-city')?.value.trim().slice(0, 60) || '',
     state: document.getElementById('fb-profile-state')?.value.trim().toLocaleUpperCase('pt-BR').slice(0, 2) || ''
@@ -3980,7 +3987,7 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
     : sanitizeProfilePhoto(pendingProfilePhoto);
   profileEditMode = false;
   saveProfile({
-    name, email, location, photoDataUrl, sportProfile, story, publicAge, profession, publicEnabled,
+    name, location, photoDataUrl, sportProfile, story, publicAge, profession, publicEnabled,
     publicTermsAccepted: publicEnabled ? publicTermsAccepted : currentProfile?.publicTermsAccepted === true,
     publicTermsVersion: publicEnabled ? PUBLIC_PROFILE_TERMS_VERSION : currentProfile?.publicTermsVersion || '',
     publicTermsAcceptedAt: publicEnabled && publicTermsAccepted
@@ -3995,12 +4002,12 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
   if (name) registerFirstIdentityAccess();
   const sportLabel = getSportProfile({ sportProfile }).modalityLabel;
   document.getElementById('fb-profile-feedback').textContent = name
-    ? `Perfil salvo, ${name}.${publicEnabled ? ' Sua página pública já pode ser aberta e compartilhada.' : story ? ' Sua história também foi guardada.' : ` Modalidade base: ${sportLabel}.`}`
+    ? `Acesso local criado para ${name}.${publicEnabled ? ' Sua página pública já pode ser aberta e compartilhada.' : story ? ' Sua história também foi guardada.' : ` Modalidade base: ${sportLabel}.`}`
     : `Perfil salvo neste navegador. Modalidade base: ${sportLabel}.`;
   const interaction = buildLocalInteraction('profile_saved', { name, activityLabel: sportLabel }, {
     title: 'Perfil atualizado!',
-    message: name ? `Muito bem, ${name}. Seu perfil agora tem uma identidade por modalidade.` : 'Seu perfil agora tem uma identidade por modalidade.',
-    detail: 'Você pode atualizar essas informações quando quiser.'
+    message: name ? `Tudo certo, ${name}. Este aparelho já reconhece o seu perfil.` : 'Seu perfil agora tem uma identidade por modalidade.',
+    detail: 'Nas próximas visitas, seu caminho continuará de onde você parou.'
   });
   showCelebration(interaction.title, interaction.message, { detail: interaction.detail });
   if (wasIdentityPending && hasProfileIdentity()) {
@@ -4028,7 +4035,7 @@ document.getElementById('fb-profile-photo')?.addEventListener('change', async ev
   try {
     pendingProfilePhoto = await resizeProfilePhoto(file);
     renderProfilePhoto();
-    if (feedback) feedback.textContent = 'Foto pronta. Clique em “Salvar meu cadastro” para concluir.';
+    if (feedback) feedback.textContent = 'Foto pronta. Clique em “Salvar perfil” para concluir.';
   } catch (error) {
     if (feedback) feedback.textContent = 'Escolha uma imagem JPG, PNG ou WebP de até 8 MB.';
   } finally {
@@ -4040,7 +4047,7 @@ document.getElementById('fb-profile-photo')?.addEventListener('change', async ev
 document.getElementById('fb-profile-photo-remove')?.addEventListener('click', () => {
   pendingProfilePhoto = null;
   renderProfilePhoto();
-  document.getElementById('fb-profile-feedback').textContent = 'Foto removida da prévia. Salve o cadastro para confirmar.';
+  document.getElementById('fb-profile-feedback').textContent = 'Foto removida da prévia. Salve o perfil para confirmar.';
 });
 
 document.getElementById('fb-goals-form')?.addEventListener('submit', event => {
@@ -4626,7 +4633,9 @@ const practicalTips = {
   correr: { kicker: 'COMEÇAR A CORRER', title: 'Alterne caminhada e corrida para construir sua base.', intro: 'O começo deve parecer controlado o suficiente para você conseguir repetir, não uma prova de velocidade.', steps: ['Escolha um percurso plano e seguro.', 'Faça 5 minutos de caminhada leve para aquecer.', 'Alterne 1 minuto de corrida confortável com 2 minutos de caminhada por 18 a 24 minutos.', 'Descanse ou faça uma atividade leve no dia seguinte e repita de 2 a 3 vezes na semana.'], next: 'Quando completar duas semanas sem dor persistente e recuperando-se bem, aumente primeiro os minutos correndo — não a velocidade.', specialist: 'Um profissional de Educação Física pode avaliar seu nível atual, organizar a progressão e ajustar técnica, volume e intensidade.' },
   recuperacao: { kicker: 'RECUPERAÇÃO', title: 'Recuperar também faz parte do treino.', intro: 'Sono, alimentação, hidratação e intervalo entre sessões ajudam o corpo a responder ao estímulo recebido.', steps: ['Observe como estão energia, sono, dor e vontade de treinar.', 'Após uma sessão exigente, faça descanso ou movimento leve antes de repetir a mesma carga.', 'Mantenha hidratação e refeições regulares, sem tentar compensar o treino.', 'Se o desempenho cair ou o desconforto aumentar por vários dias, reduza a carga e procure orientação.'], next: 'Volte ao treino intenso quando as atividades do dia a dia estiverem confortáveis e sua disposição tiver retornado.', specialist: 'Em caso de dor, lesão ou retorno após afastamento, procure fisioterapeuta ou médico do esporte. Para recuperação entre treinos, Educação Física e Nutrição também podem ajudar.' },
   constancia: { kicker: 'CRIAR CONSTÂNCIA', title: 'Faça o esporte caber na semana real.', intro: 'Uma rotina pequena e repetível costuma ser mais útil do que um plano perfeito que depende de motivação todos os dias.', steps: ['Escolha dois dias e horários que normalmente estão livres.', 'Defina uma versão mínima de 10 a 20 minutos para dias difíceis.', 'Deixe roupa, local ou equipamento preparados com antecedência.', 'Ao terminar, registre apenas: fiz, fiz parcialmente ou preciso ajustar.'], next: 'Mantenha os mesmos horários por duas semanas antes de acrescentar um terceiro dia.', specialist: 'Um profissional de Educação Física pode transformar sua disponibilidade em um plano realista. Se barreiras emocionais dificultarem a continuidade, a Psicologia pode complementar esse cuidado.' },
-  evoluir: { kicker: 'EVOLUIR', title: 'Mude uma variável por vez e acompanhe a resposta.', intro: 'Evolução sustentável combina estímulo progressivo, técnica, recuperação e uma medida simples de acompanhamento.', steps: ['Escolha uma meta para as próximas quatro semanas.', 'Registre seu ponto de partida: tempo, distância, carga, repetições ou esforço de 0 a 10.', 'Ajuste somente duração, frequência ou intensidade — nunca tudo de uma vez.', 'Compare o resultado e a recuperação ao final de cada semana.'], next: 'Se você manteve boa técnica e recuperação, faça um pequeno avanço; se não, mantenha ou reduza a carga.', specialist: 'Procure um profissional de Educação Física ou treinador da modalidade para avaliar sua técnica e planejar a progressão; Nutrição e Medicina do Esporte podem complementar conforme a necessidade.' }
+  evoluir: { kicker: 'EVOLUIR', title: 'Mude uma variável por vez e acompanhe a resposta.', intro: 'Evolução sustentável combina estímulo progressivo, técnica, recuperação e uma medida simples de acompanhamento.', steps: ['Escolha uma meta para as próximas quatro semanas.', 'Registre seu ponto de partida: tempo, distância, carga, repetições ou esforço de 0 a 10.', 'Ajuste somente duração, frequência ou intensidade — nunca tudo de uma vez.', 'Compare o resultado e a recuperação ao final de cada semana.'], next: 'Se você manteve boa técnica e recuperação, faça um pequeno avanço; se não, mantenha ou reduza a carga.', specialist: 'Procure um profissional de Educação Física ou treinador da modalidade para avaliar sua técnica e planejar a progressão; Nutrição e Medicina do Esporte podem complementar conforme a necessidade.' },
+  futebol: { kicker: 'FUTEBOL COM INTELIGÊNCIA', title: 'Jogue melhor entendendo seu papel em cada momento.', intro: 'Técnica, leitura do jogo, posicionamento e recuperação trabalham juntos no futebol.', steps: ['Escolha um fundamento para observar no treino: passe, domínio, finalização ou marcação.', 'Antes de receber a bola, olhe ao redor e identifique companheiros, adversários e espaço livre.', 'Durante o jogo, registre uma decisão que funcionou e outra que pode melhorar.', 'Faça uma sessão curta de técnica sem fadiga excessiva.', 'Reserve tempo para recuperação antes de repetir uma sessão intensa.'], next: 'Avance quando conseguir repetir a decisão treinada em situações diferentes, mantendo controle e segurança.', specialist: 'Um treinador ou profissional de Educação Física pode observar sua tomada de decisão, ajustar o treino técnico e organizar a carga semanal.' },
+  saude: { kicker: 'VIDA MAIS SAUDÁVEL', title: 'Construa uma rotina que cuide do movimento e da recuperação.', intro: 'Saúde no esporte nasce de ações possíveis e repetidas, não de mudanças extremas.', steps: ['Escolha dois momentos realistas da semana para se movimentar.', 'Comece com uma duração que permita terminar com disposição.', 'Mantenha água e refeições regulares ao longo do dia.', 'Observe sono, energia e desconfortos antes de aumentar o esforço.', 'Registre o que conseguiu fazer e ajuste a próxima semana sem culpa.'], next: 'Acrescente tempo ou frequência somente quando a rotina atual estiver estável e confortável.', specialist: 'Educação Física, Nutrição e profissionais de saúde podem orientar escolhas individualizadas quando houver condição clínica, dor ou objetivo específico.' }
 };
 
 function showPracticalTip(topic, options = {}) {

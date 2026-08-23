@@ -27,15 +27,6 @@ esbuild.buildSync({
   minify: true,
   outfile: path.join(rootDir, 'js/meu-caminho-account.js')
 });
-const authBundlePath = path.join(rootDir, 'js/meu-caminho-auth.js');
-esbuild.buildSync({
-  entryPoints: [path.join(rootDir, 'src/apps/meu-caminho/auth.js')],
-  bundle: true,
-  format: 'esm',
-  minify: true,
-  outfile: authBundlePath
-});
-fs.writeFileSync(authBundlePath, fs.readFileSync(authBundlePath, 'utf8').replace(/[ \t]+(?=\r?\n)/g, ''));
 execFileSync(process.execPath, [path.join(rootDir, 'scripts', 'quality-check.js')], { stdio: 'inherit' });
 
 const pages = fs.readdirSync(rootDir)

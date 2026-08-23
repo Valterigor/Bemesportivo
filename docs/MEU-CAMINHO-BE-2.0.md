@@ -94,7 +94,7 @@ O retorno diário não deve depender de culpa, medo ou perda artificial. A motiv
 
 ### Deve entrar no primeiro lançamento autenticado
 
-- conta por e-mail com código ou link de acesso;
+- acesso local pelo nome definido no Perfil Be e continuidade opcional por código criptografado;
 - aceite separado de termos, privacidade e tratamento de dados opcionais;
 - migração voluntária do perfil local para a conta;
 - sincronização de perfil, Meu Hoje, Jornada da Semana e conquistas;

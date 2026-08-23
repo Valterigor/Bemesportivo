@@ -11,7 +11,7 @@ Fluxo recomendado:
 3. Faça commit de escopo único.
 4. Envie `main` somente com autorização explícita.
 5. Aguarde a implantação ativa.
-6. Valide `/`, `/meu-caminho-be`, `/reportagens` e `/api/auth-config`.
+6. Valide `/`, `/meu-caminho-be`, `/reportagens` e a continuidade por código.
 
 ## Banco
 

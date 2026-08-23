@@ -2,6 +2,7 @@
   'use strict';
 
   const mapRequiredViews = new Set(['registrar', 'progresso', 'evolucao', 'explorar']);
+  const identityRequiredViews = new Set(['inicio', 'registrar', 'progresso', 'jornada', 'evolucao', 'explorar']);
 
   function isMapRequired(view) {
     return mapRequiredViews.has(String(view || ''));
@@ -9,7 +10,7 @@
 
   function resolveRequestedView(view, { hasIdentity = false, hasJourney = false } = {}) {
     const requested = String(view || 'inicio');
-    if (!hasIdentity && requested !== 'perfil') {
+    if (!hasIdentity && identityRequiredViews.has(requested)) {
       return { view: 'perfil', reason: 'profile', message: 'Primeiro, conclua seu Perfil Be para continuar.' };
     }
     if (hasIdentity && !hasJourney && isMapRequired(requested)) {
@@ -31,7 +32,7 @@
 
     buttons.forEach(button => {
       const view = button.dataset.fbView;
-      const gated = !minorRestricted && (!hasIdentity ? view !== 'perfil' : !hasJourney && isMapRequired(view));
+      const gated = !minorRestricted && (!hasIdentity ? identityRequiredViews.has(view) : !hasJourney && isMapRequired(view));
       if (gated) {
         button.dataset.fbGated = 'true';
         button.setAttribute('aria-describedby', 'fb-map-gate-note');

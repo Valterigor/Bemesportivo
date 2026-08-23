@@ -19,7 +19,7 @@ O deploy de contas e sincronização não deve ser aprovado enquanto algum item 
 
 ## Cloudflare
 
-- [ ] Configurar `SUPABASE_URL` e `SUPABASE_PUBLISHABLE_KEY`.
+- [ ] Manter novos cadastros e provedores sociais desativados no Supabase; preservar as chaves somente enquanto forem necessárias para atender exclusões legadas.
 - [ ] Configurar `SUPABASE_SERVICE_ROLE_KEY` como segredo de backend, nunca variável pública.
 - [ ] Confirmar que o segredo não aparece em HTML, JavaScript, logs, build ou API de configuração.
 - [ ] Configurar segredos de rate limiting e e-mail com rotação e acesso mínimo.

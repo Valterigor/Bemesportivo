@@ -5,7 +5,7 @@
 - Página ou reportagem: arquivo HTML correspondente na raiz.
 - Componente visual compartilhado: `css/components/` e `js/components/`.
 - Tokens e primitivas: `css/core/`.
-- Meu Caminho autenticado: `src/apps/meu-caminho/`.
+- Continuidade criptografada do Meu Caminho: `src/apps/meu-caminho/`.
 - API: `functions/api/`, com regras reutilizáveis em `server/`.
 - Banco e RLS: nova migração em `supabase/migrations/`; nunca edite uma migração já aplicada.
 - Worker agendado: `workers/`.
@@ -13,7 +13,7 @@
 ## O que não editar
 
 - `dist/`: sempre regenerado.
-- `js/meu-caminho-auth.js` e `js/meu-caminho-account.js`: bundles gerados.
+- `js/meu-caminho-account.js`: bundle gerado da continuidade por código.
 - `js/meu-caminho-navigation.js`: regras editaveis de navegacao e liberacao progressiva.
 - `css/meu-caminho-navigation.css`: fonte canonica do menu e da navegacao responsiva.
 - `archive/`: referência histórica congelada.

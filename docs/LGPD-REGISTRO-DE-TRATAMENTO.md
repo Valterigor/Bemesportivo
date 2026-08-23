@@ -5,10 +5,10 @@ Este registro deve ser revisado a cada mudança de finalidade, fornecedor, dado 
 ## Identificação e responsabilidades
 
 - Controlador: Bem Esportivo, projeto digital independente.
-- Identificação civil ou empresarial: **PREENCHER antes da abertura pública de contas**.
+- Identificação civil ou empresarial: **PREENCHER conforme a formalização do controlador**.
 - Responsável interno por privacidade: **PREENCHER**.
 - Canal de titulares e incidentes: `bemesportivo@yahoo.com`.
-- Operadores principais: Cloudflare, Supabase e Google, conforme a operação abaixo.
+- Operadores principais: Cloudflare, Google e Yahoo Mail, conforme a operação abaixo.
 
 ## Inventário
 
@@ -16,9 +16,7 @@ Este registro deve ser revisado a cada mudança de finalidade, fornecedor, dado 
 | --- | --- | --- | --- | --- | --- |
 | Navegação essencial | IP, navegador, rota, data e controles técnicos | Entregar e proteger o site; execução do serviço e legítimo interesse sujeito a avaliação | Cloudflare; possível tratamento internacional | Logs pelo prazo técnico/contratual mínimo; revisar configuração trimestralmente | Operação técnica autorizada |
 | Preferências de privacidade | categorias autorizadas e data | Respeitar e provar a escolha; consentimento e obrigação de transparência | Navegador | Até nova escolha ou limpeza do navegador | Própria pessoa |
-| Conta | nome/apelido, e-mail, identificador, aceite e eventos de autenticação | Criar e proteger a conta; execução do serviço e consentimentos aplicáveis | Supabase | Até exclusão da conta, ressalvadas obrigações legais e cópias técnicas temporárias | Titular e operação mínima do fornecedor |
 | Jornada local | perfil, faixa etária, objetivos, atividades, refeições, sono, hidratação, fotos e respostas de contexto/saúde | Personalização educativa solicitada; consentimento específico para dados sensíveis | Navegador | Até exclusão pela própria pessoa; limites internos de histórico | Pessoa com acesso ao navegador |
-| Sincronização por conta | jornada sem fotos do diário; pode incluir foto de perfil | Continuidade entre aparelhos; consentimento separado | Supabase | Até exclusão da conta ou da jornada sincronizada | Próprio usuário por RLS e operação técnica restrita |
 | Continuidade criptografada | pacote cifrado, identificador e verificador | Continuidade opcional sem acesso ao conteúdo legível | Cloudflare KV | Até exclusão pelo código ou revisão de inatividade definida pela operação | Titular com código; conteúdo cifrado para o operador |
 | Perfil público | nome de exibição, esporte, apresentação, foto e publicações escolhidas | Publicação solicitada; consentimento e execução da funcionalidade | Cloudflare KV e internet pública | Até exclusão; ao desativar, fica invisível e expira em 180 dias se não for reativado | Público enquanto ativo; moderação autorizada |
 | Comunidade | apelido, texto, reações, denúncias e identificador pseudonimizado | Publicar, moderar e prevenir abuso | Cloudflare KV | Até 24 meses; máximo de 250 comentários por área | Público e moderação autorizada |
@@ -31,7 +29,7 @@ Este registro deve ser revisado a cada mudança de finalidade, fornecedor, dado 
 
 - Não solicitar CPF, documento, endereço completo, diagnóstico ou exame no cadastro comum.
 - Não inserir dados pessoais em métricas, logs de aplicação ou mensagens de erro.
-- Não enviar fotos do diário para a sincronização por conta.
+- Não incluir fotos do diário na continuidade criptografada.
 - Não reutilizar contato, jornada ou dados de saúde para publicidade.
 - Toda nova coleta exige atualização deste registro, da política e dos testes antes da publicação.
 

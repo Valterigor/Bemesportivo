@@ -37,8 +37,14 @@ function readJSON(key, fallback = null) {
   }
 }
 
+function withoutLegacyEmail(profile) {
+  if (!profile || typeof profile !== 'object' || Array.isArray(profile)) return profile;
+  const { email, ...safeProfile } = profile;
+  return safeProfile;
+}
+
 function localSnapshot() {
-  const profile = readJSON(PROFILE_KEY);
+  const profile = withoutLegacyEmail(readJSON(PROFILE_KEY));
   const tasks = readJSON(TASK_KEY, []);
   const diary = readJSON(DIARY_KEY, []);
   const meals = readJSON(MEALS_KEY, []);
@@ -86,7 +92,7 @@ function grantCloudConsent() {
     },
     updatedAt: new Date().toISOString()
   };
-  localStorage.setItem(PROFILE_KEY, JSON.stringify(updated));
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(withoutLegacyEmail(updated)));
   window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated', {
     detail: { ready: Boolean(updated.objective), source: 'cloud-consent' }
   }));
@@ -207,7 +213,7 @@ async function api(method = 'GET', body, activeIdentity = identity) {
 }
 
 function applyRemote(data, revision, updatedAt) {
-  if (data?.profile) localStorage.setItem(PROFILE_KEY, JSON.stringify(data.profile));
+  if (data?.profile) localStorage.setItem(PROFILE_KEY, JSON.stringify(withoutLegacyEmail(data.profile)));
   else localStorage.removeItem(PROFILE_KEY);
   localStorage.setItem(TASK_KEY, JSON.stringify(Array.isArray(data?.tasks) ? data.tasks : []));
   localStorage.setItem(DIARY_KEY, JSON.stringify(Array.isArray(data?.diary) ? data.diary : []));

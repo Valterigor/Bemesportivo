@@ -22,11 +22,13 @@ test('primeiro acesso começa pelo Perfil Be antes de liberar a jornada', async 
   await expect(page.locator('.fb-app-nav [data-fb-view="perfil"]')).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('.fb-app-nav [data-fb-view="inicio"]')).not.toHaveClass(/is-active/);
   await expect(page.locator('#fb-profile-name')).toBeVisible();
-  await expect(page.locator('#fb-profile-email')).toBeHidden();
+  await expect(page.locator('#fb-profile-email')).toHaveCount(0);
   await page.locator('#fb-profile-name').fill('Pessoa Teste');
   await page.locator('#fb-profile-sport').selectOption('corrida');
-  await page.getByRole('button', { name: 'Salvar Perfil Be e continuar' }).click();
+  await page.getByRole('button', { name: 'Concluir perfil e acessar' }).click();
   await expect(page).toHaveURL(/\/meu-caminho-be\/jornada$/);
+  await expect(page.locator('.fb-profile-trigger > span').last()).toHaveText('Pessoa Teste');
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('meuCaminhoBeProfileV1')).email)).toBeUndefined();
   await expect(page.getByRole('heading', { name: 'Qual é o seu principal objetivo?' })).toBeVisible();
   await expect(page.locator('#journey-name')).toHaveCount(0);
   await expect(page.locator('[data-step-indicator="1"]')).toHaveClass(/complete/);
@@ -53,7 +55,7 @@ test('menu móvel segue as seis etapas e o Perfil revela opções sob demanda', 
     }));
     localStorage.setItem('meuCaminhoBeProfileV1', JSON.stringify({
       name: 'Pessoa Teste',
-      email: 'pessoa@example.com',
+      email: 'dado-legado@example.com',
       identityCreatedAt: new Date().toISOString(),
       objective: 'comecar',
       practice: 'none',
@@ -64,6 +66,7 @@ test('menu móvel segue as seis etapas e o Perfil revela opções sob demanda', 
   });
 
   await page.goto('/meu-caminho-be/perfil');
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('meuCaminhoBeProfileV1')).email)).toBeUndefined();
   await page.locator('#fb-mobile-menu-toggle').click();
   const primaryLabels = await page.locator('#fb-mobile-drawer section').first().locator('[data-fb-view]').evaluateAll(buttons =>
     buttons.map(button => button.textContent.replace(/^[^\p{L}\p{N}]+/u, '').trim())
@@ -73,11 +76,119 @@ test('menu móvel segue as seis etapas e o Perfil revela opções sob demanda', 
 
   await page.locator('#be-profile-edit').click();
   await expect(page.locator('.be-profile-optional-fields')).toBeVisible();
-  await expect(page.locator('#fb-profile-email')).toBeHidden();
+  await expect(page.locator('#fb-profile-city')).toBeHidden();
   await page.locator('.be-profile-optional-fields > summary').click();
-  await expect(page.locator('#fb-profile-email')).toBeVisible();
+  await expect(page.locator('#fb-profile-city')).toBeVisible();
   await expect(page.locator('.be-profile-management')).toBeVisible();
   await expect(page.locator('.be-profile-management')).not.toHaveAttribute('open', '');
+});
+
+test('Ferramentas abre nos menus desktop e móvel antes de criar o Perfil Be', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+  });
+
+  await page.goto('/meu-caminho-be/perfil');
+  const desktopTools = page.locator('.fb-app-nav [data-fb-view="ferramentas"]');
+  await expect(desktopTools).not.toHaveAttribute('data-fb-gated', 'true');
+  await desktopTools.click();
+  await expect(page).toHaveURL(/\/meu-caminho-be\/ferramentas$/);
+  await expect(page.locator('[data-fb-panel="ferramentas"]')).toBeVisible();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/meu-caminho-be/perfil');
+  await page.locator('#fb-mobile-menu-toggle').click();
+  const toolsButton = page.locator('#fb-mobile-drawer [data-fb-view="ferramentas"]');
+  await expect(toolsButton).not.toHaveAttribute('data-fb-gated', 'true');
+  await toolsButton.click();
+  await expect(page).toHaveURL(/\/meu-caminho-be\/ferramentas$/);
+  await expect(page.locator('[data-fb-panel="ferramentas"]')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Escolha uma ferramenta' })).toBeVisible();
+});
+
+test('recursos do menu móvel abrem a rota e a seção exatas', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+    localStorage.setItem('meuCaminhoBeProfileV1', JSON.stringify({
+      name: 'Pessoa Rotas',
+      identityCreatedAt: new Date().toISOString(),
+      objective: 'comecar',
+      practice: 'none',
+      availability: '15',
+      progress: 1,
+      createdAt: new Date().toISOString()
+    }));
+  });
+
+  await page.goto('/meu-caminho-be');
+  const destinations = [
+    ['dicas', /\/meu-caminho-be\/ferramentas\/guias$/, '[data-fb-panel="dicas"]'],
+    ['gols', /\/meu-caminho-be\/ferramentas\/contador-de-gols$/, '[data-fb-panel="gols"]'],
+    ['especialistas', /\/meu-caminho-be\/ferramentas\/profissionais$/, '#especialistas'],
+    ['modalidades', /\/meu-caminho-be\/ferramentas\/modalidades$/, '#modalidades'],
+    ['comunidade', /\/meu-caminho-be\/ferramentas\/comunidade$/, '#ecossistema-comunidade']
+  ];
+
+  for (const [view, route, section] of destinations) {
+    await page.locator('#fb-mobile-menu-toggle').click();
+    const destinationButton = page.locator(`#fb-mobile-drawer [data-fb-view="${view}"]`);
+    await destinationButton.click();
+    await expect(page).toHaveURL(route);
+    await expect(page.locator(section)).toBeVisible();
+    await expect(destinationButton).toHaveAttribute('aria-current', 'page');
+    await expect(page.locator('#fb-mobile-drawer')).toBeHidden();
+  }
+});
+
+test('cada botão de trilha abre o guia correspondente', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+    localStorage.setItem('meuCaminhoBeProfileV1', JSON.stringify({
+      name: 'Pessoa Trilhas',
+      identityCreatedAt: new Date().toISOString(),
+      objective: 'comecar',
+      practice: 'none',
+      availability: '15',
+      progress: 1,
+      createdAt: new Date().toISOString()
+    }));
+  });
+
+  await page.goto('/meu-caminho-be/ferramentas/trilhas');
+  const trails = [
+    ['Minha primeira corrida', 'Alterne caminhada e corrida para construir sua base.'],
+    ['Futebol com inteligência', 'Jogue melhor entendendo seu papel em cada momento.'],
+    ['Performance sustentável', 'Mude uma variável por vez e acompanhe a resposta.'],
+    ['Vida mais saudável', 'Construa uma rotina que cuide do movimento e da recuperação.']
+  ];
+
+  for (const [trailTitle, guideTitle] of trails) {
+    await expect(page.locator('#trilhas')).toBeVisible();
+    await page.getByRole('heading', { name: trailTitle }).locator('..').getByRole('button', { name: /(?:Começar|Continuar) trilha/ }).click();
+    await expect(page).toHaveURL(/\/meu-caminho-be\/ferramentas\/guias$/);
+    await expect(page.locator('#fb-practical-guide').getByRole('heading', { name: guideTitle })).toBeVisible();
+    await page.evaluate(() => window.falaBemOpenView('trilhas'));
+    await expect(page).toHaveURL(/\/meu-caminho-be\/ferramentas\/trilhas$/);
+  }
 });
 
 test('etapas da home abrem o assunto correspondente para quem já tem um caminho', async ({ page }) => {

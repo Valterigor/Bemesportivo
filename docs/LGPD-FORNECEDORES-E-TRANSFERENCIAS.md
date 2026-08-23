@@ -5,7 +5,7 @@
 | Fornecedor | Serviço/dados | Papel esperado | Verificações antes de produção |
 | --- | --- | --- | --- |
 | Cloudflare | hospedagem, APIs, KV, proteção, notificações, dados públicos e pacotes cifrados | Operador | DPA vigente, regiões/suboperadores, retenção de logs, acesso, incidentes, exclusão e transferência internacional |
-| Supabase | autenticação, e-mail da conta, consentimentos e jornada sincronizada | Operador | DPA, região do projeto, backups, logs, SMTP, RLS, MFA administrativo, exclusão e transferência internacional |
+| Supabase | infraestrutura histórica de autenticação atualmente não oferecida ao usuário | Operador inativo no fluxo atual | manter sem coleta nova; revisar ou eliminar o projeto e os dados de teste antes de qualquer reativação |
 | Google | fontes, YouTube e AdSense após escolha aplicável | Operador/controlador independente conforme serviço | políticas, consentimento, publicidade, cookies, conteúdo de terceiros e ausência de envio de dados identificáveis pelo site |
 | Yahoo Mail | recebimento de contatos e pedidos | Operador do canal | MFA, acessos, retenção da caixa, exportação/exclusão e recuperação da conta |
 
