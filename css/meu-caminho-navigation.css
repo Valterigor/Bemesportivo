@@ -63,7 +63,7 @@ body.fala-bem-app-page .fb-map-gate-note[hidden] {
 
   body.fala-bem-app-page:is(.fb-view-perfil,.fb-view-registrar,.fb-view-progresso,.fb-view-conteudos,.fb-view-ferramentas) .fb-app-shell.fb-app-shell-compact .fb-app-nav {
     position: sticky !important;
-    top: 20px !important;
+    top: 92px !important;
     display: flex !important;
     grid-column: 1;
     grid-row: 2 / 4;

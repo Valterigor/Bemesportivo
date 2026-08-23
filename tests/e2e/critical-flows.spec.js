@@ -112,6 +112,54 @@ test('Ferramentas abre nos menus desktop e móvel antes de criar o Perfil Be', a
   await expect(page.getByRole('heading', { name: 'Escolha uma ferramenta' })).toBeVisible();
 });
 
+test('menu mantém o encaixe correto no computador, tablet e celular', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+  });
+
+  await page.setViewportSize({ width: 1200, height: 800 });
+  await page.goto('/meu-caminho-be/perfil');
+  await page.evaluate(() => window.scrollTo(0, 220));
+
+  const desktopLayout = await page.evaluate(() => {
+    const header = document.querySelector('.fb-app-topbar').getBoundingClientRect();
+    const navigation = document.querySelector('.fb-app-nav').getBoundingClientRect();
+    return {
+      headerBottom: Math.round(header.bottom),
+      navigationTop: Math.round(navigation.top),
+      overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth
+    };
+  });
+  expect(desktopLayout.navigationTop).toBeGreaterThanOrEqual(desktopLayout.headerBottom + 20);
+  expect(desktopLayout.overflow).toBe(0);
+
+  for (const viewport of [
+    { width: 900, height: 800 },
+    { width: 390, height: 844 }
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/meu-caminho-be/perfil');
+    const toggle = page.locator('#fb-mobile-menu-toggle');
+    await expect(toggle).toBeVisible();
+    await toggle.click();
+    const drawer = page.locator('#fb-mobile-drawer');
+    await expect(drawer).toBeVisible();
+    await expect.poll(async () => (await drawer.boundingBox()).x).toBeGreaterThanOrEqual(-1);
+    const drawerBox = await drawer.boundingBox();
+    expect(drawerBox.width).toBeLessThanOrEqual(360);
+    expect(drawerBox.width).toBeLessThan(viewport.width);
+    await expect(page.locator('body')).toHaveClass(/fb-mobile-menu-open/);
+    await page.locator('#fb-mobile-drawer-close').click();
+    await expect(drawer).toBeHidden();
+  }
+});
+
 test('recursos do menu móvel abrem a rota e a seção exatas', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.addInitScript(() => {

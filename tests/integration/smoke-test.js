@@ -444,8 +444,9 @@ async function run() {
     assert.match(pathHtml, /js\/meu-caminho-account\.js\?v=20260823-2/);
     assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260823-10/);
     assert.match(pathHtml, /js\/coluna-valtinho\.js\?v=20260823-1/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260823-6/);
-    assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260823-1/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260823-7/);
+    assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260823-2/);
+    assert.match(pathHtml, /css\/fala-bem-platform\.css\?v=20260823-1/);
     assert.match(pathHtml, /js\/site-common\.js\?v=20260823-1/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
@@ -668,7 +669,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v117`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v118`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]
