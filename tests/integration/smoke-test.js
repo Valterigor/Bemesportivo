@@ -300,6 +300,18 @@ async function run() {
     assert.match(reportCss, /\.report-preview-media \.report-preview-hope\s*\{[\s\S]*?object-fit:\s*contain;/);
     assert.match(reportCss, /\.report-related > div\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+    const professionalsHtml = fs.readFileSync(path.join(root, 'profissionais.html'), 'utf8');
+    const professionalsScript = fs.readFileSync(path.join(root, 'js/profissionais.js'), 'utf8');
+    assert.match(professionalsHtml, /id="professionals-hero-title">Encontre quem pode ajudar no seu próximo passo\./, 'Profissionais precisa começar pela necessidade da pessoa.');
+    assert.match(professionalsHtml, /css\/profissionais\.css\?v=20260823-3/);
+    assert.match(professionalsHtml, /js\/profissionais\.js\?v=20260823-2/);
+    assert.match(professionalsHtml, /id="como-funciona"[\s\S]*data-guide-category="personal"[\s\S]*data-guide-category="psicologia"[\s\S]*data-guide-category="fotografia"[\s\S]*data-guide-category="todos"/, 'Profissionais precisa orientar a escolha antes de exibir os perfis.');
+    assert.match(professionalsHtml, /id="profissionais"[\s\S]*id="result-count"[\s\S]*id="lista"/, 'A lista precisa informar quantos profissionais correspondem à busca.');
+    assert.doesNotMatch(professionalsHtml, /(?:ai-agent-data|ai-agent-service|profissionais-ai)\.js/, 'Profissionais não deve solicitar scripts antigos que não existem.');
+    assert.match(professionalsScript, /data-profile-index/);
+    assert.doesNotMatch(professionalsScript, /data-contact-index/, 'Cada cartão deve apresentar somente uma ação principal.');
+    assert.match(professionalsScript, /data-profile-index="\$\{index\}">Solicitar informações<\/button>/);
+    assert.match(professionalsScript, /O Bem Esportivo apresenta o perfil, mas não confirma contratação ou horário\./, 'O contato profissional precisa explicar os limites da plataforma.');
     const adsensePublisher = 'ca-pub-5105345296041597';
     const editorialAdPages = [
       'index.html',
@@ -669,7 +681,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v118`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v120`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]

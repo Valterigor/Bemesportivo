@@ -331,6 +331,45 @@ test('BEPlay oferece uma ação real para acompanhar o canal', async ({ page }) 
   await expect(page.getByRole('button', { name: 'Inscrever-se' })).toHaveCount(0);
 });
 
+test('Profissionais orienta a escolha e preserva busca, perfil e contato no responsivo', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+  });
+
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/profissionais');
+  await expect(page.getByRole('heading', { name: 'Encontre quem pode ajudar no seu próximo passo.' })).toBeVisible();
+  await expect(page.locator('.card')).toHaveCount(4);
+
+  await page.getByRole('button', { name: /Quero cuidar da mente/ }).click();
+  await expect(page.locator('.card')).toHaveCount(1);
+  await expect(page.locator('#result-count')).toHaveText('1 profissional encontrado');
+  await expect(page.locator('.card h3')).toHaveText('Grasiele');
+
+  const profileButton = page.getByRole('button', { name: 'Solicitar informações' });
+  await profileButton.click();
+  await expect(page.locator('#modal')).toHaveClass(/show/);
+  await expect(page.getByText('O Bem Esportivo apresenta o perfil, mas não confirma contratação ou horário.')).toBeVisible();
+  await page.getByRole('button', { name: 'Fechar perfil' }).click();
+  await expect(page.locator('#modal')).not.toHaveClass(/show/);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/profissionais');
+  const responsiveLayout = await page.evaluate(() => ({
+    overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    columns: getComputedStyle(document.querySelector('.guidance-grid')).gridTemplateColumns.split(' ').length
+  }));
+  expect(responsiveLayout.overflow).toBe(0);
+  expect(responsiveLayout.columns).toBe(1);
+  await expect(page.getByRole('heading', { name: 'Profissionais para o seu caminho' })).toBeVisible();
+});
+
 test('zerar processo apaga a jornada e confirma o recomeço', async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({

@@ -1,180 +1,247 @@
-document.addEventListener('keydown',event=>{
-if(event.key==='Escape'&&modal?.classList.contains('show')) fechar();
-if(event.key!=='Tab'||!modal?.classList.contains('show')) return;
-const focusable=[...modalBox.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])')];
-if(!focusable.length) return;
-const first=focusable[0];
-const last=focusable[focusable.length-1];
-if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
-else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
-});
+'use strict';
 
-const profissionais=[
-{
-nome:'Válter Igor',
-categoria:'fotografia',
-tipo:'Fotógrafo Esportivo',
-especialidade:'Cobertura esportiva e branding para atletas.',
-especialidades:['Fotografia de jogos','Cobertura de atletas','Branding esportivo'],
-servicos:'Coberturas, ensaios esportivos e produção de imagem para atletas.',
-foto:'img/profissionais/valter.jpg',
-modo:'Presencial',
-whatsapp:'5511986366965',
-posicao:'center 34%'
-},
-{
-nome:'Bruno Rezende',
-categoria:'personal',
-tipo:'Personal Trainer',
-especialidade:'Treinamento funcional e performance.',
-especialidades:['Treinamento funcional','Condicionamento físico','Performance'],
-servicos:'Treinos orientados para condicionamento, funcional e evolução física.',
-foto:'img/profissionais/bruno.jpg',
-modo:'Online + Presencial',
-whatsapp:'5511986366965',
-posicao:'center 28%'
-},
-{
-nome:'Luciano',
-categoria:'personal',
-tipo:'Personal Soccer',
-especialidade:'Treinamento técnico e desenvolvimento.',
-especialidades:['Técnica individual','Fundamentos do futebol','Desenvolvimento esportivo'],
-servicos:'Sessões de fundamentos, técnica individual e desenvolvimento no futebol.',
-foto:'img/profissionais/luciano.jpg',
-modo:'Presencial',
-whatsapp:'5511986366965',
-posicao:'center 22%'
-},
-{
-nome:'Grasiele',
-categoria:'psicologia',
-tipo:'Psicóloga Esportiva',
-especialidade:'Performance mental e psicoterapia.',
-especialidades:['Psicologia esportiva','Performance mental','Psicoterapia'],
-servicos:'Acompanhamento psicológico e trabalho de aspectos mentais ligados ao esporte.',
-foto:'img/profissionais/grasiele.jpg',
-modo:'Online',
-whatsapp:'5511986366965',
-posicao:'center 35%'
-}
+const professionals = [
+  {
+    nome: 'Válter Igor',
+    categoria: 'fotografia',
+    tipo: 'Fotógrafo Esportivo',
+    especialidade: 'Cobertura esportiva e construção de imagem para atletas.',
+    especialidades: ['Fotografia de jogos', 'Cobertura de atletas', 'Imagem esportiva'],
+    servicos: 'Coberturas, ensaios esportivos e produção de imagem para registrar trajetórias dentro e fora das competições.',
+    foto: 'img/profissionais/valter.jpg',
+    modo: 'Presencial',
+    whatsapp: '5511986366965',
+    posicao: 'center 34%'
+  },
+  {
+    nome: 'Bruno Rezende',
+    categoria: 'personal',
+    tipo: 'Personal Trainer',
+    especialidade: 'Treinamento funcional, condicionamento e performance.',
+    especialidades: ['Treinamento funcional', 'Condicionamento físico', 'Performance'],
+    servicos: 'Treinos orientados para desenvolver condicionamento, movimento e evolução física de acordo com cada contexto.',
+    foto: 'img/profissionais/bruno.jpg',
+    modo: 'Online e presencial',
+    whatsapp: '5511986366965',
+    posicao: 'center 28%'
+  },
+  {
+    nome: 'Luciano',
+    categoria: 'personal',
+    tipo: 'Personal Soccer',
+    especialidade: 'Treinamento técnico e desenvolvimento no futebol.',
+    especialidades: ['Técnica individual', 'Fundamentos do futebol', 'Desenvolvimento esportivo'],
+    servicos: 'Sessões voltadas aos fundamentos, à técnica individual e ao desenvolvimento esportivo no futebol.',
+    foto: 'img/profissionais/luciano.jpg',
+    modo: 'Presencial',
+    whatsapp: '5511986366965',
+    posicao: 'center 22%'
+  },
+  {
+    nome: 'Grasiele',
+    categoria: 'psicologia',
+    tipo: 'Psicóloga',
+    especialidade: 'Psicologia esportiva, performance mental e psicoterapia.',
+    especialidades: ['Psicologia esportiva', 'Performance mental', 'Psicoterapia'],
+    servicos: 'Acompanhamento psicológico e cuidado dos aspectos emocionais relacionados ao esporte e à vida cotidiana.',
+    foto: 'img/profissionais/grasiele.jpg',
+    modo: 'Online',
+    whatsapp: '5511986366965',
+    posicao: 'center 35%'
+  }
 ];
 
-const lista=document.getElementById('lista');
-const busca=document.getElementById('busca');
-let categoria='todos';
+const list = document.getElementById('lista');
+const search = document.getElementById('busca');
+const resultCount = document.getElementById('result-count');
+const chips = [...document.querySelectorAll('[data-category]')];
+const guideButtons = [...document.querySelectorAll('[data-guide-category]')];
+const modal = document.getElementById('modal');
+const modalBox = document.getElementById('modalBox');
+const topButton = document.getElementById('topBtn');
 
-function render(items){
-lista.innerHTML='';
+let activeCategory = 'todos';
+let modalReturnFocus = null;
 
-items.forEach(p=>{
-const card=document.createElement('div');
-card.className='card';
-card.innerHTML=`
-<div class='card-cover' style='--photo-position:${p.posicao}'>
-<span class='verify'>Perfil cadastrado</span>
-<span class='mode-pill'>${p.modo}</span>
-<img src='${p.foto}' alt='Foto de ${p.nome}' loading='lazy'>
-</div>
-<div class='card-body'>
-<div class='category'>${p.tipo}</div>
-<h3>${p.nome}</h3>
-<p class='spec'>${p.especialidade}</p>
-<div class='tags'>
-<span>${p.modo}</span>
-<span>${p.especialidades[0]}</span>
-</div>
-<div class='actions'>
-<button class='btn btn-primary' type='button' onclick='perfil(${JSON.stringify(p)})'>Ver perfil</button>
-<button class='btn btn-dark' type='button' onclick='whats(${JSON.stringify(p)})'>Solicitar horário</button>
-</div>
-</div>`;
-lista.appendChild(card)
-})
+const normalize = value => String(value || '')
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase()
+  .trim();
+
+function professionalCard(professional, index) {
+  const article = document.createElement('article');
+  article.className = 'card';
+  article.innerHTML = `
+    <div class="card-cover" style="--photo-position:${professional.posicao}">
+      <span class="verify">Perfil apresentado</span>
+      <span class="mode-pill">${professional.modo}</span>
+      <img src="${professional.foto}" alt="Foto de ${professional.nome}" loading="lazy" decoding="async">
+    </div>
+    <div class="card-body">
+      <span class="category">${professional.tipo}</span>
+      <h3>${professional.nome}</h3>
+      <p class="spec">${professional.especialidade}</p>
+      <div class="tags"><span>${professional.modo}</span><span>${professional.especialidades[0]}</span></div>
+      <div class="actions">
+        <button class="btn btn-primary" type="button" data-profile-index="${index}">Solicitar informações</button>
+      </div>
+    </div>`;
+  return article;
 }
 
-function aplicar(){
-let termo=busca.value.toLowerCase();
-let filtrados=profissionais.filter(p=>{
-let okBusca=
-p.nome.toLowerCase().includes(termo)||
-p.tipo.toLowerCase().includes(termo)||
-p.especialidades.join(' ').toLowerCase().includes(termo);
+function setActiveCategory(category) {
+  activeCategory = category;
+  chips.forEach(chip => {
+    const active = chip.dataset.category === category;
+    chip.classList.toggle('active', active);
+    chip.setAttribute('aria-pressed', String(active));
+  });
+}
 
-let okCat=
-categoria==='todos'||p.categoria===categoria;
+function filteredProfessionals() {
+  const term = normalize(search?.value);
+  return professionals
+    .map((professional, index) => ({ professional, index }))
+    .filter(({ professional }) => {
+      const searchable = normalize([
+        professional.nome,
+        professional.tipo,
+        professional.especialidade,
+        professional.especialidades.join(' '),
+        professional.modo
+      ].join(' '));
+      const matchesTerm = !term || searchable.includes(term);
+      const matchesCategory = activeCategory === 'todos' || professional.categoria === activeCategory;
+      return matchesTerm && matchesCategory;
+    });
+}
 
-return okBusca && okCat;
+function render() {
+  const matches = filteredProfessionals();
+  list.replaceChildren();
+
+  if (!matches.length) {
+    const empty = document.createElement('div');
+    empty.className = 'empty-results';
+    empty.innerHTML = '<strong>Nenhum perfil encontrado.</strong><p>Tente outro termo ou volte para a opção “Todos”.</p>';
+    list.appendChild(empty);
+  } else {
+    matches.forEach(({ professional, index }) => list.appendChild(professionalCard(professional, index)));
+  }
+
+  if (resultCount) {
+    resultCount.textContent = matches.length === 1
+      ? '1 profissional encontrado'
+      : `${matches.length} profissionais encontrados`;
+  }
+}
+
+function contactMessage(professional, details = '') {
+  return `Olá, conheci o perfil de ${professional.nome} no Bem Esportivo e gostaria de entender melhor o atendimento.${details}`;
+}
+
+function openWhatsApp(professional, details = '') {
+  const url = `https://wa.me/${professional.whatsapp}?text=${encodeURIComponent(contactMessage(professional, details))}`;
+  const opened = window.open(url, '_blank', 'noopener,noreferrer');
+  if (opened) opened.opener = null;
+}
+
+function closeProfile() {
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('professional-modal-open');
+  if (modalReturnFocus instanceof HTMLElement) modalReturnFocus.focus();
+  modalReturnFocus = null;
+}
+
+function openProfile(professional) {
+  modalReturnFocus = document.activeElement;
+  modalBox.innerHTML = `
+    <img src="${professional.foto}" alt="Foto de ${professional.nome}" style="--photo-position:${professional.posicao}">
+    <span class="category">${professional.tipo}</span>
+    <h3 id="professional-modal-title">${professional.nome}</h3>
+    <p>${professional.especialidade}</p>
+    <ul class="profile-specialties" aria-label="Áreas de atuação">${professional.especialidades.map(item => `<li>${item}</li>`).join('')}</ul>
+    <p>${professional.servicos}</p>
+    <p>Formato informado: <strong>${professional.modo}</strong>.</p>
+    <p><small>Disponibilidade, valores, formação e condições do serviço devem ser confirmados diretamente no contato. O Bem Esportivo apresenta o perfil, mas não confirma contratação ou horário.</small></p>
+    <div class="modal-actions"><button class="btn btn-primary" type="button" data-modal-contact>Pedir informações</button></div>
+    <form class="profile-schedule">
+      <strong>Enviar uma preferência de horário</strong>
+      <label>Dia preferido<input type="date" name="date" required></label>
+      <label>Período<select name="period" required><option value="">Selecione</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></label>
+      <button class="btn btn-dark" type="submit">Enviar preferência</button>
+      <small>Este pedido inicia uma conversa e não confirma agendamento.</small>
+    </form>
+    <button class="close-modal" type="button" data-modal-close>Fechar perfil</button>`;
+
+  const scheduleForm = modalBox.querySelector('.profile-schedule');
+  const today = new Date();
+  scheduleForm.elements.date.min = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, '0'),
+    String(today.getDate()).padStart(2, '0')
+  ].join('-');
+
+  modalBox.querySelector('[data-modal-contact]').addEventListener('click', () => openWhatsApp(professional));
+  modalBox.querySelector('[data-modal-close]').addEventListener('click', closeProfile);
+  scheduleForm.addEventListener('submit', event => {
+    event.preventDefault();
+    const date = new Date(`${scheduleForm.elements.date.value}T12:00:00`);
+    const day = Number.isNaN(date.getTime()) ? scheduleForm.elements.date.value : date.toLocaleDateString('pt-BR');
+    openWhatsApp(professional, ` Minha preferência é ${day}, no período da ${scheduleForm.elements.period.value.toLowerCase()}.`);
+  });
+
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('professional-modal-open');
+  modalBox.querySelector('[data-modal-close]').focus();
+}
+
+chips.forEach(chip => chip.addEventListener('click', () => {
+  setActiveCategory(chip.dataset.category);
+  render();
+}));
+
+guideButtons.forEach(button => button.addEventListener('click', () => {
+  setActiveCategory(button.dataset.guideCategory);
+  if (search) search.value = '';
+  render();
+  document.getElementById('profissionais')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}));
+
+search?.addEventListener('input', render);
+
+list?.addEventListener('click', event => {
+  const profileButton = event.target.closest('[data-profile-index]');
+  if (profileButton) openProfile(professionals[Number(profileButton.dataset.profileIndex)]);
 });
-render(filtrados)
-}
 
-function filtrarCategoria(cat,botao){
-categoria=cat;
-document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-botao.classList.add('active');
-aplicar();
-}
-
-busca.addEventListener('keyup',aplicar);
-
-const modal=document.getElementById('modal');
-const modalBox=document.getElementById('modalBox');
-let modalReturnFocus=null;
-
-function perfil(p){
-modalReturnFocus=document.activeElement;
-modal.classList.add('show');
-modal.setAttribute('aria-hidden','false');
-const mensagem=`Olá, vi o perfil de ${p.nome} no Bem Esportivo e gostaria de conhecer o atendimento e solicitar um horário.`;
-modalBox.innerHTML=`
-<img src='${p.foto}' alt='Foto de ${p.nome}' style='--photo-position:${p.posicao}'>
-<h3 id='professional-modal-title'>${p.nome}</h3>
-<p><strong>${p.tipo}</strong></p>
-<p>${p.especialidade}</p>
-<p><strong>Áreas de atuação</strong></p>
-<ul class='profile-specialties'>${p.especialidades.map(item=>`<li>${item}</li>`).join('')}</ul>
-<p>${p.servicos}</p>
-<p>Atendimento: <strong>${p.modo}</strong>.</p>
-<p><small>A disponibilidade e os detalhes profissionais serão confirmados no contato. O Bem Esportivo não exibe horários sem validação do profissional.</small></p>
-<div class='modal-actions'>
-<a class='btn btn-primary' href='https://wa.me/${p.whatsapp}?text=${encodeURIComponent(mensagem)}' target='_blank' rel='noopener noreferrer'>Pedir informações</a>
-</div>
-<form class='profile-schedule'>
-<strong>Solicitar um horário</strong>
-<label>Dia preferido<input type='date' name='date' required></label>
-<label>Período<select name='period' required><option value=''>Selecione</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></label>
-<button class='btn btn-dark' type='submit'>Enviar preferência</button>
-<small>O pedido não confirma agendamento. O horário será validado no contato.</small>
-</form>
-<button class='close-modal' type='button' onclick='fechar()'>Fechar</button>`;
-const scheduleForm=modalBox.querySelector('.profile-schedule');
-const today=new Date();
-const localDate=[today.getFullYear(),String(today.getMonth()+1).padStart(2,'0'),String(today.getDate()).padStart(2,'0')].join('-');
-scheduleForm.elements.date.min=localDate;
-scheduleForm.addEventListener('submit',event=>{
-event.preventDefault();
-const date=new Date(`${scheduleForm.elements.date.value}T12:00:00`);
-const day=Number.isNaN(date.getTime())?scheduleForm.elements.date.value:date.toLocaleDateString('pt-BR');
-whats(p,` Minha preferência é ${day}, no período da ${scheduleForm.elements.period.value.toLowerCase()}.`);
+modal?.addEventListener('click', event => {
+  if (event.target === modal) closeProfile();
 });
-modalBox.querySelector('.close-modal')?.focus();
-}
 
-function whats(p,detalhes=''){
-const mensagem=`Olá, vi o perfil de ${p.nome} no Bem Esportivo e gostaria de conhecer o atendimento e solicitar um horário.${detalhes}`;
-window.open(`https://wa.me/${p.whatsapp}?text=${encodeURIComponent(mensagem)}`,'_blank','noopener,noreferrer')
-}
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && modal?.classList.contains('show')) closeProfile();
+  if (event.key !== 'Tab' || !modal?.classList.contains('show')) return;
+  const focusable = [...modalBox.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled])')];
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});
 
-function fechar(){
-modal.classList.remove('show')
-modal.setAttribute('aria-hidden','true');
-if(modalReturnFocus instanceof HTMLElement) modalReturnFocus.focus();
-modalReturnFocus=null;
-}
+window.addEventListener('scroll', () => {
+  if (topButton) topButton.style.display = window.scrollY > 700 ? 'grid' : 'none';
+}, { passive: true });
 
-modal.onclick=e=>{
-if(e.target===modal)fechar();
-}
+topButton?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-render(profissionais);
+render();

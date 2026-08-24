@@ -18,9 +18,9 @@
 <link rel="icon" href="img/logobemoficial.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/profissionais.css?v=20260718-2">
 <link rel="stylesheet" href="site-common.css?v=20260814-1">
 <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
+<link rel="stylesheet" href="css/profissionais.css?v=20260823-3">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"CollectionPage","name":"Profissionais do esporte","url":"https://bemesportivo.com/profissionais","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Person","name":"Válter Igor","jobTitle":"Fotógrafo Esportivo","image":"https://bemesportivo.com/img/profissionais/valter.jpg"}},{"@type":"ListItem","position":2,"item":{"@type":"Person","name":"Bruno Rezende","jobTitle":"Personal Trainer","image":"https://bemesportivo.com/img/profissionais/bruno.jpg"}},{"@type":"ListItem","position":3,"item":{"@type":"Person","name":"Luciano","jobTitle":"Personal Soccer","image":"https://bemesportivo.com/img/profissionais/luciano.jpg"}},{"@type":"ListItem","position":4,"item":{"@type":"Person","name":"Grasiele","jobTitle":"Psicóloga Esportiva","image":"https://bemesportivo.com/img/profissionais/grasiele.jpg"}}]}}
 </script>
@@ -55,68 +55,91 @@
 </div>
 </header>
 
-<section class="hero">
+<main>
+<section class="hero" aria-labelledby="professionals-hero-title">
 <div class="container hero-grid">
 
-<div>
+<div class="hero-copy">
 <div class="hero-badge">
-VITRINE DE PROFISSIONAIS
+ORIENTAÇÃO PARA CADA CAMINHO
 </div>
 
-<h1>
-Conheça os profissionais cadastrados no Bem Esportivo
-</h1>
+<h1 id="professionals-hero-title">Encontre quem pode ajudar no seu próximo passo.</h1>
 
-<p>
-Uma seleção enxuta e atualizada com profissionais ligados ao esporte, treinamento, fotografia e performance mental.
-</p>
+<p>Conheça pessoas que unem conhecimento técnico e cuidado humano para orientar sua relação com o esporte.</p>
+
+<div class="hero-actions">
+<a class="hero-primary" href="#profissionais">Conhecer profissionais</a>
+<a class="hero-secondary" href="#como-funciona">Entender como funciona</a>
+</div>
 
 <div class="metrics">
-<span>4 profissionais cadastrados</span>
-<span>3 áreas de atendimento</span>
-<span>Solicitação de contato pelo Bem Esportivo</span>
+<span><strong>4</strong> perfis apresentados</span>
+<span><strong>3</strong> áreas de apoio</span>
+<span><strong>1</strong> contato consciente</span>
 </div>
 </div>
 
-<div class="hero-search">
-<h3>Filtre os profissionais</h3>
+<div class="hero-search" id="professional-search">
+<span>COMECE PELO QUE VOCÊ PRECISA</span>
+<h2>Que tipo de apoio você procura?</h2>
+<p>Você pode explorar todos os perfis ou escolher uma área para começar.</p>
 <label class="sr-only" for="busca">Buscar profissional por nome ou especialidade</label>
-<input id="busca" class="search-main" type="search" autocomplete="off" placeholder="Buscar por nome ou especialidade...">
+<input id="busca" class="search-main" type="search" autocomplete="off" placeholder="Buscar nome, área ou especialidade">
 
-<div class="filter-chips">
-<button class="chip active" type="button" onclick="filtrarCategoria('todos', this)">Todos</button>
-<button class="chip" type="button" onclick="filtrarCategoria('personal', this)">Personal</button>
-<button class="chip" type="button" onclick="filtrarCategoria('psicologia', this)">Psicologia</button>
-<button class="chip" type="button" onclick="filtrarCategoria('fotografia', this)">Fotografia</button>
+<div class="filter-chips" role="group" aria-label="Filtrar profissionais por área">
+<button class="chip active" type="button" data-category="todos" aria-pressed="true">Todos</button>
+<button class="chip" type="button" data-category="personal" aria-pressed="false">Treinamento</button>
+<button class="chip" type="button" data-category="psicologia" aria-pressed="false">Psicologia</button>
+<button class="chip" type="button" data-category="fotografia" aria-pressed="false">Imagem esportiva</button>
 </div>
 </div>
 
 </div>
 </section>
 
-<section class="section">
+<section class="guidance-section" id="como-funciona" aria-labelledby="guidance-title">
 <div class="container">
-<div class="expert-ai-panel" id="expertAiPanel" aria-label="Perguntas para especialistas">
-<span>IA Editorial</span>
-<h2>Perguntas aguardando especialistas</h2>
-<p>Temas sugeridos pelo Agente Bem Esportivo para profissionais contribuírem com orientação, contexto e utilidade real para a comunidade.</p>
-<div class="expert-ai-list" id="expertAiList"></div>
+<div class="section-head section-head-left">
+<span>SEU MOMENTO VEM PRIMEIRO</span>
+<h2 id="guidance-title">Qual ajuda faz sentido agora?</h2>
+<p>Escolha uma necessidade para ver os perfis relacionados. Se ainda não souber, explore com calma.</p>
 </div>
+<div class="guidance-grid">
+<button type="button" data-guide-category="personal"><i>01</i><strong>Quero começar ou evoluir</strong><small>Treinamento, condicionamento e desenvolvimento esportivo.</small><b>Ver profissionais →</b></button>
+<button type="button" data-guide-category="psicologia"><i>02</i><strong>Quero cuidar da mente</strong><small>Psicologia, confiança, bem-estar e relação com a prática.</small><b>Ver profissional →</b></button>
+<button type="button" data-guide-category="fotografia"><i>03</i><strong>Quero contar minha história</strong><small>Fotografia, cobertura e construção da imagem esportiva.</small><b>Ver profissional →</b></button>
+<button type="button" data-guide-category="todos"><i>04</i><strong>Ainda estou descobrindo</strong><small>Conheça todas as possibilidades antes de escolher.</small><b>Explorar todos →</b></button>
+</div>
+
+<ol class="contact-journey" aria-label="Como funciona o contato">
+<li><span>1</span><div><strong>Conheça</strong><small>Veja atuação, especialidades e formato de atendimento.</small></div></li>
+<li><span>2</span><div><strong>Escolha</strong><small>Abra o perfil que combina com sua necessidade.</small></div></li>
+<li><span>3</span><div><strong>Converse</strong><small>Envie uma solicitação sem compromisso pelo canal indicado.</small></div></li>
+</ol>
 </div>
 </section>
 
-<section class="section">
+<section class="section professionals-section" id="profissionais" aria-labelledby="professionals-title">
 <div class="container">
 
 <div class="section-head">
-<h2>Profissionais cadastrados</h2>
-<p>Perfis com áreas de atuação, formato de atendimento e solicitação de contato pelo Bem Esportivo.</p>
+<span>PESSOAS DO ECOSSISTEMA BEM ESPORTIVO</span>
+<h2 id="professionals-title">Profissionais para o seu caminho</h2>
+<p>Conheça cada trajetória e escolha com clareza. O contato inicial não representa contratação nem confirmação de horário.</p>
+<strong id="result-count" class="result-count" role="status" aria-live="polite"></strong>
 </div>
 
 <div id="lista" class="grid"></div>
 
+<div class="professional-cta-grid">
+<article><span>PRECISA DE OUTRA ORIENTAÇÃO?</span><h3>Não encontrou o que procurava?</h3><p>Conte sua necessidade para que o Bem Esportivo possa indicar o próximo caminho possível.</p><a href="/contato?assunto=solicitacao">Enviar dúvida ou solicitação →</a></article>
+<article><span>FAÇA PARTE DO ECOSSISTEMA</span><h3>Você atua no esporte?</h3><p>Apresente seu trabalho para avaliação editorial e futura inclusão na página.</p><a href="/contato?assunto=parceria">Quero apresentar meu trabalho →</a></article>
+</div>
+
 </div>
 </section>
+</main>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="professional-modal-title">
 <div class="modal-box" id="modalBox"></div>
@@ -140,11 +163,8 @@ Uma seleção enxuta e atualizada com profissionais ligados ao esporte, treiname
 </div>
 </footer>
 
-<script type="module" src="js/site-common.js?v=20260813-1"></script>
-<script src="js/profissionais.js?v=20260718-3" defer></script>
-<script src="ai-agent-data.js" defer></script>
-<script src="ai-agent-service.js" defer></script>
-<script src="profissionais-ai.js?v=20260718-2" defer></script>
+<script type="module" src="js/site-common.js?v=20260823-1"></script>
+<script src="js/profissionais.js?v=20260823-2" defer></script>
 
 </body>
 </html>
