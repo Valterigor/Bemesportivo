@@ -22,7 +22,7 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/img/logobemoficial.png">
 <link rel="canonical" href="https://bemesportivo.com/meu-caminho-be">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="/site-common.css?v=20260814-1">
 <link rel="stylesheet" href="/css/coluna-valtinho.css?v=20260721-1">
@@ -32,8 +32,9 @@
 <link rel="stylesheet" href="/css/routine-calendar.css?v=20260722-1">
 <link rel="stylesheet" href="/css/ui-polish.css?v=20260723-3">
 <link rel="stylesheet" href="/css/meu-caminho-modern.css?v=20260806-1">
-<link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260823-7">
-<link rel="stylesheet" href="/css/meu-caminho-navigation.css?v=20260823-2">
+<link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260826-2">
+<link rel="stylesheet" href="/css/meu-caminho-navigation.css?v=20260826-1">
+<link rel="stylesheet" href="/css/meu-caminho-profile.css?v=20260826-3">
 </head>
 <body class="fala-bem-page fala-bem-app-page">
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
@@ -231,9 +232,9 @@
 <div><button type="button" data-fb-view="conteudos">Explorar conteúdos públicos</button><button type="button" data-fb-reset>Apagar dados locais anteriores</button></div>
 </section>
 <section class="be-first-access-guide" id="be-first-access-guide" aria-labelledby="be-first-access-title">
-<header><span>COMECE POR AQUI</span><h2 id="be-first-access-title">Seu caminho começa em quatro passos.</h2><p>Você não precisa organizar tudo agora. Vamos descobrir o que faz sentido para o seu momento e seguir daí.</p></header>
-<ol><li><span>1</span><div><strong>Escolha seu foco</strong><small>Começar, evoluir, cuidar da saúde ou descobrir uma modalidade.</small></div></li><li><span>2</span><div><strong>Conte seu momento</strong><small>Responda algumas perguntas rápidas para criar seu Mapa BeM.</small></div></li><li><span>3</span><div><strong>Crie seu perfil</strong><small>Guarde sua história e o que o esporte representa para você.</small></div></li><li><span>4</span><div><strong>Viva o Meu Hoje</strong><small>Planeje, registre e acompanhe seu ritmo sem cobrança.</small></div></li></ol>
-<button type="button" class="fb-primary-action" id="be-first-access-start">Começar pelo passo 1</button>
+<header><span>COMECE POR QUEM VOCÊ É</span><h2 id="be-first-access-title">Seu caminho começa pelo Perfil Be.</h2><p>Conte sua relação com o esporte. Se você já sabe o que quer, ajudamos a organizar o próximo passo; se ainda precisa de orientação, ajudamos a direcionar.</p></header>
+<ol><li><span>1</span><div><strong>Perfil Be</strong><small>Conte quem você é no esporte.</small></div></li><li><span>2</span><div><strong>Meu Hoje</strong><small>Entenda seu momento atual.</small></div></li><li><span>3</span><div><strong>Próximo passo</strong><small>Defina aonde quer chegar.</small></div></li><li><span>4</span><div><strong>Registrar</strong><small>Coloque seu caminho em movimento.</small></div></li><li><span>5</span><div><strong>Jornada</strong><small>Acompanhe sua evolução.</small></div></li><li><span>6</span><div><strong>Explorar</strong><small>Amplie suas possibilidades.</small></div></li><li><span>7</span><div><strong>Ferramentas</strong><small>Encontre apoio para continuar.</small></div></li></ol>
+<button type="button" class="fb-primary-action" id="be-first-access-start">Criar meu Perfil Be</button>
 </section>
 <section class="fb-path-entry" id="fb-path-entry" aria-labelledby="fb-path-title">
 <span>UMA ESCOLHA PARA COMEÇAR</span>
@@ -567,7 +568,7 @@
 <div class="fb-app-panel fb-progress-panel" data-fb-panel="progresso" hidden>
 <main class="be-diary-page" aria-labelledby="be-diary-title">
 <nav class="be-journey-switcher" aria-label="Visualizações da sua jornada"><button type="button" class="active" data-fb-view="progresso" aria-current="page">Diário</button><button type="button" data-fb-view="evolucao">Evolução</button><button type="button" data-fb-view="explorar">História</button></nav>
-<header class="be-page-heading"><div><span>MEU DIÁRIO</span><h2 id="be-diary-title">Sua vida esportiva, dia após dia.</h2><p>Cada registro é uma página da sua história.</p></div><button type="button" class="be-add-entry" data-be-new-entry>＋ Registrar atividade</button></header>
+<header class="be-page-heading"><div><span>MEU DIÁRIO</span><h2 id="be-diary-title">Sua vida esportiva, dia após dia.</h2><p>Cada registro é uma página da sua história.</p></div><div class="be-diary-heading-actions"><button type="button" class="be-diary-profile-link" data-fb-view="perfil">Meu Perfil Be</button><button type="button" class="be-add-entry" data-be-new-entry>＋ Registrar atividade</button></div></header>
 <div class="be-diary-toolbar"><label for="be-diary-period">Período<select id="be-diary-period"><option value="all">Todo o histórico</option></select></label><label for="be-diary-sport">Esporte<select id="be-diary-sport"><option value="all">Todos os esportes</option></select></label></div>
 <div id="be-diary-timeline" class="be-diary-timeline"></div>
 </main>
@@ -575,6 +576,7 @@
 <span class="fb-panel-kicker">JORNADA DA SEMANA</span>
 <h2 id="fb-progress-title">Seu caminho continua aqui.</h2>
 <p id="fb-progress-summary">Conclua uma etapa por vez e avance no seu ritmo.</p>
+<aside class="fb-journey-profile-access" aria-label="Acesso ao Perfil Be"><div><span>SUA IDENTIDADE ESPORTIVA</span><strong>Veja como sua trajetória está aparecendo.</strong><small>Atividades, evolução, publicações e conquistas reunidas no Perfil Be.</small></div><button type="button" data-fb-view="perfil">Ver meu Perfil Be</button></aside>
 <div class="fb-progress-overview">
 <div><span>PROGRESSO</span><strong id="fb-progress-percent">20%</strong></div>
 <div class="fb-progress-track" aria-hidden="true"><i id="fb-progress-bar"></i></div>
@@ -702,10 +704,10 @@
 
 <div class="fb-app-panel fb-profile-panel" data-fb-panel="perfil" hidden>
 <section class="be-onboarding-sequence" id="be-profile-onboarding" aria-labelledby="be-profile-onboarding-title" hidden>
-<ol aria-label="Etapas para criar seu caminho"><li class="current"><span>1</span><strong>Perfil Be</strong></li><li><span>2</span><strong>Mapa BeM</strong></li><li><span>3</span><strong>Próximo passo</strong></li></ol>
+<ol aria-label="Etapas para criar seu caminho"><li class="current"><span>1</span><strong>Perfil Be</strong></li><li><span>2</span><strong>Meu Hoje</strong></li><li><span>3</span><strong>Próximo passo</strong></li></ol>
 <span>ETAPA 1 DE 3</span>
 <h1 id="be-profile-onboarding-title">Primeiro, queremos conhecer você no esporte.</h1>
-<p>Conte como prefere ser chamado, qual prática faz parte da sua vida e o que o esporte representa para você. Com esse ponto de partida, o sistema poderá fazer as perguntas certas — sem comparar você com ninguém.</p>
+<p>Conte como prefere ser chamado, qual prática faz parte da sua vida e o que o esporte representa para você. Se você já sabe o que quer, organizaremos o caminho; se precisar de orientação, faremos as perguntas certas para ajudar a direcionar — sem decidir por você.</p>
 </section>
 <section class="fb-profile-next-step" id="fb-profile-next-step" aria-labelledby="fb-profile-next-title" hidden>
 <span>SEU PRÓXIMO PASSO</span>
@@ -713,17 +715,21 @@
 <p>As respostas do questionário de contexto e segurança indicam que uma orientação individual é o caminho mais seguro antes de iniciar ou retomar exercícios.</p>
 <div><button type="button" class="fb-primary-action" id="fb-profile-next-professionals">Encontrar um profissional</button><button type="button" data-fb-view="inicio">Ir para Meu Hoje</button></div>
 </section>
-<section class="be-profile-presentation" id="be-profile-presentation" aria-labelledby="be-profile-display-name" hidden>
-<div class="be-profile-presentation-cover"><span>MEU CAMINHO BE</span><strong>Minha trajetória esportiva</strong></div>
-<div class="be-profile-presentation-body">
-<div class="be-profile-presentation-avatar"><img id="be-profile-card-photo" alt="Foto do perfil esportivo" hidden><span id="be-profile-card-fallback" aria-hidden="true">BE</span></div>
-<div class="be-profile-presentation-identity"><span>PERFIL ESPORTIVO</span><h2 id="be-profile-display-name" tabindex="-1">Seu perfil</h2><p id="be-profile-display-handle">@meucaminhobe</p><div id="be-profile-display-tags" class="be-profile-display-tags"></div></div>
-<button type="button" id="be-profile-edit" class="be-profile-edit-action">Editar perfil</button>
-</div>
-<p class="be-profile-presentation-bio" id="be-profile-display-bio">O esporte faz parte da minha história.</p>
-<dl class="be-profile-social-stats"><div><dt id="be-profile-stat-records">0</dt><dd>registros</dd></div><div><dt id="be-profile-stat-days">0</dt><dd>dias ativos</dd></div><div><dt id="be-profile-stat-sports">1</dt><dd>modalidade</dd></div><div><dt id="be-profile-stat-since">Hoje</dt><dd>no caminho</dd></div></dl>
-<div class="be-profile-presentation-actions"><a href="/meu-caminho-be/jornada" data-fb-view="progresso">Ver minha jornada</a><a href="/meu-caminho-be/registrar" data-fb-view="registrar">Registrar atividade</a></div>
-<section class="be-profile-public-access" aria-labelledby="be-profile-public-access-title">
+<section class="be-profile-presentation be-sports-profile" id="be-profile-presentation" aria-labelledby="be-profile-display-name" hidden>
+<header class="be-sports-profile-header">
+<div class="be-sports-profile-photo"><div class="be-profile-presentation-avatar"><img id="be-profile-card-photo" alt="Foto do perfil esportivo" hidden><span id="be-profile-card-fallback" aria-hidden="true">BE</span></div></div>
+<div class="be-profile-presentation-identity"><span>PERFIL BE</span><h2 id="be-profile-display-name" tabindex="-1">Seu perfil esportivo</h2><p id="be-profile-display-handle">@meucaminhobe</p><div id="be-profile-display-tags" class="be-profile-display-tags"></div><p class="be-profile-presentation-bio" id="be-profile-display-bio">O esporte faz parte da minha história.</p></div>
+<div class="be-sports-profile-header-stats" aria-label="Resumo do perfil"><div><strong id="be-profile-stat-records">0</strong><span>atividades</span></div><div><strong id="be-profile-stat-achievements">0</strong><span>conquistas</span></div></div>
+<div class="be-sports-profile-actions"><button type="button" class="be-sports-primary-action" data-be-new-entry>＋ Registrar atividade</button><button type="button" id="be-profile-edit" class="be-profile-edit-action">Editar perfil</button><button type="button" id="be-profile-share" class="be-profile-share-action">Compartilhar perfil</button></div>
+<span class="be-profile-legacy-stat" hidden><b id="be-profile-stat-days">0</b><b id="be-profile-stat-sports">1</b><b id="be-profile-stat-since">Hoje</b></span>
+</header>
+<section class="be-profile-evolution-summary" aria-labelledby="be-profile-evolution-summary-title"><header><span>SUA EVOLUÇÃO</span><h3 id="be-profile-evolution-summary-title">O que sua história já mostra</h3></header><div><article><span>ATIVIDADES</span><strong id="be-profile-metric-activities">0</strong><small>registros esportivos</small></article><article><span>TEMPO EM MOVIMENTO</span><strong id="be-profile-metric-time">0 min</strong><small>tempo acumulado</small></article><article><span>DISTÂNCIA</span><strong id="be-profile-metric-distance">0 km</strong><small>quando informada</small></article><article><span>SEQUÊNCIA ATUAL</span><strong id="be-profile-metric-streak">0 dias</strong><small>dias consecutivos</small></article></div></section>
+<section class="be-profile-create-callout" aria-labelledby="be-profile-create-title"><div><span>SEU MOMENTO NO ESPORTE</span><h3 id="be-profile-create-title">Compartilhe seu momento esportivo</h3><p>Treino, jogo, resultado, conquista ou retorno: você escolhe o que guardar e o que tornar público.</p><small>O Meu Caminho BE é um espaço dedicado ao esporte.</small></div><button type="button" id="be-profile-create-post">Criar publicação</button></section>
+<nav class="be-profile-tabs" role="tablist" aria-label="Conteúdo do Perfil Be"><button type="button" role="tab" id="be-profile-tab-posts" aria-controls="be-profile-panel-posts" aria-selected="true" data-profile-tab="posts">Publicações</button><button type="button" role="tab" id="be-profile-tab-evolution" aria-controls="be-profile-panel-evolution" aria-selected="false" data-profile-tab="evolution" tabindex="-1">Evolução</button><button type="button" role="tab" id="be-profile-tab-achievements" aria-controls="be-profile-panel-achievements" aria-selected="false" data-profile-tab="achievements" tabindex="-1">Conquistas</button></nav>
+<div class="be-profile-tab-panel" id="be-profile-panel-posts" role="tabpanel" aria-labelledby="be-profile-tab-posts"><div class="be-profile-feed" id="be-profile-feed" aria-live="polite"></div><button type="button" class="be-profile-load-more" id="be-profile-load-more" hidden>Carregar mais publicações</button></div>
+<div class="be-profile-tab-panel" id="be-profile-panel-evolution" role="tabpanel" aria-labelledby="be-profile-tab-evolution" hidden><section class="be-profile-evolution-detail"><div class="be-profile-evolution-grid"><article><span>TOTAL DE ATIVIDADES</span><strong id="be-profile-total-activities">0</strong></article><article><span>TEMPO TOTAL</span><strong id="be-profile-total-time">0 min</strong></article><article><span>DISTÂNCIA ACUMULADA</span><strong id="be-profile-total-distance">0 km</strong></article><article><span>MELHOR SEQUÊNCIA</span><strong id="be-profile-best-streak">0 dias</strong></article></div><article class="be-profile-activity-chart" aria-labelledby="be-profile-chart-title"><header><span>ÚLTIMAS 8 SEMANAS</span><h3 id="be-profile-chart-title">Atividades por semana</h3></header><div id="be-profile-week-chart" role="img" aria-label="Gráfico de atividades por semana"></div></article><div class="be-profile-periods"><article><span>ESTA SEMANA</span><strong id="be-profile-week-count">0</strong><small>atividades</small></article><article><span>ESTE MÊS</span><strong id="be-profile-month-count">0</strong><small>atividades</small></article></div></section></div>
+<div class="be-profile-tab-panel" id="be-profile-panel-achievements" role="tabpanel" aria-labelledby="be-profile-tab-achievements" hidden><section class="be-profile-achievements" aria-labelledby="be-profile-achievements-title"><header><span>MARCOS REAIS</span><h3 id="be-profile-achievements-title">Conquistas da sua trajetória</h3><p>Esta linha do tempo usa somente atividades e resultados que você registrou.</p></header><div id="be-profile-achievements-list"></div></section></div>
+<section class="be-profile-public-access" id="be-profile-public-access" aria-labelledby="be-profile-public-access-title">
 <div class="be-profile-public-access-head"><div><span>MEU DIÁRIO BE</span><h3 id="be-profile-public-access-title">Seu espaço público no Meu Caminho Be</h3><p id="be-profile-public-access-status" role="status">Ative para compartilhar textos e fotos em uma página pública simples.</p></div><div class="be-profile-public-access-actions"><button type="button" id="be-profile-public-access-action" data-state="private">Ativar Meu Diário BE</button></div></div>
 <div class="be-public-manager" id="be-public-manager" hidden>
 <div class="be-public-manager-toolbar"><div><strong>Gerenciar publicações</strong><small id="be-public-manager-count">Nenhuma publicação</small></div><div><button type="button" id="be-public-new-post">Nova publicação</button><button type="button" id="be-public-share-owner">Compartilhar link</button><button type="button" id="be-public-disable">Desativar diário</button></div></div>
@@ -879,10 +885,11 @@
 <section class="journey-paths" id="minha-jornada" aria-labelledby="journey-title">
 <div class="journey-head">
 <div>
-<span>ETAPA 2 DE 3 · SEU MAPA BEM</span>
-<h2 id="journey-title">Crie seu Mapa BeM</h2>
+<span>ETAPA 2 DE 3 · MEU HOJE</span>
+<h2 id="journey-title">Conte seu momento atual</h2>
+<button type="button" class="journey-profile-link" data-fb-view="perfil">Ver meu Perfil Be</button>
 </div>
-<p>Agora que conhecemos seu Perfil Be, precisamos entender seu objetivo, seu momento atual e o tempo que cabe na sua vida. Ao final, você receberá um próximo passo claro.</p>
+<p>Agora que conhecemos seu Perfil Be, vamos entender se você quer começar, retomar ou evoluir, além do tempo que cabe na sua vida. Se ainda houver dúvida, ajudaremos a comparar possibilidades. Ao final, você receberá um próximo passo claro.</p>
 </div>
 <div class="journey-assistant" id="journey-assistant">
 <ol class="journey-progress" aria-label="Progresso de criação do Mapa BeM">
@@ -891,7 +898,7 @@
 <li data-step-indicator="3"><span>3</span><small>Prática atual</small></li>
 <li data-step-indicator="4"><span>4</span><small>Seu momento</small></li>
 <li data-step-indicator="5"><span>5</span><small>Tempo</small></li>
-<li data-step-indicator="6"><span>6</span><small>Mapa BeM</small></li>
+<li data-step-indicator="6"><span>6</span><small>Próximo passo</small></li>
 </ol>
 <div class="journey-reset-bar"><span>Suas respostas ficam somente neste aparelho.</span><button type="button" data-fb-reset>↺ Recomeçar do zero</button></div>
 
@@ -1506,14 +1513,18 @@ Seu navegador não consegue reproduzir este vídeo.
 </div>
 </dialog>
 
-<dialog class="be-entry-dialog be-public-compose-dialog" id="be-public-compose-dialog" aria-labelledby="be-public-compose-title">
-<form id="be-public-compose-form" method="dialog">
-<header><div><span>MEU DIÁRIO BE</span><h2 id="be-public-compose-title">Nova publicação</h2><p>Compartilhe um texto e, se quiser, uma foto.</p></div><button type="button" id="be-public-compose-close" aria-label="Fechar">×</button></header>
+<dialog class="be-entry-dialog be-public-compose-dialog be-sports-compose-dialog" id="be-public-compose-dialog" aria-labelledby="be-public-compose-title">
+<form id="be-public-compose-form" method="dialog" data-sports-composer novalidate>
+<header><div><span>PERFIL BE · ESPORTE</span><h2 id="be-public-compose-title">Compartilhe seu momento esportivo</h2><p>Escolha o tipo e preencha somente o que fizer sentido.</p></div><button type="button" id="be-public-compose-close" aria-label="Fechar">×</button></header>
 <input type="hidden" id="be-public-compose-id" name="clientId">
-<label for="be-public-compose-text">O que você quer compartilhar?<textarea id="be-public-compose-text" name="text" maxlength="600" rows="7" placeholder="Conte um momento, uma conquista, uma dificuldade ou algo que marcou seu caminho." required></textarea><small><span id="be-public-compose-count">0</span>/600 caracteres</small></label>
+<div class="be-sports-compose-grid"><label for="be-public-compose-type">Tipo da publicação<select id="be-public-compose-type" name="postType"><option value="photo">Foto</option><option value="training">Treino</option><option value="result">Resultado</option><option value="achievement">Conquista</option><option value="evolution">Evolução</option><option value="competition">Jogo ou competição</option><option value="return">Retorno ao esporte</option><option value="goal">Meta alcançada</option></select></label><label for="be-public-compose-date">Data<input type="date" id="be-public-compose-date" name="occurredAt"></label><label for="be-public-compose-sport">Modalidade<input type="text" id="be-public-compose-sport" name="activity" maxlength="60" placeholder="Ex.: corrida, futebol"></label><label for="be-public-compose-title-field" data-compose-field="title">Título da conquista ou momento<input type="text" id="be-public-compose-title-field" name="title" maxlength="80" placeholder="Ex.: Minha primeira prova"></label><label for="be-public-compose-duration" data-compose-field="metrics">Duração em minutos<input type="number" id="be-public-compose-duration" name="duration" min="1" max="1440" inputmode="numeric" placeholder="Ex.: 42"></label><label for="be-public-compose-distance" data-compose-field="metrics">Distância em km<input type="number" id="be-public-compose-distance" name="distance" min="0.01" max="10000" step="0.01" inputmode="decimal" placeholder="Ex.: 7,2"></label><label for="be-public-compose-result" data-compose-field="result">Resultado ou marca<input type="text" id="be-public-compose-result" name="result" maxlength="80" placeholder="Ex.: 5 km em 28 minutos"></label><label for="be-public-compose-feeling">Como você se sentiu?<select id="be-public-compose-feeling" name="feeling"><option value="">Não informar</option><option value="1">Muito difícil</option><option value="2">Difícil</option><option value="3">Regular</option><option value="4">Bem</option><option value="5">Muito bem</option></select></label></div>
+<label for="be-public-compose-text">Conte este momento<textarea id="be-public-compose-text" name="text" maxlength="600" rows="5" placeholder="O que aconteceu e por que este momento importa para sua história no esporte?" required></textarea><small><span id="be-public-compose-count">0</span>/600 caracteres</small></label>
 <section class="be-public-compose-photo" aria-labelledby="be-public-compose-photo-title"><div><strong id="be-public-compose-photo-title">Foto opcional</strong><small>Use uma imagem que ajude a contar este momento.</small></div><div><label for="be-public-compose-photo">Escolher foto<input type="file" id="be-public-compose-photo" accept="image/jpeg,image/png,image/webp" hidden></label><button type="button" id="be-public-compose-photo-remove" hidden>Remover foto</button></div><figure id="be-public-compose-preview" hidden><img id="be-public-compose-preview-image" alt="Prévia da foto da publicação"></figure></section>
+<fieldset class="be-sports-compose-visibility"><legend>Onde deseja guardar esta publicação?</legend><label><input type="radio" name="visibility" value="private" checked><span><strong>Somente no meu Perfil Be</strong><small>Privada e disponível apenas neste aparelho.</small></span></label><label><input type="radio" name="visibility" value="public"><span><strong>Publicar também no Meu Diário BE</strong><small>Ficará disponível na sua página pública.</small></span></label><p id="be-public-compose-visibility-help" role="status">Esta publicação ficará privada.</p></fieldset>
+<label class="be-sports-compose-record"><input type="checkbox" id="be-public-compose-record" name="personalBest"><span><strong>Este momento representa uma marca pessoal</strong><small>Use apenas quando for um resultado real registrado por você.</small></span></label>
+<p class="be-sports-compose-boundary">O Meu Caminho BE é um espaço dedicado a treinos, jogos, competições, resultados, evolução, conquistas e experiências esportivas.</p>
 <p class="be-form-feedback" id="be-public-compose-feedback" role="alert" aria-live="assertive"></p>
-<footer><span></span><button type="button" id="be-public-compose-cancel">Cancelar</button><button type="submit" class="be-save-entry" id="be-public-compose-submit">Publicar</button></footer>
+<footer><span></span><button type="button" id="be-public-compose-cancel">Cancelar</button><button type="submit" class="be-save-entry" id="be-public-compose-submit">Salvar momento</button></footer>
 </form>
 </dialog>
 
@@ -1548,9 +1559,11 @@ Seu navegador não consegue reproduzir este vídeo.
 <script src="/js/coluna-valtinho.js?v=20260823-1" defer></script>
 <script src="/js/be-knowledge-library.js?v=20260821-4" defer></script>
 <script src="/js/meu-caminho-navigation.js?v=20260823-2" defer></script>
-<script src="/js/fala-bem-app.js?v=20260823-10" defer></script>
+<script src="/js/fala-bem-app.js?v=20260826-1" defer></script>
 <script src="/js/be-ia.js?v=20260806-1" defer></script>
 <script src="/js/meu-caminho-diary.js?v=20260823-1" defer></script>
+<script src="/js/meu-caminho-public.js?v=20260826-1" defer></script>
+<script src="/js/meu-caminho-profile.js?v=20260826-2" defer></script>
 
 </body>
 </html>

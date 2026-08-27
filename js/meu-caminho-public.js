@@ -10,6 +10,7 @@
   let currentPublicRecord = null;
   let currentPublicUrl = '';
   let pendingPublicPhoto = '';
+  const sportsComposer = document.getElementById('be-public-compose-form')?.hasAttribute('data-sports-composer') === true;
 
   function readProfile() {
     try { return JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null'); } catch { return null; }
@@ -304,7 +305,14 @@
           text: entry.note,
           imageDataUrl: entry.imageDataUrl,
           activity: entry.title || entry.type,
-          occurredAt: entry.date
+          occurredAt: entry.date,
+          postType: entry.postType || entry.type,
+          title: entry.achievementTitle || '',
+          duration: entry.duration,
+          distance: entry.distance,
+          result: entry.result,
+          feeling: entry.feeling,
+          personalBest: entry.personalBest === true
         }
       })
     });
@@ -348,7 +356,10 @@
     }
     openPublicSettings();
   });
-  document.getElementById('be-public-new-post')?.addEventListener('click', () => openComposer());
+  document.getElementById('be-public-new-post')?.addEventListener('click', () => {
+    if (sportsComposer) window.dispatchEvent(new CustomEvent('meuCaminhoBe:new-public-post'));
+    else openComposer();
+  });
   document.getElementById('be-public-share-owner')?.addEventListener('click', async event => {
     if (!currentPublicUrl) return;
     const button = event.currentTarget;
@@ -364,11 +375,11 @@
       if (error?.name !== 'AbortError') window.prompt('Copie o link do seu Diário BE:', absoluteUrl);
     }
   });
-  document.getElementById('be-public-compose-text')?.addEventListener('input', event => {
+  if (!sportsComposer) document.getElementById('be-public-compose-text')?.addEventListener('input', event => {
     const count = document.getElementById('be-public-compose-count');
     if (count) count.textContent = String(event.currentTarget.value.length);
   });
-  document.getElementById('be-public-compose-photo')?.addEventListener('change', async event => {
+  if (!sportsComposer) document.getElementById('be-public-compose-photo')?.addEventListener('change', async event => {
     const feedback = document.getElementById('be-public-compose-feedback');
     const file = event.currentTarget.files?.[0];
     if (!file) return;
@@ -385,13 +396,13 @@
       event.currentTarget.value = '';
     }
   });
-  document.getElementById('be-public-compose-photo-remove')?.addEventListener('click', () => {
+  if (!sportsComposer) document.getElementById('be-public-compose-photo-remove')?.addEventListener('click', () => {
     pendingPublicPhoto = '';
     renderComposePhoto();
   });
-  document.getElementById('be-public-compose-close')?.addEventListener('click', closeComposer);
-  document.getElementById('be-public-compose-cancel')?.addEventListener('click', closeComposer);
-  document.getElementById('be-public-compose-form')?.addEventListener('submit', async event => {
+  if (!sportsComposer) document.getElementById('be-public-compose-close')?.addEventListener('click', closeComposer);
+  if (!sportsComposer) document.getElementById('be-public-compose-cancel')?.addEventListener('click', closeComposer);
+  if (!sportsComposer) document.getElementById('be-public-compose-form')?.addEventListener('submit', async event => {
     event.preventDefault();
     const text = document.getElementById('be-public-compose-text')?.value.trim() || '';
     const feedback = document.getElementById('be-public-compose-feedback');
@@ -425,7 +436,8 @@
     const edit = event.target.closest('[data-be-public-edit]');
     if (edit) {
       const post = currentPublicRecord?.posts?.find(item => item.clientId === edit.dataset.bePublicEdit);
-      if (post) openComposer(post);
+      if (post && sportsComposer) window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-public-post', { detail: post }));
+      else if (post) openComposer(post);
       return;
     }
     const remove = event.target.closest('[data-be-public-remove]');

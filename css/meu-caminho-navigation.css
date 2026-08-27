@@ -26,6 +26,40 @@ body.fala-bem-app-page .fb-map-gate-note[hidden] {
 }
 
 @media (min-width: 901px) {
+  body.fala-bem-app-page .fb-app-shell.fb-app-shell-compact {
+    display: grid !important;
+    grid-template-columns: 224px minmax(0, 1fr) !important;
+    grid-template-rows: auto auto auto !important;
+    column-gap: 32px;
+    row-gap: 0;
+    padding: 0 30px 38px;
+  }
+
+  body.fala-bem-app-page .fb-app-shell.fb-app-shell-compact .fb-app-topbar {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    margin: 0 -30px;
+  }
+
+  body.fala-bem-app-page .fb-app-shell.fb-app-shell-compact .fb-app-nav {
+    grid-column: 1;
+    grid-row: 2 / 4;
+  }
+
+  body.fala-bem-app-page .fb-app-shell.fb-app-shell-compact .be-section-banner {
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+    min-width: 0;
+  }
+
+  body.fala-bem-app-page .fb-app-shell.fb-app-shell-compact .fb-app-panel {
+    grid-column: 2;
+    grid-row: 3;
+    width: 100%;
+    min-width: 0;
+  }
+
   body.fala-bem-app-page .fb-app-shell:not(.fb-app-shell-compact) .fb-app-nav > a {
     grid-template-columns: 28px minmax(0, 1fr);
     min-height: 48px;

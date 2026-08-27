@@ -5,6 +5,7 @@ const maximumBodyBytes = 900_000;
 const publicTermsVersion = '2026-08-15';
 const reportHideThreshold = 3;
 const disabledRetentionSeconds = 180 * 24 * 60 * 60;
+const allowedPostTypes = new Set(['photo', 'training', 'result', 'achievement', 'evolution', 'competition', 'return', 'goal']);
 
 function json(payload, status = 200, cache = 'no-store') {
   return new Response(JSON.stringify(payload), {
@@ -21,6 +22,24 @@ function json(payload, status = 200, cache = 'no-store') {
 async function hashHex(value) {
   const digest = await crypto.subtle.digest('SHA-256', encoder.encode(value));
   return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+async function visitorFingerprint(request, slug) {
+  const address = String(request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || '').split(',')[0].trim();
+  const agent = String(request.headers.get('user-agent') || '').slice(0, 180);
+  return hashHex(`be-public-interaction:${address}:${agent}:${slug}`);
+}
+
+function consumeRateLimit(target, visitor, action, maximum, windowMs) {
+  const now = Date.now();
+  target.rateLimits = target.rateLimits && typeof target.rateLimits === 'object' ? target.rateLimits : {};
+  const key = `${action}:${visitor}`;
+  const recent = (Array.isArray(target.rateLimits[key]) ? target.rateLimits[key] : []).filter(value => now - Number(value) < windowMs);
+  if (recent.length >= maximum) return false;
+  target.rateLimits[key] = [...recent, now];
+  const keys = Object.keys(target.rateLimits);
+  if (keys.length > 300) keys.slice(0, keys.length - 300).forEach(oldKey => { delete target.rateLimits[oldKey]; });
+  return true;
 }
 
 async function parseBody(request) {
@@ -42,7 +61,20 @@ function cleanText(value, maximum) {
 
 function cleanPhoto(value, maximum = 480_000) {
   const photo = String(value || '');
-  return /^data:image\/(?:jpeg|webp);base64,[a-z0-9+/=]+$/i.test(photo) && photo.length <= maximum ? photo : '';
+  if (!/^data:image\/(?:jpeg|webp);base64,[a-z0-9+/=]+$/i.test(photo) || photo.length > maximum) return '';
+  try {
+    const bytes = atob(photo.slice(photo.indexOf(',') + 1, photo.indexOf(',') + 25));
+    const jpeg = bytes.charCodeAt(0) === 0xff && bytes.charCodeAt(1) === 0xd8 && bytes.charCodeAt(2) === 0xff;
+    const webp = bytes.slice(0, 4) === 'RIFF' && bytes.slice(8, 12) === 'WEBP';
+    return jpeg || webp ? photo : '';
+  } catch { return ''; }
+}
+
+function cleanNumber(value, maximum, decimals = 0) {
+  const number = Number(value);
+  if (!Number.isFinite(number) || number <= 0) return null;
+  const factor = 10 ** decimals;
+  return Math.min(maximum, Math.round(number * factor) / factor);
 }
 
 function sanitizeProfile(value = {}) {
@@ -66,7 +98,14 @@ function sanitizePost(value = {}) {
     text,
     imageDataUrl,
     activity: cleanText(value.activity, 60),
-    occurredAt: /^\d{4}-\d{2}-\d{2}$/.test(String(value.occurredAt || '')) ? String(value.occurredAt) : new Date().toISOString().slice(0, 10)
+    occurredAt: /^\d{4}-\d{2}-\d{2}$/.test(String(value.occurredAt || '')) ? String(value.occurredAt) : new Date().toISOString().slice(0, 10),
+    postType: allowedPostTypes.has(String(value.postType || '')) ? String(value.postType) : 'photo',
+    title: cleanText(value.title, 80),
+    duration: cleanNumber(value.duration, 1440),
+    distance: cleanNumber(value.distance, 10000, 2),
+    result: cleanText(value.result, 80),
+    feeling: ['1', '2', '3', '4', '5'].includes(String(value.feeling)) ? String(value.feeling) : '',
+    personalBest: value.personalBest === true
   };
 }
 
@@ -96,7 +135,16 @@ function publicRecord(record) {
     .filter(post => isVisibleStatus(post.status))
     .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))
     .slice(0, 50)
-    .map(({ status, reports, ...post }) => post);
+    .map(({ status, reports, likedBy, comments, rateLimits, ...post }) => ({
+      ...post,
+      likes: Object.keys(likedBy && typeof likedBy === 'object' ? likedBy : {}).length,
+      comments: (Array.isArray(comments) ? comments : []).slice(-30).map(comment => ({
+        id: comment.id,
+        name: cleanText(comment.name, 40),
+        text: cleanText(comment.text, 400),
+        createdAt: comment.createdAt
+      }))
+    }));
   return {
     slug: record.slug,
     profile: sanitizeProfile(record.profile),
@@ -159,6 +207,41 @@ export default async function publicProfileHandler(request, runtime) {
     return json({ ok: true, hidden: target.reports.length >= reportHideThreshold, reportCount: target.reports.length }, 202);
   }
 
+  if (request.method === 'POST' && slugPattern.test(path[0] || '') && path[1] === 'posts' && path[2] && path[3] === 'like') {
+    const key = `public-profile:${path[0]}`;
+    const record = await runtime.read(key, null);
+    const post = (record?.posts || []).find(item => item.id === path[2] && isVisibleStatus(item.status));
+    if (!record || !isVisibleStatus(record.profileStatus) || !post) return json({ error: 'PublicaÃ§Ã£o nÃ£o encontrada.' }, 404);
+    const visitor = await visitorFingerprint(request, path[0]);
+    if (!consumeRateLimit(post, visitor, 'like', 20, 60_000)) return json({ error: 'Aguarde um pouco antes de tentar novamente.' }, 429);
+    post.likedBy = post.likedBy && typeof post.likedBy === 'object' ? post.likedBy : {};
+    const liked = !post.likedBy[visitor];
+    if (liked) post.likedBy[visitor] = new Date().toISOString();
+    else delete post.likedBy[visitor];
+    record.updatedAt = new Date().toISOString();
+    await runtime.write(key, record);
+    return json({ ok: true, liked, likes: Object.keys(post.likedBy).length });
+  }
+
+  if (request.method === 'POST' && slugPattern.test(path[0] || '') && path[1] === 'posts' && path[2] && path[3] === 'comments') {
+    const body = await parseBody(request);
+    const name = cleanText(body?.name, 40);
+    const text = cleanText(body?.text, 400);
+    if (!body || cleanText(body.website, 100) || name.length < 2 || text.length < 2) return json({ error: 'Revise seu nome e comentÃ¡rio.' }, 400);
+    const key = `public-profile:${path[0]}`;
+    const record = await runtime.read(key, null);
+    const post = (record?.posts || []).find(item => item.id === path[2] && isVisibleStatus(item.status));
+    if (!record || !isVisibleStatus(record.profileStatus) || !post) return json({ error: 'PublicaÃ§Ã£o nÃ£o encontrada.' }, 404);
+    const visitor = await visitorFingerprint(request, path[0]);
+    if (!consumeRateLimit(post, visitor, 'comment', 4, 10 * 60_000)) return json({ error: 'Muitos comentÃ¡rios em pouco tempo. Tente mais tarde.' }, 429);
+    post.comments = Array.isArray(post.comments) ? post.comments : [];
+    const comment = { id: crypto.randomUUID(), name, text, visitor, createdAt: new Date().toISOString() };
+    post.comments = [...post.comments, comment].slice(-50);
+    record.updatedAt = new Date().toISOString();
+    await runtime.write(key, record);
+    return json({ ok: true, comment: { id: comment.id, name, text, createdAt: comment.createdAt } }, 201);
+  }
+
   const owner = await authorize(request, runtime);
   if (!owner) return json({ error: 'Ative a continuidade protegida para publicar.' }, 401);
 
@@ -219,7 +302,17 @@ export default async function publicProfileHandler(request, runtime) {
         adultConfirmed: true,
         acceptedAt: cleanText(body.acceptance.acceptedAt, 40) || now
       },
-      posts: (post ? [{ ...post, status: postStatus, reports: previousPost?.reports || [], createdAt: previousPost?.createdAt || now, updatedAt: now }, ...posts] : posts).slice(0, 30),
+      posts: (post ? [{
+        ...post,
+        id: previousPost?.id || post.id,
+        status: postStatus,
+        reports: previousPost?.reports || [],
+        likedBy: previousPost?.likedBy || {},
+        comments: previousPost?.comments || [],
+        rateLimits: previousPost?.rateLimits || {},
+        createdAt: previousPost?.createdAt || now,
+        updatedAt: now
+      }, ...posts] : posts).slice(0, 30),
       createdAt: current?.createdAt || now,
       updatedAt: now
     };

@@ -34,6 +34,10 @@ O Cloudflare Pages executa `npm run build` e publica `dist/`. As Pages Functions
 
 Os arquivos gerados em `js/` não devem ser editados manualmente.
 
+### Perfil Be
+
+A separação entre jornada privada, identidade esportiva, publicações, evolução e conquistas está documentada em `docs/PERFIL-BE.md`.
+
 ### Backend
 
 - `functions/api/`: endpoints HTTP do Cloudflare Pages.

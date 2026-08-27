@@ -10,6 +10,17 @@
   let loadedPosts = [];
   let ownerDevice = false;
   const postShareFeedbackTimers = new WeakMap();
+  const postTypeLabels = Object.freeze({
+    photo: 'Momento esportivo', training: 'Treino concluído', result: 'Resultado', achievement: 'Conquista',
+    evolution: 'Evolução', competition: 'Jogo ou competição', return: 'Retorno ao esporte', goal: 'Meta alcançada'
+  });
+  const formatSportsNumber = value => new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 }).format(Number(value) || 0);
+  const formatSportsPace = (minutes, distance) => {
+    const pace = Number(minutes) / Number(distance);
+    if (!Number.isFinite(pace) || pace <= 0) return '';
+    const totalSeconds = Math.round(pace * 60);
+    return `${Math.floor(totalSeconds / 60)}:${String(totalSeconds % 60).padStart(2, '0')}/km`;
+  };
 
   function postDisplayTitle(post) {
     const title = String(post?.activity || '').trim();
@@ -237,9 +248,40 @@
     const copy = document.createElement('div');
     copy.className = 'be-public-post-copy';
     const label = document.createElement('span');
-    label.textContent = escapeText(post.activity || 'REGISTRO ESPORTIVO').toLocaleUpperCase('pt-BR');
+    label.textContent = escapeText(postTypeLabels[post.postType] || post.activity || 'REGISTRO ESPORTIVO').toLocaleUpperCase('pt-BR');
     const text = document.createElement('p');
     text.textContent = escapeText(post.text);
+    copy.append(label);
+    if (post.title) {
+      const title = document.createElement('h3');
+      title.textContent = escapeText(post.title);
+      copy.append(title);
+    }
+    copy.append(text);
+    const sportsData = [
+      post.activity || '',
+      post.duration ? `${formatSportsNumber(post.duration)} min` : '',
+      post.distance ? `${formatSportsNumber(post.distance)} km` : '',
+      post.duration && post.distance ? formatSportsPace(post.duration, post.distance) : '',
+      post.result || '',
+      post.feeling ? `Sensação ${post.feeling}/5` : ''
+    ].filter(Boolean);
+    if (sportsData.length) {
+      const metrics = document.createElement('div');
+      metrics.className = 'be-public-sports-data';
+      sportsData.forEach(value => {
+        const item = document.createElement('span');
+        item.textContent = value;
+        metrics.append(item);
+      });
+      copy.append(metrics);
+    }
+    if (post.personalBest) {
+      const record = document.createElement('strong');
+      record.className = 'be-public-personal-best';
+      record.textContent = 'NOVO RECORDE PESSOAL';
+      copy.append(record);
+    }
     const time = document.createElement('time');
     time.dateTime = post.occurredAt;
     time.textContent = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'long' }).format(new Date(`${post.occurredAt}T12:00:00`));
@@ -266,7 +308,42 @@
       shareFeedback.setAttribute('aria-live', 'polite');
       meta.append(share, shareFeedback);
     }
-    copy.append(label, text, meta);
+    const interactions = document.createElement('div');
+    interactions.className = 'be-public-interactions';
+    const like = document.createElement('button');
+    like.type = 'button';
+    like.dataset.publicLikePost = post.id;
+    like.setAttribute('aria-pressed', 'false');
+    like.textContent = `Curtir${post.likes ? ` - ${post.likes}` : ''}`;
+    const commentToggle = document.createElement('button');
+    commentToggle.type = 'button';
+    commentToggle.dataset.publicCommentToggle = post.id;
+    commentToggle.textContent = `Comentar${post.comments?.length ? ` - ${post.comments.length}` : ''}`;
+    interactions.append(like, commentToggle);
+    const comments = document.createElement('div');
+    comments.className = 'be-public-comments';
+    comments.dataset.publicComments = post.id;
+    comments.hidden = true;
+    (post.comments || []).forEach(item => {
+      const row = document.createElement('p');
+      const author = document.createElement('strong');
+      author.textContent = item.name;
+      row.append(author, document.createTextNode(` ${item.text}`));
+      comments.append(row);
+    });
+    const form = document.createElement('form');
+    form.dataset.publicCommentForm = post.id;
+    const name = document.createElement('input');
+    name.name = 'name'; name.maxLength = 40; name.required = true; name.placeholder = 'Seu nome'; name.setAttribute('aria-label', 'Seu nome');
+    const commentText = document.createElement('input');
+    commentText.name = 'text'; commentText.maxLength = 400; commentText.required = true; commentText.placeholder = 'Comente este momento esportivo'; commentText.setAttribute('aria-label', 'Comentário');
+    const trap = document.createElement('input');
+    trap.name = 'website'; trap.tabIndex = -1; trap.autocomplete = 'off'; trap.className = 'be-public-honeypot'; trap.setAttribute('aria-hidden', 'true');
+    const send = document.createElement('button'); send.type = 'submit'; send.textContent = 'Enviar';
+    const commentFeedback = document.createElement('small'); commentFeedback.setAttribute('role', 'status');
+    form.append(name, commentText, trap, send, commentFeedback);
+    comments.append(form);
+    copy.append(interactions, comments, meta);
     article.append(copy);
     return article;
   }
@@ -286,6 +363,50 @@
       ? 'Denúncia recebida. O conteúdo foi ocultado preventivamente.'
       : 'Denúncia recebida. Obrigado por ajudar a cuidar da comunidade.';
     return true;
+  }
+
+  async function toggleLike(postId, button) {
+    button.disabled = true;
+    try {
+      const response = await fetch(`/api/public-profiles/${slug}/posts/${encodeURIComponent(postId)}/like`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}'
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error || 'Não foi possível registrar sua curtida.');
+      button.setAttribute('aria-pressed', String(payload.liked));
+      button.textContent = `Curtir${payload.likes ? ` - ${payload.likes}` : ''}`;
+      const post = loadedPosts.find(item => item.id === postId);
+      if (post) post.likes = payload.likes;
+    } finally { button.disabled = false; }
+  }
+
+  async function sendComment(form) {
+    const postId = form.dataset.publicCommentForm;
+    const feedback = form.querySelector('[role="status"]');
+    const submit = form.querySelector('button[type="submit"]');
+    const values = Object.fromEntries(new FormData(form));
+    submit.disabled = true;
+    feedback.textContent = 'Enviando...';
+    try {
+      const response = await fetch(`/api/public-profiles/${slug}/posts/${encodeURIComponent(postId)}/comments`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(values)
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error || 'Não foi possível enviar o comentário.');
+      const post = loadedPosts.find(item => item.id === postId);
+      if (post) post.comments = [...(post.comments || []), payload.comment];
+      const comments = form.closest('.be-public-comments');
+      const row = document.createElement('p');
+      const author = document.createElement('strong');
+      author.textContent = payload.comment.name;
+      row.append(author, document.createTextNode(` ${payload.comment.text}`));
+      comments.insertBefore(row, form);
+      form.reset();
+      feedback.textContent = 'Comentário publicado.';
+      const toggle = comments.closest('.be-public-post')?.querySelector('[data-public-comment-toggle]');
+      if (toggle && post) toggle.textContent = `Comentar - ${post.comments.length}`;
+    } catch (error) { feedback.textContent = error.message; }
+    finally { submit.disabled = false; }
   }
 
   async function load() {
@@ -335,6 +456,23 @@
     }).finally(() => { event.currentTarget.disabled = false; });
   });
   document.getElementById('be-public-posts')?.addEventListener('click', event => {
+    const likeButton = event.target.closest('[data-public-like-post]');
+    if (likeButton && !likeButton.disabled) {
+      toggleLike(likeButton.dataset.publicLikePost, likeButton).catch(error => {
+        document.getElementById('be-public-report-feedback').textContent = error.message;
+      });
+      return;
+    }
+    const commentButton = event.target.closest('[data-public-comment-toggle]');
+    if (commentButton) {
+      const comments = document.querySelector(`[data-public-comments="${CSS.escape(commentButton.dataset.publicCommentToggle)}"]`);
+      if (comments) {
+        comments.hidden = !comments.hidden;
+        commentButton.setAttribute('aria-expanded', String(!comments.hidden));
+        if (!comments.hidden) comments.querySelector('input')?.focus();
+      }
+      return;
+    }
     const shareButton = event.target.closest('[data-public-share-post]');
     if (shareButton && !shareButton.disabled) {
       const post = loadedPosts.find(item => item.id === shareButton.dataset.publicSharePost);
@@ -347,6 +485,12 @@
     reportContent('post', button.dataset.postId).catch(error => {
       document.getElementById('be-public-report-feedback').textContent = error.message;
     }).finally(() => { button.disabled = false; });
+  });
+  document.getElementById('be-public-posts')?.addEventListener('submit', event => {
+    const form = event.target.closest('[data-public-comment-form]');
+    if (!form) return;
+    event.preventDefault();
+    sendComment(form);
   });
   load().catch(error => {
     loading.querySelector('h1').textContent = 'Perfil indisponível';

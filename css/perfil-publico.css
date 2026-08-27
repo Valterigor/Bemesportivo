@@ -18,7 +18,29 @@ body.be-public-page {
     radial-gradient(circle at 8% 18%, rgba(255, 90, 31, .07), transparent 24rem),
     linear-gradient(180deg, #fbfaf9 0, #f5f1ed 44rem, #f8f6f4 100%) !important;
   color: var(--be-public-ink);
-  font-family: Inter, Arial, sans-serif;
+  font-family: Rubik, Inter, Arial, sans-serif;
+}
+
+.be-public-post-copy h3 { margin: 8px 0 0; color: #000; font-size: clamp(19px,3vw,26px); line-height: 1.12; }
+.be-public-sports-data { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+.be-public-sports-data span { padding: 8px 10px; border-radius: 9px; background: #f5f3f1; color: #28231f; font-size: 11px; font-weight: 700; }
+.be-public-personal-best { display: inline-flex; margin-top: 13px; padding: 9px 11px; border-left: 3px solid #fa8a01; background: #fff7e9; color: #743e00; font-size: 11px; }
+.be-public-interactions { display: flex; gap: 8px; margin-top: 18px; padding-top: 12px; border-top: 1px solid #eee9e5; }
+.be-public-interactions button { min-height: 42px; padding: 0 13px; border: 0; border-radius: 10px; background: transparent; color: #27221f; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+.be-public-interactions button:hover,.be-public-interactions button:focus-visible,.be-public-interactions button[aria-pressed="true"] { background: #fff1e5; color: #a84618; }
+.be-public-comments { margin-top: 8px; padding: 12px; border-radius: 12px; background: #faf8f6; }
+.be-public-comments[hidden] { display: none; }
+.be-public-comments > p { margin: 0 0 8px; font-size: 12px; line-height: 1.45; }
+.be-public-comments > p strong { color: #000; }
+.be-public-comments form { display: grid; grid-template-columns: minmax(100px,.45fr) minmax(0,1fr) auto; gap: 7px; margin-top: 10px; }
+.be-public-comments input { min-width: 0; min-height: 42px; padding: 0 11px; border: 1px solid #ddd5cf; border-radius: 9px; background: #fff; font: inherit; font-size: 12px; }
+.be-public-comments button { min-height: 42px; padding: 0 14px; border: 0; border-radius: 9px; background: #fa8a01; color: #000; font: inherit; font-size: 11px; font-weight: 800; cursor: pointer; }
+.be-public-comments small { grid-column: 1 / -1; min-height: 14px; color: #7c5543; font-size: 10px; }
+.be-public-honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; opacity: 0 !important; }
+
+@media (max-width: 600px) {
+  .be-public-comments form { grid-template-columns: 1fr; }
+  .be-public-comments small { grid-column: auto; }
 }
 
 .be-public-profile {

@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'meu-caminho-be-';
-const CACHE_NAME = `${CACHE_PREFIX}v120`;
+const CACHE_NAME = `${CACHE_PREFIX}v124`;
 const CORE_SHELL = [
   '/meu-caminho-be',
   '/site-common.css',
@@ -19,6 +19,7 @@ const CORE_SHELL = [
   '/css/ui-polish.css',
   '/css/meu-caminho-modern.css',
   '/css/meu-caminho-diary.css',
+  '/css/meu-caminho-profile.css',
   '/css/meu-caminho-navigation.css',
   '/js/site-common.js',
   '/js/core/routes.js',
@@ -38,7 +39,9 @@ const CORE_SHELL = [
   '/js/meu-caminho-navigation.js',
   '/js/fala-bem-app.js',
   '/js/be-ia.js',
-  '/js/meu-caminho-diary.js'
+  '/js/meu-caminho-diary.js',
+  '/js/meu-caminho-public.js',
+  '/js/meu-caminho-profile.js'
 ];
 const OPTIONAL_SHELL = [
   '/img/logobemoficial.png',

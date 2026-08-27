@@ -123,7 +123,7 @@ const legacyViewForRoute = {
   progresso: 'progresso',
   ferramentas: 'ferramentas',
   comunidade: 'comunidade',
-  jornada: 'progresso',
+  jornada: 'inicio',
   evolucao: 'evolucao',
   explorar: 'explorar',
   aprender: 'conteudos',
@@ -164,29 +164,35 @@ const viewPresentation = {
   gols: ['Contador de gols', '#fb-goals-view-title']
 };
 const sectionBannerContent = {
+  inicio: {
+    kicker: 'ENTENDA SEU MOMENTO ATUAL',
+    title: 'Meu Hoje',
+    text: 'Reconheça onde você está agora para receber um próximo passo compatível com sua realidade.',
+    mark: '02'
+  },
   registrar: {
     kicker: 'UM MOMENTO DA SUA HISTÓRIA',
     title: 'Registrar',
     text: 'Conte o que aconteceu de verdade e transforme cada atividade em parte da sua trajetória esportiva.',
-    mark: '03'
+    mark: '04'
   },
   progresso: {
     kicker: 'SUA TRAJETÓRIA ESPORTIVA',
     title: 'Jornada',
     text: 'Diário, evolução e história reunidos para você compreender seu caminho sem transformar cada dia em cobrança.',
-    mark: '04'
+    mark: '05'
   },
   conteudos: {
     kicker: 'CONHECIMENTO PARA SEGUIR',
     title: 'Explorar',
-    text: 'Encontre conteúdos e referências para compreender melhor o esporte e descobrir novas possibilidades para o seu caminho.',
-    mark: '05'
+    text: 'Encontre conteúdos e referências para compreender melhor o esporte e ampliar as possibilidades do seu caminho.',
+    mark: '06'
   },
   ferramentas: {
     kicker: 'RECURSOS PARA O DIA A DIA',
     title: 'Ferramentas',
     text: 'Planeje, calcule referências e encontre apoio para tomar decisões mais claras sobre sua rotina esportiva.',
-    mark: '06'
+    mark: '07'
   },
   perfil: {
     kicker: 'SUA IDENTIDADE NO ESPORTE',
@@ -4014,7 +4020,7 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-onboarding', { detail: { ...(currentProfile || {}) } }));
     openView('jornada');
     const feedback = document.getElementById('fb-profile-feedback');
-    if (feedback) feedback.textContent = 'Perfil Be criado. Agora vamos entender seu momento e preparar o seu Mapa BeM.';
+    if (feedback) feedback.textContent = 'Perfil Be criado. Agora vamos entender seu momento e preparar o próximo passo.';
     return;
   }
   window.setTimeout(() => {

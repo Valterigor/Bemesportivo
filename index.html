@@ -2261,7 +2261,7 @@
     .hero-orbit { position: absolute; border: 1px solid rgba(255,90,0,.35); border-radius: 50%; pointer-events: none; }
     .hero-orbit-one { width: min(55vw, 760px); aspect-ratio: 1; right: 5%; top: 8%; }
     .hero-orbit-two { width: min(34vw, 470px); aspect-ratio: 1; right: 16%; top: 22%; background: rgba(255,122,0,.12); }
-    .home-steps { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: -52px; margin-bottom: clamp(54px, 8vw, 92px); }
+    .home-steps { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 18px; margin-top: -52px; margin-bottom: clamp(54px, 8vw, 92px); }
     .home-steps > a { position: relative; display: grid; gap: 9px; padding-top: 24px; border-radius: 18px; color: #111; transition: color .2s ease, transform .2s ease; }
     .home-steps > a:not(:last-child)::after { content: ""; position: absolute; top: 47px; left: 76px; right: -12px; height: 1px; background: linear-gradient(90deg, rgba(255,90,0,.55), rgba(255,90,0,.12)); pointer-events: none; }
     .home-steps span { display: grid; place-items: center; width: 64px; height: 64px; border: 1px solid rgba(17,17,17,.08); border-radius: 50%; background: rgba(255,255,255,.94); box-shadow: 0 16px 34px rgba(17,17,17,.1); color: #ff5a00; }
@@ -2712,10 +2712,10 @@
       <section class="shell home-hero-v2" id="inicio" aria-labelledby="home-hero-title">
         <div class="home-hero-copy">
           <span class="home-kicker">Bem Esportivo</span>
-          <h1 id="home-hero-title">Descubra <span>seu caminho</span> no esporte.</h1>
-          <p><strong>O Meu Caminho Be é uma experiência gratuita:</strong> você conta seu momento, recebe um próximo passo e acompanha sua evolução sem comparação ou cobrança.</p>
+          <h1 id="home-hero-title">Siga <span>seu caminho</span> no esporte.</h1>
+          <p><strong>O Meu Caminho Be começa por quem você é:</strong> conte seu momento e receba apoio para começar, retomar ou evoluir com um próximo passo possível.</p>
           <div class="home-hero-actions">
-            <a class="home-primary" href="/meu-caminho-be?tela=mapa">Descobrir meu caminho <span aria-hidden="true">→</span></a>
+            <a class="home-primary" href="/meu-caminho-be/perfil">Começar pelo Perfil Be <span aria-hidden="true">→</span></a>
           </div>
         </div>
         <div class="home-hero-media" aria-label="Imagem principal do Bem Esportivo">
@@ -2726,11 +2726,14 @@
         </div>
       </section>
 
-      <nav class="shell home-steps" id="como-funciona" aria-label="Como funciona o Meu Caminho Be em quatro etapas">
-        <a href="/meu-caminho-be?tela=mapa" aria-label="Descobrir: criar meu Mapa BeM"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"></path><circle cx="12" cy="12" r="7"></circle></svg></span><strong>Descobrir</strong><p>Entenda quem você é e onde quer chegar.</p><small>Criar meu Mapa BeM →</small></a>
-        <a href="/meu-caminho-be?tela=registrar" aria-label="Começar: registrar meu primeiro passo"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"></path></svg></span><strong>Começar</strong><p>Dê o primeiro passo com direção.</p><small>Registrar meu passo →</small></a>
-        <a href="/meu-caminho-be?tela=evolucao" aria-label="Evoluir: acompanhar minha evolução"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 17 6-6 4 4 6-9"></path><path d="M14 6h6v6"></path></svg></span><strong>Evoluir</strong><p>Acompanhe seu progresso e continue avançando.</p><small>Ver minha evolução →</small></a>
-        <a href="/meu-caminho-be?tela=progresso" aria-label="Permanecer: continuar minha jornada"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 3 6 6 .9-4.5 4.4 1 6.2L12 17.5 6.5 20.5l1-6.2L3 9.9 9 9l3-6Z"></path></svg></span><strong>Permanecer</strong><p>Transforme o esporte em estilo de vida.</p><small>Continuar minha jornada →</small></a>
+      <nav class="shell home-steps" id="como-funciona" aria-label="Como funciona o Meu Caminho Be em sete etapas">
+        <a href="/meu-caminho-be/perfil" aria-label="Perfil Be: contar quem sou no esporte"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg></span><strong>Perfil Be</strong><p>Conte quem você é no esporte.</p><small>Criar meu perfil →</small></a>
+        <a href="/meu-caminho-be" aria-label="Meu Hoje: entender meu momento atual"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10"></path></svg></span><strong>Meu Hoje</strong><p>Entenda seu momento atual.</p><small>Ver meu momento →</small></a>
+        <a href="/meu-caminho-be/jornada/mapa" aria-label="Próximo passo: definir aonde quero chegar"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 17 6-6 4 4 6-9"></path><path d="M14 6h6v6"></path></svg></span><strong>Próximo passo</strong><p>Defina aonde você quer chegar.</p><small>Receber direcionamento →</small></a>
+        <a href="/meu-caminho-be/registrar" aria-label="Registrar: colocar meu caminho em movimento"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg></span><strong>Registrar</strong><p>Coloque seu caminho em movimento.</p><small>Registrar uma atividade →</small></a>
+        <a href="/meu-caminho-be/jornada" aria-label="Jornada: acompanhar minha evolução"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><strong>Jornada</strong><p>Acompanhe sua evolução.</p><small>Ver minha jornada →</small></a>
+        <a href="/meu-caminho-be/ferramentas/conteudos" aria-label="Explorar: ampliar minhas possibilidades"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"></path></svg></span><strong>Explorar</strong><p>Amplie suas possibilidades.</p><small>Explorar conteúdos →</small></a>
+        <a href="/meu-caminho-be/ferramentas" aria-label="Ferramentas: encontrar apoio para continuar"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg></span><strong>Ferramentas</strong><p>Encontre apoio para continuar.</p><small>Abrir ferramentas →</small></a>
       </nav>
 
       <section class="shell home-journey" id="meu-caminho" aria-labelledby="home-journey-title">

@@ -343,13 +343,13 @@ async function run() {
     assert.match(adsenseConsentDefault, /ad_personalization: 'denied'/);
     assert.doesNotMatch(privacyConsentScript, /ca-pub-5270723987412757/);
     assert.match(homeHtml, /<main class="home-redesign">\s*<section class="shell home-hero-v2" id="inicio"[\s\S]*<section class="shell home-journey"[\s\S]*<section class="shell home-section-v2 home-editorial-feature home-editorial-launch"/, 'A Home precisa explicar a jornada antes de apresentar a vitrine editorial.');
-    assert.match(homeHtml, /id="home-hero-title">Descubra <span>seu caminho<\/span> no esporte\./, 'O novo hero precisa preservar a chamada principal do Bem Esportivo.');
-    assert.match(homeHtml, /O Meu Caminho Be é uma experiência gratuita:[\s\S]*você conta seu momento, recebe um próximo passo e acompanha sua evolução/, 'A entrada precisa explicar de forma direta o que é o Meu Caminho Be.');
-    assert.match(homeHtml, /class="shell home-steps"[\s\S]*Descobrir[\s\S]*Começar[\s\S]*Evoluir[\s\S]*Permanecer/, 'A Home precisa apresentar as quatro etapas da jornada.');
-    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\?tela=mapa"/, 'Descobrir precisa abrir a criação do Mapa BeM.');
-    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\?tela=registrar"/, 'Começar precisa abrir o registro do primeiro passo.');
-    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\?tela=evolucao"/, 'Evoluir precisa abrir a leitura de evolução.');
-    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\?tela=progresso"/, 'Permanecer precisa abrir o diário da jornada.');
+    assert.match(homeHtml, /id="home-hero-title">Siga <span>seu caminho<\/span> no esporte\./, 'O hero precisa apresentar o Meu Caminho Be como continuidade e direção.');
+    assert.match(homeHtml, /O Meu Caminho Be começa por quem você é:[\s\S]*começar, retomar ou evoluir/, 'A entrada precisa explicar como o Perfil Be ajuda cada momento esportivo.');
+    assert.match(homeHtml, /class="shell home-steps"[\s\S]*Perfil Be[\s\S]*Meu Hoje[\s\S]*Próximo passo[\s\S]*Registrar[\s\S]*Jornada[\s\S]*Explorar[\s\S]*Ferramentas/, 'A Home precisa apresentar as sete etapas na ordem editorial definida.');
+    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\/perfil"/, 'Perfil Be precisa ser a entrada da jornada.');
+    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\/jornada\/mapa"/, 'Próximo passo precisa abrir o direcionamento do momento atual.');
+    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\/registrar"/, 'Registrar precisa abrir o registro de atividade.');
+    assert.match(homeHtml, /class="shell home-steps"[\s\S]*href="\/meu-caminho-be\/ferramentas\/conteudos"[\s\S]*href="\/meu-caminho-be\/ferramentas"/, 'Explorar e Ferramentas precisam abrir seus destinos exatos.');
     assert.match(homeHtml, /id="home-content-title">Histórias que colocam o esporte <em>em movimento\.<\/em>/, 'A Home precisa apresentar a vitrine editorial principal.');
     assert.match(homeHtml, /class="home-editorial-grid" data-report-order="inclusion-desc" data-latest-reports-source="\/reportagens"[\s\S]*Thais Garcez, uma nova versão[\s\S]*Elas trazem esperança[\s\S]*Mayara e Magnólia no Papo Bem Esportivo/, 'A vitrine editorial precisa manter como fallback as três reportagens mais recentes do acervo.');
     assert.match(homeHtml, /src="js\/home-latest-reports\.js\?v=20260821-1"/, 'A Home precisa sincronizar seus destaques com a listagem de reportagens.');
@@ -423,7 +423,7 @@ async function run() {
     assert.match(pathHtml, /data-fb-panel="ferramentas"[\s\S]*id="fb-tools-mount"/, 'Ferramentas precisa ficar dentro de um painel próprio do aplicativo.');
     assert.match(pathHtml, /aria-label="Próximos passos após usar uma ferramenta"[\s\S]*?data-fb-view="dicas">Dicas práticas<\/button>[\s\S]*?data-fb-view="especialistas">Ver profissionais<\/button>/, 'O primeiro próximo passo de Ferramentas precisa abrir somente Dicas práticas.');
     assert.match(pathHtml, /class="be-journey-switcher"[\s\S]*?data-fb-view="progresso"[\s\S]*?data-fb-view="evolucao"[\s\S]*?data-fb-view="explorar"/, 'Diário, Evolução e História precisam permanecer dentro da Jornada.');
-    assert.match(pathHtml, /id="be-profile-onboarding"[\s\S]*Perfil Be[\s\S]*Mapa BeM[\s\S]*Próximo passo/, 'O primeiro acesso precisa explicar a sequência antes de coletar os dados do Perfil Be.');
+    assert.match(pathHtml, /id="be-profile-onboarding"[\s\S]*Perfil Be[\s\S]*Meu Hoje[\s\S]*Próximo passo/, 'O primeiro acesso precisa explicar a sequência antes de coletar os dados do Perfil Be.');
     assert.match(pathHtml, /id="be-profile-onboarding-title">Primeiro, queremos conhecer você no esporte\./, 'O Perfil Be precisa ser apresentado como o primeiro passo do sistema.');
     assert.doesNotMatch(pathHtml, /id="journey-name"/, 'O Mapa BeM não deve perguntar novamente o nome já salvo no Perfil Be.');
     assert.match(pathHtml, /data-step-indicator="1"[^>]*>[\s\S]*Perfil Be/, 'O Mapa BeM precisa reconhecer o Perfil Be como etapa concluída.');
@@ -454,10 +454,10 @@ async function run() {
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(pathHtml, /js\/meu-caminho-navigation\.js\?v=20260823-2/);
     assert.match(pathHtml, /js\/meu-caminho-account\.js\?v=20260823-2/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260823-10/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260826-1/);
     assert.match(pathHtml, /js\/coluna-valtinho\.js\?v=20260823-1/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260823-7/);
-    assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260823-2/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260826-2/);
+    assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260826-1/);
     assert.match(pathHtml, /css\/fala-bem-platform\.css\?v=20260823-1/);
     assert.match(pathHtml, /js\/site-common\.js\?v=20260823-1/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
@@ -597,10 +597,11 @@ async function run() {
     assert.match(appScript, /if \(path === `\$\{APP_BASE_PATH\}\/jornada`\) return 'progresso'/, 'A URL de Jornada deve abrir a subpágina interna mesmo antes do perfil ser criado.');
     assert.doesNotMatch(appScript, /requestedView === 'progresso' && !currentProfile\?\.objective/, 'A navegação principal não deve desviar Jornada para um fluxo externo.');
     assert.match(appScript, /const sectionBannerContent = \{[\s\S]*progresso:[\s\S]*ferramentas:[\s\S]*perfil:/, 'Jornada, Ferramentas e Perfil precisam de banners contextualizados.');
-    assert.match(appScript, /registrar:\s*\{[\s\S]*?mark: '03'/, 'Registrar precisa representar a etapa 03.');
-    assert.match(appScript, /progresso:\s*\{[\s\S]*?mark: '04'/, 'Jornada precisa representar a etapa 04.');
-    assert.match(appScript, /conteudos:\s*\{[\s\S]*?mark: '05'/, 'Explorar precisa representar a etapa 05.');
-    assert.match(appScript, /ferramentas:\s*\{[\s\S]*?mark: '06'/, 'Ferramentas precisa representar a etapa 06.');
+    assert.match(appScript, /inicio:\s*\{[\s\S]*?mark: '02'/, 'Meu Hoje precisa representar a etapa 02.');
+    assert.match(appScript, /registrar:\s*\{[\s\S]*?mark: '04'/, 'Registrar precisa representar a etapa 04.');
+    assert.match(appScript, /progresso:\s*\{[\s\S]*?mark: '05'/, 'Jornada precisa representar a etapa 05.');
+    assert.match(appScript, /conteudos:\s*\{[\s\S]*?mark: '06'/, 'Explorar precisa representar a etapa 06.');
+    assert.match(appScript, /ferramentas:\s*\{[\s\S]*?mark: '07'/, 'Ferramentas precisa representar a etapa 07.');
     assert.match(appScript, /perfil:\s*\{[\s\S]*?mark: '01'/, 'Perfil precisa representar a etapa 01.');
     assert.match(appScript, /function renderSectionBanner\(primarySection\)/);
     assert.match(navigationScript, /resolveRequestedView/);
@@ -681,7 +682,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v120`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v124`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]
