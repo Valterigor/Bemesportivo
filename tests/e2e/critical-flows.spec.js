@@ -13,9 +13,13 @@ test('primeiro acesso começa pelo Perfil Be antes de liberar a jornada', async 
   });
   await page.goto('/');
   await expect(page.locator('.home-redesign > section').first()).toHaveAttribute('id', 'inicio');
-  await expect(page.getByText('O Meu Caminho Be começa por quem você é:')).toBeVisible();
-  await page.getByRole('link', { name: 'Começar pelo Perfil Be' }).click();
-  await expect(page).toHaveURL(/\/meu-caminho-be\/perfil$/);
+  await page.locator('#be-ecosystem-search-input').fill('Quero registrar o que fiz hoje');
+  await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Encontramos para você' })).toBeVisible();
+  const searchDestination = page.locator('#be-ecosystem-search-results').getByRole('link', { name: /Meu Caminho Be/ });
+  await expect(searchDestination).toHaveAttribute('href', '/meu-caminho-be/registrar');
+  await searchDestination.click();
+  await expect(page).toHaveURL(/\/meu-caminho-be\/registrar$/);
   await expect(page.locator('#fala-bem-app')).toHaveClass(/fb-onboarding-active/);
   await expect(page.getByRole('heading', { name: 'Primeiro, queremos conhecer você no esporte.' })).toBeVisible();
   await expect(page.locator('.fb-app-nav')).toBeVisible();
@@ -240,7 +244,7 @@ test('cada botão de trilha abre o guia correspondente', async ({ page }) => {
   }
 });
 
-test('etapas da home abrem o assunto correspondente para quem já tem um caminho', async ({ page }) => {
+test('produtos da home abrem seus destinos exatos', async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
       version: 2,
@@ -260,23 +264,16 @@ test('etapas da home abrem o assunto correspondente para quem já tem um caminho
       createdAt: new Date().toISOString()
     }));
   });
-  const stages = [
-    ['Perfil Be: contar quem sou no esporte', /\/meu-caminho-be\/perfil$/, '[data-fb-panel="perfil"]'],
-    ['Meu Hoje: entender meu momento atual', /\/meu-caminho-be$/, '[data-fb-panel="inicio"]'],
-    ['Próximo passo: definir aonde quero chegar', /\/meu-caminho-be\/jornada\/mapa$/, '#minha-jornada'],
-    ['Registrar: colocar meu caminho em movimento', /\/meu-caminho-be\/registrar$/, '[data-fb-panel="registrar"]'],
-    ['Jornada: acompanhar minha evolução', /\/meu-caminho-be\/jornada$/, '[data-fb-panel="progresso"]'],
-    ['Explorar: ampliar minhas possibilidades', /\/meu-caminho-be\/ferramentas\/conteudos$/, '[data-fb-panel="conteudos"]'],
-    ['Ferramentas: encontrar apoio para continuar', /\/meu-caminho-be\/ferramentas$/, '[data-fb-panel="ferramentas"]']
-  ];
-
-  for (const [label, destination, subject] of stages) {
-    await page.goto('/');
-    await page.getByRole('link', { name: label }).click();
-    await expect(page).toHaveURL(destination);
-    await expect(page.locator('#fala-bem-app')).toBeVisible();
-    await expect(page.locator(subject)).toBeVisible();
-  }
+  await page.goto('/');
+  const products = page.locator('.be-ecosystem-products');
+  await expect(products.getByRole('link', { name: /Conhecimento/ })).toHaveAttribute('href', '/meu-caminho-be/ferramentas/conteudos');
+  await expect(products.getByRole('link', { name: /Meu Caminho Be/ })).toHaveAttribute('href', '/meu-caminho-be');
+  await expect(products.getByRole('link', { name: /BEplay/ })).toHaveAttribute('href', '/beplay');
+  await expect(products.getByRole('link', { name: /Reportagens/ })).toHaveAttribute('href', '/reportagens');
+  await expect(products.getByRole('link', { name: /Comunidade/ })).toHaveAttribute('href', '/meu-caminho-be/ferramentas/comunidade');
+  await expect(products.getByRole('link', { name: /Profissionais/ })).toHaveAttribute('href', '/profissionais');
+  await expect(products.getByRole('link', { name: /Ferramentas/ })).toHaveAttribute('href', '/meu-caminho-be/ferramentas');
+  await expect(products.getByRole('link', { name: /Produtos/ })).toHaveAttribute('href', '/produtos');
 });
 
 test('PWA abre uma subpágina do Meu Caminho Be sem conexão', async ({ page, context }) => {

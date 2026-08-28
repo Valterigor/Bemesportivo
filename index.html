@@ -12,21 +12,21 @@
   <meta name="bem-adsense-enabled" content="true">
   <script src="/js/adsense-consent-default.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5105345296041597" crossorigin="anonymous"></script>
-  <meta name="description" content="Bem Esportivo é uma plataforma de jornada esportiva personalizada que organiza informações, próximos passos, conteúdos e conexão com profissionais.">
+  <meta name="description" content="Bem Esportivo é um ecossistema para viver o esporte: acompanhe sua prática, assista, conheça histórias, converse e encontre apoio.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#FFFFFF">
-  <meta property="og:title" content="Bem Esportivo | Descubra seu caminho no esporte">
-  <meta property="og:description" content="Entenda seu momento, organize sua rotina e encontre próximos passos para continuar no esporte.">
+  <meta property="og:title" content="Bem Esportivo | Um ecossistema para viver o esporte">
+  <meta property="og:description" content="Diga o que você procura no esporte e encontre o caminho certo dentro do Bem Esportivo.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://bemesportivo.com/">
   <meta property="og:image" content="https://bemesportivo.com/img/banner.png">
   <meta property="og:image:alt" content="Bem Esportivo: esporte, saúde, informação e comunidade">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Bem Esportivo | Descubra seu caminho no esporte">
-  <meta name="twitter:description" content="Uma jornada esportiva personalizada para entender seu momento e encontrar o próximo passo.">
+  <meta name="twitter:title" content="Bem Esportivo | Um ecossistema para viver o esporte">
+  <meta name="twitter:description" content="Conteúdo, vídeos, comunidade, profissionais, ferramentas, produtos e uma jornada esportiva pessoal.">
   <meta name="twitter:image" content="https://bemesportivo.com/img/banner.png">
   <link rel="canonical" href="https://bemesportivo.com/">
-  <title>Bem Esportivo | Descubra seu caminho no esporte</title>
+  <title>Bem Esportivo | Um ecossistema para viver o esporte</title>
   <link rel="icon" href="img/logobemoficial.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2685,6 +2685,8 @@
   <link rel="stylesheet" href="css/components/privacy-consent.css?v=20260723-1">
   <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-2">
   <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
+  <link rel="stylesheet" href="css/be-ecosystem-search.css?v=20260827-1">
+  <link rel="stylesheet" href="css/mobile-typography.css?v=20260828-1">
 </head>
 <body class="home-page">
   <div class="page">
@@ -2709,13 +2711,26 @@
     </header>
 
     <main class="home-redesign">
-      <section class="shell home-hero-v2" id="inicio" aria-labelledby="home-hero-title">
+      <section class="shell home-hero-v2 be-ecosystem-hero" id="inicio" aria-labelledby="home-hero-title">
         <div class="home-hero-copy">
           <span class="home-kicker">Bem Esportivo</span>
-          <h1 id="home-hero-title">Siga <span>seu caminho</span> no esporte.</h1>
-          <p><strong>O Meu Caminho Be começa por quem você é:</strong> conte seu momento e receba apoio para começar, retomar ou evoluir com um próximo passo possível.</p>
-          <div class="home-hero-actions">
-            <a class="home-primary" href="/meu-caminho-be/perfil">Começar pelo Perfil Be <span aria-hidden="true">→</span></a>
+          <h1 id="home-hero-title">O que você procura <span>no esporte?</span></h1>
+          <p><strong>O Bem Esportivo ajuda você a chegar ao lugar certo.</strong> Escreva o que deseja fazer, aprender, assistir ou acompanhar.</p>
+          <div class="be-search-box">
+            <form class="be-search-form" id="be-ecosystem-search-form" role="search" aria-label="Buscar no ecossistema Bem Esportivo">
+              <label class="be-search-input-wrap" for="be-ecosystem-search-input">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg>
+                <input id="be-ecosystem-search-input" name="busca" type="search" maxlength="180" autocomplete="off" placeholder="Ex.: Quero registrar o que fiz hoje" aria-describedby="be-search-help">
+              </label>
+              <button type="submit">Encontrar</button>
+            </form>
+            <div class="be-search-examples" id="be-search-help" aria-label="Exemplos de busca">
+              <span>Experimente:</span>
+              <button type="button" data-be-search-example="Quero começar a correr">Começar a correr</button>
+              <button type="button" data-be-search-example="Quero melhorar meu chute">Melhorar meu chute</button>
+              <button type="button" data-be-search-example="Quero voltar a treinar">Voltar a treinar</button>
+              <button type="button" data-be-search-example="Quero encontrar um profissional">Encontrar um profissional</button>
+            </div>
           </div>
         </div>
         <div class="home-hero-media" aria-label="Imagem principal do Bem Esportivo">
@@ -2726,15 +2741,42 @@
         </div>
       </section>
 
-      <nav class="shell home-steps" id="como-funciona" aria-label="Como funciona o Meu Caminho Be em sete etapas">
-        <a href="/meu-caminho-be/perfil" aria-label="Perfil Be: contar quem sou no esporte"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg></span><strong>Perfil Be</strong><p>Conte quem você é no esporte.</p><small>Criar meu perfil →</small></a>
-        <a href="/meu-caminho-be" aria-label="Meu Hoje: entender meu momento atual"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10"></path></svg></span><strong>Meu Hoje</strong><p>Entenda seu momento atual.</p><small>Ver meu momento →</small></a>
-        <a href="/meu-caminho-be/jornada/mapa" aria-label="Próximo passo: definir aonde quero chegar"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 17 6-6 4 4 6-9"></path><path d="M14 6h6v6"></path></svg></span><strong>Próximo passo</strong><p>Defina aonde você quer chegar.</p><small>Receber direcionamento →</small></a>
-        <a href="/meu-caminho-be/registrar" aria-label="Registrar: colocar meu caminho em movimento"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg></span><strong>Registrar</strong><p>Coloque seu caminho em movimento.</p><small>Registrar uma atividade →</small></a>
-        <a href="/meu-caminho-be/jornada" aria-label="Jornada: acompanhar minha evolução"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><strong>Jornada</strong><p>Acompanhe sua evolução.</p><small>Ver minha jornada →</small></a>
-        <a href="/meu-caminho-be/ferramentas/conteudos" aria-label="Explorar: ampliar minhas possibilidades"><span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"></path></svg></span><strong>Explorar</strong><p>Amplie suas possibilidades.</p><small>Explorar conteúdos →</small></a>
-        <a href="/meu-caminho-be/ferramentas" aria-label="Ferramentas: encontrar apoio para continuar"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg></span><strong>Ferramentas</strong><p>Encontre apoio para continuar.</p><small>Abrir ferramentas →</small></a>
+      <nav class="shell be-ecosystem-products" id="como-funciona" aria-label="Produtos do ecossistema Bem Esportivo">
+        <a class="be-ecosystem-product" href="/meu-caminho-be/ferramentas/conteudos"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11v18H7.5A3.5 3.5 0 0 0 4 23V5.5ZM20 5.5A3.5 3.5 0 0 0 16.5 2H13v18h3.5A3.5 3.5 0 0 1 20 23V5.5Z"></path></svg></i><strong>Conhecimento</strong><small>Aprenda</small><b>Explorar →</b></a>
+        <a class="be-ecosystem-product" href="/beplay"><i aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m10 8 6 4-6 4V8Z"></path></svg></i><strong>BEplay</strong><small>Assista</small><b>Assistir →</b></a>
+        <a class="be-ecosystem-product" href="/reportagens"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5zM8 7h8M8 11h8M8 15h5"></path></svg></i><strong>Reportagens</strong><small>Histórias reais</small><b>Ler →</b></a>
+        <a class="be-ecosystem-product" href="/meu-caminho-be/ferramentas/comunidade"><i aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="16" cy="8" r="3"></circle><path d="M2 20a6 6 0 0 1 12 0M10 20a6 6 0 0 1 12 0"></path></svg></i><strong>Comunidade</strong><small>Converse</small><b>Participar →</b></a>
+        <a class="be-ecosystem-product" href="/profissionais"><i aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"></circle><path d="M5 21a7 7 0 0 1 14 0M18 5l1 1 2-2"></path></svg></i><strong>Profissionais</strong><small>Encontre ajuda</small><b>Encontrar →</b></a>
+        <a class="be-ecosystem-product" href="/meu-caminho-be/ferramentas"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 9v6M6 7v10M18 7v10M21 9v6M6 12h12"></path></svg></i><strong>Ferramentas</strong><small>Entenda</small><b>Usar →</b></a>
+        <a class="be-ecosystem-product" href="/produtos"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 13H7L6 8ZM9 8a3 3 0 0 1 6 0"></path></svg></i><strong>Produtos</strong><small>Encontre</small><b>Explorar →</b></a>
+        <a class="be-ecosystem-product" href="/meu-caminho-be"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 20V5M5 6h10l-2 4 2 4H5M16 20h3"></path></svg></i><strong>Meu Caminho Be</strong><small>Sua jornada</small><b>Abrir →</b></a>
       </nav>
+
+      <section class="shell be-search-discovery" aria-labelledby="be-search-result-title">
+        <div class="be-search-discovery-main">
+          <span class="be-search-discovery-kicker">Busca Be</span>
+          <h2 id="be-search-result-title">Para começar a explorar</h2>
+          <p id="be-search-result-query">Uma seleção real da biblioteca, dos serviços e do conteúdo publicado.</p>
+          <div class="be-search-results" id="be-ecosystem-search-results" role="status" aria-live="polite" aria-label="6 sugestões para começar">
+            <a class="be-search-result-card is-conteudo" href="/meu-caminho-be/ferramentas/trilhas"><span class="be-search-result-media"><img src="/img/fala-bem-hero-pessoas-optimized-480.webp" alt="" width="480" height="320" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Conhecimento</small><strong>Minha primeira corrida</strong><span>Uma trilha em quatro passos para organizar o começo da prática.</span><b>Abrir trilha →</b></span></a>
+            <a class="be-search-result-card is-beplay" href="/beplay?video=treino-agilidade-futebol"><span class="be-search-result-media"><img src="/img/beplay-capa-agilidade-futebol.webp" alt="" width="960" height="640" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>BEplay</small><strong>Resultado não acontece por acaso</strong><span>Treino de agilidade no futebol, disciplina e evolução.</span><b>Assistir →</b></span></a>
+            <a class="be-search-result-card is-ferramentas" href="/meu-caminho-be/ferramentas?ferramenta=pace"><span class="be-search-result-media"><img src="/img/calculadora-pace-relogio-esportivo.webp" alt="Corredor consultando o pace de 5 minutos e 30 segundos por quilômetro em um relógio esportivo" width="1200" height="693" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Ferramentas</small><strong>Calculadora Pace</strong><span>Calcule o seu ritmo por quilômetro como referência educativa.</span><b>Usar ferramenta →</b></span></a>
+            <a class="be-search-result-card is-profissionais" href="/profissionais"><span class="be-search-result-media"><img src="/img/profissionais/bruno.jpg" alt="" width="640" height="640" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Profissionais</small><strong>Bruno Rezende — Personal Trainer</strong><span>Treinamento funcional, condicionamento e performance.</span><b>Ver profissional →</b></span></a>
+            <a class="be-search-result-card is-meu-caminho" href="/meu-caminho-be/registrar"><span class="be-search-result-media"><img src="/img/jornada-esportiva-atleta-por-do-sol.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Meu Caminho Be</small><strong>Registrar uma atividade</strong><span>Guarde o treino, jogo, caminhada ou movimento que viveu hoje.</span><b>Registrar agora →</b></span></a>
+            <a class="be-search-result-card is-reportagens" href="/reportagens/thais-garcez-metamorfose"><span class="be-search-result-media"><img src="/img/Thais%20Garcez/thais-garcez-capa.jpg" alt="" width="738" height="1600" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Reportagens</small><strong>Thais Garcez, uma nova versão</strong><span>Disciplina, conhecimento e uma nova forma de viver a musculação.</span><b>Ler reportagem →</b></span></a>
+          </div>
+        </div>
+        <aside class="be-search-how" aria-labelledby="be-search-how-title">
+          <h2 id="be-search-how-title">Como funciona?</h2>
+          <ol>
+            <li><span>1</span><div><strong>Você busca</strong><small>Digite o que quer saber ou fazer no esporte.</small></div></li>
+            <li><span>2</span><div><strong>Consultamos a biblioteca</strong><small>Procuramos somente no conteúdo e nos serviços existentes.</small></div></li>
+            <li><span>3</span><div><strong>Organizamos as possibilidades</strong><small>Os resultados aparecem separados pelo tipo de solução.</small></div></li>
+            <li><span>4</span><div><strong>Você escolhe</strong><small>Abra o caminho que faz mais sentido para o seu momento.</small></div></li>
+          </ol>
+          <p><strong>Sem IA generativa.</strong> As respostas vêm da nossa biblioteca editorial e do conteúdo publicado.</p>
+        </aside>
+      </section>
 
       <section class="shell home-journey" id="meu-caminho" aria-labelledby="home-journey-title">
         <div class="home-journey-copy">
@@ -3197,10 +3239,18 @@
       </div>
     </footer>
     <button id="topBtn" type="button" aria-label="Voltar ao topo">↑</button>
+    <nav class="be-home-mobile-dock" aria-label="Atalhos principais">
+      <a href="/" aria-current="page"><span>⌂</span>Início</a>
+      <a href="#como-funciona"><span>◇</span>Explorar</a>
+      <a class="be-home-mobile-search" href="#inicio" aria-label="Ir para a Busca Be"><span>⌕</span>Buscar</a>
+      <a href="/meu-caminho-be"><span>⚑</span>Meu Caminho</a>
+      <a href="/meu-caminho-be/ferramentas/comunidade"><span>♧</span>Comunidade</a>
+    </nav>
   </div>
   <script type="module" src="js/privacy-entry.js?v=20260723-2"></script>
   <script type="module" src="js/home-latest-reports.js?v=20260821-1"></script>
   <script type="module" src="js/contact-form.js?v=20260821-1"></script>
+  <script src="js/be-ecosystem-search.js?v=20260827-1" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const topBtn = document.getElementById('topBtn');

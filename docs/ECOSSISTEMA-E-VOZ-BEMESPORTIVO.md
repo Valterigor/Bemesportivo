@@ -2,24 +2,43 @@
 
 ## Ideia central
 
-> O BeMEsportivo apresenta o universo do esporte. O Meu Caminho Be acompanha a história esportiva de cada pessoa.
+> O BeMEsportivo é um ecossistema para viver o esporte. O Meu Caminho Be é sua experiência mais pessoal.
 
 Essa distinção orienta produto, conteúdo, navegação e linguagem.
 
 ## Arquitetura oficial da experiência
 
-O percurso principal do produto é:
+Não existe um único percurso obrigatório. A Home identifica a necessidade expressa pela pessoa e a direciona para o produto adequado:
 
 ```text
-Home pública → conteúdo ou reportagem → Meu Caminho Be → planejamento → registro → memória e evolução
+                         BeMEsportivo
+                              │
+       ┌──────────┬───────────┼───────────┬──────────────┐
+       ↓          ↓           ↓           ↓              ↓
+  Reportagens   BEplay   Meu Caminho   Comunidade   Profissionais
+                              │
+                       experiência pessoal
 ```
 
 A Home apresenta as áreas do ecossistema sem assumir o papel de painel pessoal. Sua abertura preserva esta ordem:
 
-1. **Destaques** — manifesto da marca e seleção editorial atual.
-2. **Seu diário esportivo digital** — entrada direta para registrar uma atividade.
-3. **Ponte para a trajetória** — explica a relação entre conteúdo e Meu Caminho Be.
-4. **Descubra seu caminho no esporte** — organiza os próximos passos do ecossistema.
+1. **Busca Be** — recebe, em linguagem natural, o que a pessoa procura e indica um destino real do site.
+2. **Produtos do ecossistema** — explica a função de cada área sem criar hierarquia artificial entre elas.
+3. **Meu Caminho Be** — apresenta a experiência pessoal de registro e acompanhamento.
+4. **Conteúdo e demais produtos** — oferece reportagens, vídeos, ferramentas, profissionais e outras possibilidades.
+
+## Função de cada produto
+
+- **Conhecimento** — aprenda com conteúdos especiais e orientações da Biblioteca BeM.
+- **Meu Caminho Be** — acompanhe o seu esporte.
+- **BEplay** — assista ao esporte.
+- **Reportagens** — conheça histórias do esporte.
+- **Comunidade** — converse sobre esporte.
+- **Profissionais** — encontre quem pode ajudar.
+- **Ferramentas** — entenda melhor sua prática.
+- **Produtos** — encontre o que precisa para praticar.
+
+O Meu Caminho Be não é o centro do ecossistema. É a experiência mais pessoal dele. Conhecimento e Reportagens são destinos diferentes: o primeiro ajuda a aprender; o segundo apresenta histórias reais. Cada produto resolve uma necessidade diferente e todos pertencem ao BeMEsportivo.
 
 Capas e imagens editoriais aprovadas não devem ser substituídas durante ajustes estruturais. Mudanças de ordem, navegação ou texto precisam manter a hierarquia visual e ser validadas em desktop e mobile.
 
@@ -77,7 +96,16 @@ experiência aproxima da prática
 Meu Caminho Be transforma em ação e memória
 ```
 
-## Regra para respostas e automação
+## Regra para a Busca Be, respostas e automação
+
+A Busca Be não usa IA nem produz texto livre. Ela deve operar somente com:
+
+- intenções e frases revisadas na biblioteca editorial;
+- palavras-chave determinísticas;
+- conteúdos e rotas que realmente existem no site;
+- uma alternativa clara que apresente as áreas do ecossistema quando não houver correspondência exata.
+
+O texto digitado não deve ser enviado a serviços externos nem armazenado. A busca apenas direciona; ela não diagnostica, não prescreve e não inventa respostas.
 
 A Biblioteca BeM é o comportamento padrão para respostas, devolutivas e mensagens de continuidade. Ela deve funcionar localmente, com regras determinísticas, conteúdo real da área esportiva e linguagem revisável.
 
