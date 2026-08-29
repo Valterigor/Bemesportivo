@@ -350,8 +350,10 @@ async function run() {
     assert.match(homeHtml, /id="be-ecosystem-search-form"[\s\S]*id="be-ecosystem-search-input"[\s\S]*id="be-ecosystem-search-results"/, 'A Busca Be precisa ter formulário, entrada e devolutiva acessível.');
     assert.match(homeHtml, /class="shell be-ecosystem-products"[\s\S]*Conhecimento[\s\S]*BEplay[\s\S]*Reportagens[\s\S]*Game 3D[\s\S]*Profissionais[\s\S]*Ferramentas[\s\S]*Produtos[\s\S]*Meu Caminho Be/, 'A Home precisa apresentar os oito destinos e suas finalidades.');
     assert.match(homeHtml, /class="shell be-search-discovery"[\s\S]*Para começar a explorar[\s\S]*Minha primeira corrida[\s\S]*Calculadora Pace[\s\S]*Thais Garcez, uma nova versão[\s\S]*Como funciona\?[\s\S]*Sem IA generativa/, 'A Home precisa apresentar uma seleção inicial real e explicar a origem dos resultados da Busca Be.');
-    assert.match(homeHtml, /class="be-ecosystem-product" href="\/game\.html"[\s\S]*?<strong>Game 3D<\/strong><small>Divirta-se<\/small>/, 'Game 3D precisa abrir seu destino exato.');
-    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-4"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260829-8"/, 'A Home precisa carregar a Biblioteca Esportiva antes da busca determinística.');
+    assert.match(homeHtml, /class="be-ecosystem-product" href="\/game"[\s\S]*?<strong>Game 3D<\/strong><small>Divirta-se<\/small>/, 'Game 3D precisa abrir seu destino exato.');
+    assert.match(homeHtml, /class="be-ecosystem-product" href="\/meu-caminho-be\?tela=conteudos"[\s\S]*?<strong>Conhecimento<\/strong>/, 'Conhecimento precisa abrir seu painel sem redirecionamento de produção.');
+    assert.match(homeHtml, /class="be-ecosystem-product" href="\/meu-caminho-be\?tela=ferramentas"[\s\S]*?<strong>Ferramentas<\/strong>/, 'Ferramentas precisa abrir seu painel sem redirecionamento de produção.');
+    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-4"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260829-9"/, 'A Home precisa carregar a Biblioteca Esportiva antes da busca determinística.');
     const ecosystemSearch = require(path.join(root, 'js', 'be-ecosystem-search.js'));
     assert.equal(ecosystemSearch.search('Quero saber como melhorar meu chute').primary.id, 'conteudo');
     assert.equal(ecosystemSearch.search('Quero assistir').primary.id, 'beplay');
@@ -402,13 +404,13 @@ async function run() {
     assert.match(homeHtml, /href="\/reportagens">Explorar todas as reportagens/, 'A vitrine editorial precisa abrir o acervo completo.');
     assert.match(homeHtml, /href="\/meu-caminho-be\?tela=mapa">Começar meu Caminho/, 'A chamada da jornada precisa abrir a criação do Mapa BeM.');
     assert.doesNotMatch(homeHtml, /class="home-path-feature"[\s\S]*Dados ficam neste aparelho[\s\S]*<\/section>/, 'A prévia da Home não deve exibir o estado local do aparelho.');
-    assert.match(homeHtml, /href="\/meu-caminho-be"[\s\S]*Meu Caminho Be[\s\S]*href="\/meu-caminho-be\?tela=perfil"[\s\S]*Perfil[\s\S]*href="\/game\.html"[\s\S]*Game 3D[\s\S]*href="\/reportagens"[\s\S]*Reportagens[\s\S]*href="\/beplay"[\s\S]*BEplay[\s\S]*href="\/profissionais"[\s\S]*Profissionais[\s\S]*href="\/produtos"[\s\S]*Produtos/, 'A Home precisa preservar o menu principal e o Perfil do Meu Caminho Be.');
+    assert.match(homeHtml, /href="\/meu-caminho-be"[\s\S]*Meu Caminho Be[\s\S]*href="\/meu-caminho-be\?tela=perfil"[\s\S]*Perfil[\s\S]*href="\/game"[\s\S]*Game 3D[\s\S]*href="\/reportagens"[\s\S]*Reportagens[\s\S]*href="\/beplay"[\s\S]*BEplay[\s\S]*href="\/profissionais"[\s\S]*Profissionais[\s\S]*href="\/produtos"[\s\S]*Produtos/, 'A Home precisa preservar o menu principal e o Perfil do Meu Caminho Be.');
     assert.match(homeHtml, /href="\/meu-caminho-be\?tela=ferramentas"/, 'A Home precisa abrir a área de Ferramentas sem perder o destino no Cloudflare.');
     assert.match(homeHtml, /O conteúdo inspira\. A sua história começa quando você <span>vive o esporte\.<\/span>/);
     assert.doesNotMatch(homeHtml, /<h2>Meu Caminho Be<\/h2>/, 'Meu Caminho Be não deve ser usado como nome de coluna editorial.');
     assert.match(reportListing, /class="report-path-bridge"[\s\S]*Conhecer o Meu Caminho Be/);
     const routesScript = fs.readFileSync(path.join(root, 'js', 'core', 'routes.js'), 'utf8');
-    assert.match(routesScript, /'\/meu-caminho-be', 'Meu Caminho Be'[\s\S]*'\/meu-caminho-be\/perfil', 'Perfil'[\s\S]*'\/game\.html', 'Game 3D'[\s\S]*'\/reportagens', 'Reportagens'[\s\S]*'\/beplay', 'BEplay'[\s\S]*'\/profissionais', 'Profissionais'[\s\S]*'\/produtos', 'Produtos'/);
+    assert.match(routesScript, /'\/meu-caminho-be', 'Meu Caminho Be'[\s\S]*'\/meu-caminho-be\/perfil', 'Perfil'[\s\S]*'\/game', 'Game 3D'[\s\S]*'\/reportagens', 'Reportagens'[\s\S]*'\/beplay', 'BEplay'[\s\S]*'\/profissionais', 'Profissionais'[\s\S]*'\/produtos', 'Produtos'/);
     assert.doesNotMatch(routesScript, /'\/#treinos'|'\/#pessoas'/, 'O menu compartilhado não deve reintroduzir atalhos removidos da navegação principal.');
     assert.doesNotMatch(elasReport, /mulheres-em-acao-funcional-serra-talhada/);
     for (const image of ['mulheres-em-movimento-serra-talhada-sem-logo-640.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-960.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-1440.webp']) {
@@ -721,7 +723,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v131`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v132`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]

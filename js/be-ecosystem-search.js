@@ -2,12 +2,12 @@
   'use strict';
 
   const PRODUCTS = Object.freeze([
-    { id: 'conteudo', name: 'Conhecimento', purpose: 'Aprenda com conteúdos especiais.', response: 'Encontre orientações e trilhas da Biblioteca BeM.', action: 'Explorar conhecimento', href: '/meu-caminho-be/ferramentas/conteudos', keywords: ['aprender', 'melhorar', 'como fazer', 'como posso', 'saber', 'conteudo', 'conhecimento', 'dica', 'tecnica', 'chute', 'passe', 'comecar', 'retomar'] },
+    { id: 'conteudo', name: 'Conhecimento', purpose: 'Aprenda com conteúdos especiais.', response: 'Encontre orientações e trilhas da Biblioteca BeM.', action: 'Explorar conhecimento', href: '/meu-caminho-be?tela=conteudos', keywords: ['aprender', 'melhorar', 'como fazer', 'como posso', 'saber', 'conteudo', 'conhecimento', 'dica', 'tecnica', 'chute', 'passe', 'comecar', 'retomar'] },
     { id: 'beplay', name: 'BEplay', purpose: 'Assista ao esporte.', response: 'Assista a vídeos, treinos, entrevistas e histórias em movimento.', action: 'Abrir o BEplay', href: '/beplay', keywords: ['assistir', 'video', 'ver video', 'filme', 'entrevista', 'beplay', 'play'] },
     { id: 'reportagens', name: 'Reportagens', purpose: 'Conheça histórias reais do esporte.', response: 'Leia histórias de pessoas, projetos e comunidades do esporte.', action: 'Explorar reportagens', href: '/reportagens', keywords: ['reportagem', 'historia', 'historias', 'ler', 'noticia', 'materia', 'trajetoria', 'inspiracao'] },
-    { id: 'comunidade', name: 'Comunidade', purpose: 'Converse sobre esporte.', response: 'Pergunte, compartilhe experiências e ouça outras pessoas.', action: 'Abrir a Comunidade', href: '/meu-caminho-be/ferramentas/comunidade', keywords: ['conversar', 'conversa', 'comunidade', 'perguntar', 'pergunta', 'duvida', 'opinar', 'opiniao', 'debater', 'compartilhar', 'pessoas'] },
+    { id: 'comunidade', name: 'Comunidade', purpose: 'Converse sobre esporte.', response: 'Pergunte, compartilhe experiências e ouça outras pessoas.', action: 'Abrir a Comunidade', href: '/meu-caminho-be?tela=comunidade', keywords: ['conversar', 'conversa', 'comunidade', 'perguntar', 'pergunta', 'duvida', 'opinar', 'opiniao', 'debater', 'compartilhar', 'pessoas'] },
     { id: 'profissionais', name: 'Profissionais', purpose: 'Encontre quem pode ajudar.', response: 'Conheça profissionais apresentados pelo Bem Esportivo.', action: 'Encontrar profissionais', href: '/profissionais', keywords: ['profissional', 'especialista', 'personal', 'treinador', 'tecnico', 'psicologo', 'fisioterapeuta', 'fotografo', 'ajuda profissional', 'orientacao'] },
-    { id: 'ferramentas', name: 'Ferramentas', purpose: 'Entenda melhor sua prática.', response: 'Use recursos educativos para compreender ritmo, hidratação e outros indicadores.', action: 'Ver ferramentas', href: '/meu-caminho-be/ferramentas', keywords: ['ferramenta', 'calcular', 'calculadora', 'pace', 'ritmo', 'imc', 'hidratacao', 'agua', 'medir', 'entender minha pratica'] },
+    { id: 'ferramentas', name: 'Ferramentas', purpose: 'Entenda melhor sua prática.', response: 'Use recursos educativos para compreender ritmo, hidratação e outros indicadores.', action: 'Ver ferramentas', href: '/meu-caminho-be?tela=ferramentas', keywords: ['ferramenta', 'calcular', 'calculadora', 'pace', 'ritmo', 'imc', 'hidratacao', 'agua', 'medir', 'entender minha pratica'] },
     { id: 'produtos', name: 'Produtos', purpose: 'Encontre o que precisa para praticar.', response: 'Explore produtos relacionados à sua prática esportiva.', action: 'Explorar produtos', href: '/produtos', keywords: ['produto', 'comprar', 'equipamento', 'material', 'acessorio', 'roupa', 'tenis', 'chuteira', 'bola', 'loja'] },
     { id: 'meu-caminho', name: 'Meu Caminho Be', purpose: 'Acompanhe o seu esporte.', response: 'Registre o que fez, organize sua rotina e acompanhe sua evolução.', action: 'Abrir Meu Caminho Be', href: '/meu-caminho-be', keywords: ['registrar', 'registro', 'atividade', 'fiz hoje', 'treinei hoje', 'meu treino', 'meu caminho', 'diario', 'jornada', 'evolucao', 'progresso', 'acompanhar', 'rotina', 'perfil'] }
   ]);
@@ -69,9 +69,9 @@
   });
 
   const SEARCH_ITEMS = Object.freeze([
-    { product: 'conteudo', title: 'Minha primeira corrida', summary: 'Uma trilha em quatro passos para organizar o começo da prática.', href: '/meu-caminho-be/ferramentas/trilhas', image: '/img/fala-bem-hero-pessoas-optimized-480.webp', action: 'Abrir trilha', keywords: ['corrida', 'correr', 'comecar', 'parado', 'primeiro passo', 'retomar'] },
-    { product: 'conteudo', title: 'Futebol com inteligência', summary: 'Uma trilha sobre fundamentos, leitura de jogo e evolução no futebol.', href: '/meu-caminho-be/ferramentas/trilhas', image: '/img/IMG_0957-optimized.webp', action: 'Abrir trilha', keywords: ['futebol', 'chute', 'passe', 'tecnica', 'jogo', 'melhorar'] },
-    { product: 'conteudo', title: 'Comece pelo que cabe na sua rotina', summary: 'Orientações curtas para construir uma prática possível no dia a dia.', href: '/meu-caminho-be/ferramentas/dicas', image: '/img/app-treino-card.png', action: 'Ler orientação', keywords: ['rotina', 'tempo', 'comecar', 'voltar', 'retomar', 'constancia', 'parado'] },
+    { product: 'conteudo', title: 'Minha primeira corrida', summary: 'Uma trilha em quatro passos para organizar o começo da prática.', href: '/meu-caminho-be?tela=trilhas', image: '/img/fala-bem-hero-pessoas-optimized-480.webp', action: 'Abrir trilha', keywords: ['corrida', 'correr', 'comecar', 'parado', 'primeiro passo', 'retomar'] },
+    { product: 'conteudo', title: 'Futebol com inteligência', summary: 'Uma trilha sobre fundamentos, leitura de jogo e evolução no futebol.', href: '/meu-caminho-be?tela=trilhas', image: '/img/IMG_0957-optimized.webp', action: 'Abrir trilha', keywords: ['futebol', 'chute', 'passe', 'tecnica', 'jogo', 'melhorar'] },
+    { product: 'conteudo', title: 'Comece pelo que cabe na sua rotina', summary: 'Orientações curtas para construir uma prática possível no dia a dia.', href: '/meu-caminho-be?tela=dicas', image: '/img/app-treino-card.png', action: 'Ler orientação', keywords: ['rotina', 'tempo', 'comecar', 'voltar', 'retomar', 'constancia', 'parado'] },
     { product: 'beplay', title: 'Resultado não acontece por acaso', summary: 'Treino de agilidade no futebol, disciplina e evolução.', href: '/beplay?video=treino-agilidade-futebol', image: '/img/beplay-capa-agilidade-futebol.webp', action: 'Assistir', keywords: ['assistir', 'video', 'futebol', 'chute', 'tecnica', 'agilidade', 'treino'] },
     { product: 'beplay', title: 'Treine por você. Sua saúde agradece.', summary: 'Um vídeo sobre treino, saúde e compromisso com a própria prática.', href: '/beplay?video=treino-forca-performance', image: '/img/beplay-capa-forca-performance.webp', action: 'Assistir', keywords: ['assistir', 'video', 'treino', 'saude', 'voltar', 'retomar', 'performance'] },
     { product: 'beplay', title: 'Treino técnico e tático', summary: 'Leitura de jogo, ocupação de espaços e ajustes técnicos.', href: '/beplay?video=gBkon6LC2OU', image: '/img/banner-home-nova-fase-futebol.jpg', action: 'Assistir', keywords: ['assistir', 'video', 'futebol', 'tecnica', 'tatico', 'jogo', 'passe', 'chute'] },
@@ -79,9 +79,9 @@
     { product: 'reportagens', title: 'Duda e o Futebol', summary: 'Uma trajetória de dedicação, apoio e oportunidades no futebol.', href: '/reportagens/duda-e-o-futebol', image: '/img/duda.jpg', action: 'Ler reportagem', keywords: ['futebol', 'feminino', 'trajetoria', 'historia', 'reportagem', 'inspiracao'] },
     { product: 'reportagens', title: 'Thais Garcez, uma nova versão', summary: 'Disciplina, conhecimento e uma nova forma de viver a musculação.', href: '/reportagens/thais-garcez-metamorfose', image: '/img/Thais%20Garcez/thais-garcez-capa.jpg', action: 'Ler reportagem', keywords: ['musculacao', 'academia', 'transformacao', 'saude', 'historia', 'reportagem', 'treino'] },
     { product: 'reportagens', title: 'Sergio Lima, aos 61 anos, grande exemplo de vida', summary: 'Formação, vontade e dedicação abrindo novos caminhos no esporte.', href: '/reportagens/sergio-lima-exemplo-de-vida', image: '/img/sergio-lima-exemplo-de-vida.jpg', action: 'Ler reportagem', keywords: ['idade', 'mais velho', 'recomecar', 'comecar', 'historia', 'reportagem', 'inspiracao'] },
-    { product: 'ferramentas', title: 'Calculadora Pace', summary: 'Calcule o seu ritmo por quilômetro como referência educativa.', href: '/meu-caminho-be/ferramentas?ferramenta=pace', image: '/img/calculadora-pace-relogio-esportivo.webp', action: 'Usar ferramenta', keywords: ['corrida', 'correr', 'pace', 'ritmo', 'quilometro', 'tempo', 'calcular'] },
-    { product: 'ferramentas', title: 'Água diária', summary: 'Organize uma referência diária de hidratação.', href: '/meu-caminho-be/ferramentas?ferramenta=agua', image: '/img/app-nutricao-card.png', action: 'Usar ferramenta', keywords: ['agua', 'hidratacao', 'hidratar', 'treino', 'saude'] },
-    { product: 'ferramentas', title: 'Calculadora IMC', summary: 'Use peso e altura como uma referência educativa.', href: '/meu-caminho-be/ferramentas?ferramenta=imc', image: '/img/app-nutricao-card.png', action: 'Usar ferramenta', keywords: ['imc', 'peso', 'altura', 'calcular', 'saude'] },
+    { product: 'ferramentas', title: 'Calculadora Pace', summary: 'Calcule o seu ritmo por quilômetro como referência educativa.', href: '/meu-caminho-be?tela=ferramentas&ferramenta=pace', image: '/img/calculadora-pace-relogio-esportivo.webp', action: 'Usar ferramenta', keywords: ['corrida', 'correr', 'pace', 'ritmo', 'quilometro', 'tempo', 'calcular'] },
+    { product: 'ferramentas', title: 'Água diária', summary: 'Organize uma referência diária de hidratação.', href: '/meu-caminho-be?tela=ferramentas&ferramenta=agua', image: '/img/app-nutricao-card.png', action: 'Usar ferramenta', keywords: ['agua', 'hidratacao', 'hidratar', 'treino', 'saude'] },
+    { product: 'ferramentas', title: 'Calculadora IMC', summary: 'Use peso e altura como uma referência educativa.', href: '/meu-caminho-be?tela=ferramentas&ferramenta=imc', image: '/img/app-nutricao-card.png', action: 'Usar ferramenta', keywords: ['imc', 'peso', 'altura', 'calcular', 'saude'] },
     { product: 'profissionais', title: 'Bruno Rezende — Personal Trainer', summary: 'Treinamento funcional, condicionamento e performance.', href: '/profissionais', image: '/img/profissionais/bruno.jpg', action: 'Ver profissional', keywords: ['corrida', 'correr', 'funcional', 'condicionamento', 'performance', 'personal', 'profissional', 'treinador'] },
     { product: 'profissionais', title: 'Luciano — Personal Soccer', summary: 'Treinamento técnico e desenvolvimento no futebol.', href: '/profissionais', image: '/img/profissionais/luciano.jpg', action: 'Ver profissional', keywords: ['futebol', 'chute', 'passe', 'tecnica', 'personal', 'profissional', 'treinador'] },
     { product: 'profissionais', title: 'Grasiele — Psicóloga', summary: 'Psicologia esportiva, performance mental e psicoterapia.', href: '/profissionais', image: '/img/profissionais/grasiele.jpg', action: 'Ver profissional', keywords: ['psicologia', 'mental', 'emocional', 'motivacao', 'profissional', 'ajuda'] },
@@ -89,7 +89,7 @@
     { product: 'produtos', title: 'Chuteira Society', summary: 'Produto apresentado na área de futebol do Bem Esportivo.', href: '/produtos', image: '/img/chuteira.jpg', action: 'Ver produto', keywords: ['futebol', 'chute', 'chuteira', 'comprar', 'produto', 'equipamento'] },
     { product: 'meu-caminho', title: 'Registrar uma atividade', summary: 'Guarde o treino, jogo, caminhada ou movimento que viveu hoje.', href: '/meu-caminho-be/registrar', image: '/img/jornada-esportiva-atleta-por-do-sol.webp', action: 'Registrar agora', keywords: ['registrar', 'registro', 'atividade', 'fiz hoje', 'treinei hoje', 'treino', 'jogo', 'caminhada'] },
     { product: 'meu-caminho', title: 'Acompanhar minha jornada', summary: 'Veja seus registros e reconheça sua evolução no seu ritmo.', href: '/meu-caminho-be/jornada', image: '/img/jornada-esportiva-atleta-por-do-sol.webp', action: 'Ver jornada', keywords: ['acompanhar', 'jornada', 'evolucao', 'progresso', 'historico', 'rotina'] },
-    { product: 'comunidade', title: 'Conversas da Comunidade', summary: 'Faça perguntas e compartilhe experiências sobre esporte.', href: '/meu-caminho-be/ferramentas/comunidade', image: '/img/fala-bem-hero-pessoas-optimized-480.webp', action: 'Participar', keywords: ['conversar', 'conversa', 'comunidade', 'perguntar', 'pergunta', 'duvida', 'opiniao', 'compartilhar'] }
+    { product: 'comunidade', title: 'Conversas da Comunidade', summary: 'Faça perguntas e compartilhe experiências sobre esporte.', href: '/meu-caminho-be?tela=comunidade', image: '/img/fala-bem-hero-pessoas-optimized-480.webp', action: 'Participar', keywords: ['conversar', 'conversa', 'comunidade', 'perguntar', 'pergunta', 'duvida', 'opiniao', 'compartilhar'] }
   ]);
 
   const EXPLICIT_PHRASES = Object.freeze([
@@ -145,7 +145,7 @@
       opensAnswer: true,
       title: entry.title,
       summary: entry.summary,
-      href: `/meu-caminho-be/ferramentas/modalidades?modalidade=${encodeURIComponent(sport.id)}`,
+      href: `/meu-caminho-be?tela=modalidades&modalidade=${encodeURIComponent(sport.id)}`,
       image: null,
       visualLabel: sport.label,
       action: entry.kind === 'benefits' ? 'Conhecer benefícios' : entry.kind === 'guidance' ? 'Ver primeiros passos' : 'Ler as dicas',
@@ -161,7 +161,7 @@
       opensAnswer: true,
       title: topic.title,
       summary: topic.summary,
-      href: '/meu-caminho-be/ferramentas/conteudos',
+      href: '/meu-caminho-be?tela=conteudos',
       image: null,
       visualLabel: topic.label,
       action: 'Ler orientação',
@@ -180,19 +180,19 @@
     if (topic.tool === 'pace') items.push({
       product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
       title: 'Calculadora Pace', summary: 'Calcule seu ritmo por quilômetro como referência educativa.',
-      href: '/meu-caminho-be/ferramentas?ferramenta=pace', image: '/img/calculadora-pace-relogio-esportivo.webp',
+      href: '/meu-caminho-be?tela=ferramentas&ferramenta=pace', image: '/img/calculadora-pace-relogio-esportivo.webp',
       action: 'Calcular meu ritmo', keywords: [topic.id]
     });
     if (topic.tool === 'agua') items.push({
       product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
       title: 'Água diária', summary: 'Organize uma referência educativa de hidratação para sua rotina.',
-      href: '/meu-caminho-be/ferramentas?ferramenta=agua', image: '/img/app-nutricao-card.png',
+      href: '/meu-caminho-be?tela=ferramentas&ferramenta=agua', image: '/img/app-nutricao-card.png',
       action: 'Usar ferramenta', keywords: [topic.id]
     });
     if (topic.tool === 'imc') items.push({
       product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
       title: 'Calculadora IMC', summary: 'Use peso e altura apenas como uma referência educativa, sem diagnóstico.',
-      href: '/meu-caminho-be/ferramentas?ferramenta=imc', image: '/img/app-nutricao-card.png',
+      href: '/meu-caminho-be?tela=ferramentas&ferramenta=imc', image: '/img/app-nutricao-card.png',
       action: 'Usar ferramenta', keywords: [topic.id]
     });
     if (topic.kind === 'training') items.push({
@@ -235,7 +235,7 @@
       product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
       title: 'Dicas práticas para começar',
       summary: `Use orientações curtas para organizar o primeiro passo ${sport.grammar[0]} ${sport.label} com segurança e dentro da sua rotina.`,
-      href: '/meu-caminho-be/ferramentas/dicas', image: EDITORIAL_IMAGES.journey,
+      href: '/meu-caminho-be?tela=dicas', image: EDITORIAL_IMAGES.journey,
       action: 'Abrir dicas práticas', keywords: [sport.id]
     };
     const usePace = ['corrida', 'caminhada', 'ciclismo', 'triatlo'].includes(sport.id) || /(pace|ritmo|tempo|distancia|quilometro)/.test(normalized);
@@ -243,14 +243,14 @@
       product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
       title: 'Calculadora Pace',
       summary: 'Calcule o ritmo por quilômetro e use o resultado como referência educativa para acompanhar sua prática.',
-      href: '/meu-caminho-be/ferramentas?ferramenta=pace', image: '/img/calculadora-pace-relogio-esportivo.webp',
+      href: '/meu-caminho-be?tela=ferramentas&ferramenta=pace', image: '/img/calculadora-pace-relogio-esportivo.webp',
       action: 'Calcular meu ritmo', keywords: [sport.id]
     };
     return {
       product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
       title: 'Água diária',
       summary: `Organize uma referência de hidratação para os dias em que pratica ${sport.grammar[1]} ${sport.label}.`,
-      href: '/meu-caminho-be/ferramentas?ferramenta=agua', image: '/img/app-nutricao-card.png',
+      href: '/meu-caminho-be?tela=ferramentas&ferramenta=agua', image: '/img/app-nutricao-card.png',
       action: 'Usar ferramenta', keywords: [sport.id]
     };
   }
@@ -290,7 +290,7 @@
       {
         product: 'conteudo', title: 'Explore a Biblioteca BeM',
         summary: 'Veja as orientações e trilhas que já fazem parte do Bem Esportivo.',
-        href: '/meu-caminho-be/ferramentas/conteudos', image: EDITORIAL_IMAGES.guidance,
+        href: '/meu-caminho-be?tela=conteudos', image: EDITORIAL_IMAGES.guidance,
         action: 'Explorar conhecimento', keywords: []
       },
       {
@@ -302,7 +302,7 @@
       {
         product: 'comunidade', title: 'Leve sua dúvida para a comunidade',
         summary: 'Converse sobre esporte usando o espaço de participação do Bem Esportivo.',
-        href: '/meu-caminho-be/ferramentas/comunidade', image: EDITORIAL_IMAGES.guidance,
+        href: '/meu-caminho-be?tela=comunidade', image: EDITORIAL_IMAGES.guidance,
         action: 'Abrir comunidade', keywords: []
       }
     ];

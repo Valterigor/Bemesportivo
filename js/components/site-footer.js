@@ -8,7 +8,7 @@ const footerContent = `
   <div class="site-footer-group">
     <strong>Explore</strong>
     <nav aria-label="Links principais">
-      <a href="/meu-caminho-be">Meu Caminho Be</a><a href="/game.html">Game 3D</a>
+      <a href="/meu-caminho-be">Meu Caminho Be</a><a href="/game">Game 3D</a>
       <a href="/reportagens">Reportagens</a><a href="/beplay">BEplay</a>
       <a href="/profissionais">Profissionais</a><a href="/produtos">Produtos</a>
     </nav>

@@ -393,14 +393,14 @@ test('produtos da home abrem seus destinos exatos', async ({ page }) => {
     }));
   });
   const destinations = [
-    { name: /Conhecimento/, href: '/meu-caminho-be/ferramentas/conteudos', ready: '#be-learn-title' },
-    { name: /BEplay/, href: '/beplay', ready: '#beplayTitle' },
-    { name: /Reportagens/, href: '/reportagens', ready: 'h1' },
-    { name: /Game 3D/, href: '/game.html', ready: '#game-container' },
-    { name: /Profissionais/, href: '/profissionais', ready: '#professionals-hero-title' },
-    { name: /Ferramentas/, href: '/meu-caminho-be/ferramentas', ready: '#tools-title' },
-    { name: /Produtos/, href: '/produtos', ready: 'h1' },
-    { name: /Meu Caminho Be/, href: '/meu-caminho-be', ready: '#fala-bem-app' }
+    { name: /Conhecimento/, href: '/meu-caminho-be?tela=conteudos', finalPath: '/meu-caminho-be/ferramentas/conteudos', ready: '#be-learn-title' },
+    { name: /BEplay/, href: '/beplay', finalPath: '/beplay', ready: '#beplayTitle' },
+    { name: /Reportagens/, href: '/reportagens', finalPath: '/reportagens', ready: 'h1' },
+    { name: /Game 3D/, href: '/game', finalPath: '/game', ready: '#game-container' },
+    { name: /Profissionais/, href: '/profissionais', finalPath: '/profissionais', ready: '#professionals-hero-title' },
+    { name: /Ferramentas/, href: '/meu-caminho-be?tela=ferramentas', finalPath: '/meu-caminho-be/ferramentas', ready: '#tools-title' },
+    { name: /Produtos/, href: '/produtos', finalPath: '/produtos', ready: 'h1' },
+    { name: /Meu Caminho Be/, href: '/meu-caminho-be', finalPath: '/meu-caminho-be', ready: '#fala-bem-app' }
   ];
 
   for (const destination of destinations) {
@@ -408,7 +408,7 @@ test('produtos da home abrem seus destinos exatos', async ({ page }) => {
     const link = page.locator('.be-ecosystem-products').getByRole('link', { name: destination.name });
     await expect(link).toHaveAttribute('href', destination.href);
     await link.click({ noWaitAfter: true });
-    await expect(page).toHaveURL(new RegExp(`${destination.href.replace('.', '\\.')}$`));
+    await expect(page).toHaveURL(new RegExp(`${destination.finalPath.replace('.', '\\.')}$`));
     await expect(page.locator(destination.ready).first()).toBeVisible();
   }
 });
