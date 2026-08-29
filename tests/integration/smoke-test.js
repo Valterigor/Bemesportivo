@@ -353,7 +353,7 @@ async function run() {
     assert.match(homeHtml, /class="be-ecosystem-product" href="\/game"[\s\S]*?<strong>Game 3D<\/strong><small>Divirta-se<\/small>/, 'Game 3D precisa abrir seu destino exato.');
     assert.match(homeHtml, /class="be-ecosystem-product" href="\/meu-caminho-be\?tela=conteudos"[\s\S]*?<strong>Conhecimento<\/strong>/, 'Conhecimento precisa abrir seu painel sem redirecionamento de produção.');
     assert.match(homeHtml, /class="be-ecosystem-product" href="\/meu-caminho-be\?tela=ferramentas"[\s\S]*?<strong>Ferramentas<\/strong>/, 'Ferramentas precisa abrir seu painel sem redirecionamento de produção.');
-    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-4"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260829-9"/, 'A Home precisa carregar a Biblioteca Esportiva antes da busca determinística.');
+    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260829-10"/, 'A Home precisa carregar a Biblioteca Esportiva antes da busca determinística.');
     const ecosystemSearch = require(path.join(root, 'js', 'be-ecosystem-search.js'));
     assert.equal(ecosystemSearch.search('Quero saber como melhorar meu chute').primary.id, 'conteudo');
     assert.equal(ecosystemSearch.search('Quero assistir').primary.id, 'beplay');
@@ -723,7 +723,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v133`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v134`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]

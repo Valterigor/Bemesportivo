@@ -101,6 +101,28 @@ test('busca mostra primeiros passos objetivos para começar a nadar', async ({ p
   await expect(answer).toBeHidden();
 });
 
+test('busca sem resposta exata oferece temas correlacionados da Biblioteca BeM', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2, necessary: true, measurement: false, advertising: false, updatedAt: new Date().toISOString()
+    }));
+  });
+  await page.goto('/');
+  await page.locator('#be-ecosystem-search-input').fill('O que é bom pra tomar pra dar força?');
+  await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Não encontramos uma resposta exata' })).toBeVisible();
+  await expect(page.locator('#be-search-result-query')).toContainText('temas mais próximos');
+  const results = page.locator('#be-ecosystem-search-results');
+  await expect(results).toContainText('Como evoluir força, carga e repetições');
+  await expect(results).toContainText('Suplemento não substitui alimentação e treino');
+  await expect(results).not.toContainText('Leve sua dúvida para a comunidade');
+  await results.getByRole('button', { name: /Suplemento não substitui/ }).click();
+  await expect(page.getByRole('dialog', { name: /Suplemento não substitui/ })).toContainText('profissional de saúde');
+  await page.setViewportSize({ width: 390, height: 844 });
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(1);
+});
+
 test('busca remove duplicados e respeita intenção de vídeo e apoio emocional', async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
@@ -370,6 +392,24 @@ test('cada botão de trilha abre o guia correspondente', async ({ page }) => {
     await page.evaluate(() => window.falaBemOpenView('trilhas'));
     await expect(page).toHaveURL(/\/meu-caminho-be\/ferramentas\/trilhas$/);
   }
+});
+
+test('atalhos da home indicam e movimentam a navegacao lateral no mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+
+  const track = page.locator('.be-ecosystem-products');
+  const hint = page.locator('#be-products-scroll-hint');
+  await expect(hint).toBeVisible();
+  await expect(hint).toContainText('Deslize para explorar');
+  await expect(hint.locator('.be-products-scroll-dot')).toHaveCount(8);
+  await expect.poll(() => track.evaluate(element => element.scrollLeft), { timeout: 6500 }).toBeGreaterThan(0);
+
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(1);
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(hint).toBeHidden();
 });
 
 test('produtos da home abrem seus destinos exatos', async ({ page }) => {

@@ -120,6 +120,8 @@ Temas de saúde e desempenho devem usar referências institucionais identificáv
 
 A intenção altera a resposta, não apenas o destino. Expressões como “começar”, “melhorar” e “retomar” devem receber, respectivamente, primeiros passos, fundamentos técnicos ou orientação de retorno da modalidade reconhecida. Uma busca de início nunca deve abrir com uma técnica avançada ou com conteúdo de outro esporte.
 
+Quando não houver resposta exata, a busca deve informar essa limitação e procurar proximidade somente entre os temas revisados da Biblioteca BeM. Os cartões relacionados devem ser identificados como temas próximos, nunca como resposta direta, diagnóstico ou prescrição. Se não houver relação segura pelas palavras da pergunta, permanece o direcionamento geral, sem inventar associações.
+
 Resultados editoriais da Biblioteca BeM devem abrir a resposta no próprio contexto da busca, em uma leitura curta e acessível. Eles não podem encaminhar para uma página genérica de ferramentas. Conteúdos publicados, perfis profissionais e ferramentas mantêm links somente quando existe um destino específico e coerente para aquele cartão.
 
 O texto digitado não deve ser enviado a serviços externos nem armazenado. A busca apenas direciona; ela não diagnostica, não prescreve e não inventa respostas.

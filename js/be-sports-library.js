@@ -7,7 +7,7 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function createBeSportsLibrary() {
   'use strict';
 
-  const VERSION = '1.2.0';
+  const VERSION = '1.3.0';
   const REVIEWED_AT = '2026-08-29';
   const REVIEW_STATUS = 'editorial-educational';
 
@@ -422,6 +422,49 @@
     }
   ]);
 
+  const relatedTopicHints = Object.freeze({
+    tomar: ['supplements', 'sports-nutrition'],
+    suplemento: ['supplements', 'sports-nutrition'],
+    bebida: ['sports-nutrition', 'recovery'],
+    energia: ['sports-nutrition', 'recovery', 'performance'],
+    disposicao: ['recovery', 'sports-nutrition', 'performance'],
+    disposto: ['recovery', 'sports-nutrition', 'performance'],
+    disposta: ['recovery', 'sports-nutrition', 'performance'],
+    forca: ['strength-progression', 'muscle-gain'],
+    forte: ['strength-progression', 'muscle-gain'],
+    musculo: ['muscle-gain', 'strength-progression'],
+    crescer: ['muscle-gain', 'sports-nutrition'],
+    emagrecer: ['fat-loss', 'energy-balance'],
+    gordura: ['fat-loss', 'energy-balance'],
+    comer: ['sports-nutrition', 'energy-balance'],
+    alimento: ['sports-nutrition', 'energy-balance'],
+    proteina: ['sports-nutrition', 'muscle-gain'],
+    cansado: ['recovery', 'performance'],
+    cansaco: ['recovery', 'performance'],
+    recuperar: ['recovery', 'sports-nutrition'],
+    dormir: ['recovery'],
+    perna: ['lower-body-training'],
+    pernas: ['lower-body-training'],
+    braco: ['upper-body-training'],
+    bracos: ['upper-body-training'],
+    peito: ['chest-training'],
+    costas: ['back-training'],
+    abdomen: ['core-training'],
+    barriga: ['fat-loss', 'core-training'],
+    correr: ['running', 'performance'],
+    corrida: ['running', 'performance'],
+    casa: ['home-training', 'calisthenics'],
+    flexibilidade: ['mobility-yoga'],
+    mobilidade: ['mobility-yoga']
+  });
+
+  const relatedStopWords = new Set([
+    'a', 'algo', 'ao', 'aos', 'as', 'assunto', 'bom', 'boa', 'com', 'como', 'coisa', 'da', 'dar', 'das',
+    'de', 'do', 'dos', 'e', 'em', 'essa', 'esse', 'existe', 'ficar', 'isso', 'mais', 'me', 'meu', 'minha',
+    'na', 'nao', 'nas', 'no', 'nos', 'o', 'os', 'ou', 'para', 'por', 'pra', 'qual', 'que', 'quero', 'ser',
+    'tem', 'ter', 'treinar', 'treino', 'um', 'uma'
+  ]);
+
   function normalize(value) {
     return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9\s-]/g, ' ').replace(/\s+/g, ' ').trim();
   }
@@ -451,6 +494,33 @@
       });
     });
     return best;
+  }
+
+  function findRelatedTopics(query, limit = 3) {
+    const normalized = normalize(query);
+    const tokens = [...new Set(normalized.split(' ').filter(token => token.length >= 3 && !relatedStopWords.has(token)))];
+    if (!tokens.length) return [];
+    const scores = new Map();
+    const addScore = (topicId, points) => scores.set(topicId, (scores.get(topicId) || 0) + points);
+
+    tokens.forEach(token => {
+      (relatedTopicHints[token] || []).forEach((topicId, position) => addScore(topicId, 16 - (position * 3)));
+    });
+
+    topics.forEach(topic => {
+      const corpus = normalize([topic.label, topic.title, ...topic.aliases].join(' '));
+      const corpusTokens = new Set(corpus.split(' '));
+      tokens.forEach(token => {
+        if (corpusTokens.has(token)) addScore(topic.id, token.length >= 6 ? 5 : 3);
+      });
+    });
+
+    return topics
+      .map((topic, position) => ({ topic, score: scores.get(topic.id) || 0, position }))
+      .filter(entry => entry.score > 0)
+      .sort((a, b) => b.score - a.score || a.position - b.position)
+      .slice(0, Math.max(1, Math.min(Number(limit) || 3, 5)))
+      .map(entry => entry.topic);
   }
 
   function searchTopic(query) {
@@ -501,6 +571,7 @@
     findSport,
     findTechnique,
     findTopic,
+    findRelatedTopics,
     search,
     searchTopic
   });

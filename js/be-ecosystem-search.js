@@ -308,7 +308,7 @@
     ];
   }
 
-  function rankItems(normalized, primaryId, sport, intent, topic) {
+  function rankItems(normalized, primaryId, sport, intent, topic, relatedTopics) {
     const searchable = sport ? `${normalized} ${sport.id}` : normalized;
     const ranked = SEARCH_ITEMS.map((item, position) => {
       const itemTerms = item.keywords.join(' ');
@@ -344,6 +344,17 @@
       };
     }
 
+    if (relatedTopics.length) {
+      const relatedItems = relatedTopics.map(relatedTopic => ({
+        ...libraryItemForTopic(relatedTopic),
+        action: 'Ver tema relacionado'
+      }));
+      return {
+        items: uniqueItems([...relatedItems, generalFallbackItems()[0]]).slice(0, 4),
+        coverage: 'related'
+      };
+    }
+
     const selected = [];
     const productsSeen = new Set();
     for (const entry of ranked) {
@@ -364,14 +375,15 @@
     if (!normalized) return { query: '', displayQuery: '', primary: null, related: PRODUCTS.slice(0, 4), items: [], coverage: 'empty', sport: null, intent: null };
     const sport = detectFromTaxonomy(normalized, SPORTS);
     const topic = SPORTS_LIBRARY?.findTopic?.(normalized) || null;
+    const relatedTopics = topic || sport ? [] : (SPORTS_LIBRARY?.findRelatedTopics?.(normalized, 3) || []);
     const intent = detectFromTaxonomy(normalized, INTENTS) || (sport && /\bquero\b/.test(normalized) ? INTENTS.find(entry => entry.id === 'start') : null);
     const phraseMatch = EXPLICIT_PHRASES.find(([phrase]) => normalized.includes(phrase));
     const ranked = PRODUCTS.map((product, position) => ({ product, score: product.keywords.reduce((total, keyword) => total + (normalized.includes(keyword) ? (keyword.includes(' ') ? 5 : 3) : 0), 0), position })).sort((a, b) => b.score - a.score || a.position - b.position);
     const matchedProduct = phraseMatch ? findProduct(phraseMatch[1]) : ranked[0].score > 0 ? ranked[0].product : inferPrimaryFromIntent(intent) || (sport || topic ? findProduct('conteudo') : null);
     const primary = matchedProduct ? contextualize(matchedProduct, normalized) : null;
     const related = ranked.filter(item => item.product.id !== primary?.id && item.score > 0).slice(0, primary ? 3 : 4).map(item => item.product);
-    const rankedItems = rankItems(normalized, primary?.id, sport, intent, topic);
-    return { query: normalized, displayQuery, primary, related, items: rankedItems.items, coverage: rankedItems.coverage, sport, topic, intent };
+    const rankedItems = rankItems(normalized, primary?.id, sport, intent, topic, relatedTopics);
+    return { query: normalized, displayQuery, primary, related, items: rankedItems.items, coverage: rankedItems.coverage, sport, topic, relatedTopics, intent };
   }
 
   function createResultCard(item) {
@@ -514,6 +526,8 @@
         ? 'A Biblioteca BeM encontrou este caminho'
         : result.coverage === 'mixed'
           ? 'Conteúdo e Biblioteca BeM para você'
+        : result.coverage === 'related'
+          ? 'Não encontramos uma resposta exata'
         : result.coverage === 'general'
           ? 'Vamos direcionar sua busca'
           : 'Encontramos para você';
@@ -524,6 +538,8 @@
         queryLabel.textContent = `A Biblioteca BeM reuniu uma resposta educativa sobre ${subject} e caminhos relacionados para você continuar.`;
       } else if (result.coverage === 'mixed') {
         queryLabel.textContent = `Reunimos conteúdo publicado e informações da Biblioteca BeM sobre ${subject}, além de caminhos relacionados.`;
+      } else if (result.coverage === 'related') {
+        queryLabel.textContent = `Ainda não temos uma resposta específica para “${result.displayQuery}”. Estes são os temas mais próximos encontrados dentro da Biblioteca BeM.`;
       } else if (result.coverage === 'general') {
         queryLabel.textContent = `Ainda não encontramos conteúdo específico para “${result.displayQuery}”. Veja caminhos que podem ajudar a continuar.`;
       } else {

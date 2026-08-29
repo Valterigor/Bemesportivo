@@ -175,6 +175,8 @@
 .be-ecosystem-product:hover b,
 .be-ecosystem-product:focus-visible b { opacity: 1; transform: none; }
 
+.be-products-scroll-hint { display: none; }
+
 .be-search-discovery[hidden] { display: none; }
 .be-search-discovery {
   display: grid;
@@ -314,6 +316,7 @@
     gap: 0;
     margin-top: -25px;
     margin-inline: 18px;
+    margin-bottom: 0;
     padding: 0;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -326,6 +329,45 @@
   .be-ecosystem-product i { width: 33px; height: 33px; }
   .be-ecosystem-product svg { width: 29px; height: 29px; }
   .be-ecosystem-product b { display: none; }
+  .home-page .be-products-scroll-hint {
+    display: flex;
+    min-height: 42px;
+    margin: 8px 18px 34px;
+    padding: 0 4px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    color: #716a65;
+  }
+  .be-products-scroll-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .01em;
+    white-space: nowrap;
+  }
+  .be-products-scroll-copy i {
+    color: #e85300;
+    font-size: 15px;
+    font-style: normal;
+    animation: be-scroll-cue 1.8s ease-in-out infinite;
+  }
+  .be-products-scroll-copy i:first-child { animation-direction: reverse; }
+  .be-products-scroll-dots { display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+  .be-products-scroll-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: #d7d0ca;
+    transition: width .25s ease, background-color .25s ease;
+  }
+  .be-products-scroll-dot.is-active { width: 15px; background: #e85300; }
+  @keyframes be-scroll-cue {
+    0%, 100% { transform: translateX(0); opacity: .65; }
+    50% { transform: translateX(3px); opacity: 1; }
+  }
   .be-search-discovery { grid-template-columns: 1fr; margin: -12px 18px 54px; scroll-margin-top: 76px; }
   .be-search-results { grid-template-columns: 1fr; gap: 9px; }
   .be-search-discovery[data-search-coverage="library"] .be-search-results { grid-template-columns: 1fr; }
@@ -360,4 +402,9 @@
   .be-home-mobile-dock a[aria-current="page"] { color: #e95400; }
   .be-home-mobile-dock .be-home-mobile-search { align-self: center; width: 53px; height: 53px; margin: -22px auto 0; border-radius: 50%; background: #ff5a00; color: #fff; box-shadow: 0 8px 22px rgba(255,90,0,.32); }
   .be-home-mobile-dock .be-home-mobile-search span { font-size: 28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .be-products-scroll-copy i { animation: none; }
+  .be-products-scroll-dot { transition: none; }
 }

@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const library = require('../../js/be-sports-library.js');
 const search = require('../../js/be-ecosystem-search.js');
 
-assert.equal(library.version, '1.2.0');
+assert.equal(library.version, '1.3.0');
 assert.ok(library.sports.length >= 28, 'A biblioteca deve cobrir ao menos 28 modalidades.');
 assert.ok(library.topics.length >= 30, 'A biblioteca deve cobrir os principais objetivos esportivos.');
 assert.equal(new Set(library.sports.map((sport) => sport.id)).size, library.sports.length, 'IDs de modalidades devem ser únicos.');
@@ -63,6 +63,15 @@ bodyPartTopicIds.forEach((topicId) => {
 assert.doesNotMatch(library.findTopic('Como emagrecer rápido?').summary, /garant|em \d+ dias|kg por semana/i);
 assert.match(library.findTopic('Como perder barriga?').summary, /não existe exercício.+apenas da barriga/i);
 assert.match(library.findTopic('Quanto de whey tomar?').summary, /profissional de saúde/i);
+
+const relatedStrengthTopics = library.findRelatedTopics('O que é bom pra tomar pra dar força?', 3).map((topic) => topic.id);
+assert.ok(relatedStrengthTopics.includes('strength-progression'));
+assert.ok(relatedStrengthTopics.includes('supplements'));
+const relatedStrengthSearch = search.search('O que é bom pra tomar pra dar força?');
+assert.equal(relatedStrengthSearch.coverage, 'related');
+assert.ok(relatedStrengthSearch.items.some((item) => item.sourceKind === 'topic' && item.opensAnswer));
+assert.ok(relatedStrengthSearch.items.some((item) => item.title === 'Suplemento não substitui alimentação e treino'));
+assert.equal(library.findRelatedTopics('Assunto que não existe xyz').length, 0, 'Texto sem relação não deve inventar proximidade.');
 
 library.sports.forEach((sport) => {
   assert.ok(sport.aliases.length, `${sport.label} precisa de termos de busca.`);
