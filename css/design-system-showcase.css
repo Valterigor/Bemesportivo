@@ -1,5 +1,5 @@
 .ds-page {
-  min-width: 320px;
+  min-width: 0;
   background:
     radial-gradient(circle at 88% 2%, rgb(255 122 0 / 7%), transparent 24rem),
     var(--be-ds-color-background);
@@ -328,6 +328,22 @@
   .ds-state-grid,
   .ds-hero__panel {
     grid-template-columns: 1fr;
+  }
+
+  .ds-component,
+  .be-stack,
+  .be-table-wrap,
+  .ds-icon-row {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .ds-component {
+    padding: var(--be-ds-space-4);
+  }
+
+  .ds-component .be-menu {
+    flex-wrap: wrap;
   }
 
   .ds-type-sample {

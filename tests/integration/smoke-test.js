@@ -301,8 +301,11 @@ async function run() {
     assert.match(reportCss, /\.report-related > div\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
     assert.match(homeHtml, /class="be-hero-brand" aria-label="Bem Esportivo"><span aria-hidden="true">Bem<\/span><span aria-hidden="true">Esportivo<\/span><\/p>\s*<h1 id="home-hero-title">O que você busca no esporte\?<\/h1>/, 'A busca principal precisa apresentar apenas a marca e a pergunta em sua nova hierarquia.');
+    assert.match(homeHtml, /id="be-ecosystem-search-input"[^>]*aria-label="O que você busca no esporte\?"/, 'O campo principal de busca precisa ter um nome acessível independente do placeholder.');
     assert.doesNotMatch(homeHtml, /class="be-search-examples"/, 'O hero da busca deve permanecer visualmente limpo, sem atalhos adicionais.');
-    assert.match(homeHtml, /css\/be-ecosystem-search\.css\?v=20260829-7/, 'A Home precisa carregar a versão atual do visual da busca.');
+    assert.match(homeHtml, /css\/be-ecosystem-search\.css\?v=20260829-8/, 'A Home precisa carregar a versão atual do visual da busca.');
+    assert.match(homeHtml, /id="be-products-scroll-hint"[\s\S]*?Deslize para explorar/, 'A navegação lateral da Home precisa orientar o gesto no mobile.');
+    assert.match(homeHtml, /js\/be-products-carousel\.js\?v=20260829-1/, 'A Home precisa carregar o movimento progressivo dos atalhos.');
     const professionalsHtml = fs.readFileSync(path.join(root, 'profissionais.html'), 'utf8');
     const professionalsScript = fs.readFileSync(path.join(root, 'js/profissionais.js'), 'utf8');
     assert.match(professionalsHtml, /id="professionals-hero-title">Encontre quem pode ajudar no seu próximo passo\./, 'Profissionais precisa começar pela necessidade da pessoa.');
@@ -465,7 +468,7 @@ async function run() {
     assert.match(pathHtml, /aria-label="Próximos passos após usar uma ferramenta"[\s\S]*?data-fb-view="dicas">Dicas práticas<\/button>[\s\S]*?data-fb-view="especialistas">Ver profissionais<\/button>/, 'O primeiro próximo passo de Ferramentas precisa abrir somente Dicas práticas.');
     assert.match(pathHtml, /class="be-journey-switcher"[\s\S]*?data-fb-view="progresso"[\s\S]*?data-fb-view="evolucao"[\s\S]*?data-fb-view="explorar"/, 'Diário, Evolução e História precisam permanecer dentro da Jornada.');
     assert.match(pathHtml, /id="be-profile-onboarding"[\s\S]*Perfil Be[\s\S]*Meu Hoje[\s\S]*Próximo passo/, 'O primeiro acesso precisa explicar a sequência antes de coletar os dados do Perfil Be.');
-    assert.match(pathHtml, /id="be-profile-onboarding-title">Primeiro, queremos conhecer você no esporte\./, 'O Perfil Be precisa ser apresentado como o primeiro passo do sistema.');
+    assert.match(pathHtml, /<h2 id="be-profile-onboarding-title">Primeiro, queremos conhecer você no esporte\./, 'O Perfil Be precisa ser apresentado como o primeiro passo sem duplicar o título principal da página.');
     assert.doesNotMatch(pathHtml, /id="journey-name"/, 'O Mapa BeM não deve perguntar novamente o nome já salvo no Perfil Be.');
     assert.match(pathHtml, /data-step-indicator="1"[^>]*>[\s\S]*Perfil Be/, 'O Mapa BeM precisa reconhecer o Perfil Be como etapa concluída.');
     assert.equal((pathHtml.match(/class="fb-section-actions(?:\s[^"]*)?"/g) || []).length, 6, 'As seis áreas principais precisam oferecer próximos passos contextuais.');
@@ -723,7 +726,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v134`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v135`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]
