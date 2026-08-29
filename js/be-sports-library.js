@@ -7,7 +7,7 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function createBeSportsLibrary() {
   'use strict';
 
-  const VERSION = '1.0.0';
+  const VERSION = '1.1.0';
   const REVIEWED_AT = '2026-08-29';
   const REVIEW_STATUS = 'editorial-educational';
 
@@ -202,6 +202,184 @@
     }
   ]);
 
+  const sources = Object.freeze({
+    acsmResistance: 'https://pubmed.ncbi.nlm.nih.gov/41843416/',
+    cdcWeight: 'https://www.cdc.gov/healthy-weight-growth/losing-weight/index.html',
+    nihSupplements: 'https://ods.od.nih.gov/factsheets/ExerciseAndAthleticPerformance-Consumer/',
+    whoActivity: 'https://www.who.int/publications/i/item/9789240015128'
+  });
+
+  const topics = Object.freeze([
+    {
+      id: 'muscle-gain', label: 'ganho de massa muscular', kind: 'training', tool: null,
+      aliases: ['ganhar massa muscular', 'ganhar musculo rapido', 'aumentar a massa muscular', 'crescer o braco', 'aumentar o biceps', 'aumentar o triceps', 'aumentar o peito', 'desenvolver o peitoral', 'aumentar os ombros', 'ombro mais largo', 'aumentar as costas', 'costas largas', 'engrossar as pernas', 'aumentar as pernas', 'aumentar o quadriceps', 'aumentar a panturrilha', 'aumentar o gluteo', 'crescer o bumbum', 'fortalecer o gluteo', 'ganhar massa em casa', 'ganhar musculo sem academia', 'ganhar musculo com calistenia'],
+      title: 'Como construir massa muscular com consistência',
+      summary: '1. Faça treino de força com movimentos que você consegue executar bem. 2. Aumente gradualmente repetições, séries ou carga, sem mudar tudo ao mesmo tempo. 3. Garanta alimentação suficiente, fontes variadas de proteína e sono regular. 4. Compare sua evolução ao longo de semanas, não de poucos dias. Ganho rápido não é uma promessa segura e cada região do corpo responde ao conjunto do treino.',
+      sourceIds: ['acsmResistance']
+    },
+    {
+      id: 'strength-progression', label: 'força e progressão', kind: 'training', tool: null,
+      aliases: ['ficar mais forte', 'ganhar forca', 'fortalecer as costas', 'aumentar a carga', 'aumentar minhas repeticoes', 'nao consigo aumentar minha carga', 'quanto tempo devo descansar entre series'],
+      title: 'Como evoluir força, carga e repetições',
+      summary: '1. Registre exercício, carga, repetições e qualidade da execução. 2. Primeiro complete a faixa planejada com controle. 3. Depois aumente somente uma variável em um passo pequeno. 4. Preserve descanso e recuperação antes de testar outra progressão. Se a técnica piorar, a carga ainda não representa evolução.',
+      sourceIds: ['acsmResistance']
+    },
+    {
+      id: 'fat-loss', label: 'emagrecimento e composição corporal', kind: 'nutrition', tool: 'imc',
+      aliases: ['emagrecer', 'emagrecer rapido', 'perder peso', 'perder gordura', 'perder barriga', 'secar a barriga', 'secar o abdomen', 'definir o abdomen', 'queimar gordura', 'acelerar o metabolismo', 'emagrecer treinando', 'exercicio mais emagrece', 'perder gordura sem perder musculo', 'ficar definido', 'queimar mais calorias', 'emagrecer fazendo cardio', 'emagrecer em casa', 'definir o corpo em casa', 'nao consigo emagrecer', 'nao consigo perder barriga'],
+      title: 'Emagrecimento sem promessa de atalho',
+      summary: '1. Combine alimentação possível de manter, movimento regular, sono e manejo do estresse. 2. Use treino de força para preservar capacidade e massa muscular. 3. Escolha atividades que consiga repetir durante a semana. 4. Avalie tendências ao longo do tempo; não existe exercício que retire gordura apenas da barriga. Mudanças rápidas e restrições extremas merecem orientação profissional.',
+      sourceIds: ['cdcWeight', 'whoActivity']
+    },
+    {
+      id: 'running', label: 'corrida', kind: 'training', tool: 'pace',
+      aliases: ['correr mais rapido', 'correr sem cansar', 'correr por mais tempo', 'melhorar meu pace', 'aumentar minha resistencia correndo', 'correr 5 km', 'correr 5 km mais rapido', 'correr 10 km', 'melhorar meu tempo', 'comecar a correr', 'correr todos os dias', 'respirar melhor correndo', 'aumentar minha velocidade correndo', 'melhorar minha passada', 'fazer sprint', 'melhorar minha aceleracao', 'correr uma meia maratona', 'fico cansado correndo'],
+      title: 'Como evoluir na corrida',
+      summary: '1. Construa primeiro uma duração confortável, alternando caminhada e corrida quando necessário. 2. Faça a maior parte dos treinos em ritmo no qual ainda consiga falar frases curtas. 3. Trabalhe velocidade em sessões separadas e progressivas, com recuperação. 4. Para 5 km, 10 km ou meia maratona, aumente o volume aos poucos e planeje dias leves. Dor, tontura, falta de ar fora do esperado ou dor no peito exigem interrupção e avaliação.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'football-skills', label: 'fundamentos do futebol', kind: 'training', tool: null,
+      aliases: ['correr mais rapido no futebol', 'ficar mais rapido no futebol', 'resistencia no futebol', 'jogar futebol melhor', 'melhorar minha finalizacao', 'melhorar a finalizacao', 'driblar melhor', 'dominar a bola', 'melhorar o passe', 'marcar melhor', 'fazer embaixadinhas', 'fazer dribles', 'bater falta', 'cobrar penalti', 'cruzar melhor', 'cabecear melhor', 'proteger a bola'],
+      title: 'Como evoluir nos fundamentos do futebol',
+      summary: '1. Escolha um fundamento por sessão: domínio, passe, condução, finalização ou marcação. 2. Comece sem oposição e aumente velocidade e pressão gradualmente. 3. Treine os dois lados e observe antes de receber a bola. 4. Leve o gesto para situações pequenas de jogo. Velocidade no futebol depende também de decisão, posicionamento, força e recuperação.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'ambiguous-kick', label: 'técnica de chute', kind: 'training', tool: null,
+      aliases: ['chutar mais forte', 'chutar mais rapido', 'chutar melhor', 'melhorar meus golpes'],
+      title: 'Chutar melhor depende da modalidade',
+      summary: 'No futebol, o trabalho envolve pé de apoio, contato com a bola e direção. Em lutas, envolve base, rotação, distância e supervisão técnica. Escolha a modalidade na busca para receber a orientação correta; não aumente força ou velocidade antes de controlar o gesto.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'jump-basketball', label: 'salto e basquete', kind: 'training', tool: null,
+      aliases: ['pular mais alto', 'aumentar o salto vertical', 'fazer uma enterrada', 'aumentar minha impulsao', 'arremessar melhor', 'acertar mais arremessos', 'melhorar minha defesa', 'nao consigo pular mais alto'],
+      title: 'Como desenvolver salto e fundamentos do basquete',
+      summary: '1. Construa força de pernas e estabilidade antes de aumentar saltos. 2. Pratique aterrissagens silenciosas e alinhadas. 3. No arremesso, repita base, alinhamento e finalização perto da cesta antes de afastar. 4. Na defesa, trabalhe postura, deslocamentos curtos e leitura do adversário. Enterrada e pliometria avançada pedem progressão e orientação.',
+      sourceIds: ['acsmResistance']
+    },
+    {
+      id: 'ambiguous-serve', label: 'técnica de saque', kind: 'training', tool: null,
+      aliases: ['sacar mais forte', 'sacar melhor', 'melhorar meu saque'],
+      title: 'O saque muda entre vôlei, tênis e outros esportes',
+      summary: 'Regularidade vem antes da potência. No vôlei, observe base, lançamento e contato com a mão firme. No tênis, empunhadura, lançamento e cadeia de movimento são diferentes. Informe a modalidade na busca para abrir a resposta técnica correspondente.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'volleyball-skills', label: 'fundamentos do voleibol', kind: 'training', tool: null,
+      aliases: ['melhorar minha recepcao', 'bloquear melhor', 'cortar mais forte'],
+      title: 'Como evoluir na recepção, bloqueio e ataque',
+      summary: '1. Na recepção, estabilize a plataforma dos antebraços e use as pernas. 2. No bloqueio, ajuste os passos e o tempo antes da altura. 3. No ataque, coordene aproximação, salto e contato antes de buscar força. 4. Pratique com lançamentos previsíveis e aumente a dificuldade gradualmente.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'swimming-performance', label: 'evolução na natação', kind: 'training', tool: null,
+      aliases: ['nadar mais rapido', 'nadar sem cansar', 'resistencia na agua', 'respiracao na natacao', 'nadar por mais tempo', 'tecnica de natacao', 'crawl mais rapido', 'tempo na natacao'],
+      title: 'Como nadar com mais eficiência',
+      summary: '1. Priorize alinhamento, expiração contínua dentro da água e deslize. 2. Faça séries curtas com pausas suficientes para preservar a técnica. 3. Aumente distância antes de acelerar todas as séries. 4. Treine em ambiente supervisionado; dificuldade respiratória intensa ou perda de controle na água exige parar imediatamente.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'cycling-performance', label: 'evolução no ciclismo', kind: 'training', tool: 'pace',
+      aliases: ['pedalar mais rapido', 'resistencia no ciclismo', 'subir morro de bicicleta', 'velocidade no ciclismo', 'pedalar por mais tempo', 'potencia no ciclismo', 'melhorar minha cadencia', 'desempenho no ciclismo'],
+      title: 'Como evoluir velocidade e resistência no ciclismo',
+      summary: '1. Ajuste bicicleta, capacete e percurso antes de aumentar o esforço. 2. Construa tempo de pedal em intensidade confortável. 3. Use marchas que mantenham uma cadência controlada e antecipe trocas nas subidas. 4. Separe treinos de subida ou velocidade dos pedais longos e preserve recuperação.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'tennis-skills', label: 'fundamentos do tênis', kind: 'training', tool: null,
+      aliases: ['saque no tenis', 'melhorar o forehand', 'melhorar o backhand', 'movimentacao no tenis', 'jogar tenis melhor'],
+      title: 'Como evoluir nos fundamentos do tênis',
+      summary: '1. Treine posição de espera e passos de ajuste antes dos golpes. 2. Busque contato à frente do corpo no forehand e no backhand. 3. No saque, estabilize o lançamento antes de aumentar velocidade. 4. Alterne exercícios de regularidade, direção e situações de ponto.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'combat-sports', label: 'boxe e lutas', kind: 'training', tool: null,
+      aliases: ['soco mais forte', 'socar mais rapido', 'bater mais forte', 'velocidade dos golpes', 'melhorar minha esquiva', 'movimentacao no boxe', 'aprender boxe', 'treinar boxe em casa', 'treinar muay thai em casa', 'comecar no muay thai'],
+      title: 'Como começar e evoluir nas lutas com segurança',
+      summary: '1. Aprenda base, guarda, deslocamento e retorno da mão antes de buscar potência. 2. Faça sombra e exercícios técnicos sem impacto quando estiver sozinho. 3. Contato, manopla, saco e sparring exigem orientação, equipamento e progressão. 4. Não pratique golpes em outra pessoa sem supervisão e regras claras.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'calisthenics', label: 'calistenia', kind: 'training', tool: null,
+      aliases: ['fazer barra', 'fazer mais barras', 'fazer flexao', 'fazer mais flexoes', 'fazer muscle-up', 'fazer handstand', 'parada de mao', 'handstand push-up', 'forca na calistenia', 'comecar na calistenia', 'front lever', 'back lever', 'nao consigo fazer barra', 'nao consigo fazer flexao'],
+      title: 'Como progredir na calistenia',
+      summary: '1. Escolha uma versão que permita repetições controladas: inclinação para flexão, remada ou assistência para barra. 2. Aumente amplitude e repetições antes de reduzir a ajuda. 3. Fortaleça escápulas, tronco e punhos. 4. Muscle-up, handstand push-up e alavancas são habilidades avançadas; use progressões, espaço seguro e orientação.',
+      sourceIds: ['acsmResistance']
+    },
+    {
+      id: 'pilates', label: 'Pilates', kind: 'training', tool: null,
+      aliases: ['pilates emagrece', 'pilates perder barriga', 'pilates fortalece', 'pilates melhora a postura', 'pilates melhora a flexibilidade', 'pilates fortalece o abdomen', 'pilates em casa'],
+      title: 'O que o Pilates pode desenvolver',
+      summary: 'Pilates pode trabalhar controle, força, mobilidade, equilíbrio e percepção corporal. Ele participa de uma rotina ativa, mas não remove gordura de uma região específica. Para começar em casa, use exercícios básicos que consiga controlar e procure orientação quando houver dor, lesão, gestação ou condição clínica.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'mobility-yoga', label: 'yoga, flexibilidade e mobilidade', kind: 'training', tool: null,
+      aliases: ['comecar yoga', 'yoga emagrece', 'ficar mais flexivel', 'abrir o espacate', 'melhorar minha mobilidade', 'mobilidade do quadril', 'mobilidade dos ombros', 'mobilidade do tornozelo', 'alongar corretamente', 'melhorar minha postura', 'melhorar meu equilibrio'],
+      title: 'Como desenvolver mobilidade e flexibilidade',
+      summary: '1. Aqueça com movimentos leves antes de sustentar posições. 2. Trabalhe amplitudes confortáveis, sem rebotes ou dor aguda. 3. Repita poucas posições com regularidade e controle da respiração. 4. Para espacate, postura ou limitações específicas, avance em meses, não em dias, e considere avaliação profissional.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'cardio-hiit', label: 'cardio e HIIT', kind: 'training', tool: 'pace',
+      aliases: ['fazer hiit', 'hiit emagrece', 'melhor cardio', 'tempo de cardio', 'fazer cardio em casa', 'hiit ou corrida', 'hiit ou musculacao'],
+      title: 'Como escolher entre cardio, HIIT e musculação',
+      summary: 'Cardio contínuo ajuda a construir resistência; HIIT concentra estímulos intensos e pausas; musculação desenvolve força. Nenhum formato é obrigatório ou sempre superior. Escolha pelo objetivo, experiência, recuperação e preferência. Quem está começando deve construir uma base antes de usar intervalos muito intensos.',
+      sourceIds: ['whoActivity']
+    },
+    {
+      id: 'home-training', label: 'treino em casa', kind: 'training', tool: null,
+      aliases: ['treinar em casa', 'treinar sem equipamentos', 'treinar abdomen em casa', 'treinar pernas em casa', 'treinar bracos em casa', 'treinar costas em casa', 'treino de 10 minutos', 'treino de 15 minutos', 'treino de 20 minutos', 'treino de 30 minutos', 'melhor treino rapido', 'treinar quando nao tenho tempo', 'treinando 15 minutos', 'treinando pouco'],
+      title: 'Como montar um treino curto em casa',
+      summary: '1. Escolha quatro movimentos: pernas, empurrar, puxar ou estabilizar, e deslocar-se. 2. Use versões compatíveis com o espaço e sua experiência. 3. Faça poucas séries com execução controlada e pausas suficientes. 4. Registre o que conseguiu fazer e progrida aos poucos. Dez ou quinze minutos contam quando fazem parte de uma rotina possível.',
+      sourceIds: ['whoActivity', 'acsmResistance']
+    },
+    {
+      id: 'sports-nutrition', label: 'alimentação para treino', kind: 'nutrition', tool: 'agua',
+      aliases: ['comer para ganhar massa muscular', 'comer antes do treino', 'comer depois do treino', 'proteina preciso por dia', 'alimento tem mais proteina', 'meta de proteina', 'comer para emagrecer', 'comer para ganhar musculo', 'carboidrato consumir', 'proteina consumir para hipertrofia', 'proteina para hipertrofia', 'preciso comer antes de treinar', 'preciso comer depois do treino'],
+      title: 'Como organizar alimentação ao redor do treino',
+      summary: 'Priorize uma rotina alimentar variada e suficiente, com fontes de proteína, carboidratos, frutas, verduras e líquidos. Antes e depois do treino, horário, quantidade e escolha dependem da duração, intensidade, tolerância e restante do dia. Meta de proteína ou carboidrato é individual e não deve ser definida por uma resposta genérica; procure nutricionista para cálculo e ajustes.',
+      sourceIds: ['nihSupplements']
+    },
+    {
+      id: 'energy-balance', label: 'calorias e balanço energético', kind: 'nutrition', tool: 'imc',
+      aliases: ['calorias devo consumir', 'calcular minhas calorias', 'deficit calorico', 'superavit calorico'],
+      title: 'Déficit, superávit e calorias precisam de contexto',
+      summary: 'Déficit significa consumir menos energia do que o corpo utiliza; superávit, consumir mais. A estimativa muda com idade, corpo, rotina, saúde e objetivo. Calculadoras são apenas referências e não substituem avaliação. Evite cortes ou aumentos extremos e procure nutricionista para uma meta individual, especialmente se houver doença, gestação ou histórico de transtorno alimentar.',
+      sourceIds: ['cdcWeight']
+    },
+    {
+      id: 'supplements', label: 'suplementos esportivos', kind: 'supplement', tool: null,
+      aliases: ['creatina funciona', 'como tomar creatina', 'creatina engorda', 'creatina faz mal', 'whey protein engorda', 'whey ajuda a ganhar massa', 'quanto de whey tomar', 'melhor suplemento para ganhar massa', 'preciso tomar whey', 'preciso tomar creatina', 'pre-treino funciona', 'bcaa funciona'],
+      title: 'Suplemento não substitui alimentação e treino',
+      summary: 'Creatina tem evidência para esforços intensos repetidos e pode aumentar o peso corporal por retenção de água, mas o efeito varia. Whey é uma fonte prática de proteína, não uma obrigação. Pré-treinos e outros produtos podem combinar estimulantes e ingredientes em doses diferentes; BCAA isolado costuma acrescentar pouco quando a alimentação já fornece proteína adequada. Uso, dose, qualidade e contraindicações devem ser avaliados com profissional de saúde.',
+      sourceIds: ['nihSupplements']
+    },
+    {
+      id: 'performance', label: 'performance física', kind: 'training', tool: null,
+      aliases: ['ficar mais rapido', 'aumentar minha velocidade', 'ganhar explosao', 'ter mais explosao', 'aumentar minha potencia', 'aumentar minha resistencia', 'melhorar minha agilidade', 'melhorar minha coordenacao', 'melhorar minha movimentacao', 'melhorar meus reflexos', 'melhorar minha performance', 'melhorar meu condicionamento', 'treinar velocidade', 'treinar explosao', 'resistencia cardiovascular', 'ter mais folego', 'treinar resistencia', 'treinar por mais tempo', 'nao ficar cansado durante o treino'],
+      title: 'Como desenvolver condicionamento e performance',
+      summary: '1. Defina uma qualidade por vez: força, velocidade, potência, resistência ou coordenação. 2. Mantenha uma base de treino regular e técnica estável. 3. Coloque estímulos intensos quando estiver recuperado e preserve sessões leves. 4. Registre medidas comparáveis. Performance melhora com treino específico, recuperação e tempo, não com intensidade máxima todos os dias.',
+      sourceIds: ['acsmResistance', 'whoActivity']
+    },
+    {
+      id: 'recovery', label: 'descanso e recuperação', kind: 'recovery', tool: 'agua',
+      aliases: ['melhorar minha recuperacao', 'dias devo descansar', 'musculo demora para se recuperar', 'recuperar mais rapido', 'dormir ajuda a ganhar musculo', 'horas devo dormir', 'treinar o mesmo musculo todos os dias', 'treinar cansado'],
+      title: 'Recuperação também faz parte do treino',
+      summary: 'Sono regular, alimentação suficiente, hidratação e alternância de estímulos ajudam a recuperar. O tempo necessário varia conforme sessão, experiência e pessoa. Evite repetir treino intenso do mesmo grupo quando ainda houver queda de desempenho, dor importante ou cansaço acumulado. Treinar cansado pede redução ou descanso; sintomas persistentes merecem avaliação.',
+      sourceIds: ['cdcWeight', 'acsmResistance']
+    },
+    {
+      id: 'plateau-results', label: 'estagnação e resultados', kind: 'training', tool: null,
+      aliases: ['nao estou ganhando massa muscular', 'meu braco nao cresce', 'meu gluteo nao cresce', 'treino nao esta dando resultado', 'treinando e nao vejo resultado', 'parei de evoluir', 'tempo leva para ganhar musculo', 'tempo demora para aparecer resultado'],
+      title: 'Quando o resultado parece ter parado',
+      summary: '1. Compare registros de várias semanas, não apenas aparência ou um treino. 2. Confira regularidade, progressão, execução, alimentação e sono. 3. Mude uma variável por vez e acompanhe a resposta. 4. Ajuste expectativas: força, habilidade, medidas e composição corporal evoluem em ritmos diferentes. Se não houver mudança apesar de consistência, procure avaliação profissional individual.',
+      sourceIds: ['acsmResistance', 'cdcWeight']
+    }
+  ]);
+
   function normalize(value) {
     return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9\s-]/g, ' ').replace(/\s+/g, ' ').trim();
   }
@@ -213,6 +391,33 @@
   function findSport(query) {
     const normalized = normalize(query);
     return sports.find(sport => sport.aliases.some(alias => containsTerm(normalized, alias))) || null;
+  }
+
+  function findTopic(query) {
+    const normalized = normalize(query);
+    let best = null;
+    let bestScore = 0;
+    topics.forEach(topic => {
+      topic.aliases.forEach(alias => {
+        const term = normalize(alias);
+        if (!containsTerm(normalized, term)) return;
+        const score = term.length;
+        if (score > bestScore) {
+          best = topic;
+          bestScore = score;
+        }
+      });
+    });
+    return best;
+  }
+
+  function searchTopic(query) {
+    const topic = findTopic(query);
+    if (!topic) return { topic: null, entries: [] };
+    return {
+      topic,
+      entries: [{ kind: 'topic', title: topic.title, summary: topic.summary }]
+    };
   }
 
   function findTechnique(sport, query) {
@@ -248,9 +453,13 @@
     reviewedAt: REVIEWED_AT,
     reviewStatus: REVIEW_STATUS,
     sports,
+    topics,
+    sources,
     normalize,
     findSport,
     findTechnique,
-    search
+    findTopic,
+    search,
+    searchTopic
   });
 });

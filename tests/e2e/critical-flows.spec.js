@@ -21,7 +21,41 @@ test('busca combina biblioteca, profissional e ferramenta para a modalidade', as
   await expect(page.locator('#be-ecosystem-search-results')).toContainText('Bruno Rezende — Personal Trainer');
   await expect(page.locator('#be-ecosystem-search-results')).toContainText('Água diária');
   await expect(page.locator('#be-ecosystem-search-results')).not.toContainText('Minha primeira corrida');
-  await expect(page.locator('#be-ecosystem-search-results')).toHaveAttribute('aria-label', '4 resultados encontrados');
+  await expect(page.locator('#be-ecosystem-search-results')).toHaveAttribute('aria-label', '5 resultados encontrados');
+});
+
+test('busca responde objetivos de treino e suplementos pela Biblioteca BeM', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2, necessary: true, measurement: false, advertising: false, updatedAt: new Date().toISOString()
+    }));
+  });
+  await page.goto('/');
+  const input = page.locator('#be-ecosystem-search-input');
+  const results = page.locator('#be-ecosystem-search-results');
+
+  await input.fill('Como ganhar massa muscular?');
+  await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
+  await expect(results).toContainText('Como construir massa muscular com consistência');
+  await results.getByRole('button', { name: /Como construir massa muscular/ }).click();
+  const muscleAnswer = page.getByRole('dialog', { name: /Como construir massa muscular/ });
+  await expect(muscleAnswer).toBeVisible();
+  await expect(muscleAnswer.getByRole('listitem')).toHaveCount(4);
+  await muscleAnswer.getByRole('button', { name: 'Voltar aos resultados' }).click();
+
+  await input.fill('Creatina faz mal?');
+  await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
+  await results.getByRole('button', { name: /Suplemento não substitui/ }).click();
+  const supplementAnswer = page.getByRole('dialog', { name: /Suplemento não substitui/ });
+  await expect(supplementAnswer).toContainText('profissional de saúde');
+  await supplementAnswer.getByRole('button', { name: 'Voltar aos resultados' }).click();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await input.fill('Como perder barriga?');
+  await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
+  await expect(results).toContainText('Emagrecimento sem promessa de atalho');
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(1);
 });
 
 test('busca mostra primeiros passos objetivos para começar a nadar', async ({ page }) => {
@@ -43,6 +77,8 @@ test('busca mostra primeiros passos objetivos para começar a nadar', async ({ p
   await expect(results).toContainText('Benefícios da natação para a saúde');
   await expect(results).toContainText('Bruno Rezende — Personal Trainer');
   await expect(results).toContainText('Dicas práticas para começar');
+  await expect(results.getByRole('link', { name: /Dicas práticas para começar/ }).locator('img'))
+    .toHaveAttribute('src', '/img/jornada-esportiva-atleta-por-do-sol.webp');
   await expect(results).not.toContainText('Minha primeira corrida');
   await expect(results).toHaveAttribute('aria-label', '4 resultados encontrados');
   const resultUrl = page.url();

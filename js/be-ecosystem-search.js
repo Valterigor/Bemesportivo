@@ -51,6 +51,7 @@
     ? require('./be-sports-library.js')
     : null);
   const SPORTS = SPORTS_LIBRARY?.sports || SPORTS_FALLBACK;
+  const TOPICS = SPORTS_LIBRARY?.topics || [];
 
   const INTENTS = Object.freeze([
     { id: 'register', aliases: ['registrar', 'anotar', 'guardar', 'fiz hoje', 'treinei hoje'] },
@@ -152,6 +153,58 @@
     }));
   }
 
+  function libraryItemForTopic(topic) {
+    return {
+      product: 'conteudo',
+      sourceLabel: 'Biblioteca BeM',
+      sourceKind: 'topic',
+      opensAnswer: true,
+      title: topic.title,
+      summary: topic.summary,
+      href: '/meu-caminho-be/ferramentas/conteudos',
+      image: null,
+      visualLabel: topic.label,
+      action: 'Ler orientação',
+      keywords: [topic.id]
+    };
+  }
+
+  function supportingItemsForTopic(topic) {
+    const items = [{
+      product: 'meu-caminho', sourceLabel: 'Meu Caminho Be',
+      title: 'Acompanhar meu objetivo',
+      summary: 'Registre sua prática e acompanhe a evolução ao longo das semanas.',
+      href: '/meu-caminho-be/jornada', image: EDITORIAL_IMAGES.journey,
+      action: 'Ver minha jornada', keywords: [topic.id]
+    }];
+    if (topic.tool === 'pace') items.push({
+      product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
+      title: 'Calculadora Pace', summary: 'Calcule seu ritmo por quilômetro como referência educativa.',
+      href: '/meu-caminho-be/ferramentas?ferramenta=pace', image: '/img/calculadora-pace-relogio-esportivo.webp',
+      action: 'Calcular meu ritmo', keywords: [topic.id]
+    });
+    if (topic.tool === 'agua') items.push({
+      product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
+      title: 'Água diária', summary: 'Organize uma referência educativa de hidratação para sua rotina.',
+      href: '/meu-caminho-be/ferramentas?ferramenta=agua', image: '/img/app-nutricao-card.png',
+      action: 'Usar ferramenta', keywords: [topic.id]
+    });
+    if (topic.tool === 'imc') items.push({
+      product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
+      title: 'Calculadora IMC', summary: 'Use peso e altura apenas como uma referência educativa, sem diagnóstico.',
+      href: '/meu-caminho-be/ferramentas?ferramenta=imc', image: '/img/app-nutricao-card.png',
+      action: 'Usar ferramenta', keywords: [topic.id]
+    });
+    if (topic.kind === 'training') items.push({
+      product: 'profissionais', sourceLabel: 'Profissional relacionado',
+      title: 'Bruno Rezende — Personal Trainer',
+      summary: 'Pode apoiar a organização e a progressão do treinamento. Confirme diretamente a experiência adequada ao seu objetivo.',
+      href: '/profissionais?categoria=personal', image: EDITORIAL_IMAGES.professional,
+      action: 'Solicitar informações', keywords: [topic.id]
+    });
+    return items;
+  }
+
   function professionalItemForSport(normalized, sport) {
     const mentalTopic = /(mental|emocional|ansiedade|ansioso|ansiosa|nervoso|nervosa|estresse|estressado|estressada|confianca|motivacao|medo|pressao)/.test(normalized);
     if (mentalTopic) return {
@@ -182,7 +235,7 @@
       product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
       title: 'Dicas práticas para começar',
       summary: `Use orientações curtas para organizar o primeiro passo ${sport.grammar[0]} ${sport.label} com segurança e dentro da sua rotina.`,
-      href: '/meu-caminho-be/ferramentas/dicas', image: EDITORIAL_IMAGES.guidance,
+      href: '/meu-caminho-be/ferramentas/dicas', image: EDITORIAL_IMAGES.journey,
       action: 'Abrir dicas práticas', keywords: [sport.id]
     };
     const usePace = ['corrida', 'caminhada', 'ciclismo', 'triatlo'].includes(sport.id) || /(pace|ritmo|tempo|distancia|quilometro)/.test(normalized);
@@ -255,7 +308,7 @@
     ];
   }
 
-  function rankItems(normalized, primaryId, sport, intent) {
+  function rankItems(normalized, primaryId, sport, intent, topic) {
     const searchable = sport ? `${normalized} ${sport.id}` : normalized;
     const ranked = SEARCH_ITEMS.map((item, position) => {
       const itemTerms = item.keywords.join(' ');
@@ -271,6 +324,7 @@
         ...entry.item,
         sourceLabel: 'Conteúdo publicado'
       }));
+      const topicItems = topic ? [libraryItemForTopic(topic)] : [];
       const libraryItems = libraryItemsForSport(normalized, sport, intent);
       const supportingItems = [professionalItemForSport(normalized, sport), toolItemForSport(normalized, sport, intent)];
       const journeyItems = intent?.id === 'register' ? [journeyItemForSport(sport)] : [];
@@ -278,8 +332,15 @@
         ? [watchItemForSport(sport)]
         : [];
       return {
-        items: uniqueItems([...published, ...libraryItems, ...journeyItems, ...watchItems, ...supportingItems]).slice(0, 6),
+        items: uniqueItems([...topicItems, ...published, ...libraryItems, ...journeyItems, ...watchItems, ...supportingItems]).slice(0, 6),
         coverage: published.length ? 'mixed' : 'library'
+      };
+    }
+
+    if (topic) {
+      return {
+        items: uniqueItems([libraryItemForTopic(topic), ...supportingItemsForTopic(topic)]).slice(0, 6),
+        coverage: 'library'
       };
     }
 
@@ -302,14 +363,15 @@
     const displayQuery = String(query || '').trim().slice(0, 180);
     if (!normalized) return { query: '', displayQuery: '', primary: null, related: PRODUCTS.slice(0, 4), items: [], coverage: 'empty', sport: null, intent: null };
     const sport = detectFromTaxonomy(normalized, SPORTS);
+    const topic = SPORTS_LIBRARY?.findTopic?.(normalized) || null;
     const intent = detectFromTaxonomy(normalized, INTENTS) || (sport && /\bquero\b/.test(normalized) ? INTENTS.find(entry => entry.id === 'start') : null);
     const phraseMatch = EXPLICIT_PHRASES.find(([phrase]) => normalized.includes(phrase));
     const ranked = PRODUCTS.map((product, position) => ({ product, score: product.keywords.reduce((total, keyword) => total + (normalized.includes(keyword) ? (keyword.includes(' ') ? 5 : 3) : 0), 0), position })).sort((a, b) => b.score - a.score || a.position - b.position);
-    const matchedProduct = phraseMatch ? findProduct(phraseMatch[1]) : ranked[0].score > 0 ? ranked[0].product : inferPrimaryFromIntent(intent) || (sport ? findProduct('conteudo') : null);
+    const matchedProduct = phraseMatch ? findProduct(phraseMatch[1]) : ranked[0].score > 0 ? ranked[0].product : inferPrimaryFromIntent(intent) || (sport || topic ? findProduct('conteudo') : null);
     const primary = matchedProduct ? contextualize(matchedProduct, normalized) : null;
     const related = ranked.filter(item => item.product.id !== primary?.id && item.score > 0).slice(0, primary ? 3 : 4).map(item => item.product);
-    const rankedItems = rankItems(normalized, primary?.id, sport, intent);
-    return { query: normalized, displayQuery, primary, related, items: rankedItems.items, coverage: rankedItems.coverage, sport, intent };
+    const rankedItems = rankItems(normalized, primary?.id, sport, intent, topic);
+    return { query: normalized, displayQuery, primary, related, items: rankedItems.items, coverage: rankedItems.coverage, sport, topic, intent };
   }
 
   function createResultCard(item) {
@@ -421,7 +483,9 @@
       ? 'Um caminho simples e direto para dar o primeiro passo.'
       : item.sourceKind === 'benefits'
         ? 'O que essa prática pode acrescentar à sua rotina.'
-        : 'Uma orientação prática para entender e treinar esse fundamento.';
+        : item.sourceKind === 'topic'
+          ? 'Uma resposta educativa para organizar o próximo passo com segurança.'
+          : 'Uma orientação prática para entender e treinar esse fundamento.';
     content.replaceChildren();
     if (steps.length) {
       const list = document.createElement('ol');
@@ -455,10 +519,11 @@
           : 'Encontramos para você';
     }
     if (queryLabel) {
+      const subject = result.sport?.label || result.topic?.label || result.displayQuery;
       if (result.coverage === 'library') {
-        queryLabel.textContent = `Ainda não temos conteúdo publicado específico sobre ${result.sport.label}. A Biblioteca BeM reuniu orientação, benefícios, apoio profissional e uma ferramenta relacionada.`;
+        queryLabel.textContent = `A Biblioteca BeM reuniu uma resposta educativa sobre ${subject} e caminhos relacionados para você continuar.`;
       } else if (result.coverage === 'mixed') {
-        queryLabel.textContent = `Reunimos conteúdo publicado e informações da Biblioteca BeM sobre ${result.sport.label}, além de apoio profissional e ferramenta relacionada.`;
+        queryLabel.textContent = `Reunimos conteúdo publicado e informações da Biblioteca BeM sobre ${subject}, além de caminhos relacionados.`;
       } else if (result.coverage === 'general') {
         queryLabel.textContent = `Ainda não encontramos conteúdo específico para “${result.displayQuery}”. Veja caminhos que podem ajudar a continuar.`;
       } else {
@@ -497,7 +562,7 @@
     });
   }
 
-  const api = Object.freeze({ PRODUCTS, SPORTS, INTENTS, SEARCH_ITEMS, normalize, search });
+  const api = Object.freeze({ PRODUCTS, SPORTS, TOPICS, INTENTS, SEARCH_ITEMS, normalize, search });
   global.BeEcosystemSearch = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   if (typeof document !== 'undefined') {

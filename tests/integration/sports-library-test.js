@@ -4,9 +4,47 @@ const assert = require('node:assert/strict');
 const library = require('../../js/be-sports-library.js');
 const search = require('../../js/be-ecosystem-search.js');
 
-assert.equal(library.version, '1.0.0');
+assert.equal(library.version, '1.1.0');
 assert.ok(library.sports.length >= 28, 'A biblioteca deve cobrir ao menos 28 modalidades.');
+assert.ok(library.topics.length >= 24, 'A biblioteca deve cobrir os principais objetivos esportivos.');
 assert.equal(new Set(library.sports.map((sport) => sport.id)).size, library.sports.length, 'IDs de modalidades devem ser únicos.');
+assert.equal(new Set(library.topics.map((topic) => topic.id)).size, library.topics.length, 'IDs de temas devem ser únicos.');
+
+library.topics.forEach((topic) => {
+  assert.ok(topic.aliases.length, `${topic.label} precisa de termos de busca.`);
+  assert.ok(topic.title.length >= 20, `${topic.label} precisa de título descritivo.`);
+  assert.ok(topic.summary.length >= 120, `${topic.label} precisa de uma resposta educativa completa.`);
+  topic.sourceIds.forEach((sourceId) => assert.ok(library.sources[sourceId], `Fonte desconhecida em ${topic.id}: ${sourceId}`));
+});
+
+const topicQueries = new Map([
+  ['Como ganhar massa muscular?', 'muscle-gain'],
+  ['Como ficar mais forte?', 'strength-progression'],
+  ['Como perder barriga?', 'fat-loss'],
+  ['Como correr 5 km sem cansar?', 'running'],
+  ['Como melhorar minha finalização?', 'football-skills'],
+  ['Como sacar mais forte?', 'ambiguous-serve'],
+  ['Como fazer muscle-up?', 'calisthenics'],
+  ['Como melhorar minha mobilidade?', 'mobility-yoga'],
+  ['Como fazer HIIT?', 'cardio-hiit'],
+  ['Como treinar em casa sem equipamentos?', 'home-training'],
+  ['Quanto de proteína consumir para hipertrofia?', 'sports-nutrition'],
+  ['Creatina faz mal?', 'supplements'],
+  ['Como melhorar minha performance?', 'performance'],
+  ['Quantos dias devo descansar?', 'recovery'],
+  ['Por que parei de evoluir?', 'plateau-results']
+]);
+
+topicQueries.forEach((topicId, query) => {
+  assert.equal(library.findTopic(query)?.id, topicId, `Tema incorreto para: ${query}`);
+  const result = search.search(query);
+  assert.equal(result.topic?.id, topicId, `Busca integrada sem tema para: ${query}`);
+  assert.ok(result.items.some((item) => item.sourceKind === 'topic' && item.opensAnswer), `Busca sem resposta para: ${query}`);
+});
+
+assert.doesNotMatch(library.findTopic('Como emagrecer rápido?').summary, /garant|em \d+ dias|kg por semana/i);
+assert.match(library.findTopic('Como perder barriga?').summary, /não existe exercício.+apenas da barriga/i);
+assert.match(library.findTopic('Quanto de whey tomar?').summary, /profissional de saúde/i);
 
 library.sports.forEach((sport) => {
   assert.ok(sport.aliases.length, `${sport.label} precisa de termos de busca.`);
@@ -41,11 +79,12 @@ assert.equal(swimmingStartResult.items[0].title, 'Primeiros passos para começar
 assert.match(swimmingStartResult.items[0].summary, /piscina segura.+aula para iniciantes.+respiração.+distâncias curtas/i);
 assert.ok(swimmingStartResult.items.some((item) => item.title === 'Benefícios da natação para a saúde'));
 assert.ok(swimmingStartResult.items.some((item) => item.product === 'profissionais'));
-assert.ok(swimmingStartResult.items.some((item) => item.title === 'Dicas práticas para começar'));
+assert.ok(swimmingStartResult.items.some((item) => item.title === 'Dicas práticas para começar'
+  && item.image === '/img/jornada-esportiva-atleta-por-do-sol.webp'));
 
 const footballSearchResult = search.search('Quero melhorar meu chute no futebol');
 assert.equal(footballSearchResult.coverage, 'mixed');
-assert.equal(footballSearchResult.items[0].sourceLabel, 'Conteúdo publicado');
+assert.ok(footballSearchResult.items.some((item) => item.sourceLabel === 'Conteúdo publicado'));
 assert.ok(footballSearchResult.items.some((item) => item.title === 'Dicas para melhorar o chute no futebol'));
 
 const runningSearchResult = search.search('Quero melhorar meu ritmo na corrida');
@@ -61,4 +100,4 @@ assert.ok(yogaVideoResult.items.some((item) => item.product === 'beplay' && item
 const footballAnxietyResult = search.search('Estou ansioso antes do jogo de futebol');
 assert.ok(footballAnxietyResult.items.some((item) => item.title === 'Grasiele — Psicóloga'));
 
-console.log(`Biblioteca esportiva validada: ${library.sports.length} modalidades, com conteúdo, profissionais e ferramentas relacionados.`);
+console.log(`Biblioteca esportiva validada: ${library.sports.length} modalidades e ${library.topics.length} temas, com respostas e caminhos relacionados.`);
