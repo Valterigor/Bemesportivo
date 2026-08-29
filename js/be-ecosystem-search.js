@@ -12,6 +12,61 @@
     { id: 'meu-caminho', name: 'Meu Caminho Be', purpose: 'Acompanhe o seu esporte.', response: 'Registre o que fez, organize sua rotina e acompanhe sua evolução.', action: 'Abrir Meu Caminho Be', href: '/meu-caminho-be', keywords: ['registrar', 'registro', 'atividade', 'fiz hoje', 'treinei hoje', 'meu treino', 'meu caminho', 'diario', 'jornada', 'evolucao', 'progresso', 'acompanhar', 'rotina', 'perfil'] }
   ]);
 
+  /*
+   * Taxonomia editorial revisada pela equipe. Ela aproxima maneiras
+   * diferentes de falar sobre a mesma modalidade, sem gerar respostas por IA.
+   */
+  const SPORTS_FALLBACK = Object.freeze([
+    { id: 'natacao', label: 'natação', grammar: ['na', 'a', 'à'], aliases: ['nadar', 'natacao', 'nado', 'piscina', 'crawl', 'nado livre'], guidance: 'Defina onde irá praticar, confirme horários e supervisão disponíveis e comece pela adaptação ao ambiente aquático.' },
+    { id: 'corrida', label: 'corrida', grammar: ['na', 'a', 'à'], aliases: ['correr', 'corrida', 'trote', 'running', 'corredor'], guidance: 'Comece alternando caminhada e corrida em um ritmo confortável, com uma duração que caiba na sua rotina.' },
+    { id: 'caminhada', label: 'caminhada', grammar: ['na', 'a', 'à'], aliases: ['caminhar', 'caminhada', 'andar a pe', 'andar'], guidance: 'Escolha um percurso conhecido, uma duração possível e um ritmo em que você ainda consiga conversar.' },
+    { id: 'ciclismo', label: 'ciclismo', grammar: ['no', 'o', 'ao'], aliases: ['pedalar', 'pedal', 'ciclismo', 'bicicleta', 'bike'], guidance: 'Escolha um percurso compatível com o seu momento e confira equipamento, visibilidade e condições do trajeto.' },
+    { id: 'futebol', label: 'futebol', grammar: ['no', 'o', 'ao'], aliases: ['futebol', 'jogar bola', 'campo', 'society', 'chute', 'chutar'], guidance: 'Comece pelos fundamentos e por uma participação compatível com o seu condicionamento atual.' },
+    { id: 'futsal', label: 'futsal', grammar: ['no', 'o', 'ao'], aliases: ['futsal', 'futebol de salao'], guidance: 'Priorize domínio, passe e deslocamentos progressivos antes de aumentar a intensidade do jogo.' },
+    { id: 'musculacao', label: 'musculação', grammar: ['na', 'a', 'à'], aliases: ['musculacao', 'academia', 'treino de forca', 'levantar peso'], guidance: 'Comece com movimentos conhecidos, execução controlada e orientação adequada para ajustar os exercícios.' },
+    { id: 'voleibol', label: 'voleibol', grammar: ['no', 'o', 'ao'], aliases: ['volei', 'voleibol'], guidance: 'Comece pelos gestos básicos e por atividades que permitam aprender o posicionamento com calma.' },
+    { id: 'basquete', label: 'basquete', grammar: ['no', 'o', 'ao'], aliases: ['basquete', 'basquetebol', 'basket'], guidance: 'Comece por controle de bola, passe e arremesso antes de aumentar a velocidade da prática.' },
+    { id: 'handebol', label: 'handebol', grammar: ['no', 'o', 'ao'], aliases: ['handebol', 'andebol'], guidance: 'Comece pelos fundamentos de passe, recepção e deslocamento antes de aumentar a intensidade do jogo.' },
+    { id: 'beach-tennis', label: 'beach tennis', grammar: ['no', 'o', 'ao'], aliases: ['beach tennis', 'tenis de praia'], guidance: 'Conheça as regras básicas, pratique o controle da raquete e comece por trocas de bola em ritmo confortável.' },
+    { id: 'tenis-mesa', label: 'tênis de mesa', grammar: ['no', 'o', 'ao'], aliases: ['tenis de mesa', 'ping pong'], guidance: 'Comece pelo controle da raquete, saque e devolução antes de buscar velocidade.' },
+    { id: 'badminton', label: 'badminton', grammar: ['no', 'o', 'ao'], aliases: ['badminton', 'peteca'], guidance: 'Conheça a empunhadura, os deslocamentos e o contato com a peteca em uma prática inicial.' },
+    { id: 'tenis', label: 'tênis', grammar: ['no', 'o', 'ao'], aliases: ['tenis', 'tenista', 'raquete'], guidance: 'Conheça empunhadura, deslocamento e contato com a bola em uma prática inicial orientada.' },
+    { id: 'lutas', label: 'lutas', grammar: ['nas', 'as', 'às'], aliases: ['luta', 'lutas', 'boxe', 'judo', 'jiu jitsu', 'karate', 'muay thai'], guidance: 'Procure um ambiente orientado, conheça as regras de segurança e comece pelos fundamentos técnicos.' },
+    { id: 'danca', label: 'dança', grammar: ['na', 'a', 'à'], aliases: ['dancar', 'danca', 'zumba', 'ballet'], guidance: 'Escolha um estilo que faça sentido para você e comece por uma aula de nível iniciante.' },
+    { id: 'atletismo', label: 'atletismo', grammar: ['no', 'o', 'ao'], aliases: ['atletismo', 'salto em distancia', 'arremesso de peso'], guidance: 'Identifique a prova que deseja conhecer e procure uma iniciação compatível com seu momento.' },
+    { id: 'triatlo', label: 'triatlo', grammar: ['no', 'o', 'ao'], aliases: ['triatlo', 'triathlon'], guidance: 'Organize natação, ciclismo e corrida de forma progressiva, com orientação para equilibrar as três modalidades.' },
+    { id: 'funcional', label: 'treino funcional', grammar: ['no', 'o', 'ao'], aliases: ['treino funcional', 'funcional', 'crossfit'], guidance: 'Comece por movimentos controlados e versões compatíveis com sua experiência e condicionamento atual.' },
+    { id: 'yoga', label: 'yoga', grammar: ['na', 'a', 'à'], aliases: ['yoga', 'ioga'], guidance: 'Escolha uma prática de nível iniciante e respeite amplitude, respiração e conforto em cada posição.' },
+    { id: 'pilates', label: 'pilates', grammar: ['no', 'o', 'ao'], aliases: ['pilates'], guidance: 'Comece com uma avaliação do seu momento e aprenda os movimentos com orientação e controle.' },
+    { id: 'ginastica', label: 'ginástica', grammar: ['na', 'a', 'à'], aliases: ['ginastica', 'ginastica artistica', 'ginastica ritmica'], guidance: 'Conheça a modalidade e comece pelos fundamentos em um ambiente preparado e orientado.' },
+    { id: 'surf', label: 'surfe', grammar: ['no', 'o', 'ao'], aliases: ['surfar', 'surf', 'surfe'], guidance: 'Conheça o ambiente, as condições do mar e as regras de segurança antes da primeira prática.' },
+    { id: 'skate', label: 'skate', grammar: ['no', 'o', 'ao'], aliases: ['andar de skate', 'skate', 'skateboard'], guidance: 'Use proteção adequada e comece por equilíbrio, base e deslocamentos em um local seguro.' },
+    { id: 'escalada', label: 'escalada', grammar: ['na', 'a', 'à'], aliases: ['escalar', 'escalada', 'boulder'], guidance: 'Comece em um ambiente preparado, conheça os equipamentos e siga a orientação de segurança do local.' },
+    { id: 'remo', label: 'remo', grammar: ['no', 'o', 'ao'], aliases: ['remar', 'remo'], guidance: 'Conheça o equipamento, o ambiente e a técnica básica antes de aumentar distância ou intensidade.' },
+    { id: 'canoagem', label: 'canoagem', grammar: ['na', 'a', 'à'], aliases: ['canoagem', 'caiaque', 'kayak'], guidance: 'Comece em local apropriado, com equipamento de segurança e orientação sobre as condições da água.' },
+    { id: 'rugby', label: 'rugby', grammar: ['no', 'o', 'ao'], aliases: ['rugby', 'rugbi'], guidance: 'Conheça as regras, os fundamentos e a progressão de contato em um ambiente orientado.' }
+  ]);
+
+  const SPORTS_LIBRARY = global.BeSportsLibrary || (typeof module === 'object' && module.exports
+    ? require('./be-sports-library.js')
+    : null);
+  const SPORTS = SPORTS_LIBRARY?.sports || SPORTS_FALLBACK;
+
+  const INTENTS = Object.freeze([
+    { id: 'register', aliases: ['registrar', 'anotar', 'guardar', 'fiz hoje', 'treinei hoje'] },
+    { id: 'watch', aliases: ['assistir', 'ver video', 'video', 'beplay'] },
+    { id: 'professional', aliases: ['profissional', 'treinador', 'tecnico', 'especialista', 'orientacao'] },
+    { id: 'improve', aliases: ['melhorar', 'evoluir', 'aperfeicoar', 'desenvolver', 'tecnica'] },
+    { id: 'return', aliases: ['voltar', 'retomar', 'recomecar'] },
+    { id: 'start', aliases: ['comecar', 'iniciar', 'aprender', 'experimentar', 'quero praticar'] }
+  ]);
+
+  const EDITORIAL_IMAGES = Object.freeze({
+    guidance: '/img/posts/post-pratica-esportes.png',
+    journey: '/img/jornada-esportiva-atleta-por-do-sol.webp',
+    professional: '/img/profissionais/bruno.jpg'
+  });
+
   const SEARCH_ITEMS = Object.freeze([
     { product: 'conteudo', title: 'Minha primeira corrida', summary: 'Uma trilha em quatro passos para organizar o começo da prática.', href: '/meu-caminho-be/ferramentas/trilhas', image: '/img/fala-bem-hero-pessoas-optimized-480.webp', action: 'Abrir trilha', keywords: ['corrida', 'correr', 'comecar', 'parado', 'primeiro passo', 'retomar'] },
     { product: 'conteudo', title: 'Futebol com inteligência', summary: 'Uma trilha sobre fundamentos, leitura de jogo e evolução no futebol.', href: '/meu-caminho-be/ferramentas/trilhas', image: '/img/IMG_0957-optimized.webp', action: 'Abrir trilha', keywords: ['futebol', 'chute', 'passe', 'tecnica', 'jogo', 'melhorar'] },
@@ -56,11 +111,178 @@
     return product;
   }
 
-  function rankItems(normalized, primaryId) {
+  function detectFromTaxonomy(normalized, taxonomy) {
+    const searchable = ` ${normalized} `;
+    return taxonomy.find(entry => entry.aliases.some(alias => searchable.includes(` ${normalize(alias)} `))) || null;
+  }
+
+  function inferPrimaryFromIntent(intent) {
+    if (intent?.id === 'register') return findProduct('meu-caminho');
+    if (intent?.id === 'watch') return findProduct('beplay');
+    if (intent?.id === 'professional') return findProduct('profissionais');
+    if (intent) return findProduct('conteudo');
+    return null;
+  }
+
+  function libraryItemsForSport(normalized, sport, intent) {
+    const response = SPORTS_LIBRARY?.search(normalized, sport.id);
+    if (!response?.entries?.length) return [];
+    const entries = intent?.id === 'start'
+      ? [
+          {
+            kind: 'guidance',
+            title: `Primeiros passos para começar ${sport.grammar[0]} ${sport.label}`,
+            summary: sport.guidance
+          },
+          ...response.entries.filter(entry => entry.kind === 'benefits')
+        ]
+      : response.entries;
+    return entries.map(entry => ({
+      product: 'conteudo',
+      sourceLabel: 'Biblioteca BeM',
+      sourceKind: entry.kind,
+      opensAnswer: true,
+      title: entry.title,
+      summary: entry.summary,
+      href: `/meu-caminho-be/ferramentas/modalidades?modalidade=${encodeURIComponent(sport.id)}`,
+      image: null,
+      visualLabel: sport.label,
+      action: entry.kind === 'benefits' ? 'Conhecer benefícios' : entry.kind === 'guidance' ? 'Ver primeiros passos' : 'Ler as dicas',
+      keywords: [sport.id]
+    }));
+  }
+
+  function professionalItemForSport(normalized, sport) {
+    const mentalTopic = /(mental|emocional|ansiedade|ansioso|ansiosa|nervoso|nervosa|estresse|estressado|estressada|confianca|motivacao|medo|pressao)/.test(normalized);
+    if (mentalTopic) return {
+      product: 'profissionais', sourceLabel: 'Profissional relacionado',
+      title: 'Grasiele — Psicóloga',
+      summary: `Psicologia esportiva e cuidado com aspectos emocionais relacionados ${sport.grammar[2]} ${sport.label}.`,
+      href: '/profissionais?categoria=psicologia', image: '/img/profissionais/grasiele.jpg',
+      action: 'Solicitar informações', keywords: [sport.id]
+    };
+    if (['futebol', 'futsal'].includes(sport.id)) return {
+      product: 'profissionais', sourceLabel: 'Profissional relacionado',
+      title: 'Luciano — Personal Soccer',
+      summary: 'Treinamento técnico e desenvolvimento no futebol. Consulte diretamente a disponibilidade e o formato de atendimento.',
+      href: '/profissionais?categoria=personal', image: '/img/profissionais/luciano.jpg',
+      action: 'Solicitar informações', keywords: [sport.id]
+    };
+    return {
+      product: 'profissionais', sourceLabel: 'Profissional relacionado',
+      title: 'Bruno Rezende — Personal Trainer',
+      summary: `Pode apoiar o condicionamento físico geral. Confirme diretamente a experiência e o atendimento relacionados ${sport.grammar[2]} ${sport.label}.`,
+      href: '/profissionais?categoria=personal', image: EDITORIAL_IMAGES.professional,
+      action: 'Solicitar informações', keywords: [sport.id]
+    };
+  }
+
+  function toolItemForSport(normalized, sport, intent) {
+    if (intent?.id === 'start' || intent?.id === 'return') return {
+      product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
+      title: 'Dicas práticas para começar',
+      summary: `Use orientações curtas para organizar o primeiro passo ${sport.grammar[0]} ${sport.label} com segurança e dentro da sua rotina.`,
+      href: '/meu-caminho-be/ferramentas/dicas', image: EDITORIAL_IMAGES.guidance,
+      action: 'Abrir dicas práticas', keywords: [sport.id]
+    };
+    const usePace = ['corrida', 'caminhada', 'ciclismo', 'triatlo'].includes(sport.id) || /(pace|ritmo|tempo|distancia|quilometro)/.test(normalized);
+    if (usePace) return {
+      product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
+      title: 'Calculadora Pace',
+      summary: 'Calcule o ritmo por quilômetro e use o resultado como referência educativa para acompanhar sua prática.',
+      href: '/meu-caminho-be/ferramentas?ferramenta=pace', image: '/img/calculadora-pace-relogio-esportivo.webp',
+      action: 'Calcular meu ritmo', keywords: [sport.id]
+    };
+    return {
+      product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
+      title: 'Água diária',
+      summary: `Organize uma referência de hidratação para os dias em que pratica ${sport.grammar[1]} ${sport.label}.`,
+      href: '/meu-caminho-be/ferramentas?ferramenta=agua', image: '/img/app-nutricao-card.png',
+      action: 'Usar ferramenta', keywords: [sport.id]
+    };
+  }
+
+  function journeyItemForSport(sport) {
+    return {
+      product: 'meu-caminho', sourceLabel: 'Meu Caminho Be',
+      title: `Registrar uma atividade de ${sport.label}`,
+      summary: 'Guarde o que fez hoje e acompanhe sua continuidade no esporte.',
+      href: '/meu-caminho-be/registrar', image: EDITORIAL_IMAGES.journey,
+      action: 'Registrar agora', keywords: [sport.id]
+    };
+  }
+
+  function watchItemForSport(sport) {
+    return {
+      product: 'beplay', sourceLabel: 'BEplay',
+      title: `Assistir conteúdos sobre ${sport.label}`,
+      summary: `Veja os vídeos disponíveis e encontre conteúdos relacionados ${sport.grammar[2]} ${sport.label}.`,
+      href: '/beplay', image: '/img/beplay-capa-pessoas.webp',
+      action: 'Abrir o BEplay', keywords: [sport.id]
+    };
+  }
+
+  function uniqueItems(items) {
+    const titlesSeen = new Set();
+    return items.filter(item => {
+      const title = normalize(item.title);
+      if (titlesSeen.has(title)) return false;
+      titlesSeen.add(title);
+      return true;
+    });
+  }
+
+  function generalFallbackItems() {
+    return [
+      {
+        product: 'conteudo', title: 'Explore a Biblioteca BeM',
+        summary: 'Veja as orientações e trilhas que já fazem parte do Bem Esportivo.',
+        href: '/meu-caminho-be/ferramentas/conteudos', image: EDITORIAL_IMAGES.guidance,
+        action: 'Explorar conhecimento', keywords: []
+      },
+      {
+        product: 'meu-caminho', title: 'Conte o seu momento no Perfil Be',
+        summary: 'Organize quem você é no esporte e o que deseja fazer agora.',
+        href: '/meu-caminho-be/perfil', image: EDITORIAL_IMAGES.journey,
+        action: 'Abrir Perfil Be', keywords: []
+      },
+      {
+        product: 'comunidade', title: 'Leve sua dúvida para a comunidade',
+        summary: 'Converse sobre esporte usando o espaço de participação do Bem Esportivo.',
+        href: '/meu-caminho-be/ferramentas/comunidade', image: EDITORIAL_IMAGES.guidance,
+        action: 'Abrir comunidade', keywords: []
+      }
+    ];
+  }
+
+  function rankItems(normalized, primaryId, sport, intent) {
+    const searchable = sport ? `${normalized} ${sport.id}` : normalized;
     const ranked = SEARCH_ITEMS.map((item, position) => {
-      const score = item.keywords.reduce((total, keyword) => total + (normalized.includes(keyword) ? (keyword.includes(' ') ? 7 : 4) : 0), item.product === primaryId ? 3 : 0);
-      return { item, score, position };
+      const itemTerms = item.keywords.join(' ');
+      const itemSport = detectFromTaxonomy(itemTerms, SPORTS);
+      const conflictsWithSport = Boolean(sport && itemSport && itemSport.id !== sport.id);
+      const keywordScore = conflictsWithSport ? 0 : item.keywords.reduce((total, keyword) => total + (searchable.includes(keyword) ? (keyword.includes(' ') ? 7 : 4) : 0), 0);
+      const score = keywordScore > 0 && item.product === primaryId ? keywordScore + 3 : keywordScore;
+      return { item, score, position, sportMatch: Boolean(sport && itemSport?.id === sport.id) };
     }).filter(entry => entry.score > 0).sort((a, b) => b.score - a.score || a.position - b.position);
+
+    if (sport) {
+      const published = ranked.filter(entry => entry.sportMatch).slice(0, 2).map(entry => ({
+        ...entry.item,
+        sourceLabel: 'Conteúdo publicado'
+      }));
+      const libraryItems = libraryItemsForSport(normalized, sport, intent);
+      const supportingItems = [professionalItemForSport(normalized, sport), toolItemForSport(normalized, sport, intent)];
+      const journeyItems = intent?.id === 'register' ? [journeyItemForSport(sport)] : [];
+      const watchItems = intent?.id === 'watch' && !published.some(item => item.product === 'beplay')
+        ? [watchItemForSport(sport)]
+        : [];
+      return {
+        items: uniqueItems([...published, ...libraryItems, ...journeyItems, ...watchItems, ...supportingItems]).slice(0, 6),
+        coverage: published.length ? 'mixed' : 'library'
+      };
+    }
+
     const selected = [];
     const productsSeen = new Set();
     for (const entry of ranked) {
@@ -69,45 +291,60 @@
       productsSeen.add(entry.item.product);
       if (selected.length === 6) break;
     }
-    if (selected.length < 4) {
-      for (const item of SEARCH_ITEMS) {
-        if (productsSeen.has(item.product)) continue;
-        selected.push(item);
-        productsSeen.add(item.product);
-        if (selected.length === 6) break;
-      }
-    }
-    return selected;
+    return {
+      items: selected.length ? selected : generalFallbackItems(),
+      coverage: ranked.length ? 'exact' : 'general'
+    };
   }
 
   function search(query) {
     const normalized = normalize(query);
-    if (!normalized) return { query: '', primary: null, related: PRODUCTS.slice(0, 4), items: [] };
+    const displayQuery = String(query || '').trim().slice(0, 180);
+    if (!normalized) return { query: '', displayQuery: '', primary: null, related: PRODUCTS.slice(0, 4), items: [], coverage: 'empty', sport: null, intent: null };
+    const sport = detectFromTaxonomy(normalized, SPORTS);
+    const intent = detectFromTaxonomy(normalized, INTENTS) || (sport && /\bquero\b/.test(normalized) ? INTENTS.find(entry => entry.id === 'start') : null);
     const phraseMatch = EXPLICIT_PHRASES.find(([phrase]) => normalized.includes(phrase));
     const ranked = PRODUCTS.map((product, position) => ({ product, score: product.keywords.reduce((total, keyword) => total + (normalized.includes(keyword) ? (keyword.includes(' ') ? 5 : 3) : 0), 0), position })).sort((a, b) => b.score - a.score || a.position - b.position);
-    const matchedProduct = phraseMatch ? findProduct(phraseMatch[1]) : ranked[0].score > 0 ? ranked[0].product : null;
+    const matchedProduct = phraseMatch ? findProduct(phraseMatch[1]) : ranked[0].score > 0 ? ranked[0].product : inferPrimaryFromIntent(intent) || (sport ? findProduct('conteudo') : null);
     const primary = matchedProduct ? contextualize(matchedProduct, normalized) : null;
-    const related = ranked.filter(item => item.product.id !== primary?.id).slice(0, primary ? 3 : 4).map(item => item.product);
-    return { query: normalized, primary, related, items: rankItems(normalized, primary?.id) };
+    const related = ranked.filter(item => item.product.id !== primary?.id && item.score > 0).slice(0, primary ? 3 : 4).map(item => item.product);
+    const rankedItems = rankItems(normalized, primary?.id, sport, intent);
+    return { query: normalized, displayQuery, primary, related, items: rankedItems.items, coverage: rankedItems.coverage, sport, intent };
   }
 
   function createResultCard(item) {
     const product = findProduct(item.product);
-    const link = document.createElement('a');
-    link.className = `be-search-result-card is-${item.product}`;
-    link.href = item.href;
+    const card = document.createElement(item.opensAnswer ? 'button' : 'a');
+    card.className = `be-search-result-card is-${item.product}`;
+    if (item.opensAnswer) {
+      card.type = 'button';
+      card.addEventListener('click', () => openAnswer(item));
+    } else {
+      card.href = item.href;
+    }
     const media = document.createElement('span');
     media.className = 'be-search-result-media';
-    const image = document.createElement('img');
-    image.src = item.image;
-    image.alt = '';
-    image.loading = 'lazy';
-    image.decoding = 'async';
-    media.append(image);
+    if (item.image) {
+      const image = document.createElement('img');
+      image.src = item.image;
+      image.alt = '';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      media.append(image);
+    } else {
+      const visual = document.createElement('span');
+      visual.className = 'be-search-result-placeholder';
+      const brand = document.createElement('b');
+      brand.textContent = 'Be';
+      const label = document.createElement('small');
+      label.textContent = item.visualLabel || 'esporte';
+      visual.append(brand, label);
+      media.append(visual);
+    }
     const body = document.createElement('span');
     body.className = 'be-search-result-body';
     const label = document.createElement('small');
-    label.textContent = product.name;
+    label.textContent = item.sourceLabel || product.name;
     const title = document.createElement('strong');
     title.textContent = item.title;
     const summary = document.createElement('span');
@@ -115,8 +352,91 @@
     const action = document.createElement('b');
     action.textContent = `${item.action} →`;
     body.append(label, title, summary, action);
-    link.append(media, body);
-    return link;
+    card.append(media, body);
+    return card;
+  }
+
+  function answerSteps(summary) {
+    const numbered = String(summary || '').split(/(?:^|\s)\d+\.\s+/).map(step => step.trim()).filter(Boolean);
+    return numbered.length > 1 ? numbered : [];
+  }
+
+  function ensureAnswerDialog() {
+    let dialog = document.getElementById('be-search-answer-dialog');
+    if (dialog) return dialog;
+
+    dialog = document.createElement('dialog');
+    dialog.id = 'be-search-answer-dialog';
+    dialog.className = 'be-search-answer-dialog';
+    dialog.setAttribute('aria-labelledby', 'be-search-answer-title');
+
+    const article = document.createElement('article');
+    article.className = 'be-search-answer-panel';
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'be-search-answer-close';
+    close.setAttribute('aria-label', 'Fechar resposta');
+    close.textContent = '×';
+    close.addEventListener('click', () => dialog.close());
+
+    const kicker = document.createElement('span');
+    kicker.className = 'be-search-answer-kicker';
+    kicker.id = 'be-search-answer-kicker';
+    const title = document.createElement('h2');
+    title.id = 'be-search-answer-title';
+    const lead = document.createElement('p');
+    lead.className = 'be-search-answer-lead';
+    lead.id = 'be-search-answer-lead';
+    const content = document.createElement('div');
+    content.className = 'be-search-answer-content';
+    content.id = 'be-search-answer-content';
+    const note = document.createElement('p');
+    note.className = 'be-search-answer-note';
+    note.textContent = 'Orientação educativa da Biblioteca BeM. Respeite o seu momento e procure acompanhamento adequado quando necessário.';
+    const done = document.createElement('button');
+    done.type = 'button';
+    done.className = 'be-search-answer-done';
+    done.textContent = 'Voltar aos resultados';
+    done.addEventListener('click', () => dialog.close());
+
+    article.append(close, kicker, title, lead, content, note, done);
+    dialog.append(article);
+    dialog.addEventListener('click', event => {
+      if (event.target === dialog) dialog.close();
+    });
+    document.body.append(dialog);
+    return dialog;
+  }
+
+  function openAnswer(item) {
+    const dialog = ensureAnswerDialog();
+    const kicker = dialog.querySelector('#be-search-answer-kicker');
+    const title = dialog.querySelector('#be-search-answer-title');
+    const lead = dialog.querySelector('#be-search-answer-lead');
+    const content = dialog.querySelector('#be-search-answer-content');
+    const steps = answerSteps(item.summary);
+    kicker.textContent = `Biblioteca BeM · ${item.visualLabel || 'Esporte'}`;
+    title.textContent = item.title;
+    lead.textContent = item.sourceKind === 'guidance'
+      ? 'Um caminho simples e direto para dar o primeiro passo.'
+      : item.sourceKind === 'benefits'
+        ? 'O que essa prática pode acrescentar à sua rotina.'
+        : 'Uma orientação prática para entender e treinar esse fundamento.';
+    content.replaceChildren();
+    if (steps.length) {
+      const list = document.createElement('ol');
+      steps.forEach(step => {
+        const entry = document.createElement('li');
+        entry.textContent = step;
+        list.append(entry);
+      });
+      content.append(list);
+    } else {
+      const paragraph = document.createElement('p');
+      paragraph.textContent = item.summary;
+      content.append(paragraph);
+    }
+    dialog.showModal();
   }
 
   function render(result, container) {
@@ -125,9 +445,30 @@
     const queryLabel = document.getElementById('be-search-result-query');
     container.replaceChildren();
     result.items.forEach(item => container.append(createResultCard(item)));
-    if (title) title.textContent = 'Encontramos para você';
-    if (queryLabel) queryLabel.textContent = result.primary ? `Resultados para “${result.query}”` : 'Possibilidades dentro do Bem Esportivo';
-    if (section) section.hidden = false;
+    if (title) {
+      title.textContent = result.coverage === 'library'
+        ? 'A Biblioteca BeM encontrou este caminho'
+        : result.coverage === 'mixed'
+          ? 'Conteúdo e Biblioteca BeM para você'
+        : result.coverage === 'general'
+          ? 'Vamos direcionar sua busca'
+          : 'Encontramos para você';
+    }
+    if (queryLabel) {
+      if (result.coverage === 'library') {
+        queryLabel.textContent = `Ainda não temos conteúdo publicado específico sobre ${result.sport.label}. A Biblioteca BeM reuniu orientação, benefícios, apoio profissional e uma ferramenta relacionada.`;
+      } else if (result.coverage === 'mixed') {
+        queryLabel.textContent = `Reunimos conteúdo publicado e informações da Biblioteca BeM sobre ${result.sport.label}, além de apoio profissional e ferramenta relacionada.`;
+      } else if (result.coverage === 'general') {
+        queryLabel.textContent = `Ainda não encontramos conteúdo específico para “${result.displayQuery}”. Veja caminhos que podem ajudar a continuar.`;
+      } else {
+        queryLabel.textContent = result.primary ? `Resultados para “${result.displayQuery}”` : 'Possibilidades dentro do Bem Esportivo';
+      }
+    }
+    if (section) {
+      section.hidden = false;
+      section.dataset.searchCoverage = result.coverage;
+    }
     container.setAttribute('aria-label', `${result.items.length} resultados encontrados`);
   }
 
@@ -156,7 +497,7 @@
     });
   }
 
-  const api = Object.freeze({ PRODUCTS, SEARCH_ITEMS, normalize, search });
+  const api = Object.freeze({ PRODUCTS, SPORTS, INTENTS, SEARCH_ITEMS, normalize, search });
   global.BeEcosystemSearch = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   if (typeof document !== 'undefined') {

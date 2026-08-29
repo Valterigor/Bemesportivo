@@ -2331,7 +2331,7 @@
     .home-split { display: grid; grid-template-columns: .96fr 1.04fr; gap: 18px; margin-bottom: clamp(52px, 8vw, 92px); align-items: stretch; }
     .home-game-panel, .home-beplay-panel { min-height: clamp(292px, 30vw, 350px); overflow: hidden; border: 1px solid rgba(17,17,17,.08); border-radius: 16px; box-shadow: 0 18px 44px rgba(17,17,17,.1); }
     .home-game-panel { position: relative; display: flex; align-items: center; padding: clamp(22px, 3vw, 32px); isolation: isolate; background: #07111f; color: #fff; }
-    .home-game-panel video { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 62% center; }
+    .home-game-panel :is(img, video) { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 62% center; }
     .home-game-panel::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.46) 36%, rgba(0,0,0,.1) 78%); }
     .home-game-panel h2, .home-panel-head h2 { margin: 7px 0 10px; font-size: clamp(28px, 3.5vw, 42px); font-weight: 950; line-height: .98; letter-spacing: 0; }
     .home-game-panel p { max-width: 265px; margin-bottom: 20px; color: rgba(255,255,255,.86); font-size: 14px; line-height: 1.42; }
@@ -2685,7 +2685,7 @@
   <link rel="stylesheet" href="css/components/privacy-consent.css?v=20260723-1">
   <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-2">
   <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
-  <link rel="stylesheet" href="css/be-ecosystem-search.css?v=20260827-1">
+  <link rel="stylesheet" href="css/be-ecosystem-search.css?v=20260829-2">
   <link rel="stylesheet" href="css/mobile-typography.css?v=20260828-1">
 </head>
 <body class="home-page">
@@ -2852,9 +2852,7 @@
 
       <section class="shell home-split">
         <article class="home-game-panel">
-          <video autoplay muted loop playsinline preload="metadata" poster="img/personagens.jpeg">
-            <source src="video%20bonecos.mp4" type="video/mp4">
-          </video>
+          <img src="img/personagens.jpeg" alt="Personagens esportivos do game Corrida da Hidratação">
           <div>
             <span>Game</span>
             <h2>Corrida da Hidratação</h2>
@@ -3067,11 +3065,8 @@
             <p>Escolha seu atleta, percorra o labirinto 3D, colete água e energia e aprenda sobre hidratação enquanto se diverte.</p>
             <a class="primary-btn" href="/game.html" aria-label="Jogar Corrida da Hidratação agora">Jogar agora</a>
           </div>
-          <div class="game-spotlight-media" aria-label="Prévia em vídeo do game Corrida da Hidratação">
-            <video autoplay muted loop playsinline preload="metadata" poster="img/personagens.jpeg" aria-label="Personagens esportivos do game Corrida da Hidratação">
-              <source src="video%20bonecos.mp4" type="video/mp4">
-              Seu navegador não consegue reproduzir este vídeo.
-            </video>
+          <div class="game-spotlight-media" aria-label="Prévia do game Corrida da Hidratação">
+            <img src="img/personagens.jpeg" alt="Personagens esportivos do game Corrida da Hidratação">
           </div>
         </div>
       </section>
@@ -3250,7 +3245,8 @@
   <script type="module" src="js/privacy-entry.js?v=20260723-2"></script>
   <script type="module" src="js/home-latest-reports.js?v=20260821-1"></script>
   <script type="module" src="js/contact-form.js?v=20260821-1"></script>
-  <script src="js/be-ecosystem-search.js?v=20260827-1" defer></script>
+  <script src="js/be-sports-library.js?v=20260829-2" defer></script>
+  <script src="js/be-ecosystem-search.js?v=20260829-6" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const topBtn = document.getElementById('topBtn');

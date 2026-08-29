@@ -206,6 +206,7 @@
 .be-search-discovery-main > h2 { color: #171412; font-size: clamp(28px, 3vw, 38px); font-weight: 950; line-height: 1; }
 .be-search-discovery-main > p { margin: 8px 0 18px; color: #716a65; font-size: 13px; }
 .be-search-results { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.be-search-discovery[data-search-coverage="library"] .be-search-results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .be-search-result-card {
   display: flex;
   min-width: 0;
@@ -218,11 +219,29 @@
   text-decoration: none;
   box-shadow: 0 10px 28px rgba(17,17,17,.06);
   transition: transform .2s ease, box-shadow .2s ease;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 .be-search-result-card:hover,
 .be-search-result-card:focus-visible { transform: translateY(-4px); box-shadow: 0 17px 38px rgba(17,17,17,.11); }
 .be-search-result-media { display: block; height: 145px; overflow: hidden; background: #f0ece9; }
 .be-search-result-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease; }
+.be-search-result-placeholder {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+  justify-items: center;
+  gap: 7px;
+  padding: 16px;
+  background: radial-gradient(circle at 75% 20%, rgba(255,255,255,.42), transparent 24%), linear-gradient(145deg, #ff8a32, #ff5a00 60%, #cf4000);
+  color: #fff;
+  text-align: center;
+}
+.be-search-result-placeholder b { font: 900 30px/1 Manrope, Inter, sans-serif; letter-spacing: -.08em; }
+.be-search-result-placeholder small { font-size: 10px; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
 .be-search-result-card.is-conteudo .be-search-result-media img { object-position: center 22%; }
 .be-search-result-card.is-beplay .be-search-result-media img { object-position: center 20%; }
 .be-search-result-card.is-profissionais .be-search-result-media img { object-position: center 30%; }
@@ -241,6 +260,33 @@
 .be-search-result-body > strong { font-size: 15px; font-weight: 950; line-height: 1.22; }
 .be-search-result-body > span { color: #68615d; font-size: 12px; line-height: 1.45; }
 .be-search-result-body > b { align-self: end; margin-top: auto; padding-top: 6px; color: #c94800; font-size: 11px; }
+
+.be-search-answer-dialog {
+  width: min(620px, calc(100% - 32px));
+  max-height: min(760px, calc(100dvh - 32px));
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 24px;
+  background: transparent;
+  color: #171412;
+  box-shadow: 0 32px 90px rgba(24, 15, 10, .28);
+}
+.be-search-answer-dialog::backdrop { background: rgba(24, 18, 14, .62); backdrop-filter: blur(5px); }
+.be-search-answer-panel { position: relative; max-height: min(760px, calc(100dvh - 32px)); padding: clamp(28px, 5vw, 46px); overflow-y: auto; border: 1px solid #eadfd7; border-radius: 24px; background: #fffdfb; }
+.be-search-answer-close { position: absolute; top: 16px; right: 16px; display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid #e7ddd6; border-radius: 50%; background: #fff; color: #332a25; font-size: 25px; line-height: 1; cursor: pointer; }
+.be-search-answer-kicker { display: block; margin: 0 52px 10px 0; color: #e95000; font-size: 11px; font-weight: 950; letter-spacing: .08em; text-transform: uppercase; }
+.be-search-answer-panel h2 { max-width: 18ch; margin: 0; font-size: clamp(28px, 5vw, 42px); font-weight: 950; line-height: 1.03; letter-spacing: -.045em; }
+.be-search-answer-lead { margin: 13px 0 24px; color: #716860; font-size: 14px; line-height: 1.55; }
+.be-search-answer-content { padding: 22px; border-radius: 18px; background: #fff4ec; }
+.be-search-answer-content p { margin: 0; color: #3f3732; font-size: 15px; line-height: 1.7; }
+.be-search-answer-content ol { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; counter-reset: be-answer-step; }
+.be-search-answer-content li { display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: start; gap: 11px; color: #3f3732; font-size: 14px; line-height: 1.55; counter-increment: be-answer-step; }
+.be-search-answer-content li::before { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 50%; background: #ff5a00; color: #fff; font-size: 12px; font-weight: 900; content: counter(be-answer-step); }
+.be-search-answer-note { margin: 18px 0 0; padding-left: 13px; border-left: 3px solid #ff9a62; color: #786e67; font-size: 11px; line-height: 1.55; }
+.be-search-answer-done { width: 100%; min-height: 48px; margin-top: 22px; border: 0; border-radius: 13px; background: #171412; color: #fff; font: 850 13px/1 Manrope, Inter, sans-serif; cursor: pointer; }
+.be-search-answer-close:focus-visible,
+.be-search-answer-done:focus-visible { outline: 3px solid rgba(255, 90, 0, .28); outline-offset: 3px; }
 
 .be-search-how { padding: 22px; border: 1px solid #e9e4e0; border-radius: 18px; background: #fff; box-shadow: 0 12px 32px rgba(17,17,17,.06); }
 .be-search-how > h2 { margin-bottom: 18px; font-size: 20px; font-weight: 950; }
@@ -302,11 +348,16 @@
   .be-ecosystem-product b { display: none; }
   .be-search-discovery { grid-template-columns: 1fr; margin: -12px 18px 54px; scroll-margin-top: 76px; }
   .be-search-results { grid-template-columns: 1fr; gap: 9px; }
+  .be-search-discovery[data-search-coverage="library"] .be-search-results { grid-template-columns: 1fr; }
   .be-search-result-card { display: grid; grid-template-columns: 112px minmax(0, 1fr); min-height: 130px; }
   .be-search-result-media { height: 100%; min-height: 130px; }
   .be-search-result-body { min-height: 0; padding: 12px; }
   .be-search-result-body > strong { font-size: 14px; }
   .be-search-result-body > span { font-size: 11px; }
+  .be-search-answer-dialog { width: calc(100% - 20px); max-height: calc(100dvh - 20px); border-radius: 20px; }
+  .be-search-answer-panel { max-height: calc(100dvh - 20px); padding: 28px 20px 20px; border-radius: 20px; }
+  .be-search-answer-panel h2 { padding-right: 30px; font-size: 29px; }
+  .be-search-answer-content { padding: 17px; }
   .be-search-how { padding: 19px; }
   .be-home-mobile-dock {
     position: fixed;

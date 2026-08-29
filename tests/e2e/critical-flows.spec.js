@@ -1,6 +1,89 @@
 const { test, expect } = require('@playwright/test');
 const path = require('node:path');
 
+test('busca combina biblioteca, profissional e ferramenta para a modalidade', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+  });
+  await page.goto('/');
+  await page.locator('#be-ecosystem-search-input').fill('Quero melhorar meu saque no vôlei');
+  await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'A Biblioteca BeM encontrou este caminho' })).toBeVisible();
+  await expect(page.locator('#be-search-result-query')).toContainText('voleibol');
+  await expect(page.locator('#be-ecosystem-search-results')).toContainText('Dicas para um bom saque no voleibol');
+  await expect(page.locator('#be-ecosystem-search-results')).toContainText('Benefícios do voleibol para a saúde');
+  await expect(page.locator('#be-ecosystem-search-results')).toContainText('Bruno Rezende — Personal Trainer');
+  await expect(page.locator('#be-ecosystem-search-results')).toContainText('Água diária');
+  await expect(page.locator('#be-ecosystem-search-results')).not.toContainText('Minha primeira corrida');
+  await expect(page.locator('#be-ecosystem-search-results')).toHaveAttribute('aria-label', '4 resultados encontrados');
+});
+
+test('busca mostra primeiros passos objetivos para começar a nadar', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+  });
+  await page.goto('/');
+  await page.locator('#be-ecosystem-search-input').fill('Quero começar a nadar');
+  await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
+  const results = page.locator('#be-ecosystem-search-results');
+  await expect(results).toContainText('Primeiros passos para começar na natação');
+  await expect(results).toContainText('Escolha uma piscina segura e supervisionada');
+  await expect(results).toContainText('Benefícios da natação para a saúde');
+  await expect(results).toContainText('Bruno Rezende — Personal Trainer');
+  await expect(results).toContainText('Dicas práticas para começar');
+  await expect(results).not.toContainText('Minha primeira corrida');
+  await expect(results).toHaveAttribute('aria-label', '4 resultados encontrados');
+  const resultUrl = page.url();
+  await results.getByRole('button', { name: /Primeiros passos para começar na natação/ }).click();
+  const answer = page.getByRole('dialog', { name: 'Primeiros passos para começar na natação' });
+  await expect(answer).toBeVisible();
+  await expect(answer.getByRole('listitem')).toHaveCount(4);
+  await expect(answer).toContainText('Procure uma aula para iniciantes');
+  await expect(page).toHaveURL(resultUrl);
+  await answer.getByRole('button', { name: 'Voltar aos resultados' }).click();
+  await expect(answer).toBeHidden();
+});
+
+test('busca remove duplicados e respeita intenção de vídeo e apoio emocional', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+  });
+  await page.goto('/');
+  const input = page.locator('#be-ecosystem-search-input');
+  const results = page.locator('#be-ecosystem-search-results');
+
+  await input.fill('Quero melhorar meu ritmo na corrida');
+  await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
+  await expect(results.getByText('Calculadora Pace', { exact: true })).toHaveCount(1);
+
+  await input.fill('Quero assistir vídeos de yoga');
+  await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
+  await expect(results.getByRole('link', { name: /Assistir conteúdos sobre yoga/ })).toHaveAttribute('href', '/beplay');
+
+  await input.fill('Estou ansioso antes do jogo de futebol');
+  await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
+  await expect(results).toContainText('Grasiele — Psicóloga');
+  await expect(results).not.toContainText('Luciano — Personal Soccer');
+});
+
 test('primeiro acesso começa pelo Perfil Be antes de liberar a jornada', async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({

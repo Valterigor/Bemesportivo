@@ -105,6 +105,21 @@ A Busca Be não usa IA nem produz texto livre. Ela deve operar somente com:
 - conteúdos e rotas que realmente existem no site;
 - uma alternativa clara que apresente as áreas do ecossistema quando não houver correspondência exata.
 
+A interpretação acontece em camadas: modalidade, intenção e cobertura disponível. A taxonomia aproxima termos equivalentes, como “nadar”, “nado”, “piscina” e “natação”, enquanto a intenção diferencia começar, evoluir, retomar, registrar, assistir e procurar orientação. Quando ainda não houver conteúdo publicado sobre a modalidade, a busca deve informar isso com transparência e mostrar somente orientações editoriais e destinos coerentes. Nunca deve preencher a resposta com outro esporte apenas para aumentar a quantidade de resultados.
+
+Os resultados seguem uma ordem editorial fixa:
+
+1. conteúdo publicado no site que corresponda à modalidade e ao objetivo pesquisado;
+2. fundamentos e benefícios revisados na Biblioteca BeM quando o acervo publicado não responder sozinho;
+3. um profissional relacionado, sem atribuir a ele especialidades que não estejam confirmadas em seu perfil;
+4. uma ferramenta coerente com a necessidade identificada.
+
+O arquivo `js/be-sports-library.js` concentra a base editorial das modalidades, seus sinônimos, fundamentos e benefícios. A inclusão de uma modalidade ou técnica exige texto próprio revisado, termos de busca e teste automatizado. Essa biblioteca complementa o conteúdo do portal; ela não substitui reportagens, vídeos ou páginas já existentes.
+
+A intenção altera a resposta, não apenas o destino. Expressões como “começar”, “melhorar” e “retomar” devem receber, respectivamente, primeiros passos, fundamentos técnicos ou orientação de retorno da modalidade reconhecida. Uma busca de início nunca deve abrir com uma técnica avançada ou com conteúdo de outro esporte.
+
+Resultados editoriais da Biblioteca BeM devem abrir a resposta no próprio contexto da busca, em uma leitura curta e acessível. Eles não podem encaminhar para uma página genérica de ferramentas. Conteúdos publicados, perfis profissionais e ferramentas mantêm links somente quando existe um destino específico e coerente para aquele cartão.
+
 O texto digitado não deve ser enviado a serviços externos nem armazenado. A busca apenas direciona; ela não diagnostica, não prescreve e não inventa respostas.
 
 A Biblioteca BeM é o comportamento padrão para respostas, devolutivas e mensagens de continuidade. Ela deve funcionar localmente, com regras determinísticas, conteúdo real da área esportiva e linguagem revisável.

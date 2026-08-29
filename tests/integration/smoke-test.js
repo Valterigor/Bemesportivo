@@ -348,7 +348,7 @@ async function run() {
     assert.match(homeHtml, /class="shell be-ecosystem-products"[\s\S]*Conhecimento[\s\S]*BEplay[\s\S]*Reportagens[\s\S]*Comunidade[\s\S]*Profissionais[\s\S]*Ferramentas[\s\S]*Produtos[\s\S]*Meu Caminho Be/, 'A Home precisa apresentar os oito destinos e suas finalidades.');
     assert.match(homeHtml, /class="shell be-search-discovery"[\s\S]*Para começar a explorar[\s\S]*Minha primeira corrida[\s\S]*Calculadora Pace[\s\S]*Thais Garcez, uma nova versão[\s\S]*Como funciona\?[\s\S]*Sem IA generativa/, 'A Home precisa apresentar uma seleção inicial real e explicar a origem dos resultados da Busca Be.');
     assert.match(homeHtml, /href="\/meu-caminho-be\/ferramentas\/comunidade"/, 'Comunidade precisa abrir seu destino exato.');
-    assert.match(homeHtml, /src="js\/be-ecosystem-search\.js\?v=20260827-1"/, 'A Home precisa carregar a busca determinística do ecossistema.');
+    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-2"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260829-6"/, 'A Home precisa carregar a Biblioteca Esportiva antes da busca determinística.');
     const ecosystemSearch = require(path.join(root, 'js', 'be-ecosystem-search.js'));
     assert.equal(ecosystemSearch.search('Quero saber como melhorar meu chute').primary.id, 'conteudo');
     assert.equal(ecosystemSearch.search('Quero assistir').primary.id, 'beplay');
@@ -359,6 +359,33 @@ async function run() {
     assert.equal(ecosystemSearch.search('Quero acompanhar minha evolução').primary.href, '/meu-caminho-be/jornada');
     assert.ok(ecosystemSearch.search('Quero melhorar meu chute').items.some(item => item.title === 'Futebol com inteligência'));
     assert.ok(ecosystemSearch.search('Quero começar a correr').items.some(item => item.title === 'Minha primeira corrida'));
+    const swimmingSearch = ecosystemSearch.search('Quero começar a nadar');
+    assert.equal(swimmingSearch.primary.id, 'conteudo');
+    assert.equal(swimmingSearch.sport.id, 'natacao');
+    assert.equal(swimmingSearch.intent.id, 'start');
+    assert.equal(swimmingSearch.coverage, 'library');
+    assert.ok(swimmingSearch.items.some(item => item.title === 'Primeiros passos para começar na natação'));
+    assert.ok(swimmingSearch.items.some(item => item.title === 'Benefícios da natação para a saúde'));
+    assert.ok(swimmingSearch.items.some(item => item.product === 'profissionais'));
+    assert.ok(swimmingSearch.items.some(item => item.title === 'Dicas práticas para começar'));
+    assert.ok(swimmingSearch.items.every(item => !/corrida|futebol/i.test(item.title)));
+    const swimmingLog = ecosystemSearch.search('Quero registrar minha natação');
+    assert.equal(swimmingLog.primary.id, 'meu-caminho');
+    assert.ok(swimmingLog.items.some(item => item.href === '/meu-caminho-be/registrar'));
+    const handballSearch = ecosystemSearch.search('Quero praticar handebol');
+    assert.equal(handballSearch.sport.id, 'handebol');
+    assert.equal(handballSearch.coverage, 'library');
+    assert.ok(handballSearch.items.some(item => item.title === 'Primeiros passos para começar no handebol'));
+    const volleyballSearch = ecosystemSearch.search('Quero melhorar meu saque no vôlei');
+    assert.equal(volleyballSearch.sport.id, 'voleibol');
+    assert.equal(volleyballSearch.coverage, 'library');
+    assert.ok(volleyballSearch.items.some(item => item.title === 'Dicas para um bom saque no voleibol'));
+    assert.ok(volleyballSearch.items.some(item => item.title === 'Benefícios do voleibol para a saúde'));
+    assert.ok(volleyballSearch.items.some(item => item.product === 'profissionais'));
+    assert.ok(volleyballSearch.items.some(item => item.product === 'ferramentas'));
+    const unknownSport = ecosystemSearch.search('Quero praticar curling');
+    assert.equal(unknownSport.coverage, 'general');
+    assert.ok(unknownSport.items.every(item => !/primeira corrida|futebol com inteligência/i.test(item.title)));
     assert.match(homeHtml, /id="home-content-title">Histórias que colocam o esporte <em>em movimento\.<\/em>/, 'A Home precisa apresentar a vitrine editorial principal.');
     assert.match(homeHtml, /class="home-editorial-grid" data-report-order="inclusion-desc" data-latest-reports-source="\/reportagens"[\s\S]*Thais Garcez, uma nova versão[\s\S]*Elas trazem esperança[\s\S]*Mayara e Magnólia no Papo Bem Esportivo/, 'A vitrine editorial precisa manter como fallback as três reportagens mais recentes do acervo.');
     assert.match(homeHtml, /src="js\/home-latest-reports\.js\?v=20260821-1"/, 'A Home precisa sincronizar seus destaques com a listagem de reportagens.');
@@ -691,7 +718,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v124`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v128`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]
