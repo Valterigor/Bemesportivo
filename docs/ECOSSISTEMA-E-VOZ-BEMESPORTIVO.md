@@ -114,7 +114,7 @@ Os resultados seguem uma ordem editorial fixa:
 3. um profissional relacionado, sem atribuir a ele especialidades que não estejam confirmadas em seu perfil;
 4. uma ferramenta coerente com a necessidade identificada.
 
-O arquivo `js/be-sports-library.js` concentra a base editorial das modalidades, seus sinônimos, fundamentos, benefícios e objetivos esportivos. A base atual cobre 28 modalidades e 24 temas, incluindo ganho de massa, emagrecimento, condicionamento, nutrição, suplementos, recuperação e estagnação. A inclusão de uma modalidade, técnica ou tema exige texto próprio revisado, termos de busca, fontes identificadas e teste automatizado. Essa biblioteca complementa o conteúdo do portal; ela não substitui reportagens, vídeos ou páginas já existentes.
+O arquivo `js/be-sports-library.js` concentra a base editorial das modalidades, seus sinônimos, fundamentos, benefícios e objetivos esportivos. A base atual cobre 28 modalidades e 30 temas, incluindo ganho de massa, treino por região corporal, emagrecimento, condicionamento, nutrição, suplementos, recuperação e estagnação. A inclusão de uma modalidade, técnica ou tema exige texto próprio revisado, termos de busca, fontes identificadas e teste automatizado. Essa biblioteca complementa o conteúdo do portal; ela não substitui reportagens, vídeos ou páginas já existentes.
 
 Temas de saúde e desempenho devem usar referências institucionais identificáveis. A base registra fontes da OMS, CDC, NIH Office of Dietary Supplements e posicionamento do ACSM. As respostas não prometem emagrecimento ou ganho muscular rápido, não prescrevem dose individual de suplemento, não oferecem diagnóstico e indicam avaliação profissional quando a pergunta depende do histórico da pessoa.
 

@@ -7,7 +7,7 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function createBeSportsLibrary() {
   'use strict';
 
-  const VERSION = '1.1.0';
+  const VERSION = '1.2.0';
   const REVIEWED_AT = '2026-08-29';
   const REVIEW_STATUS = 'editorial-educational';
 
@@ -219,9 +219,51 @@
     },
     {
       id: 'strength-progression', label: 'força e progressão', kind: 'training', tool: null,
-      aliases: ['ficar mais forte', 'ganhar forca', 'fortalecer as costas', 'aumentar a carga', 'aumentar minhas repeticoes', 'nao consigo aumentar minha carga', 'quanto tempo devo descansar entre series'],
+      aliases: ['ficar mais forte', 'ganhar forca', 'aumentar a carga', 'aumentar minhas repeticoes', 'nao consigo aumentar minha carga', 'quanto tempo devo descansar entre series'],
       title: 'Como evoluir força, carga e repetições',
       summary: '1. Registre exercício, carga, repetições e qualidade da execução. 2. Primeiro complete a faixa planejada com controle. 3. Depois aumente somente uma variável em um passo pequeno. 4. Preserve descanso e recuperação antes de testar outra progressão. Se a técnica piorar, a carga ainda não representa evolução.',
+      sourceIds: ['acsmResistance']
+    },
+    {
+      id: 'lower-body-training', label: 'treino de pernas e glúteos', kind: 'training', tool: null,
+      aliases: ['treinar pernas', 'treinar perna', 'treino de pernas', 'exercicios para pernas', 'fortalecer as pernas', 'fortalecer pernas', 'treinar membros inferiores', 'treinar inferiores', 'treinar coxas', 'treinar coxa', 'treinar quadriceps', 'treino de quadriceps', 'treinar posterior de coxa', 'treinar panturrilha', 'treino de panturrilha', 'treinar gluteos', 'treino de gluteos', 'fortalecer gluteos', 'treinar bumbum'],
+      title: 'Como organizar um treino de pernas e glúteos',
+      summary: '1. Combine um movimento de agachar, um de quadril, um unilateral e um para panturrilhas, usando versões que você controle. 2. Comece com amplitude confortável e repetições estáveis. 3. Aumente repetições, séries ou carga aos poucos, sem alterar tudo junto. 4. Dê tempo para recuperação antes de repetir um treino intenso. Dor aguda ou perda de controle pede interrupção e avaliação.',
+      sourceIds: ['acsmResistance']
+    },
+    {
+      id: 'chest-training', label: 'treino de peito', kind: 'training', tool: null,
+      aliases: ['treinar peito', 'treino de peito', 'treinar peitoral', 'treino de peitoral', 'fortalecer o peito', 'fortalecer peitoral', 'exercicios para peito', 'exercicios para peitoral'],
+      title: 'Como organizar um treino de peito',
+      summary: '1. Escolha um movimento de empurrar compatível com sua experiência, como flexão inclinada, flexão ou supino orientado. 2. Mantenha pés e tronco estáveis e controle a posição dos ombros. 3. Use uma amplitude confortável e pare antes de perder a execução. 4. Progrida uma variável por vez e equilibre o treino com movimentos para as costas. Dor no ombro ou no peito não deve ser ignorada.',
+      sourceIds: ['acsmResistance']
+    },
+    {
+      id: 'back-training', label: 'treino de costas', kind: 'training', tool: null,
+      aliases: ['treinar costas', 'treino de costas', 'fortalecer as costas', 'exercicios para costas', 'treinar dorsal', 'treino de dorsal', 'fortalecer a lombar', 'treinar lombar'],
+      title: 'Como organizar um treino de costas',
+      summary: '1. Combine uma puxada horizontal, como remada, com uma puxada vertical ou sua progressão. 2. Estabilize o tronco e mova os braços sem transformar cada repetição em balanço. 3. Use variações e cargas que permitam controlar ombros e coluna. 4. Progrida aos poucos e inclua recuperação. Desconforto muscular de esforço é diferente de dor aguda, irradiada ou persistente, que merece avaliação.',
+      sourceIds: ['acsmResistance']
+    },
+    {
+      id: 'upper-body-training', label: 'treino de braços e membros superiores', kind: 'training', tool: null,
+      aliases: ['treinar bracos', 'treino de bracos', 'fortalecer os bracos', 'fortalecer bracos', 'treinar biceps', 'treino de biceps', 'treinar triceps', 'treino de triceps', 'treinar ombros', 'treino de ombros', 'fortalecer ombros', 'treinar membros superiores', 'treinar superiores'],
+      title: 'Como organizar um treino de braços e superiores',
+      summary: '1. Monte uma base com movimentos de empurrar e puxar antes de concentrar tudo em bíceps ou tríceps. 2. Acrescente um exercício direto para braços ou ombros quando conseguir manter postura e amplitude. 3. Evite usar impulso para completar repetições. 4. Aumente o trabalho gradualmente e permita recuperação entre sessões intensas. Dor articular pede ajuste ou avaliação, não mais carga.',
+      sourceIds: ['acsmResistance']
+    },
+    {
+      id: 'core-training', label: 'treino de abdômen e core', kind: 'training', tool: null,
+      aliases: ['treinar abdomen', 'treino de abdomen', 'treinar abdominal', 'treino abdominal', 'fortalecer o abdomen', 'fortalecer abdomen', 'treinar core', 'treino de core', 'fortalecer o core', 'exercicios para abdomen'],
+      title: 'Como organizar um treino de abdômen e core',
+      summary: '1. Combine exercícios de estabilidade, flexão controlada e resistência à rotação, conforme sua experiência. 2. Respire durante o movimento e mantenha a amplitude que consegue controlar. 3. Aumente tempo, repetições ou dificuldade gradualmente. 4. Integre o core ao treino do corpo todo, em vez de repetir apenas abdominais todos os dias. Treinar abdômen fortalece a região, mas não remove gordura localizada.',
+      sourceIds: ['acsmResistance', 'cdcWeight']
+    },
+    {
+      id: 'full-body-training', label: 'treino do corpo inteiro', kind: 'training', tool: null,
+      aliases: ['treinar o corpo todo', 'treinar corpo todo', 'treino de corpo inteiro', 'treino do corpo inteiro', 'full body', 'treinar todos os musculos', 'treino completo do corpo'],
+      title: 'Como organizar um treino do corpo inteiro',
+      summary: '1. Escolha movimentos para pernas, quadril, empurrar, puxar e estabilizar o tronco. 2. Use poucas variações que consiga executar com qualidade. 3. Distribua as séries para terminar o treino sem perda importante de técnica. 4. Registre o que fez e progrida somente uma variável por vez. Um treino completo não precisa usar todos os exercícios; precisa cobrir os principais padrões com regularidade e recuperação.',
       sourceIds: ['acsmResistance']
     },
     {

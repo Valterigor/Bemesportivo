@@ -163,7 +163,7 @@
 .be-ecosystem-product:focus-visible { z-index: 1; background: #fff5ee; transform: translateY(-2px); }
 .be-ecosystem-product i { display: grid; width: 39px; height: 39px; place-items: center; color: #ff5a00; }
 .be-ecosystem-product:nth-child(2) i { color: #724ee0; }
-.be-ecosystem-product:nth-child(4) i { color: #22965c; }
+.be-ecosystem-product:nth-child(4) i { color: #159fbd; }
 .be-ecosystem-product:nth-child(5) i { color: #8052ce; }
 .be-ecosystem-product:nth-child(6) i { color: #1599ca; }
 .be-ecosystem-product:nth-child(7) i { color: #df4818; }

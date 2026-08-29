@@ -4,9 +4,9 @@ const assert = require('node:assert/strict');
 const library = require('../../js/be-sports-library.js');
 const search = require('../../js/be-ecosystem-search.js');
 
-assert.equal(library.version, '1.1.0');
+assert.equal(library.version, '1.2.0');
 assert.ok(library.sports.length >= 28, 'A biblioteca deve cobrir ao menos 28 modalidades.');
-assert.ok(library.topics.length >= 24, 'A biblioteca deve cobrir os principais objetivos esportivos.');
+assert.ok(library.topics.length >= 30, 'A biblioteca deve cobrir os principais objetivos esportivos.');
 assert.equal(new Set(library.sports.map((sport) => sport.id)).size, library.sports.length, 'IDs de modalidades devem ser únicos.');
 assert.equal(new Set(library.topics.map((topic) => topic.id)).size, library.topics.length, 'IDs de temas devem ser únicos.');
 
@@ -20,6 +20,12 @@ library.topics.forEach((topic) => {
 const topicQueries = new Map([
   ['Como ganhar massa muscular?', 'muscle-gain'],
   ['Como ficar mais forte?', 'strength-progression'],
+  ['Quero treinar pernas', 'lower-body-training'],
+  ['Quero treinar peito', 'chest-training'],
+  ['Quero treinar costas', 'back-training'],
+  ['Quero treinar braços', 'upper-body-training'],
+  ['Quero treinar abdômen', 'core-training'],
+  ['Quero treinar o corpo todo', 'full-body-training'],
   ['Como perder barriga?', 'fat-loss'],
   ['Como correr 5 km sem cansar?', 'running'],
   ['Como melhorar minha finalização?', 'football-skills'],
@@ -40,6 +46,18 @@ topicQueries.forEach((topicId, query) => {
   const result = search.search(query);
   assert.equal(result.topic?.id, topicId, `Busca integrada sem tema para: ${query}`);
   assert.ok(result.items.some((item) => item.sourceKind === 'topic' && item.opensAnswer), `Busca sem resposta para: ${query}`);
+});
+
+const bodyPartTopicIds = ['lower-body-training', 'chest-training', 'back-training', 'upper-body-training', 'core-training', 'full-body-training'];
+bodyPartTopicIds.forEach((topicId) => {
+  const topic = library.topics.find((entry) => entry.id === topicId);
+  topic.aliases.forEach((alias) => {
+    const query = `Quero ${alias}`;
+    assert.equal(library.findTopic(query)?.id, topicId, `Variação corporal incorreta para: ${query}`);
+    const result = search.search(query);
+    assert.equal(result.items[0]?.sourceKind, 'topic', `Resposta corporal deve abrir a orientação para: ${query}`);
+    assert.equal(result.items[0]?.title, topic.title, `Resposta corporal não corresponde ao pedido: ${query}`);
+  });
 });
 
 assert.doesNotMatch(library.findTopic('Como emagrecer rápido?').summary, /garant|em \d+ dias|kg por semana/i);

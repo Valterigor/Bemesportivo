@@ -34,6 +34,15 @@ test('busca responde objetivos de treino e suplementos pela Biblioteca BeM', asy
   const input = page.locator('#be-ecosystem-search-input');
   const results = page.locator('#be-ecosystem-search-results');
 
+  await input.fill('Quero treinar pernas');
+  await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
+  await expect(results).toContainText('Como organizar um treino de pernas e glúteos');
+  await expect(results).not.toContainText('Explore a Biblioteca BeM');
+  await results.getByRole('button', { name: /Como organizar um treino de pernas/ }).click();
+  const legsAnswer = page.getByRole('dialog', { name: /Como organizar um treino de pernas/ });
+  await expect(legsAnswer.getByRole('listitem')).toHaveCount(4);
+  await legsAnswer.getByRole('button', { name: 'Voltar aos resultados' }).click();
+
   await input.fill('Como ganhar massa muscular?');
   await page.getByRole('button', { name: 'Encontrar', exact: true }).click();
   await expect(results).toContainText('Como construir massa muscular com consistência');
@@ -383,16 +392,25 @@ test('produtos da home abrem seus destinos exatos', async ({ page }) => {
       createdAt: new Date().toISOString()
     }));
   });
-  await page.goto('/');
-  const products = page.locator('.be-ecosystem-products');
-  await expect(products.getByRole('link', { name: /Conhecimento/ })).toHaveAttribute('href', '/meu-caminho-be/ferramentas/conteudos');
-  await expect(products.getByRole('link', { name: /Meu Caminho Be/ })).toHaveAttribute('href', '/meu-caminho-be');
-  await expect(products.getByRole('link', { name: /BEplay/ })).toHaveAttribute('href', '/beplay');
-  await expect(products.getByRole('link', { name: /Reportagens/ })).toHaveAttribute('href', '/reportagens');
-  await expect(products.getByRole('link', { name: /Comunidade/ })).toHaveAttribute('href', '/meu-caminho-be/ferramentas/comunidade');
-  await expect(products.getByRole('link', { name: /Profissionais/ })).toHaveAttribute('href', '/profissionais');
-  await expect(products.getByRole('link', { name: /Ferramentas/ })).toHaveAttribute('href', '/meu-caminho-be/ferramentas');
-  await expect(products.getByRole('link', { name: /Produtos/ })).toHaveAttribute('href', '/produtos');
+  const destinations = [
+    { name: /Conhecimento/, href: '/meu-caminho-be/ferramentas/conteudos', ready: '#be-learn-title' },
+    { name: /BEplay/, href: '/beplay', ready: '#beplayTitle' },
+    { name: /Reportagens/, href: '/reportagens', ready: 'h1' },
+    { name: /Game 3D/, href: '/game.html', ready: '#game-container' },
+    { name: /Profissionais/, href: '/profissionais', ready: '#professionals-hero-title' },
+    { name: /Ferramentas/, href: '/meu-caminho-be/ferramentas', ready: '#tools-title' },
+    { name: /Produtos/, href: '/produtos', ready: 'h1' },
+    { name: /Meu Caminho Be/, href: '/meu-caminho-be', ready: '#fala-bem-app' }
+  ];
+
+  for (const destination of destinations) {
+    await page.goto('/');
+    const link = page.locator('.be-ecosystem-products').getByRole('link', { name: destination.name });
+    await expect(link).toHaveAttribute('href', destination.href);
+    await link.click({ noWaitAfter: true });
+    await expect(page).toHaveURL(new RegExp(`${destination.href.replace('.', '\\.')}$`));
+    await expect(page.locator(destination.ready).first()).toBeVisible();
+  }
 });
 
 test('PWA abre uma subpágina do Meu Caminho Be sem conexão', async ({ page, context }) => {
