@@ -211,30 +211,19 @@
   }
 
   async function sharePublication(post, button) {
-    button.disabled = true;
-    showPostShareFeedback(button, 'Criando a capa desta publicação…');
-    const url = new URL(`/diario/${slug}`, location.origin).href;
-    try {
-      const file = await buildStoryCover(post);
-      const shareData = { title: `${postDisplayTitle(post)} | Meu Diário BE`, text: post.text || 'Veja esta publicação no Meu Diário BE.', url, files: [file] };
-      if (navigator.share && navigator.canShare?.({ files: [file] })) {
-        await navigator.share(shareData);
-        showPostShareFeedback(button, 'Escolha Instagram Stories ou WhatsApp.');
-        return;
-      }
-      downloadStoryCover(file);
-      await navigator.clipboard?.writeText(url);
-      showPostShareFeedback(button, 'Capa baixada e link copiado.');
-    } catch (error) {
-      if (error?.name !== 'AbortError') showPostShareFeedback(button, error.message || 'Não foi possível criar a capa.');
-    } finally {
-      button.disabled = false;
+    const url = new URL(`/diario/${slug}`, location.origin);
+    url.searchParams.set('publicacao', post.id);
+    if (!window.BeShareCard) {
+      showPostShareFeedback(button, 'O compartilhamento ainda está carregando. Tente novamente.');
+      return;
     }
+    window.BeShareCard.open({ post, profile: loadedProfile, slug, url: url.href, onStatus: message => showPostShareFeedback(button, message) });
   }
 
   function postCard(post) {
     const article = document.createElement('article');
     article.className = 'be-public-post';
+    article.id = `publicacao-${post.id}`;
     article.dataset.watermark = `Meu Diário BE · @${slug}`;
     if (post.kind === 'photo' && post.imageDataUrl) {
       const image = document.createElement('img');
@@ -447,6 +436,14 @@
     }
     loading.hidden = true;
     content.hidden = false;
+    const sharedPostId = new URLSearchParams(location.search).get('publicacao');
+    if (sharedPostId && loadedPosts.some(post => post.id === sharedPostId)) {
+      window.requestAnimationFrame(() => {
+        const target = document.getElementById(`publicacao-${sharedPostId}`);
+        target?.classList.add('is-shared-target');
+        target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    }
   }
 
   document.getElementById('be-public-report-profile')?.addEventListener('click', event => {

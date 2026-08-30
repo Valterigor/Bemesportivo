@@ -171,7 +171,7 @@ test('primeiro acesso começa pelo Perfil Be antes de liberar a jornada', async 
   await searchDestination.click();
   await expect(page).toHaveURL(/\/meu-caminho-be\/registrar$/);
   await expect(page.locator('#fala-bem-app')).toHaveClass(/fb-onboarding-active/);
-  await expect(page.getByRole('heading', { name: 'Primeiro, queremos conhecer você no esporte.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Crie seu Perfil Be.' })).toBeVisible();
   await expect(page.locator('.fb-app-nav')).toBeVisible();
   await expect(page.locator('.fb-app-nav [data-fb-view="perfil"]')).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('.fb-app-nav [data-fb-view="inicio"]')).not.toHaveClass(/is-active/);
@@ -179,7 +179,7 @@ test('primeiro acesso começa pelo Perfil Be antes de liberar a jornada', async 
   await expect(page.locator('#fb-profile-email')).toHaveCount(0);
   await page.locator('#fb-profile-name').fill('Pessoa Teste');
   await page.locator('#fb-profile-sport').selectOption('corrida');
-  await page.getByRole('button', { name: 'Concluir perfil e acessar' }).click();
+  await page.getByRole('button', { name: 'Salvar perfil e entrar' }).click();
   await expect(page).toHaveURL(/\/meu-caminho-be\/jornada$/);
   await expect(page.locator('.journey-profile-link')).toBeVisible();
   await expect(page.locator('.fb-profile-trigger > span').last()).toHaveText('Pessoa Teste');

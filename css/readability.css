@@ -1,0 +1,133 @@
+/* Camada final de legibilidade: contraste consistente sem alterar a hierarquia visual. */
+:root {
+  --be-readable-orange: #a83b08;
+  --be-readable-orange-hover: #8f3005;
+  --be-readable-muted: #5f5853;
+}
+
+/* Ações laranja com texto branco precisam de um tom mais profundo. */
+:where(.home-page .home-primary, .home-page .be-home-mobile-search,
+  .professionals-page .hero-primary, .professionals-page .btn-primary,
+  .reportagens-page .report-read-button, [data-contact-form] button[type="submit"],
+  .be-community-form footer > button, .be-community-reply-form button[type="submit"],
+  .fala-bem-app-page #fb-profile-save) {
+  border-color: var(--be-readable-orange) !important;
+  background: var(--be-readable-orange) !important;
+  color: #fff !important;
+}
+
+:where(.home-page .home-primary, .home-page .be-home-mobile-search,
+  .professionals-page .hero-primary, .professionals-page .btn-primary,
+  .reportagens-page .report-read-button, [data-contact-form] button[type="submit"],
+  .be-community-form footer > button, .be-community-reply-form button[type="submit"],
+  .fala-bem-app-page #fb-profile-save):is(:hover, :focus-visible) {
+  background: var(--be-readable-orange-hover) !important;
+}
+
+/* Rótulos e textos secundários em superfícies claras. */
+.home-page :where(.home-journey-copy > span, .home-tools-bridge > div > span,
+  .home-content-bridge span, .home-editorial-category) {
+  color: var(--be-readable-orange) !important;
+}
+
+.home-page :where(.home-journey-proof > span, .home-tools-list small,
+  .home-video-meta small, .be-search-result-body > span) {
+  color: var(--be-readable-muted) !important;
+}
+
+.home-page .be-search-result-card.is-conteudo .be-search-result-body > small { color: #a23b05 !important; }
+.home-page .be-search-result-card.is-ferramentas .be-search-result-body > small { color: #06698e !important; }
+.home-page .be-search-result-card.is-meu-caminho .be-search-result-body > small { color: #805000 !important; }
+
+.beplay-page :where(.section-title span, .summary-item span, #playlistCount, #profileTitle) {
+  color: var(--be-readable-orange) !important;
+}
+
+.be-community { --community-orange: var(--be-readable-orange); }
+.be-community-heading span { color: var(--be-readable-orange) !important; }
+
+.reportagens-page :where(.report-category, .report-section-eyebrow,
+  .report-related > span, .report-related-card > span, .report-archive-note > span,
+  .report-athlete-profiles > span, .report-photo-story-card > span,
+  .report-interview-video > span, .report-archive-channels > span) {
+  color: var(--be-readable-orange) !important;
+}
+
+.reportagens-page .report-related-meta { color: var(--be-readable-muted) !important; }
+.reportagens-page .report-share-whatsapp { background: #0d7135 !important; color: #fff !important; }
+
+body:has(#productsGrid) .sub { color: #514a45 !important; }
+body:has(#productsGrid) .tag { color: var(--be-readable-orange) !important; }
+
+.professionals-page {
+  --pro-orange: #b43d0a;
+  --pro-orange-dark: #9c3509;
+  --pro-muted: #5f5751;
+}
+
+.professionals-page :where(.hero-badge, .hero-search > span, .section-head > span,
+  .professional-cta-grid article > span, .category) { color: var(--pro-orange-dark) !important; }
+
+.fala-bem-app-page {
+  --be-app-orange: #b43d0a;
+  --be-app-muted: #5e5752;
+  --mcb-orange-dark: #a43809;
+}
+
+.fala-bem-app-page :where(.fb-app-brand small, .be-profile-presentation-identity > p,
+  .be-profile-social-stats dd, .be-public-manager-toolbar small,
+  .be-public-compose-photo small, .be-profile-public-access p) {
+  color: var(--be-readable-muted) !important;
+}
+
+.fala-bem-app-page .be-onboarding-sequence li { color: #5f5853; }
+.fala-bem-app-page .be-onboarding-sequence li.current span { background: var(--be-readable-orange); color: #fff; }
+
+.game-page .achievement-item:not(.unlocked) { color: #9fb2c2 !important; }
+
+/* Regras finais com especificidade suficiente para vencer estilos legados. */
+body.beplay-page .section-title span,
+body.beplay-page .summary-item span,
+body.beplay-page #playlistCount,
+body.beplay-page #profileTitle { color: var(--be-readable-orange) !important; }
+body.beplay-page #videoCommentForm button[type="submit"] { border-color: var(--be-readable-orange) !important; background: var(--be-readable-orange) !important; color: #fff !important; }
+body.beplay-page .be-community-form footer > button[type="submit"] { border-color: var(--be-readable-orange) !important; background: var(--be-readable-orange) !important; color: #fff !important; }
+
+body [data-contact-form] button[type="submit"],
+body.reportagens-page .report-read-button,
+body.reportagens-page .be-community-form footer > button,
+body.reportagens-page .be-community-reply-form button[type="submit"] {
+  border-color: var(--be-readable-orange) !important;
+  background: var(--be-readable-orange) !important;
+  color: #fff !important;
+}
+
+body.home-page .be-search-result-card.is-conteudo .be-search-result-body > small,
+body.home-page .be-search-result-card.is-reportagens .be-search-result-body > small { color: #8f3208 !important; }
+body.home-page .be-search-how li > span,
+body.home-page .home-journey-copy h2 em,
+body.home-page .home-panel-head > span { color: var(--be-readable-orange) !important; }
+body.home-page .home-video-list button > small { color: #5f5853 !important; }
+
+body.fala-bem-app-page .be-profile-social-copy > span { color: var(--be-readable-orange) !important; }
+body.fala-bem-app-page .be-profile-form-section > span { color: var(--be-readable-orange) !important; }
+body.fala-bem-app-page .be-profile-form-section > header > span { color: var(--be-readable-orange) !important; }
+body.fala-bem-app-page #fb-profile-save { border-color: var(--be-readable-orange) !important; background: var(--be-readable-orange) !important; color: #fff !important; }
+
+body.reportagens-page .report-archive-note > span,
+body.reportagens-page .report-athlete-profiles > span,
+body.reportagens-page .report-archive-photo-gallery-heading > span,
+body.reportagens-page .report-video-context > span,
+body.reportagens-page .report-related > span,
+body.reportagens-page .report-interview-video > div:first-child > span,
+body.reportagens-page .report-archive-channels > span,
+body.reportagens-page .report-card-thais .report-photo-story-card > div span { color: var(--be-readable-orange) !important; }
+body.reportagens-page .report-article-section a,
+body.reportagens-page .report-body a { color: #983704 !important; }
+body.reportagens-page .report-comments.be-community .be-community-heading span { color: var(--be-readable-orange) !important; }
+body.reportagens-page .report-comments.be-community .be-community-empty > span { color: var(--be-readable-orange) !important; }
+body.reportagens-page a.report-share-button.report-share-whatsapp { background: #0d7135 !important; color: #fff !important; }
+
+@media (forced-colors: active) {
+  :where(button, a, input, select, textarea) { forced-color-adjust: auto; }
+}

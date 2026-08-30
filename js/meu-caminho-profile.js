@@ -493,7 +493,7 @@
     if (publicControl) publicControl.disabled = profile()?.publicEnabled !== true;
     pendingPhoto = value?.imageDataUrl || '';
     setText('be-public-compose-count', (value?.text || '').length);
-    setText('be-public-compose-title', value ? 'Editar momento esportivo' : 'Compartilhe seu momento esportivo');
+    setText('be-public-compose-title', value ? 'Editar publicação' : 'Nova publicação');
     setText('be-public-compose-submit', value ? 'Salvar alterações' : 'Salvar momento');
     setText('be-public-compose-feedback', profile()?.publicEnabled ? '' : 'Publicações começam privadas. Para torná-las públicas, ative o Meu Diário BE no Perfil.');
     fieldsForType(value?.postType || 'training');
@@ -650,21 +650,21 @@
       feedback.textContent = error.message || 'Não foi possível salvar agora.';
     } finally {
       submit.disabled = false;
-      submit.textContent = previous ? 'Salvar alterações' : 'Salvar momento';
+      submit.textContent = previous ? 'Salvar alterações' : 'Salvar publicação';
     }
   }
 
   async function sharePost(post) {
     const user = profile();
     const publicLink = byId('be-public-profile-link');
-    const url = post.visibility === 'public' && publicLink && !publicLink.hidden ? new URL(publicLink.href, location.origin).href : '';
-    const data = { title: post.title || postTypes[post.postType], text: post.text, ...(url ? { url } : {}) };
-    if (navigator.share) {
-      try { await navigator.share(data); return; } catch (error) { if (error?.name === 'AbortError') return; }
-    }
-    await navigator.clipboard?.writeText([data.title, data.text, url].filter(Boolean).join('\n\n'));
     const status = byId('be-profile-presentation-status');
-    if (status) status.textContent = 'Texto da publicação copiado para compartilhar.';
+    const url = post.visibility === 'public' && publicLink && !publicLink.hidden ? new URL(publicLink.href, location.origin) : null;
+    if (url) url.searchParams.set('publicacao', post.id);
+    if (!window.BeShareCard) {
+      if (status) status.textContent = 'O compartilhamento ainda está carregando. Tente novamente.';
+      return;
+    }
+    window.BeShareCard.open({ post, profile: user, url: url?.href || '', onStatus: message => { if (status) status.textContent = message; } });
   }
 
   async function shareProfile() {

@@ -315,6 +315,10 @@ body.fala-bem-app-page .fb-app-shell.fb-identity-pending .be-profile-social-card
 @media(max-width:900px){.be-first-access-guide ol{grid-template-columns:repeat(4,minmax(0,1fr))}.be-onboarding-sequence{margin:14px 12px 12px}}
 @media(max-width:600px){.be-first-access-guide ol{grid-template-columns:1fr 1fr}.be-onboarding-sequence{padding:20px;border-radius:20px}.be-onboarding-sequence ol{grid-template-columns:1fr}.be-onboarding-sequence li{padding:8px 10px}.be-onboarding-sequence h1{font-size:31px}}
 
+/* O primeiro acesso deve explicar o produto sem parecer um manual. */
+.be-first-access-guide ol{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:700px){.be-first-access-guide ol{grid-template-columns:1fr}.be-first-access-guide li{min-height:72px}}
+
 /* Navegação editorial: identidade, presente, ação, trajetória, descoberta e apoio. */
 .be-section-banner[data-section="conteudos"]{background:linear-gradient(120deg,#19233a 0%,#304b76 72%,#ff681f 155%)}
 .be-section-banner[data-section="conteudos"] span{color:#c9dcff}

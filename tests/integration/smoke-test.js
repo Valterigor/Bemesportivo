@@ -428,6 +428,7 @@ async function run() {
     assert.doesNotMatch(pathHtml, /id="be-entry-video"/, 'O blog público ainda não deve oferecer publicação de vídeo.');
     const publicProfileHtml = fs.readFileSync(path.join(root, 'perfil-publico.html'), 'utf8');
     const publicProfileScript = fs.readFileSync(path.join(root, 'js/perfil-publico.js'), 'utf8');
+    const shareCardScript = fs.readFileSync(path.join(root, 'js/be-share-card.js'), 'utf8');
     const publicDiaryScript = fs.readFileSync(path.join(root, 'js/meu-caminho-public.js'), 'utf8');
     assert.match(publicProfileHtml, /MEU DIÁRIO BE[\s\S]*PUBLICAÇÕES/);
     assert.match(publicProfileHtml, /id="be-public-report-profile"/, 'Visitantes precisam conseguir denunciar um perfil público.');
@@ -436,7 +437,9 @@ async function run() {
     assert.match(pathHtml, /id="be-public-share-owner"/, 'Somente a área privada do proprietário deve oferecer o compartilhamento do link.');
     assert.match(publicProfileHtml, /class="be-public-print-block"/, 'A impressão da página pública precisa ocultar o conteúdo.');
     assert.match(publicProfileScript, /dataset\.watermark/, 'Publicações públicas precisam exibir identificação contra cópias sem origem.');
-    assert.match(publicProfileScript, /buildStoryCover\(post\)[\s\S]*canvas\.width = 1080[\s\S]*canvas\.height = 1920[\s\S]*files: \[file\][\s\S]*navigator\.share/, 'Cada publicação precisa gerar sua própria capa vertical para o compartilhamento nativo.');
+    assert.match(shareCardScript, /story: \{ width: 1080, height: 1920[\s\S]*feed: \{ width: 1080, height: 1350/, 'O compartilhamento precisa oferecer formatos próprios para Stories, Status, Feed e WhatsApp.');
+    assert.match(shareCardScript, /files: \[file\][\s\S]*navigator\.share/, 'A imagem da publicação precisa seguir para o compartilhamento nativo quando o navegador permitir.');
+    assert.match(publicProfileScript, /searchParams\.set\('publicacao', post\.id\)/, 'O link compartilhado precisa abrir a publicação exata.');
     assert.match(publicProfileScript, /if \(ownerDevice\)[\s\S]*dataset\.publicSharePost = post\.id/, 'Somente o proprietário deve receber o botão de compartilhar em cada publicação.');
     assert.match(publicProfileScript, /be-public-post-meta[\s\S]*meta\.append\(time, report, origin\)/, 'Data, denúncia e origem da publicação precisam permanecer visualmente separadas.');
     assert.match(publicProfileScript, /api\/public-profiles\/\$\{slug\}/);
@@ -468,7 +471,7 @@ async function run() {
     assert.match(pathHtml, /aria-label="Próximos passos após usar uma ferramenta"[\s\S]*?data-fb-view="dicas">Dicas práticas<\/button>[\s\S]*?data-fb-view="especialistas">Ver profissionais<\/button>/, 'O primeiro próximo passo de Ferramentas precisa abrir somente Dicas práticas.');
     assert.match(pathHtml, /class="be-journey-switcher"[\s\S]*?data-fb-view="progresso"[\s\S]*?data-fb-view="evolucao"[\s\S]*?data-fb-view="explorar"/, 'Diário, Evolução e História precisam permanecer dentro da Jornada.');
     assert.match(pathHtml, /id="be-profile-onboarding"[\s\S]*Perfil Be[\s\S]*Meu Hoje[\s\S]*Próximo passo/, 'O primeiro acesso precisa explicar a sequência antes de coletar os dados do Perfil Be.');
-    assert.match(pathHtml, /<h2 id="be-profile-onboarding-title">Primeiro, queremos conhecer você no esporte\./, 'O Perfil Be precisa ser apresentado como o primeiro passo sem duplicar o título principal da página.');
+    assert.match(pathHtml, /<h2 id="be-profile-onboarding-title">Crie seu Perfil Be\.<\/h2>[\s\S]*Leva poucos minutos/, 'O Perfil Be precisa ser apresentado como um primeiro passo direto e breve.');
     assert.doesNotMatch(pathHtml, /id="journey-name"/, 'O Mapa BeM não deve perguntar novamente o nome já salvo no Perfil Be.');
     assert.match(pathHtml, /data-step-indicator="1"[^>]*>[\s\S]*Perfil Be/, 'O Mapa BeM precisa reconhecer o Perfil Be como etapa concluída.');
     assert.equal((pathHtml.match(/class="fb-section-actions(?:\s[^"]*)?"/g) || []).length, 6, 'As seis áreas principais precisam oferecer próximos passos contextuais.');
@@ -726,7 +729,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v135`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v136`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]
