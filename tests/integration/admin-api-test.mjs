@@ -47,7 +47,8 @@ const store = new MemoryKv({
   'game:ranking': JSON.stringify({ entries: [{ name: 'Atleta' }], updatedAt: '2026-08-13T12:00:00.000Z' }),
   'sync:test': '{}',
   'routine:install:test': '{}',
-  'analytics:test': '{}'
+  'analytics:test': '{}',
+  'analytics-summary:2026-08-30': JSON.stringify({ total: 7, events: { page_view: 4, search_submit: 3 } })
   ,'public-profile:be-aaaaaaaaaaaa': JSON.stringify({
     slug: 'be-aaaaaaaaaaaa', profileStatus: 'published', reports: [{ reporter: 'profile-reporter' }], updatedAt: '2026-08-15T12:00:00.000Z',
     profile: { displayName: 'Atleta pública', age: 34, profession: 'Professora', favoriteSport: 'Corrida', bio: 'Minha história.' },
@@ -89,6 +90,8 @@ assert.equal(summary.community.moderation.find(item => !item.type)?.text, commen
 assert.equal(summary.services.continuity.count, 1);
 assert.equal(summary.services.notifications.count, 1);
 assert.equal(summary.services.analytics.count, 1);
+assert.equal(summary.services.analytics.total, 7);
+assert.deepEqual(summary.services.analytics.byName[0], { name: 'page_view', count: 4 });
 assert.equal(summary.services.ranking.count, 1);
 assert.equal(summary.publicProfiles.profiles, 1);
 assert.equal(summary.publicProfiles.posts, 1);

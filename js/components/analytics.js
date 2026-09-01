@@ -86,9 +86,17 @@ function activate() {
 
 function classifyClick(target) {
   const link = target.closest('a');
-  if (link?.href.includes('wa.me/')) return ['contact_open', 'whatsapp'];
+  if (link?.href.includes('mercadolivre.com/')) return ['affiliate_click', 'mercadolivre'];
+  if (link?.href.includes('wa.me/')) {
+    return location.pathname.startsWith('/profissionais')
+      ? ['professional_lead', 'whatsapp']
+      : ['contact_open', 'whatsapp'];
+  }
   if (link?.href.startsWith('mailto:')) return ['contact_open', 'email'];
+  if (target.closest('[data-share-copy], [data-share-format], [data-share-whatsapp], [data-share-cover-button], [data-share-download], [data-profile-post-share], [data-public-share-post], #be-profile-share, .be-share-button, .share-button, .share-post')) return ['share_start', 'button'];
   if (link?.matches('[href*="/reportagens/"], [href*="reportagem-"]')) return ['content_open', 'reportagem'];
+  if (link?.matches('[href^="/produtos"], [href*="/produtos"]')) return ['product_open', 'catalogo'];
+  if (link?.matches('[href^="/profissionais"], [href*="/profissionais"]')) return ['professional_open', 'catalogo'];
   if (target.closest('#playButton, [data-video-id], .video-card')) return ['video_play', 'beplay'];
   if (target.closest('[data-tool]')) return ['tool_open', target.closest('[data-tool]').dataset.tool];
   if (target.closest('[data-fb-view]')) return ['path_view', target.closest('[data-fb-view]').dataset.fbView];
@@ -115,6 +123,10 @@ export function initAnalytics() {
   window.addEventListener('meuCaminhoBe:activity', event => {
     const type = String(event.detail?.type || '');
     if (ALLOWED_ACTIVITY_TYPES.has(type)) trackEvent('path_activity', type);
+  });
+
+  window.addEventListener('meuCaminhoBe:profile-complete', event => {
+    trackEvent('profile_complete', event.detail?.source || 'journey');
   });
 
   window.addEventListener('bemEsportivo:analytics', event => {

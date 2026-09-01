@@ -305,7 +305,7 @@ async function run() {
     assert.doesNotMatch(homeHtml, /class="be-search-examples"/, 'O hero da busca deve permanecer visualmente limpo, sem atalhos adicionais.');
     assert.match(homeHtml, /css\/be-ecosystem-search\.css\?v=20260829-8/, 'A Home precisa carregar a versão atual do visual da busca.');
     assert.match(homeHtml, /id="be-products-scroll-hint"[\s\S]*?Deslize para explorar/, 'A navegação lateral da Home precisa orientar o gesto no mobile.');
-    assert.match(homeHtml, /js\/be-products-carousel\.js\?v=20260829-1/, 'A Home precisa carregar o movimento progressivo dos atalhos.');
+    assert.match(homeHtml, /js\/be-products-carousel\.js\?v=20260831-2/, 'A Home precisa carregar o movimento progressivo dos atalhos.');
     const professionalsHtml = fs.readFileSync(path.join(root, 'profissionais.html'), 'utf8');
     const professionalsScript = fs.readFileSync(path.join(root, 'js/profissionais.js'), 'utf8');
     assert.match(professionalsHtml, /id="professionals-hero-title">Encontre quem pode ajudar no seu próximo passo\./, 'Profissionais precisa começar pela necessidade da pessoa.');
@@ -356,7 +356,7 @@ async function run() {
     assert.match(homeHtml, /class="be-ecosystem-product" href="\/game"[\s\S]*?<strong>Game 3D<\/strong><small>Divirta-se<\/small>/, 'Game 3D precisa abrir seu destino exato.');
     assert.match(homeHtml, /class="be-ecosystem-product" href="\/meu-caminho-be\?tela=conteudos"[\s\S]*?<strong>Conhecimento<\/strong>/, 'Conhecimento precisa abrir seu painel sem redirecionamento de produção.');
     assert.match(homeHtml, /class="be-ecosystem-product" href="\/meu-caminho-be\?tela=ferramentas"[\s\S]*?<strong>Ferramentas<\/strong>/, 'Ferramentas precisa abrir seu painel sem redirecionamento de produção.');
-    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260829-10"/, 'A Home precisa carregar a Biblioteca Esportiva antes da busca determinística.');
+    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260831-12"/, 'A Home precisa carregar a Biblioteca Esportiva antes da busca determinística.');
     const ecosystemSearch = require(path.join(root, 'js', 'be-ecosystem-search.js'));
     assert.equal(ecosystemSearch.search('Quero saber como melhorar meu chute').primary.id, 'conteudo');
     assert.equal(ecosystemSearch.search('Quero assistir').primary.id, 'beplay');
@@ -367,6 +367,9 @@ async function run() {
     assert.equal(ecosystemSearch.search('Quero acompanhar minha evolução').primary.href, '/meu-caminho-be/jornada');
     assert.ok(ecosystemSearch.search('Quero melhorar meu chute').items.some(item => item.title === 'Futebol com inteligência'));
     assert.ok(ecosystemSearch.search('Quero começar a correr').items.some(item => item.title === 'Minha primeira corrida'));
+    const bmiCards = ecosystemSearch.SEARCH_ITEMS.filter(item => item.title === 'Calculadora IMC');
+    assert.ok(bmiCards.length > 0, 'A busca precisa oferecer a Calculadora IMC.');
+    assert.ok(bmiCards.every(item => item.image === '/img/calculadora-imc-balanca-fita.webp'), 'A Calculadora IMC precisa usar sua imagem temática exclusiva.');
     const swimmingSearch = ecosystemSearch.search('Quero começar a nadar');
     assert.equal(swimmingSearch.primary.id, 'conteudo');
     assert.equal(swimmingSearch.sport.id, 'natacao');
@@ -501,12 +504,12 @@ async function run() {
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(pathHtml, /js\/meu-caminho-navigation\.js\?v=20260823-2/);
     assert.match(pathHtml, /js\/meu-caminho-account\.js\?v=20260823-2/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260829-1/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260830-2/);
     assert.match(pathHtml, /js\/coluna-valtinho\.js\?v=20260823-1/);
     assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260826-2/);
     assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260826-1/);
     assert.match(pathHtml, /css\/fala-bem-platform\.css\?v=20260823-1/);
-    assert.match(pathHtml, /js\/site-common\.js\?v=20260823-1/);
+    assert.match(pathHtml, /js\/site-common\.js\?v=20260830-2/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
     assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260823-1/);
@@ -729,7 +732,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v136`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v137`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]

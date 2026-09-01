@@ -301,7 +301,7 @@ isolation:isolate;
 .trail-running{--trail-image:url("../img/fala-bem-hero-pessoas-optimized.jpg")}
 .trail-football{--trail-image:url("../img/destaque-final-espanha-argentina.png")}
 .trail-performance{--trail-image:url("../img/app-treino-card.png")}
-.trail-health{--trail-image:url("../img/app-nutricao-card.png")}
+.trail-health{--trail-image:url("../img/app-nutricao-card-optimized.webp")}
 
 .trail-card::before{
 content:"";

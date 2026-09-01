@@ -6,7 +6,8 @@ const sharp = require('sharp');
 const root = path.resolve(__dirname, '..');
 const images = [
   { source: 'img/IMG_0957.jpg', output: 'img/IMG_0957-optimized' },
-  { source: 'img/IMG_0905.jpg', output: 'img/IMG_0905-optimized' }
+  { source: 'img/IMG_0905.jpg', output: 'img/IMG_0905-optimized' },
+  { source: 'img/app-nutricao-card.png', output: 'img/app-nutricao-card-optimized' }
 ];
 
 async function optimize({ source, output }) {

@@ -3713,3 +3713,27 @@ body.be-standard-page :where(p, a, button, input, select, textarea, label, li, s
     height: 34px !important;
   }
 }
+
+/* Resize stability: shared guardrails for fluid page shells and media. */
+html,
+body {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+html {
+  overflow-x: clip;
+}
+
+body :where(main, section, article, aside, header, footer, nav, div, form, fieldset) {
+  min-width: 0;
+}
+
+body :where(img, video, iframe, canvas) {
+  max-width: 100%;
+}
+
+body :where(h1, h2, h3, h4, p, li, label) {
+  overflow-wrap: break-word;
+}

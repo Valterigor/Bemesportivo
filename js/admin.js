@@ -124,7 +124,11 @@ function render(data) {
   document.getElementById('metricHidden').textContent = `${number(data.community.hidden)} ocultos`;
   setMetric('metricContinuity', data.services.continuity.count);
   setMetric('metricNotifications', data.services.notifications.count);
-  setMetric('metricAnalytics', data.services.analytics.count);
+  setMetric('metricAnalytics', data.services.analytics.total ?? data.services.analytics.count);
+  const topEvents = (data.services.analytics.byName || []).slice(0, 3);
+  document.getElementById('metricAnalyticsDetail').textContent = topEvents.length
+    ? topEvents.map(item => `${item.name}: ${number(item.count)}`).join(' · ')
+    : `${number(data.services.analytics.count)} lotes armazenados`;
   setMetric('metricRanking', data.services.ranking.count);
   setMetric('metricPublicProfiles', data.publicProfiles?.profiles);
   document.getElementById('metricPublicPending').textContent = `${number(data.publicProfiles?.pending)} exigem atenção`;

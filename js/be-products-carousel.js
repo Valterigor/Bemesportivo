@@ -20,6 +20,7 @@
 
   let activeIndex = 0;
   let autoplayTimer = 0;
+  let autoplayKickTimer = 0;
   let resumeTimer = 0;
   let scrollFrame = 0;
 
@@ -35,18 +36,25 @@
 
   const stopAutoplay = () => {
     window.clearInterval(autoplayTimer);
+    window.clearTimeout(autoplayKickTimer);
     autoplayTimer = 0;
+    autoplayKickTimer = 0;
+  };
+
+  const advance = () => {
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    const step = items[0].getBoundingClientRect().width;
+    const nextLeft = track.scrollLeft >= maxScroll - 2 ? 0 : Math.min(maxScroll, track.scrollLeft + step);
+    track.scrollTo({ left: nextLeft, behavior: 'smooth' });
   };
 
   const startAutoplay = () => {
     stopAutoplay();
     if (!canScroll() || reducedMotionQuery.matches || document.hidden) return;
-    autoplayTimer = window.setInterval(() => {
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      const step = items[0].getBoundingClientRect().width;
-      const nextLeft = track.scrollLeft >= maxScroll - 2 ? 0 : Math.min(maxScroll, track.scrollLeft + step);
-      track.scrollTo({ left: nextLeft, behavior: 'smooth' });
-    }, 5000);
+    autoplayKickTimer = window.setTimeout(() => {
+      advance();
+      autoplayTimer = window.setInterval(advance, 5000);
+    }, 1800);
   };
 
   const pauseForInteraction = () => {

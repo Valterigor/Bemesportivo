@@ -67,6 +67,26 @@ async function countPrefix(store, prefix, maximumPages = 10) {
   return { count, complete };
 }
 
+async function summarizeAnalytics(store) {
+  const listed = await store.list({ prefix: 'analytics-summary:', limit: 100 });
+  const records = await Promise.all((listed.keys || []).map(key => store.get(key.name, { type: 'json' })));
+  const events = {};
+  let total = 0;
+  for (const record of records.filter(Boolean)) {
+    total += Number(record.total || 0);
+    for (const [name, count] of Object.entries(record.events || {})) {
+      events[name] = Number(events[name] || 0) + Number(count || 0);
+    }
+  }
+  return {
+    days: records.filter(Boolean).length,
+    total,
+    byName: Object.entries(events)
+      .sort((first, second) => second[1] - first[1] || first[0].localeCompare(second[0]))
+      .map(([name, count]) => ({ name, count }))
+  };
+}
+
 function summarizeCommunity(state) {
   const moderation = [];
   let comments = 0;
@@ -138,12 +158,13 @@ async function summarizePublicProfiles(store) {
 
 async function overview(env) {
   const store = getDataStore(env);
-  const [community, ranking, sync, notifications, analytics, publicProfiles] = await Promise.all([
+  const [community, ranking, sync, notifications, analyticsBatches, analyticsSummary, publicProfiles] = await Promise.all([
     readJson(env, 'community:state', { comments: {}, updatedAt: null }),
     readJson(env, 'game:ranking', { entries: [], updatedAt: null }),
     countPrefix(store, 'sync:'),
     countPrefix(store, 'routine:install:'),
     countPrefix(store, 'analytics:'),
+    summarizeAnalytics(store),
     summarizePublicProfiles(store)
   ]);
   const communitySummary = summarizeCommunity(community);
@@ -156,7 +177,11 @@ async function overview(env) {
     services: {
       continuity: sync,
       notifications,
-      analytics,
+      analytics: {
+        ...analyticsBatches,
+        ...analyticsSummary,
+        count: analyticsBatches.count
+      },
       ranking: {
         count: Array.isArray(ranking?.entries) ? ranking.entries.length : 0,
         updatedAt: ranking?.updatedAt || null

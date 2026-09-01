@@ -51,6 +51,50 @@ function bindLegacyMenuButtons() {
   });
 }
 
+function alignActiveNavigation(nav) {
+  const activeLink = nav.querySelector('a[aria-current="page"]');
+  if (!activeLink) {
+    nav.scrollLeft = 0;
+    return;
+  }
+  const navRect = nav.getBoundingClientRect();
+  const activeRect = activeLink.getBoundingClientRect();
+  const relativeLeft = activeRect.left - navRect.left + nav.scrollLeft;
+  nav.scrollTo({
+    left: Math.max(0, relativeLeft - (nav.clientWidth - activeRect.width) / 2),
+    behavior: 'auto'
+  });
+}
+
+function bindResponsiveNavigation(navigations) {
+  const desktop = window.matchMedia('(min-width: 981px)');
+  let resizeFrame = 0;
+
+  const stabilize = () => {
+    window.cancelAnimationFrame(resizeFrame);
+    resizeFrame = window.requestAnimationFrame(() => {
+      resizeFrame = window.requestAnimationFrame(() => {
+        if (desktop.matches) {
+          navigations.forEach(nav => nav.classList.remove('active', 'show', 'is-open'));
+          document.querySelectorAll('#menu-toggle, #siteMenuToggle, .menu-btn, .site-menu-btn').forEach(button => {
+            button.setAttribute('aria-expanded', 'false');
+          });
+        }
+        navigations.forEach(alignActiveNavigation);
+      });
+    });
+  };
+
+  if ('ResizeObserver' in window) {
+    const observer = new ResizeObserver(stabilize);
+    navigations.forEach(nav => observer.observe(nav));
+  }
+
+  desktop.addEventListener?.('change', stabilize);
+  window.addEventListener('resize', stabilize, { passive: true });
+  window.visualViewport?.addEventListener('resize', stabilize, { passive: true });
+}
+
 export function initSiteNavigation() {
   if (!document.body.classList.contains('fala-bem-app-page')) {
     document.body.classList.add('be-standard-page');
@@ -62,15 +106,6 @@ export function initSiteNavigation() {
   });
   bindLegacyMenuButtons();
   markCurrentLinks();
-  navigations.forEach(nav => {
-    const activeLink = nav.querySelector('a[aria-current="page"]');
-    if (!activeLink) {
-      nav.scrollLeft = 0;
-      return;
-    }
-    const navRect = nav.getBoundingClientRect();
-    const activeRect = activeLink.getBoundingClientRect();
-    const relativeLeft = activeRect.left - navRect.left + nav.scrollLeft;
-    nav.scrollLeft = Math.max(0, relativeLeft - (nav.clientWidth - activeRect.width) / 2);
-  });
+  navigations.forEach(alignActiveNavigation);
+  bindResponsiveNavigation(navigations);
 }

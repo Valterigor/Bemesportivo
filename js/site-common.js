@@ -1,10 +1,10 @@
 import { initBackToTop } from './components/back-to-top.js';
 import { initSiteBreadcrumb } from './components/site-breadcrumb.js';
 import { initSiteFooter } from './components/site-footer.js?v=20260723-1';
-import { initSiteNavigation } from './components/site-navigation.js?v=20260823-1';
+import { initSiteNavigation } from './components/site-navigation.js?v=20260831-2';
 import { initPrivacyConsent } from './components/privacy-consent.js';
 import { initMediaQuality } from './components/media-quality.js?v=20260723-1';
-import { initAnalytics } from './components/analytics.js?v=20260723-1';
+import { initAnalytics } from './components/analytics.js?v=20260830-2';
 import { initCommunityComments } from './components/community-comments.js?v=20260813-1';
 import { initJourneyReset } from './components/journey-reset.js?v=20260813-1';
 

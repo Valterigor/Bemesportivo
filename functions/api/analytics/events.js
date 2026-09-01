@@ -1,14 +1,28 @@
 import { apiJson, apiOptions } from '../../../server/cloudflare-api.mjs';
-import { writeJson } from '../../../server/cloudflare-kv.mjs';
+import { readJson, writeJson } from '../../../server/cloudflare-kv.mjs';
 
 const allowedEvents = new Set([
+  'affiliate_click',
+  'be_ia_feedback',
+  'be_ia_guidance',
   'contact_open',
   'content_open',
+  'first_activity',
+  'journey_checkin',
   'page_view',
   'path_activity',
   'path_view',
+  'product_open',
+  'professional_lead',
+  'professional_open',
+  'profile_complete',
+  'search_no_result',
+  'search_result_open',
+  'search_submit',
+  'share_start',
   'tool_open',
-  'video_play'
+  'video_play',
+  'weekly_review'
 ]);
 const maximumBodyBytes = 12_000;
 
@@ -70,11 +84,19 @@ export async function onRequest({ request, env }) {
 
   try {
     const createdAt = new Date().toISOString();
-    await writeJson(env, `analytics:${createdAt}:${crypto.randomUUID()}`, {
-      schemaVersion: 1,
-      createdAt,
-      events
-    }, { expirationTtl: 60 * 60 * 24 * 90 });
+    const summaryKey = `analytics-summary:${createdAt.slice(0, 10)}`;
+    const summary = await readJson(env, summaryKey, { schemaVersion: 1, date: createdAt.slice(0, 10), total: 0, events: {} });
+    summary.total = Number(summary.total || 0) + events.length;
+    summary.updatedAt = createdAt;
+    for (const event of events) summary.events[event.name] = Number(summary.events[event.name] || 0) + 1;
+    await Promise.all([
+      writeJson(env, `analytics:${createdAt}:${crypto.randomUUID()}`, {
+        schemaVersion: 1,
+        createdAt,
+        events
+      }, { expirationTtl: 60 * 60 * 24 * 90 }),
+      writeJson(env, summaryKey, summary, { expirationTtl: 60 * 60 * 24 * 90 })
+    ]);
   } catch (error) {
     const configurationError = error instanceof Error && error.message === 'BE_DATA_NOT_CONFIGURED';
     return apiJson({

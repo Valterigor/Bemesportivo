@@ -3702,7 +3702,8 @@ window.addEventListener('meuCaminhoBe:activity', event => {
   const detail = event.detail || {};
   if (!['tool', 'content', 'community'].includes(detail.type) || !String(detail.label || '').trim()) return;
   const gameBefore = getGamificationState();
-  const activityHistory = [...(currentProfile?.activityHistory || []), {
+  const previousActivityHistory = currentProfile?.activityHistory || [];
+  const activityHistory = [...previousActivityHistory, {
     type: detail.type,
     key: String(detail.key || '').slice(0, 80),
     label: String(detail.label).trim().slice(0, 120),
@@ -3720,6 +3721,9 @@ window.addEventListener('meuCaminhoBe:activity', event => {
     communityActions: Math.max(Number(previousStats.communityActions || 0), knownCommunityActions) + (detail.type === 'community' ? 1 : 0)
   };
   saveProfile({ activityHistory, gamificationStats });
+  if (!previousActivityHistory.length) {
+    window.dispatchEvent(new CustomEvent('bemEsportivo:analytics', { detail: { name: 'first_activity', detail: detail.type } }));
+  }
   const gameAfter = getGamificationState();
   const earnedXp = Math.max(0, gameAfter.xp - gameBefore.xp);
   if (earnedXp > 0) {
@@ -4812,6 +4816,7 @@ document.getElementById('fb-safety-form')?.addEventListener('submit', event => {
       checkins: sameObjective ? (currentProfile?.checkins || []) : []
     });
     if (!savedProfile) throw new Error('profile-storage-failed');
+    window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-complete', { detail: { source: 'mapa' } }));
   } catch (error) {
     console.error('Falha ao salvar o contexto e segurança.', error);
     if (feedback) {

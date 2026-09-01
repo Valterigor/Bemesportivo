@@ -80,8 +80,8 @@
     { product: 'reportagens', title: 'Thais Garcez, uma nova versão', summary: 'Disciplina, conhecimento e uma nova forma de viver a musculação.', href: '/reportagens/thais-garcez-metamorfose', image: '/img/Thais%20Garcez/thais-garcez-capa.jpg', action: 'Ler reportagem', keywords: ['musculacao', 'academia', 'transformacao', 'saude', 'historia', 'reportagem', 'treino'] },
     { product: 'reportagens', title: 'Sergio Lima, aos 61 anos, grande exemplo de vida', summary: 'Formação, vontade e dedicação abrindo novos caminhos no esporte.', href: '/reportagens/sergio-lima-exemplo-de-vida', image: '/img/sergio-lima-exemplo-de-vida.jpg', action: 'Ler reportagem', keywords: ['idade', 'mais velho', 'recomecar', 'comecar', 'historia', 'reportagem', 'inspiracao'] },
     { product: 'ferramentas', title: 'Calculadora Pace', summary: 'Calcule o seu ritmo por quilômetro como referência educativa.', href: '/meu-caminho-be?tela=ferramentas&ferramenta=pace', image: '/img/calculadora-pace-relogio-esportivo.webp', action: 'Usar ferramenta', keywords: ['corrida', 'correr', 'pace', 'ritmo', 'quilometro', 'tempo', 'calcular'] },
-    { product: 'ferramentas', title: 'Água diária', summary: 'Organize uma referência diária de hidratação.', href: '/meu-caminho-be?tela=ferramentas&ferramenta=agua', image: '/img/app-nutricao-card.png', action: 'Usar ferramenta', keywords: ['agua', 'hidratacao', 'hidratar', 'treino', 'saude'] },
-    { product: 'ferramentas', title: 'Calculadora IMC', summary: 'Use peso e altura como uma referência educativa.', href: '/meu-caminho-be?tela=ferramentas&ferramenta=imc', image: '/img/app-nutricao-card.png', action: 'Usar ferramenta', keywords: ['imc', 'peso', 'altura', 'calcular', 'saude'] },
+    { product: 'ferramentas', title: 'Água diária', summary: 'Organize uma referência diária de hidratação.', href: '/meu-caminho-be?tela=ferramentas&ferramenta=agua', image: '/img/app-nutricao-card-optimized.webp', action: 'Usar ferramenta', keywords: ['agua', 'hidratacao', 'hidratar', 'treino', 'saude'] },
+    { product: 'ferramentas', title: 'Calculadora IMC', summary: 'Use peso e altura como uma referência educativa.', href: '/meu-caminho-be?tela=ferramentas&ferramenta=imc', image: '/img/calculadora-imc-balanca-fita.webp', action: 'Usar ferramenta', keywords: ['imc', 'peso', 'altura', 'calcular', 'saude'] },
     { product: 'profissionais', title: 'Bruno Rezende — Personal Trainer', summary: 'Treinamento funcional, condicionamento e performance.', href: '/profissionais', image: '/img/profissionais/bruno.jpg', action: 'Ver profissional', keywords: ['corrida', 'correr', 'funcional', 'condicionamento', 'performance', 'personal', 'profissional', 'treinador'] },
     { product: 'profissionais', title: 'Luciano — Personal Soccer', summary: 'Treinamento técnico e desenvolvimento no futebol.', href: '/profissionais', image: '/img/profissionais/luciano.jpg', action: 'Ver profissional', keywords: ['futebol', 'chute', 'passe', 'tecnica', 'personal', 'profissional', 'treinador'] },
     { product: 'profissionais', title: 'Grasiele — Psicóloga', summary: 'Psicologia esportiva, performance mental e psicoterapia.', href: '/profissionais', image: '/img/profissionais/grasiele.jpg', action: 'Ver profissional', keywords: ['psicologia', 'mental', 'emocional', 'motivacao', 'profissional', 'ajuda'] },
@@ -186,13 +186,13 @@
     if (topic.tool === 'agua') items.push({
       product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
       title: 'Água diária', summary: 'Organize uma referência educativa de hidratação para sua rotina.',
-      href: '/meu-caminho-be?tela=ferramentas&ferramenta=agua', image: '/img/app-nutricao-card.png',
+      href: '/meu-caminho-be?tela=ferramentas&ferramenta=agua', image: '/img/app-nutricao-card-optimized.webp',
       action: 'Usar ferramenta', keywords: [topic.id]
     });
     if (topic.tool === 'imc') items.push({
       product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
       title: 'Calculadora IMC', summary: 'Use peso e altura apenas como uma referência educativa, sem diagnóstico.',
-      href: '/meu-caminho-be?tela=ferramentas&ferramenta=imc', image: '/img/app-nutricao-card.png',
+      href: '/meu-caminho-be?tela=ferramentas&ferramenta=imc', image: '/img/calculadora-imc-balanca-fita.webp',
       action: 'Usar ferramenta', keywords: [topic.id]
     });
     if (topic.kind === 'training') items.push({
@@ -250,7 +250,7 @@
       product: 'ferramentas', sourceLabel: 'Ferramenta relacionada',
       title: 'Água diária',
       summary: `Organize uma referência de hidratação para os dias em que pratica ${sport.grammar[1]} ${sport.label}.`,
-      href: '/meu-caminho-be?tela=ferramentas&ferramenta=agua', image: '/img/app-nutricao-card.png',
+      href: '/meu-caminho-be?tela=ferramentas&ferramenta=agua', image: '/img/app-nutricao-card-optimized.webp',
       action: 'Usar ferramenta', keywords: [sport.id]
     };
   }
@@ -386,6 +386,10 @@
     return { query: normalized, displayQuery, primary, related, items: rankedItems.items, coverage: rankedItems.coverage, sport, topic, relatedTopics, intent };
   }
 
+  function emitAnalytics(name, detail) {
+    window.dispatchEvent(new CustomEvent('bemEsportivo:analytics', { detail: { name, detail } }));
+  }
+
   function createResultCard(item) {
     const product = findProduct(item.product);
     const card = document.createElement(item.opensAnswer ? 'button' : 'a');
@@ -396,6 +400,7 @@
     } else {
       card.href = item.href;
     }
+    card.addEventListener('click', () => emitAnalytics('search_result_open', item.product || 'biblioteca'));
     const media = document.createElement('span');
     media.className = 'be-search-result-media';
     if (item.image) {
@@ -568,6 +573,8 @@
       }
       input.removeAttribute('aria-invalid');
       render(result, results);
+      emitAnalytics('search_submit', result.coverage);
+      if (['related', 'general'].includes(result.coverage)) emitAnalytics('search_no_result', result.coverage);
       results.closest('.be-search-discovery')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     document.querySelectorAll('[data-be-search-example]').forEach(button => {
