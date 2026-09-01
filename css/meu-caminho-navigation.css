@@ -158,8 +158,30 @@ body.fala-bem-app-page .fb-map-gate-note[hidden] {
     box-shadow: none !important;
   }
 
-  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-app-nav > a:not([data-fb-view="perfil"]) {
+  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-app-nav > a[data-fb-gated="true"] {
     opacity: .52;
+  }
+
+  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-app-nav > a:not([data-fb-gated="true"]):not([data-fb-view="perfil"]) {
+    grid-template-columns: 28px minmax(0, 1fr) auto !important;
+    color: #2f2925 !important;
+    opacity: 1;
+  }
+
+  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-app-nav > a:not([data-fb-gated="true"]):not([data-fb-view="perfil"]) svg {
+    color: var(--be-app-orange);
+  }
+
+  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-app-nav > a:not([data-fb-gated="true"]):not([data-fb-view="perfil"])::after {
+    justify-self: end;
+    padding: 3px 7px;
+    border-radius: 999px;
+    background: #fff0e8;
+    color: #a44720;
+    content: "Abrir";
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: .04em;
   }
 
   body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-app-nav > a[data-fb-view="perfil"] {

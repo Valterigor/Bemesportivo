@@ -507,7 +507,7 @@ async function run() {
     assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260830-2/);
     assert.match(pathHtml, /js\/coluna-valtinho\.js\?v=20260823-1/);
     assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260826-2/);
-    assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260826-1/);
+    assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260901-2/);
     assert.match(pathHtml, /css\/fala-bem-platform\.css\?v=20260823-1/);
     assert.match(pathHtml, /js\/site-common\.js\?v=20260830-2/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');

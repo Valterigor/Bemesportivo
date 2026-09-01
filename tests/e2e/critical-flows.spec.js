@@ -251,7 +251,17 @@ test('Ferramentas abre nos menus desktop e móvel antes de criar o Perfil Be', a
 
   await page.goto('/meu-caminho-be/perfil');
   const desktopTools = page.locator('.fb-app-nav [data-fb-view="ferramentas"]');
+  const desktopExplore = page.locator('.fb-app-nav [data-fb-view="conteudos"]');
+  const gatedRegister = page.locator('.fb-app-nav [data-fb-view="registrar"]');
   await expect(desktopTools).not.toHaveAttribute('data-fb-gated', 'true');
+  await expect(desktopExplore).not.toHaveAttribute('data-fb-gated', 'true');
+  await expect(desktopTools).toHaveCSS('opacity', '1');
+  await expect(desktopExplore).toHaveCSS('opacity', '1');
+  await expect(gatedRegister).toHaveAttribute('data-fb-gated', 'true');
+  const gatedOpacity = Number(await gatedRegister.evaluate(element => getComputedStyle(element).opacity));
+  expect(gatedOpacity).toBeLessThan(1);
+  const availableLabels = await Promise.all([desktopTools, desktopExplore].map(link => link.evaluate(element => getComputedStyle(element, '::after').content)));
+  expect(availableLabels).toEqual(['"Abrir"', '"Abrir"']);
   await desktopTools.click();
   await expect(page).toHaveURL(/\/meu-caminho-be\/ferramentas$/);
   await expect(page.locator('[data-fb-panel="ferramentas"]')).toBeVisible();
