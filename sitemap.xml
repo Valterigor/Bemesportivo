@@ -76,6 +76,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://bemesportivo.com/criar-postagem</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://bemesportivo.com/sobre</loc>
     <lastmod>2026-07-18</lastmod>
     <priority>0.6</priority>

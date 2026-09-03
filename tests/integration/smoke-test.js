@@ -28,6 +28,7 @@ const pages = [
   '/meu-caminho-be/ferramentas',
   '/meu-caminho-be/perfil',
   '/perfil-publico',
+  '/criar-postagem',
   '/beplay',
   '/game.html',
   '/profissionais',
@@ -430,14 +431,26 @@ async function run() {
     assert.match(pathHtml, /Como foi e o que aconteceu\?[\s\S]*obrigatório ao compartilhar/, 'Fotos e publicações precisam ter um relato contextual.');
     assert.doesNotMatch(pathHtml, /id="be-entry-video"/, 'O blog público ainda não deve oferecer publicação de vídeo.');
     const publicProfileHtml = fs.readFileSync(path.join(root, 'perfil-publico.html'), 'utf8');
+    const makerHtml = fs.readFileSync(path.join(root, 'criar-postagem.html'), 'utf8');
+    const makerScript = fs.readFileSync(path.join(root, 'js/postagem-maker.js'), 'utf8');
     const publicProfileScript = fs.readFileSync(path.join(root, 'js/perfil-publico.js'), 'utf8');
     const shareCardScript = fs.readFileSync(path.join(root, 'js/be-share-card.js'), 'utf8');
     const publicDiaryScript = fs.readFileSync(path.join(root, 'js/meu-caminho-public.js'), 'utf8');
-    assert.match(publicProfileHtml, /MEU DIÁRIO BE[\s\S]*PUBLICAÇÕES/);
+    assert.match(publicProfileHtml, /MINHA HISTÓRIA ESTÁ EM MOVIMENTO|Minha história está em movimento/);
+    assert.match(publicProfileHtml, /HISTÓRIA EM MOVIMENTO[\s\S]*Momentos compartilhados/);
     assert.match(publicProfileHtml, /id="be-public-report-profile"/, 'Visitantes precisam conseguir denunciar um perfil público.');
     assert.doesNotMatch(publicProfileHtml, /id="be-public-share"/, 'Visitantes não devem receber um botão para compartilhar o diário.');
     assert.doesNotMatch(publicProfileHtml, /be-public-owner-share-button|be-public-owner-cover-download/, 'A capa do perfil não deve concentrar as ações de compartilhamento.');
+    assert.match(publicProfileHtml, /id="be-public-share-profile" hidden/, 'O compartilhamento do perfil deve começar oculto e ser liberado somente no aparelho proprietário.');
+    assert.match(publicProfileHtml, /id="be-public-likes"[\s\S]*id="be-public-highlights"/, 'O perfil público precisa resumir curtidas e conquistas sem expor dados privados.');
+    assert.match(shareCardScript, /variant === 'profile'[\s\S]*PERFIL ESPORTIVO · MEU CAMINHO BE/, 'O perfil precisa ter um cartão social próprio, separado da publicação.');
     assert.match(pathHtml, /id="be-public-share-owner"/, 'Somente a área privada do proprietário deve oferecer o compartilhamento do link.');
+    assert.match(pathHtml, /js\/meu-caminho-public\.js\?v=20260902-2[\s\S]*js\/be-share-card\.js\?v=20260902-2/, 'A área privada precisa carregar a versão compartilhável do perfil.');
+    assert.match(publicDiaryScript, /BeShareCard\.open\(\{ variant: 'profile'/, 'O proprietário precisa criar o cartão social sem sair da área privada.');
+    assert.match(makerHtml, /GRÁTIS · SEM CADASTRO[\s\S]*id="post-maker-form"[\s\S]*Gerar minha postagem/, 'O gerador precisa apresentar o fluxo direto sem cadastro.');
+    assert.match(makerHtml, /Nada é enviado ou publicado automaticamente/, 'O gerador precisa explicar a privacidade antes da ação.');
+    assert.doesNotMatch(makerScript, /\bfetch\s*\(|localStorage/, 'O gerador não deve enviar nem armazenar os dados preenchidos.');
+    assert.match(pathHtml, /href="\/criar-postagem">Criar postagem sem cadastro/, 'O primeiro acesso ao Meu Caminho Be precisa oferecer o gerador livre.');
     assert.match(publicProfileHtml, /class="be-public-print-block"/, 'A impressão da página pública precisa ocultar o conteúdo.');
     assert.match(publicProfileScript, /dataset\.watermark/, 'Publicações públicas precisam exibir identificação contra cópias sem origem.');
     assert.match(shareCardScript, /story: \{ width: 1080, height: 1920[\s\S]*feed: \{ width: 1080, height: 1350/, 'O compartilhamento precisa oferecer formatos próprios para Stories, Status, Feed e WhatsApp.');
@@ -506,7 +519,7 @@ async function run() {
     assert.match(pathHtml, /js\/meu-caminho-account\.js\?v=20260823-2/);
     assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260830-2/);
     assert.match(pathHtml, /js\/coluna-valtinho\.js\?v=20260823-1/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260826-2/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260902-3/);
     assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260901-2/);
     assert.match(pathHtml, /css\/fala-bem-platform\.css\?v=20260823-1/);
     assert.match(pathHtml, /js\/site-common\.js\?v=20260830-2/);

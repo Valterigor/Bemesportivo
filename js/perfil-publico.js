@@ -1,6 +1,8 @@
 (() => {
   'use strict';
-  const slug = new URLSearchParams(location.search).get('perfil') || location.pathname.match(/^\/diario\/(be-[a-f0-9]{12})\/?$/)?.[1] || '';
+  const query = new URLSearchParams(location.search);
+  const previewMode = ['localhost', '127.0.0.1'].includes(location.hostname) && query.get('preview') === '1';
+  const slug = query.get('perfil') || location.pathname.match(/^\/diario\/(be-[a-f0-9]{12})\/?$/)?.[1] || (previewMode ? 'be-000000000000' : '');
   const loading = document.getElementById('be-public-loading');
   const content = document.getElementById('be-public-content');
   const escapeText = value => String(value || '');
@@ -220,6 +222,25 @@
     window.BeShareCard.open({ post, profile: loadedProfile, slug, url: url.href, onStatus: message => showPostShareFeedback(button, message) });
   }
 
+  function shareProfile() {
+    const feedback = document.getElementById('be-public-profile-share-feedback');
+    if (!window.BeShareCard || !loadedProfile) {
+      if (feedback) feedback.textContent = 'O compartilhamento ainda está carregando. Tente novamente.';
+      return;
+    }
+    const likes = loadedPosts.reduce((total, post) => total + Math.max(0, Number(post.likes || 0)), 0);
+    const highlights = loadedPosts.filter(post => post.personalBest || ['achievement', 'goal'].includes(post.postType)).length;
+    const url = new URL(`/diario/${slug}`, location.origin).href;
+    window.BeShareCard.open({
+      variant: 'profile',
+      profile: loadedProfile,
+      slug,
+      stats: { moments: loadedPosts.length, likes, highlights },
+      url,
+      onStatus: message => { if (feedback) feedback.textContent = message; }
+    });
+  }
+
   function postCard(post) {
     const article = document.createElement('article');
     article.className = 'be-public-post';
@@ -400,16 +421,36 @@
 
   async function load() {
     if (!/^be-[a-f0-9]{12}$/.test(slug)) throw new Error('Este endereço de perfil não é válido.');
-    const response = await fetch(`/api/public-profiles/${slug}`, { headers: { Accept: 'application/json' } });
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(payload.error || 'Perfil não encontrado.');
+    let payload;
+    if (previewMode) {
+      payload = {
+        slug,
+        profile: {
+          displayName: 'Marina em Movimento',
+          favoriteSport: 'Corrida',
+          bio: 'Corro para cuidar de mim, superar meus limites e celebrar cada novo passo.',
+          photoDataUrl: ''
+        },
+        posts: [
+          { id: 'preview-conquista', kind: 'text', text: 'Primeiros cinco quilômetros concluídos. Uma conquista construída passo a passo.', activity: 'Corrida', occurredAt: '2026-08-20', postType: 'achievement', personalBest: true, likes: 18, comments: [] },
+          { id: 'preview-treino', kind: 'text', text: 'Treino leve no parque para recuperar, respirar e manter a constância.', activity: 'Corrida', occurredAt: '2026-08-25', postType: 'training', duration: 36, distance: 5.2, personalBest: false, likes: 9, comments: [] }
+        ]
+      };
+    } else {
+      const response = await fetch(`/api/public-profiles/${slug}`, { headers: { Accept: 'application/json' } });
+      payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error || 'Perfil não encontrado.');
+    }
     const profile = payload.profile;
     loadedProfile = profile;
     loadedPosts = Array.isArray(payload.posts) ? payload.posts : [];
-    ownerDevice = await isOwnerDevice();
+    ownerDevice = previewMode || await isOwnerDevice();
     document.title = `${profile.displayName} | Meu Caminho Be`;
     document.querySelector('meta[name="robots"]')?.setAttribute('content', 'index, follow');
     document.querySelector('meta[name="description"]')?.setAttribute('content', `Diário esportivo público de ${profile.displayName} no Meu Caminho Be.`);
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', `${profile.displayName} | Perfil esportivo`);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', `${profile.displayName} compartilha sua história em ${profile.favoriteSport} no Meu Caminho Be.`);
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', new URL(`/diario/${payload.slug}`, location.origin).href);
     const canonical = document.createElement('link');
     canonical.rel = 'canonical';
     canonical.href = new URL(`/diario/${payload.slug}`, location.origin).href;
@@ -419,6 +460,17 @@
     document.getElementById('be-public-bio').textContent = profile.bio || 'O esporte faz parte da minha história.';
     document.getElementById('be-public-sport').textContent = profile.favoriteSport;
     document.getElementById('be-public-count').textContent = String(loadedPosts.length);
+    const likes = loadedPosts.reduce((total, post) => total + Math.max(0, Number(post.likes || 0)), 0);
+    const highlights = loadedPosts.filter(post => post.personalBest || ['achievement', 'goal'].includes(post.postType)).length;
+    document.getElementById('be-public-likes').textContent = String(likes);
+    document.getElementById('be-public-highlights').textContent = String(highlights);
+    const shareProfileButton = document.getElementById('be-public-share-profile');
+    if (shareProfileButton) shareProfileButton.hidden = !ownerDevice;
+    const profileDestination = document.getElementById('be-public-profile-destination');
+    if (profileDestination && ownerDevice) {
+      profileDestination.href = '/meu-caminho-be/perfil';
+      profileDestination.textContent = 'Gerenciar meu perfil';
+    }
     const photo = document.getElementById('be-public-photo');
     const fallback = document.getElementById('be-public-fallback');
     if (profile.photoDataUrl) {
@@ -452,6 +504,7 @@
       document.getElementById('be-public-report-feedback').textContent = error.message;
     }).finally(() => { event.currentTarget.disabled = false; });
   });
+  document.getElementById('be-public-share-profile')?.addEventListener('click', shareProfile);
   document.getElementById('be-public-posts')?.addEventListener('click', event => {
     const likeButton = event.target.closest('[data-public-like-post]');
     if (likeButton && !likeButton.disabled) {

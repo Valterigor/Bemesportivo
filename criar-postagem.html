@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Crie gratuitamente uma postagem esportiva pronta para Instagram e WhatsApp, sem cadastro.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Criar postagem esportiva | Meu Caminho Be">
+<meta property="og:description" content="Preencha, confira e gere sua postagem esportiva sem cadastro.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bemesportivo.com/criar-postagem">
+<meta property="og:image" content="https://bemesportivo.com/img/banner.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>Criar postagem esportiva | Meu Caminho Be</title>
+<link rel="icon" href="/img/logobemoficial.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site-common.css?v=20260814-1">
+<link rel="stylesheet" href="/css/postagem-maker.css?v=20260902-1">
+<link rel="stylesheet" href="/css/share-card.css?v=20260902-2">
+<link rel="canonical" href="https://bemesportivo.com/criar-postagem">
+</head>
+<body class="be-maker-page">
+<a class="be-maker-skip" href="#post-maker-form">Pular para o formulário</a>
+<header class="menu"><div class="menu-content"><a class="logo" href="/"><img src="/img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo"></a><nav id="menu" aria-label="Menu principal"></nav><div class="menu-actions"><a class="btn-contato" href="/meu-caminho-be">Meu Caminho Be</a></div><button id="menu-toggle" class="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button></div></header>
+
+<main class="be-maker-main">
+  <header class="be-maker-intro">
+    <div><span>GRÁTIS · SEM CADASTRO</span><h1>Transforme seu momento no esporte em uma postagem.</h1><p>Preencha os dados, confira o resultado e gere uma imagem pronta para Instagram ou WhatsApp.</p></div>
+    <ol aria-label="Etapas para criar a postagem"><li><b>1</b><span><strong>Preencha</strong><small>Conte seu momento</small></span></li><li><b>2</b><span><strong>Confira</strong><small>Veja antes de gerar</small></span></li><li><b>3</b><span><strong>Compartilhe</strong><small>Escolha o formato</small></span></li></ol>
+  </header>
+
+  <div class="be-maker-layout">
+    <section class="be-maker-form-card" aria-labelledby="be-maker-form-title">
+      <header><span>SEUS DADOS</span><h2 id="be-maker-form-title">Conte o que aconteceu</h2><p>Somente nome, modalidade, título e relato são necessários.</p></header>
+      <form id="post-maker-form">
+        <div class="be-maker-fields two-columns">
+          <label><span>Seu nome <b>*</b></span><input id="post-maker-name" name="name" type="text" maxlength="40" autocomplete="name" placeholder="Como quer aparecer" required></label>
+          <label><span>Modalidade <b>*</b></span><select id="post-maker-sport" name="sport" required><option value="">Escolha</option><option>Corrida</option><option>Futebol</option><option>Futsal</option><option>Musculação</option><option>Ciclismo</option><option>Natação</option><option>Vôlei</option><option>Basquete</option><option>Lutas</option><option>Caminhada</option><option>Outro esporte</option></select></label>
+        </div>
+        <div class="be-maker-fields two-columns">
+          <label><span>Tipo de momento</span><select id="post-maker-type" name="type"><option value="training">Treino concluído</option><option value="achievement">Conquista</option><option value="result">Resultado</option><option value="competition">Jogo ou competição</option><option value="return">Retorno ao esporte</option><option value="goal">Meta alcançada</option><option value="photo">Momento esportivo</option></select></label>
+          <label><span>Título <b>*</b></span><input id="post-maker-title" name="title" type="text" maxlength="80" placeholder="Ex.: Minha primeira corrida" required></label>
+        </div>
+        <label class="be-maker-story"><span>Conte seu momento <b>*</b></span><textarea id="post-maker-text" name="text" maxlength="600" rows="5" placeholder="Como foi, o que aconteceu e por que isso foi importante para você?" required></textarea><small><output id="post-maker-count">0</output>/600</small></label>
+
+        <section class="be-maker-photo" aria-labelledby="be-maker-photo-title">
+          <div><strong id="be-maker-photo-title">Foto <em>opcional</em></strong><small>Ela é preparada somente neste aparelho.</small></div>
+          <div><label for="post-maker-photo">Escolher foto</label><input id="post-maker-photo" type="file" accept="image/jpeg,image/png,image/webp"><button id="post-maker-photo-remove" type="button" hidden>Remover</button></div>
+          <figure id="post-maker-photo-preview" hidden><img id="post-maker-photo-image" alt="Prévia da foto escolhida"></figure>
+          <p id="post-maker-photo-feedback" role="status"></p>
+        </section>
+
+        <details class="be-maker-optional">
+          <summary>Adicionar dados do treino <span>Opcional</span></summary>
+          <div class="be-maker-fields three-columns">
+            <label><span>Duração</span><span class="be-maker-unit"><input id="post-maker-duration" name="duration" type="number" min="1" max="1440" inputmode="numeric" placeholder="45"><small>min</small></span></label>
+            <label><span>Distância</span><span class="be-maker-unit"><input id="post-maker-distance" name="distance" type="number" min="0.01" max="10000" step="0.01" inputmode="decimal" placeholder="5"><small>km</small></span></label>
+            <label><span>Resultado</span><input id="post-maker-result" name="result" type="text" maxlength="80" placeholder="Ex.: 2 x 1"></label>
+          </div>
+          <label class="be-maker-record"><input id="post-maker-record" name="record" type="checkbox"><span>Foi uma conquista ou recorde pessoal</span></label>
+        </details>
+
+        <p class="be-maker-privacy"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5z"></path></svg><span><strong>Privado por padrão.</strong> Nada é enviado ou publicado automaticamente.</span></p>
+        <button class="be-maker-generate" type="submit"><span>Gerar minha postagem</span><b aria-hidden="true">→</b></button>
+        <p class="be-maker-feedback" id="post-maker-feedback" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <aside class="be-maker-preview-column" aria-labelledby="be-maker-preview-title">
+      <header><span>PRÉVIA AO VIVO</span><h2 id="be-maker-preview-title">Veja como está ficando</h2></header>
+      <article class="be-maker-preview" id="post-maker-preview">
+        <div class="be-maker-preview-brand"><strong>Be</strong><span>MEU MOMENTO<br>NO ESPORTE</span></div>
+        <figure id="post-maker-preview-media" hidden><img id="post-maker-preview-image" alt=""></figure>
+        <div class="be-maker-preview-profile"><span id="post-maker-preview-avatar">B</span><div><strong id="post-maker-preview-name">Seu nome</strong><small id="post-maker-preview-sport">Sua modalidade</small></div></div>
+        <div class="be-maker-preview-copy"><span id="post-maker-preview-type">TREINO CONCLUÍDO</span><h3 id="post-maker-preview-heading">Seu título aparece aqui</h3><p id="post-maker-preview-text">Conte seu momento para visualizar a postagem antes de gerar.</p></div>
+        <div class="be-maker-preview-metrics" id="post-maker-preview-metrics" hidden></div>
+        <strong class="be-maker-preview-record" id="post-maker-preview-record" hidden>CONQUISTA PESSOAL</strong>
+        <footer><span>BEM ESPORTIVO</span><strong>O esporte começa com pessoas.</strong></footer>
+      </article>
+      <p class="be-maker-preview-note">A imagem final será gerada em alta resolução depois que você escolher Stories/Status ou Feed/WhatsApp.</p>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="site-footer-inner"></div></footer>
+<script type="module" src="/js/site-common.js?v=20260830-2"></script>
+<script src="/js/be-share-card.js?v=20260902-2" defer></script>
+<script src="/js/postagem-maker.js?v=20260902-1" defer></script>
+</body>
+</html>

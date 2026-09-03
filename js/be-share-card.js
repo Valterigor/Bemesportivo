@@ -55,8 +55,44 @@
     context.restore();
   }
 
-  async function build({ post, profile = {}, format = 'story', url = '' }) {
-    if (!post) throw new Error('Publicação ainda não carregada.');
+  function drawAvatar(context, image, x, y, size, initial) {
+    context.save();
+    context.beginPath();
+    context.arc(x + size / 2, y + size / 2, size / 2, 0, Math.PI * 2);
+    context.clip();
+    const avatarGradient = context.createLinearGradient(x, y, x + size, y + size);
+    avatarGradient.addColorStop(0, '#ff945c');
+    avatarGradient.addColorStop(1, '#c94312');
+    context.fillStyle = avatarGradient;
+    context.fillRect(x, y, size, size);
+    if (image) {
+      const scale = Math.max(size / image.naturalWidth, size / image.naturalHeight);
+      const width = image.naturalWidth * scale;
+      const height = image.naturalHeight * scale;
+      context.drawImage(image, x + ((size - width) / 2), y + ((size - height) / 2), width, height);
+    } else {
+      context.fillStyle = '#fff';
+      context.font = `900 ${Math.round(size * .38)}px Manrope, Inter, Arial`;
+      context.textAlign = 'center';
+      context.fillText(initial, x + size / 2, y + size * .63);
+    }
+    context.restore();
+    context.strokeStyle = '#fff';
+    context.lineWidth = 12;
+    context.beginPath();
+    context.arc(x + size / 2, y + size / 2, size / 2 - 6, 0, Math.PI * 2);
+    context.stroke();
+  }
+
+  function canvasFile(canvas, name) {
+    return new Promise((resolve, reject) => canvas.toBlob(blob => blob
+      ? resolve(new File([blob], name, { type: 'image/png' }))
+      : reject(new Error('Não foi possível criar a imagem.')), 'image/png', .94));
+  }
+
+  async function build({ post, profile = {}, format = 'story', url = '', variant = 'post', stats = {} }) {
+    const isProfile = variant === 'profile';
+    if (!isProfile && !post) throw new Error('Publicação ainda não carregada.');
     const spec = formats[format] || formats.story;
     await document.fonts?.ready;
     const canvas = document.createElement('canvas');
@@ -77,11 +113,77 @@
     context.fillText('Be', 72, 108);
     context.fillStyle = '#fff';
     context.font = '800 23px Inter, Arial';
-    context.fillText('MEU DIÁRIO BE', 72, 165);
+    context.fillText(isProfile ? 'PERFIL ESPORTIVO · MEU CAMINHO BE' : 'MEU DIÁRIO BE', 72, 165);
     context.textAlign = 'right';
     context.fillStyle = 'rgba(255,255,255,.82)';
     context.font = '700 24px Inter, Arial';
-    context.fillText(nameFor(profile), 1008, 165);
+    context.fillText(isProfile ? safe(profile.favoriteSport) || 'ESPORTE' : nameFor(profile), 1008, 165);
+
+    if (isProfile) {
+      const story = format === 'story';
+      const avatarSize = story ? 250 : 190;
+      const avatarTop = story ? 300 : 220;
+      let avatarImage = null;
+      if (safe(profile.photoDataUrl)) {
+        try { avatarImage = await loadImage(profile.photoDataUrl); } catch (error) {}
+      }
+      drawAvatar(context, avatarImage, (spec.width - avatarSize) / 2, avatarTop, avatarSize, nameFor(profile).charAt(0).toLocaleUpperCase('pt-BR'));
+
+      const sport = safe(profile.favoriteSport) || 'Minha modalidade';
+      const sportY = avatarTop + avatarSize + (story ? 72 : 58);
+      context.font = '850 24px Inter, Arial';
+      const sportWidth = Math.min(520, context.measureText(sport.toLocaleUpperCase('pt-BR')).width + 58);
+      context.fillStyle = 'rgba(255,255,255,.13)';
+      rounded(context, (spec.width - sportWidth) / 2, sportY - 35, sportWidth, 58, 29);
+      context.fill();
+      context.fillStyle = '#ffb185';
+      context.textAlign = 'center';
+      context.fillText(sport.toLocaleUpperCase('pt-BR'), spec.width / 2, sportY + 3);
+
+      context.fillStyle = '#fff';
+      context.font = `900 ${story ? 68 : 58}px Manrope, Inter, Arial`;
+      const nameEnd = wrap(context, nameFor(profile), spec.width / 2, sportY + (story ? 105 : 92), 900, story ? 76 : 64, 2, 'center');
+      const bioTop = nameEnd + (story ? 42 : 30);
+      const bioHeight = story ? 300 : 220;
+      context.fillStyle = 'rgba(255,255,255,.11)';
+      rounded(context, 72, bioTop, 936, bioHeight, 32);
+      context.fill();
+      context.fillStyle = '#fff';
+      context.font = `650 ${story ? 34 : 30}px Inter, Arial`;
+      wrap(context, safe(profile.bio) || 'O esporte faz parte da minha história.', spec.width / 2, bioTop + (story ? 82 : 64), 820, story ? 49 : 43, story ? 4 : 3, 'center');
+
+      const statsTop = bioTop + bioHeight + (story ? 54 : 38);
+      const statItems = [
+        [Math.max(0, Number(stats.moments || 0)), 'MOMENTOS'],
+        [Math.max(0, Number(stats.likes || 0)), 'CURTIDAS'],
+        [Math.max(0, Number(stats.highlights || 0)), 'CONQUISTAS']
+      ];
+      statItems.forEach(([value, label], index) => {
+        const x = 72 + index * 312;
+        context.fillStyle = 'rgba(255,255,255,.09)';
+        rounded(context, x, statsTop, 288, story ? 170 : 145, 24);
+        context.fill();
+        context.fillStyle = '#fff';
+        context.font = `900 ${story ? 48 : 42}px Manrope, Inter, Arial`;
+        context.textAlign = 'center';
+        context.fillText(String(value), x + 144, statsTop + (story ? 72 : 62));
+        context.fillStyle = 'rgba(255,255,255,.68)';
+        context.font = '800 18px Inter, Arial';
+        context.fillText(label, x + 144, statsTop + (story ? 122 : 108));
+      });
+
+      const footerY = spec.height - 118;
+      context.textAlign = 'left';
+      context.fillStyle = 'rgba(255,255,255,.7)';
+      context.font = '700 21px Inter, Arial';
+      context.fillText('CONHEÇA MINHA HISTÓRIA NO ESPORTE', 72, footerY - 46);
+      context.fillStyle = '#fff';
+      context.font = '800 25px Inter, Arial';
+      let publicAddress = 'bemesportivo.com';
+      try { if (url) publicAddress = new URL(url).host + new URL(url).pathname; } catch (error) {}
+      context.fillText(publicAddress, 72, footerY);
+      return canvasFile(canvas, `meu-caminho-be-perfil-${format}.png`);
+    }
 
     const hasPhoto = post.kind === 'photo' && safe(post.imageDataUrl);
     let copyTop = format === 'story' ? 545 : 420;
@@ -120,9 +222,7 @@
     context.fillStyle = '#fff';
     context.font = '800 25px Inter, Arial';
     context.fillText(url ? safe(new URL(url).host + new URL(url).pathname) : 'bemesportivo.com', 72, footerY);
-    return new Promise((resolve, reject) => canvas.toBlob(blob => blob
-      ? resolve(new File([blob], `meu-caminho-be-${safe(post.id) || 'publicacao'}-${format}.png`, { type: 'image/png' }))
-      : reject(new Error('Não foi possível criar a imagem.')), 'image/png', .94));
+    return canvasFile(canvas, `meu-caminho-be-${safe(post.id) || 'publicacao'}-${format}.png`);
   }
 
   function download(file) {
@@ -164,7 +264,12 @@
         status.textContent = `Criando imagem para ${formats[button.dataset.shareFormat].label}…`;
         try {
           const file = await build({ ...options, format: button.dataset.shareFormat });
-          const data = { title: `${titleFor(options.post)} | Meu Diário BE`, text: safe(options.post?.text) || 'Veja este momento no Meu Diário BE.', ...(url ? { url } : {}), files: [file] };
+          const profileVariant = options?.variant === 'profile';
+          const data = {
+            title: profileVariant ? `${nameFor(options.profile)} | Meu Caminho Be` : `${titleFor(options.post)} | Meu Diário BE`,
+            text: profileVariant ? `Conheça minha história em ${safe(options.profile?.favoriteSport) || 'esporte'} no Meu Caminho Be.` : safe(options.post?.text) || 'Veja este momento no Meu Diário BE.',
+            ...(url ? { url } : {}), files: [file]
+          };
           if (navigator.share && navigator.canShare?.({ files: [file] })) {
             await navigator.share(data);
             status.textContent = 'Agora escolha Instagram ou WhatsApp.';

@@ -29,6 +29,29 @@ test('gera imagens adaptadas para Instagram e WhatsApp', async ({ page }) => {
   expect(dimensions.feed).toEqual({ width: 1080, height: 1350, name: 'meu-caminho-be-teste-feed.png' });
 });
 
+test('gera cartão social próprio para o perfil esportivo', async ({ page }) => {
+  await page.goto('/meu-caminho-be', { waitUntil: 'domcontentloaded' });
+  await expect.poll(() => page.evaluate(() => Boolean(window.BeShareCard))).toBe(true);
+  const dimensions = await page.evaluate(async () => {
+    const result = {};
+    for (const format of ['story', 'feed']) {
+      const file = await window.BeShareCard.build({
+        variant: 'profile',
+        format,
+        profile: { displayName: 'Pessoa esportista', favoriteSport: 'Corrida', bio: 'Cada treino é parte da minha história.' },
+        stats: { moments: 12, likes: 34, highlights: 2 },
+        url: 'https://bemesportivo.com/diario/be-123456789abc'
+      });
+      const bitmap = await createImageBitmap(file);
+      result[format] = { width: bitmap.width, height: bitmap.height, name: file.name };
+      bitmap.close();
+    }
+    return result;
+  });
+  expect(dimensions.story).toEqual({ width: 1080, height: 1920, name: 'meu-caminho-be-perfil-story.png' });
+  expect(dimensions.feed).toEqual({ width: 1080, height: 1350, name: 'meu-caminho-be-perfil-feed.png' });
+});
+
 test('seletor de compartilhamento se adapta ao celular', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 700 });
   await page.goto('/meu-caminho-be', { waitUntil: 'domcontentloaded' });

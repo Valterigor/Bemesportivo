@@ -364,15 +364,24 @@
     if (!currentPublicUrl) return;
     const button = event.currentTarget;
     const absoluteUrl = new URL(currentPublicUrl, location.origin).href;
+    const profile = profilePayload();
+    const posts = Array.isArray(currentPublicRecord?.posts) ? currentPublicRecord.posts : [];
+    const stats = {
+      moments: posts.length,
+      likes: posts.reduce((total, post) => total + (Number(post.likes) || Object.keys(post.likedBy || {}).length), 0),
+      highlights: posts.filter(post => post.personalBest || ['achievement', 'goal'].includes(post.postType)).length
+    };
     try {
-      if (navigator.share) await navigator.share({ title: 'Meu Diário BE', text: 'Conheça meu Diário BE.', url: absoluteUrl });
+      if (window.BeShareCard) {
+        window.BeShareCard.open({ variant: 'profile', profile, stats, url: absoluteUrl });
+      } else if (navigator.share) await navigator.share({ title: 'Meu Perfil Be', text: 'Conheça minha história no esporte.', url: absoluteUrl });
       else {
         await navigator.clipboard.writeText(absoluteUrl);
         button.textContent = 'Link copiado!';
-        window.setTimeout(() => { button.textContent = 'Compartilhar link'; }, 2200);
+        window.setTimeout(() => { button.textContent = 'Compartilhar perfil'; }, 2200);
       }
     } catch (error) {
-      if (error?.name !== 'AbortError') window.prompt('Copie o link do seu Diário BE:', absoluteUrl);
+      if (error?.name !== 'AbortError') window.prompt('Copie o link do seu Perfil Be:', absoluteUrl);
     }
   });
   if (!sportsComposer) document.getElementById('be-public-compose-text')?.addEventListener('input', event => {

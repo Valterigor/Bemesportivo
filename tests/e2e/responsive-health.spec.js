@@ -136,7 +136,7 @@ test('links internos visiveis respondem e apontam para secoes existentes', async
       .map(element => ({ raw: element.getAttribute('href'), absolute: element.href })));
 
     for (const link of links) {
-      if (!link.raw || /^(?:mailto:|tel:)/i.test(link.raw)) continue;
+      if (!link.raw || /^(?:mailto:|tel:|blob:|data:)/i.test(link.raw)) continue;
       const target = new URL(link.absolute);
       if (target.origin !== 'http://127.0.0.1:3100') continue;
       if (target.pathname === currentPath && target.hash) {

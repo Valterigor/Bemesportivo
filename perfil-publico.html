@@ -5,14 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Perfil esportivo público do Meu Caminho Be.">
 <meta name="robots" content="noindex, follow">
+<meta property="og:title" content="Perfil esportivo | Meu Caminho Be">
+<meta property="og:description" content="Uma história real, construída no esporte e compartilhada pelo Meu Caminho Be.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://bemesportivo.com/perfil-publico">
+<meta property="og:image" content="https://bemesportivo.com/img/banner.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta name="twitter:card" content="summary_large_image">
 <title>Perfil público | Meu Caminho Be</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site-common.css?v=20260814-1">
-<link rel="stylesheet" href="/css/perfil-publico.css?v=20260826-1">
+<link rel="stylesheet" href="/css/perfil-publico.css?v=20260902-2">
 <link rel="stylesheet" href="/css/perfil-publico-controls.css?v=20260816-3">
-<link rel="stylesheet" href="/css/share-card.css?v=20260830-1">
+<link rel="stylesheet" href="/css/share-card.css?v=20260902-2">
 <link rel="stylesheet" href="/css/mobile-typography.css?v=20260830-1">
 <link rel="stylesheet" href="/css/readability.css?v=20260830-1">
 </head>
@@ -21,15 +29,27 @@
 <main class="be-public-profile" id="be-public-profile" aria-live="polite">
 <section class="be-public-loading" id="be-public-loading"><span aria-hidden="true">Be</span><h1>Carregando diário esportivo…</h1><p>Abrindo a página pública desta pessoa.</p></section>
 <section id="be-public-content" hidden>
-<header class="be-public-hero"><div class="be-public-cover"><span>MEU DIÁRIO BE</span><strong>Uma história vivida no esporte</strong></div><div class="be-public-identity"><div class="be-public-avatar"><img id="be-public-photo" alt="Foto do perfil" hidden><span id="be-public-fallback" aria-hidden="true">BE</span></div><div><span>MEU DIÁRIO BE</span><h1 id="be-public-name"></h1><p id="be-public-handle"></p></div></div><p id="be-public-bio" class="be-public-bio"></p><dl class="be-public-facts"><div><dt>Esporte</dt><dd id="be-public-sport"></dd></div><div><dt>Publicações</dt><dd id="be-public-count"></dd></div></dl></header>
-<section class="be-public-feed" aria-labelledby="be-public-feed-title"><header><span>PUBLICAÇÕES</span><h2 id="be-public-feed-title">Meu Diário BE</h2><p>Textos e fotos que esta pessoa decidiu compartilhar.</p></header><div id="be-public-posts"></div></section>
+<header class="be-public-hero">
+  <div class="be-public-cover">
+    <div class="be-public-cover-copy"><span>MEU CAMINHO BE</span><strong>Minha história está em movimento.</strong><p>Esporte vivido de verdade, um momento de cada vez.</p></div>
+    <span class="be-public-cover-mark" aria-hidden="true">Be</span>
+  </div>
+  <div class="be-public-profile-main">
+    <div class="be-public-identity"><div class="be-public-avatar"><img id="be-public-photo" alt="Foto do perfil" hidden><span id="be-public-fallback" aria-hidden="true">BE</span></div><div><span>PERFIL ESPORTIVO</span><h1 id="be-public-name"></h1><p id="be-public-handle"></p></div></div>
+    <div class="be-public-profile-actions"><button type="button" id="be-public-share-profile" hidden><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"></path></svg><span>Compartilhar meu perfil</span></button><a id="be-public-profile-destination" href="/criar-postagem">Criar minha postagem</a></div>
+  </div>
+  <p id="be-public-bio" class="be-public-bio"></p>
+  <dl class="be-public-facts"><div><dt>Modalidade</dt><dd id="be-public-sport"></dd></div><div><dt>Momentos</dt><dd id="be-public-count"></dd></div><div><dt>Curtidas</dt><dd id="be-public-likes"></dd></div><div><dt>Conquistas</dt><dd id="be-public-highlights"></dd></div></dl>
+  <p class="be-public-profile-share-feedback" id="be-public-profile-share-feedback" role="status" aria-live="polite"></p>
+</header>
+<section class="be-public-feed" aria-labelledby="be-public-feed-title"><header><div><span>HISTÓRIA EM MOVIMENTO</span><h2 id="be-public-feed-title">Momentos compartilhados</h2><p>Textos, fotos e conquistas que esta pessoa escolheu tornar públicos.</p></div><strong aria-hidden="true">BE</strong></header><div id="be-public-posts"></div></section>
 <aside class="be-public-safety"><div><strong>Espaço público com cuidado</strong><p>Este perfil não mostra e-mail, idade, profissão, localização nem registros privados. O conteúdo pode ser denunciado, fiscalizado ou removido conforme as <a href="/diretrizes-da-comunidade">Diretrizes da Comunidade</a>.</p><p id="be-public-report-feedback" role="status" aria-live="polite"></p></div><div class="be-public-safety-actions"><button type="button" id="be-public-report-profile">Denunciar este perfil</button></div></aside>
 </section>
 </main>
 <div class="be-public-print-block" aria-hidden="true"><strong>Meu Diário BE</strong><p>A impressão desta página pública foi desativada para proteger o conteúdo da pessoa.</p></div>
 <footer class="site-footer"><div class="site-footer-inner"></div></footer>
 <script type="module" src="/js/site-common.js?v=20260813-2"></script>
-  <script src="/js/be-share-card.js?v=20260830-1" defer></script>
-  <script src="/js/perfil-publico.js?v=20260829-1" defer></script>
+  <script src="/js/be-share-card.js?v=20260902-2" defer></script>
+  <script src="/js/perfil-publico.js?v=20260902-2" defer></script>
 </body>
 </html>
