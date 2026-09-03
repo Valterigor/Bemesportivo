@@ -9,6 +9,11 @@
   const safe = value => String(value || '').trim();
   const titleFor = post => safe(post?.title || post?.activity) || 'Meu momento no esporte';
   const nameFor = profile => safe(profile?.displayName || profile?.name) || 'Meu Caminho Be';
+  const typeLabels = Object.freeze({
+    training: 'TREINO CONCLUÍDO', achievement: 'CONQUISTA', result: 'RESULTADO',
+    competition: 'JOGO OU COMPETIÇÃO', return: 'RETORNO AO ESPORTE',
+    goal: 'META ALCANÇADA', evolution: 'EVOLUÇÃO', photo: 'MOMENTO ESPORTIVO'
+  });
 
   function loadImage(source) {
     return new Promise((resolve, reject) => {
@@ -42,17 +47,72 @@
     return y + (visible.length * lineHeight);
   }
 
-  function drawContained(context, image, x, y, width, height) {
-    const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
-    const drawWidth = image.naturalWidth * scale;
-    const drawHeight = image.naturalHeight * scale;
+  function drawEditorialPhoto(context, image, x, y, width, height) {
+    const containScale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
+    const coverScale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+    const containWidth = image.naturalWidth * containScale;
+    const containHeight = image.naturalHeight * containScale;
+    const coverWidth = image.naturalWidth * coverScale;
+    const coverHeight = image.naturalHeight * coverScale;
     context.save();
     rounded(context, x, y, width, height, 34);
     context.clip();
-    context.fillStyle = '#120f0d';
+    context.filter = 'blur(28px) saturate(.9) brightness(.72)';
+    context.drawImage(image, x + ((width - coverWidth) / 2) - 24, y + ((height - coverHeight) / 2) - 24, coverWidth + 48, coverHeight + 48);
+    context.filter = 'none';
+    context.fillStyle = 'rgba(73,28,12,.18)';
     context.fillRect(x, y, width, height);
-    context.drawImage(image, x + ((width - drawWidth) / 2), y + ((height - drawHeight) / 2), drawWidth, drawHeight);
+    context.drawImage(image, x + ((width - containWidth) / 2), y + ((height - containHeight) / 2), containWidth, containHeight);
+    const shade = context.createLinearGradient(0, y, 0, y + height);
+    shade.addColorStop(0, 'rgba(17,12,10,.08)');
+    shade.addColorStop(.7, 'rgba(17,12,10,0)');
+    shade.addColorStop(1, 'rgba(17,12,10,.2)');
+    context.fillStyle = shade;
+    context.fillRect(x, y, width, height);
     context.restore();
+    context.save();
+    context.strokeStyle = 'rgba(255,255,255,.22)';
+    context.lineWidth = 3;
+    rounded(context, x + 1.5, y + 1.5, width - 3, height - 3, 34);
+    context.stroke();
+    context.restore();
+  }
+
+  function postEyebrow(post) {
+    const type = typeLabels[post?.postType] || 'MEU MOMENTO NO ESPORTE';
+    const activity = safe(post?.activity).toLocaleUpperCase('pt-BR');
+    return activity && !type.includes(activity) ? `${type}  ·  ${activity}` : type;
+  }
+
+  function metricLabels(post) {
+    const number = (value, suffix) => {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) && parsed > 0
+        ? `${new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 }).format(parsed)} ${suffix}`
+        : '';
+    };
+    return [
+      number(post?.duration, 'MIN'),
+      number(post?.distance, 'KM'),
+      safe(post?.result).toLocaleUpperCase('pt-BR'),
+      post?.personalBest ? '★ CONQUISTA PESSOAL' : ''
+    ].filter(Boolean).slice(0, 3);
+  }
+
+  function drawMetrics(context, post, y) {
+    const metrics = metricLabels(post);
+    let x = 72;
+    context.font = '800 19px Inter, Arial';
+    metrics.forEach(metric => {
+      const width = Math.min(390, context.measureText(metric).width + 42);
+      context.fillStyle = metric.includes('CONQUISTA') ? 'rgba(255,151,92,.2)' : 'rgba(255,255,255,.1)';
+      rounded(context, x, y, width, 52, 26);
+      context.fill();
+      context.fillStyle = metric.includes('CONQUISTA') ? '#ffc19f' : 'rgba(255,255,255,.9)';
+      context.textAlign = 'left';
+      context.fillText(metric, x + 21, y + 33);
+      x += width + 12;
+    });
   }
 
   function drawAvatar(context, image, x, y, size, initial) {
@@ -107,13 +167,22 @@
     gradient.addColorStop(1, '#a83b08');
     context.fillStyle = gradient;
     context.fillRect(0, 0, spec.width, spec.height);
+    context.strokeStyle = 'rgba(255,255,255,.08)';
+    context.lineWidth = 3;
+    [230, 330].forEach(radius => {
+      context.beginPath();
+      context.arc(1010, 20, radius, 0, Math.PI * 2);
+      context.stroke();
+    });
+    context.fillStyle = '#f46d22';
+    context.fillRect(0, 0, 14, spec.height);
     context.fillStyle = '#f46d22';
     context.font = '900 72px Manrope, Inter, Arial';
     context.textAlign = 'left';
     context.fillText('Be', 72, 108);
     context.fillStyle = '#fff';
     context.font = '800 23px Inter, Arial';
-    context.fillText(isProfile ? 'PERFIL ESPORTIVO · MEU CAMINHO BE' : 'MEU DIÁRIO BE', 72, 165);
+    context.fillText(isProfile ? 'PERFIL ESPORTIVO · MEU CAMINHO BE' : 'MEU MOMENTO NO ESPORTE', 72, 165);
     context.textAlign = 'right';
     context.fillStyle = 'rgba(255,255,255,.82)';
     context.font = '700 24px Inter, Arial';
@@ -189,9 +258,10 @@
     let copyTop = format === 'story' ? 545 : 420;
     if (hasPhoto) {
       try {
-        const photoHeight = format === 'story' ? 860 : 500;
-        drawContained(context, await loadImage(post.imageDataUrl), 72, 220, 936, photoHeight);
-        copyTop = 220 + photoHeight + 85;
+        const photoTop = format === 'story' ? 220 : 205;
+        const photoHeight = format === 'story' ? 730 : 430;
+        drawEditorialPhoto(context, await loadImage(post.imageDataUrl), 72, photoTop, 936, photoHeight);
+        copyTop = photoTop + photoHeight + (format === 'story' ? 54 : 48);
       } catch (error) {}
     } else {
       context.fillStyle = 'rgba(255,255,255,.12)';
@@ -204,21 +274,31 @@
       context.fillText(nameFor(profile).charAt(0).toLocaleUpperCase('pt-BR'), 540, (format === 'story' ? 370 : 315) + 32);
     }
 
+    context.fillStyle = '#ffad82';
+    context.font = '900 21px Inter, Arial';
+    context.textAlign = 'left';
+    context.fillText(postEyebrow(post), 72, copyTop);
     context.fillStyle = '#fff';
     context.font = `850 ${format === 'story' ? 58 : 52}px Manrope, Inter, Arial`;
-    const titleEnd = wrap(context, titleFor(post), 72, copyTop, 936, 65, 2, 'left');
-    context.fillStyle = 'rgba(255,255,255,.12)';
-    rounded(context, 72, titleEnd + 22, 936, format === 'story' ? 300 : 230, 30);
+    const titleEnd = wrap(context, titleFor(post), 72, copyTop + (format === 'story' ? 72 : 62), 936, format === 'story' ? 65 : 58, 2, 'left');
+    const quoteTop = titleEnd + 18;
+    const quoteHeight = format === 'story' ? 250 : 180;
+    context.fillStyle = 'rgba(255,255,255,.1)';
+    rounded(context, 72, quoteTop, 936, quoteHeight, 30);
+    context.fill();
+    context.fillStyle = '#f47a3c';
+    rounded(context, 72, quoteTop + 28, 7, quoteHeight - 56, 4);
     context.fill();
     context.fillStyle = '#fff';
-    context.font = `650 ${format === 'story' ? 34 : 31}px Inter, Arial`;
-    wrap(context, safe(post.text) || 'Um registro do meu caminho no esporte.', 112, titleEnd + 88, 856, format === 'story' ? 49 : 44, format === 'story' ? 4 : 3, 'left');
+    context.font = `650 ${format === 'story' ? 32 : 29}px Inter, Arial`;
+    wrap(context, safe(post.text) || 'Um registro do meu caminho no esporte.', 112, quoteTop + (format === 'story' ? 64 : 50), 838, format === 'story' ? 46 : 41, format === 'story' ? 4 : 3, 'left');
+    drawMetrics(context, post, quoteTop + quoteHeight + 24);
 
     const footerY = spec.height - 118;
     context.textAlign = 'left';
     context.fillStyle = 'rgba(255,255,255,.72)';
     context.font = '700 21px Inter, Arial';
-    context.fillText(url ? 'ABRA O LINK PARA VER A PUBLICAÇÃO' : 'CRIADO NO MEU CAMINHO BE', 72, footerY - 46);
+    context.fillText(url ? 'VEJA A PUBLICAÇÃO COMPLETA  →' : 'CRIADO NO MEU CAMINHO BE', 72, footerY - 46);
     context.fillStyle = '#fff';
     context.font = '800 25px Inter, Arial';
     context.fillText(url ? safe(new URL(url).host + new URL(url).pathname) : 'bemesportivo.com', 72, footerY);

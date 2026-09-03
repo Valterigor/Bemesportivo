@@ -445,7 +445,7 @@ async function run() {
     assert.match(publicProfileHtml, /id="be-public-likes"[\s\S]*id="be-public-highlights"/, 'O perfil público precisa resumir curtidas e conquistas sem expor dados privados.');
     assert.match(shareCardScript, /variant === 'profile'[\s\S]*PERFIL ESPORTIVO · MEU CAMINHO BE/, 'O perfil precisa ter um cartão social próprio, separado da publicação.');
     assert.match(pathHtml, /id="be-public-share-owner"/, 'Somente a área privada do proprietário deve oferecer o compartilhamento do link.');
-    assert.match(pathHtml, /js\/meu-caminho-public\.js\?v=20260902-2[\s\S]*js\/be-share-card\.js\?v=20260902-2/, 'A área privada precisa carregar a versão compartilhável do perfil.');
+    assert.match(pathHtml, /js\/meu-caminho-public\.js\?v=20260902-2[\s\S]*js\/be-share-card\.js\?v=20260903-1/, 'A área privada precisa carregar a versão compartilhável do perfil.');
     assert.match(publicDiaryScript, /BeShareCard\.open\(\{ variant: 'profile'/, 'O proprietário precisa criar o cartão social sem sair da área privada.');
     assert.match(makerHtml, /GRÁTIS · SEM CADASTRO[\s\S]*id="post-maker-form"[\s\S]*Gerar minha postagem/, 'O gerador precisa apresentar o fluxo direto sem cadastro.');
     assert.match(makerHtml, /Nada é enviado ou publicado automaticamente/, 'O gerador precisa explicar a privacidade antes da ação.');

@@ -82,13 +82,20 @@
   }
 
   function renderPhoto() {
-    field('post-maker-photo-preview').hidden = !photoDataUrl;
-    field('post-maker-preview-media').hidden = !photoDataUrl;
+    const photoPreview = field('post-maker-photo-preview');
+    const cardPreview = field('post-maker-preview-media');
+    photoPreview.hidden = !photoDataUrl;
+    cardPreview.hidden = !photoDataUrl;
     field('post-maker-photo-remove').hidden = !photoDataUrl;
     if (photoDataUrl) {
+      const photoBackdrop = `linear-gradient(rgba(30,18,13,.38),rgba(83,31,12,.28)),url("${photoDataUrl}")`;
+      photoPreview.style.backgroundImage = photoBackdrop;
+      cardPreview.style.backgroundImage = photoBackdrop;
       field('post-maker-photo-image').src = photoDataUrl;
       field('post-maker-preview-image').src = photoDataUrl;
     } else {
+      photoPreview.style.removeProperty('background-image');
+      cardPreview.style.removeProperty('background-image');
       field('post-maker-photo-image').removeAttribute('src');
       field('post-maker-preview-image').removeAttribute('src');
     }

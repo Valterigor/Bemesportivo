@@ -71,5 +71,6 @@ test('perfil público apresenta identidade esportiva e compartilhamento exclusiv
   });
   await page.reload();
   await expect(page.locator('#be-public-share-profile')).toBeHidden();
-  await expect(page.locator('#be-public-profile-destination')).toHaveText('Criar meu Perfil Be');
+  await expect(page.locator('#be-public-profile-destination')).toHaveText('Criar minha postagem');
+  await expect(page.locator('#be-public-profile-destination')).toHaveAttribute('href', '/criar-postagem');
 });

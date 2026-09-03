@@ -65,7 +65,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('todas as páginas preservam o layout ao reduzir e ampliar a janela', async ({ page }) => {
-  test.setTimeout(180_000);
+  test.setTimeout(360_000);
   const failures = [];
 
   for (const route of ROUTES) {

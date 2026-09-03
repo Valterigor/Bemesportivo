@@ -198,6 +198,38 @@ test('primeiro acesso começa pelo Perfil Be antes de liberar a jornada', async 
   await expect(page.getByRole('heading', { name: 'Qual é o seu principal objetivo?' })).toBeVisible();
 });
 
+test('Meu Hoje preserva o layout entre a identidade e a criação do Mapa BeM', async ({ page }) => {
+  await page.setViewportSize({ width: 1536, height: 768 });
+  await page.addInitScript(() => {
+    localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
+      version: 2,
+      necessary: true,
+      measurement: false,
+      advertising: false,
+      updatedAt: new Date().toISOString()
+    }));
+    localStorage.setItem('meuCaminhoBeProfileV1', JSON.stringify({
+      name: 'Pessoa Teste',
+      age: '25-34',
+      identityCreatedAt: new Date().toISOString(),
+      createdAt: new Date().toISOString()
+    }));
+  });
+
+  await page.goto('/meu-caminho-be');
+  await expect(page.locator('#be-section-banner')).toBeHidden();
+  await expect(page.locator('.be-product-showcase')).toBeVisible();
+  const layout = await page.locator('#fala-bem-app').evaluate(element => {
+    const rect = element.getBoundingClientRect();
+    return {
+      width: rect.width,
+      overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth
+    };
+  });
+  expect(layout.width).toBeGreaterThan(900);
+  expect(layout.overflow).toBeLessThanOrEqual(1);
+});
+
 test('menu móvel segue as seis etapas e o Perfil revela opções sob demanda', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.addInitScript(() => {

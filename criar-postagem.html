@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site-common.css?v=20260814-1">
-<link rel="stylesheet" href="/css/postagem-maker.css?v=20260902-1">
+<link rel="stylesheet" href="/css/postagem-maker.css?v=20260903-1">
 <link rel="stylesheet" href="/css/share-card.css?v=20260902-2">
 <link rel="canonical" href="https://bemesportivo.com/criar-postagem">
 </head>
@@ -27,13 +27,13 @@
 
 <main class="be-maker-main">
   <header class="be-maker-intro">
-    <div><span>GRÁTIS · SEM CADASTRO</span><h1>Transforme seu momento no esporte em uma postagem.</h1><p>Preencha os dados, confira o resultado e gere uma imagem pronta para Instagram ou WhatsApp.</p></div>
+    <div class="be-maker-intro-copy"><span>GRÁTIS · SEM CADASTRO</span><h1>Seu momento merece <em>virar história.</em></h1><p>Crie uma postagem esportiva com a sua identidade, confira tudo ao vivo e compartilhe onde quiser.</p><ul aria-label="Vantagens do criador"><li>Pronto em poucos minutos</li><li>Imagem em alta resolução</li><li>Nada é publicado sozinho</li></ul></div>
     <ol aria-label="Etapas para criar a postagem"><li><b>1</b><span><strong>Preencha</strong><small>Conte seu momento</small></span></li><li><b>2</b><span><strong>Confira</strong><small>Veja antes de gerar</small></span></li><li><b>3</b><span><strong>Compartilhe</strong><small>Escolha o formato</small></span></li></ol>
   </header>
 
   <div class="be-maker-layout">
     <section class="be-maker-form-card" aria-labelledby="be-maker-form-title">
-      <header><span>SEUS DADOS</span><h2 id="be-maker-form-title">Conte o que aconteceu</h2><p>Somente nome, modalidade, título e relato são necessários.</p></header>
+      <header><span>ETAPA 1 · SEUS DADOS</span><h2 id="be-maker-form-title">Conte o que aconteceu</h2><p>Os campos com <b>*</b> são necessários. Você poderá conferir tudo antes de gerar.</p></header>
       <form id="post-maker-form">
         <div class="be-maker-fields two-columns">
           <label><span>Seu nome <b>*</b></span><input id="post-maker-name" name="name" type="text" maxlength="40" autocomplete="name" placeholder="Como quer aparecer" required></label>
@@ -46,8 +46,8 @@
         <label class="be-maker-story"><span>Conte seu momento <b>*</b></span><textarea id="post-maker-text" name="text" maxlength="600" rows="5" placeholder="Como foi, o que aconteceu e por que isso foi importante para você?" required></textarea><small><output id="post-maker-count">0</output>/600</small></label>
 
         <section class="be-maker-photo" aria-labelledby="be-maker-photo-title">
-          <div><strong id="be-maker-photo-title">Foto <em>opcional</em></strong><small>Ela é preparada somente neste aparelho.</small></div>
-          <div><label for="post-maker-photo">Escolher foto</label><input id="post-maker-photo" type="file" accept="image/jpeg,image/png,image/webp"><button id="post-maker-photo-remove" type="button" hidden>Remover</button></div>
+          <div class="be-maker-photo-copy"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h3l1.5-2h7L17 7h3v12H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></span><div><strong id="be-maker-photo-title">Dê mais vida com uma foto <em>opcional</em></strong><small>JPG, PNG ou WebP. A imagem é preparada somente neste aparelho.</small></div></div>
+          <div class="be-maker-photo-actions"><label for="post-maker-photo">Escolher foto</label><input id="post-maker-photo" type="file" accept="image/jpeg,image/png,image/webp"><button id="post-maker-photo-remove" type="button" hidden>Remover</button></div>
           <figure id="post-maker-photo-preview" hidden><img id="post-maker-photo-image" alt="Prévia da foto escolhida"></figure>
           <p id="post-maker-photo-feedback" role="status"></p>
         </section>
@@ -69,7 +69,7 @@
     </section>
 
     <aside class="be-maker-preview-column" aria-labelledby="be-maker-preview-title">
-      <header><span>PRÉVIA AO VIVO</span><h2 id="be-maker-preview-title">Veja como está ficando</h2></header>
+      <header><div><span>ETAPA 2 · PRÉVIA AO VIVO</span><h2 id="be-maker-preview-title">Veja como está ficando</h2></div><small><i aria-hidden="true"></i> Formato 4:5</small></header>
       <article class="be-maker-preview" id="post-maker-preview">
         <div class="be-maker-preview-brand"><strong>Be</strong><span>MEU MOMENTO<br>NO ESPORTE</span></div>
         <figure id="post-maker-preview-media" hidden><img id="post-maker-preview-image" alt=""></figure>
@@ -79,14 +79,14 @@
         <strong class="be-maker-preview-record" id="post-maker-preview-record" hidden>CONQUISTA PESSOAL</strong>
         <footer><span>BEM ESPORTIVO</span><strong>O esporte começa com pessoas.</strong></footer>
       </article>
-      <p class="be-maker-preview-note">A imagem final será gerada em alta resolução depois que você escolher Stories/Status ou Feed/WhatsApp.</p>
+      <p class="be-maker-preview-note"><strong>Atualização instantânea.</strong> A imagem final será gerada em alta resolução para Stories, Status, Feed ou WhatsApp.</p>
     </aside>
   </div>
 </main>
 
 <footer class="site-footer"><div class="site-footer-inner"></div></footer>
 <script type="module" src="/js/site-common.js?v=20260830-2"></script>
-<script src="/js/be-share-card.js?v=20260902-2" defer></script>
-<script src="/js/postagem-maker.js?v=20260902-1" defer></script>
+<script src="/js/be-share-card.js?v=20260903-1" defer></script>
+<script src="/js/postagem-maker.js?v=20260903-1" defer></script>
 </body>
 </html>

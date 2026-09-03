@@ -819,7 +819,9 @@ function openView(requestedView, options = {}) {
     if (className.startsWith('fb-view-')) document.body.classList.remove(className);
   });
   document.body.classList.add(`fb-view-${view}`);
-  renderSectionBanner(primarySection);
+  // A tela inicial usa o seu próprio hero. O banner de seção pertence apenas
+  // às vistas compactas; exibi-lo aqui cria um item extra na coluna lateral da grade.
+  renderSectionBanner(view === 'inicio' ? null : primarySection);
 
   const exactNavView = appNavButtons.some(button => button.dataset.fbView === view) ? view : primarySection;
   appNavButtons.forEach(button => {
