@@ -28,7 +28,9 @@ assert.doesNotMatch(homeHtml, /data-netlify|newsletter-bem|newsletter=recebido/)
 assert.doesNotMatch(privacyHtml, /infraestrutura de formulários da Netlify|<h2>Newsletter<\/h2>/);
 assert.match(contactScript, /className = 'contact-fallback-link'/, 'O fallback precisa oferecer um link de e-mail acionado pelo visitante.');
 assert.doesNotMatch(contactScript, /location\.href\s*=\s*mailtoUrl/, 'O fallback não deve parecer travado quando o aparelho não possui aplicativo de e-mail.');
-assert.match(wranglerConfig, /\[\[env\.production\.send_email\]\][\s\S]*name = "CONTACT_EMAIL"[\s\S]*destination_address = "bemesportivo@yahoo\.com"/, 'Produção precisa declarar o binding de envio para o destinatário fixo.');
+assert.match(wranglerConfig, /\[\[env\.production\.services\]\][\s\S]*binding = "CONTACT_EMAIL_SERVICE"[\s\S]*service = "bemesportivo-contact-email"/, 'Produção precisa declarar o Worker interno de envio.');
+const emailWorkerConfig = read('workers/contact-email-service/wrangler.toml');
+assert.match(emailWorkerConfig, /\[\[send_email\]\][\s\S]*name = "CONTACT_EMAIL"[\s\S]*destination_address = "bemesportivo@yahoo\.com"/, 'O Worker de e-mail precisa limitar o envio ao destinatário verificado.');
 const contactPages = [
   'beplay.html', 'produtos.html', 'profissionais.html', 'reportagens.html', 'meu-caminho-be.html',
   ...fs.readdirSync(root).filter(file => /^reportagem-.+\.html$/.test(file))
@@ -51,7 +53,15 @@ function environment() {
   return {
     sent,
     env: {
-      CONTACT_EMAIL: { async send(message) { sent.push(message); return { messageId: `contact-${sent.length}` }; } },
+      CONTACT_EMAIL_SERVICE: {
+        async fetch(emailRequest) {
+          const message = await emailRequest.json();
+          sent.push({ to: 'bemesportivo@yahoo.com', ...message });
+          return new Response(JSON.stringify({ ok: true, messageId: `contact-${sent.length}` }), {
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+      },
       BE_DATA: {
         async get(key) { return records.has(key) ? JSON.parse(records.get(key)) : null; },
         async put(key, value) { records.set(key, value); }

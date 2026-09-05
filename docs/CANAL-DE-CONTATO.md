@@ -7,11 +7,12 @@ O formulário da Home e a página `/contato` enviam dúvidas e solicitações pa
 1. Acesse **Compute > Email Service > Email Routing > Destination Addresses**.
 2. Adicione `bemesportivo@yahoo.com` e confirme a verificação recebida no Yahoo.
 3. Faça o onboarding do domínio `bemesportivo.com` no Email Service.
-4. No projeto Pages do site, adicione um binding de envio de e-mail com o nome `CONTACT_EMAIL`, restrito ao destinatário `bemesportivo@yahoo.com`.
-5. Configure, se necessário, `CONTACT_FROM_EMAIL=contato@bemesportivo.com`.
-6. Faça um novo deploy e envie uma mensagem de teste pela página `/contato`.
+4. Publique o Worker interno `bemesportivo-contact-email`, cujo binding `CONTACT_EMAIL` fica restrito ao destinatário `bemesportivo@yahoo.com`.
+5. No projeto Pages, configure o Service Binding `CONTACT_EMAIL_SERVICE` apontando para `bemesportivo-contact-email`.
+6. Configure, se necessário, `CONTACT_FROM_EMAIL=contato@bemesportivo.com`.
+7. Faça um novo deploy e envie uma mensagem de teste pela página `/contato`.
 
-O binding nunca deve permitir que o navegador escolha o destinatário. A função mantém o endereço do Yahoo fixo no servidor.
+O navegador nunca escolhe o destinatário. A função mantém o Yahoo fixo no servidor e usa um Service Binding privado para chamar o Worker de envio.
 
 ## Proteções implementadas
 

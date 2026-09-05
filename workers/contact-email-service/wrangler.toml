@@ -1,0 +1,12 @@
+name = "bemesportivo-contact-email"
+main = "src/index.js"
+compatibility_date = "2026-07-30"
+workers_dev = false
+
+[[send_email]]
+name = "CONTACT_EMAIL"
+destination_address = "bemesportivo@yahoo.com"
+allowed_sender_addresses = ["contato@bemesportivo.com"]
+
+[vars]
+CONTACT_FROM_EMAIL = "contato@bemesportivo.com"

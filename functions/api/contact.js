@@ -134,7 +134,7 @@ export async function onRequest({ request, env }) {
   if (startedAt && Date.now() - startedAt < 1500) return json({ ok: false, error: 'Aguarde um instante e tente novamente.' }, 429);
   if (!(await enforceRateLimit(env, request))) return json({ ok: false, error: 'Limite de mensagens atingido. Tente novamente mais tarde.' }, 429);
 
-  if (!env?.CONTACT_EMAIL?.send) {
+  if (!env?.CONTACT_EMAIL_SERVICE?.fetch) {
     return json({
       ok: false,
       code: 'CONTACT_EMAIL_NOT_CONFIGURED',
@@ -157,15 +157,23 @@ export async function onRequest({ request, env }) {
   ].join('\n');
 
   try {
-    const result = await env.CONTACT_EMAIL.send({
-      to: DESTINATION_EMAIL,
-      from: cleanLine(env.CONTACT_FROM_EMAIL, 160) || DEFAULT_FROM_EMAIL,
-      replyTo: { email, name: displayName },
-      subject: `[Bem Esportivo] ${subject} — ${displayName}`,
-      text,
-      html: `<h1>Nova mensagem pelo site</h1><p><strong>Assunto:</strong> ${escapeHtml(subject)}<br><strong>Nome:</strong> ${escapeHtml(displayName)}<br><strong>E-mail para resposta:</strong> ${escapeHtml(email)}<br><strong>Origem:</strong> ${escapeHtml(source)}<br><strong>Enviada em:</strong> ${escapeHtml(sentAt)}</p><hr><p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>`
+    const emailRequest = new Request('https://contact-email.internal/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: cleanLine(env.CONTACT_FROM_EMAIL, 160) || DEFAULT_FROM_EMAIL,
+        replyTo: { email, name: displayName },
+        subject: `[Bem Esportivo] ${subject} — ${displayName}`,
+        text,
+        html: `<h1>Nova mensagem pelo site</h1><p><strong>Assunto:</strong> ${escapeHtml(subject)}<br><strong>Nome:</strong> ${escapeHtml(displayName)}<br><strong>E-mail para resposta:</strong> ${escapeHtml(email)}<br><strong>Origem:</strong> ${escapeHtml(source)}<br><strong>Enviada em:</strong> ${escapeHtml(sentAt)}</p><hr><p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>`
+      })
     });
-    return json({ ok: true, messageId: result?.messageId || null });
+    const emailResponse = await env.CONTACT_EMAIL_SERVICE.fetch(emailRequest);
+    const result = await emailResponse.json().catch(() => ({}));
+    if (!emailResponse.ok || !result.ok) {
+      throw Object.assign(new Error(result.error || 'Email service failed'), { code: result.code });
+    }
+    return json({ ok: true, messageId: result.messageId || null });
   } catch (error) {
     console.error('Contact email failed', error?.code || '', error?.message || error);
     return json({

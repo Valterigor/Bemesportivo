@@ -6,10 +6,9 @@ compatibility_date = "2026-07-30"
 binding = "BE_DATA"
 id = "c14e9a5a746c4f459063ce7d7711efeb"
 
-[[env.production.send_email]]
-name = "CONTACT_EMAIL"
-destination_address = "bemesportivo@yahoo.com"
-allowed_sender_addresses = ["contato@bemesportivo.com"]
+[[env.production.services]]
+binding = "CONTACT_EMAIL_SERVICE"
+service = "bemesportivo-contact-email"
 
 [env.production.vars]
 CONTACT_FROM_EMAIL = "contato@bemesportivo.com"
