@@ -118,6 +118,28 @@ for (const viewport of VIEWPORTS) {
   });
 }
 
+test('home mantém as seções principais no mesmo eixo horizontal', async ({ page }) => {
+  for (const width of [320, 390, 500, 768, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    const sections = await page.locator('.home-redesign > .shell').evaluateAll(elements => elements
+      .filter(element => getComputedStyle(element).display !== 'none')
+      .map(element => {
+        const rect = element.getBoundingClientRect();
+        return {
+          name: element.id || element.classList[1] || element.tagName,
+          left: rect.left,
+          right: innerWidth - rect.right
+        };
+      }));
+
+    for (const section of sections) {
+      expect(Math.abs(section.left - section.right), `${section.name} desalinhada em ${width}px`).toBeLessThanOrEqual(2);
+    }
+  }
+});
+
 test('links internos visiveis respondem e apontam para secoes existentes', async ({ page, request }) => {
   test.setTimeout(120_000);
   await page.setViewportSize({ width: 390, height: 844 });

@@ -315,7 +315,7 @@
     grid-template-columns: none;
     gap: 0;
     margin-top: -25px;
-    margin-inline: 18px;
+    margin-inline: auto;
     margin-bottom: 0;
     padding: 0;
     overflow-x: auto;
@@ -332,7 +332,7 @@
   .home-page .be-products-scroll-hint {
     display: flex;
     min-height: 42px;
-    margin: 8px 18px 34px;
+    margin: 8px auto 34px;
     padding: 0 4px;
     align-items: center;
     justify-content: space-between;
@@ -368,7 +368,7 @@
     0%, 100% { transform: translateX(0); opacity: .65; }
     50% { transform: translateX(3px); opacity: 1; }
   }
-  .be-search-discovery { grid-template-columns: 1fr; margin: -12px 18px 54px; scroll-margin-top: 76px; }
+  .be-search-discovery { grid-template-columns: 1fr; margin: -12px auto 54px; scroll-margin-top: 76px; }
   .be-search-results { grid-template-columns: 1fr; gap: 9px; }
   .be-search-discovery[data-search-coverage="library"] .be-search-results { grid-template-columns: 1fr; }
   .be-search-result-card { display: grid; grid-template-columns: 112px minmax(0, 1fr); min-height: 130px; }
