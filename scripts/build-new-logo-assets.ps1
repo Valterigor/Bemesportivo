@@ -157,8 +157,8 @@ function Export-CroppedSymbol {
   }
 }
 
-Export-TransparentLogo -InputPath $Source -OutputPath (Join-Path $OutputDirectory "bem-esportivo-com-nome-branco.png") -TextTone white
-Export-TransparentLogo -InputPath $Source -OutputPath (Join-Path $OutputDirectory "bem-esportivo-com-nome-escuro.png") -TextTone dark
-Export-CroppedSymbol -InputPath $SymbolSource -OutputPath (Join-Path $OutputDirectory "bem-esportivo-simbolo.png")
+Export-TransparentLogo -InputPath $Source -OutputPath (Join-Path $OutputDirectory "bem-esportivo-com-nome-branco-v2.png") -TextTone white
+Export-TransparentLogo -InputPath $Source -OutputPath (Join-Path $OutputDirectory "bem-esportivo-com-nome-escuro-v2.png") -TextTone dark
+Export-CroppedSymbol -InputPath $SymbolSource -OutputPath (Join-Path $OutputDirectory "bem-esportivo-simbolo-v2.png")
 
 Get-ChildItem -LiteralPath $OutputDirectory -File | Select-Object Name, Length
