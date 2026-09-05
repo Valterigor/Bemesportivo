@@ -303,8 +303,11 @@ async function run() {
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
     assert.match(homeHtml, /class="be-hero-brand" aria-label="Bem Esportivo"><span aria-hidden="true">Bem<\/span><span aria-hidden="true">Esportivo<\/span><\/p>\s*<h1 id="home-hero-title">O que você busca no esporte\?<\/h1>/, 'A busca principal precisa apresentar apenas a marca e a pergunta em sua nova hierarquia.');
     assert.match(homeHtml, /id="be-ecosystem-search-input"[^>]*aria-label="O que você busca no esporte\?"/, 'O campo principal de busca precisa ter um nome acessível independente do placeholder.');
+    assert.match(homeHtml, /id="be-home-path-cta"[^>]*href="\/meu-caminho-be\/registrar"[\s\S]*?id="be-home-path-cta-label">Começar meu Caminho Be/, 'A Home precisa oferecer um caminho principal para registrar atividades.');
+    assert.match(homeHtml, /class="be-search-secondary-label">Ou explore conteúdos, profissionais e ferramentas/, 'A busca precisa permanecer disponível como ação secundária.');
+    assert.match(homeHtml, /js\/home-path-cta\.js\?v=20260905-1/, 'A Home precisa adaptar o chamado principal ao estágio da pessoa.');
     assert.doesNotMatch(homeHtml, /class="be-search-examples"/, 'O hero da busca deve permanecer visualmente limpo, sem atalhos adicionais.');
-    assert.match(homeHtml, /css\/be-ecosystem-search\.css\?v=20260829-8/, 'A Home precisa carregar a versão atual do visual da busca.');
+    assert.match(homeHtml, /css\/be-ecosystem-search\.css\?v=20260905-1/, 'A Home precisa carregar a versão atual do visual da busca.');
     assert.match(homeHtml, /id="be-products-scroll-hint"[\s\S]*?Deslize para explorar/, 'A navegação lateral da Home precisa orientar o gesto no mobile.');
     assert.match(homeHtml, /js\/be-products-carousel\.js\?v=20260831-2/, 'A Home precisa carregar o movimento progressivo dos atalhos.');
     const professionalsHtml = fs.readFileSync(path.join(root, 'profissionais.html'), 'utf8');
@@ -517,7 +520,7 @@ async function run() {
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260806-1/);
     assert.match(pathHtml, /js\/meu-caminho-navigation\.js\?v=20260823-2/);
     assert.match(pathHtml, /js\/meu-caminho-account\.js\?v=20260823-2/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260830-2/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260905-1/);
     assert.match(pathHtml, /js\/coluna-valtinho\.js\?v=20260823-1/);
     assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260902-3/);
     assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260901-2/);
@@ -525,7 +528,7 @@ async function run() {
     assert.match(pathHtml, /js\/site-common\.js\?v=20260830-2/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU CAMINHO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
-    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260823-1/);
+    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260905-1/);
     assert.match(pathHtml, /id="be-profile-public-access-action"[^>]*>Ativar Meu Diário BE<\/button>/, 'O Perfil BE precisa deixar clara a ativação do Diário BE.');
     assert.match(publicDiaryScript, /Visualizar Meu Diário BE/, 'O botão deve mudar para visualizar o diário depois da publicação.');
     assert.match(publicDiaryScript, /dataset\.bePublicEdit/, 'A pessoa precisa conseguir editar publicações do Diário BE.');

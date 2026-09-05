@@ -310,6 +310,33 @@
     }));
   }
 
+  function openActivityShareCard(entry) {
+    if (!entry || !window.BeShareCard) return;
+    let profile = {};
+    try { profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}') || {}; } catch {}
+    const details = [
+      formatDuration(entry.duration),
+      entry.distance ? `${formatNumber(entry.distance)} km` : '',
+      entry.result
+    ].filter(Boolean).join(' · ');
+    window.setTimeout(() => window.BeShareCard?.open({
+      post: {
+        id: entry.id,
+        title: titleFor(entry),
+        activity: types[entry.type]?.label || types.outro.label,
+        text: entry.note || `${titleFor(entry)} · ${details}`,
+        kind: entry.imageDataUrl ? 'photo' : 'text',
+        imageDataUrl: entry.imageDataUrl,
+        postType: 'training',
+        duration: entry.duration,
+        distance: entry.distance,
+        result: entry.result,
+        feeling: entry.feeling
+      },
+      profile
+    }), 180);
+  }
+
   function entryCard(entry) {
     const details = [
       formatDuration(entry.duration),
@@ -656,6 +683,7 @@
     $('#be-quick-feedback').textContent = '';
     const interaction = contextualFeedback(entry, true);
     emitFeedback(interaction);
+    openActivityShareCard(entry);
   });
 
   $$('[data-be-activity]').forEach(button => button.addEventListener('click', () => openEntry({ type: button.dataset.beActivity, date: dayKey() })));
@@ -710,6 +738,7 @@
         emitFeedback({ tone: 'care', title: 'Registro salvo apenas no diário.', message: error?.message || 'Não foi possível publicar agora.' });
       }
     }
+    openActivityShareCard(entry);
   });
   $('#be-entry-delete')?.addEventListener('click', () => {
     const id = $('#be-entry-id').value;

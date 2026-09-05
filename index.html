@@ -2689,7 +2689,7 @@
   <link rel="stylesheet" href="css/components/privacy-consent.css?v=20260723-1">
   <link rel="stylesheet" href="css/premium-refinement.css?v=20260723-2">
   <link rel="stylesheet" href="css/ui-polish.css?v=20260723-3">
-  <link rel="stylesheet" href="css/be-ecosystem-search.css?v=20260829-8">
+  <link rel="stylesheet" href="css/be-ecosystem-search.css?v=20260905-1">
 <link rel="stylesheet" href="css/mobile-typography.css?v=20260830-1">
 <link rel="stylesheet" href="css/readability.css?v=20260830-1">
 <link rel="stylesheet" href="css/home-dark-theme.css?v=20260905-1">
@@ -2721,11 +2721,19 @@
         <div class="home-hero-copy">
           <p class="be-hero-brand" aria-label="Bem Esportivo"><span aria-hidden="true">Bem</span><span aria-hidden="true">Esportivo</span></p>
           <h1 id="home-hero-title">O que você busca no esporte?</h1>
+          <div class="be-hero-path-entry">
+            <a class="be-hero-path-cta" id="be-home-path-cta" href="/meu-caminho-be/registrar">
+              <span id="be-home-path-cta-label">Começar meu Caminho Be</span>
+              <i aria-hidden="true">→</i>
+            </a>
+            <small id="be-home-path-cta-help">Crie seu Perfil Be, registre uma atividade e transforme esse momento em um card para compartilhar.</small>
+          </div>
           <div class="be-search-box">
+            <span class="be-search-secondary-label">Ou explore conteúdos, profissionais e ferramentas</span>
             <form class="be-search-form" id="be-ecosystem-search-form" role="search" aria-label="Buscar no ecossistema Bem Esportivo">
               <label class="be-search-input-wrap" for="be-ecosystem-search-input">
                 <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg>
-                <input id="be-ecosystem-search-input" name="busca" type="search" maxlength="180" autocomplete="off" aria-label="O que você busca no esporte?" placeholder="Ex.: Quero registrar o que fiz hoje">
+                <input id="be-ecosystem-search-input" name="busca" type="search" maxlength="180" autocomplete="off" aria-label="O que você busca no esporte?" placeholder="Ex.: Quero perder peso">
               </label>
               <button type="submit">Encontrar</button>
             </form>
@@ -3250,6 +3258,7 @@
   <script type="module" src="js/home-latest-reports.js?v=20260821-1"></script>
   <script type="module" src="js/contact-form.js?v=20260821-1"></script>
   <script src="js/be-sports-library.js?v=20260829-5" defer></script>
+  <script src="js/home-path-cta.js?v=20260905-1" defer></script>
   <script src="js/be-ecosystem-search.js?v=20260831-12" defer></script>
   <script src="js/be-products-carousel.js?v=20260831-2" defer></script>
   <script>

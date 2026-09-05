@@ -52,6 +52,51 @@
   text-shadow: 0 3px 18px rgba(0,0,0,.5);
 }
 
+.be-hero-path-entry {
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  width: min(100%, 520px);
+  margin-top: 24px;
+}
+
+.be-hero-path-cta {
+  display: flex;
+  width: min(100%, 410px);
+  min-height: 60px;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 15px 24px;
+  border: 1px solid #ff8b3d;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ff7a00, #ef4d00);
+  color: #fff;
+  font: 900 clamp(16px, 1.5vw, 19px)/1.15 Manrope, Inter, sans-serif;
+  text-decoration: none;
+  box-shadow: 0 16px 34px rgba(239,77,0,.34), inset 0 1px 0 rgba(255,255,255,.28);
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+.be-hero-path-cta i { font-size: 23px; font-style: normal; line-height: 1; transition: transform .2s ease; }
+.be-hero-path-cta:hover,
+.be-hero-path-cta:focus-visible {
+  color: #fff;
+  filter: brightness(1.07);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px rgba(239,77,0,.43), inset 0 1px 0 rgba(255,255,255,.3);
+}
+.be-hero-path-cta:hover i,
+.be-hero-path-cta:focus-visible i { transform: translateX(4px); }
+.be-hero-path-entry small {
+  max-width: 52ch;
+  color: rgba(255,255,255,.78);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.45;
+  text-shadow: 0 2px 12px rgba(0,0,0,.55);
+}
+
 .home-page .be-ecosystem-hero .home-hero-media {
   inset: 0;
   border-radius: inherit;
@@ -67,7 +112,18 @@
   width: min(100%, 820px);
   min-width: 0;
   max-width: 100%;
-  margin-top: 26px;
+  margin-top: 21px;
+}
+
+.be-search-secondary-label {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255,255,255,.68);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 12px rgba(0,0,0,.55);
 }
 
 .be-search-form {
@@ -298,13 +354,17 @@
   .home-page { padding-bottom: 78px; }
   .home-page .site-header .category-nav { display: none; }
   .home-page .site-header .nav-row { min-height: 66px; }
-  .home-page .home-hero-v2.be-ecosystem-hero { min-height: 500px; margin-top: 12px; padding-top: 0; border-radius: 22px; }
+  .home-page .home-hero-v2.be-ecosystem-hero { min-height: 630px; margin-top: 12px; padding-top: 0; border-radius: 22px; }
   .home-page .be-ecosystem-hero .home-hero-copy { align-content: end; padding: 82px 18px 42px; }
   .home-page .be-ecosystem-hero .home-hero-copy > .be-hero-brand { max-width: 100%; margin-bottom: 9px; font-size: clamp(38px, 10.5vw, 48px) !important; line-height: .98; }
   .home-page .home-hero-v2.be-ecosystem-hero .home-hero-copy h1 { max-width: none; font-size: clamp(18px, 5.2vw, 22px) !important; font-weight: 700 !important; line-height: 1.18 !important; letter-spacing: -.02em !important; white-space: nowrap; }
   .home-page .be-ecosystem-hero .home-hero-media img { object-position: 62% center; }
   .home-page .be-ecosystem-hero .home-hero-media::after { background: linear-gradient(0deg, rgba(5,8,11,.92) 0%, rgba(5,8,11,.58) 57%, rgba(5,8,11,.25) 100%); }
-  .be-search-box { margin-top: 22px; }
+  .be-hero-path-entry { gap: 7px; margin-top: 19px; }
+  .be-hero-path-cta { width: 100%; min-height: 56px; border-radius: 14px; font-size: 16px; }
+  .be-hero-path-entry small { max-width: 42ch; font-size: 10px; }
+  .be-search-box { margin-top: 17px; }
+  .be-search-secondary-label { margin-bottom: 7px; font-size: 9px; }
   .be-search-form { grid-template-columns: minmax(0, 1fr); padding: 6px; border-radius: 17px; }
   .be-search-input-wrap { padding-left: 10px; }
   .be-search-form input { min-height: 51px; font-size: 14px; }

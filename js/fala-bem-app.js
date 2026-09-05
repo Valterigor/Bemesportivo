@@ -23,6 +23,7 @@ const BACKUP_KIND = 'meu-caminho-be-backup';
 const BACKUP_VERSION = 1;
 const BACKUP_MAX_BYTES = 5 * 1024 * 1024;
 const APP_BASE_PATH = '/meu-caminho-be';
+const PENDING_REGISTRATION_KEY = 'meuCaminhoBePendingRegistrationV1';
 const dailyActivityLabels = {
   none: 'Sem treino', caminhada: 'Caminhada', corrida: 'Corrida', musculacao: 'Musculação',
   funcional: 'Treino funcional', futebol: 'Futebol', ciclismo: 'Ciclismo', natacao: 'Natação', outra: 'Outra atividade'
@@ -897,6 +898,12 @@ function openViewFromRoute() {
   const view = legacyView || viewFromAppPath(url.pathname);
   if (!view) return false;
   const openedView = openView(view, { scroll: false, focus: false, instant: true, route: false });
+  if (view === 'registrar') {
+    try {
+      if (openedView === 'registrar') sessionStorage.removeItem(PENDING_REGISTRATION_KEY);
+      else sessionStorage.setItem(PENDING_REGISTRATION_KEY, 'registrar');
+    } catch (error) { /* o fluxo continua mesmo quando o armazenamento de sessão está indisponível */ }
+  }
   if (legacyRoute) updateAppRoute(openedView, true);
   return true;
 }
@@ -4837,17 +4844,25 @@ document.getElementById('fb-safety-form')?.addEventListener('submit', event => {
     submitButton.disabled = false;
     submitButton.textContent = 'Salvar e continuar';
   }
-  openView(restricted ? 'perfil' : 'progresso');
-  const viewFeedback = document.getElementById(restricted ? 'fb-profile-feedback' : 'fb-progress-feedback');
+  let continueToRegistration = false;
+  try { continueToRegistration = !restricted && sessionStorage.getItem(PENDING_REGISTRATION_KEY) === 'registrar'; } catch (error) {}
+  if (continueToRegistration) {
+    try { sessionStorage.removeItem(PENDING_REGISTRATION_KEY); } catch (error) {}
+  }
+  const completionView = restricted ? 'perfil' : continueToRegistration ? 'registrar' : 'progresso';
+  openView(completionView);
+  const viewFeedback = document.getElementById(restricted ? 'fb-profile-feedback' : continueToRegistration ? 'be-entry-feedback' : 'fb-progress-feedback');
   if (viewFeedback) viewFeedback.textContent = restricted
     ? 'Perfil salvo. Siga a indicação acima para revisar os sinais informados antes de começar.'
+    : continueToRegistration
+      ? 'Seu Perfil Be está pronto. Registre agora o que você viveu no esporte.'
     : 'Mapa BeM concluído. Escolha realizar seu próximo passo agora ou começar o registro no Meu Hoje.';
   showCelebration(
-    restricted ? 'Perfil salvo com segurança.' : 'Perfil esportivo concluído!',
-    restricted ? 'Obrigado por registrar essas informações. Confira a orientação indicada antes de continuar.' : 'Muito bem! Agora escolha seu próximo passo ou comece a preencher o Meu Hoje.'
+    restricted ? 'Perfil salvo com segurança.' : continueToRegistration ? 'Seu caminho está pronto!' : 'Perfil esportivo concluído!',
+    restricted ? 'Obrigado por registrar essas informações. Confira a orientação indicada antes de continuar.' : continueToRegistration ? 'Agora registre sua atividade e crie um card para compartilhar.' : 'Muito bem! Agora escolha seu próximo passo ou comece a preencher o Meu Hoje.'
   );
   window.setTimeout(() => {
-    document.getElementById(restricted ? 'fb-profile-next-step' : 'fb-next-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById(restricted ? 'fb-profile-next-step' : continueToRegistration ? 'be-entry-form' : 'fb-next-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 220);
 });
 
