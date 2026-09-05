@@ -11,13 +11,21 @@ function mailtoUrl(data) {
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`[Bem Esportivo] ${subject}`)}&body=${encodeURIComponent(body)}`;
 }
 
-function setStatus(form, message, state) {
+function setStatus(form, message, state, action = null) {
   const status = document.getElementById(form.getAttribute('aria-describedby'))
     || form.parentElement?.querySelector('[data-contact-status]');
   if (!status) return;
   status.hidden = false;
   status.dataset.state = state;
   status.textContent = message;
+  if (action?.href && action?.label) {
+    status.append(' ');
+    const link = document.createElement('a');
+    link.href = action.href;
+    link.textContent = action.label;
+    link.className = 'contact-fallback-link';
+    status.append(link);
+  }
   status.focus({ preventScroll: true });
 }
 
@@ -60,8 +68,12 @@ document.querySelectorAll('[data-contact-form]').forEach(form => {
       const payload = await response.json().catch(() => ({}));
       if (!response.ok || payload.ok === false) {
         if (payload.fallbackEmail || response.status === 404 || response.status === 503) {
-          setStatus(form, `O envio automático não está disponível. Abrimos seu aplicativo de e-mail para enviar a ${CONTACT_EMAIL}.`, 'fallback');
-          location.href = mailtoUrl(data);
+          setStatus(
+            form,
+            `O envio automático não está disponível. Você ainda pode enviar para ${CONTACT_EMAIL}.`,
+            'fallback',
+            { href: mailtoUrl(data), label: 'Enviar pelo aplicativo de e-mail' }
+          );
           return;
         }
         throw new Error(payload.error || 'Não foi possível enviar sua mensagem.');

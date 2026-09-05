@@ -17,5 +17,6 @@
 .contact-form-status[data-state="success"] { background: #e9f7ef; color: #176540; }
 .contact-form-status[data-state="error"] { background: #fff0ed; color: #9b2f1c; }
 .contact-form-status[data-state="fallback"] { background: #fff5e7; color: #7a4200; }
+.contact-form-status .contact-fallback-link { display: inline-block; margin-top: 7px; color: #9b3b00; font-weight: 850; text-decoration: underline; text-underline-offset: 3px; }
 .contact-honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
 @media (max-width: 760px) { .contact-channel { grid-template-columns: 1fr; padding: 22px 18px; border-radius: 18px; } }

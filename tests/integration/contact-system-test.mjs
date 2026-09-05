@@ -20,10 +20,15 @@ const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 const homeHtml = read('index.html');
 const contactHtml = read('contato.html');
 const privacyHtml = read('politica-de-privacidade.html');
+const contactScript = read('js/contact-form.js');
+const wranglerConfig = read('wrangler.toml');
 assert.match(homeHtml, /data-contact-form[\s\S]*bemesportivo@yahoo\.com/);
 assert.match(contactHtml, /data-contact-form[\s\S]*bemesportivo@yahoo\.com/);
 assert.doesNotMatch(homeHtml, /data-netlify|newsletter-bem|newsletter=recebido/);
 assert.doesNotMatch(privacyHtml, /infraestrutura de formulários da Netlify|<h2>Newsletter<\/h2>/);
+assert.match(contactScript, /className = 'contact-fallback-link'/, 'O fallback precisa oferecer um link de e-mail acionado pelo visitante.');
+assert.doesNotMatch(contactScript, /location\.href\s*=\s*mailtoUrl/, 'O fallback não deve parecer travado quando o aparelho não possui aplicativo de e-mail.');
+assert.match(wranglerConfig, /\[\[env\.production\.send_email\]\][\s\S]*name = "CONTACT_EMAIL"[\s\S]*destination_address = "bemesportivo@yahoo\.com"/, 'Produção precisa declarar o binding de envio para o destinatário fixo.');
 const contactPages = [
   'beplay.html', 'produtos.html', 'profissionais.html', 'reportagens.html', 'meu-caminho-be.html',
   ...fs.readdirSync(root).filter(file => /^reportagem-.+\.html$/.test(file))

@@ -212,6 +212,14 @@ body.home-page .home-people-signup :is(input, select, textarea) {
 }
 body.home-page .home-people-signup :is(input, textarea)::placeholder { color: #817b76; }
 body.home-page .home-people-signup .home-newsletter-status { background: #211f1d; color: #d1ccc8; }
+body.home-page .home-people-signup .contact-fallback-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #ff9a58;
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 
 body.home-page .footer {
   border-top: 1px solid #292725;
