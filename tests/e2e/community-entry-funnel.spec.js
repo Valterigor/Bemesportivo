@@ -17,7 +17,7 @@ test('visitante começa pelo Perfil Be com o registro preservado como destino', 
 
   await page.goto('/');
   const cta = page.locator('#be-home-path-cta');
-  await expect(cta).toContainText('Começar meu Caminho Be');
+  await expect(cta).toContainText('Registrar minha atividade');
   await cta.click();
 
   await expect(page).toHaveURL(/\/meu-caminho-be\/registrar$/);

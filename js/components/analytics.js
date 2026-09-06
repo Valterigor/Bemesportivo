@@ -97,7 +97,6 @@ function classifyClick(target) {
   if (link?.matches('[href*="/reportagens/"], [href*="reportagem-"]')) return ['content_open', 'reportagem'];
   if (link?.matches('[href^="/produtos"], [href*="/produtos"]')) return ['product_open', 'catalogo'];
   if (link?.matches('[href^="/profissionais"], [href*="/profissionais"]')) return ['professional_open', 'catalogo'];
-  if (target.closest('#playButton, [data-video-id], .video-card')) return ['video_play', 'beplay'];
   if (target.closest('[data-tool]')) return ['tool_open', target.closest('[data-tool]').dataset.tool];
   if (target.closest('[data-fb-view]')) return ['path_view', target.closest('[data-fb-view]').dataset.fbView];
   return null;
@@ -105,6 +104,34 @@ function classifyClick(target) {
 
 export function initAnalytics() {
   activate();
+
+  // Capture actual native playback, including players created after page load.
+  const played = new WeakSet();
+  const completed = new WeakSet();
+  document.addEventListener('play', event => {
+    if (!enabled || !(event.target instanceof HTMLVideoElement) || played.has(event.target)) return;
+    played.add(event.target);
+    trackEvent('video_play', 'native');
+  }, true);
+  document.addEventListener('ended', event => {
+    if (!enabled || !(event.target instanceof HTMLVideoElement) || completed.has(event.target)) return;
+    completed.add(event.target);
+    trackEvent('video_complete', 'native');
+  }, true);
+
+  // An engaged read is a proxy: 30 visible, consented seconds and 75% scroll.
+  if (/^\/reportagem-|^\/reportagens\//.test(location.pathname)) {
+    let visibleSeconds = 0;
+    const timer = window.setInterval(() => {
+      if (!enabled || document.visibilityState !== 'visible') return;
+      visibleSeconds += 1;
+      const height = document.documentElement.scrollHeight;
+      if (visibleSeconds >= 30 && window.scrollY + window.innerHeight >= height * 0.75) {
+        trackEvent('content_read', 'engaged');
+        window.clearInterval(timer);
+      }
+    }, 1000);
+  }
 
   window.addEventListener('bemEsportivo:privacy-consent', event => {
     enabled = event.detail?.measurement === true;

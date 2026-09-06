@@ -117,6 +117,20 @@ function moderationItem(item) {
 }
 
 function render(data) {
+  const eventLabels = { page_view: 'Visualizações', first_activity: 'Primeiras atividades', path_activity: 'Atividades na jornada', search_submit: 'Buscas', search_no_result: 'Buscas sem resposta exata', search_result_open: 'Resultados abertos', content_read: 'Leituras engajadas', video_play: 'Reproduções de vídeo', video_complete: 'Vídeos terminados', professional_lead: 'Contatos com profissionais', share_start: 'Compartilhamentos iniciados' };
+  const breakdown = document.getElementById('analyticsBreakdown');
+  if (breakdown) {
+    breakdown.replaceChildren();
+    for (const [name, label] of Object.entries(eventLabels)) {
+      const row = document.createElement('div');
+      const term = document.createElement('dt');
+      const value = document.createElement('dd');
+      term.textContent = label;
+      value.textContent = number((data.services.analytics.byName || []).find(event => event.name === name)?.count || 0);
+      row.append(term, value);
+      breakdown.append(row);
+    }
+  }
   setMetric('metricComments', data.community.comments);
   setMetric('metricReplies', data.community.replies);
   document.getElementById('metricReplies').textContent = `${number(data.community.replies)} respostas`;
@@ -129,6 +143,9 @@ function render(data) {
   document.getElementById('metricAnalyticsDetail').textContent = topEvents.length
     ? topEvents.map(item => `${item.name}: ${number(item.count)}`).join(' · ')
     : `${number(data.services.analytics.count)} lotes armazenados`;
+  document.getElementById('metricAnalyticsDetail').textContent += data.services.analytics.complete === false
+    ? ' · Consulta parcial: limite de lotes atingido.'
+    : ' · Eventos com consentimento; não representam pessoas únicas. Atualização eventual.';
   setMetric('metricRanking', data.services.ranking.count);
   setMetric('metricPublicProfiles', data.publicProfiles?.profiles);
   document.getElementById('metricPublicPending').textContent = `${number(data.publicProfiles?.pending)} exigem atenção`;

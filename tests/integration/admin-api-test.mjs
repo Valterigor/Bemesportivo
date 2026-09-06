@@ -47,7 +47,7 @@ const store = new MemoryKv({
   'game:ranking': JSON.stringify({ entries: [{ name: 'Atleta' }], updatedAt: '2026-08-13T12:00:00.000Z' }),
   'sync:test': '{}',
   'routine:install:test': '{}',
-  'analytics:test': '{}',
+  'analytics:test': JSON.stringify({ createdAt: '2026-08-30T12:00:00Z', events: [...Array.from({ length: 4 }, () => ({ name: 'page_view' })), ...Array.from({ length: 3 }, () => ({ name: 'search_submit' }))] }),
   'analytics-summary:2026-08-30': JSON.stringify({ total: 7, events: { page_view: 4, search_submit: 3 } })
   ,'public-profile:be-aaaaaaaaaaaa': JSON.stringify({
     slug: 'be-aaaaaaaaaaaa', profileStatus: 'published', reports: [{ reporter: 'profile-reporter' }], updatedAt: '2026-08-15T12:00:00.000Z',

@@ -563,6 +563,38 @@
     const input = document.getElementById('be-ecosystem-search-input');
     const results = document.getElementById('be-ecosystem-search-results');
     if (!form || !input || !results) return;
+    const interest = document.getElementById('home-interest');
+    const interestKey = 'bemEsportivoSportPreferenceV1';
+    const initialCards = [...results.children].map(card => card.cloneNode(true));
+    const initialTitle = document.getElementById('be-search-result-title')?.textContent;
+    const initialQuery = document.getElementById('be-search-result-query')?.textContent;
+    if (interest) {
+      try {
+        const saved = localStorage.getItem(interestKey);
+        if (saved && [...interest.options].some(option => option.value === saved)) {
+          interest.value = saved;
+          input.value = interest.selectedOptions[0].textContent;
+          render(search(input.value), results);
+        }
+      } catch {}
+      interest.addEventListener('change', () => {
+        try {
+          if (interest.value) localStorage.setItem(interestKey, interest.value);
+          else localStorage.removeItem(interestKey);
+        } catch {}
+        if (interest.value) {
+          input.value = interest.selectedOptions[0].textContent;
+          form.requestSubmit();
+        } else {
+          input.value = '';
+          results.replaceChildren(...initialCards.map(card => card.cloneNode(true)));
+          results.setAttribute('aria-label', `${initialCards.length} sugestões para começar`);
+          document.getElementById('be-search-result-title').textContent = initialTitle;
+          document.getElementById('be-search-result-query').textContent = initialQuery;
+          delete results.closest('.be-search-discovery').dataset.searchCoverage;
+        }
+      });
+    }
     form.addEventListener('submit', event => {
       event.preventDefault();
       const result = search(input.value);
@@ -575,7 +607,9 @@
       render(result, results);
       emitAnalytics('search_submit', result.coverage);
       if (['related', 'general'].includes(result.coverage)) emitAnalytics('search_no_result', result.coverage);
-      results.closest('.be-search-discovery')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const heading = document.getElementById('be-search-result-title');
+      heading?.focus({ preventScroll: true });
+      results.closest('.be-search-discovery')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     });
     document.querySelectorAll('[data-be-search-example]').forEach(button => {
       button.addEventListener('click', () => {

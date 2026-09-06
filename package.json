@@ -19,7 +19,7 @@
     "docs:check": "node scripts/docs-link-check.js",
     "check": "npm run lint && npm run structure && npm run docs:check",
     "build": "node scripts/build.js",
-    "test": "node tests/integration/smoke-test.js && node tests/integration/knowledge-library-test.js && node tests/integration/sports-library-test.js && node tests/integration/public-profile-test.mjs && node tests/integration/admin-api-test.mjs && node tests/integration/auth-system-test.mjs && node tests/integration/account-deletion-test.mjs && node tests/integration/api-origin-test.mjs && node tests/integration/contact-system-test.mjs && node tests/integration/csp-policy-test.mjs && node tests/integration/security-headers-test.mjs && node tests/integration/privacy-governance-test.mjs",
+    "test": "node tests/integration/smoke-test.js && node tests/integration/knowledge-library-test.js && node tests/integration/sports-library-test.js && node tests/integration/public-profile-test.mjs && node tests/integration/admin-api-test.mjs && node tests/integration/auth-system-test.mjs && node tests/integration/account-deletion-test.mjs && node tests/integration/api-origin-test.mjs && node tests/integration/contact-system-test.mjs && node tests/integration/csp-policy-test.mjs && node tests/integration/security-headers-test.mjs && node tests/integration/privacy-governance-test.mjs && node tests/integration/analytics-test.mjs",
     "test:auth": "node tests/integration/auth-system-test.mjs",
     "test:contact": "node tests/integration/contact-system-test.mjs",
     "test:e2e": "playwright test",

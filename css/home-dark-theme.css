@@ -1,5 +1,23 @@
 /* Tema escuro da página inicial — mantém a estrutura e altera apenas superfícies e contraste. */
+.home-skip-link { position: fixed; top: 8px; left: 8px; z-index: 10000; padding: 14px 20px; color: #111; background: #fff; transform: translateY(-160%); }
+.home-skip-link:focus { transform: translateY(0); }
+body.home-page .home-interest { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 16px; color: #f7f5f2; font-size: 14px; }
+body.home-page .home-interest select { min-height: 44px; max-width: 100%; border: 1px solid #817a74; border-radius: 8px; padding: 8px 12px; color: #fff; background: #171717; font: inherit; }
+body.home-page #home-interest-help { display: block; margin-top: 8px; color: #cbc7c3; font-size: 12px; line-height: 1.5; }
+body.home-page .home-quick-actions,
+body.home-page .home-search-examples { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-block: 16px; }
+body.home-page .home-quick-actions a { display: inline-flex; align-items: center; min-height: 44px; color: #f7f5f2; text-decoration: underline; text-underline-offset: 4px; }
+body.home-page .home-quick-actions [hidden] { display: none; }
+body.home-page #home-search-help { color: #cbc7c3; font-size: 14px; line-height: 1.5; margin-top: 12px; }
+body.home-page .home-search-examples button { min-height: 44px; padding: 10px 14px; border: 1px solid #817a74; border-radius: 24px; background: #171717; color: #fff; font: inherit; font-size: 14px; cursor: pointer; }
+body.home-page :is(a, button, input, select, [tabindex]):focus-visible { outline: 3px solid #ffb66b; outline-offset: 4px; }
+body.home-page #be-search-result-title { scroll-margin-top: 120px; }
+@media (prefers-reduced-motion: reduce) {
+  html:has(body.home-page) { scroll-behavior: auto; }
+  body.home-page *, body.home-page *::before, body.home-page *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
 body.home-page {
+  --be-readable-muted: #cbc7c3;
   --white: #f7f7f5;
   --black: #080808;
   --soft: #151515;
@@ -124,7 +142,7 @@ body.home-page .home-journey-proof div { color: #f5f3f1; }
 body.home-page .home-journey-copy p,
 body.home-page .home-journey-proof span { color: #aaa39e; }
 body.home-page .home-journey-proof { border-color: rgb(255 255 255 / 13%); }
-body.home-page .home-dark-btn { background: #ff5a00; color: #fff; }
+body.home-page .home-dark-btn { background: #ff5a00; color: #111; }
 body.home-page .home-dark-btn:hover,
 body.home-page .home-dark-btn:focus-visible { background: #ff7626; }
 
@@ -203,7 +221,7 @@ body.home-page .home-tools-list strong,
 body.home-page .home-video-list button { color: #f5f3f1; }
 body.home-page .home-tools-list small { color: #aaa39e; }
 
-body.home-page .home-content-bridge a { background: #ff5a00; color: #fff; }
+body.home-page .home-content-bridge a { background: #ff5a00; color: #111; }
 
 body.home-page .home-people-signup :is(input, select, textarea) {
   border-color: #3b3733;
@@ -269,3 +287,10 @@ body.home-page .be-privacy-categories label { border-color: #36322f; }
     border-color: #59534e;
   }
 }
+
+/* Text on dark surfaces uses the dark-theme palette, independently of light-page rules. */
+body.home-page :is(.home-journey-copy > span, .home-tools-bridge > div > span,
+  .home-content-bridge span, .home-editorial-category, .be-search-how li > span,
+  .home-journey-copy h2 em, .home-panel-head > span) { color: #ffad73 !important; }
+body.home-page .home-video-list button > small { color: #cbc7c3 !important; }
+body.home-page .be-search-result-body > b { color: #ffad73; }

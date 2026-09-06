@@ -1,5 +1,7 @@
 import { getDataStore, readJson, writeJson } from '../../../server/cloudflare-kv.mjs';
 
+import { summarizeAnalytics } from '../../../server/analytics-core.mjs';
+
 const encoder = new TextEncoder();
 const maximumBodyBytes = 8_000;
 
@@ -65,26 +67,6 @@ async function countPrefix(store, prefix, maximumPages = 10) {
     if (!cursor) complete = true;
   }
   return { count, complete };
-}
-
-async function summarizeAnalytics(store) {
-  const listed = await store.list({ prefix: 'analytics-summary:', limit: 100 });
-  const records = await Promise.all((listed.keys || []).map(key => store.get(key.name, { type: 'json' })));
-  const events = {};
-  let total = 0;
-  for (const record of records.filter(Boolean)) {
-    total += Number(record.total || 0);
-    for (const [name, count] of Object.entries(record.events || {})) {
-      events[name] = Number(events[name] || 0) + Number(count || 0);
-    }
-  }
-  return {
-    days: records.filter(Boolean).length,
-    total,
-    byName: Object.entries(events)
-      .sort((first, second) => second[1] - first[1] || first[0].localeCompare(second[0]))
-      .map(([name, count]) => ({ name, count }))
-  };
 }
 
 function summarizeCommunity(state) {
@@ -158,12 +140,11 @@ async function summarizePublicProfiles(store) {
 
 async function overview(env) {
   const store = getDataStore(env);
-  const [community, ranking, sync, notifications, analyticsBatches, analyticsSummary, publicProfiles] = await Promise.all([
+  const [community, ranking, sync, notifications, analyticsSummary, publicProfiles] = await Promise.all([
     readJson(env, 'community:state', { comments: {}, updatedAt: null }),
     readJson(env, 'game:ranking', { entries: [], updatedAt: null }),
     countPrefix(store, 'sync:'),
     countPrefix(store, 'routine:install:'),
-    countPrefix(store, 'analytics:'),
     summarizeAnalytics(store),
     summarizePublicProfiles(store)
   ]);
@@ -178,9 +159,7 @@ async function overview(env) {
       continuity: sync,
       notifications,
       analytics: {
-        ...analyticsBatches,
-        ...analyticsSummary,
-        count: analyticsBatches.count
+        ...analyticsSummary
       },
       ranking: {
         count: Array.isArray(ranking?.entries) ? ranking.entries.length : 0,
