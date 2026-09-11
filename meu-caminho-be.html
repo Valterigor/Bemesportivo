@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="/css/meu-caminho-modern.css?v=20260906-1">
 <link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260907-1">
 <link rel="stylesheet" href="/css/meu-caminho-navigation.css?v=20260907-1">
-<link rel="stylesheet" href="/css/meu-caminho-profile.css?v=20260906-1">
+<link rel="stylesheet" href="/css/meu-caminho-profile.css?v=20260911-1">
 <link rel="stylesheet" href="/css/share-card.css?v=20260906-1">
 <link rel="stylesheet" href="/css/mobile-typography.css?v=20260906-1">
 <link rel="stylesheet" href="/css/readability.css?v=20260906-1">
@@ -740,11 +740,12 @@
 <div><button type="button" class="fb-primary-action" id="fb-profile-next-professionals">Encontrar um profissional</button><button type="button" data-fb-view="inicio">Ir para Meu Hoje</button></div>
 </section>
 <section class="be-profile-presentation be-sports-profile" id="be-profile-presentation" aria-labelledby="be-profile-display-name" hidden>
+<section class="be-profile-ready" id="be-profile-ready" aria-labelledby="be-profile-ready-title" hidden><div><span>SEU PERFIL ESTÁ PRONTO</span><h2 id="be-profile-ready-title">Agora sua história tem um lugar.</h2><p>Veja como seu perfil ficou e escolha o próximo passo.</p></div><div><button type="button" data-be-view-profile>Visualizar perfil</button><button type="button" class="be-profile-ready-register" data-be-new-entry>Fazer meu primeiro registro</button></div></section>
 <header class="be-sports-profile-header">
 <div class="be-sports-profile-photo"><div class="be-profile-presentation-avatar"><img id="be-profile-card-photo" alt="Foto do perfil esportivo" hidden><span id="be-profile-card-fallback" aria-hidden="true">BE</span></div></div>
 <div class="be-profile-presentation-identity"><span>PERFIL BE</span><h2 id="be-profile-display-name" tabindex="-1">Seu perfil esportivo</h2><p id="be-profile-display-handle">@meucaminhobe</p><div id="be-profile-display-tags" class="be-profile-display-tags"></div><p class="be-profile-presentation-bio" id="be-profile-display-bio">O esporte faz parte da minha história.</p></div>
 <div class="be-sports-profile-header-stats" aria-label="Resumo do perfil"><div><strong id="be-profile-stat-records">0</strong><span>atividades</span></div><div><strong id="be-profile-stat-achievements">0</strong><span>conquistas</span></div></div>
-<div class="be-sports-profile-actions"><button type="button" class="be-sports-primary-action" data-be-new-entry>＋ Registrar atividade</button><button type="button" id="be-profile-edit" class="be-profile-edit-action">Editar perfil</button><button type="button" id="be-profile-share" class="be-profile-share-action">Compartilhar perfil</button><button type="button" class="be-profile-delete-action" data-fb-reset>Excluir perfil / zerar</button></div>
+<div class="be-sports-profile-actions"><button type="button" class="be-sports-primary-action" data-be-new-entry>＋ Registrar atividade</button><button type="button" class="be-profile-view-action" data-be-view-profile>Visualizar perfil</button><button type="button" id="be-profile-edit" class="be-profile-edit-action">Editar perfil</button><button type="button" id="be-profile-share" class="be-profile-share-action">Compartilhar perfil</button><button type="button" class="be-profile-delete-action" data-fb-reset>Excluir perfil / zerar</button></div>
 <span class="be-profile-legacy-stat" hidden><b id="be-profile-stat-days">0</b><b id="be-profile-stat-sports">1</b><b id="be-profile-stat-since">Hoje</b></span>
 </header>
 <section class="be-profile-evolution-summary" aria-labelledby="be-profile-evolution-summary-title"><header><span>SUA EVOLUÇÃO</span><h3 id="be-profile-evolution-summary-title">O que sua história já mostra</h3></header><div><article><span>ATIVIDADES</span><strong id="be-profile-metric-activities">0</strong><small>registros esportivos</small></article><article><span>TEMPO EM MOVIMENTO</span><strong id="be-profile-metric-time">0 min</strong><small>tempo acumulado</small></article><article><span>DISTÂNCIA</span><strong id="be-profile-metric-distance">0 km</strong><small>quando informada</small></article><article><span>SEQUÊNCIA ATUAL</span><strong id="be-profile-metric-streak">0 dias</strong><small>dias consecutivos</small></article></div></section>
@@ -762,6 +763,15 @@
 </section>
 <p class="be-profile-presentation-status" id="be-profile-presentation-status" role="status">Perfil salvo neste aparelho.</p>
 </section>
+<dialog class="be-profile-preview-dialog" id="be-profile-preview-dialog" aria-labelledby="be-profile-preview-dialog-name">
+<div class="be-profile-preview-shell">
+<button type="button" class="be-profile-preview-close" id="be-profile-preview-close" aria-label="Fechar apresentação">×</button>
+<div class="be-profile-preview-glow" aria-hidden="true"></div>
+<header><img src="/img/logobemoficial.png" alt="" width="42" height="36"><span>MEU DIÁRIO BE</span></header>
+<main><div class="be-profile-preview-avatar"><img id="be-profile-preview-dialog-photo" alt="Foto do perfil" hidden><span id="be-profile-preview-dialog-fallback" aria-hidden="true">BE</span></div><span>PERFIL BE</span><h2 id="be-profile-preview-dialog-name">Seu perfil</h2><p id="be-profile-preview-dialog-handle">@meudiariobe</p><div id="be-profile-preview-dialog-tags"></div><p id="be-profile-preview-dialog-bio"></p></main>
+<footer><button type="button" id="be-profile-preview-share">Compartilhar perfil</button><button type="button" id="be-profile-preview-public">Criar link público</button><small id="be-profile-preview-share-status" role="status">Você escolhe quando tornar esta apresentação pública.</small></footer>
+</div>
+</dialog>
 <form id="fb-profile-form" class="fb-profile-form">
 <section class="be-profile-social-card" aria-labelledby="fb-profile-title">
 <div class="be-profile-cover"><span>PRÉVIA DO SEU PERFIL BE</span><strong>Sua história começa a ganhar forma</strong></div>
@@ -1611,12 +1621,12 @@ Seu navegador não consegue reproduzir este vídeo.
 <script src="/js/coluna-valtinho.js?v=20260823-1" defer></script>
 <script src="/js/be-knowledge-library.js?v=20260821-4" defer></script>
 <script src="/js/meu-caminho-navigation.js?v=20260906-2" defer></script>
-<script src="/js/fala-bem-app.js?v=20260911-2" defer></script>
+<script src="/js/fala-bem-app.js?v=20260911-3" defer></script>
 <script src="/js/be-ia.js?v=20260806-1" defer></script>
 <script src="/js/meu-caminho-diary.js?v=20260906-2" defer></script>
 <script src="/js/meu-caminho-public.js?v=20260902-2" defer></script>
 <script src="/js/be-share-card.js?v=20260903-1" defer></script>
-<script src="/js/meu-caminho-profile.js?v=20260826-2" defer></script>
+<script src="/js/meu-caminho-profile.js?v=20260911-2" defer></script>
 
 </body>
 </html>

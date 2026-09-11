@@ -683,6 +683,61 @@
     if (status) status.textContent = 'Link público do Perfil Be copiado.';
   }
 
+  function fillProfilePreview() {
+    const user = profile() || {};
+    const name = String(user.name || 'Seu perfil').trim();
+    const photo = String(user.photoDataUrl || '');
+    const sport = user.sportProfile || {};
+    const momentLabels = {
+      comecando: 'Estou começando', voltando: 'Estou voltando', constancia: 'Quero criar constância',
+      evoluindo: 'Já pratico e quero evoluir', registrando: 'Quero registrar minha história'
+    };
+    const sportLabels = { futebol: 'Futebol', futsal: 'Futsal', volei: 'Vôlei', corrida: 'Corrida', ciclismo: 'Ciclismo', natacao: 'Natação', lutas: 'Lutas', musculacao: 'Musculação', outro: 'Esporte e movimento' };
+    setText('be-profile-preview-dialog-name', name);
+    setText('be-profile-preview-dialog-handle', `@${name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 24) || 'meudiariobe'}`);
+    setText('be-profile-preview-dialog-bio', String(user.story || '').trim() || 'O esporte faz parte da minha história.');
+    const image = byId('be-profile-preview-dialog-photo');
+    const fallback = byId('be-profile-preview-dialog-fallback');
+    image.hidden = !photo;
+    if (photo) image.src = photo; else image.removeAttribute('src');
+    fallback.hidden = Boolean(photo);
+    fallback.textContent = name.charAt(0).toLocaleUpperCase('pt-BR') || 'BE';
+    const tags = [sportLabels[sport.modality || 'outro'], sport.role, momentLabels[user.profileMoment]].filter(Boolean);
+    byId('be-profile-preview-dialog-tags').replaceChildren(...tags.map(value => {
+      const tag = document.createElement('span'); tag.textContent = value; return tag;
+    }));
+    const publicLink = byId('be-public-profile-link');
+    const publicButton = byId('be-profile-preview-public');
+    const isPublic = Boolean(publicLink && !publicLink.hidden && publicLink.href);
+    publicButton.textContent = isPublic ? 'Abrir perfil público' : 'Criar link público';
+    publicButton.dataset.publicUrl = isPublic ? publicLink.href : '';
+    setText('be-profile-preview-share-status', isPublic ? 'Seu perfil público está pronto para compartilhar.' : 'Você escolhe quando tornar esta apresentação pública.');
+  }
+
+  function openProfilePreview() {
+    const dialog = byId('be-profile-preview-dialog');
+    if (!dialog) return;
+    fillProfilePreview();
+    try { dialog.showModal(); } catch { dialog.setAttribute('open', ''); }
+  }
+
+  async function shareProfilePreview() {
+    const user = profile() || {};
+    const link = byId('be-public-profile-link');
+    const url = link && !link.hidden && link.href ? new URL(link.href, location.origin).href : '';
+    const data = { title: `${user.name || 'Meu Perfil Be'} | Meu diário Be`, text: `${user.name || 'Meu perfil'} no Meu diário Be.${user.story ? ` ${String(user.story).slice(0, 180)}` : ''}` };
+    if (url) data.url = url;
+    try {
+      if (navigator.share) await navigator.share(data);
+      else {
+        await navigator.clipboard.writeText([data.text, url].filter(Boolean).join('\n'));
+        setText('be-profile-preview-share-status', url ? 'Link do perfil copiado.' : 'Apresentação copiada para compartilhar.');
+      }
+    } catch (error) {
+      if (error?.name !== 'AbortError') setText('be-profile-preview-share-status', 'Não foi possível compartilhar agora. Tente novamente.');
+    }
+  }
+
   function renderAll() {
     if (!byId('be-profile-presentation') || byId('be-profile-presentation').hidden) return;
     renderSummary();
@@ -704,7 +759,15 @@
     });
   });
   byId('be-profile-create-post')?.addEventListener('click', () => openComposer());
-  byId('be-profile-share')?.addEventListener('click', shareProfile);
+  byId('be-profile-share')?.addEventListener('click', shareProfilePreview);
+  document.querySelectorAll('[data-be-view-profile]').forEach(button => button.addEventListener('click', openProfilePreview));
+  byId('be-profile-preview-close')?.addEventListener('click', () => byId('be-profile-preview-dialog')?.close());
+  byId('be-profile-preview-share')?.addEventListener('click', shareProfilePreview);
+  byId('be-profile-preview-public')?.addEventListener('click', event => {
+    const publicUrl = event.currentTarget.dataset.publicUrl;
+    if (publicUrl) window.open(publicUrl, '_blank', 'noopener,noreferrer');
+    else { byId('be-profile-preview-dialog')?.close(); byId('be-profile-public-access-action')?.click(); }
+  });
   byId('be-profile-load-more')?.addEventListener('click', () => { visiblePosts += PAGE_SIZE; renderFeed(); });
   byId('be-public-compose-type')?.addEventListener('change', event => fieldsForType(event.currentTarget.value));
   byId('be-public-compose-form')?.addEventListener('change', event => {

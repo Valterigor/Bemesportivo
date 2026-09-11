@@ -153,6 +153,8 @@ test('busca remove duplicados e respeita intenção de vídeo e apoio emocional'
 
 test('primeiro acesso começa pelo Perfil Be antes de liberar a jornada', async ({ page }) => {
   await page.addInitScript(() => {
+    window.sharedProfile = null;
+    Object.defineProperty(navigator, 'share', { configurable: true, value: async data => { window.sharedProfile = data; } });
     localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({
       version: 2,
       necessary: true,
@@ -170,8 +172,11 @@ test('primeiro acesso começa pelo Perfil Be antes de liberar a jornada', async 
   await expect(searchDestination).toHaveAttribute('href', '/meu-caminho-be/registrar');
   await searchDestination.click();
   await expect(page).toHaveURL(/\/meu-caminho-be\/registrar$/);
+  await page.locator('#be-diary-cover').click();
+  await expect(page.locator('#be-diary-welcome')).toBeVisible();
+  await page.locator('#be-diary-welcome-continue').click();
   await expect(page.locator('#fala-bem-app')).toHaveClass(/fb-onboarding-active/);
-  await expect(page.getByRole('heading', { name: 'Crie um perfil com a sua identidade.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Bem-vindo ao Meu diário Be.' })).toBeVisible();
   await expect(page.locator('.fb-app-nav')).toBeVisible();
   await expect(page.locator('.fb-app-nav [data-fb-view="perfil"]')).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('.be-profile-social-card')).toBeVisible();
@@ -189,8 +194,19 @@ test('primeiro acesso começa pelo Perfil Be antes de liberar a jornada', async 
   await page.locator('#fb-profile-role').fill('Corredora iniciante');
   await page.locator('#fb-profile-story').fill('Quero construir uma rotina de movimento no meu ritmo.');
   await page.getByRole('button', { name: 'Criar meu Perfil Be' }).click();
-  await expect(page).toHaveURL(/\/meu-caminho-be\/registrar$/);
+  await expect(page).toHaveURL(/\/meu-caminho-be\/perfil$/);
+  await expect(page.locator('#be-profile-ready')).toBeVisible();
+  await expect(page.locator('#be-profile-display-name')).toHaveText('Pessoa Teste');
+  await page.getByRole('button', { name: 'Visualizar perfil' }).first().click();
+  await expect(page.locator('#be-profile-preview-dialog')).toBeVisible();
+  await expect(page.locator('#be-profile-preview-dialog-name')).toHaveText('Pessoa Teste');
+  await page.locator('#be-profile-preview-share').click();
+  await expect.poll(() => page.evaluate(() => window.sharedProfile?.title)).toContain('Pessoa Teste');
+  await page.locator('#be-profile-preview-close').click();
   await page.goto('/meu-caminho-be/jornada/mapa');
+  await page.locator('#be-diary-cover').click();
+  await page.locator('#be-diary-welcome-continue').click();
+  await page.evaluate(() => window.falaBemOpenView('jornada'));
   await expect(page.locator('.journey-profile-link')).toBeVisible();
   await expect(page.locator('.fb-profile-trigger > span').last()).toHaveText('Pessoa Teste');
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('meuCaminhoBeProfileV1')).email)).toBeUndefined();

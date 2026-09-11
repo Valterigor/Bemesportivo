@@ -4085,18 +4085,16 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
   });
   showCelebration(interaction.title, interaction.message, { detail: interaction.detail });
   if (wasIdentityPending && hasProfileIdentity()) {
-    let requestedRegistration = false;
-    try { requestedRegistration = sessionStorage.getItem(PENDING_REGISTRATION_KEY) === 'registrar'; } catch {}
-    if (requestedRegistration) {
-      try { sessionStorage.removeItem(PENDING_REGISTRATION_KEY); } catch {}
-      openView('registrar');
-      document.querySelector('[data-fb-panel="registrar"] [data-be-new-entry]')?.focus();
-      return;
-    }
-    window.dispatchEvent(new CustomEvent('meuCaminhoBe:edit-onboarding', { detail: { ...(currentProfile || {}) } }));
-    openView('jornada');
+    try { sessionStorage.removeItem(PENDING_REGISTRATION_KEY); } catch {}
+    openView('perfil');
+    const ready = document.getElementById('be-profile-ready');
+    if (ready) ready.hidden = false;
     const feedback = document.getElementById('fb-profile-feedback');
-    if (feedback) feedback.textContent = 'Perfil Be criado. Agora vamos entender seu momento e preparar o próximo passo.';
+    if (feedback) feedback.textContent = 'Perfil Be criado. Sua apresentação está pronta para visualizar.';
+    window.setTimeout(() => {
+      ready?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelector('[data-be-view-profile]')?.focus({ preventScroll: true });
+    }, 180);
     return;
   }
   window.setTimeout(() => {
