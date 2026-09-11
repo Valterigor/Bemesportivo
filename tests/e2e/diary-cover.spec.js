@@ -19,6 +19,11 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 
         await page.mouse.click(12, 12);
       }
       await expect(cover).toBeHidden();
+      await expect(page.locator('#be-diary-welcome')).toBeVisible();
+      await expect(page.locator('#be-diary-welcome-title')).toHaveText(hasProfile ? 'Seja bem-vindo, Maria!' : 'Seja bem-vindo ao seu diário.');
+      await expect(page.locator('#fala-bem-app')).not.toBeVisible();
+      await page.locator('#be-diary-welcome-continue').click();
+      await expect(page.locator('#be-diary-welcome')).toBeHidden();
       await page.getByRole('button', { name: 'Recusar opcionais' }).click();
       await expect(page.locator(`[data-fb-panel="${hasProfile ? 'inicio' : 'perfil'}"]`)).toBeVisible();
       await expect(page.locator(hasProfile ? '.be-diary-intro' : '#be-profile-onboarding')).toContainText(hasProfile ? 'Seu dia, seus planos' : 'Bem-vindo ao Meu diário Be');

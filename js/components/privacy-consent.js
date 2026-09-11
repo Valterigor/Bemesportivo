@@ -78,7 +78,7 @@ function createDialog() {
 }
 
 function openPreferences(dialog, consent = readConsent()) {
-  if (document.body.classList.contains('be-cover-active')) {
+  if (document.body.classList.contains('be-cover-active') || document.body.classList.contains('be-welcome-active')) {
     window.addEventListener('meuDiarioBe:opened', () => openPreferences(dialog, consent), { once: true });
     return;
   }

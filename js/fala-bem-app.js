@@ -5055,12 +5055,20 @@ async function playDiaryOpeningSound() {
 }
 
 const diaryCover = document.getElementById('be-diary-cover');
+const diaryWelcome = document.getElementById('be-diary-welcome');
 if (diaryCover) {
   let openingTimer;
   diaryCover.addEventListener('click', () => {
     if (diaryCover.hidden || diaryCover.classList.contains('is-opening')) return;
     void playDiaryOpeningSound();
-    openView(hasProfileIdentity() ? 'inicio' : 'perfil', { scroll: false, focus: false, instant: true });
+    diaryWelcome.hidden = false;
+    document.body.classList.add('be-welcome-active');
+    document.getElementById('be-diary-welcome-title').textContent = hasProfileIdentity()
+      ? `Seja bem-vindo, ${currentProfile.name}!` : 'Seja bem-vindo ao seu diário.';
+    document.getElementById('be-diary-welcome-continue').textContent = hasProfileIdentity() ? 'Abrir meu diário →' : 'Vamos começar →';
+    document.getElementById('be-diary-welcome-note').textContent = hasProfileIdentity()
+      ? 'Seu diário continua de onde você parou.'
+      : 'Primeiro, vamos criar seu perfil.';
     diaryCover.classList.add('is-opening');
     document.body.classList.add('be-cover-opening');
     const finishOpening = () => {
@@ -5068,13 +5076,12 @@ if (diaryCover) {
       diaryCover.removeEventListener('animationend', onOpeningEnd);
       diaryCover.hidden = true;
       document.body.classList.remove('be-cover-active', 'be-cover-opening');
-      const target = document.querySelector(hasProfileIdentity() ? '.be-diary-intro h2' : '#be-profile-onboarding-title');
+      const target = document.getElementById('be-diary-welcome-title');
       if (target) {
         target.tabIndex = -1;
         target.focus({ preventScroll: true });
       }
       window.scrollTo(0, 0);
-      window.dispatchEvent(new CustomEvent('meuDiarioBe:opened'));
     };
     const onOpeningEnd = event => {
       if (event.target === diaryCover && event.animationName === 'be-cover-departure') finishOpening();
@@ -5085,10 +5092,21 @@ if (diaryCover) {
       openingTimer = window.setTimeout(finishOpening, 1250);
     }
   });
+  document.getElementById('be-diary-welcome-continue').addEventListener('click', () => {
+    if (diaryWelcome.hidden || !diaryCover.hidden) return;
+    openView(hasProfileIdentity() ? 'inicio' : 'perfil', { scroll: false, focus: false, instant: true });
+    diaryWelcome.hidden = true;
+    document.body.classList.remove('be-welcome-active');
+    const target = document.querySelector(hasProfileIdentity() ? '.be-diary-intro h2' : '#be-profile-onboarding-title');
+    if (target) { target.tabIndex = -1; target.focus({ preventScroll: true }); }
+    window.scrollTo(0, 0);
+    window.dispatchEvent(new CustomEvent('meuDiarioBe:opened'));
+  });
   window.addEventListener('pageshow', () => {
     window.clearTimeout(openingTimer);
     diaryCover.classList.remove('is-opening');
-    document.body.classList.remove('be-cover-opening');
+    document.body.classList.remove('be-cover-opening', 'be-welcome-active');
+    diaryWelcome.hidden = true;
     diaryCover.hidden = false;
     document.body.classList.add('be-cover-active');
     diaryCover.focus({ preventScroll: true });
