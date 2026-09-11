@@ -78,6 +78,10 @@ function createDialog() {
 }
 
 function openPreferences(dialog, consent = readConsent()) {
+  if (document.body.classList.contains('be-cover-active')) {
+    window.addEventListener('meuDiarioBe:opened', () => openPreferences(dialog, consent), { once: true });
+    return;
+  }
   const measurement = dialog.querySelector('[name="measurement"]');
   const advertising = dialog.querySelector('[name="advertising"]');
   if (measurement) measurement.checked = Boolean(consent?.measurement);

@@ -1,13 +1,14 @@
 'use strict';
 
 const CACHE_PREFIX = 'meu-caminho-be-';
-const CACHE_NAME = `${CACHE_PREFIX}v140`;
+const CACHE_NAME = `${CACHE_PREFIX}v141`;
 const CORE_SHELL = [
   '/meu-caminho-be',
   '/site-common.css',
   '/css/design-system.css',
   '/css/visual-system.css',
   '/css/diary-recognition.css',
+  '/css/diary-cover.css',
   '/css/core/tokens.css',
   '/css/core/primitives.css',
   '/css/components/ui.css',

@@ -490,7 +490,7 @@ async function run() {
     assert.match(pathHtml, /aria-label="Próximos passos após usar uma ferramenta"[\s\S]*?data-fb-view="dicas">Dicas práticas<\/button>[\s\S]*?data-fb-view="especialistas">Ver profissionais<\/button>/, 'O primeiro próximo passo de Ferramentas precisa abrir somente Dicas práticas.');
     assert.match(pathHtml, /class="be-journey-switcher"[\s\S]*?data-fb-view="progresso"[\s\S]*?data-fb-view="evolucao"[\s\S]*?data-fb-view="explorar"/, 'Diário, Evolução e História precisam permanecer dentro da Jornada.');
     assert.match(pathHtml, /id="be-profile-onboarding"[\s\S]*Seu acesso[\s\S]*Seu Perfil Be[\s\S]*Primeiro registro/, 'O primeiro acesso precisa explicar a criação do acesso, do perfil e do primeiro registro.');
-    assert.match(pathHtml, /<h2 id="be-profile-onboarding-title">Crie um perfil com a sua identidade\.<\/h2>[\s\S]*página final/, 'O Meu Caminho precisa explicar quais informações formam o Perfil Be final.');
+    assert.match(pathHtml, /<h2 id="be-profile-onboarding-title">Bem-vindo ao Meu diário Be\.<\/h2>[\s\S]*página final/, 'O diário precisa apresentar sua proposta e explicar quais informações formam o Perfil Be final.');
     assert.doesNotMatch(pathHtml, /id="journey-name"/, 'O Mapa BeM não deve perguntar novamente o nome já salvo no Perfil Be.');
     assert.match(pathHtml, /data-step-indicator="1"[^>]*>[\s\S]*Perfil Be/, 'O Mapa BeM precisa reconhecer o Perfil Be como etapa concluída.');
     assert.equal((pathHtml.match(/class="fb-section-actions(?:\s[^"]*)?"/g) || []).length, 6, 'As seis áreas principais precisam oferecer próximos passos contextuais.');
@@ -520,7 +520,7 @@ async function run() {
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260906-1/);
     assert.match(pathHtml, /js\/meu-caminho-navigation\.js\?v=20260906-2/);
     assert.match(pathHtml, /js\/meu-caminho-account\.js\?v=20260823-2/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260907-1/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260910-4/);
     assert.match(pathHtml, /js\/coluna-valtinho\.js\?v=20260823-1/);
     assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260907-1/);
     assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260907-1/);
@@ -748,7 +748,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v140`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v141`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]

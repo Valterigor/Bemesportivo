@@ -658,6 +658,7 @@ function registerFirstIdentityAccess() {
 }
 
 function showDailyWelcome(name) {
+  if (document.getElementById('be-diary-cover')) return;
   // A direct destination or an active task must not be interrupted by a greeting.
   if (!['/meu-caminho-be', '/meu-caminho-be/', '/meu-caminho-be.html'].includes(location.pathname)
     || location.search || document.querySelector('dialog[open]')) return;
@@ -5019,6 +5020,79 @@ function checkDailyGuideReminder() {
   if (!plan?.remindAt || plan.notifiedAt || new Date(plan.remindAt) > new Date()) return;
   saveDailyPlan({ ...plan, status: 'planned', notifiedAt: new Date().toISOString() });
   showCelebration('Seu lembrete chegou!', `Prioridade de hoje: ${dailyIntentions[plan.intention]}.`);
+}
+
+async function playDiaryOpeningSound() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContext) return;
+  let context;
+  try {
+    context = new AudioContext();
+    // Release the audio device even if the browser cannot resume playback.
+    window.setTimeout(() => { context.close().catch(() => {}); }, 1500);
+    if (context.state === 'suspended') await context.resume();
+    if (context.state !== 'running') return;
+    const start = context.currentTime;
+    // Two soft sine notes, with a gentle attack and fade to avoid clicks.
+    [523.25, 783.99].forEach((frequency, index) => {
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      const at = start + index * 0.12;
+      oscillator.type = 'sine';
+      oscillator.frequency.value = frequency;
+      gain.gain.setValueAtTime(0, at);
+      gain.gain.linearRampToValueAtTime(0.045, at + 0.025);
+      gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.55);
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+      oscillator.onended = () => { oscillator.disconnect(); gain.disconnect(); };
+      oscillator.start(at);
+      oscillator.stop(at + 0.6);
+    });
+  } catch {
+    // Opening the diary must still work when audio is unavailable.
+  }
+}
+
+const diaryCover = document.getElementById('be-diary-cover');
+if (diaryCover) {
+  let openingTimer;
+  diaryCover.addEventListener('click', () => {
+    if (diaryCover.hidden || diaryCover.classList.contains('is-opening')) return;
+    void playDiaryOpeningSound();
+    openView(hasProfileIdentity() ? 'inicio' : 'perfil', { scroll: false, focus: false, instant: true });
+    diaryCover.classList.add('is-opening');
+    document.body.classList.add('be-cover-opening');
+    const finishOpening = () => {
+      window.clearTimeout(openingTimer);
+      diaryCover.removeEventListener('animationend', onOpeningEnd);
+      diaryCover.hidden = true;
+      document.body.classList.remove('be-cover-active', 'be-cover-opening');
+      const target = document.querySelector(hasProfileIdentity() ? '.be-diary-intro h2' : '#be-profile-onboarding-title');
+      if (target) {
+        target.tabIndex = -1;
+        target.focus({ preventScroll: true });
+      }
+      window.scrollTo(0, 0);
+      window.dispatchEvent(new CustomEvent('meuDiarioBe:opened'));
+    };
+    const onOpeningEnd = event => {
+      if (event.target === diaryCover && event.animationName === 'be-cover-departure') finishOpening();
+    };
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) finishOpening();
+    else {
+      diaryCover.addEventListener('animationend', onOpeningEnd);
+      openingTimer = window.setTimeout(finishOpening, 1250);
+    }
+  });
+  window.addEventListener('pageshow', () => {
+    window.clearTimeout(openingTimer);
+    diaryCover.classList.remove('is-opening');
+    document.body.classList.remove('be-cover-opening');
+    diaryCover.hidden = false;
+    document.body.classList.add('be-cover-active');
+    diaryCover.focus({ preventScroll: true });
+  });
 }
 
 renderPersonalizedExperience();

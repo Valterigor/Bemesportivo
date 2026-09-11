@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://bemesportivo.com/img/valter-logo-oficial-optimized.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#fffdfa">
-<title>Meu Caminho Be | BeMEsportivo</title>
+<title>Meu diário Be | BeMEsportivo</title>
 
 <link rel="icon" href="/img/logobemoficial.png">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -40,8 +40,12 @@
 <link rel="stylesheet" href="/css/readability.css?v=20260906-1">
 <link rel="stylesheet" href="/css/visual-system.css?v=20260906-1">
 <link rel="stylesheet" href="/css/diary-recognition.css?v=20260906-1">
+<link rel="stylesheet" href="/css/diary-cover.css?v=20260910-3">
 </head>
-<body class="fala-bem-page fala-bem-app-page">
+<body class="fala-bem-page fala-bem-app-page be-cover-active">
+<button type="button" id="be-diary-cover" aria-label="Abrir Meu diário Be">
+<span class="be-diary-cover-brand"><span class="be-diary-cover-logo"><img src="/img/logobemoficial.png" alt="" width="2263" height="1937" fetchpriority="high"></span><span>Meu diário Be</span></span>
+</button>
 <a class="fb-skip-link" href="#fala-bem-app">Pular para o Meu Caminho Be</a>
 <aside class="fb-celebration-toast" id="fb-celebration-toast" role="status" aria-live="polite" aria-atomic="true" hidden>
 <span class="fb-celebration-icon" aria-hidden="true">✓</span>
@@ -55,7 +59,7 @@
 <header class="fb-app-topbar">
 <a class="fb-app-brand" href="/" aria-label="Voltar para a página inicial do BeMEsportivo">
 <img src="/img/logobemoficial.png" alt="">
-<span><strong>Meu Caminho Be</strong><small>por BeMEsportivo</small></span>
+<span><strong>Meu diário Be</strong><small>por BeMEsportivo</small></span>
 </a>
 <div class="fb-app-topbar-actions">
 <span class="fb-app-saved-status" id="fb-connectivity-status"><i aria-hidden="true"></i>Acesso livre · dados neste aparelho</span>
@@ -201,6 +205,7 @@
 </section>
 
 <div class="fb-app-panel active" data-fb-panel="inicio">
+<section class="be-diary-intro" aria-label="Sobre o Meu diário Be"><h2>Seu dia, seus planos, seu cuidado.</h2><p>Registre suas atividades, organize o que quer fazer e encontre dicas, incentivo e profissionais para acompanhar você.</p></section>
 <main class="be-diary-home" aria-labelledby="be-diary-home-title">
 <section class="be-dashboard-overview" aria-labelledby="be-dashboard-greeting">
 <header><div><span>MEU CAMINHO BE</span><h2 id="be-dashboard-greeting">Bom dia!</h2><p id="be-dashboard-since">Seu caminho não precisa ser perfeito. Precisa fazer sentido para você.</p></div><button type="button" data-fb-view="perfil" aria-label="Abrir perfil"><span class="be-dashboard-avatar" id="be-dashboard-avatar">BE</span></button></header>
@@ -714,7 +719,8 @@
 <section class="be-onboarding-sequence" id="be-profile-onboarding" aria-labelledby="be-profile-onboarding-title" hidden>
 <ol aria-label="Etapas para criar seu caminho"><li class="current"><span>1</span><strong>Seu acesso</strong></li><li><span>2</span><strong>Seu Perfil Be</strong></li><li><span>3</span><strong>Primeiro registro</strong></li></ol>
 <span>ETAPAS 1 E 2 DE 3</span>
-<h2 id="be-profile-onboarding-title">Crie um perfil com a sua identidade.</h2>
+<h2 id="be-profile-onboarding-title">Bem-vindo ao Meu diário Be.</h2>
+<p>Seu espaço para registrar corridas, treinos e outras atividades, planejar o dia e encontrar dicas, incentivo e profissionais para cuidar de você.</p>
 <p>Comece pelo nome e pela modalidade. Foto, localização, função e história ajudam a formar sua página final, mas você decide o que deseja informar.</p>
 </section>
 <section class="fb-profile-next-step" id="fb-profile-next-step" aria-labelledby="fb-profile-next-title" hidden>
@@ -1595,7 +1601,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <script src="/js/coluna-valtinho.js?v=20260823-1" defer></script>
 <script src="/js/be-knowledge-library.js?v=20260821-4" defer></script>
 <script src="/js/meu-caminho-navigation.js?v=20260906-2" defer></script>
-<script src="/js/fala-bem-app.js?v=20260907-1" defer></script>
+<script src="/js/fala-bem-app.js?v=20260910-4" defer></script>
 <script src="/js/be-ia.js?v=20260806-1" defer></script>
 <script src="/js/meu-caminho-diary.js?v=20260906-2" defer></script>
 <script src="/js/meu-caminho-public.js?v=20260902-2" defer></script>
