@@ -5054,13 +5054,57 @@ async function playDiaryOpeningSound() {
   }
 }
 
+let diaryGreeting = null;
+function speakDiaryGreeting() {
+  if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return;
+  try {
+    const speech = window.speechSynthesis;
+    const greeting = new SpeechSynthesisUtterance(hasProfileIdentity()
+      ? `Olá, ${String(currentProfile.name).trim()}.` : 'Seja bem-vindo.');
+    greeting.lang = 'pt-BR';
+    greeting.rate = 0.92;
+    greeting.pitch = 1;
+    greeting.volume = 0.8;
+    const voices = speech.getVoices();
+    const isBrazilian = voice => /^pt[-_]br$/i.test(voice.lang);
+    // The browser exposes names, not gender. Prefer identifiable female voices
+    // only from its own free voice list; no external TTS service is requested.
+    const isFemale = voice => /female|feminina|francisca|thalita|brenda|giovanna|manuela|\belza\b|\bleila\b|\byara\b/i.test(voice.name);
+    const voice = voices.find(voice => isBrazilian(voice) && isFemale(voice) && voice.localService)
+      || voices.find(voice => isBrazilian(voice) && isFemale(voice))
+      || voices.find(voice => /^pt[-_]/i.test(voice.lang) && isFemale(voice))
+      || voices.find(voice => isBrazilian(voice) && voice.localService)
+      || voices.find(isBrazilian)
+      || voices.find(voice => /^pt\b/i.test(voice.lang));
+    if (voice) greeting.voice = voice;
+    diaryGreeting = greeting;
+    const release = () => { if (diaryGreeting === greeting) diaryGreeting = null; };
+    greeting.onend = release;
+    greeting.onerror = release;
+    // Speak directly inside the user's click so mobile browsers allow playback.
+    speech.speak(greeting);
+  } catch {
+    diaryGreeting = null;
+  }
+}
+function stopDiaryGreeting() {
+  if (!diaryGreeting) return;
+  diaryGreeting = null;
+  try { window.speechSynthesis.cancel(); } catch {}
+}
+// Request the device's voice list before the first tap when available.
+try { window.speechSynthesis?.getVoices(); } catch {}
+window.addEventListener('pagehide', stopDiaryGreeting);
+
 const diaryCover = document.getElementById('be-diary-cover');
 const diaryWelcome = document.getElementById('be-diary-welcome');
 if (diaryCover) {
   let openingTimer;
+  let welcomeExitTimer;
   diaryCover.addEventListener('click', () => {
     if (diaryCover.hidden || diaryCover.classList.contains('is-opening')) return;
     void playDiaryOpeningSound();
+    speakDiaryGreeting();
     diaryWelcome.hidden = false;
     document.body.classList.add('be-welcome-active');
     document.getElementById('be-diary-welcome-title').textContent = hasProfileIdentity()
@@ -5093,19 +5137,29 @@ if (diaryCover) {
     }
   });
   document.getElementById('be-diary-welcome-continue').addEventListener('click', () => {
-    if (diaryWelcome.hidden || !diaryCover.hidden) return;
+    if (diaryWelcome.hidden || !diaryCover.hidden || diaryWelcome.classList.contains('is-leaving')) return;
+    stopDiaryGreeting();
     openView(hasProfileIdentity() ? 'inicio' : 'perfil', { scroll: false, focus: false, instant: true });
-    diaryWelcome.hidden = true;
-    document.body.classList.remove('be-welcome-active');
-    const target = document.querySelector(hasProfileIdentity() ? '.be-diary-intro h2' : '#be-profile-onboarding-title');
-    if (target) { target.tabIndex = -1; target.focus({ preventScroll: true }); }
-    window.scrollTo(0, 0);
-    window.dispatchEvent(new CustomEvent('meuDiarioBe:opened'));
+    diaryWelcome.classList.add('is-leaving');
+    document.body.classList.add('be-welcome-leaving');
+    const finishWelcome = () => {
+      diaryWelcome.hidden = true;
+      diaryWelcome.classList.remove('is-leaving');
+      document.body.classList.remove('be-welcome-active', 'be-welcome-leaving');
+      const target = document.querySelector(hasProfileIdentity() ? '.be-diary-intro h2' : '#be-profile-onboarding-title');
+      if (target) { target.tabIndex = -1; target.focus({ preventScroll: true }); }
+      window.scrollTo(0, 0);
+      window.dispatchEvent(new CustomEvent('meuDiarioBe:opened'));
+    };
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) finishWelcome();
+    else welcomeExitTimer = window.setTimeout(finishWelcome, 720);
   });
   window.addEventListener('pageshow', () => {
     window.clearTimeout(openingTimer);
+    window.clearTimeout(welcomeExitTimer);
+    diaryWelcome.classList.remove('is-leaving');
     diaryCover.classList.remove('is-opening');
-    document.body.classList.remove('be-cover-opening', 'be-welcome-active');
+    document.body.classList.remove('be-cover-opening', 'be-welcome-active', 'be-welcome-leaving');
     diaryWelcome.hidden = true;
     diaryCover.hidden = false;
     document.body.classList.add('be-cover-active');

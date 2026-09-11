@@ -63,13 +63,54 @@ body.be-cover-opening > #be-diary-welcome { animation: be-diary-arrival 1.05s cu
   body.be-cover-opening > #be-diary-welcome { animation: none; }
 }
 body.be-welcome-active { overflow: hidden; }
-body.be-welcome-active > :not(#be-diary-cover):not(#be-diary-welcome):not(script):not(link) { visibility: hidden; }
+body.be-welcome-active:not(.be-welcome-leaving) > :not(#be-diary-cover):not(#be-diary-welcome):not(script):not(link) { visibility: hidden; }
 #be-diary-welcome {
   position: fixed; inset: 0; z-index: 2147483646; overflow-y: auto;
   display: flex; flex-direction: column; background: #f8f7f4; color: #181818; overscroll-behavior: contain;
   padding: max(24px, env(safe-area-inset-top)) clamp(24px, 5vw, 80px) max(24px, env(safe-area-inset-bottom));
 }
 #be-diary-welcome[hidden] { display: none; }
+#be-diary-welcome { isolation: isolate; overflow-x: hidden; }
+#be-diary-welcome::before,
+#be-diary-welcome::after {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  width: min(85vw, 1050px); height: min(85vw, 1050px); border-radius: 50%;
+}
+#be-diary-welcome::before {
+  top: -25%; right: -25%;
+  background: radial-gradient(ellipse, rgb(237 186 104 / .23), rgb(245 218 172 / .09) 45%, transparent 70%);
+  animation: be-ambient-drift 16s ease-in-out infinite alternate;
+}
+#be-diary-welcome::after {
+  bottom: -35%; left: -25%;
+  background: radial-gradient(ellipse, rgb(220 207 181 / .22), transparent 68%);
+  animation: be-ambient-drift 20s ease-in-out -8s infinite alternate-reverse;
+}
+@keyframes be-ambient-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-8%, 10%, 0) scale(1.18); }
+}
+#be-diary-welcome:not([hidden]) > .be-welcome-brand,
+#be-diary-welcome:not([hidden]) .be-welcome-content > *,
+#be-diary-welcome:not([hidden]) > .be-welcome-signature {
+  animation: be-welcome-rise .9s cubic-bezier(.16, 1, .3, 1) var(--be-reveal-delay, 0s) both;
+}
+#be-diary-welcome > .be-welcome-brand { --be-reveal-delay: .2s; }
+#be-diary-welcome .be-welcome-content > .be-welcome-mark { --be-reveal-delay: .35s; }
+#be-diary-welcome .be-welcome-content > h1 { --be-reveal-delay: .48s; }
+#be-diary-welcome .be-welcome-content > .be-welcome-description { --be-reveal-delay: .64s; }
+#be-diary-welcome .be-welcome-content > .be-welcome-footer { --be-reveal-delay: .8s; }
+#be-diary-welcome > .be-welcome-signature { --be-reveal-delay: .95s; }
+@keyframes be-welcome-rise {
+  from { opacity: 0; transform: translate3d(0, 16px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+#be-diary-welcome.is-leaving { animation: be-welcome-departure .7s cubic-bezier(.4, 0, .2, 1) both; pointer-events: none; }
+body.be-welcome-leaving > .container.page { animation: be-diary-arrival .7s ease both; }
+@keyframes be-welcome-departure {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.025); }
+}
 .be-welcome-content { width: 100%; max-width: 800px; margin: auto; padding: clamp(40px, 7vh, 80px) 0; text-align: center; }
 .be-welcome-brand { display: flex; justify-content: center; align-items: center; flex-shrink: 0; gap: 14px; padding-bottom: 24px; border-bottom: 1px solid #deddd8; color: #262626; font: 700 13px/1.4 'Manrope', sans-serif; letter-spacing: .16em; text-transform: uppercase; }
 .be-welcome-brand img { width: 34px; height: auto; }
@@ -80,6 +121,7 @@ body.be-welcome-active > :not(#be-diary-cover):not(#be-diary-welcome):not(script
 .be-welcome-footer { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 36px; }
 #be-diary-welcome-continue { min-height: 56px; width: 100%; max-width: 300px; border: 1px solid #181818; border-radius: 2px; padding: 18px 24px; background: #181818; color: #fff; font: 600 14px/1.4 'Manrope', sans-serif; letter-spacing: .035em; cursor: pointer; transition: background .2s ease, color .2s ease, transform .2s ease; }
 #be-diary-welcome-continue:hover { background: #f8f7f4; color: #181818; transform: translateY(-2px); }
+#be-diary-welcome-continue:active { transform: translateY(0) scale(.97); }
 #be-diary-welcome-continue:focus-visible { outline: 3px solid #a76b0d; outline-offset: 4px; }
 #be-diary-welcome-note { margin: 0; color: #64635f; font-size: 12px; line-height: 1.6; }
 #be-diary-welcome .be-welcome-signature { display: flex; justify-content: space-between; flex-shrink: 0; gap: 16px; border-top: 1px solid #deddd8; background: transparent; padding: 20px 0 0; margin: 0; color: #64635f; font-size: 11px; font-weight: 400; line-height: 1.6; letter-spacing: .035em; }
@@ -89,9 +131,187 @@ body.be-welcome-active > :not(#be-diary-cover):not(#be-diary-welcome):not(script
   .be-welcome-content { padding: 36px 0; }
 }
 @media (prefers-reduced-motion: reduce) {
+  #be-diary-welcome::before, #be-diary-welcome::after,
+  #be-diary-welcome:not([hidden]) > .be-welcome-brand,
+  #be-diary-welcome:not([hidden]) .be-welcome-content > *,
+  #be-diary-welcome:not([hidden]) > .be-welcome-signature,
+  #be-diary-welcome.is-leaving,
+  body.be-welcome-leaving > .container.page { animation: none; }
   #be-diary-welcome-continue { transition: none; }
-  #be-diary-welcome-continue:hover { transform: none; }
+  #be-diary-welcome-continue:hover, #be-diary-welcome-continue:active { transform: none; }
 }
 .be-diary-intro { margin-bottom: 20px; padding: clamp(18px, 3vw, 28px); border: 1px solid #e5ded1; border-radius: 18px; background: #fffaf0; }
 .be-diary-intro h2 { margin: 0 0 8px; font-size: clamp(20px, 3vw, 26px); }
 .be-diary-intro p { margin: 0; max-width: 65ch; line-height: 1.6; color: #514b42; }
+
+/* Primeiro perfil: uma entrada leve, espacial e progressiva. */
+body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 92% 12%, rgb(244 178 78 / .16), transparent 28rem),
+    radial-gradient(circle at 3% 42%, rgb(255 222 166 / .15), transparent 24rem),
+    linear-gradient(180deg, #fff 0, #fbfaf7 40%, #fff 100%);
+}
+body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 130px;
+  right: -180px;
+  width: 460px;
+  height: 460px;
+  border: 1px solid rgb(211 142 37 / .16);
+  border-radius: 50%;
+  box-shadow: 0 0 90px rgb(232 163 57 / .08), inset 0 0 90px rgb(255 215 151 / .06);
+  animation: be-profile-orbit 18s linear infinite;
+  pointer-events: none;
+}
+@keyframes be-profile-orbit { to { transform: rotate(360deg); } }
+body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .be-section-banner { display: none; }
+body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-app-topbar {
+  border-bottom-color: rgb(32 29 25 / .08);
+  background: rgb(255 255 255 / .72);
+  box-shadow: none;
+  backdrop-filter: blur(18px) saturate(140%);
+}
+body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-profile-panel {
+  width: min(880px, 100%);
+  padding: clamp(32px, 6vw, 72px) clamp(18px, 4vw, 44px) 80px;
+}
+body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence {
+  position: relative;
+  gap: 0;
+  margin: 0 auto clamp(46px, 7vw, 78px);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  text-align: center;
+}
+body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence::before {
+  content: '';
+  width: 34px;
+  height: 3px;
+  margin: 0 auto 27px;
+  background: linear-gradient(90deg, #ffbd54, #ef8b10);
+}
+body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence > span { order: 1; margin-bottom: 15px; color: #a96709; }
+body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence h2 {
+  order: 2;
+  max-width: 700px;
+  margin: 0 auto 18px;
+  color: #191816;
+  font-size: clamp(38px, 7vw, 72px);
+  font-weight: 850;
+  line-height: .98;
+  letter-spacing: -.065em;
+  text-wrap: balance;
+}
+body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence > p { order: 3; max-width: 610px; margin: 0 auto; color: #69655e; font-size: clamp(14px, 2vw, 16px); line-height: 1.7; text-wrap: pretty; }
+body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence > p + p { margin-top: 7px; }
+body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence ol {
+  order: 4;
+  position: relative;
+  width: min(610px, 100%);
+  margin: 34px auto 0;
+  gap: 0;
+}
+body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence ol::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  right: 16.66%;
+  left: 16.66%;
+  height: 1px;
+  background: #dedbd4;
+}
+body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence li {
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 0 5px;
+  border: 0;
+  background: transparent;
+  font-size: 10px;
+}
+body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence li span {
+  width: 32px;
+  height: 32px;
+  background: #f1efeb;
+  box-shadow: 0 0 0 7px #fff;
+}
+body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence li.current span {
+  background: #171614;
+  color: #fff;
+  box-shadow: 0 0 0 7px #fff, 0 6px 18px rgb(22 21 19 / .16);
+}
+body.fala-bem-app-page.fb-view-perfil .be-profile-social-card {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  overflow: visible;
+  border: 1px solid rgb(40 36 30 / .09);
+  border-radius: 2px;
+  background: rgb(255 255 255 / .68);
+  box-shadow: 0 28px 80px rgb(38 31 21 / .07);
+  backdrop-filter: blur(18px);
+}
+body.fala-bem-app-page.fb-view-perfil .be-profile-cover {
+  min-height: 100%;
+  padding: 28px 24px;
+  background: linear-gradient(155deg, #191816, #3a3024 65%, #bd7413 150%);
+}
+body.fala-bem-app-page.fb-view-perfil .be-profile-cover strong { margin: 8px 0 0; font-size: 24px; }
+body.fala-bem-app-page.fb-view-perfil .be-profile-social-identity {
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+  padding: 30px;
+}
+body.fala-bem-app-page.fb-view-perfil .be-profile-social-identity .be-profile-photo-preview {
+  width: 84px;
+  height: 84px;
+  margin: 0;
+  border: 2px solid #fff;
+  box-shadow: 0 12px 32px rgb(41 31 17 / .12);
+}
+body.fala-bem-app-page.fb-view-perfil .be-profile-social-copy { padding: 0; }
+body.fala-bem-app-page.fb-view-perfil .be-profile-social-copy h2 { font-size: clamp(24px, 4vw, 34px); }
+body.fala-bem-app-page.fb-view-perfil .be-profile-live-preview { border-left-width: 1px; background: rgb(248 246 241 / .75); }
+body.fala-bem-app-page.fb-view-perfil .be-profile-form-section {
+  border-color: rgb(40 36 30 / .09);
+  border-radius: 2px;
+  background: rgb(255 255 255 / .72);
+  box-shadow: 0 22px 60px rgb(38 31 21 / .045);
+  backdrop-filter: blur(12px);
+}
+body.fala-bem-app-page.fb-view-perfil .fb-profile-form > * {
+  animation: be-profile-reveal .8s cubic-bezier(.16, 1, .3, 1) both;
+  animation-delay: calc(var(--be-profile-order, 0) * 70ms);
+}
+body.fala-bem-app-page.fb-view-perfil .fb-profile-form > :nth-child(1) { --be-profile-order: 1; }
+body.fala-bem-app-page.fb-view-perfil .fb-profile-form > :nth-child(2) { --be-profile-order: 2; }
+body.fala-bem-app-page.fb-view-perfil .fb-profile-form > :nth-child(3) { --be-profile-order: 3; }
+body.fala-bem-app-page.fb-view-perfil .fb-profile-form > :nth-child(4) { --be-profile-order: 4; }
+@keyframes be-profile-reveal { from { opacity: 0; transform: translateY(18px); } }
+@media (max-width: 680px) {
+  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending .fb-profile-panel { padding: 38px 14px 76px; }
+  body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence { margin-bottom: 42px; }
+  body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence h2 { font-size: clamp(40px, 12vw, 54px); }
+  body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence > p + p { display: none; }
+  body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence ol { margin-top: 30px; }
+  body.fala-bem-app-page.fb-view-perfil .be-onboarding-sequence li strong { max-width: 72px; line-height: 1.25; }
+  body.fala-bem-app-page.fb-view-perfil .be-profile-social-card { grid-template-columns: 1fr; }
+  body.fala-bem-app-page.fb-view-perfil .be-profile-cover { min-height: 96px; padding: 22px; }
+  body.fala-bem-app-page.fb-view-perfil .be-profile-cover strong { max-width: 270px; font-size: 22px; }
+  body.fala-bem-app-page.fb-view-perfil .be-profile-social-identity { grid-template-columns: 70px minmax(0, 1fr); gap: 15px; padding: 22px 18px; }
+  body.fala-bem-app-page.fb-view-perfil .be-profile-social-identity .be-profile-photo-preview { width: 70px; height: 70px; }
+  body.fala-bem-app-page.fb-view-perfil .be-profile-social-copy > p { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.fala-bem-app-page.fb-view-perfil .fb-app-shell.fb-identity-pending::before,
+  body.fala-bem-app-page.fb-view-perfil .fb-profile-form > * { animation: none; }
+}
