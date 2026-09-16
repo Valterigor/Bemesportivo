@@ -393,7 +393,7 @@
     const today = dayKey();
     const todayEntries = entries.filter(entry => entry.date === today);
     $('#be-today-count').textContent = String(todayEntries.length);
-    $('#be-diary-date-label').textContent = `MEU CAMINHO BE · ${new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date())}`.toLocaleUpperCase('pt-BR');
+    $('#be-diary-date-label').textContent = `MEU DIÁRIO BE · ${new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date())}`.toLocaleUpperCase('pt-BR');
     $('#be-today-list').innerHTML = todayEntries.length
       ? todayEntries.map(entryCard).join('')
       : emptyState('Seu dia começa aqui.', 'A primeira atividade registrada aparecerá nesta página.');

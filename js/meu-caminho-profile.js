@@ -675,7 +675,7 @@
       byId('be-profile-public-access')?.scrollIntoView?.({ behavior: 'smooth', block: 'center' });
       return;
     }
-    const data = { title: `${profile().name || 'Perfil Be'} | Meu Caminho Be`, text: 'Esta é minha história no esporte.', url: new URL(link.href, location.origin).href };
+    const data = { title: `${profile().name || 'Perfil Be'} | Meu diário Be`, text: 'Esta é minha história no esporte.', url: new URL(link.href, location.origin).href };
     if (navigator.share) {
       try { await navigator.share(data); return; } catch (error) { if (error?.name === 'AbortError') return; }
     }

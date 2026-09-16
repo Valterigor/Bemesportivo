@@ -215,7 +215,7 @@ const sectionBannerContent = {
   perfil: {
     kicker: 'SUA IDENTIDADE NO ESPORTE',
     title: 'Perfil',
-    text: 'Organize seu nome de acesso, sua modalidade e a forma como sua trajetória aparece no Meu Caminho Be.',
+    text: 'Organize seu nome de acesso, sua modalidade e a forma como sua trajetória aparece no Meu diário Be.',
     mark: '01'
   }
 };
@@ -873,8 +873,8 @@ function openView(requestedView, options = {}) {
   }
 
   if (options.route !== false) updateAppRoute(view, options.replaceRoute === true);
-  const [viewLabel, headingSelector] = viewPresentation[view] || ['Meu Caminho Be', ''];
-  document.title = `${viewLabel} | Meu Caminho Be`;
+  const [viewLabel, headingSelector] = viewPresentation[view] || ['Meu diário Be', ''];
+  document.title = `${viewLabel} | Meu diário Be`;
   const announcer = document.getElementById('fb-view-announcer');
   if (announcer) announcer.textContent = gate.message || `Tela ${viewLabel} aberta.`;
   if (options.focus !== false) {
@@ -1468,7 +1468,7 @@ function createGuidanceCard(guidance) {
   });
   const footer = document.createElement('footer');
   footer.textContent = guidance.evidenceCount
-    ? `Este texto é uma orientação geral do Meu Caminho Be, não uma síntese clínica. Abaixo estão ${guidance.evidenceCount} fonte${guidance.evidenceCount > 1 ? 's' : ''} científica${guidance.evidenceCount > 1 ? 's' : ''} relacionada${guidance.evidenceCount > 1 ? 's' : ''} para consulta.`
+    ? `Este texto é uma orientação geral do Meu diário Be, não uma síntese clínica. Abaixo estão ${guidance.evidenceCount} fonte${guidance.evidenceCount > 1 ? 's' : ''} científica${guidance.evidenceCount > 1 ? 's' : ''} relacionada${guidance.evidenceCount > 1 ? 's' : ''} para consulta.`
     : 'Orientação educativa geral, não derivada de uma avaliação clínica. Nenhuma fonte científica específica foi recuperada agora.';
   const nextStep = document.createElement('button');
   nextStep.type = 'button';
@@ -1537,7 +1537,7 @@ function createResultCard(result, local = false) {
   const summary = document.createElement('p');
   summary.textContent = resultExcerpt(result.summary);
   const action = document.createElement(local ? 'button' : 'a');
-  action.textContent = local ? 'Ler no Meu Caminho Be →' : 'Consultar fonte →';
+  action.textContent = local ? 'Ler no Meu diário Be →' : 'Consultar fonte →';
   if (local) {
     action.type = 'button';
     action.addEventListener('click', () => {
@@ -1943,7 +1943,7 @@ function syncProfileFormValues() {
   if (publicConsentInput && document.activeElement !== publicConsentInput) publicConsentInput.checked = currentProfile?.publicTermsAccepted === true && currentProfile?.publicTermsVersion === PUBLIC_PROFILE_TERMS_VERSION;
   const publicConsentWrap = document.getElementById('fb-profile-public-consent-wrap');
   if (publicConsentWrap) publicConsentWrap.hidden = !publicInput?.checked;
-  if (sportInput && document.activeElement !== sportInput) sportInput.value = sportProfile.modality;
+  if (sportInput && document.activeElement !== sportInput) sportInput.value = hasProfileIdentity() ? sportProfile.modality : '';
   if (roleInput && document.activeElement !== roleInput) roleInput.value = sportProfile.roleLabel === sportProfile.fallbackRole ? '' : sportProfile.roleLabel;
   if (visualInput && document.activeElement !== visualInput) visualInput.value = sportProfile.visual;
   if (storyInput && document.activeElement !== storyInput) storyInput.value = sanitizeProfileStory(currentProfile?.story);
@@ -3784,7 +3784,7 @@ window.addEventListener('meuCaminhoBe:activity', event => {
     const titles = { tool: 'Ferramenta registrada!', content: 'Conteúdo concluído!', community: 'Participação registrada!' };
     const messages = {
       tool: 'O resultado entrou no seu histórico e ajuda a personalizar os próximos passos.',
-      content: 'Esta leitura agora faz parte da sua evolução no Meu Caminho Be.',
+      content: 'Esta leitura agora faz parte da sua evolução no Meu diário Be.',
       community: 'Sua contribuição fortalece a comunidade e também registra sua participação.'
     };
     showProductFeedback({
@@ -3949,7 +3949,7 @@ document.getElementById('fb-calendar-next')?.addEventListener('click', () => {
   const formatIcsDate = date => date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
   const escapeIcs = value => String(value || '').replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
   const description = guidance?.task || currentProfile.nextAction || 'Reserve um momento possível para continuar sua jornada.';
-  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//BeMEsportivo//Meu Caminho Be//PT-BR','BEGIN:VEVENT',`UID:${Date.now()}@bemesportivo.com`,`DTSTAMP:${formatIcsDate(new Date())}`,`DTSTART:${formatIcsDate(start)}`,`DTEND:${formatIcsDate(end)}`,`SUMMARY:${escapeIcs(`Jornada da Semana: ${step}`)}`,`DESCRIPTION:${escapeIcs(description)}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//BeMEsportivo//Meu diário Be//PT-BR','BEGIN:VEVENT',`UID:${Date.now()}@bemesportivo.com`,`DTSTAMP:${formatIcsDate(new Date())}`,`DTSTART:${formatIcsDate(start)}`,`DTEND:${formatIcsDate(end)}`,`SUMMARY:${escapeIcs(`Jornada da Semana: ${step}`)}`,`DESCRIPTION:${escapeIcs(description)}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
   const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -4056,6 +4056,11 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
     visual: document.getElementById('fb-profile-visual')?.value || 'energia'
   };
   const story = sanitizeProfileStory(document.getElementById('fb-profile-story')?.value);
+  if (wasIdentityPending && story.length < 10) {
+    document.getElementById('fb-profile-feedback').textContent = 'Conte um pouco da sua vida no esporte para completar seu perfil.';
+    document.getElementById('fb-profile-story')?.focus();
+    return;
+  }
   const photoDataUrl = pendingProfilePhoto === undefined
     ? sanitizeProfilePhoto(currentProfile?.photoDataUrl)
     : sanitizeProfilePhoto(pendingProfilePhoto);
@@ -4280,6 +4285,7 @@ document.getElementById('fb-now-safety-action')?.addEventListener('click', event
 });
 
 document.getElementById('be-dashboard-plan-action')?.addEventListener('click', openDayPlanDialog);
+document.getElementById('be-home-plan-action')?.addEventListener('click', openDayPlanDialog);
 document.getElementById('be-day-plan-close')?.addEventListener('click', () => closeDialog(document.getElementById('be-day-plan-dialog')));
 document.getElementById('be-day-plan-cancel')?.addEventListener('click', () => closeDialog(document.getElementById('be-day-plan-dialog')));
 document.getElementById('be-day-plan-form')?.addEventListener('submit', event => {
@@ -4677,10 +4683,10 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
   } catch (error) {
     const message = String(error?.message || error);
     document.getElementById('fb-profile-feedback').textContent = message === 'too-large'
-      ? 'Esse arquivo ultrapassa 5 MB. Escolha um backup menor do Meu Caminho Be.'
+      ? 'Esse arquivo ultrapassa 5 MB. Escolha um backup menor do Meu diário Be.'
       : /quota|storage/i.test(message) || error?.name === 'QuotaExceededError'
         ? 'Não há espaço suficiente neste aparelho. Seus dados anteriores foram preservados.'
-        : 'Não foi possível importar. Escolha um backup válido do Meu Caminho Be.';
+        : 'Não foi possível importar. Escolha um backup válido do Meu diário Be.';
   } finally {
     input.value = '';
   }
@@ -5003,7 +5009,7 @@ function openLinkedContentFromHash() {
       window.dispatchEvent(new CustomEvent('meuCaminhoBe:activity', { detail: {
         type: 'content',
         key: target.dataset.postId || target.id,
-        label: target.querySelector('h3')?.textContent || 'Conteúdo Meu Caminho Be'
+        label: target.querySelector('h3')?.textContent || 'Conteúdo Meu diário Be'
       } }));
     }
     return true;
