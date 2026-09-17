@@ -93,6 +93,27 @@ assert.equal(sportsVisible.posts[0].distance, 7.2);
 assert.equal(sportsVisible.posts[0].personalBest, true);
 
 const postId = sportsVisible.posts[0].id;
+assert.equal((await call(`posts/${postId}/pin`, { method: 'POST', authorized: false, body: { pinned: true } })).status, 401);
+assert.equal((await call(`posts/${postId}/pin`, { method: 'POST', body: { pinned: 'true' } })).status, 400);
+assert.equal((await call(`posts/${postId}/pin`, { method: 'POST', body: { pinned: true } })).status, 200);
+const extraIds = [];
+for (let index = 0; index < 3; index += 1) {
+  await call('publish', { method: 'POST', body: { profile, acceptance, post: { ...post, clientId: `highlight-${index}` } } });
+  extraIds.push(records.get(key).posts.find(item => item.clientId === `highlight-${index}`).id);
+}
+assert.equal((await call(`posts/${extraIds[0]}/pin`, { method: 'POST', body: { pinned: true } })).status, 200);
+assert.equal((await call(`posts/${extraIds[1]}/pin`, { method: 'POST', body: { pinned: true } })).status, 200);
+assert.equal((await call(`posts/${extraIds[2]}/pin`, { method: 'POST', body: { pinned: true } })).status, 409);
+assert.equal((await call(`posts/${postId}/pin`, { method: 'POST', body: { pinned: true } })).status, 200);
+const highlighted = await (await call(published.slug, { authorized: false })).json();
+assert.equal(highlighted.posts.slice(0, 3).every(item => item.pinned), true);
+assert.equal(highlighted.posts[3].pinned, false);
+await call('publish', { method: 'POST', body: { profile, acceptance, post } });
+assert.equal(records.get(key).posts.find(item => item.id === postId).pinned, true);
+assert.equal((await call(`posts/${postId}/pin`, { method: 'POST', body: { pinned: false } })).status, 200);
+assert.equal((await call(`posts/${extraIds[2]}/pin`, { method: 'POST', body: { pinned: true } })).status, 200);
+for (const extraId of extraIds) await call(`posts/${extraId}`, { method: 'DELETE' });
+
 const like = await call(`${published.slug}/posts/${postId}/like`, { method: 'POST', authorized: false, reporter: 'visitor-4', body: {} });
 assert.equal(like.status, 200);
 assert.equal((await like.json()).likes, 1);
@@ -116,6 +137,7 @@ assert.equal(records.get(key).profileStatus, 'published');
 assert.deepEqual(writeOptions.get(key), {});
 assert.deepEqual(writeOptions.get(`public-owner:${id}`), {});
 
+await call(`posts/${postId}/pin`, { method: 'POST', body: { pinned: true } });
 for (const reporter of ['visitor-1', 'visitor-2', 'visitor-3']) {
   const report = await call(`${published.slug}/report`, {
     method: 'POST', authorized: false, reporter,
@@ -125,6 +147,7 @@ for (const reporter of ['visitor-1', 'visitor-2', 'visitor-3']) {
 }
 const afterReports = await (await call(published.slug, { authorized: false })).json();
 assert.equal(afterReports.posts.length, 0);
+assert.equal((await call(`posts/${postId}/pin`, { method: 'POST', body: { pinned: true } })).status, 404);
 
 assert.equal((await call(`entries/${post.clientId}`, { method: 'DELETE' })).status, 200);
 assert.equal(records.get(key).posts.length, 0);

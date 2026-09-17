@@ -1,7 +1,7 @@
 (function initializeMeuCaminhoNavigation(global) {
   'use strict';
 
-  const mapRequiredViews = new Set(['progresso', 'evolucao', 'explorar']);
+  const mapRequiredViews = new Set(['explorar']);
   const identityRequiredViews = new Set(['inicio', 'registrar', 'progresso', 'jornada', 'evolucao', 'explorar']);
 
   function isMapRequired(view) {
@@ -25,7 +25,7 @@
       gateNote.textContent = !hasIdentity
         ? 'Conclua o Perfil Be para continuar.'
         : !hasJourney
-          ? 'Você já pode registrar atividades. O Mapa BeM prepara os próximos passos da jornada.'
+          ? 'Você já pode registrar atividades e consultar sua história. Complete o Mapa BeM quando quiser orientação personalizada.'
           : 'Todas as etapas do seu caminho estão disponíveis.';
       gateNote.hidden = hasJourney || minorRestricted;
     }

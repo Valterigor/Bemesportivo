@@ -697,3 +697,5 @@ body.be-public-page > main.be-public-profile {
   .be-public-profile-actions :is(button, a) { transition: none; }
   .be-public-profile-actions :is(button, a):is(:hover, :focus-visible) { transform: none; }
 }
+
+.be-public-pinned{display:block;margin-bottom:12px;color:#874400;font-size:14px}.be-public-post:has(.be-public-pinned){border-color:#c58232}

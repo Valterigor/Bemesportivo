@@ -448,7 +448,7 @@ async function run() {
     assert.match(publicProfileHtml, /id="be-public-likes"[\s\S]*id="be-public-highlights"/, 'O perfil público precisa resumir curtidas e conquistas sem expor dados privados.');
     assert.match(shareCardScript, /variant === 'profile'[\s\S]*PERFIL ESPORTIVO · MEU CAMINHO BE/, 'O perfil precisa ter um cartão social próprio, separado da publicação.');
     assert.match(pathHtml, /id="be-public-share-owner"/, 'Somente a área privada do proprietário deve oferecer o compartilhamento do link.');
-    assert.match(pathHtml, /js\/meu-caminho-public\.js\?v=20260902-2[\s\S]*js\/be-share-card\.js\?v=20260903-1/, 'A área privada precisa carregar a versão compartilhável do perfil.');
+    assert.match(pathHtml, /js\/meu-caminho-public\.js\?v=20260916-2[\s\S]*js\/be-share-card\.js\?v=20260903-1/, 'A área privada precisa carregar a versão compartilhável do perfil.');
     assert.match(publicDiaryScript, /BeShareCard\.open\(\{ variant: 'profile'/, 'O proprietário precisa criar o cartão social sem sair da área privada.');
     assert.match(makerHtml, /GRÁTIS · SEM CADASTRO[\s\S]*id="post-maker-form"[\s\S]*Gerar minha postagem/, 'O gerador precisa apresentar o fluxo direto sem cadastro.');
     assert.match(makerHtml, /Nada é enviado ou publicado automaticamente/, 'O gerador precisa explicar a privacidade antes da ação.');
@@ -519,19 +519,19 @@ async function run() {
     assert.match(pathHtml, /js\/be-knowledge-library\.js\?v=20260821-4/);
     assert.match(pathHtml, /js\/be-ia\.js\?v=20260806-1/);
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260906-1/);
-    assert.match(pathHtml, /js\/meu-caminho-navigation\.js\?v=20260906-2/);
+    assert.match(pathHtml, /js\/meu-caminho-navigation\.js\?v=20260916-2/);
     assert.match(pathHtml, /js\/meu-caminho-account\.js\?v=20260823-2/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260915-1/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260916-3/);
     assert.match(pathHtml, /js\/coluna-valtinho\.js\?v=20260823-1/);
-    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260915-1/);
+    assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260916-1/);
     assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260907-1/);
     assert.match(pathHtml, /css\/fala-bem-platform\.css\?v=20260906-1/);
     assert.match(pathHtml, /js\/site-common\.js\?v=20260830-2/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU DIÁRIO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
-    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260906-2/);
-    assert.match(pathHtml, /id="be-profile-public-access-action"[^>]*>Ativar Meu Diário BE<\/button>/, 'O Perfil BE precisa deixar clara a ativação do Diário BE.');
-    assert.match(publicDiaryScript, /Visualizar Meu Diário BE/, 'O botão deve mudar para visualizar o diário depois da publicação.');
+    assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260916-1/);
+    assert.match(pathHtml, /id="be-profile-public-access-action"[^>]*>Ativar meu perfil público<\/button>/, 'A ativação deve explicar que cria um perfil público.');
+    assert.match(publicDiaryScript, /Visualizar perfil público/, 'O botão deve abrir o perfil público depois da publicação.');
     assert.match(publicDiaryScript, /dataset\.bePublicEdit/, 'A pessoa precisa conseguir editar publicações do Diário BE.');
     assert.match(publicDiaryScript, /dataset\.bePublicRemove/, 'A pessoa precisa conseguir retirar publicações do ar.');
     assert.doesNotMatch(publicDiaryScript, /age:\s*profile\?\.publicAge|profession:\s*String\(profile\?\.profession/, 'Idade e profissão não podem integrar o perfil público.');
@@ -710,7 +710,7 @@ async function run() {
     assert.match(appScript, /getElementById\('fb-day-guide-done'\)[\s\S]{0,160}?openDailyJournal\(\)/, 'Confirmar uma intenção precisa abrir o diário, sem marcar o plano como atividade realizada.');
     assert.match(appScript, /activity === 'descanso' \? 'descanso' : 'movimento'/);
     assert.match(appScript, /BACKUP_KIND = 'meu-caminho-be-backup'/);
-    assert.match(appScript, /BACKUP_MAX_BYTES = 5 \* 1024 \* 1024/);
+    assert.match(appScript, /BACKUP_MAX_BYTES = 20 \* 1024 \* 1024/);
     assert.match(appScript, /function sanitizeBackupDiary\(entries\)/);
     assert.match(appScript, /function sanitizeBackupMeals\(records\)/);
     assert.match(appScript, /profile \? \{[\s\S]*?\} : null;/, 'Um backup criado sem perfil também precisa ser restaurável.');
@@ -749,7 +749,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v144`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v150`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]

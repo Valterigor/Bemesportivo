@@ -1,0 +1,146 @@
+/* Sistema visual comum do Meu diário Be. */
+body.fala-bem-app-page{
+  --be-ui-font:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --be-ui-ink:#211d1a;
+  --be-ui-muted:#6f6761;
+  --be-ui-line:#e2d9d2;
+  --be-ui-orange:#da790b;
+  --be-ui-orange-hover:#bd6506;
+  --be-ui-radius:12px;
+  --be-ui-control-height:46px;
+  font-family:var(--be-ui-font);
+}
+
+body.fala-bem-app-page :where(.fb-app-shell,.fb-mobile-drawer,dialog:not(.be-recognition-dialog)){
+  font-family:var(--be-ui-font);
+}
+
+body.fala-bem-app-page :where(h1,h2,h3,h4,strong,button,input,select,textarea){
+  font-family:var(--be-ui-font);
+}
+
+body.fala-bem-app-page :where(h1,h2,h3,h4){
+  color:var(--be-ui-ink);
+  font-weight:800;
+  letter-spacing:-.035em;
+}
+
+body.fala-bem-app-page .be-home-actions h1{
+  color:#fff;
+}
+
+body.fala-bem-app-page :where(p,small,label,li,dd){
+  letter-spacing:normal;
+}
+
+body.fala-bem-app-page :where(
+  .fb-app-shell button,
+  .fb-mobile-drawer button,
+  dialog button
+):not(.fb-mobile-menu-toggle):not(.fb-profile-trigger):not([aria-label="Fechar"]):not([aria-label="Fechar menu"]):not([aria-label="Fechar apresentação"]):not([aria-label="Fechar saudação"]):not([aria-label="Abrir perfil"]){
+  border-radius:var(--be-ui-radius);
+  font-family:var(--be-ui-font);
+  font-weight:800;
+}
+
+body.fala-bem-app-page :where(
+  .fb-primary-action,
+  .be-save-entry,
+  .be-add-entry,
+  .be-profile-ready-register,
+  .be-sports-primary-action,
+  .be-register-invitation button,
+  .be-profile-create-callout button
+){
+  min-height:var(--be-ui-control-height);
+  border-color:var(--be-ui-orange)!important;
+  border-radius:var(--be-ui-radius)!important;
+  background:var(--be-ui-orange)!important;
+  color:#fff!important;
+  box-shadow:0 8px 18px rgba(218,121,11,.16);
+}
+
+body.fala-bem-app-page :where(
+  .fb-primary-action,
+  .be-save-entry,
+  .be-add-entry,
+  .be-profile-ready-register,
+  .be-sports-primary-action,
+  .be-register-invitation button,
+  .be-profile-create-callout button
+):is(:hover,:focus-visible){
+  background:var(--be-ui-orange-hover)!important;
+}
+
+body.fala-bem-app-page :where(input,select,textarea){
+  border-radius:var(--be-ui-radius)!important;
+  font-family:var(--be-ui-font);
+}
+
+body.fala-bem-app-page :where(button,a,input,select,textarea):focus-visible{
+  outline:3px solid rgba(218,121,11,.24);
+  outline-offset:2px;
+}
+
+body.fala-bem-app-page :where(
+  .fb-app-nav svg,
+  .fb-mobile-drawer svg,
+  .fb-explore-grid svg,
+  .fb-ecosystem-menu svg,
+  .be-sports-profile-actions svg
+){
+  width:20px;
+  height:20px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+body.fala-bem-app-page :where(
+  .be-home-actions button>span,
+  .be-quick-copy>span,
+  .be-entry-icon,
+  .fb-explore-grid button>span,
+  .fb-ecosystem-menu button>span,
+  .be-activity-grid button>span
+){
+  display:grid;
+  place-items:center;
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  border-radius:var(--be-ui-radius);
+  font-family:var(--be-ui-font);
+  font-size:20px;
+  line-height:1;
+}
+
+body.fala-bem-app-page .fb-app-nav>a{
+  border-radius:var(--be-ui-radius)!important;
+  font-family:var(--be-ui-font);
+  font-weight:800;
+}
+
+body.fala-bem-app-page .fb-app-nav>a>span,
+body.fala-bem-app-page .fb-mobile-drawer-body nav button,
+body.fala-bem-app-page .be-section-banner span,
+body.fala-bem-app-page :where(.be-page-heading,.be-section-heading,.be-profile-form-section)>header>span{
+  font-family:var(--be-ui-font);
+}
+
+body.fala-bem-app-page .be-profile-social-identity{grid-template-columns:1fr}
+body.fala-bem-app-page .be-profile-photo-step-content{display:flex;align-items:center;gap:20px}
+body.fala-bem-app-page .be-profile-photo-step-content .be-profile-photo-preview{flex:0 0 auto;margin:0}
+body.fala-bem-app-page .be-profile-photo-step-actions{display:grid;gap:5px;min-width:0}
+body.fala-bem-app-page .be-profile-photo-step-actions>strong{font-size:14px}
+body.fala-bem-app-page .be-profile-photo-step-actions>small{color:var(--be-ui-muted);font-size:11px}
+body.fala-bem-app-page .be-profile-photo-step-actions .be-profile-photo-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+body.fala-bem-app-page .be-profile-photo-step-actions :where(label,button){display:inline-flex;min-height:44px;align-items:center;justify-content:center;padding:0 15px;border:1px solid var(--be-ui-line);border-radius:var(--be-ui-radius);background:#fff;color:var(--be-ui-ink);font-size:12px;font-weight:800;cursor:pointer}
+
+@media(max-width:760px){
+  body.fala-bem-app-page{--be-ui-control-height:48px}
+  body.fala-bem-app-page .be-profile-photo-step-content{align-items:flex-start}
+  body.fala-bem-app-page .be-profile-photo-step-content .be-profile-photo-preview{width:88px;height:88px}
+}

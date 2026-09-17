@@ -257,6 +257,12 @@
     }
     const copy = document.createElement('div');
     copy.className = 'be-public-post-copy';
+    if (post.pinned === true) {
+      const highlight = document.createElement('strong');
+      highlight.className = 'be-public-pinned';
+      highlight.textContent = '★ Momento em destaque';
+      copy.append(highlight);
+    }
     const label = document.createElement('span');
     label.textContent = escapeText(postTypeLabels[post.postType] || post.activity || 'REGISTRO ESPORTIVO').toLocaleUpperCase('pt-BR');
     const text = document.createElement('p');

@@ -692,7 +692,31 @@
     $('#be-history-timeline').innerHTML = Object.keys(years).length ? Object.entries(years).reverse().map(([year, months]) => `<section class="be-year-block"><strong>${year}</strong><div class="be-year-months">${Object.entries(months).reverse().map(([month, monthEntries]) => `<article class="be-history-month"><h4>${new Intl.DateTimeFormat('pt-BR', { month: 'long' }).format(dateFromKey(`${month}-15`))}</h4><p>${monthEntries.length} ${monthEntries.length === 1 ? 'atividade' : 'atividades'} · ${formatDuration(monthEntries.reduce((sum, entry) => sum + entry.duration, 0))}${monthEntries.some(entry => entry.distance) ? ` · ${formatNumber(monthEntries.reduce((sum, entry) => sum + (entry.distance || 0), 0))} km` : ''}</p></article>`).join('')}</div></section>`).join('') : emptyState('Sua linha do tempo está vazia.', 'O que você fizer hoje pode ser o primeiro capítulo.');
   }
 
+  function renderWeeklySummary() {
+    const target = $('#be-weekly-summary');
+    if (!target) return;
+    const today = dayKey();
+    const start = new Date();
+    start.setHours(12, 0, 0, 0);
+    start.setDate(start.getDate() - ((start.getDay() + 6) % 7));
+    const week = entries.filter(entry => entry.date >= dayKey(start) && entry.date <= today);
+    const days = new Set(week.map(entry => entry.date)).size;
+    const modalities = new Set(week.map(entry => entry.type)).size;
+    target.textContent = week.length
+      ? `Você se movimentou em ${days} ${days === 1 ? 'dia' : 'dias'} nesta semana: ${formatDuration(week.reduce((sum, entry) => sum + entry.duration, 0))} em ${modalities} ${modalities === 1 ? 'modalidade' : 'modalidades'}. Cada momento faz parte da sua história.`
+      : 'Sua semana ainda não tem atividades registradas. Comece com um movimento possível para você.';
+    const repeat = $('#be-repeat-last');
+    if (repeat) repeat.hidden = !entries.some(entry => entry.date <= today);
+  }
+
+  $('#be-repeat-last')?.addEventListener('click', () => {
+    const previous = entries.find(entry => entry.date <= dayKey());
+    if (!previous) return;
+    openEntry({ type: previous.type, title: previous.title, duration: previous.duration, distance: previous.distance, date: dayKey() });
+  });
+
   function renderAll() {
+    renderWeeklySummary();
     renderRecognition();
     renderToday();
     renderMeals();
@@ -857,8 +881,9 @@
     renderMeals();
   });
   window.addEventListener('meuCaminhoBe:reset', () => {
+    entries = [];
     meals = [];
-    renderMeals();
+    renderAll();
   });
   window.addEventListener('meuCaminhoBe:profile-updated', renderDashboardOverview);
   window.addEventListener('storage', event => {

@@ -163,7 +163,13 @@
       remove.type = 'button';
       remove.dataset.bePublicRemove = post.clientId;
       remove.textContent = 'Retirar do ar';
-      actions.append(edit, remove);
+      const pin = document.createElement('button');
+      pin.type = 'button';
+      pin.dataset.bePublicPin = post.id;
+      pin.setAttribute('aria-pressed', String(post.pinned === true));
+      pin.textContent = post.pinned ? 'Desfixar momento' : 'Fixar no perfil';
+      pin.disabled = !isPublishedStatus(post.status);
+      actions.append(pin, edit, remove);
       article.append(copy, actions);
       mount.append(article);
     });
@@ -257,10 +263,10 @@
       accessAction.dataset.state = published ? 'approved' : state || 'private';
       accessAction.dataset.publicUrl = publicUrl;
       accessAction.textContent = published
-        ? 'Visualizar Meu Diário BE'
+        ? 'Visualizar perfil público'
         : ['pending', 'loading'].includes(state)
           ? 'Publicando…'
-          : 'Ativar Meu Diário BE';
+          : 'Ativar meu perfil público';
     }
     if (!published && !['loading', 'pending'].includes(state)) renderPublicManager(null, false);
   }
@@ -442,6 +448,21 @@
     }
   });
   document.getElementById('be-public-manage-posts')?.addEventListener('click', async event => {
+    const pin = event.target.closest('[data-be-public-pin]');
+    if (pin) {
+      pin.disabled = true;
+      try {
+        const pinned = pin.getAttribute('aria-pressed') !== 'true';
+        await request(`posts/${encodeURIComponent(pin.dataset.bePublicPin)}/pin`, { method: 'POST', body: JSON.stringify({ pinned }) });
+        await loadPublicManager();
+        setStatus(pinned ? 'Momento fixado no topo do perfil público.' : 'Momento desfixado. A publicação continua pública.', 'published', currentPublicUrl);
+      } catch (error) {
+        const feedback = document.getElementById('be-profile-public-access-status');
+        if (feedback) feedback.textContent = error.message;
+        pin.disabled = false;
+      }
+      return;
+    }
     const edit = event.target.closest('[data-be-public-edit]');
     if (edit) {
       const post = currentPublicRecord?.posts?.find(item => item.clientId === edit.dataset.bePublicEdit);
@@ -461,7 +482,7 @@
     }
   });
   document.getElementById('be-public-disable')?.addEventListener('click', async () => {
-    if (!window.confirm('Desativar o Meu Diário BE? As publicações deixarão de ficar visíveis, mas seu diário privado será mantido.')) return;
+    if (!window.confirm('Desativar seu perfil público? As publicações deixarão de ficar visíveis, mas seu diário privado será mantido.')) return;
     try {
       await disableProfile();
       const profile = readProfile();

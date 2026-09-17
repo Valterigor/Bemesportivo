@@ -133,7 +133,7 @@ function publicRecord(record) {
   if (!record || !isVisibleStatus(record.profileStatus)) return null;
   const posts = (Array.isArray(record.posts) ? record.posts : [])
     .filter(post => isVisibleStatus(post.status))
-    .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))
+    .sort((a, b) => Number(b.pinned === true) - Number(a.pinned === true) || String(b.createdAt).localeCompare(String(a.createdAt)))
     .slice(0, 50)
     .map(({ status, reports, likedBy, comments, rateLimits, ...post }) => ({
       ...post,
@@ -306,13 +306,14 @@ export default async function publicProfileHandler(request, runtime) {
         ...post,
         id: previousPost?.id || post.id,
         status: postStatus,
+        pinned: previousPost?.pinned === true,
         reports: previousPost?.reports || [],
         likedBy: previousPost?.likedBy || {},
         comments: previousPost?.comments || [],
         rateLimits: previousPost?.rateLimits || {},
         createdAt: previousPost?.createdAt || now,
         updatedAt: now
-      }, ...posts] : posts).slice(0, 30),
+      }, ...posts] : posts).sort((a, b) => Number(b.pinned === true) - Number(a.pinned === true) || String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 30),
       createdAt: current?.createdAt || now,
       updatedAt: now
     };
@@ -321,6 +322,20 @@ export default async function publicProfileHandler(request, runtime) {
       ownerRecord ? runtime.write(ownerKey, ownerRecord) : Promise.resolve()
     ]);
     return json({ ok: true, slug: owner.slug, profileStatus: record.profileStatus, postStatus: post ? postStatus : null, publicUrl: `/diario/${owner.slug}` }, current ? 200 : 201);
+  }
+
+  if (request.method === 'POST' && path[0] === 'posts' && path[1] && path[2] === 'pin') {
+    const record = await runtime.read(`public-profile:${owner.slug}`, null);
+    const post = record?.posts?.find(item => item.id === path[1]);
+    if (!post || !isVisibleStatus(post.status)) return json({ error: 'Publicação pública não encontrada.' }, 404);
+    const body = await parseBody(request);
+    if (typeof body?.pinned !== 'boolean') return json({ error: 'Informe se deseja fixar este momento.' }, 400);
+    const pinnedCount = record.posts.filter(item => item.pinned === true && isVisibleStatus(item.status)).length;
+    if (body.pinned && !post.pinned && pinnedCount >= 3) return json({ error: 'Você pode fixar até três momentos. Desfixe um antes de escolher outro.' }, 409);
+    post.pinned = body.pinned;
+    record.updatedAt = new Date().toISOString();
+    await runtime.write(`public-profile:${owner.slug}`, record);
+    return json({ ok: true, pinned: post.pinned });
   }
 
   if (request.method === 'DELETE' && path[0] === 'posts' && path[1]) {

@@ -37,7 +37,7 @@ test('perfil público apresenta identidade esportiva e compartilhamento exclusiv
         photoDataUrl: ''
       },
       posts: [
-        { id: 'momento-1', kind: 'text', text: 'Primeiros cinco quilômetros concluídos.', activity: 'Corrida', occurredAt: '2026-08-20', postType: 'achievement', personalBest: true, likes: 3, comments: [] },
+        { id: 'momento-1', kind: 'text', text: 'Primeiros cinco quilômetros concluídos.', activity: 'Corrida', occurredAt: '2026-08-20', postType: 'achievement', personalBest: true, pinned: true, likes: 3, comments: [] },
         { id: 'momento-2', kind: 'text', text: 'Treino leve para manter a constância.', activity: 'Corrida', occurredAt: '2026-08-25', postType: 'training', personalBest: false, likes: 2, comments: [] }
       ]
     })
@@ -49,6 +49,7 @@ test('perfil público apresenta identidade esportiva e compartilhamento exclusiv
   await expect(page.locator('#be-public-sport')).toHaveText('Corrida');
   await expect(page.locator('#be-public-count')).toHaveText('2');
   await expect(page.locator('#be-public-likes')).toHaveText('5');
+  await expect(page.locator('.be-public-pinned')).toHaveText('★ Momento em destaque');
   await expect(page.locator('#be-public-highlights')).toHaveText('1');
   await expect(page.locator('#be-public-share-profile')).toBeVisible();
   await expect(page.locator('#be-public-profile-destination')).toHaveText('Gerenciar meu perfil');

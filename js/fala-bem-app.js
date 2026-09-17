@@ -21,7 +21,7 @@ const PUBLIC_PROFILE_TERMS_VERSION = '2026-08-15';
 const PROFILE_SCHEMA_VERSION = 11;
 const BACKUP_KIND = 'meu-caminho-be-backup';
 const BACKUP_VERSION = 1;
-const BACKUP_MAX_BYTES = 5 * 1024 * 1024;
+const BACKUP_MAX_BYTES = 20 * 1024 * 1024;
 const APP_BASE_PATH = '/meu-caminho-be';
 const PENDING_REGISTRATION_KEY = 'meuCaminhoBePendingRegistrationV1';
 const dailyActivityLabels = {
@@ -4529,7 +4529,10 @@ function sanitizeBackupDiary(entries) {
       distance: Number.isFinite(distance) && distance > 0 ? Math.round(Math.min(distance, 10000) * 100) / 100 : null,
       result: String(entry.result || '').trim().slice(0, 60),
       feeling: ['1', '2', '3', '4', '5'].includes(String(entry.feeling)) ? String(entry.feeling) : '3',
-      note: String(entry.note || '').trim().slice(0, 280),
+      note: String(entry.note || '').trim().slice(0, 600),
+      imageDataUrl: /^data:image\/(?:jpeg|webp);base64,[a-z0-9+/=]+$/i.test(String(entry.imageDataUrl || '')) && String(entry.imageDataUrl).length <= 480000 ? String(entry.imageDataUrl) : '',
+      visibility: 'private',
+      publicStatus: '',
       createdAt: String(entry.createdAt || new Date().toISOString()).slice(0, 40),
       updatedAt: String(entry.updatedAt || entry.createdAt || new Date().toISOString()).slice(0, 40)
     };
@@ -4601,7 +4604,7 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
     const profile = parsed?.profile;
     const allowedObjectives = Object.keys(journeyStepTemplates);
     if (!parsed || typeof parsed !== 'object' || (parsed.kind && parsed.kind !== BACKUP_KIND) || Number(parsed.backupVersion || 1) > BACKUP_VERSION) throw new Error('invalid');
-    if (profile && (typeof profile !== 'object' || !allowedObjectives.includes(profile.objective) || typeof profile.name !== 'string' || ['ate-17', 'under-18'].includes(profile.age))) throw new Error('invalid');
+    if (profile && (typeof profile !== 'object' || (profile.objective && !allowedObjectives.includes(profile.objective)) || typeof profile.name !== 'string' || ['ate-17', 'under-18'].includes(profile.age))) throw new Error('invalid');
     const sanitized = profile ? {
       ...profile,
       schemaVersion: PROFILE_SCHEMA_VERSION,
@@ -4683,7 +4686,7 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
   } catch (error) {
     const message = String(error?.message || error);
     document.getElementById('fb-profile-feedback').textContent = message === 'too-large'
-      ? 'Esse arquivo ultrapassa 5 MB. Escolha um backup menor do Meu diário Be.'
+      ? 'Esse arquivo ultrapassa 20 MB. Escolha um backup menor do Meu diário Be.'
       : /quota|storage/i.test(message) || error?.name === 'QuotaExceededError'
         ? 'Não há espaço suficiente neste aparelho. Seus dados anteriores foram preservados.'
         : 'Não foi possível importar. Escolha um backup válido do Meu diário Be.';
@@ -5150,7 +5153,7 @@ if (diaryCover) {
       diaryWelcome.hidden = true;
       diaryWelcome.classList.remove('is-leaving');
       document.body.classList.remove('be-welcome-active', 'be-welcome-leaving');
-      const target = document.querySelector(hasProfileIdentity() ? '.be-diary-intro h2' : '#be-profile-onboarding-title');
+      const target = document.querySelector(hasProfileIdentity() ? '#be-diary-home-title' : '#be-profile-onboarding-title');
       if (target) { target.tabIndex = -1; target.focus({ preventScroll: true }); }
       window.scrollTo(0, 0);
       window.dispatchEvent(new CustomEvent('meuDiarioBe:opened'));

@@ -387,3 +387,5 @@ body.fala-bem-app-page .fb-app-shell.fb-identity-pending .be-profile-form-sectio
 /* Quatro destinos principais; o perfil permanece no avatar do cabeçalho. */
 body.fala-bem-app-page .fb-app-nav,body.fala-bem-app-page .fb-app-shell.fb-app-shell-compact .fb-app-nav{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 @media(max-width:620px){.be-home-action-secondary{grid-template-columns:1fr}.be-home-actions{padding:19px 16px}.be-home-actions button{min-height:72px}.be-dashboard-status{grid-template-columns:1fr 1fr}.be-dashboard-status article:last-child{grid-column:1/-1}}
+
+.be-weekly-card{margin-top:20px;padding:20px;border:1px solid #ded8ce;border-radius:16px;background:#fffaf2;color:#302a24}.be-weekly-card h3{margin:0 0 6px}.be-weekly-card p{line-height:1.6}.be-weekly-card small{display:block;line-height:1.5}.be-weekly-card button{min-height:44px;margin:8px 0;padding:10px 16px;border:1px solid #93500a;border-radius:10px;background:#fff;color:#713c06;font:inherit;cursor:pointer}.be-weekly-card button:focus-visible{outline:3px solid #b96009;outline-offset:3px}

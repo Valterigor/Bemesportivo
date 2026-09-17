@@ -324,6 +324,7 @@
     const privacy = document.createElement('span');
     privacy.className = 'be-profile-feed-privacy';
     privacy.textContent = post.visibility === 'public' && ['published', 'approved'].includes(post.publicStatus) ? 'Público' : 'Privado';
+    if (post.source === 'preview') privacy.textContent = post.visibility === 'public' ? 'Público ao salvar' : 'Somente eu';
     head.append(feedAvatar(user), identity, privacy);
     article.append(head);
     if (post.imageDataUrl) {
@@ -386,7 +387,7 @@
       visibility.type = 'button';
       visibility.dataset.profilePostVisibility = post.id;
       visibility.dataset.currentVisibility = post.visibility;
-      visibility.textContent = post.visibility === 'public' ? 'Tornar privado' : 'Publicar no Meu DiÃ¡rio BE';
+      visibility.textContent = post.visibility === 'public' ? 'Tornar privado' : 'Publicar no perfil público';
       const edit = document.createElement('button');
       edit.type = 'button';
       edit.dataset.profilePostEdit = post.id;
@@ -445,6 +446,7 @@
   }
 
   function renderPhotoPreview() {
+    renderComposePreview();
     const preview = byId('be-public-compose-preview');
     const image = byId('be-public-compose-preview-image');
     const remove = byId('be-public-compose-photo-remove');
@@ -464,10 +466,26 @@
     if (!help) return;
     help.dataset.state = selected === 'public' ? 'public' : 'private';
     help.textContent = selected === 'public'
-      ? 'Ao salvar, esta publicaÃ§Ã£o tambÃ©m aparecerÃ¡ no seu Meu DiÃ¡rio BE pÃºblico.'
+      ? 'Ao salvar, qualquer pessoa com o link poderá ver este momento. Você pode retirá-lo do perfil público depois.'
       : publicEnabled
-        ? 'Esta publicaÃ§Ã£o ficarÃ¡ privada. VocÃª poderÃ¡ tornÃ¡-la pÃºblica depois pelo card.'
-        : 'Esta publicaÃ§Ã£o ficarÃ¡ privada. Ative o Meu DiÃ¡rio BE quando quiser compartilhar.';
+        ? 'Somente você verá este momento neste aparelho. Ele não aparecerá no perfil público.'
+        : 'Este momento ficará privado. Ative seu perfil público quando quiser publicar.';
+    renderComposePreview();
+  }
+
+  function renderComposePreview() {
+    const mount = byId('be-compose-post-preview');
+    const form = byId('be-public-compose-form');
+    if (!mount || !form) return;
+    const values = Object.fromEntries(new FormData(form));
+    const post = sanitizePost({ ...values, personalBest: values.personalBest === 'on', imageDataUrl: pendingPhoto });
+    if (!post) {
+      mount.textContent = 'Escreva seu momento para visualizar a publicação antes de salvar.';
+      return;
+    }
+    const card = feedCard({ ...post, source: 'preview' }, profile());
+    card.querySelector('footer')?.remove();
+    mount.replaceChildren(card);
   }
 
   function openComposer(post = null) {
@@ -495,7 +513,7 @@
     setText('be-public-compose-count', (value?.text || '').length);
     setText('be-public-compose-title', value ? 'Editar publicação' : 'Nova publicação');
     setText('be-public-compose-submit', value ? 'Salvar alterações' : 'Salvar momento');
-    setText('be-public-compose-feedback', profile()?.publicEnabled ? '' : 'Publicações começam privadas. Para torná-las públicas, ative o Meu Diário BE no Perfil.');
+    setText('be-public-compose-feedback', profile()?.publicEnabled ? '' : 'Publicações começam privadas. Para torná-las públicas, ative seu perfil público nas configurações.');
     fieldsForType(value?.postType || 'training');
     renderVisibilityChoice();
     renderPhotoPreview();
@@ -556,7 +574,7 @@
 
   async function publishIfRequested(post) {
     if (post.visibility !== 'public') return post;
-    if (!profile()?.publicEnabled) throw new Error('Ative o Meu Diário BE antes de tornar esta publicação pública.');
+    if (!profile()?.publicEnabled) throw new Error('Ative seu perfil público antes de tornar esta publicação pública.');
     if (!window.BePublicProfile?.publishEntry) throw new Error('A publicação pública está temporariamente indisponível.');
     const result = await window.BePublicProfile.publishEntry({
       id: post.id,
@@ -582,8 +600,14 @@
     if (!post) return;
     const status = byId('be-profile-presentation-status');
     if (post.visibility !== 'public' && profile()?.publicEnabled !== true) {
-      if (status) status.textContent = 'Para publicar, ative primeiro o Meu DiÃ¡rio BE. Levamos vocÃª atÃ© essa opÃ§Ã£o.';
+      if (status) status.textContent = 'Ative seu perfil público para escolher quais momentos publicar.';
       byId('be-profile-public-access-action')?.click();
+      return;
+    }
+    if (post.visibility !== 'public') {
+      openComposer({ ...post, visibility: 'public' });
+      const preview = byId('be-compose-preview-details');
+      if (preview) preview.open = true;
       return;
     }
     button.disabled = true;
@@ -671,7 +695,7 @@
     const link = byId('be-public-profile-link');
     const status = byId('be-profile-presentation-status');
     if (!link || link.hidden || !link.href) {
-      if (status) status.textContent = 'Ative o Meu Diário BE para criar um link público do seu Perfil Be.';
+      if (status) status.textContent = 'Ative seu perfil público para criar um link público do seu Perfil Be.';
       byId('be-profile-public-access')?.scrollIntoView?.({ behavior: 'smooth', block: 'center' });
       return;
     }
@@ -694,7 +718,7 @@
     };
     const sportLabels = { futebol: 'Futebol', futsal: 'Futsal', volei: 'Vôlei', corrida: 'Corrida', ciclismo: 'Ciclismo', natacao: 'Natação', lutas: 'Lutas', musculacao: 'Musculação', outro: 'Esporte e movimento' };
     setText('be-profile-preview-dialog-name', name);
-    setText('be-profile-preview-dialog-handle', `@${name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 24) || 'meudiariobe'}`);
+    setText('be-profile-preview-dialog-handle', 'Sua apresentação esportiva');
     setText('be-profile-preview-dialog-bio', String(user.story || '').trim() || 'O esporte faz parte da minha história.');
     const image = byId('be-profile-preview-dialog-photo');
     const fallback = byId('be-profile-preview-dialog-fallback');
@@ -711,7 +735,7 @@
     const isPublic = Boolean(publicLink && !publicLink.hidden && publicLink.href);
     publicButton.textContent = isPublic ? 'Abrir perfil público' : 'Criar link público';
     publicButton.dataset.publicUrl = isPublic ? publicLink.href : '';
-    setText('be-profile-preview-share-status', isPublic ? 'Seu perfil público está pronto para compartilhar.' : 'Você escolhe quando tornar esta apresentação pública.');
+    setText('be-profile-preview-share-status', isPublic ? 'Seu perfil público mostra apenas os momentos publicados. Abra o perfil público para ver a página que será compartilhada.' : 'Esta apresentação está privada. Compartilhar envia seu nome e sua biografia; criar um link público é opcional.');
   }
 
   function openProfilePreview() {
@@ -772,7 +796,9 @@
   byId('be-public-compose-type')?.addEventListener('change', event => fieldsForType(event.currentTarget.value));
   byId('be-public-compose-form')?.addEventListener('change', event => {
     if (event.target.matches('input[name="visibility"]')) renderVisibilityChoice();
+    else renderComposePreview();
   });
+  byId('be-public-compose-form')?.addEventListener('input', renderComposePreview);
   byId('be-public-compose-text')?.addEventListener('input', event => setText('be-public-compose-count', event.currentTarget.value.length));
   byId('be-public-compose-photo')?.addEventListener('change', async event => {
     const feedback = byId('be-public-compose-feedback');
