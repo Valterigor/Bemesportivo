@@ -4,7 +4,7 @@
   const PROFILE_KEY = 'meuCaminhoBeProfileV1';
   const CODE_KEY = 'meuCaminhoBeContinuityCodeV1';
   const PUBLIC_CODE_KEY = 'meuCaminhoBePublicCodeV1';
-  const PUBLIC_TERMS_VERSION = '2026-08-15';
+  const PUBLIC_TERMS_VERSION = '2026-09-19';
   const encoder = new TextEncoder();
   let registeredIdentity = '';
   let currentPublicRecord = null;

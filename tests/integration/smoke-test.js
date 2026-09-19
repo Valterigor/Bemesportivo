@@ -464,7 +464,7 @@ async function run() {
     assert.match(publicProfileScript, /targetType, postId/, 'A página pública precisa enviar denúncias de perfil e publicação.');
     assert.match(publicDiaryScript, /PUBLIC_CODE_KEY = 'meuCaminhoBePublicCodeV1'/, 'A pÃ¡gina pÃºblica precisa ter identidade local prÃ³pria.');
     assert.match(publicDiaryScript, /api\/public-profiles\/identity/, 'A identidade pÃºblica precisa ser registrada automaticamente.');
-    assert.match(publicDiaryScript, /PUBLIC_TERMS_VERSION = '2026-08-15'/, 'A publicação imediata precisa de aceite versionado.');
+    assert.match(publicDiaryScript, /PUBLIC_TERMS_VERSION = '2026-09-19'/, 'A publicação imediata precisa de aceite versionado.');
     assert.match(publicDiaryScript, /post:[\s\S]*clientId:[\s\S]*text:[\s\S]*imageDataUrl:/);
     assert.doesNotMatch(publicDiaryScript, /videoUrl: entry\.videoUrl/, 'O envio público deve aceitar somente texto e foto.');
     for (const id of ['fb-continuity-create', 'fb-continuity-output', 'fb-continuity-connect-form', 'fb-continuity-input']) {
