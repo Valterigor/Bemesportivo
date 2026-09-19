@@ -619,6 +619,14 @@ async function run() {
     assert.doesNotMatch(beplayApp, /SUBSCRIPTION_KEY|subscribeChannel|readChannelSubscription/, 'A falsa inscrição local do BEplay precisa permanecer removida.');
     const adminHtml = fs.readFileSync(path.join(root, 'admin.html'), 'utf8');
     assert.match(adminHtml, /name="robots" content="noindex, nofollow, noarchive"/, 'O painel administrativo não pode ser indexado.');
+    const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
+    for (const page of ['meu-caminho-be.html', 'game.html', 'criar-postagem.html', 'beplay.html', 'profissionais.html', 'produtos.html']) {
+      const utilityHtml = fs.readFileSync(path.join(root, page), 'utf8');
+      assert.match(utilityHtml, /name="robots" content="noindex, follow"/, `${page} deve permanecer acessível sem integrar o índice editorial.`);
+    }
+    for (const route of ['meu-caminho-be', 'game', 'criar-postagem', 'beplay', 'profissionais', 'produtos']) {
+      assert.doesNotMatch(sitemap, new RegExp(`<loc>https://bemesportivo\\.com/${route}</loc>`), `${route} não deve constar no sitemap editorial.`);
+    }
     assert.match(adminHtml, /id="adminLoginForm"[\s\S]*id="adminDashboard"/, 'O painel precisa exigir autenticação antes de mostrar a operação.');
     const adminApp = fs.readFileSync(path.join(root, 'js/admin.js'), 'utf8');
     assert.match(adminApp, /sessionStorage[\s\S]*X-BE-Admin-Token/, 'A chave administrativa precisa permanecer restrita à sessão da aba.');
