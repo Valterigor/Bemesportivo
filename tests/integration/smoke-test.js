@@ -342,7 +342,8 @@ async function run() {
       const pageHtml = fs.readFileSync(path.join(root, page), 'utf8');
       assert.match(pageHtml, new RegExp(`google-adsense-account" content="${adsensePublisher}`), `Conta AdSense ausente em ${page}.`);
       assert.match(pageHtml, /bem-adsense-enabled" content="true/, `AdSense editorial precisa estar habilitado em ${page}.`);
-      assert.match(pageHtml, /src="\/js\/adsense-consent-default\.js"[\s\S]*?<script async src="https:\/\/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-5105345296041597" crossorigin="anonymous"><\/script>/, `Código de análise do AdSense ausente ou sem consentimento padrão em ${page}.`);
+      assert.match(pageHtml, /src="\/js\/adsense-consent-default\.js"/, `Consentimento padrão ausente em ${page}.`);
+      assert.doesNotMatch(pageHtml, /<script[^>]+src="https:\/\/pagead2\.googlesyndication\.com/, `Publicidade carregada antes da escolha em ${page}.`);
     }
     assert.doesNotMatch(pathHtml, /bem-adsense-enabled/, 'O Meu Caminho Be não deve carregar publicidade em áreas pessoais.');
     const adsTxt = fs.readFileSync(path.join(root, 'ads.txt'), 'utf8');
@@ -762,7 +763,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v150`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v151`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]

@@ -101,9 +101,12 @@ function closePreferences(dialog) {
 export function initPrivacyConsent() {
   const dialog = createDialog();
   const finish = choices => {
+    const advertisingWasLoaded = Boolean(document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]'));
     const consent = saveConsent(choices);
     applyConsent(consent);
     closePreferences(dialog);
+    // A loaded third-party script cannot be unloaded by removing its tag.
+    if (advertisingWasLoaded && !consent.advertising) window.location.reload();
   };
 
   dialog.querySelector('[data-privacy-reject]')?.addEventListener('click', () => finish());
@@ -127,5 +130,12 @@ export function initPrivacyConsent() {
 
   const consent = readConsent();
   applyConsent(consent);
+  window.addEventListener('storage', event => {
+    if (event.key !== CONSENT_KEY && event.key !== null) return;
+    const nextConsent = readConsent();
+    const advertisingWasLoaded = Boolean(document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]'));
+    applyConsent(nextConsent);
+    if (advertisingWasLoaded && !nextConsent?.advertising) window.location.reload();
+  });
   if (!consent) window.setTimeout(() => openPreferences(dialog, null), 350);
 }
