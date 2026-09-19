@@ -10,3 +10,5 @@
 @media(max-height:500px) and (orientation:landscape){.fashion-lightbox{padding:10px 4%}.fashion-lightbox figure{padding:5px 0}.fashion-lightbox button{min-height:40px}}
 .fashion-shot-wide>.fashion-photo-button,.fashion-shot-wide>.fashion-static-photo{aspect-ratio:4/5}.fashion-shot-wide .fashion-photo-button img,.fashion-shot-wide>.fashion-static-photo{object-position:center top}
 @media(max-width:760px){.fashion-triptych figure:first-child img{object-position:center top}}
+.fashion-hero-caption{align-items:flex-start}.fashion-credits{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px}.fashion-model-link{display:inline-flex;align-items:center;gap:4px;padding-bottom:2px;border-bottom:1px solid currentColor;color:var(--fashion-ink);transition:color .2s}.fashion-model-link:hover{color:var(--fashion-accent)}
+@media(max-width:760px){.fashion-credits{justify-content:flex-start;margin:8px 0 10px;gap:7px 18px}.fashion-credits>span{display:inline-block}.fashion-hero-caption>span:last-child{margin-bottom:0}}

@@ -7,6 +7,14 @@ for (const width of [320, 390, 768, 1024, 1440, 1920]) {
     page.on('pageerror', error => errors.push(error.message));
     await page.goto('/moda-fitness');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Moda em');
+    const modelInstagram = page.getByRole('link', { name: /Instagram de Heloísa Gouvea/ });
+    await expect(modelInstagram).toHaveAttribute('href', 'https://www.instagram.com/helogouvea_/');
+    await expect(modelInstagram).toHaveAttribute('target', '_blank');
+    await expect(modelInstagram).toHaveAttribute('rel', 'noopener noreferrer');
+    const brandInstagram = page.getByRole('link', { name: /Instagram da B Malzone Store/ });
+    await expect(brandInstagram).toHaveAttribute('href', 'https://www.instagram.com/bmalzonestore/');
+    await expect(brandInstagram).toHaveAttribute('target', '_blank');
+    await expect(brandInstagram).toHaveAttribute('rel', 'noopener noreferrer');
     const photos = page.locator('.fashion-photo-button');
     await expect(photos).toHaveCount(8);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

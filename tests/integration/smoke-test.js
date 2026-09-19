@@ -414,7 +414,7 @@ async function run() {
     assert.match(homeHtml, /href="\/reportagens">Explorar todas as reportagens/, 'A vitrine editorial precisa abrir o acervo completo.');
     assert.match(homeHtml, /href="\/meu-caminho-be\?tela=mapa">Começar meu Caminho/, 'A chamada da jornada precisa abrir a criação do Mapa BeM.');
     assert.doesNotMatch(homeHtml, /class="home-path-feature"[\s\S]*Dados ficam neste aparelho[\s\S]*<\/section>/, 'A prévia da Home não deve exibir o estado local do aparelho.');
-    assert.match(homeHtml, /class="category-nav"[\s\S]*href="#be-search-result-title">Explorar[\s\S]*href="\/meu-caminho-be">Meu Caminho Be[\s\S]*href="\/profissionais">Encontrar apoio[\s\S]*href="\/meu-caminho-be\/perfil">Meu perfil/, 'A Home precisa oferecer exploração, jornada, apoio e perfil no menu principal.');
+    assert.match(homeHtml, /class="category-nav"[\s\S]*href="#be-search-result-title">Explorar[\s\S]*href="\/moda-fitness">Moda Fitness[\s\S]*href="\/meu-caminho-be">Meu Caminho Be[\s\S]*href="\/profissionais">Encontrar apoio[\s\S]*href="\/meu-caminho-be\/perfil">Meu perfil/, 'A Home precisa oferecer exploração, moda fitness, jornada, apoio e perfil no menu principal.');
     assert.match(homeHtml, /href="\/meu-caminho-be\?tela=ferramentas"/, 'A Home precisa abrir a área de Ferramentas sem perder o destino no Cloudflare.');
     assert.match(homeHtml, /O conteúdo inspira\. A sua história começa quando você <span>vive o esporte\.<\/span>/);
     assert.doesNotMatch(homeHtml, /<h2>Meu Caminho Be<\/h2>/, 'Meu Caminho Be não deve ser usado como nome de coluna editorial.');
