@@ -36,7 +36,7 @@ async function build() {
       catalog.push({
         category: collection.slug,
         categoryLabel: collection.label,
-        src: `/img/moda-fitness/catalogo/${filename}`,
+        src: `/img/moda-fitness/catalogo/${filename}${collection.slug === 'azul' && index === 32 ? '?v=20260919-2' : ''}`,
         width: result.width,
         height: result.height,
         alt: `Heloísa Gouvea veste look fitness ${collection.label.toLowerCase()} — foto ${index + 1}`
@@ -46,7 +46,7 @@ async function build() {
 
   const javascript = `window.FASHION_CATALOG = ${JSON.stringify(catalog, null, 2)};\n`;
   await fs.writeFile(dataFile, javascript, 'utf8');
-  const totalBytes = (await Promise.all(catalog.map(photo => fs.stat(path.join(root, photo.src.slice(1))))))
+  const totalBytes = (await Promise.all(catalog.map(photo => fs.stat(path.join(root, photo.src.slice(1).split('?')[0])))))
     .reduce((sum, stat) => sum + stat.size, 0);
   console.log(`Catálogo criado: ${catalog.length} fotos, ${(totalBytes / 1024 / 1024).toFixed(1)} MB.`);
 }

@@ -45,7 +45,7 @@
       for (const photo of Array.isArray(data.photos) ? data.photos : []) {
         if (!photo || typeof photo.slot !== 'string' || usedSlots.has(photo.slot)) continue;
         const figure = [...document.querySelectorAll('[data-fashion-slot]')].find(node => node.dataset.fashionSlot === photo.slot);
-        if (!figure || !/^\/img\/[a-z0-9/_-]+\.(?:webp|avif|jpe?g|png)$/i.test(photo.src) || !photo.alt) continue;
+        if (!figure || !/^\/img\/[a-z0-9/_-]+\.(?:webp|avif|jpe?g|png)(?:\?v=[a-z0-9-]+)?$/i.test(photo.src) || !photo.alt) continue;
         const thumbnail = new Image();
         thumbnail.src = photo.src;
         thumbnail.alt = String(photo.alt);

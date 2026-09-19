@@ -258,7 +258,7 @@ window.FASHION_CATALOG = [
   {
     "category": "azul",
     "categoryLabel": "Azul",
-    "src": "/img/moda-fitness/catalogo/azul-033.webp",
+    "src": "/img/moda-fitness/catalogo/azul-033.webp?v=20260919-2",
     "width": 1200,
     "height": 1800,
     "alt": "Heloísa Gouvea veste look fitness azul — foto 33"
