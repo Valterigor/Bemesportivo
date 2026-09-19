@@ -36,7 +36,7 @@ async function build() {
       catalog.push({
         category: collection.slug,
         categoryLabel: collection.label,
-        src: `/img/moda-fitness/catalogo/${filename}${collection.slug === 'azul' && index === 32 ? '?v=20260919-2' : ''}`,
+        src: `/img/moda-fitness/catalogo/${filename}${(collection.slug === 'azul' && index === 32) || (collection.slug === 'roxa-lilas' && index === 16) ? '?v=20260919-2' : ''}`,
         width: result.width,
         height: result.height,
         alt: `Heloísa Gouvea veste look fitness ${collection.label.toLowerCase()} — foto ${index + 1}`

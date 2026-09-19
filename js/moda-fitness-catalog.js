@@ -506,7 +506,7 @@ window.FASHION_CATALOG = [
   {
     "category": "roxa-lilas",
     "categoryLabel": "Roxa / lilás",
-    "src": "/img/moda-fitness/catalogo/roxa-lilas-017.webp",
+    "src": "/img/moda-fitness/catalogo/roxa-lilas-017.webp?v=20260919-2",
     "width": 1024,
     "height": 1536,
     "alt": "Heloísa Gouvea veste look fitness roxa / lilás — foto 17"
