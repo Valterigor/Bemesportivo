@@ -572,16 +572,13 @@
     if (!form || !input || !results) return;
     const interest = document.getElementById('home-interest');
     const interestKey = 'bemEsportivoSportPreferenceV1';
-    const initialCards = [...results.children].map(card => card.cloneNode(true));
-    const initialTitle = document.getElementById('be-search-result-title')?.textContent;
-    const initialQuery = document.getElementById('be-search-result-query')?.textContent;
+    const discovery = results.closest('.be-search-discovery');
+    if (discovery) discovery.hidden = true;
     if (interest) {
       try {
         const saved = localStorage.getItem(interestKey);
         if (saved && [...interest.options].some(option => option.value === saved)) {
           interest.value = saved;
-          input.value = interest.selectedOptions[0].textContent;
-          render(search(input.value), results);
         }
       } catch {}
       interest.addEventListener('change', () => {
@@ -594,11 +591,11 @@
           form.requestSubmit();
         } else {
           input.value = '';
-          results.replaceChildren(...initialCards.map(card => card.cloneNode(true)));
-          results.setAttribute('aria-label', `${initialCards.length} sugestões para começar`);
-          document.getElementById('be-search-result-title').textContent = initialTitle;
-          document.getElementById('be-search-result-query').textContent = initialQuery;
-          delete results.closest('.be-search-discovery').dataset.searchCoverage;
+          if (discovery) {
+            discovery.hidden = true;
+            delete discovery.dataset.searchCoverage;
+          }
+          input.focus();
         }
       });
     }

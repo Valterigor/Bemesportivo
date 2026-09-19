@@ -307,7 +307,8 @@ async function run() {
     assert.doesNotMatch(homeHtml, /class="be-search-secondary-label"/, "Hero sem texto secundario redundante.");
     assert.match(homeHtml, /js\/home-path-cta\.js\?v=20260906-2/, 'A Home precisa adaptar o chamado principal ao estágio da pessoa.');
     assert.doesNotMatch(homeHtml, /class="home-search-examples"/, "Hero sem atalhos extras.");
-    assert.match(homeHtml, /css\/be-ecosystem-search\.css\?v=20260919-1/, 'A Home precisa carregar a versão atual do visual da busca.');
+    assert.match(homeHtml, /css\/be-ecosystem-search\.css\?v=20260919-2/, 'A Home precisa carregar a versão atual do visual da busca.');
+    assert.match(homeHtml, /class="shell be-search-discovery"[^>]*hidden/, 'Os resultados da Biblioteca BeM devem aparecer somente depois de uma busca.');
     const ecosystemCss = fs.readFileSync(path.join(root, 'css', 'be-ecosystem-search.css'), 'utf8');
     assert.match(ecosystemCss, /@media \(max-width: 760px\)[\s\S]*?\.home-page \.site-header \.category-nav\s*\{[\s\S]*?display:\s*flex;/, 'O menu principal da Home precisa permanecer visível no celular.');
     assert.match(homeHtml, /id="be-products-scroll-hint"[\s\S]*?Deslize para explorar/, 'A navegação lateral da Home precisa orientar o gesto no mobile.');
@@ -362,7 +363,7 @@ async function run() {
     assert.match(homeHtml, /class="be-ecosystem-product" href="\/game"[\s\S]*?<strong>Game 3D<\/strong><small>Divirta-se<\/small>/, 'Game 3D precisa abrir seu destino exato.');
     assert.match(homeHtml, /class="be-ecosystem-product" href="\/meu-caminho-be\?tela=conteudos"[\s\S]*?<strong>Conhecimento<\/strong>/, 'Conhecimento precisa abrir seu painel sem redirecionamento de produção.');
     assert.match(homeHtml, /class="be-ecosystem-product" href="\/meu-caminho-be\?tela=ferramentas"[\s\S]*?<strong>Ferramentas<\/strong>/, 'Ferramentas precisa abrir seu painel sem redirecionamento de produção.');
-    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260906-1"/, 'A Home precisa carregar a Biblioteca Esportiva antes da busca determinística.');
+    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260919-1"/, 'A Home precisa carregar a Biblioteca Esportiva antes da busca determinística.');
     const ecosystemSearch = require(path.join(root, 'js', 'be-ecosystem-search.js'));
     assert.equal(ecosystemSearch.search('Quero saber como melhorar meu chute').primary.id, 'conteudo');
     assert.equal(ecosystemSearch.search('Quero assistir').primary.id, 'beplay');
@@ -403,15 +404,11 @@ async function run() {
     const unknownSport = ecosystemSearch.search('Quero praticar curling');
     assert.equal(unknownSport.coverage, 'general');
     assert.ok(unknownSport.items.every(item => !/primeira corrida|futebol com inteligência/i.test(item.title)));
-    assert.match(homeHtml, /id="home-content-title">Histórias que colocam o esporte <em>em movimento\.<\/em>/, 'A Home precisa apresentar a vitrine editorial principal.');
-    assert.match(homeHtml, /class="home-editorial-grid" data-report-order="inclusion-desc" data-latest-reports-source="\/reportagens"[\s\S]*Thais Garcez, uma nova versão[\s\S]*Elas trazem esperança[\s\S]*Mayara e Magnólia no Papo Bem Esportivo/, 'A vitrine editorial precisa manter como fallback as três reportagens mais recentes do acervo.');
-    assert.match(homeHtml, /src="js\/home-latest-reports\.js\?v=20260821-1"/, 'A Home precisa sincronizar seus destaques com a listagem de reportagens.');
-    const latestReportsScript = fs.readFileSync(path.join(root, 'js', 'home-latest-reports.js'), 'utf8');
-    assert.match(latestReportsScript, /querySelectorAll\("\.report-listing \.report-preview"\)/);
-    assert.match(latestReportsScript, /querySelector\(":is\(h2, h3\) a"\)/, 'O sincronizador precisa reconhecer tanto o título em destaque quanto os títulos da grade.');
-    assert.match(latestReportsScript, /slice\(0, FEATURE_LIMIT\)/);
+    assert.match(homeHtml, /id="home-content-title">Estilo e histórias que colocam o esporte <em>em movimento\.<\/em>/, 'A Home precisa apresentar a vitrine editorial principal.');
+    assert.match(homeHtml, /class="home-editorial-grid"[\s\S]*href="\/moda-fitness"[\s\S]*Moda em movimento[\s\S]*Thais Garcez, uma nova versão[\s\S]*Elas trazem esperança/, 'A vitrine editorial precisa reunir moda fitness e histórias do acervo.');
+    assert.doesNotMatch(homeHtml, /home-latest-reports\.js|data-latest-reports-source/, 'A seleção editorial da Home precisa permanecer estável.');
     assert.match(homeHtml, /class="shell home-journey"[\s\S]*Seu diário <em>esportivo digital\.<\/em>/, 'A Home precisa preservar o bloco do Meu Caminho Be.');
-    assert.match(homeHtml, /class="shell home-split"[\s\S]*Corrida da Hidratação[\s\S]*Assista\. Inspire-se\. Evolua sempre\./, 'A Home precisa conectar Game e BePlay.');
+    assert.doesNotMatch(homeHtml, /class="shell home-split"|class="shell home-content-bridge"/, 'A Home não deve repetir caminhos secundários antes da mensagem final.');
     assert.doesNotMatch(homeHtml, /id="home-report-title"/, 'A Home não deve repetir a mesma vitrine de reportagens.');
     assert.match(homeHtml, /href="\/reportagens">Explorar todas as reportagens/, 'A vitrine editorial precisa abrir o acervo completo.');
     assert.match(homeHtml, /href="\/meu-caminho-be\?tela=mapa">Começar meu Caminho/, 'A chamada da jornada precisa abrir a criação do Mapa BeM.');

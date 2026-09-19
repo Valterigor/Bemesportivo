@@ -350,6 +350,8 @@
   .be-search-results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
+.be-search-discovery[hidden] { display: none; }
+
 @media (max-width: 760px) {
   .home-page { padding-bottom: 78px; }
   .home-page .site-header .nav-row { min-height: 0; padding: 10px 0 9px; flex-wrap: wrap; gap: 7px; }

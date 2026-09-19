@@ -54,12 +54,12 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="css/home-layout.css?v=20260907-1">
+  <link rel="stylesheet" href="css/home-layout.css?v=20260919-1">
   <link rel="stylesheet" href="/css/contact.css?v=20260906-1">
-  <link rel="stylesheet" href="css/components/privacy-consent.css?v=20260906-1">
+  <link rel="stylesheet" href="css/components/privacy-consent.css?v=20260919-1">
   <link rel="stylesheet" href="css/premium-refinement.css?v=20260906-1">
   <link rel="stylesheet" href="css/ui-polish.css?v=20260906-1">
-  <link rel="stylesheet" href="css/be-ecosystem-search.css?v=20260919-1">
+  <link rel="stylesheet" href="css/be-ecosystem-search.css?v=20260919-2">
 <link rel="stylesheet" href="css/mobile-typography.css?v=20260906-1">
 <link rel="stylesheet" href="css/readability.css?v=20260906-1">
 <link rel="stylesheet" href="css/home-dark-theme.css?v=20260906-1">
@@ -130,7 +130,7 @@
         <span class="be-products-scroll-dots" aria-hidden="true"></span>
       </div>
 
-      <section class="shell be-search-discovery" aria-labelledby="be-search-result-title">
+      <section class="shell be-search-discovery" aria-labelledby="be-search-result-title" hidden>
         <div class="be-search-discovery-main">
           <span class="be-search-discovery-kicker">Busca Be</span>
           <h2 id="be-search-result-title" tabindex="-1">Para começar a explorar</h2>
@@ -189,14 +189,20 @@
 
       <section class="shell home-section-v2 home-editorial-feature home-editorial-launch" id="reportagens-em-destaque" aria-labelledby="home-content-title">
         <div class="home-section-head-v2">
-          <span>Reportagens Bem Esportivo</span>
-          <h2 id="home-content-title">Histórias que colocam o esporte <em>em movimento.</em></h2>
-          <p>Conheça pessoas, projetos e iniciativas que transformam treino, oportunidade e comunidade em histórias que merecem ser contadas.</p>
+          <span>Em destaque no Bem Esportivo</span>
+          <h2 id="home-content-title">Estilo e histórias que colocam o esporte <em>em movimento.</em></h2>
+          <p>Um olhar sobre pessoas, escolhas e diferentes formas de viver o esporte.</p>
           <a href="/reportagens">Explorar todas as reportagens <span aria-hidden="true">→</span></a>
         </div>
-        <!-- Fallback estático e sincronização automática com as primeiras matérias de /reportagens. -->
-        <div class="home-editorial-grid" data-report-order="inclusion-desc" data-latest-reports-source="/reportagens">
-          <a class="home-editorial-card home-editorial-card-lead" href="/reportagens/thais-garcez-metamorfose" data-report-id="thais-garcez-metamorfose" data-inclusion-order="8">
+        <div class="home-editorial-grid">
+          <a class="home-editorial-card home-editorial-card-lead home-editorial-card-fashion" href="/moda-fitness">
+            <img src="img/moda-fitness/azul-essencial.webp" alt="Heloísa Gouvea veste conjunto fitness azul no editorial Ateliê BE" width="1000" height="1500" loading="lazy" decoding="async">
+            <span class="home-editorial-category">Ateliê BE · Moda Fitness</span>
+            <h3>Moda em movimento</h3>
+            <p>Um catálogo completo sobre forma, presença e estilo, com looks da B Malzone Store.</p>
+            <small>Explorar o catálogo <b aria-hidden="true">→</b></small>
+          </a>
+          <a class="home-editorial-card" href="/reportagens/thais-garcez-metamorfose" data-report-id="thais-garcez-metamorfose">
             <img src="img/Thais%20Garcez/thais-garcez-capa.jpg" alt="Thais Garcez em ambiente de academia" width="738" height="1600" loading="lazy" decoding="async">
             <span class="home-editorial-category">Musculação, saúde e transformação pessoal</span>
             <h3>Thais Garcez, uma nova versão</h3>
@@ -208,13 +214,6 @@
             <span class="home-editorial-category">Futebol feminino · Arquivo</span>
             <h3>Elas trazem esperança</h3>
             <p>Os primeiros passos de Duda e Lara no futebol, entre amizade, formação e sonhos em movimento.</p>
-            <small>4 min de leitura <b aria-hidden="true">→</b></small>
-          </a>
-          <a class="home-editorial-card" href="/reportagens/mayara-magnolia-papo-bem-esportivo" data-report-id="mayara-magnolia-papo-bem-esportivo" data-inclusion-order="6">
-            <img src="img/mayara-magnolia-papo-bem-esportivo.jpg" alt="Mayara e Magnólia durante entrevista ao Bem Esportivo" loading="lazy" width="1280" height="720" decoding="async">
-            <span class="home-editorial-category">Papo Bem Esportivo · Arquivo</span>
-            <h3>Mayara e Magnólia no Papo Bem Esportivo</h3>
-            <p>As gêmeas contam como o tênis, os estudos e a determinação abriram caminho para a Educação Física.</p>
             <small>4 min de leitura <b aria-hidden="true">→</b></small>
           </a>
         </div>
@@ -232,35 +231,6 @@
           <a href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=pace"><img class="home-tool-illustration" src="/img/ferramenta-pace.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><strong>Calculadora Pace</strong><small>Entenda o seu ritmo por quilômetro.</small></a>
           <a href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=agua"><img class="home-tool-illustration" src="/img/ferramenta-agua.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><strong>Água diária</strong><small>Defina uma meta de hidratação possível.</small></a>
         </div>
-      </section>
-
-      <section class="shell home-split">
-        <article class="home-game-panel">
-          <img src="img/personagens.jpeg" alt="Personagens esportivos do game Corrida da Hidratação">
-          <div>
-            <span>Game</span>
-            <h2>Corrida da Hidratação</h2>
-            <p>Beba água, supere desafios e chegue ao topo.</p>
-            <a class="home-primary" href="/game">Jogar agora <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.5 9h11a4 4 0 0 1 3.8 5.2l-.7 2.1a2.4 2.4 0 0 1-4.1.8L15 15.5H9l-1.5 1.6a2.4 2.4 0 0 1-4.1-.8l-.7-2.1A4 4 0 0 1 6.5 9Z"></path><path d="M8 12v3M6.5 13.5h3M16.5 13h.01M18.5 15h.01"></path></svg></a>
-          </div>
-        </article>
-        <article class="home-beplay-panel" aria-labelledby="home-beplay-title">
-          <div class="home-panel-head">
-            <span>BePlay</span>
-            <h2 id="home-beplay-title">Assista. Inspire-se. Evolua sempre.</h2>
-            <a href="/beplay">Ver todos <span aria-hidden="true">→</span></a>
-          </div>
-          <div class="home-video-list">
-            <button type="button" data-home-video="videos/treino-agilidade-futebol.mp4" data-home-video-title="Bastidores da preparação intensa de um atleta" data-home-video-link="/beplay?video=treino-agilidade-futebol"><span class="home-video-cover"><img src="img/beplay-capa-agilidade-futebol.webp" alt="Atleta treinando agilidade com bola e cones em um campo de futebol" loading="lazy" width="960" height="640"></span><strong>Bastidores da preparação intensa de um atleta</strong><small>05:21</small></button>
-            <button type="button" data-home-video="videos/treino-forca-performance.mp4" data-home-video-title="Rotina de treinos que transformam vidas" data-home-video-link="/beplay?video=treino-forca-performance"><span class="home-video-cover"><img src="img/beplay-capa-forca-performance.webp" alt="Atleta em treino funcional de força e performance" loading="lazy" width="960" height="640"></span><strong>Rotina de treinos que transformam vidas</strong><small>04:10</small></button>
-            <button type="button" data-home-video="videos/beplay-o-esporte-comeca-nas-pessoas.mp4" data-home-video-title="O esporte começa com pessoas" data-home-video-link="/beplay?video=o-esporte-comeca-nas-pessoas"><span class="home-video-cover"><img src="img/beplay-capa-pessoas.webp" alt="Pessoas reunidas após uma atividade esportiva comunitária" loading="lazy" width="960" height="640"></span><strong>O esporte começa com pessoas</strong><small>00:09</small></button>
-          </div>
-        </article>
-      </section>
-
-      <section class="shell home-content-bridge" aria-label="Continue sua jornada esportiva">
-        <div><span>Depois de assistir</span><strong>Transforme inspiração em um próximo passo.</strong></div>
-        <a href="/meu-caminho-be?tela=registrar">Registrar minha atividade <span aria-hidden="true">→</span></a>
       </section>
 
       <template id="legacy-home-sections">
@@ -620,10 +590,9 @@
     </nav>
   </div>
   <script type="module" src="js/privacy-entry.js?v=20260723-2"></script>
-  <script type="module" src="js/home-latest-reports.js?v=20260821-1"></script>
   <script src="js/be-sports-library.js?v=20260829-5" defer></script>
   <script src="js/home-path-cta.js?v=20260906-2" defer></script>
-  <script src="js/be-ecosystem-search.js?v=20260906-1" defer></script>
+  <script src="js/be-ecosystem-search.js?v=20260919-1" defer></script>
   <script src="js/be-products-carousel.js?v=20260831-2" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
