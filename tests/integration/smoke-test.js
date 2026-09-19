@@ -596,8 +596,13 @@ async function run() {
     assert.match(pathApp, /function showSaveReceipt\(/, 'O app precisa transformar o salvamento em recibo e próximo passo.');
     assert.match(pathApp, /\^meuCaminhoBe\/i[\s\S]*location\.replace\(APP_BASE_PATH\)/, 'Zerar precisa remover todos os dados da jornada e reiniciar o app.');
     const commonScript = fs.readFileSync(path.join(root, 'js/site-common.js'), 'utf8');
+    const homeAccessScript = fs.readFileSync(path.join(root, 'js/components/home-access.js'), 'utf8');
+    const homeAccessCss = fs.readFileSync(path.join(root, 'css/components/home-access.css'), 'utf8');
     const communityComponent = fs.readFileSync(path.join(root, 'js/components/community-comments.js'), 'utf8');
     assert.match(commonScript, /TRANSIENT_SUCCESS_PATTERN[\s\S]*setTimeout\([\s\S]*5000/, 'Confirmações de salvamento e publicação precisam desaparecer automaticamente.');
+    assert.match(commonScript, /initHomeAccess\(\)/, 'As páginas internas precisam oferecer retorno explícito ao início.');
+    assert.match(homeAccessScript, /aria-label', 'Voltar ao início do Bem Esportivo'/, 'O acesso ao início precisa ter um nome claro.');
+    assert.match(homeAccessCss, /body\.be-cover-active \.be-home-access[\s\S]*body\.be-welcome-active \.be-home-access\s*\{\s*display:\s*none;/, 'A abertura e as boas-vindas do Meu Diário Be não devem exibir o acesso ao início.');
     assert.match(communityComponent, /adultConfirmed:/, 'Comentários públicos precisam enviar a confirmação de maioridade exigida pela API.');
     assert.match(communityComponent, /action: 'reply'/, 'O componente comunitário precisa aceitar respostas públicas.');
     assert.match(communityComponent, /data-community-action="like"/, 'O componente comunitário precisa aceitar curtidas.');

@@ -7,6 +7,7 @@ import { initMediaQuality } from './components/media-quality.js?v=20260723-1';
 import { initAnalytics } from './components/analytics.js?v=20260905-2';
 import { initCommunityComments } from './components/community-comments.js?v=20260813-1';
 import { initJourneyReset } from './components/journey-reset.js?v=20260813-1';
+import { initHomeAccess } from './components/home-access.js?v=20260919-2';
 
 const TRANSIENT_SUCCESS_PATTERN = /\b(salv(?:o|a|os|as)|publicad(?:o|a|os|as)|atualizad(?:o|a|os|as)|conclu[ií]d(?:o|a|os|as)|registrad(?:o|a|os|as)|recebid(?:o|a|os|as)|tudo certo)\b/i;
 const transientStatusTimers = new WeakMap();
@@ -47,4 +48,5 @@ initAnalytics();
 initMediaQuality();
 initJourneyReset();
 initCommunityComments();
+initHomeAccess();
 initTransientSuccessFeedback();

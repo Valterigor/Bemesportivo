@@ -1,0 +1,34 @@
+.be-home-access {
+  position: fixed;
+  z-index: 70;
+  left: max(14px, env(safe-area-inset-left));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 15px;
+  border: 1px solid rgb(227 127 12 / 38%);
+  border-radius: 999px;
+  background: rgb(16 15 14 / 72%);
+  color: #fff;
+  box-shadow: 0 8px 22px rgb(0 0 0 / 18%);
+  font: 800 13px/1 Inter, Arial, sans-serif;
+  text-decoration: none;
+  backdrop-filter: blur(16px) saturate(125%);
+  -webkit-tap-highlight-color: transparent;
+}
+.be-home-access svg { width: 17px; height: 17px; fill: none; stroke: #f28a16; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.be-home-access:hover { border-color: rgb(242 138 22 / 72%); background: rgb(38 33 28 / 84%); color: #fff; transform: translateY(-2px); }
+.be-home-access:focus-visible { outline: 3px solid rgb(242 138 22 / 38%); outline-offset: 3px; }
+body.fala-bem-app-page .be-home-access { bottom: calc(88px + env(safe-area-inset-bottom)); }
+body.be-cover-active .be-home-access,
+body.be-welcome-active .be-home-access { display: none; }
+@media (min-width: 981px) {
+  body.fala-bem-app-page .be-home-access { bottom: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .be-home-access { transition: none; }
+  .be-home-access:hover { transform: none; }
+}
