@@ -18,8 +18,8 @@ for (const width of [320, 390, 768, 1024, 1440, 1920]) {
     const photos = page.locator('.fashion-editorial .fashion-photo-button, .fashion-triptych .fashion-photo-button');
     await expect(photos).toHaveCount(8);
     const catalogPhotos = page.locator('.fashion-catalog-card');
-    await expect(catalogPhotos).toHaveCount(91);
-    await expect(page.locator('#fashion-catalog-count')).toHaveText('91 fotografias');
+    await expect(catalogPhotos).toHaveCount(85);
+    await expect(page.locator('#fashion-catalog-count')).toHaveText('85 fotografias');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await photos.first().click();
     await expect(page.locator('#fashion-lightbox')).toBeVisible();

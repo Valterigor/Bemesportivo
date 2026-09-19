@@ -89,7 +89,10 @@
     const grid = document.getElementById('fashion-catalog-grid');
     const count = document.getElementById('fashion-catalog-count');
     const filters = [...document.querySelectorAll('[data-fashion-filter]')];
-    const catalog = Array.isArray(window.FASHION_CATALOG) ? window.FASHION_CATALOG : [];
+    const excludedCatalogPhotos = new Set(['azul-002.webp', 'azul-004.webp', 'azul-006.webp', 'azul-008.webp', 'azul-017.webp', 'azul-022.webp']);
+    const catalog = Array.isArray(window.FASHION_CATALOG)
+      ? window.FASHION_CATALOG.filter(photo => !excludedCatalogPhotos.has(photo.src.split('/').pop().split('?')[0]))
+      : [];
     if (!grid || !catalog.length) return;
     const catalogPhotos = catalog.map((photo, index) => ({
       src: photo.src,

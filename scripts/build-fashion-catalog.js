@@ -7,6 +7,7 @@ const sharp = require('sharp');
 const root = path.resolve(__dirname, '..');
 const outputDirectory = path.join(root, 'img', 'moda-fitness', 'catalogo');
 const dataFile = path.join(root, 'js', 'moda-fitness-catalog.js');
+const excludedOutputs = new Set(['azul-002.webp', 'azul-004.webp', 'azul-006.webp', 'azul-008.webp', 'azul-017.webp', 'azul-022.webp']);
 const collections = [
   { directory: 'Azul', slug: 'azul', label: 'Azul' },
   { directory: 'Roxa-lilas', slug: 'roxa-lilas', label: 'Roxa / lilás' },
@@ -26,6 +27,7 @@ async function build() {
     for (const [index, entry] of entries.entries()) {
       const number = String(index + 1).padStart(3, '0');
       const filename = `${collection.slug}-${number}.webp`;
+      if (excludedOutputs.has(filename)) continue;
       const target = path.join(outputDirectory, filename);
       const result = await sharp(path.join(sourceDirectory, entry.name))
         .rotate()
