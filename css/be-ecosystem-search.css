@@ -352,8 +352,21 @@
 
 @media (max-width: 760px) {
   .home-page { padding-bottom: 78px; }
-  .home-page .site-header .category-nav { display: none; }
-  .home-page .site-header .nav-row { min-height: 66px; }
+  .home-page .site-header .nav-row { min-height: 0; padding: 10px 0 9px; flex-wrap: wrap; gap: 7px; }
+  .home-page .site-header .brand { min-height: 48px; }
+  .home-page .site-header .category-nav {
+    display: flex;
+    flex: 0 0 100%;
+    width: 100%;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 0 0 3px;
+    scroll-padding-inline: 1px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .home-page .site-header .category-nav::-webkit-scrollbar { display: none; }
+  .home-page .site-header .nav-chip { min-height: 40px; padding: 0 11px; font-size: 12px; white-space: nowrap; }
   .home-page .home-hero-v2.be-ecosystem-hero { min-height: 630px; margin-top: 12px; padding-top: 0; border-radius: 22px; }
   .home-page .be-ecosystem-hero .home-hero-copy { align-content: end; padding: 82px 18px 42px; }
   .home-page .be-ecosystem-hero .home-hero-copy > .be-hero-brand { max-width: 100%; margin-bottom: 9px; font-size: clamp(38px, 10.5vw, 48px) !important; line-height: .98; }

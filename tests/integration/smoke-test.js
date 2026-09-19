@@ -307,7 +307,9 @@ async function run() {
     assert.doesNotMatch(homeHtml, /class="be-search-secondary-label"/, "Hero sem texto secundario redundante.");
     assert.match(homeHtml, /js\/home-path-cta\.js\?v=20260906-2/, 'A Home precisa adaptar o chamado principal ao estágio da pessoa.');
     assert.doesNotMatch(homeHtml, /class="home-search-examples"/, "Hero sem atalhos extras.");
-    assert.match(homeHtml, /css\/be-ecosystem-search\.css\?v=20260908-1/, 'A Home precisa carregar a versão atual do visual da busca.');
+    assert.match(homeHtml, /css\/be-ecosystem-search\.css\?v=20260919-1/, 'A Home precisa carregar a versão atual do visual da busca.');
+    const ecosystemCss = fs.readFileSync(path.join(root, 'css', 'be-ecosystem-search.css'), 'utf8');
+    assert.match(ecosystemCss, /@media \(max-width: 760px\)[\s\S]*?\.home-page \.site-header \.category-nav\s*\{[\s\S]*?display:\s*flex;/, 'O menu principal da Home precisa permanecer visível no celular.');
     assert.match(homeHtml, /id="be-products-scroll-hint"[\s\S]*?Deslize para explorar/, 'A navegação lateral da Home precisa orientar o gesto no mobile.');
     assert.match(homeHtml, /js\/be-products-carousel\.js\?v=20260831-2/, 'A Home precisa carregar o movimento progressivo dos atalhos.');
     const professionalsHtml = fs.readFileSync(path.join(root, 'profissionais.html'), 'utf8');
