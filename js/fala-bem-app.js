@@ -5105,6 +5105,11 @@ window.addEventListener('pagehide', stopDiaryGreeting);
 
 const diaryCover = document.getElementById('be-diary-cover');
 const diaryWelcome = document.getElementById('be-diary-welcome');
+const directToolEntry = (() => {
+  const url = new URL(window.location.href);
+  const tool = url.searchParams.get('ferramenta');
+  return Boolean(tool) || url.pathname.startsWith(`${APP_BASE_PATH}/ferramentas`);
+})();
 if (diaryCover) {
   let openingTimer;
   let welcomeExitTimer;
@@ -5168,10 +5173,15 @@ if (diaryCover) {
     diaryCover.classList.remove('is-opening');
     document.body.classList.remove('be-cover-opening', 'be-welcome-active', 'be-welcome-leaving');
     diaryWelcome.hidden = true;
-    diaryCover.hidden = false;
-    document.body.classList.add('be-cover-active');
-    diaryCover.focus({ preventScroll: true });
+    diaryCover.hidden = directToolEntry;
+    document.body.classList.toggle('be-cover-active', !directToolEntry);
+    if (!directToolEntry) diaryCover.focus({ preventScroll: true });
   });
+  if (directToolEntry) {
+    diaryCover.hidden = true;
+    diaryWelcome.hidden = true;
+    document.body.classList.remove('be-cover-active', 'be-cover-opening', 'be-welcome-active');
+  }
 }
 
 renderPersonalizedExperience();
@@ -5240,7 +5250,7 @@ if (sharedQuestion && sharedQuestion.length >= 3) {
   showPracticalTip('constancia');
 }
 const sharedTool = new URLSearchParams(window.location.search).get('ferramenta')?.trim();
-if (['imc', 'pace', 'calorias', 'agua', 'proteina'].includes(sharedTool)) {
+if (['imc', 'pace', 'calorias', 'agua', 'cardiaca', 'proteina'].includes(sharedTool)) {
   openView('ferramentas');
   window.setTimeout(() => document.querySelector(`[data-tool="${sharedTool}"]`)?.click(), 180);
 }

@@ -520,7 +520,7 @@ async function run() {
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260906-1/);
     assert.match(pathHtml, /js\/meu-caminho-navigation\.js\?v=20260916-2/);
     assert.match(pathHtml, /js\/meu-caminho-account\.js\?v=20260823-2/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260916-3/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260919-1/);
     assert.match(pathHtml, /js\/coluna-valtinho\.js\?v=20260823-1/);
     assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260916-1/);
     assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260907-1/);
@@ -660,6 +660,7 @@ async function run() {
     assert.match(appScript, /function recordJourneyStep\(/);
     assert.match(appScript, /saveReceiptHideTimer = window\.setTimeout\(hideSaveReceipt, 7000\)/, 'A confirmação interna precisa desaparecer automaticamente.');
     assert.match(appScript, /APP_BASE_PATH = '\/meu-caminho-be'/);
+    assert.match(appScript, /const directToolEntry =/, 'Links de ferramentas devem ignorar a abertura do diário e abrir o recurso diretamente.');
     assert.match(appScript, /function viewFromAppPath\(pathname = location\.pathname\)/);
     assert.match(appScript, /url\.pathname = routePath/);
     assert.match(appScript, /url\.searchParams\.delete\('tela'\)/);
