@@ -1,0 +1,44 @@
+const { test, expect } = require('@playwright/test');
+
+for (const width of [320, 390, 768, 1024, 1440, 1920]) {
+  test(`fashion editorial and photo viewer at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: width === 768 ? 390 : 900 });
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto('/moda-fitness');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Moda em');
+    const photos = page.locator('.fashion-photo-button');
+    await expect(photos).toHaveCount(8);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await photos.first().click();
+    await expect(page.locator('#fashion-lightbox')).toBeVisible();
+    expect(await page.locator('#fashion-lightbox').evaluate(dialog => dialog.scrollHeight <= dialog.clientHeight)).toBe(true);
+    await expect(page.locator('#fashion-lightbox-position')).toHaveText('1 / 8');
+    await expect(page.locator('#fashion-lightbox-image')).toHaveAttribute('src', /azul-essencial/);
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator('#fashion-lightbox-position')).toHaveText('2 / 8');
+    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.locator('#fashion-lightbox-position')).toHaveText('8 / 8');
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#fashion-lightbox')).toBeHidden();
+    await expect(photos.first()).toBeFocused();
+    for (const photo of await photos.all()) {
+      await photo.scrollIntoViewIfNeeded();
+      await expect.poll(() => photo.locator('img').evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true);
+    }
+    await page.locator('h1').click();
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.screenshot({ path: `test-results/moda-fitness-${width}.png`, fullPage: true });
+    expect(errors).toEqual([]);
+  });
+}
+
+test('editorial photographs remain available without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto('http://127.0.0.1:3100/moda-fitness');
+  await expect(page.locator('.fashion-static-photo')).toHaveCount(8);
+  await expect(page.locator('.fashion-static-photo').first()).toBeVisible();
+  await context.close();
+});
