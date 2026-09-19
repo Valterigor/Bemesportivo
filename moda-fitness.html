@@ -15,13 +15,14 @@
   <link rel="canonical" href="https://bemesportivo.com/moda-fitness">
   <link rel="icon" href="/img/logobemoficial.png">
   <link rel="stylesheet" href="/css/moda-fitness.css?v=20260919-1">
-  <script src="/js/moda-fitness.js?v=20260919-1" defer></script>
+  <script src="/js/moda-fitness-catalog.js?v=20260919-1" defer></script>
+  <script src="/js/moda-fitness.js?v=20260919-2" defer></script>
 </head>
 <body class="fashion-page">
   <a class="fashion-skip" href="#conteudo">Pular para o conteúdo</a>
   <header class="fashion-header">
     <a class="fashion-brand" href="/" aria-label="Bem Esportivo — voltar ao início"><img src="/img/logobemoficial.png" width="39" height="34" alt=""><span>bem esportivo<span class="fashion-brand-note">UM OLHAR ALÉM DO ESPORTE</span></span></a>
-    <nav aria-label="Navegação do ateliê"><a href="#editorial">Editorial</a><a href="#conceito">O conceito</a><a href="/contato">Contato <span aria-hidden="true">↗</span></a></nav>
+    <nav aria-label="Navegação do ateliê"><a href="#editorial">Editorial</a><a href="#catalogo">Catálogo</a><a href="/contato">Contato <span aria-hidden="true">↗</span></a></nav>
   </header>
 
   <main id="conteudo">
@@ -60,7 +61,22 @@
       <p class="fashion-gallery-status" id="fashion-gallery-status" role="status">Um editorial em três expressões: azul, macacão e lilás.</p>
     </section>
 
-    <section class="fashion-contact" aria-labelledby="fashion-contact-title"><span class="fashion-eyebrow">03 / VAMOS CRIAR JUNTOS</span><div><h2 id="fashion-contact-title">Sua marca.<br><em>Um novo olhar.</em></h2><div><p>Moda, fotografia e esporte se encontram aqui. Converse com o Bem Esportivo sobre editoriais e parcerias.</p><a class="fashion-contact-link" href="/contato">Converse com a gente <span aria-hidden="true">↗</span></a></div></div></section>
+    <section class="fashion-catalog" id="catalogo" aria-labelledby="fashion-catalog-title">
+      <header class="fashion-catalog-heading">
+        <div><span class="fashion-eyebrow">03 / CATÁLOGO COMPLETO</span><h2 id="fashion-catalog-title">Todos os looks.<br><em>Todos os detalhes.</em></h2></div>
+        <p><strong id="fashion-catalog-count">91 fotografias</strong><br>Explore o ensaio completo por coleção.</p>
+      </header>
+      <div class="fashion-catalog-filters" role="group" aria-label="Filtrar fotografias por coleção">
+        <button type="button" class="is-active" data-fashion-filter="all" aria-pressed="true">Todos <span>91</span></button>
+        <button type="button" data-fashion-filter="azul" aria-pressed="false">Azul <span>47</span></button>
+        <button type="button" data-fashion-filter="roxa-lilas" aria-pressed="false">Roxa / lilás <span>30</span></button>
+        <button type="button" data-fashion-filter="macacao" aria-pressed="false">Macacão <span>14</span></button>
+      </div>
+      <div class="fashion-catalog-grid" id="fashion-catalog-grid"></div>
+      <noscript><p class="fashion-catalog-noscript">Ative o JavaScript para explorar as 91 fotografias do catálogo completo. O editorial acima continua disponível.</p></noscript>
+    </section>
+
+    <section class="fashion-contact" aria-labelledby="fashion-contact-title"><span class="fashion-eyebrow">04 / VAMOS CRIAR JUNTOS</span><div><h2 id="fashion-contact-title">Sua marca.<br><em>Um novo olhar.</em></h2><div><p>Moda, fotografia e esporte se encontram aqui. Converse com o Bem Esportivo sobre editoriais e parcerias.</p><a class="fashion-contact-link" href="/contato">Converse com a gente <span aria-hidden="true">↗</span></a></div></div></section>
   </main>
 
   <footer class="fashion-footer"><a href="/">Bem Esportivo <span aria-hidden="true">↗</span></a><p>O esporte começa com pessoas.</p><nav aria-label="Links institucionais"><a href="/politica-de-privacidade">Privacidade</a><a href="/contato">Contato</a><a href="#conteudo">Voltar ao topo ↑</a></nav><small>© 2026 Bem Esportivo</small></footer>
