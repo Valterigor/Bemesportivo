@@ -1,11 +1,11 @@
 :root {
   /* Brand */
-  --be-ds-color-brand: #ef850d;
-  --be-ds-color-brand-strong: #c26c0a;
-  --be-ds-color-brand-text: #a35b09;
+  --be-ds-color-brand: #fd7704;
+  --be-ds-color-brand-strong: #a94700;
+  --be-ds-color-brand-text: #963f00;
   --be-ds-color-primary: var(--be-ds-color-brand);
-  --be-ds-color-primary-hover: #d5770b;
-  --be-ds-color-primary-active: #c26c0a;
+  --be-ds-color-primary-hover: #db6200;
+  --be-ds-color-primary-active: #a94700;
   --be-ds-color-secondary: #28231f;
   --be-ds-color-ink: #171717;
   --be-ds-color-text: #3f3b37;
@@ -30,7 +30,7 @@
   --be-ds-color-focus: #1f6feb;
 
   /* Data visualization */
-  --be-ds-chart-1: #e37f0c;
+  --be-ds-chart-1: #fd7704;
   --be-ds-chart-2: #168653;
   --be-ds-chart-3: #245ea8;
   --be-ds-chart-4: #a45c09;

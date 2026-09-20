@@ -1,0 +1,14 @@
+{
+  "name": "bem-hero-motion-preview",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio src/index.tsx",
+    "render": "remotion render src/index.tsx HeroMotion ../../videos/hero-remotion-preview.mp4 --codec=h264 --crf=23 --concurrency=2"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.526",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.526"
+  }
+}

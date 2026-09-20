@@ -1,5 +1,5 @@
 :root {
-  --be-premium-orange: #ef850d;
+  --be-premium-orange: #fd7704;
   --be-premium-orange-hover: #d5770b;
   --be-premium-black: #111111;
   --be-premium-white: #ffffff;
@@ -395,9 +395,9 @@ body > header > a:first-child img {
 ) {
   min-height: var(--be-ds-control-height, 50px) !important;
   padding-inline: 24px !important;
-  border: 1px solid var(--be-ds-color-primary, #ef850d) !important;
+  border: 1px solid var(--be-ds-color-primary, #fd7704) !important;
   border-radius: var(--be-ds-radius-md, 12px) !important;
-  background: var(--be-ds-color-primary, #ef850d) !important;
+  background: var(--be-ds-color-primary, #fd7704) !important;
   color: #fff !important;
   font-weight: 600 !important;
   box-shadow: none !important;
@@ -410,7 +410,7 @@ body > header > a:first-child img {
 ) {
   min-height: var(--be-ds-control-height, 50px) !important;
   padding-inline: 24px !important;
-  border: 1px solid var(--be-ds-color-primary, #ef850d) !important;
+  border: 1px solid var(--be-ds-color-primary, #fd7704) !important;
   border-radius: var(--be-ds-radius-md, 12px) !important;
   background: #fff !important;
   color: var(--be-ds-color-brand-text, #a35b09) !important;

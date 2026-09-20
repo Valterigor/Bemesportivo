@@ -14,15 +14,15 @@ body.fala-bem-app-page :is(.be-profile-delete-action, .be-profile-data-control b
   font-size: 15px; line-height: 1.4; white-space: normal; cursor: pointer;
 }
 :root {
-  --be-brand-orange: #f58220;
-  --be-brand-gold: #fcb817;
+  --be-brand-orange: #fd7704;
+  --be-brand-gold: #fcc103;
   --be-brand-ink: #21170e;
-  --be-brand-text: #874600;
+  --be-brand-text: #963f00;
   --be-brand-soft: #fff3e2;
   --be-ds-color-brand: var(--be-brand-orange);
   --be-ds-color-primary: var(--be-brand-orange);
-  --be-ds-color-primary-hover: #f79942;
-  --be-ds-color-primary-active: #ed831f;
+  --be-ds-color-primary-hover: #fd9d04;
+  --be-ds-color-primary-active: #db6200;
   --be-ds-color-brand-text: var(--be-brand-text);
   --be-ds-color-brand-strong: var(--be-brand-text);
   --be-ds-weight-black: 700;
@@ -104,7 +104,7 @@ body .be-button:not(.be-button--secondary, .be-button--ghost, .be-button--danger
 body :is(.home-primary, .home-dark-btn, .hero-primary, .btn-primary,
   .report-read-button, #fb-profile-save):hover,
 body .be-button:not(.be-button--secondary, .be-button--ghost, .be-button--danger):hover {
-  background: #f79942 !important;
+  background: #fd9d04 !important;
   color: var(--be-brand-ink) !important;
   transform: none;
 }
@@ -126,7 +126,7 @@ body.home-page #be-home-path-cta {
   text-shadow: none;
   transform: none;
 }
-body.home-page #be-home-path-cta:hover { background: #f79942 !important; }
+body.home-page #be-home-path-cta:hover { background: #fd9d04 !important; }
 body.home-page #be-home-path-cta span { font-weight: 600 !important; }
 body.home-page .be-search-form button[type="submit"],
 body.home-page .nav-chip { font-weight: 600 !important; box-shadow: none !important; }
@@ -140,7 +140,7 @@ body.home-page :is(button, a, input, select, textarea, summary):focus-visible {
 }
 body.home-page :is(.home-journey-copy > span, .home-tools-bridge > div > span,
   .home-content-bridge span, .home-editorial-category, .be-search-result-body > b) {
-  color: #ffb862 !important;
+  color: #fd9d04 !important;
 }
 @media (max-width: 760px) {
   body main :is(.be-search-result-body > span, .home-people-signup small) { font-size: 1rem !important; }

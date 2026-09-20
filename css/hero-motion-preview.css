@@ -1,0 +1,47 @@
+.home-page .home-hero-media .hero-motion-preview-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  filter: saturate(1.04) contrast(1.03);
+}
+.hero-motion-preview-video[hidden] { display: none; }
+.hero-motion-preview-toolbar {
+  position: fixed;
+  z-index: 1000;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: max-content;
+  max-width: calc(100% - 24px);
+  padding: 10px 14px;
+  border: 1px solid #66523e;
+  border-radius: 14px;
+  background: #171717;
+  color: #fff;
+  box-shadow: 0 8px 30px #0006;
+  font: 14px/1.4 system-ui, sans-serif;
+}
+.hero-motion-preview-toolbar button, .hero-motion-preview-toolbar a {
+  padding: 10px 12px;
+  min-height: 44px;
+  border: 1px solid #8e765e;
+  border-radius: 8px;
+  background: #27211a;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+.hero-motion-preview-toolbar button:disabled { opacity: .5; cursor: default; }
+.hero-motion-preview-toolbar :focus-visible { outline: 3px solid #fd7704; outline-offset: 2px; }
+@media (max-width: 900px) {
+  .home-page .home-hero-media .hero-motion-preview-video { object-position: 62% center; }
+}
