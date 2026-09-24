@@ -1,4 +1,24 @@
 /* Visitor preference; photo overlays retain their contrast. */
+.home-tool-symbol { display: none; }
+html[data-home-theme="light"] body.home-page .home-tools-list .home-tool-illustration { display: none; }
+html[data-home-theme="light"] body.home-page .home-tool-symbol {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 8px;
+  border-radius: 20px;
+  background: #fff0e2;
+  color: #ad4c00;
+}
+html[data-home-theme="light"] body.home-page .home-tool-symbol svg { width: 38px; height: 38px; }
+html[data-home-theme="light"] body.home-page .home-tools-list a { padding: 22px; gap: 12px; }
+@media (max-width: 900px) {
+  html[data-home-theme="light"] body.home-page .home-tools-list { display: grid; grid-template-columns: 1fr; width: 100%; margin: 0; padding: 0; overflow: visible; gap: 12px; }
+  html[data-home-theme="light"] body.home-page .home-tools-list a { grid-template-columns: 64px minmax(0, 1fr); grid-template-rows: auto auto; padding: 18px; column-gap: 16px; row-gap: 5px; align-content: center; }
+  html[data-home-theme="light"] body.home-page .home-tool-symbol { grid-column: 1; grid-row: 1 / span 2; align-self: center; margin: 0; }
+  html[data-home-theme="light"] body.home-page .home-tools-list :is(strong, small) { grid-column: 2; }
+}
 .home-theme-control { flex: 0 0 auto; margin-left: auto; }
 .home-theme-control[hidden] { display: none; }
 .home-theme-control select { min-height: 44px; width: 94px; padding: 8px; border: 1px solid #756b62; border-radius: 10px; background: #171717; color: #fff; font: 600 14px/1.4 system-ui, sans-serif; cursor: pointer; }
