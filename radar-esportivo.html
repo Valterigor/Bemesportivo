@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Radar BE São Paulo | Onde praticar esporte</title>
+  <meta name="description" content="Encontre caminhos para praticar esporte em São Paulo: centros esportivos públicos, CEUs e programação em movimento.">
+  <link rel="canonical" href="https://bemesportivo.com/radar-esportivo">
+  <link rel="icon" href="img/logobemoficial.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site-common.css?v=20260906-1">
+  <link rel="stylesheet" href="css/radar-esportivo.css?v=1">
+</head>
+<body class="radar-page">
+  <header class="menu">
+    <div class="menu-content">
+      <a href="/" class="logo"><img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo"></a>
+      <nav id="menu" aria-label="Menu principal"><a href="/">Início</a><a href="/radar-esportivo" class="active">Radar BE</a></nav>
+      <div class="menu-actions"><a href="/contato" class="btn-contato">Fale conosco</a></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="radar-hero" aria-labelledby="radar-title">
+      <div class="radar-shell">
+        <p class="eyebrow">RADAR BE · SÃO PAULO</p>
+        <h1 id="radar-title">O esporte que cabe na sua cidade e na sua rotina.</h1>
+        <p class="intro">Uma seleção inicial de caminhos públicos e acessíveis para começar, voltar ou seguir em movimento em São Paulo.</p>
+        <div class="hero-points" aria-label="O que o Radar BE mostra">
+          <span>✓ Informação de fonte oficial</span><span>✓ Sem inscrição pelo site</span><span>✓ Atualização em curadoria</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="radar-content radar-shell" aria-labelledby="opportunities-title">
+      <div class="radar-intro">
+        <div><p class="eyebrow">COMECE POR AQUI</p><h2 id="opportunities-title">Oportunidades para explorar</h2></div>
+        <p>Use os filtros para encontrar um ponto de partida. Antes de sair, confirme horários, vagas e regras diretamente com a instituição responsável.</p>
+      </div>
+      <div class="radar-filters" aria-label="Filtros do Radar BE">
+        <label><span>Região</span><select id="region-filter"><option value="todos">Toda São Paulo</option><option value="centro">Centro</option><option value="norte">Zona Norte</option><option value="sul">Zona Sul</option><option value="leste">Zona Leste</option><option value="oeste">Zona Oeste</option></select></label>
+        <label><span>Interesse</span><select id="interest-filter"><option value="todos">Todas as modalidades</option><option value="multiesporte">Multiesporte</option><option value="quadra">Esportes de quadra</option><option value="atividade">Atividade física</option><option value="familia">Crianças e famílias</option></select></label>
+        <button id="search-opportunities" class="radar-search-button" type="button">Buscar oportunidades</button>
+        <button id="clear-filters" type="button">Limpar filtros</button>
+      </div>
+      <p id="radar-count" class="radar-count" aria-live="polite"></p>
+      <div id="radar-list" class="radar-grid">
+        <article class="opportunity" data-region="sul" data-interest="multiesporte atividade">
+          <figure class="opportunity-media"><img src="img/radar/centros-esportivos-sp.jpg" alt="Arte de divulgação dos Centros Esportivos da Prefeitura de São Paulo" loading="lazy"><figcaption>Divulgação · Prefeitura de São Paulo</figcaption></figure>
+          <div class="card-top"><span class="tag free">Gratuito</span><span class="verified">Fonte oficial</span></div>
+          <p class="card-kicker">Zona Sul · Vila Clementino</p><h3>Centro Esportivo Ibirapuera</h3>
+          <p>Um dos centros esportivos municipais para consultar aulas e atividades abertas à população.</p>
+          <dl><div><dt>Endereço</dt><dd>Rua Pedro de Toledo, 1591</dd></div><div><dt>Como participar</dt><dd>Faça a carteirinha e confirme na unidade</dd></div></dl>
+          <a class="card-link" href="https://prefeitura.sp.gov.br/esportes/w/centros_esportivos/8001" target="_blank" rel="noopener">Ver centros esportivos →</a>
+        </article>
+        <article class="opportunity" data-region="centro norte" data-interest="multiesporte quadra atividade">
+          <div class="card-top"><span class="tag free">Gratuito</span><span class="verified">Fonte oficial</span></div>
+          <p class="card-kicker">Centro · Ponte Pequena</p><h3>Centro Esportivo Tietê</h3>
+          <p>Equipamento municipal com opções esportivas e de lazer. A programação deve ser confirmada com a administração local.</p>
+          <dl><div><dt>Endereço</dt><dd>Avenida Santos Dumont, 843</dd></div><div><dt>Como participar</dt><dd>Consulte aulas e carteirinha</dd></div></dl>
+          <a class="card-link" href="https://prefeitura.sp.gov.br/esportes/w/centros_esportivos/8001" target="_blank" rel="noopener">Consultar programação →</a>
+        </article>
+        <article class="opportunity" data-region="leste" data-interest="multiesporte quadra familia">
+          <div class="card-top"><span class="tag free">Gratuito</span><span class="verified">Fonte oficial</span></div>
+          <p class="card-kicker">Zona Leste · Vila Formosa</p><h3>CERET · Centro Esportivo Trabalhadores</h3>
+          <p>Referência municipal para esporte e lazer. Consulte a unidade para saber atividades, horários e requisitos.</p>
+          <dl><div><dt>Endereço</dt><dd>Rua Canuto de Abreu, s/n</dd></div><div><dt>Como participar</dt><dd>Confirmação direta com o centro</dd></div></dl>
+          <a class="card-link" href="https://www2.prefeitura.sp.gov.br/web/esportes/w/procedimentos_administrativos/chamamentos-2026" target="_blank" rel="noopener">Ver informação da Prefeitura →</a>
+        </article>
+        <article class="opportunity" data-region="todos" data-interest="multiesporte quadra atividade familia">
+          <figure class="opportunity-media"><img src="img/radar/ceu-virada-esportiva.png" alt="Ilustração de pessoas praticando atividades esportivas divulgada pela rede de CEUs" loading="lazy"><figcaption>Divulgação · Rede CEU</figcaption></figure>
+          <div class="card-top"><span class="tag free">Gratuito</span><span class="verified">Fonte oficial</span></div>
+          <p class="card-kicker">Toda a cidade · Rede CEU</p><h3>Programação esportiva dos CEUs</h3>
+          <p>Atividades e eventos em diferentes unidades. Pesquise a programação pelo CEU, modalidade e período que fazem sentido para você.</p>
+          <dl><div><dt>Regiões</dt><dd>Rede de CEUs de São Paulo</dd></div><div><dt>Como participar</dt><dd>Consulte cada atividade</dd></div></dl>
+          <a class="card-link" href="https://ceu.sme.prefeitura.sp.gov.br/programacao/" target="_blank" rel="noopener">Abrir programação dos CEUs →</a>
+        </article>
+        <article class="opportunity" data-region="oeste" data-interest="multiesporte quadra atividade">
+          <div class="card-top"><span class="tag paid">Consulte valores</span><span class="verified">Fonte oficial</span></div>
+          <p class="card-kicker">Oeste · Butantã</p><h3>Centro Esportivo Butantã</h3>
+          <p>Centro municipal para procurar práticas em quadra, atividade física e lazer na região oeste.</p>
+          <dl><div><dt>Endereço</dt><dd>Rua Dr. Ernâni da Gama Corrêa, 367</dd></div><div><dt>Como participar</dt><dd>Confirme diretamente na unidade</dd></div></dl>
+          <a class="card-link" href="https://prefeitura.sp.gov.br/esportes/w/centros_esportivos/8001" target="_blank" rel="noopener">Ver lista completa →</a>
+        </article>
+        <article class="opportunity" data-region="todos" data-interest="atividade familia">
+          <div class="card-top"><span class="tag consult">Programação variável</span><span class="verified">Fonte oficial</span></div>
+          <p class="card-kicker">Toda a cidade · Sesc São Paulo</p><h3>Esporte e atividade física no Sesc</h3>
+          <p>Consulte as unidades e atividades disponíveis por data, público e modalidade antes de planejar sua visita.</p>
+          <dl><div><dt>Regiões</dt><dd>Diversas unidades na capital</dd></div><div><dt>Como participar</dt><dd>Confira condições na programação</dd></div></dl>
+          <a class="card-link" href="https://www.sescsp.org.br/unidades/" target="_blank" rel="noopener">Encontrar uma unidade →</a>
+        </article>
+      </div>
+      <p id="no-results" class="no-results" hidden>Nenhuma oportunidade corresponde a estes filtros. Tente ampliar a região ou o interesse.</p>
+    </section>
+    <section class="radar-contribute"><div class="radar-shell"><p class="eyebrow">CONSTRUÍDO COM A CIDADE</p><h2>Conhece uma atividade que deveria estar aqui?</h2><p>Organizadores e projetos podem indicar oportunidades para análise editorial. Publicamos somente informações verificáveis.</p><a href="/contato?assunto=radar-be" class="contribute-link">Indicar uma oportunidade →</a></div></section>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><div class="site-footer-brand"><strong>Bem Esportivo</strong><p>Histórias e caminhos para viver o esporte.</p></div><nav aria-label="Links institucionais"><a href="/sobre">Sobre</a><a href="/contato">Contato</a><a href="/politica-de-privacidade">Privacidade</a></nav><small>© 2026 Bem Esportivo</small></div></footer>
+  <script type="module" src="js/site-common.js?v=20260830-2"></script>
+  <script src="js/radar-esportivo.js?v=1" defer></script>
+</body>
+</html>

@@ -125,8 +125,7 @@ const appPathForView = {
   modalidades: `${APP_BASE_PATH}/ferramentas/modalidades`,
   comunidade: `${APP_BASE_PATH}/ferramentas/comunidade`,
   trilhas: `${APP_BASE_PATH}/ferramentas/trilhas`,
-  dicas: `${APP_BASE_PATH}/ferramentas/guias`,
-  gols: `${APP_BASE_PATH}/ferramentas/contador-de-gols`
+  dicas: `${APP_BASE_PATH}/ferramentas/guias`
 };
 const legacyViewForRoute = {
   hoje: 'inicio',
@@ -140,7 +139,6 @@ const legacyViewForRoute = {
   modalidades: 'modalidades',
   trilhas: 'trilhas',
   dicas: 'dicas',
-  gols: 'gols',
   jornada: 'inicio',
   evolucao: 'evolucao',
   explorar: 'explorar',
@@ -161,7 +159,6 @@ const primarySectionForView = {
   comunidade: 'ferramentas',
   trilhas: 'ferramentas',
   dicas: 'ferramentas',
-  gols: 'ferramentas',
   perfil: 'perfil'
 };
 const viewPresentation = {
@@ -178,8 +175,7 @@ const viewPresentation = {
   modalidades: ['Modalidades', '#modalidades-title'],
   comunidade: ['Comunidade', '#comunidade-title'],
   trilhas: ['Trilhas', '#trilhas-title'],
-  dicas: ['Dicas', '#fb-tips-title'],
-  gols: ['Contador de gols', '#fb-goals-view-title']
+  dicas: ['Dicas', '#fb-tips-title']
 };
 const sectionBannerContent = {
   inicio: {
@@ -4987,16 +4983,14 @@ function openLinkedContentFromHash() {
       return true;
     }
     const legacyView = {
-      gols: 'gols',
       perfil: 'perfil',
       ferramentas: 'ferramentas',
       participe: 'comunidade',
       'minha-jornada': 'jornada'
     }[requestedView];
     if (legacyView) {
-      openView(legacyView, { scroll: legacyView !== 'gols', focus: false, instant: true, route: false });
+      openView(legacyView, { scroll: true, focus: false, instant: true, route: false });
       updateAppRoute(legacyView, true);
-      if (legacyView === 'gols') window.setTimeout(() => document.getElementById('fb-goals-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 180);
       return true;
     }
 

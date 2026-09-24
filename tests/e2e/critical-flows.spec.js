@@ -410,7 +410,6 @@ test('recursos do menu móvel abrem a rota e a seção exatas', async ({ page })
   await page.goto('/meu-caminho-be');
   const destinations = [
     ['dicas', /\/meu-caminho-be\/ferramentas\/guias$/, '[data-fb-panel="dicas"]'],
-    ['gols', /\/meu-caminho-be\/ferramentas\/contador-de-gols$/, '[data-fb-panel="gols"]'],
     ['especialistas', /\/meu-caminho-be\/ferramentas\/profissionais$/, '#especialistas'],
     ['modalidades', /\/meu-caminho-be\/ferramentas\/modalidades$/, '#modalidades'],
     ['comunidade', /\/meu-caminho-be\/ferramentas\/comunidade$/, '#ecossistema-comunidade']

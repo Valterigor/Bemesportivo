@@ -178,7 +178,6 @@
 <nav aria-label="Recursos complementares">
 <button type="button" data-fb-view="dicas"><span>✓</span>Dicas práticas</button>
 <button type="button" data-fb-view="especialistas"><span>◎</span>Especialistas</button>
-<button type="button" data-fb-view="gols"><span>⚽</span>Gols</button>
 <button type="button" data-fb-view="comunidade"><span>♧</span>Comunidade</button>
 <button type="button" data-fb-view="modalidades"><span>◈</span>Modalidades</button>
 <button type="button" data-fb-reset><span>↺</span>Zerar processo</button>
@@ -709,7 +708,6 @@
 <button type="button" data-fb-view="especialistas"><span>◎</span><strong>Profissionais</strong><small>Conhecimento e orientação humana</small></button>
 <button type="button" data-fb-view="modalidades"><span>◇</span><strong>Modalidades</strong><small>Descubra novas possibilidades</small></button>
 <button type="button" data-fb-view="comunidade"><span>♧</span><strong>Comunidade</strong><small>Pergunte e compartilhe experiências</small></button>
-<button type="button" data-fb-view="gols"><span>⚽</span><strong>Contador de gols</strong><small>Registre gols por data e time</small></button>
 </div>
 </div>
 
@@ -892,44 +890,6 @@
 </details>
 </div>
 
-<div class="fb-app-panel fb-answer-panel fb-goals-panel" data-fb-panel="gols" hidden>
-<button type="button" class="fb-panel-back" data-fb-view="ferramentas">← Voltar às Ferramentas</button>
-<span class="fb-panel-kicker">CONTADOR DE GOLS</span>
-<h2 id="fb-goals-view-title">Registre cada gol com data e time.</h2>
-<p>O contador fica separado do Meu Hoje e salva a linha do tempo de cada gol neste aparelho.</p>
-<section class="fb-goals-card" id="fb-goals-card" aria-labelledby="fb-goals-title">
-<div class="fb-goals-head">
-<span>IDENTIDADE DO ATLETA</span>
-<h3 id="fb-goals-title">Some os gols sem perder o contexto de cada partida.</h3>
-<p>Comece com o total que você já tinha antes de conhecer o site e depois registre um gol por vez.</p>
-</div>
-<p class="fb-goals-summary" id="fb-goals-summary">Preencha seu total inicial para começar o contador.</p>
-<div class="fb-goals-grid">
-<article><span>Total atual</span><strong id="fb-goals-total">0</strong><small>Gols registrados até agora</small></article>
-<article><span>Última atualização</span><strong id="fb-goals-updated">Ainda sem registro</strong><small>Quando o contador mudou pela última vez</small></article>
-</div>
-<form class="fb-goals-form" id="fb-goals-form">
-<label for="fb-goals-start">Quantos gols você já tinha antes do site?<input id="fb-goals-start" name="goalsStart" type="number" min="0" step="1" inputmode="numeric" placeholder="Ex.: 12"></label>
-<label for="fb-goals-date">Data do gol<input id="fb-goals-date" name="goalDate" type="date"></label>
-<label for="fb-goals-team">Time na partida<input id="fb-goals-team" name="goalTeam" maxlength="60" placeholder="Ex.: Clube X, seleção, escola"></label>
-<div class="fb-goals-actions">
-<button type="submit" class="fb-primary-action" id="fb-goals-save-start">Salvar total inicial</button>
-<button type="button" id="fb-goals-add-btn">+1 gol</button>
-</div>
-</form>
-<div class="fb-goals-history" id="fb-goals-history" aria-live="polite">
-<div class="fb-goals-history-head"><strong>Histórico recente</strong><span id="fb-goals-history-count">Nenhum registro ainda</span></div>
-<ul id="fb-goals-history-list"></ul>
-</div>
-</section>
-<nav class="fb-section-actions" aria-label="Próximos passos após registrar gols">
-<span>CONTINUAR PARA</span>
-<button type="button" data-fb-view="inicio">Meu Hoje</button>
-<button type="button" data-fb-view="perfil">Perfil do atleta</button>
-<button type="button" data-fb-view="ferramentas">Abrir ferramentas</button>
-</nav>
-</div>
-
 <div class="fb-app-panel fb-answer-panel fb-tips-panel" data-fb-panel="dicas" hidden>
 <button type="button" class="fb-panel-back" data-fb-view="ferramentas">← Voltar às Ferramentas</button>
 <span class="fb-panel-kicker">DICAS PRÁTICAS</span>
@@ -1087,7 +1047,6 @@
 <span>CONTINUAR PARA</span>
 <button type="button" data-fb-view="dicas">Dicas práticas</button>
 <button type="button" data-fb-view="especialistas">Ver profissionais</button>
-<button type="button" data-fb-view="gols">Registrar gols</button>
 </nav>
 </section>
 
@@ -1628,7 +1587,7 @@ Seu navegador não consegue reproduzir este vídeo.
 <script src="/js/coluna-valtinho.js?v=20260823-1" defer></script>
 <script src="/js/be-knowledge-library.js?v=20260821-4" defer></script>
 <script src="/js/meu-caminho-navigation.js?v=20260916-2" defer></script>
-<script src="/js/fala-bem-app.js?v=20260919-1" defer></script>
+<script src="/js/fala-bem-app.js?v=20260924-1" defer></script>
 <script src="/js/be-ia.js?v=20260806-1" defer></script>
 <script src="/js/meu-caminho-diary.js?v=20260916-1" defer></script>
 <script src="/js/meu-caminho-public.js?v=20260916-2" defer></script>

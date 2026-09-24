@@ -167,8 +167,6 @@
     if (firstFive) result.push({ icon: '🏃', title: 'Primeiros 5 km registrados', detail: firstFive.title || 'Distância registrada em uma atividade.', date: firstFive.date });
     const firstTen = chronological.find(entry => Number(entry.distance) >= 10);
     if (firstTen) result.push({ icon: '🏃', title: 'Primeiros 10 km registrados', detail: firstTen.title || 'Distância registrada em uma atividade.', date: firstTen.date });
-    const goals = Number(profile()?.gamificationStats?.goals?.total || 0);
-    if (goals >= 50) result.push({ icon: '⚽', title: '50 gols registrados', detail: `Seu contador chegou a ${Math.trunc(goals)} gols.`, date: profile()?.gamificationStats?.goals?.updatedAt?.slice(0, 10) || dayKey() });
     posts.filter(post => post.personalBest).forEach(post => result.push({ icon: '🥇', title: post.title || 'Novo recorde pessoal', detail: post.result || post.text, date: post.occurredAt }));
     posts.filter(post => post.postType === 'goal').forEach(post => result.push({ icon: '🎯', title: post.title || 'Meta alcançada', detail: post.result || post.text, date: post.occurredAt }));
     posts.filter(post => post.postType === 'return').forEach(post => result.push({ icon: '↺', title: post.title || 'Retorno ao esporte', detail: post.text, date: post.occurredAt }));
