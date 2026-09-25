@@ -1,4 +1,5 @@
 :root { --radar-ink:#151515; --radar-orange:#ff7808; --radar-sand:#fff5e9; --radar-line:#e8ddd1; }
+.radar-page [hidden] { display:none !important; }
 .radar-page { margin:0; background:#fffdfa; color:var(--radar-ink); font-family:Inter,Arial,sans-serif; }
 .radar-shell { width:min(1160px,calc(100% - 40px)); margin:auto; }
 .radar-hero { padding:86px 0 78px; background:radial-gradient(circle at 83% 18%,#ffd541 0 4%,transparent 4.2%),linear-gradient(128deg,#16120d 0%,#21150b 52%,#4f2200 100%); color:#fff; overflow:hidden; }

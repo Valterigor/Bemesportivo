@@ -41,9 +41,15 @@
       if (show) visible += 1;
     });
     count.textContent = `${visible} ${visible === 1 ? 'oportunidade encontrada' : 'oportunidades encontradas'}`;
+    list.hidden = false;
     empty.hidden = visible !== 0;
   };
   document.querySelector('#search-opportunities').addEventListener('click', update);
-  document.querySelector('#clear-filters').addEventListener('click', () => { region.value = 'todos'; interest.value = 'todos'; update(); });
-  update();
+  document.querySelector('#clear-filters').addEventListener('click', () => {
+    region.value = 'todos';
+    interest.value = 'todos';
+    list.hidden = true;
+    empty.hidden = true;
+    count.textContent = 'Use os filtros e clique em Buscar oportunidades para ver os locais.';
+  });
 })();

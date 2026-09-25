@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="site-common.css?v=20260906-1">
-  <link rel="stylesheet" href="css/radar-esportivo.css?v=1">
+  <link rel="stylesheet" href="css/radar-esportivo.css?v=2">
 </head>
 <body class="radar-page">
   <header class="menu">
@@ -45,8 +45,8 @@
         <button id="search-opportunities" class="radar-search-button" type="button">Buscar oportunidades</button>
         <button id="clear-filters" type="button">Limpar filtros</button>
       </div>
-      <p id="radar-count" class="radar-count" aria-live="polite"></p>
-      <div id="radar-list" class="radar-grid">
+      <p id="radar-count" class="radar-count" aria-live="polite">Use os filtros e clique em Buscar oportunidades para ver os locais.</p>
+      <div id="radar-list" class="radar-grid" hidden>
         <article class="opportunity" data-region="sul" data-interest="multiesporte atividade">
           <figure class="opportunity-media"><img src="img/radar/centros-esportivos-sp.jpg" alt="Arte de divulgação dos Centros Esportivos da Prefeitura de São Paulo" loading="lazy"><figcaption>Divulgação · Prefeitura de São Paulo</figcaption></figure>
           <div class="card-top"><span class="tag free">Gratuito</span><span class="verified">Fonte oficial</span></div>
@@ -98,6 +98,6 @@
   </main>
   <footer class="site-footer"><div class="site-footer-inner"><div class="site-footer-brand"><strong>Bem Esportivo</strong><p>Histórias e caminhos para viver o esporte.</p></div><nav aria-label="Links institucionais"><a href="/sobre">Sobre</a><a href="/contato">Contato</a><a href="/politica-de-privacidade">Privacidade</a></nav><small>© 2026 Bem Esportivo</small></div></footer>
   <script type="module" src="js/site-common.js?v=20260830-2"></script>
-  <script src="js/radar-esportivo.js?v=1" defer></script>
+  <script src="js/radar-esportivo.js?v=2" defer></script>
 </body>
 </html>
