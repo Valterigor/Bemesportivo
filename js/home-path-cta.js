@@ -6,6 +6,7 @@
   const cta = document.getElementById('be-home-path-cta');
   const label = document.getElementById('be-home-path-cta-label');
   if (!cta || !label) return;
+  if (cta.dataset.homeCta === 'explore') return;
 
   let profile = null;
   try { profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null'); } catch {}

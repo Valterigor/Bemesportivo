@@ -55,6 +55,7 @@
   }
   </script>
   <link rel="stylesheet" href="css/home-layout.css?v=20260924-1">
+  <link rel="stylesheet" href="css/home-card-system.css?v=20260924-1">
   <link rel="stylesheet" href="/css/contact.css?v=20260906-1">
   <link rel="stylesheet" href="css/components/privacy-consent.css?v=20260919-1">
   <link rel="stylesheet" href="css/premium-refinement.css?v=20260906-1">
@@ -79,6 +80,7 @@
           </a>
           <nav class="category-nav" aria-label="Menu principal">
             <a class="nav-chip" href="/reportagens">Reportagens</a>
+            <a class="nav-chip" href="/fala-bem">Fala Bem!</a>
             <a class="nav-chip" href="#be-search-result-title">Explorar</a>
             <a class="nav-chip" href="/moda-fitness">Moda Fitness</a>
             <a class="nav-chip" href="/meu-caminho-be">Meu Caminho Be</a>
@@ -102,8 +104,8 @@
           <p class="be-hero-brand" aria-label="Bem Esportivo"><span aria-hidden="true">Bem</span><span aria-hidden="true">Esportivo</span></p>
           <h1 id="home-hero-title">O que você busca no esporte?</h1>
           <div class="be-hero-path-entry">
-            <a class="be-hero-path-cta" id="be-home-path-cta" href="/meu-caminho-be/registrar">
-              <span id="be-home-path-cta-label">Registrar minha atividade</span>
+            <a class="be-hero-path-cta" id="be-home-path-cta" href="#como-funciona" data-home-cta="explore">
+              <span id="be-home-path-cta-label">Explorar o Bem Esportivo</span>
               <i aria-hidden="true">→</i>
             </a>
           </div>
@@ -185,31 +187,6 @@
         </details>
       </section>
 
-      <section class="shell home-journey" id="meu-caminho" aria-labelledby="home-journey-title">
-        <div class="home-journey-copy">
-          <span>Meu Caminho Be</span>
-          <h2 id="home-journey-title">Seu diário <em>esportivo digital.</em></h2>
-          <p>Registre o que viveu, reconheça seu ritmo e encontre uma forma mais leve de permanecer em movimento. Sem comparação, sem pressa — do seu jeito.</p>
-          <div class="home-journey-proof" aria-label="Como funciona o Meu Caminho Be">
-            <span>Seu caminho em três movimentos</span>
-            <div><i aria-hidden="true"></i>Registre o que aconteceu</div>
-            <div><i aria-hidden="true"></i>Perceba o seu ritmo</div>
-            <div><i aria-hidden="true"></i>Escolha um próximo passo possível</div>
-          </div>
-          <a class="home-dark-btn" href="/meu-caminho-be?tela=mapa">Começar meu Caminho <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="home-journey-media">
-          <picture>
-            <source type="image/webp" srcset="img/jornada-esportiva-atleta-por-do-sol.webp" sizes="(max-width: 900px) 100vw, 100vw">
-            <img src="img/jornada-esportiva-atleta-por-do-sol.webp" alt="Atleta em uma pista ao pôr do sol, em um momento de pausa e continuidade esportiva" loading="lazy" width="1536" height="1024">
-          </picture>
-          <a class="home-journey-action" href="/meu-caminho-be?tela=registrar"><strong>Registre</strong><small>Guarde cada treino, jogo ou recomeço.</small></a>
-          <a class="home-journey-action" href="/meu-caminho-be?tela=evolucao"><strong>Perceba</strong><small>Entenda o que faz sentido para sua rotina.</small></a>
-          <a class="home-journey-action" href="/meu-caminho-be?tela=progresso"><strong>Continue</strong><small>Valorize pequenas ações que mantêm você em movimento.</small></a>
-          <a class="home-journey-action" href="/meu-caminho-be?tela=comunidade"><strong>Compartilhe</strong><small>Faça do esporte uma história que é sua.</small></a>
-        </div>
-      </section>
-
       <section class="shell home-section-v2 home-editorial-feature home-editorial-launch" id="reportagens-em-destaque" aria-labelledby="home-content-title">
         <div class="home-section-head-v2">
           <span>Em destaque no Bem Esportivo</span>
@@ -239,6 +216,45 @@
             <p>Os primeiros passos de Duda e Lara no futebol, entre amizade, formação e sonhos em movimento.</p>
             <small>4 min de leitura <b aria-hidden="true">→</b></small>
           </a>
+        </div>
+      </section>
+
+      <section class="shell home-fala-bem" aria-labelledby="home-fala-bem-title">
+        <div class="home-fala-bem-copy">
+          <span>FALA BEM! · OPINIÃO</span>
+          <h2 id="home-fala-bem-title">O esporte também pede <em>conversa.</em></h2>
+          <p>Ideias, vivências e perguntas que vão além do resultado. Uma nova editoria para quem acompanha o esporte de perto.</p>
+          <a href="/fala-bem">Conheça o Fala Bem! <b aria-hidden="true">→</b></a>
+        </div>
+        <a class="home-fala-bem-feature" href="/fala-bem-selecao-australia" aria-label="Ler a opinião sobre a Seleção Brasileira">
+          <span class="home-fala-bem-feature__label">OPINIÃO DE ESTREIA</span>
+          <strong>Sem um meia armador, o Brasil perde a conversa do jogo</strong>
+          <small>Por Válter Igor <b aria-hidden="true">→</b></small>
+        </a>
+      </section>
+
+      <section class="shell home-journey" id="meu-caminho" aria-labelledby="home-journey-title">
+        <div class="home-journey-copy">
+          <span>Meu Caminho Be</span>
+          <h2 id="home-journey-title">Seu diário <em>esportivo digital.</em></h2>
+          <p>Registre o que viveu, reconheça seu ritmo e encontre uma forma mais leve de permanecer em movimento. Sem comparação, sem pressa — do seu jeito.</p>
+          <div class="home-journey-proof" aria-label="Como funciona o Meu Caminho Be">
+            <span>Seu caminho em três movimentos</span>
+            <div><i aria-hidden="true"></i>Registre o que aconteceu</div>
+            <div><i aria-hidden="true"></i>Perceba o seu ritmo</div>
+            <div><i aria-hidden="true"></i>Escolha um próximo passo possível</div>
+          </div>
+          <a class="home-dark-btn" href="/meu-caminho-be?tela=mapa">Começar meu Caminho <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="home-journey-media">
+          <picture>
+            <source type="image/webp" srcset="img/jornada-esportiva-atleta-por-do-sol.webp" sizes="(max-width: 900px) 100vw, 100vw">
+            <img src="img/jornada-esportiva-atleta-por-do-sol.webp" alt="Atleta em uma pista ao pôr do sol, em um momento de pausa e continuidade esportiva" loading="lazy" width="1536" height="1024">
+          </picture>
+          <a class="home-journey-action" href="/meu-caminho-be?tela=registrar"><strong>Registre</strong><small>Guarde cada treino, jogo ou recomeço.</small></a>
+          <a class="home-journey-action" href="/meu-caminho-be?tela=evolucao"><strong>Perceba</strong><small>Entenda o que faz sentido para sua rotina.</small></a>
+          <a class="home-journey-action" href="/meu-caminho-be?tela=progresso"><strong>Continue</strong><small>Valorize pequenas ações que mantêm você em movimento.</small></a>
+          <a class="home-journey-action" href="/meu-caminho-be?tela=comunidade"><strong>Compartilhe</strong><small>Faça do esporte uma história que é sua.</small></a>
         </div>
       </section>
 
