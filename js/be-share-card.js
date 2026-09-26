@@ -151,6 +151,7 @@
   }
 
   async function build({ post, profile = {}, format = 'story', url = '', variant = 'post', stats = {} }) {
+    if (variant === 'social') return window.BeSocialCard.build({ post, profile, format });
     const isProfile = variant === 'profile';
     if (!isProfile && !post) throw new Error('Publicação ainda não carregada.');
     const spec = formats[format] || formats.story;
@@ -350,7 +351,7 @@
             text: profileVariant ? `Conheça minha história em ${safe(options.profile?.favoriteSport) || 'esporte'} no Meu Caminho Be.` : safe(options.post?.text) || 'Veja este momento no Meu Diário BE.',
             ...(url ? { url } : {}), files: [file]
           };
-          if (navigator.share && navigator.canShare?.({ files: [file] })) {
+          if (options?.variant !== 'social' && navigator.share && navigator.canShare?.({ files: [file] })) {
             await navigator.share(data);
             status.textContent = 'Agora escolha Instagram ou WhatsApp.';
           } else {

@@ -33,12 +33,22 @@ test('qualquer pessoa cria e baixa uma postagem esportiva sem cadastro', async (
   await expect(page.locator('#post-maker-preview-name')).toHaveText('Marina em Movimento');
   await expect(page.locator('#post-maker-preview-sport')).toHaveText('Corrida');
   await expect(page.locator('#post-maker-preview-heading')).toHaveText('Meus primeiros cinco quilômetros');
-  await expect(page.locator('#post-maker-preview-record')).toBeVisible();
-  await expect(page.locator('#post-maker-preview-media')).toBeVisible();
+  await expect(page.locator('#post-maker-social-preview')).toBeVisible();
+  await expect(page.locator('#post-maker-social-preview')).toHaveAttribute('src', /^blob:/);
   expect(writes).toEqual([]);
 
   await page.locator('.be-maker-generate').click();
   await expect(page.locator('#be-share-dialog')).toBeVisible();
+  for (const format of ['feed', 'story']) {
+    const downloaded = page.waitForEvent('download');
+    await page.locator(`[data-share-format="${format}"]`).click();
+    const download = await downloaded;
+    expect(download.suggestedFilename()).toBe(`bem-esportivo-postagem-${format}.png`);
+    const sharp = require('sharp');
+    const metadata = await sharp(await download.path()).metadata();
+    expect(metadata.width).toBe(1080);
+    expect(metadata.height).toBe(format === 'story' ? 1920 : 1350);
+  }
   const generated = await page.evaluate(async () => {
     const file = await window.BeShareCard.build({
       post: {

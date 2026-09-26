@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site-common.css?v=20260906-1">
-<link rel="stylesheet" href="/css/postagem-maker.css?v=20260906-1">
+<link rel="stylesheet" href="/css/postagem-maker.css?v=20260926-1">
 <link rel="stylesheet" href="/css/share-card.css?v=20260906-1">
 <link rel="canonical" href="https://bemesportivo.com/criar-postagem">
 <link rel="stylesheet" href="/css/visual-system.css?v=20260906-1">
@@ -36,6 +36,13 @@
     <section class="be-maker-form-card" aria-labelledby="be-maker-form-title">
       <header><span>ETAPA 1 · SEUS DADOS</span><h2 id="be-maker-form-title">Conte o que aconteceu</h2><p>Os campos com <b>*</b> são necessários. Você poderá conferir tudo antes de gerar.</p></header>
       <form id="post-maker-form">
+        <div class="be-maker-fields two-columns">
+          <label><span>Seu @ nas redes (opcional)</span><input id="post-maker-handle" type="text" maxlength="30" placeholder="@seuperfil"></label>
+          <label><span>Formato da imagem</span><select id="post-maker-format"><option value="feed">Feed · 1080 × 1350</option><option value="story">Stories e Status · 1080 × 1920</option></select></label>
+        </div>
+        <label><span>Foto de perfil (opcional)</span><input id="post-maker-avatar" type="file" accept="image/jpeg,image/png,image/webp"></label>
+        <button id="post-maker-avatar-remove" type="button" hidden>Remover foto de perfil</button>
+        <p id="post-maker-avatar-feedback" role="status"></p>
         <div class="be-maker-fields two-columns">
           <label><span>Seu nome <b>*</b></span><input id="post-maker-name" name="name" type="text" maxlength="40" autocomplete="name" placeholder="Como quer aparecer" required></label>
           <label><span>Modalidade <b>*</b></span><select id="post-maker-sport" name="sport" required><option value="">Escolha</option><option>Corrida</option><option>Futebol</option><option>Futsal</option><option>Musculação</option><option>Ciclismo</option><option>Natação</option><option>Vôlei</option><option>Basquete</option><option>Lutas</option><option>Caminhada</option><option>Outro esporte</option></select></label>
@@ -71,7 +78,9 @@
 
     <aside class="be-maker-preview-column" aria-labelledby="be-maker-preview-title">
       <header><div><span>ETAPA 2 · PRÉVIA AO VIVO</span><h2 id="be-maker-preview-title">Veja como está ficando</h2></div><small><i aria-hidden="true"></i> Formato 4:5</small></header>
-      <article class="be-maker-preview" id="post-maker-preview">
+      <img id="post-maker-social-preview" class="be-maker-social-preview" alt="Prévia da arte para compartilhar nas redes">
+      <p id="post-maker-preview-status" role="status"></p>
+      <article class="be-maker-preview" id="post-maker-preview" hidden>
         <div class="be-maker-preview-brand"><strong>Be</strong><span>MEU MOMENTO<br>NO ESPORTE</span></div>
         <figure id="post-maker-preview-media" hidden><img id="post-maker-preview-image" alt=""></figure>
         <div class="be-maker-preview-profile"><span id="post-maker-preview-avatar">B</span><div><strong id="post-maker-preview-name">Seu nome</strong><small id="post-maker-preview-sport">Sua modalidade</small></div></div>
@@ -87,7 +96,8 @@
 
 <footer class="site-footer"><div class="site-footer-inner"></div></footer>
 <script type="module" src="/js/site-common.js?v=20260830-2"></script>
-<script src="/js/be-share-card.js?v=20260903-1" defer></script>
-<script src="/js/postagem-maker.js?v=20260903-1" defer></script>
+<script src="/js/be-social-card.js?v=20260926-1" defer></script>
+<script src="/js/be-share-card.js?v=20260926-1" defer></script>
+<script src="/js/postagem-maker.js?v=20260926-1" defer></script>
 </body>
 </html>

@@ -6,10 +6,36 @@
   const field = id => document.getElementById(id);
   const typeLabels = Object.freeze({ training: 'Treino concluído', achievement: 'Conquista', result: 'Resultado', competition: 'Jogo ou competição', return: 'Retorno ao esporte', goal: 'Meta alcançada', photo: 'Momento esportivo' });
   let photoDataUrl = '';
+  let avatarDataUrl = '';
+  let previewTimer;
+  let previewVersion = 0;
+  let previewUrl = '';
+
+  function renderSocialPreview() {
+    const version = ++previewVersion;
+    clearTimeout(previewTimer);
+    previewTimer = setTimeout(async () => {
+      try {
+        const current = data();
+        current.profile.name ||= 'Seu nome';
+        current.post.title ||= 'Seu momento no esporte';
+        current.post.text ||= 'Conte sua história, adicione uma foto e leve esse momento para as redes.';
+        const file = await window.BeSocialCard.build({ ...current, format: field('post-maker-format').value });
+        if (version !== previewVersion) return;
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+        previewUrl = URL.createObjectURL(file);
+        field('post-maker-social-preview').src = previewUrl;
+        field('post-maker-preview-status').textContent = '';
+      } catch (error) {
+        if (version === previewVersion) field('post-maker-preview-status').textContent = error.message;
+      }
+    }, 180);
+  }
 
   function safe(value) { return String(value || '').trim(); }
 
   function resizePhoto(file) {
+    if (file?.size > 15 * 1024 * 1024) return Promise.reject(new Error('Escolha uma imagem de até 15 MB.'));
     if (!/^image\/(?:jpeg|png|webp)$/i.test(file?.type || '')) return Promise.reject(new Error('Escolha uma foto JPG, PNG ou WebP.'));
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -53,6 +79,8 @@
         personalBest: field('post-maker-record').checked
       },
       profile: {
+        photoDataUrl: avatarDataUrl,
+        handle: safe(field('post-maker-handle').value),
         name: safe(field('post-maker-name').value),
         displayName: safe(field('post-maker-name').value),
         favoriteSport: safe(field('post-maker-sport').value)
@@ -61,6 +89,7 @@
   }
 
   function updatePreview() {
+    renderSocialPreview();
     const current = data();
     const name = current.profile.name || 'Seu nome';
     field('post-maker-preview-name').textContent = name;
@@ -82,6 +111,7 @@
   }
 
   function renderPhoto() {
+    renderSocialPreview();
     const photoPreview = field('post-maker-photo-preview');
     const cardPreview = field('post-maker-preview-media');
     photoPreview.hidden = !photoDataUrl;
@@ -102,9 +132,31 @@
   }
 
   form.addEventListener('input', updatePreview);
+  field('post-maker-format').addEventListener('change', () => {
+    document.querySelector('.be-maker-preview-column > header > small').textContent = field('post-maker-format').value === 'story' ? 'Formato 9:16' : 'Formato 4:5';
+  });
+  field('post-maker-avatar').addEventListener('change', async event => {
+    const input = event.currentTarget;
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+      avatarDataUrl = await resizePhoto(file);
+      field('post-maker-avatar-remove').hidden = false;
+      field('post-maker-avatar-feedback').textContent = 'Foto de perfil pronta.';
+      renderSocialPreview();
+    } catch (error) { field('post-maker-avatar-feedback').textContent = error.message; }
+    finally { input.value = ''; }
+  });
+  field('post-maker-avatar-remove').addEventListener('click', () => {
+    avatarDataUrl = '';
+    field('post-maker-avatar-remove').hidden = true;
+    field('post-maker-avatar-feedback').textContent = '';
+    renderSocialPreview();
+  });
   form.addEventListener('change', updatePreview);
   field('post-maker-photo').addEventListener('change', async event => {
-    const file = event.currentTarget.files?.[0];
+    const input = event.currentTarget;
+    const file = input.files?.[0];
     if (!file) return;
     const feedback = field('post-maker-photo-feedback');
     feedback.textContent = 'Preparando sua foto…';
@@ -116,7 +168,7 @@
       photoDataUrl = '';
       renderPhoto();
       feedback.textContent = error.message;
-    } finally { event.currentTarget.value = ''; }
+    } finally { input.value = ''; }
   });
   field('post-maker-photo-remove').addEventListener('click', () => {
     photoDataUrl = '';
@@ -132,7 +184,7 @@
       return;
     }
     feedback.textContent = '';
-    window.BeShareCard.open({ ...data(), onStatus: message => { feedback.textContent = message; } });
+    window.BeShareCard.open({ ...data(), variant: 'social', onStatus: message => { feedback.textContent = message; } });
   });
   updatePreview();
 })();

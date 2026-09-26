@@ -8,6 +8,10 @@
   --maker-soft: #f8f3ef;
   --maker-shadow: 0 24px 70px rgba(53, 29, 3, .1);
 }
+.be-maker-preview[hidden] { display: none; }
+.be-maker-social-preview { display: block; width: 100%; height: auto; border-radius: 18px; background: #1e232c; }
+#post-maker-preview-status, #post-maker-avatar-feedback { font-size: 12px; line-height: 1.5; }
+#post-maker-avatar-remove { justify-self: start; padding: 10px 16px; cursor: pointer; }
 * { box-sizing: border-box; }
 body.be-maker-page {
   min-height: 100vh;
