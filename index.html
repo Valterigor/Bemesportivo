@@ -54,106 +54,42 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="css/home-layout.css?v=20260928-1">
-  <link rel="stylesheet" href="css/home-card-system.css?v=20260924-1">
-  <link rel="stylesheet" href="/css/contact.css?v=20260906-1">
-  <link rel="stylesheet" href="css/components/privacy-consent.css?v=20260919-1">
-  <link rel="stylesheet" href="css/premium-refinement.css?v=20260906-1">
-  <link rel="stylesheet" href="css/ui-polish.css?v=20260906-1">
-  <link rel="stylesheet" href="css/be-ecosystem-search.css?v=20260919-2">
-<link rel="stylesheet" href="css/mobile-typography.css?v=20260906-1">
-<link rel="stylesheet" href="css/readability.css?v=20260906-1">
-<link rel="stylesheet" href="css/home-dark-theme.css?v=20260906-1">
-<link rel="stylesheet" href="/css/visual-system.css?v=20260906-1">
-<script src="/js/hero-motion-preview.js" defer></script>
-<link rel="stylesheet" href="/css/home-theme.css?v=20260923-1">
-<script src="/js/home-theme.js?v=20260923-1"></script>
+  <link rel="stylesheet" href="/css/components/privacy-consent.css?v=20260919-1">
+  <link rel="stylesheet" href="/css/be-ecosystem-search.css?v=20260919-2">
+  <link rel="stylesheet" href="/css/home-feed.css?v=20260930-2">
+  <script src="/js/home-theme.js?v=20260923-1"></script>
+  <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 </head>
-<body class="home-page">
+<body class="home-page home-feed-page">
   <a class="home-skip-link" href="#main-content">Pular para o conteúdo</a>
   <div class="page">
-    <header class="site-header">
-      <div class="shell">
-        <div class="nav-row">
-          <a class="brand" href="/" aria-label="BEM ESPORTIVO">
-            <img class="brand-logo" src="img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="BEM ESPORTIVO" width="2263" height="1937">
-          </a>
-          <nav class="category-nav" aria-label="Menu principal">
-            <a class="nav-chip" href="/reportagens">Reportagens</a>
-            <a class="nav-chip" href="/fala-bem">Fala Bem!</a>
-            <a class="nav-chip" href="#be-search-result-title">Explorar</a>
-            <a class="nav-chip" href="/moda-fitness">Moda Fitness</a>
-            <a class="nav-chip" href="/meu-caminho-be">Meu Caminho Be</a>
-            <a class="nav-chip" href="/profissionais">Encontrar apoio</a>
-            <a class="nav-chip nav-chip-radar" href="/radar-esportivo">Radar SP</a>
-            <a class="nav-chip" href="/meu-caminho-be/perfil">Meu perfil</a>
-          </nav>
-          <label class="home-theme-control" hidden>
-            <select id="home-theme-select" aria-label="Tema da página inicial">
-              <option value="light">Claro</option>
-              <option value="dark" selected>Escuro</option>
-            </select>
-          </label>
-        </div>
-      </div>
-    </header>
-
-    <main class="home-redesign" id="main-content" tabindex="-1">
-      <section class="shell home-hero-v2 be-ecosystem-hero" id="inicio" aria-labelledby="home-hero-title">
-        <div class="home-hero-copy">
-          <p class="be-hero-brand" aria-label="Bem Esportivo"><span aria-hidden="true">Bem</span><span aria-hidden="true">Esportivo</span></p>
-          <h1 id="home-hero-title">O que você busca no esporte?</h1>
-          <div class="be-hero-path-entry">
-            <a class="be-hero-path-cta" id="be-home-path-cta" href="#como-funciona" data-home-cta="explore">
-              <span id="be-home-path-cta-label">Explorar o Bem Esportivo</span>
-              <i aria-hidden="true">→</i>
-            </a>
-          </div>
-          <div class="be-search-box">
-            <form class="be-search-form" id="be-ecosystem-search-form" role="search" aria-label="Buscar no ecossistema Bem Esportivo">
-              <label class="be-search-input-wrap" for="be-ecosystem-search-input">
-                <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg>
-                <input id="be-ecosystem-search-input" name="busca" type="search" maxlength="180" autocomplete="off" aria-label="O que você busca no esporte?" placeholder="Ex.: Quero começar a correr">
-              </label>
-              <button type="submit">Encontrar</button>
-            </form>
-
-          </div>
-        </div>
-        <div class="home-hero-media" aria-label="Imagem principal do Bem Esportivo">
-          <picture>
-            <source type="image/webp" srcset="img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w, img/fala-bem-hero-pessoas-optimized-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 64vw">
-            <img src="img/fala-bem-hero-pessoas-optimized.jpg" alt="Pessoas correndo ao ar livre em uma jornada esportiva" width="1536" height="1024" decoding="async" fetchpriority="high">
-          </picture>
-        </div>
+    <!-- shared-site-navigation:start -->
+<div id="be-site-header" class="be-site-header" data-menu-context="home">
+  <header class="be-site-header-inner">
+    <a class="be-site-brand" href="/" aria-label="Bem Esportivo — início"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="Bem Esportivo" width="2263" height="1937"></a>
+    <nav id="be-site-navigation" aria-label="Menu principal"><a data-site-link href="/">Início</a><a data-site-link href="/reportagens">Reportagens</a><a data-site-link href="/beplay">BePlay</a><a data-site-link href="/fala-bem">Fala Bem!</a><details class="be-site-more"><summary>Explorar <span aria-hidden="true">⌄</span></summary><div class="be-site-more-links"><div class="be-site-menu-group"><strong>Praticar e aprender</strong><a data-site-link href="/radar-esportivo"><span>Radar SP</span><small>Onde praticar em São Paulo</small></a><a data-site-link href="/meu-caminho-be?tela=conteudos"><span>Conhecimento</span><small>Guias e dicas para aprender</small></a><a data-site-link href="/meu-caminho-be?tela=ferramentas"><span>Ferramentas</span><small>Pace, hidratação e outras referências</small></a><a data-site-link href="/profissionais"><span>Profissionais</span><small>Encontre apoio para sua prática</small></a></div><div class="be-site-menu-group"><strong>Sua jornada</strong><a data-site-link href="/meu-caminho-be"><span>Meu Caminho Be</span><small>Seu diário esportivo digital</small></a><a data-site-link href="/meu-caminho-be/perfil"><span>Meu perfil</span><small>Seu espaço no diário</small></a></div><div class="be-site-menu-group"><strong>Estilo e recursos</strong><a data-site-link href="/moda-fitness"><span>Moda Fitness</span><small>Editorial e catálogo de looks</small></a><a data-site-link href="/produtos"><span>Produtos</span><small>Curadoria de itens esportivos</small></a><a data-site-link href="/game"><span>Game 3D</span><small>Corrida da Hidratação</small></a><a data-site-link href="/criar-postagem"><span>Criar postagem</span><small>Prepare uma imagem para suas redes</small></a></div><div class="be-site-menu-about"><a data-site-link href="/#como-funciona">Todas as seções</a><a data-site-link href="/sobre">Sobre o Be</a><a data-site-link href="/contato">Contato</a></div></div></details></nav>
+    <a class="be-site-journey" data-site-link href="/meu-caminho-be" title="Abrir meu diário esportivo">Meu Caminho Be <span aria-hidden="true">↗</span></a>
+  </header>
+</div>
+<!-- shared-site-navigation:end -->
+    <main id="main-content" tabindex="-1">
+      <div class="shell feed-theme-setting"><label class="home-theme-control" hidden><span class="sr-only">Tema da página inicial</span><select id="home-theme-select" aria-label="Tema da página inicial"><option value="dark">Escuro</option><option value="light">Claro</option></select></label></div>
+      <section class="shell feed-intro" id="inicio" aria-labelledby="home-hero-title">
+        <h1 id="home-hero-title">O que você busca no esporte?</h1><p class="feed-intro-description">Histórias para inspirar. Conhecimento e apoio para se movimentar.</p>
+        <form class="be-search-form" id="be-ecosystem-search-form" role="search" aria-label="Buscar no ecossistema Bem Esportivo">
+          <label class="be-search-input-wrap" for="be-ecosystem-search-input"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg><input id="be-ecosystem-search-input" name="busca" type="search" maxlength="180" autocomplete="off" aria-label="O que você busca no esporte?" placeholder="Busque no Be"></label>
+          <button type="submit">Encontrar</button>
+        </form>
       </section>
-
-      <nav class="shell be-ecosystem-products" id="como-funciona" aria-label="Produtos do ecossistema Bem Esportivo">
-        <a class="be-ecosystem-product" href="/meu-caminho-be?tela=conteudos"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11v18H7.5A3.5 3.5 0 0 0 4 23V5.5ZM20 5.5A3.5 3.5 0 0 0 16.5 2H13v18h3.5A3.5 3.5 0 0 1 20 23V5.5Z"></path></svg></i><strong>Conhecimento</strong><small>Aprenda</small><b>Explorar →</b></a>
-        <a class="be-ecosystem-product" href="/beplay"><i aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m10 8 6 4-6 4V8Z"></path></svg></i><strong>BEplay</strong><small>Assista</small><b>Assistir →</b></a>
-        <a class="be-ecosystem-product" href="/reportagens"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5zM8 7h8M8 11h8M8 15h5"></path></svg></i><strong>Reportagens</strong><small>Histórias reais</small><b>Ler →</b></a>
-        <a class="be-ecosystem-product" href="/game"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8h12a4 4 0 0 1 4 4v3a3 3 0 0 1-5 2l-2-2H9l-2 2a3 3 0 0 1-5-2v-3a4 4 0 0 1 4-4Z"></path><path d="M7 11v4M5 13h4M16 12h.01M19 14h.01"></path></svg></i><strong>Game 3D</strong><small>Divirta-se</small><b>Jogar →</b></a>
-        <a class="be-ecosystem-product" href="/profissionais"><i aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"></circle><path d="M5 21a7 7 0 0 1 14 0M18 5l1 1 2-2"></path></svg></i><strong>Profissionais</strong><small>Encontre ajuda</small><b>Encontrar →</b></a>
-        <a class="be-ecosystem-product" href="/meu-caminho-be?tela=ferramentas"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 9v6M6 7v10M18 7v10M21 9v6M6 12h12"></path></svg></i><strong>Ferramentas</strong><small>Entenda</small><b>Usar →</b></a>
-        <a class="be-ecosystem-product" href="/produtos"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 13H7L6 8ZM9 8a3 3 0 0 1 6 0"></path></svg></i><strong>Produtos</strong><small>Encontre</small><b>Explorar →</b></a>
-        <a class="be-ecosystem-product be-ecosystem-product-radar" href="/radar-esportivo"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-12a7 7 0 0 0-14 0c0 6.8 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.4"></circle></svg></i><strong>Radar BE</strong><small>São Paulo</small><b>Encontrar locais →</b></a>
-        <a class="be-ecosystem-product" href="/meu-caminho-be"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 20V5M5 6h10l-2 4 2 4H5M16 20h3"></path></svg></i><strong>Meu Caminho Be</strong><small>Sua jornada</small><b>Abrir →</b></a>
-      </nav>
-      <div class="shell be-products-scroll-hint" id="be-products-scroll-hint" aria-hidden="true">
-        <span class="be-products-scroll-copy"><i aria-hidden="true">←</i> Deslize para explorar <i aria-hidden="true">→</i></span>
-        <span class="be-products-scroll-dots" aria-hidden="true"></span>
-      </div>
-
-      <section class="shell home-radar-launch" aria-labelledby="home-radar-title">
-        <div class="home-radar-copy">
-          <span>RADAR BE · SÃO PAULO</span>
-          <h2 id="home-radar-title">Quer praticar esporte perto de você?</h2>
-          <p>Encontre centros esportivos, CEUs e atividades para começar em São Paulo. Informação oficial e contatos para confirmar antes de sair.</p>
-          <a href="/radar-esportivo">Explorar o Radar BE <b aria-hidden="true">→</b></a>
-        </div>
-        <figure class="home-radar-media"><img src="img/radar/centros-esportivos-sp.jpg" alt="Divulgação dos Centros Esportivos da Prefeitura de São Paulo" width="1000" height="400" loading="lazy"><figcaption>Comece pela sua região</figcaption></figure>
-      </section>
-
+      <nav class="shell feed-stories" id="como-funciona" aria-label="Explore as seções do Bem Esportivo"><a class="feed-story" href="/reportagens"><span><img src="img/Thais%20Garcez/thais-garcez-home.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></span><strong>Reportagens</strong><small>Histórias reais</small></a>
+<a class="feed-story" href="/beplay"><span><img src="img/beplay-capa-agilidade-futebol.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></span><strong>BePlay</strong><small>Vídeos</small></a>
+<a class="feed-story" href="/fala-bem"><span><img src="img/banner-home-nova-fase-futebol.jpg" alt="" width="640" height="640" loading="lazy" decoding="async"></span><strong>Fala Bem!</strong><small>Opinião</small></a>
+<a class="feed-story" href="/radar-esportivo"><span><img src="img/radar/radar-esporte-parque.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></span><strong>Radar SP</strong><small>Onde praticar</small></a>
+<a class="feed-story" href="/meu-caminho-be?tela=conteudos"><span><img src="img/fala-bem-hero-pessoas-optimized-480.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></span><strong>Conhecimento</strong><small>Aprender</small></a>
+<a class="feed-story" href="/meu-caminho-be?tela=ferramentas"><span><img src="img/ferramenta-pace.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></span><strong>Ferramentas</strong><small>Apoiar sua prática</small></a>
+<a class="feed-story" href="/profissionais"><span><img src="img/profissionais/bruno.jpg" alt="" width="640" height="640" loading="lazy" decoding="async"></span><strong>Profissionais</strong><small>Encontrar apoio</small></a>
+<a class="feed-story" href="/meu-caminho-be"><span><img src="img/jornada-esportiva-atleta-por-do-sol.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></span><strong>Meu Caminho Be</strong><small>Seu diário</small></a>
+<a class="feed-story" href="/moda-fitness"><span><img src="img/moda-fitness/azul-essencial.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></span><strong>Moda Fitness</strong><small>Estilo</small></a></nav>
       <section class="shell be-search-discovery" aria-labelledby="be-search-result-title" hidden>
         <div class="be-search-discovery-main">
           <span class="be-search-discovery-kicker">Busca Be</span>
@@ -167,7 +103,7 @@
             <a class="be-search-result-card is-conteudo" href="/meu-caminho-be?tela=trilhas"><span class="be-search-result-media"><img src="/img/fala-bem-hero-pessoas-optimized-480.webp" alt="" width="480" height="320" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Conhecimento</small><strong>Minha primeira corrida</strong><span>Uma trilha em quatro passos para organizar o começo da prática.</span><b>Abrir trilha →</b></span></a>
             <a class="be-search-result-card is-beplay" href="/beplay?video=treino-agilidade-futebol"><span class="be-search-result-media"><img src="/img/beplay-capa-agilidade-futebol.webp" alt="" width="960" height="640" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>BEplay</small><strong>Resultado não acontece por acaso</strong><span>Treino de agilidade no futebol, disciplina e evolução.</span><b>Assistir →</b></span></a>
             <a class="be-search-result-card is-ferramentas" href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=pace"><span class="be-search-result-media"><img src="/img/calculadora-pace-relogio-esportivo.webp" alt="Corredor consultando o pace de 5 minutos e 30 segundos por quilômetro em um relógio esportivo" width="1200" height="693" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Ferramentas</small><strong>Calculadora Pace</strong><span>Calcule o seu ritmo por quilômetro como referência educativa.</span><b>Usar ferramenta →</b></span></a>
-            <a class="be-search-result-card is-radar" href="/radar-esportivo"><span class="be-search-result-media"><img src="/img/radar/ceu-virada-esportiva.png" alt="" width="640" height="350" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Radar BE · São Paulo</small><strong>Onde praticar esporte em São Paulo</strong><span>Centros esportivos, CEUs e caminhos para se movimentar perto de você.</span><b>Encontrar oportunidades →</b></span></a>
+            <a class="be-search-result-card is-radar" href="/radar-esportivo"><span class="be-search-result-media"><img src="/img/radar/radar-esporte-parque.webp" alt="" width="640" height="350" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Radar BE · São Paulo</small><strong>Onde praticar esporte em São Paulo</strong><span>Centros esportivos, CEUs e caminhos para se movimentar perto de você.</span><b>Encontrar oportunidades →</b></span></a>
             <a class="be-search-result-card is-profissionais" href="/profissionais"><span class="be-search-result-media"><img src="/img/profissionais/bruno.jpg" alt="" width="640" height="640" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Profissionais</small><strong>Bruno Rezende — Personal Trainer</strong><span>Treinamento funcional, condicionamento e performance.</span><b>Ver profissional →</b></span></a>
             <a class="be-search-result-card is-meu-caminho" href="/meu-caminho-be/registrar"><span class="be-search-result-media"><img src="/img/registrar-atividade-diario-celular.webp" alt="Atleta ao pôr do sol ao lado de um celular com o perfil do Meu Diário BE" width="1200" height="554" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Meu Caminho Be</small><strong>Registrar uma atividade</strong><span>Guarde o treino, jogo, caminhada ou movimento que viveu hoje.</span><b>Registrar agora →</b></span></a>
             <a class="be-search-result-card is-reportagens" href="/reportagens/thais-garcez-metamorfose"><span class="be-search-result-media"><img src="/img/Thais%20Garcez/thais-garcez-capa.jpg" alt="" width="738" height="1600" loading="lazy" decoding="async"></span><span class="be-search-result-body"><small>Reportagens</small><strong>Thais Garcez, uma nova versão</strong><span>Disciplina, conhecimento e uma nova forma de viver a musculação.</span><b>Ler reportagem →</b></span></a>
@@ -187,401 +123,121 @@
         </details>
       </section>
 
-      <section class="shell home-section-v2 home-editorial-feature home-editorial-launch" id="reportagens-em-destaque" aria-labelledby="home-content-title">
-        <div class="home-section-head-v2">
-          <span>Em destaque no Bem Esportivo</span>
-          <h2 id="home-content-title">Estilo e histórias que colocam o esporte <em>em movimento.</em></h2>
-          <p>Um olhar sobre pessoas, escolhas e diferentes formas de viver o esporte.</p>
-          <a href="/reportagens">Explorar todas as reportagens <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="home-editorial-grid">
-          <a class="home-editorial-card home-editorial-card-lead home-editorial-card-fashion" href="/moda-fitness">
-            <img src="img/moda-fitness/azul-essencial.webp" alt="Heloísa Gouvea veste conjunto fitness azul no editorial Ateliê BE" width="1000" height="1500" loading="lazy" decoding="async">
-            <span class="home-editorial-category">Ateliê BE · Moda Fitness</span>
-            <h3>Moda em movimento</h3>
-            <p>Um catálogo completo sobre forma, presença e estilo, com looks da B Malzone Store.</p>
-            <small>Explorar o catálogo <b aria-hidden="true">→</b></small>
-          </a>
-          <a class="home-editorial-card" href="/reportagens/thais-garcez-metamorfose" data-report-id="thais-garcez-metamorfose">
-            <img src="img/Thais%20Garcez/thais-garcez-home.webp" alt="Thais Garcez em movimento durante um treino na academia" width="1066" height="1600" loading="lazy" decoding="async">
-            <span class="home-editorial-category">Musculação, saúde e transformação pessoal</span>
-            <h3>Thais Garcez, uma nova versão</h3>
-            <p>Uma mudança física que se transformou em disciplina, conhecimento e uma nova forma de viver.</p>
-            <small>7 min de leitura <b aria-hidden="true">→</b></small>
-          </a>
-          <a class="home-editorial-card" href="/reportagens/elas-trazem-esperanca" data-report-id="elas-trazem-esperanca" data-inclusion-order="7">
-            <img src="img/elas-trazem-esperanca-lara-duda-portela.webp" alt="Lara e Duda em um campo de futebol" loading="lazy" width="1120" height="1405" decoding="async">
-            <span class="home-editorial-category">Futebol feminino · Arquivo</span>
-            <h3>Elas trazem esperança</h3>
-            <p>Os primeiros passos de Duda e Lara no futebol, entre amizade, formação e sonhos em movimento.</p>
-            <small>4 min de leitura <b aria-hidden="true">→</b></small>
-          </a>
-        </div>
-      </section>
 
-      <section class="shell home-fala-bem" aria-labelledby="home-fala-bem-title">
-        <div class="home-fala-bem-copy">
-          <span>FALA BEM! · OPINIÃO</span>
-          <h2 id="home-fala-bem-title">O esporte também pede <em>conversa.</em></h2>
-          <p>Ideias, vivências e perguntas que vão além do resultado. Uma nova editoria para quem acompanha o esporte de perto.</p>
-          <a href="/fala-bem">Conheça o Fala Bem! <b aria-hidden="true">→</b></a>
-        </div>
-        <a class="home-fala-bem-feature" href="/fala-bem-selecao-australia" aria-label="Ler a opinião sobre a Seleção Brasileira">
-          <span class="home-fala-bem-feature__label">OPINIÃO DE ESTREIA</span>
-          <strong>Sem um meia armador, o Brasil perde a conversa do jogo</strong>
-          <small>Por Válter Igor <b aria-hidden="true">→</b></small>
-        </a>
-      </section>
+      <section class="shell feed-section" aria-labelledby="feed-title">
+        <div class="feed-heading"><h2 id="feed-title">Explore o Bem Esportivo</h2><div class="feed-filters" role="group" aria-label="Filtrar conteúdos" hidden><button type="button" data-feed-filter="all" aria-pressed="true">Tudo</button><button type="button" data-feed-filter="historias" aria-pressed="false">Histórias</button><button type="button" data-feed-filter="videos" aria-pressed="false">Vídeos</button><button type="button" data-feed-filter="praticar" aria-pressed="false">Para praticar</button><button type="button" data-feed-filter="estilo" aria-pressed="false">Estilo</button></div></div>
+        <p class="sr-only" id="feed-status" role="status" aria-live="polite"></p>
+        <div class="feed-grid"><article class="feed-post" data-feed-category="historias">
+  <a class="feed-post-header" href="/reportagens"><img class="" src="img/Thais%20Garcez/thais-garcez-home.webp" alt="" width="640" height="640" loading="lazy" decoding="async"><span><strong>Reportagens</strong><small>Bem Esportivo</small></span><span class="feed-section-arrow" aria-hidden="true">↗</span></a>
+  <a class="feed-post-cover" href="/reportagens/thais-garcez-metamorfose" aria-label="Thais Garcez, uma nova versão">
+    <img class="" src="img/home-capas/reportagem.webp" srcset="img/home-capas/reportagem-480.webp 480w, img/home-capas/reportagem.webp 960w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1050px) calc((100vw - 82px) / 2), (max-width: 1344px) calc((100vw - 100px) / 3), 414px" alt="Thais Garcez em movimento durante um treino na academia" width="960" height="960" fetchpriority="high" decoding="async">
 
-      <section class="shell home-journey" id="meu-caminho" aria-labelledby="home-journey-title">
-        <div class="home-journey-copy">
-          <span>Meu Caminho Be</span>
-          <h2 id="home-journey-title">Seu diário <em>esportivo digital.</em></h2>
-          <p>Registre o que viveu, reconheça seu ritmo e encontre uma forma mais leve de permanecer em movimento. Sem comparação, sem pressa — do seu jeito.</p>
-          <div class="home-journey-proof" aria-label="Como funciona o Meu Caminho Be">
-            <span>Seu caminho em três movimentos</span>
-            <div><i aria-hidden="true"></i>Registre o que aconteceu</div>
-            <div><i aria-hidden="true"></i>Perceba o seu ritmo</div>
-            <div><i aria-hidden="true"></i>Escolha um próximo passo possível</div>
-          </div>
-          <a class="home-dark-btn" href="/meu-caminho-be?tela=mapa">Começar meu Caminho <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="home-journey-media">
-          <picture>
-            <source type="image/webp" srcset="img/jornada-esportiva-atleta-por-do-sol.webp" sizes="(max-width: 900px) 100vw, 100vw">
-            <img src="img/jornada-esportiva-atleta-por-do-sol.webp" alt="Atleta em uma pista ao pôr do sol, em um momento de pausa e continuidade esportiva" loading="lazy" width="1536" height="1024">
-          </picture>
-          <a class="home-journey-action" href="/meu-caminho-be?tela=registrar"><strong>Registre</strong><small>Guarde cada treino, jogo ou recomeço.</small></a>
-          <a class="home-journey-action" href="/meu-caminho-be?tela=evolucao"><strong>Perceba</strong><small>Entenda o que faz sentido para sua rotina.</small></a>
-          <a class="home-journey-action" href="/meu-caminho-be?tela=progresso"><strong>Continue</strong><small>Valorize pequenas ações que mantêm você em movimento.</small></a>
-          <a class="home-journey-action" href="/meu-caminho-be?tela=comunidade"><strong>Compartilhe</strong><small>Faça do esporte uma história que é sua.</small></a>
-        </div>
-      </section>
 
-      <section class="shell home-tools-bridge" aria-labelledby="home-tools-title">
-        <div>
-          <span>Ferramentas Be</span>
-          <h2 id="home-tools-title">Ferramentas para o seu ritmo.</h2>
-          <p>Referências simples para ajudar você a compreender melhor a sua rotina esportiva.</p>
-          <a href="/meu-caminho-be?tela=ferramentas">Ver todas as ferramentas <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="home-tools-list">
-          <a href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=imc"><img class="home-tool-illustration" src="/img/ferramenta-imc.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><span class="home-tool-symbol" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="30" height="32" rx="7"/><path d="M12 15a8 8 0 0 1 16 0M20 15l4-5M13 28h14"/></svg></span><strong>Calculadora IMC</strong><small>Use peso e altura como referência educativa.</small></a>
-          <a href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=pace"><img class="home-tool-illustration" src="/img/ferramenta-pace.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><span class="home-tool-symbol" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="23" r="13"/><path d="M16 4h8M20 4v6M30 10l3 3M20 15v8l5 3"/></svg></span><strong>Calculadora Pace</strong><small>Entenda o seu ritmo por quilômetro.</small></a>
-          <a href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=agua"><img class="home-tool-illustration" src="/img/ferramenta-agua.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><span class="home-tool-symbol" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C16 11 8 19 8 25a12 12 0 0 0 24 0C32 19 24 11 20 4Z"/><path d="M14 25a6 6 0 0 0 6 6"/></svg></span><strong>Água diária</strong><small>Defina uma meta de hidratação possível.</small></a>
-        </div>
-      </section>
+    <span class="feed-cover-label">7 min de leitura</span>
+  </a>
+  <div class="feed-post-body"><h3><a href="/reportagens/thais-garcez-metamorfose">Thais Garcez, uma nova versão</a></h3><p>Uma mudança física que se transformou em disciplina, conhecimento e uma nova forma de viver.</p><a class="feed-post-action" href="/reportagens/thais-garcez-metamorfose">Ler reportagem <span aria-hidden="true">→</span></a></div>
+</article>
+<article class="feed-post" data-feed-category="videos">
+  <a class="feed-post-header" href="/beplay"><img class="" src="img/beplay-capa-agilidade-futebol.webp" alt="" width="640" height="640" loading="lazy" decoding="async"><span><strong>BePlay</strong><small>Bem Esportivo</small></span><span class="feed-section-arrow" aria-hidden="true">↗</span></a>
+  <a class="feed-post-cover" href="/beplay?video=treino-agilidade-futebol" aria-label="Resultado não acontece por acaso">
+    <img class="" src="img/home-capas/beplay.webp" srcset="img/home-capas/beplay-480.webp 480w, img/home-capas/beplay.webp 960w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1050px) calc((100vw - 82px) / 2), (max-width: 1344px) calc((100vw - 100px) / 3), 414px" alt="Treino de agilidade no futebol" width="960" height="960" loading="lazy" decoding="async">
 
-      <template id="legacy-home-sections">
-      <section class="shell ecosystem-hero home-path-feature" aria-labelledby="ecosystem-hero-title">
-        <picture class="home-path-feature-picture">
-          <source type="image/webp" srcset="img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w, img/fala-bem-hero-pessoas-optimized-1536.webp 1536w" sizes="(max-width: 720px) calc(100vw - 24px), 1200px">
-          <img src="img/fala-bem-hero-pessoas-optimized.jpg" alt="Pessoas correndo ao ar livre" width="1536" height="1024" loading="lazy" decoding="async">
-        </picture>
-        <div class="ecosystem-hero-copy">
-          <span class="ecosystem-kicker">MEU CAMINHO BE</span>
-          <h2 id="ecosystem-hero-title"><span>Seu diário</span> <span>esportivo digital.</span></h2>
-          <div class="ecosystem-stages" aria-label="Benefícios do Meu Caminho Be">
-            <span>Registre o que viveu</span><span>Acompanhe seu ritmo</span><span>Entenda sua história</span><span>Valorize cada recomeço</span>
-          </div>
-          <div class="ecosystem-hero-actions">
-            <a class="ecosystem-primary-action" href="/meu-caminho-be#registrar">Registrar minha atividade</a>
-          </div>
-        </div>
-        <div class="ecosystem-hub" id="home-path-feature-hub" aria-label="Áreas conectadas do Bem Esportivo" hidden aria-hidden="true">
-          <div class="ecosystem-hub-head">
-            <span class="ecosystem-hub-mark" aria-hidden="true">Be</span>
-            <span><small>Explore o BeMEsportivo</small><strong>Onde você quer entrar?</strong></span>
-          </div>
-          <div class="ecosystem-hub-grid">
-            <a class="ecosystem-hub-card ecosystem-hub-card-main" href="/reportagens" aria-label="Explorar as reportagens do BeMEsportivo">
-              <span class="ecosystem-hub-icon" aria-hidden="true">Comece por aqui</span>
-              <span class="ecosystem-hub-copy"><strong>Reportagens que aproximam você do esporte</strong><small>Contexto, personagens e histórias reais</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-            <span class="ecosystem-hub-next">Outras formas de viver o esporte</span>
-            <a class="ecosystem-hub-card" href="#pessoas" aria-label="Conhecer histórias de pessoas do esporte">
-              <span class="ecosystem-hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg></span>
-              <span class="ecosystem-hub-copy"><strong>Histórias</strong><small>Pessoas antes dos números</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-            <a class="ecosystem-hub-card" href="#treinos" aria-label="Explorar conteúdos para a prática esportiva">
-              <span class="ecosystem-hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h4"></path></svg></span>
-              <span class="ecosystem-hub-copy"><strong>Conteúdos</strong><small>Conhecimento para levar à prática</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-            <a class="ecosystem-hub-card" href="/beplay" aria-label="Assistir aos vídeos do BEplay">
-              <span class="ecosystem-hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7-11-7Z"></path></svg></span>
-              <span class="ecosystem-hub-copy"><strong>BEplay</strong><small>Esporte para ver e ouvir</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-            <a class="ecosystem-hub-card" href="/profissionais" aria-label="Conhecer profissionais do esporte">
-              <span class="ecosystem-hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="7" r="2"></circle><path d="M3 20a6 6 0 0 1 12 0M14 14.5a5 5 0 0 1 7 4.5"></path></svg></span>
-              <span class="ecosystem-hub-copy"><strong>Profissionais</strong><small>Conhecimento com responsabilidade</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-            <a class="ecosystem-hub-card" href="/game" aria-label="Jogar a Corrida da Hidratação">
-              <span class="ecosystem-hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8h12a4 4 0 0 1 4 4v3a3 3 0 0 1-5 2l-2-2H9l-2 2a3 3 0 0 1-5-2v-3a4 4 0 0 1 4-4Z"></path><path d="M7 11v4M5 13h4M17 12h.01"></path></svg></span>
-              <span class="ecosystem-hub-copy"><strong>Experiências</strong><small>Aprender também pode ser divertido</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-            <a class="ecosystem-hub-card" href="/meu-caminho-be" aria-label="Começar minha trajetória no Meu Caminho Be">
-              <span class="ecosystem-hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18c4-1 5-4 6-8s3-6 7-6h3"></path><circle cx="5" cy="18" r="2"></circle></svg></span>
-              <span class="ecosystem-hub-copy"><strong>Meu Caminho Be</strong><small>Transforme inspiração em trajetória</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-          </div>
-          <p class="ecosystem-hub-note"><span aria-hidden="true"></span> Informação para compreender. Experiências para participar. Um caminho para continuar.</p>
-        </div>
-      </section>
+    <span class="feed-play" aria-hidden="true">▶</span>
+    <span class="feed-cover-label">Vídeo · 0:28</span>
+  </a>
+  <div class="feed-post-body"><h3><a href="/beplay?video=treino-agilidade-futebol">Resultado não acontece por acaso</a></h3><p>Disciplina, persistência e constância. Uma evolução construída um treino de cada vez.</p><a class="feed-post-action" href="/beplay?video=treino-agilidade-futebol">Assistir no BePlay <span aria-hidden="true">→</span></a></div>
+</article>
+<article class="feed-post" data-feed-category="historias">
+  <a class="feed-post-header" href="/fala-bem"><img class="" src="img/banner-home-nova-fase-futebol.jpg" alt="" width="640" height="640" loading="lazy" decoding="async"><span><strong>Fala Bem!</strong><small>Bem Esportivo</small></span><span class="feed-section-arrow" aria-hidden="true">↗</span></a>
+  <a class="feed-post-cover" href="/fala-bem-selecao-australia" aria-label="Sem um meia armador, o Brasil perde a conversa do jogo">
+    <img class="" src="img/home-capas/fala.webp" srcset="img/home-capas/fala-480.webp 480w, img/home-capas/fala.webp 960w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1050px) calc((100vw - 82px) / 2), (max-width: 1344px) calc((100vw - 100px) / 3), 414px" alt="Futebol em campo" width="960" height="960" loading="lazy" decoding="async">
 
-      <section class="shell path-launch" id="meu-caminho-legado" aria-labelledby="path-launch-title">
-        <div class="path-launch-copy">
-          <span class="path-launch-badge">Meu Caminho Be · sua trajetória</span>
-          <h2 id="path-launch-title">O conteúdo inspira. A sua história começa quando você <span>vive o esporte.</span></h2>
-          <p class="path-launch-lead">No <strong>Meu Caminho Be</strong>, você planeja o que deseja fazer, registra o que viveu e entende como sua relação com o esporte muda ao longo do tempo.</p>
-          <div class="path-launch-actions">
-            <a class="path-launch-action path-launch-action-primary" href="/meu-caminho-be">Começar minha trajetória <span aria-hidden="true">→</span></a>
-            <a class="path-launch-action path-launch-action-secondary" href="/meu-caminho-be#minha-jornada">Entender como funciona</a>
-          </div>
-          <div class="path-launch-benefits" aria-label="O que você pode fazer no Meu Caminho Be">
-            <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>Planeje o seu dia</span>
-            <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>Registre o que viveu</span>
-            <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>Entenda sua história</span>
-          </div>
-          <p class="path-launch-signature">Seu esporte não precisa ser perfeito para fazer parte de quem você é.</p>
-        </div>
-        <div class="path-launch-visual" aria-label="Prévia da experiência Meu Caminho Be">
-          <img class="path-launch-photo" src="img/fala-bem-hero-pessoas-optimized.jpg" srcset="img/fala-bem-hero-pessoas-optimized-480.webp 480w, img/fala-bem-hero-pessoas-optimized-800.webp 800w, img/fala-bem-hero-pessoas-optimized-1200.webp 1200w, img/fala-bem-hero-pessoas-optimized-1536.webp 1536w" sizes="(max-width: 720px) calc(100vw - 32px), 50vw" alt="Pessoas correndo e vivendo diferentes momentos da prática esportiva" loading="lazy" decoding="async" width="1536" height="1024">
-          <span class="path-launch-new">Novo</span>
-          <div class="path-launch-app" aria-hidden="true">
-            <div class="path-launch-app-head">
-              <div class="path-launch-app-brand">
-                <span class="path-launch-app-icon"><svg viewBox="0 0 24 24"><path d="M4 18c4-1 5-4 6-8s3-6 7-6h3"></path><path d="m16 2 4 2-2 4"></path><circle cx="5" cy="18" r="2"></circle></svg></span>
-                <span><strong>Meu Caminho Be</strong><small>Sua jornada em movimento</small></span>
-              </div>
-              <span class="path-launch-percent">42%</span>
-            </div>
-            <div class="path-launch-progress"><span></span></div>
-            <div class="path-launch-step">
-              <span class="path-launch-step-number">2</span>
-              <span><strong>Seu próximo passo está pronto</strong><small>Uma ação possível, pensada para o seu momento.</small></span>
-            </div>
-            <div class="path-launch-pills"><span>Descobrir</span><span>Começar</span><span>Evoluir</span></div>
-          </div>
-        </div>
-      </section>
+    <span class="feed-cover-label">Opinião</span>
+  </a>
+  <div class="feed-post-body"><h3><a href="/fala-bem-selecao-australia">Sem um meia armador, o Brasil perde a conversa do jogo</a></h3><p>Ideias, vivências e perguntas que vão além do resultado. Por Válter Igor.</p><a class="feed-post-action" href="/fala-bem-selecao-australia">Ler a opinião <span aria-hidden="true">→</span></a></div>
+</article>
+<article class="feed-post" data-feed-category="praticar">
+  <a class="feed-post-header" href="/radar-esportivo"><img class="" src="img/radar/radar-esporte-parque.webp" alt="" width="640" height="640" loading="lazy" decoding="async"><span><strong>Radar SP</strong><small>Bem Esportivo</small></span><span class="feed-section-arrow" aria-hidden="true">↗</span></a>
+  <a class="feed-post-cover" href="/radar-esportivo" aria-label="Quer praticar esporte perto de você?">
+    <img src="img/radar/radar-esporte-localizacao.webp" alt="Pessoas praticando esporte em um parque, com mapa ilustrativo, marcador de localização e círculos de radar em laranja" width="960" height="960" loading="lazy" decoding="async">
 
-      <section class="shell ecosystem-hero ecosystem-discovery" aria-labelledby="ecosystem-discovery-title">
-        <div class="ecosystem-hero-copy">
-          <span class="ecosystem-kicker"><i aria-hidden="true"></i> Jornada esportiva personalizada</span>
-          <h2 id="ecosystem-discovery-title">Descubra seu caminho <span>no esporte.</span></h2>
-          <p>Entenda seu momento, organize sua rotina e encontre próximos passos possíveis, com informação confiável e conexão com profissionais.</p>
-          <div class="ecosystem-hero-actions">
-            <a class="ecosystem-primary-action" href="/meu-caminho-be#minha-jornada">Começar meu caminho <span aria-hidden="true">→</span></a>
-            <a class="ecosystem-secondary-action" href="#como-funciona">Ver como funciona</a>
-          </div>
-          <div class="ecosystem-stages" aria-label="Etapas da experiência">
-            <span>Descobrir</span><i aria-hidden="true">→</i><span>Começar</span><i aria-hidden="true">→</i><span>Evoluir</span><i aria-hidden="true">→</i><span>Permanecer</span>
-          </div>
-        </div>
-        <div class="ecosystem-hub" id="como-funciona-legado" aria-label="Áreas conectadas do Bem Esportivo">
-          <div class="ecosystem-hub-head">
-            <span class="ecosystem-hub-mark" aria-hidden="true">Be</span>
-            <span><small>Escolha seu próximo passo</small><strong>O que você precisa agora?</strong></span>
-          </div>
-          <div class="ecosystem-hub-grid">
-            <a class="ecosystem-hub-card ecosystem-hub-card-main" href="/meu-caminho-be#minha-jornada" aria-label="Começar agora e criar meu Mapa BeM">
-              <span class="ecosystem-hub-icon" aria-hidden="true">1 · Comece aqui</span>
-              <span class="ecosystem-hub-copy"><strong>Criar meu Mapa BeM</strong><small>Seu ponto de partida em poucos passos</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-            <span class="ecosystem-hub-next">2 · Escolha uma ação</span>
-            <a class="ecosystem-hub-card" href="/meu-caminho-be/perfil" aria-label="Criar meu perfil do atleta">
-              <span class="ecosystem-hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg></span>
-              <span class="ecosystem-hub-copy"><strong>Perfil do atleta</strong><small>Criar perfil</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-            <a class="ecosystem-hub-card" href="/meu-caminho-be?tela=ferramentas" aria-label="Abrir ferramentas esportivas">
-              <span class="ecosystem-hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3 2.5-2.5Z"></path></svg></span>
-              <span class="ecosystem-hub-copy"><strong>Ferramentas</strong><small>Abrir recursos</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-            <a class="ecosystem-hub-card" href="/profissionais" aria-label="Encontrar profissionais do esporte">
-              <span class="ecosystem-hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="7" r="2"></circle><path d="M3 20a6 6 0 0 1 12 0M14 14.5a5 5 0 0 1 7 4.5"></path></svg></span>
-              <span class="ecosystem-hub-copy"><strong>Profissionais</strong><small>Encontrar ajuda</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-            <a class="ecosystem-hub-card" href="/reportagens" aria-label="Explorar conteúdos esportivos">
-              <span class="ecosystem-hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h4"></path></svg></span>
-              <span class="ecosystem-hub-copy"><strong>Conteúdos</strong><small>Explorar guias</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-            <a class="ecosystem-hub-card" href="/meu-caminho-be#participe" aria-label="Participar da comunidade">
-              <span class="ecosystem-hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h11v8H8l-4 3V5ZM12 16h4l4 3V9h-2"></path></svg></span>
-              <span class="ecosystem-hub-copy"><strong>Comunidade</strong><small>Participar</small></span>
-              <span class="ecosystem-hub-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-            </a>
-          </div>
-          <p class="ecosystem-hub-note"><span aria-hidden="true"></span> Orientação educacional: não realiza diagnóstico nem prescrição.</p>
-        </div>
-      </section>
 
-      <section class="shell brand-film" aria-labelledby="brand-film-title">
-        <div class="brand-film-copy">
-          <span class="eyebrow">Filme institucional · BeMEsportivo</span>
-          <h2 id="brand-film-title">O esporte começa com pessoas.</h2>
-          <p>Antes do resultado, existe alguém tentando, aprendendo, voltando ou começando. É essa parte do esporte que o BeMEsportivo escolhe contar.</p>
-          <span class="brand-film-note">Nossa crença em 9 segundos</span>
-        </div>
-        <div class="brand-film-media" id="manifesto-video">
-          <video id="brandFilmPlayer" playsinline preload="none" poster="img/3.jpeg" aria-label="Filme institucional O esporte começa com pessoas">
-            <source src="videos/beplay-o-esporte-comeca-nas-pessoas.mp4" type="video/mp4">
-            Seu navegador não consegue reproduzir este vídeo.
-          </video>
-          <audio id="brandFilmAudio" preload="none" src="videos/beplay-o-esporte-comeca-nas-pessoas.mp4"></audio>
-          <button class="brand-film-play" type="button" id="playBrandFilm" aria-label="Reproduzir filme institucional com som" aria-pressed="false">
-            <span class="brand-film-play-icon" aria-hidden="true"></span>
-          </button>
-        </div>
-      </section>
+    <span class="feed-cover-label">São Paulo</span>
+  </a>
+  <div class="feed-post-body"><h3><a href="/radar-esportivo">Quer praticar esporte perto de você?</a></h3><p>Encontre centros esportivos, CEUs e atividades para começar em São Paulo.</p><a class="feed-post-action" href="/radar-esportivo">Explorar o Radar BE <span aria-hidden="true">→</span></a></div>
+</article>
+<article class="feed-post" data-feed-category="praticar">
+  <a class="feed-post-header" href="/meu-caminho-be?tela=conteudos"><img class="" src="img/fala-bem-hero-pessoas-optimized-800.webp" alt="" width="640" height="640" loading="lazy" decoding="async"><span><strong>Conhecimento</strong><small>Bem Esportivo</small></span><span class="feed-section-arrow" aria-hidden="true">↗</span></a>
+  <a class="feed-post-cover" href="/meu-caminho-be?tela=trilhas" aria-label="Minha primeira corrida">
+    <img class="" src="img/home-capas/conhecimento.webp" srcset="img/home-capas/conhecimento-480.webp 480w, img/home-capas/conhecimento.webp 960w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1050px) calc((100vw - 82px) / 2), (max-width: 1344px) calc((100vw - 100px) / 3), 414px" alt="Pessoas correndo juntas ao ar livre" width="960" height="960" loading="lazy" decoding="async">
 
-      <section class="section shell" aria-labelledby="game-title">
-        <div class="game-spotlight">
-          <div class="game-spotlight-content">
-            <span class="eyebrow">Game 3D · Diversão e saúde</span>
-            <h2 id="game-title">Corrida da Hidratação</h2>
-            <p>Escolha seu atleta, percorra o labirinto 3D, colete água e energia e aprenda sobre hidratação enquanto se diverte.</p>
-            <a class="primary-btn" href="/game" aria-label="Jogar Corrida da Hidratação agora">Jogar agora</a>
-          </div>
-          <div class="game-spotlight-media" aria-label="Prévia do game Corrida da Hidratação">
-            <img src="img/personagens.jpeg" alt="Personagens esportivos do game Corrida da Hidratação">
-          </div>
-        </div>
-      </section>
 
-      <section class="section shell mascot-section people-section" id="pessoas">
-        <img class="section-mascot mascot-basketball" src="img/mascotes/basquete.png" alt="" aria-hidden="true" loading="lazy">
-        <div class="section-head">
-          <div class="section-title">
-            <span>Pessoas · Conhecimento · Movimento</span>
-            <h2>O esporte começa com pessoas</h2>
-          </div>
-          <p class="section-copy">Toda prática tem uma pessoa por trás. Aqui, saúde, memória, comunidade e movimento importam tanto quanto o resultado.</p>
+    <span class="feed-cover-label">Aprenda no seu ritmo</span>
+  </a>
+  <div class="feed-post-body"><h3><a href="/meu-caminho-be?tela=trilhas">Minha primeira corrida</a></h3><p>Uma trilha em quatro passos para organizar o começo da prática.</p><a class="feed-post-action" href="/meu-caminho-be?tela=trilhas">Explorar conhecimento <span aria-hidden="true">→</span></a></div>
+</article>
+<article class="feed-post" data-feed-category="praticar">
+  <a class="feed-post-header" href="/profissionais"><img class="" src="img/profissionais/bruno.jpg" alt="" width="640" height="640" loading="lazy" decoding="async"><span><strong>Profissionais</strong><small>Bem Esportivo</small></span><span class="feed-section-arrow" aria-hidden="true">↗</span></a>
+  <a class="feed-post-cover" href="/profissionais" aria-label="Apoio para o seu próximo passo">
+    <img class="" src="img/home-capas/profissionais.webp" srcset="img/home-capas/profissionais-480.webp 480w, img/home-capas/profissionais.webp 960w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1050px) calc((100vw - 82px) / 2), (max-width: 1344px) calc((100vw - 100px) / 3), 414px" alt="Bruno Rezende, personal trainer" width="960" height="960" loading="lazy" decoding="async">
+
+
+    <span class="feed-cover-label">Encontre apoio</span>
+  </a>
+  <div class="feed-post-body"><h3><a href="/profissionais">Apoio para o seu próximo passo</a></h3><p>Conheça Bruno Rezende e outros profissionais para apoiar sua prática esportiva.</p><a class="feed-post-action" href="/profissionais">Encontrar profissionais <span aria-hidden="true">→</span></a></div>
+</article>
+<article class="feed-post" data-feed-category="praticar">
+  <a class="feed-post-header" href="/meu-caminho-be"><img class="" src="img/jornada-esportiva-atleta-por-do-sol.webp" alt="" width="640" height="640" loading="lazy" decoding="async"><span><strong>Meu Caminho Be</strong><small>Bem Esportivo</small></span><span class="feed-section-arrow" aria-hidden="true">↗</span></a>
+  <a class="feed-post-cover" href="/meu-caminho-be" aria-label="Seu diário esportivo digital">
+    <img class="" src="img/home-capas/jornada.webp" srcset="img/home-capas/jornada-480.webp 480w, img/home-capas/jornada.webp 960w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1050px) calc((100vw - 82px) / 2), (max-width: 1344px) calc((100vw - 100px) / 3), 414px" alt="Atleta em uma pista ao pôr do sol" width="960" height="960" loading="lazy" decoding="async">
+
+
+    <span class="feed-cover-label">Sua jornada</span>
+  </a>
+  <div class="feed-post-body"><h3><a href="/meu-caminho-be">Seu diário esportivo digital</a></h3><p>Registre o que viveu, reconheça seu ritmo e encontre uma forma mais leve de permanecer em movimento.</p><a class="feed-post-action" id="be-home-path-cta" href="/meu-caminho-be/registrar">Registrar minha atividade <span aria-hidden="true">→</span></a></div>
+</article>
+<article class="feed-post" data-feed-category="estilo">
+  <a class="feed-post-header" href="/moda-fitness"><img class="" src="img/moda-fitness/azul-essencial.webp" alt="" width="640" height="640" loading="lazy" decoding="async"><span><strong>Moda Fitness</strong><small>Bem Esportivo</small></span><span class="feed-section-arrow" aria-hidden="true">↗</span></a>
+  <a class="feed-post-cover" href="/moda-fitness" aria-label="Moda em movimento">
+    <img class="" src="img/home-capas/moda.webp" srcset="img/home-capas/moda-480.webp 480w, img/home-capas/moda.webp 960w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1050px) calc((100vw - 82px) / 2), (max-width: 1344px) calc((100vw - 100px) / 3), 414px" alt="Heloísa Gouvea veste conjunto fitness azul no editorial Ateliê BE" width="960" height="960" loading="lazy" decoding="async">
+
+
+    <span class="feed-cover-label">Ateliê BE</span>
+  </a>
+  <div class="feed-post-body"><h3><a href="/moda-fitness">Moda em movimento</a></h3><p>Forma, presença e estilo. Conheça os looks da B Malzone Store no Ateliê BE.</p><a class="feed-post-action" href="/moda-fitness">Explorar o catálogo <span aria-hidden="true">→</span></a></div>
+</article>
+<article class="feed-post" data-feed-category="historias">
+  <a class="feed-post-header" href="/reportagens"><img class="" src="img/elas-trazem-esperanca-lara-duda-portela.webp" alt="" width="640" height="640" loading="lazy" decoding="async"><span><strong>Reportagens</strong><small>Bem Esportivo</small></span><span class="feed-section-arrow" aria-hidden="true">↗</span></a>
+  <a class="feed-post-cover" href="/reportagens/elas-trazem-esperanca" aria-label="Elas trazem esperança">
+    <img class="" src="img/home-capas/elas.webp" srcset="img/home-capas/elas-480.webp 480w, img/home-capas/elas.webp 960w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1050px) calc((100vw - 82px) / 2), (max-width: 1344px) calc((100vw - 100px) / 3), 414px" alt="Lara e Duda em um campo de futebol" width="960" height="960" loading="lazy" decoding="async">
+
+
+    <span class="feed-cover-label">Arquivo · 4 min de leitura</span>
+  </a>
+  <div class="feed-post-body"><h3><a href="/reportagens/elas-trazem-esperanca">Elas trazem esperança</a></h3><p>Os primeiros passos de Duda e Lara no futebol, entre amizade, formação e sonhos em movimento.</p><a class="feed-post-action" href="/reportagens/elas-trazem-esperanca">Ler reportagem <span aria-hidden="true">→</span></a></div>
+</article></div>
+      </section>
+      <section class="shell feed-tools" aria-labelledby="home-tools-title">
+        <div class="feed-tools-heading">
+          <div><h2 id="home-tools-title">Ferramentas para o seu ritmo.</h2><p>Referências simples para compreender melhor a sua rotina esportiva.</p></div>
+          <a class="feed-post-action" href="/meu-caminho-be?tela=ferramentas">Explorar ferramentas <span aria-hidden="true">→</span></a>
         </div>
-        <div class="story-grid people-grid">
-          <article class="story-card post-card people-card">
-            <div class="story-media"><img src="img/1.jpeg" alt="O esporte começa com pessoas e diferentes modalidades esportivas" loading="lazy"></div>
+        <div class="feed-tools-grid">
+          <article class="feed-tool-card">
+            <a class="feed-tool-image" href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=imc" aria-label="Abrir calculadora IMC"><img src="/img/ferramenta-imc.webp" alt="" width="480" height="480" loading="lazy"></a>
+            <div class="feed-post-body"><h3>Calculadora IMC</h3><p>Uma referência educativa a partir do seu peso e altura.</p><a class="feed-post-action" href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=imc">Calcular IMC <span aria-hidden="true">→</span></a></div>
           </article>
-          <article class="story-card post-card people-card people-card-portrait">
-            <div class="story-media"><img src="img/3.jpeg" alt="Pessoas praticando corrida, ciclismo, basquete, futebol, vôlei e natação" loading="lazy"></div>
+          <article class="feed-tool-card">
+            <a class="feed-tool-image" href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=pace" aria-label="Abrir calculadora pace"><img src="/img/ferramenta-pace.webp" alt="" width="480" height="480" loading="lazy"></a>
+            <div class="feed-post-body"><h3>Calculadora Pace</h3><p>Entenda seu ritmo por quilômetro e planeje a próxima corrida.</p><a class="feed-post-action" href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=pace">Calcular pace <span aria-hidden="true">→</span></a></div>
           </article>
-          <article class="story-card post-card people-card people-card-portrait">
-            <div class="story-media"><img src="img/2.jpeg" alt="Profissionais de saúde, nutrição, psicologia e educação física" loading="lazy"></div>
+          <article class="feed-tool-card">
+            <a class="feed-tool-image" href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=agua" aria-label="Abrir ferramenta de água diária"><img src="/img/ferramenta-agua.webp" alt="" width="480" height="480" loading="lazy"></a>
+            <div class="feed-post-body"><h3>Água diária</h3><p>Organize sua hidratação e acompanhe esse cuidado na rotina.</p><a class="feed-post-action" href="/meu-caminho-be?tela=ferramentas&amp;ferramenta=agua">Explorar água diária <span aria-hidden="true">→</span></a></div>
           </article>
-        </div>
-      </section>
-
-      <section class="section shell" id="fala-bem">
-        <div class="section-head">
-          <div class="section-title">
-            <span>Opinião e análise</span>
-            <h2>O jogo também se lê</h2>
-          </div>
-          <p class="section-copy">Opinião, leitura tática, futebol, saúde e performance para pensar o esporte além do placar.</p>
-        </div>
-        <div class="social-grid">
-          <article class="social-card">
-            <div class="author">
-              <span class="avatar"><img src="img/valteroficial.png" alt="Foto de Valter Igor"></span>
-              <span><strong>Valtinho</strong><small>11/04/2026 • 5 min</small></span>
-            </div>
-            <p>O futebol brasileiro precisa mudar: transição, organização e leitura coletiva decidirão o próximo ciclo.</p>
-            <div class="social-actions"><span>Futebol</span><span>Análise tática</span><a href="/reportagens">Ver reportagens</a></div>
-          </article>
-          <article class="social-card">
-            <div class="author">
-              <span class="avatar"><img src="img/valteroficial.png" alt="Foto de Valtinho"></span>
-              <span><strong>Valtinho</strong><small>10/04/2026 • 4 min</small></span>
-            </div>
-            <p>Saúde e performance no esporte moderno: preparação física, dados e prevenção mudaram o jogo.</p>
-            <div class="social-actions"><span>Performance</span><span>Saúde</span><a href="/reportagens">Ver reportagens</a></div>
-          </article>
-          <article class="social-card">
-            <div class="author">
-              <span class="avatar"><img src="img/valteroficial.png" alt="Foto de Valtinho"></span>
-              <span><strong>Valtinho</strong><small>09/04/2026 • 6 min</small></span>
-            </div>
-            <p>Tática, pressão alta e leitura de jogo: como o futebol atual também é decidido sem a bola.</p>
-            <div class="social-actions"><span>Tática</span><span>Futebol</span><a href="/reportagens">Ver reportagens</a></div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section shell mascot-section" id="treinos">
-        <img class="section-mascot mascot-tennis" src="img/mascotes/tenis.png" alt="" aria-hidden="true" loading="lazy">
-        <div class="section-head">
-          <div class="section-title">
-            <span>Conhecimento para a prática</span>
-            <h2>Ideias para continuar em movimento</h2>
-          </div>
-          <p class="section-copy">Conteúdos simples para apoiar a prática sem transformar constância em cobrança ou pausa em fracasso.</p>
-        </div>
-        <div class="story-grid training-grid">
-          <article class="story-card training-card">
-            <div class="story-media"><img src="img/treino-disciplina-frase.png" alt="Disciplina: treine hoje para agradecer amanhã" loading="lazy"></div>
-          </article>
-          <article class="story-card training-card">
-            <div class="story-media"><img src="img/treino-constancia-evolucao.png" alt="Constância: gráfico demonstrando evolução por meio da rotina" loading="lazy"></div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section shell">
-        <div class="section-head">
-          <div class="section-title">
-            <span>Play</span>
-            <h2>Vídeos</h2>
-          </div>
-          <p class="section-copy">Miniaturas diretas do Beplay, duracao visivel e destaque para o assunto antes do primeiro clique.</p>
-        </div>
-        <div class="video-grid">
-          <a class="video-card" href="beplay.html?video=gBkon6LC2OU">
-            <div class="video-thumb"><img src="https://img.youtube.com/vi/gBkon6LC2OU/hqdefault.jpg" alt="Treino técnico e tático"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">6min 18s</span></div>
-            <div class="video-body"><span class="eyebrow">BEplay</span><h3>Treino técnico e tático</h3></div>
-          </a>
-          <a class="video-card" href="beplay.html?video=Qi1lRW18kvM">
-            <div class="video-thumb"><img src="https://img.youtube.com/vi/Qi1lRW18kvM/hqdefault.jpg" alt="Duda e o futebol"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">5min 02s</span></div>
-            <div class="video-body"><span class="eyebrow">História</span><h3>Duda e o futebol</h3></div>
-          </a>
-          <a class="video-card" href="beplay.html?video=dYiX4fvxGG8">
-            <div class="video-thumb"><img src="https://img.youtube.com/vi/dYiX4fvxGG8/hqdefault.jpg" alt="Futebol e areia"><span class="play"><svg class="icon" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg></span><span class="duration">7min 33s</span></div>
-            <div class="video-body"><span class="eyebrow">Performance</span><h3>Futebol e areia</h3></div>
-          </a>
-        </div>
-      </section>
-
-      </template>
-      <section class="shell home-people-quote" id="receba-conteudos" aria-label="Mensagem final do Bem Esportivo">
-        <blockquote>O esporte começa com pessoas</blockquote>
-        <img class="home-people-logo" src="img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="Bem Esportivo" width="2263" height="1937" loading="lazy" decoding="async">
-        <div class="home-people-signup">
-          <strong>Tem uma dúvida ou solicitação?</strong>
-          <p>Entre em contato pelo WhatsApp para tirar dúvidas ou fazer uma solicitação.</p>
-          <a class="be-contact-whatsapp" data-contact-whatsapp href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer">Falar pelo WhatsApp</a>
-          <small>Prefere e-mail? <a href="mailto:bemesportivo@yahoo.com">bemesportivo@yahoo.com</a></small>
         </div>
       </section>
     </main>
-
-    <section class="home-video-modal" id="home-video-modal" aria-label="Reprodutor de vídeo do BEplay" aria-modal="true" role="dialog" hidden>
-      <div class="home-video-modal-dialog">
-        <button class="home-video-modal-close" type="button" aria-label="Fechar vídeo">×</button>
-        <video id="home-video-player" controls playsinline preload="metadata"></video>
-        <div class="home-video-modal-footer"><strong id="home-video-title"></strong><a id="home-video-link" href="/beplay">Ver no BEplay →</a></div>
-      </div>
-    </section>
-
     <footer class="footer">
       <div class="shell footer-grid">
         <div class="footer-col">
@@ -615,167 +271,13 @@
         <span>O esporte começa com pessoas.</span>
       </div>
     </footer>
-    <button id="topBtn" type="button" aria-label="Voltar ao topo">↑</button>
-    <nav class="be-home-mobile-dock" aria-label="Atalhos principais">
-      <a href="/" aria-current="page"><span>⌂</span>Início</a>
-      <a href="#como-funciona"><span>◇</span>Explorar</a>
-      <a class="be-home-mobile-search" href="#inicio" aria-label="Ir para a Busca Be"><span>⌕</span>Buscar</a>
-      <a href="/meu-caminho-be"><span>⚑</span>Meu Caminho</a>
-      <a href="/meu-caminho-be?tela=comunidade"><span>♧</span>Comunidade</a>
-    </nav>
+
+    <button id="topBtn" type="button" aria-label="Voltar ao topo" hidden>↑</button>
   </div>
   <script type="module" src="js/privacy-entry.js?v=20260723-2"></script>
   <script src="js/be-sports-library.js?v=20260829-5" defer></script>
-  <script src="js/home-path-cta.js?v=20260906-2" defer></script>
   <script src="js/be-ecosystem-search.js?v=20260919-1" defer></script>
-  <script src="js/be-products-carousel.js?v=20260831-2" defer></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const topBtn = document.getElementById('topBtn');
-      const homeVideoModal = document.getElementById('home-video-modal');
-      const homeVideoPlayer = document.getElementById('home-video-player');
-      const homeVideoTitle = document.getElementById('home-video-title');
-      const homeVideoLink = document.getElementById('home-video-link');
-      const closeHomeVideo = () => {
-        if (!homeVideoModal || !homeVideoPlayer) return;
-        homeVideoPlayer.pause();
-        homeVideoPlayer.removeAttribute('src');
-        homeVideoPlayer.load();
-        homeVideoModal.hidden = true;
-      };
-      document.querySelectorAll('[data-home-video]').forEach(button => {
-        button.addEventListener('click', async () => {
-          if (!homeVideoModal || !homeVideoPlayer) return;
-          homeVideoPlayer.src = button.dataset.homeVideo;
-          homeVideoTitle.textContent = button.dataset.homeVideoTitle || 'Vídeo BEplay';
-          homeVideoLink.href = button.dataset.homeVideoLink || '/beplay';
-          homeVideoModal.hidden = false;
-          try { await homeVideoPlayer.play(); } catch (error) { /* controles continuam disponíveis */ }
-        });
-      });
-      document.querySelector('.home-video-modal-close')?.addEventListener('click', closeHomeVideo);
-      homeVideoModal?.addEventListener('click', event => { if (event.target === homeVideoModal) closeHomeVideo(); });
-      document.addEventListener('keydown', event => { if (event.key === 'Escape' && !homeVideoModal?.hidden) closeHomeVideo(); });
-      if (topBtn) {
-        topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-      }
-
-      const brandFilmPlayer = document.getElementById('brandFilmPlayer');
-      const brandFilmAudio = document.getElementById('brandFilmAudio');
-      const brandFilmButton = document.getElementById('playBrandFilm');
-      const setBrandFilmButtonState = (playing, label) => {
-        if (!brandFilmButton) return;
-        brandFilmButton.classList.toggle('is-playing', playing);
-        brandFilmButton.setAttribute('aria-label', label);
-        brandFilmButton.setAttribute('aria-pressed', String(playing));
-      };
-      const startBrandFilm = async () => {
-        if (!brandFilmPlayer || !brandFilmAudio || !brandFilmButton) return;
-        if (brandFilmPlayer.readyState === 0) brandFilmPlayer.load();
-        if (brandFilmAudio.readyState === 0) brandFilmAudio.load();
-        if (brandFilmPlayer.ended || brandFilmPlayer.currentTime >= brandFilmPlayer.duration - .1) {
-          brandFilmPlayer.currentTime = 0;
-          brandFilmAudio.currentTime = 0;
-        }
-        brandFilmPlayer.muted = true;
-        brandFilmAudio.defaultMuted = false;
-        brandFilmAudio.muted = false;
-        brandFilmAudio.volume = 1;
-        brandFilmAudio.currentTime = brandFilmPlayer.currentTime;
-        brandFilmPlayer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        try {
-          await Promise.all([brandFilmPlayer.play(), brandFilmAudio.play()]);
-          setBrandFilmButtonState(true, 'Pausar filme institucional');
-        } catch (error) {
-          brandFilmAudio.pause();
-          brandFilmPlayer.muted = false;
-          brandFilmPlayer.volume = 1;
-          const started = await brandFilmPlayer.play().then(() => true).catch(() => false);
-          setBrandFilmButtonState(started, started ? 'Pausar filme institucional' : 'Reproduzir filme institucional com som');
-        }
-      };
-      const toggleBrandFilm = () => {
-        if (!brandFilmPlayer || !brandFilmAudio || !brandFilmButton) return;
-        if (brandFilmPlayer.paused) {
-          startBrandFilm();
-        } else {
-          brandFilmPlayer.pause();
-          brandFilmAudio.pause();
-          setBrandFilmButtonState(false, 'Continuar filme institucional com som');
-        }
-      };
-      brandFilmButton?.setAttribute('aria-pressed', 'false');
-      brandFilmButton?.addEventListener('click', toggleBrandFilm);
-      brandFilmPlayer?.addEventListener('click', toggleBrandFilm);
-      brandFilmPlayer?.addEventListener('timeupdate', () => {
-        if (!brandFilmAudio || brandFilmAudio.paused) return;
-        if (Math.abs(brandFilmAudio.currentTime - brandFilmPlayer.currentTime) > .25) {
-          brandFilmAudio.currentTime = brandFilmPlayer.currentTime;
-        }
-      });
-      brandFilmPlayer?.addEventListener('ended', () => {
-        brandFilmAudio?.pause();
-        if (brandFilmAudio) brandFilmAudio.currentTime = 0;
-        setBrandFilmButtonState(false, 'Assistir novamente ao filme institucional com som');
-      });
-
-      const hero = document.querySelector('.hero');
-      const heroSlides = [...document.querySelectorAll('.hero-slide')];
-      const heroDots = [...document.querySelectorAll('.hero-dot')];
-      let heroIndex = 0;
-      let heroTimer;
-      const showHero = index => {
-        heroIndex = (index + heroSlides.length) % heroSlides.length;
-        hero?.classList.toggle('showing-news', heroSlides[heroIndex]?.classList.contains('hero-slide-news'));
-        hero?.classList.toggle('showing-football', heroSlides[heroIndex]?.classList.contains('hero-slide-football'));
-        heroSlides.forEach((slide, position) => {
-          const active = position === heroIndex;
-          slide.classList.toggle('active', active);
-          slide.setAttribute('aria-hidden', String(!active));
-        });
-        heroDots.forEach((dot, position) => {
-          const active = position === heroIndex;
-          dot.classList.toggle('active', active);
-          if (active) dot.setAttribute('aria-current', 'true');
-          else dot.removeAttribute('aria-current');
-        });
-      };
-      const restartHero = () => {
-        clearInterval(heroTimer);
-        heroTimer = setInterval(() => showHero(heroIndex + 1), 6500);
-      };
-      document.querySelector('.hero-prev')?.addEventListener('click', () => { showHero(heroIndex - 1); restartHero(); });
-      document.querySelector('.hero-next')?.addEventListener('click', () => { showHero(heroIndex + 1); restartHero(); });
-      heroDots.forEach((dot, index) => dot.addEventListener('click', () => { showHero(index); restartHero(); }));
-      hero?.addEventListener('mouseenter', () => clearInterval(heroTimer));
-      hero?.addEventListener('mouseleave', restartHero);
-      if (heroSlides.length > 1) restartHero();
-
-      document.querySelectorAll('.post-card').forEach(card => {
-        card.setAttribute('tabindex', '0');
-        card.addEventListener('click', () => {
-          document.querySelectorAll('.post-card.active').forEach(activeCard => {
-            if (activeCard !== card) activeCard.classList.remove('active');
-          });
-          card.classList.toggle('active');
-        });
-        card.addEventListener('keydown', event => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            card.click();
-          }
-        });
-      });
-
-      window.addEventListener('scroll', () => {
-        if (!topBtn) return;
-        if (window.scrollY > 320) {
-          topBtn.classList.add('show');
-        } else {
-          topBtn.classList.remove('show');
-        }
-      });
-    });
-  </script>
+  <script src="js/home-feed.js?v=20260930-2" defer></script>
+  <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body>
 </html>

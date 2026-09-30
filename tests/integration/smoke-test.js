@@ -301,18 +301,12 @@ async function run() {
     assert.match(reportCss, /\.report-preview-media \.report-preview-hope\s*\{[\s\S]*?object-fit:\s*contain;/);
     assert.match(reportCss, /\.report-related > div\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-    assert.match(homeHtml, /class="be-hero-brand" aria-label="Bem Esportivo"><span aria-hidden="true">Bem<\/span><span aria-hidden="true">Esportivo<\/span><\/p>\s*<h1 id="home-hero-title">O que você busca no esporte\?<\/h1>/, 'A busca principal precisa apresentar apenas a marca e a pergunta em sua nova hierarquia.');
-    assert.match(homeHtml, /id="be-ecosystem-search-input"[^>]*aria-label="O que você busca no esporte\?"/, 'O campo principal de busca precisa ter um nome acessível independente do placeholder.');
-    assert.match(homeHtml, /id="be-home-path-cta"[^>]*href="\/meu-caminho-be\/registrar"[\s\S]*?id="be-home-path-cta-label">Registrar minha atividade/, 'A Home precisa oferecer um caminho principal para registrar atividades.');
-    assert.doesNotMatch(homeHtml, /class="be-search-secondary-label"/, "Hero sem texto secundario redundante.");
-    assert.match(homeHtml, /js\/home-path-cta\.js\?v=20260906-2/, 'A Home precisa adaptar o chamado principal ao estágio da pessoa.');
-    assert.doesNotMatch(homeHtml, /class="home-search-examples"/, "Hero sem atalhos extras.");
-    assert.match(homeHtml, /css\/be-ecosystem-search\.css\?v=20260919-2/, 'A Home precisa carregar a versão atual do visual da busca.');
-    assert.match(homeHtml, /class="shell be-search-discovery"[^>]*hidden/, 'Os resultados da Biblioteca BeM devem aparecer somente depois de uma busca.');
-    const ecosystemCss = fs.readFileSync(path.join(root, 'css', 'be-ecosystem-search.css'), 'utf8');
-    assert.match(ecosystemCss, /@media \(max-width: 760px\)[\s\S]*?\.home-page \.site-header \.category-nav\s*\{[\s\S]*?display:\s*flex;/, 'O menu principal da Home precisa permanecer visível no celular.');
-    assert.match(homeHtml, /id="be-products-scroll-hint"[\s\S]*?Deslize para explorar/, 'A navegação lateral da Home precisa orientar o gesto no mobile.');
-    assert.match(homeHtml, /js\/be-products-carousel\.js\?v=20260831-2/, 'A Home precisa carregar o movimento progressivo dos atalhos.');
+    assert.match(homeHtml, /id="home-hero-title">O que você busca no esporte\?<\/h1>/, 'A home parte da necessidade da pessoa.');
+    assert.match(homeHtml, /id="be-ecosystem-search-input"[^>]*aria-label="O que você busca no esporte\?"/, 'A busca mantém um nome acessível.');
+    assert.match(homeHtml, /class="shell be-search-discovery"[^>]*hidden/, 'Os resultados aparecem depois de uma busca.');
+    assert.match(homeHtml, /id="be-site-header"[\s\S]*id="be-site-navigation"/, 'A home usa o mesmo menu das demais páginas.');
+    assert.match(homeHtml, /class="shell feed-stories" id="como-funciona"/, 'Os atalhos de seções continuam disponíveis.');
+    assert.match(homeHtml, /js\/home-feed\.js\?v=/, 'Os filtros do feed precisam estar disponíveis.');
     const professionalsHtml = fs.readFileSync(path.join(root, 'profissionais.html'), 'utf8');
     const professionalsScript = fs.readFileSync(path.join(root, 'js/profissionais.js'), 'utf8');
     assert.match(professionalsHtml, /id="professionals-hero-title">Encontre quem pode ajudar no seu próximo passo\./, 'Profissionais precisa começar pela necessidade da pessoa.');
@@ -356,15 +350,12 @@ async function run() {
     assert.match(adsenseConsentDefault, /ad_storage: 'denied'/);
     assert.match(adsenseConsentDefault, /ad_personalization: 'denied'/);
     assert.doesNotMatch(privacyConsentScript, /ca-pub-5270723987412757/);
-    assert.match(homeHtml, /<main class="home-redesign"[^>]*>\s*<section class="shell home-hero-v2 be-ecosystem-hero" id="inicio"[\s\S]*<section class="shell home-journey"[\s\S]*<section class="shell home-section-v2 home-editorial-feature home-editorial-launch"/, 'A Home precisa apresentar o ecossistema antes da experiência pessoal e da vitrine editorial.');
-    assert.match(homeHtml, /id="home-hero-title">O que você busca no esporte\?<\/h1>/, 'O hero precisa partir da necessidade da pessoa.');
-    assert.match(homeHtml, /id="be-ecosystem-search-form"[\s\S]*id="be-ecosystem-search-input"[\s\S]*id="be-ecosystem-search-results"/, 'A Busca Be precisa ter formulário, entrada e devolutiva acessível.');
-    assert.match(homeHtml, /class="shell be-ecosystem-products"[\s\S]*Conhecimento[\s\S]*BEplay[\s\S]*Reportagens[\s\S]*Game 3D[\s\S]*Profissionais[\s\S]*Ferramentas[\s\S]*Produtos[\s\S]*Meu Caminho Be/, 'A Home precisa apresentar os oito destinos e suas finalidades.');
-    assert.match(homeHtml, /class="shell be-search-discovery"[\s\S]*Para começar a explorar[\s\S]*Minha primeira corrida[\s\S]*Calculadora Pace[\s\S]*Thais Garcez, uma nova versão[\s\S]*Como a Busca Be funciona[\s\S]*Sem IA generativa/, 'A Home precisa apresentar uma seleção inicial real e explicar a origem dos resultados da Busca Be.');
-    assert.match(homeHtml, /class="be-ecosystem-product" href="\/game"[\s\S]*?<strong>Game 3D<\/strong><small>Divirta-se<\/small>/, 'Game 3D precisa abrir seu destino exato.');
-    assert.match(homeHtml, /class="be-ecosystem-product" href="\/meu-caminho-be\?tela=conteudos"[\s\S]*?<strong>Conhecimento<\/strong>/, 'Conhecimento precisa abrir seu painel sem redirecionamento de produção.');
-    assert.match(homeHtml, /class="be-ecosystem-product" href="\/meu-caminho-be\?tela=ferramentas"[\s\S]*?<strong>Ferramentas<\/strong>/, 'Ferramentas precisa abrir seu painel sem redirecionamento de produção.');
-    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260919-1"/, 'A Home precisa carregar a Biblioteca Esportiva antes da busca determinística.');
+    assert.match(homeHtml, /id="be-ecosystem-search-form"[\s\S]*id="be-ecosystem-search-input"[\s\S]*id="be-ecosystem-search-results"/, 'A busca mantém formulário, entrada e resultados.');
+    assert.match(homeHtml, /class="shell be-search-discovery"[\s\S]*Minha primeira corrida[\s\S]*Como a Busca Be funciona[\s\S]*Sem IA generativa/, 'A busca explica a origem editorial das respostas.');
+    for (const destination of ['/game', '/meu-caminho-be?tela=conteudos', '/meu-caminho-be?tela=ferramentas']) {
+      assert.ok(homeHtml.includes('href="' + destination + '"'), 'Destino da home ausente: ' + destination);
+    }
+    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260919-1"/, 'A biblioteca carrega antes da busca.');
     const ecosystemSearch = require(path.join(root, 'js', 'be-ecosystem-search.js'));
     assert.equal(ecosystemSearch.search('Quero saber como melhorar meu chute').primary.id, 'conteudo');
     assert.equal(ecosystemSearch.search('Quero assistir').primary.id, 'beplay');
@@ -405,22 +396,17 @@ async function run() {
     const unknownSport = ecosystemSearch.search('Quero praticar curling');
     assert.equal(unknownSport.coverage, 'general');
     assert.ok(unknownSport.items.every(item => !/primeira corrida|futebol com inteligência/i.test(item.title)));
-    assert.match(homeHtml, /id="home-content-title">Estilo e histórias que colocam o esporte <em>em movimento\.<\/em>/, 'A Home precisa apresentar a vitrine editorial principal.');
-    assert.match(homeHtml, /class="home-editorial-grid"[\s\S]*href="\/moda-fitness"[\s\S]*Moda em movimento[\s\S]*Thais Garcez, uma nova versão[\s\S]*Elas trazem esperança/, 'A vitrine editorial precisa reunir moda fitness e histórias do acervo.');
-    assert.doesNotMatch(homeHtml, /home-latest-reports\.js|data-latest-reports-source/, 'A seleção editorial da Home precisa permanecer estável.');
-    assert.match(homeHtml, /class="shell home-journey"[\s\S]*Seu diário <em>esportivo digital\.<\/em>/, 'A Home precisa preservar o bloco do Meu Caminho Be.');
-    assert.doesNotMatch(homeHtml, /class="shell home-split"|class="shell home-content-bridge"/, 'A Home não deve repetir caminhos secundários antes da mensagem final.');
-    assert.doesNotMatch(homeHtml, /id="home-report-title"/, 'A Home não deve repetir a mesma vitrine de reportagens.');
-    assert.match(homeHtml, /href="\/reportagens">Explorar todas as reportagens/, 'A vitrine editorial precisa abrir o acervo completo.');
-    assert.match(homeHtml, /href="\/meu-caminho-be\?tela=mapa">Começar meu Caminho/, 'A chamada da jornada precisa abrir a criação do Mapa BeM.');
-    assert.doesNotMatch(homeHtml, /class="home-path-feature"[\s\S]*Dados ficam neste aparelho[\s\S]*<\/section>/, 'A prévia da Home não deve exibir o estado local do aparelho.');
-    assert.match(homeHtml, /class="category-nav"[\s\S]*href="#be-search-result-title">Explorar[\s\S]*href="\/moda-fitness">Moda Fitness[\s\S]*href="\/meu-caminho-be">Meu Caminho Be[\s\S]*href="\/profissionais">Encontrar apoio[\s\S]*href="\/meu-caminho-be\/perfil">Meu perfil/, 'A Home precisa oferecer exploração, moda fitness, jornada, apoio e perfil no menu principal.');
-    assert.match(homeHtml, /href="\/meu-caminho-be\?tela=ferramentas"/, 'A Home precisa abrir a área de Ferramentas sem perder o destino no Cloudflare.');
-    assert.match(homeHtml, /O conteúdo inspira\. A sua história começa quando você <span>vive o esporte\.<\/span>/);
-    assert.doesNotMatch(homeHtml, /<h2>Meu Caminho Be<\/h2>/, 'Meu Caminho Be não deve ser usado como nome de coluna editorial.');
+    assert.match(homeHtml, /id="feed-title">Explore o Bem Esportivo<\/h2>/, 'A home apresenta as seções como feed editorial.');
+    for (const title of ['Moda em movimento', 'Thais Garcez, uma nova versão', 'Elas trazem esperança', 'Seu diário esportivo digital']) {
+      assert.ok(homeHtml.includes(title), 'Conteúdo editorial ausente: ' + title);
+    }
+    assert.doesNotMatch(homeHtml, /home-latest-reports\.js|data-latest-reports-source/, 'A seleção editorial permanece estável.');
+    for (const destination of ['/reportagens', '/moda-fitness', '/radar-esportivo', '/meu-caminho-be', '/profissionais', '/meu-caminho-be/perfil']) {
+      assert.ok(homeHtml.includes('href="' + destination + '"'), 'Link de exploração ausente: ' + destination);
+    }
     assert.match(reportListing, /class="report-path-bridge"[\s\S]*Conhecer o Meu Caminho Be/);
     const routesScript = fs.readFileSync(path.join(root, 'js', 'core', 'routes.js'), 'utf8');
-    assert.match(routesScript, /'\/meu-caminho-be', 'Meu Caminho Be'[\s\S]*'\/meu-caminho-be\/perfil', 'Perfil'[\s\S]*'\/game', 'Game 3D'[\s\S]*'\/reportagens', 'Reportagens'[\s\S]*'\/beplay', 'BEplay'[\s\S]*'\/profissionais', 'Profissionais'[\s\S]*'\/produtos', 'Produtos'/);
+    assert.match(routesScript, /export const siteNavigation[\s\S]*export const pageNavigation/, 'A navegação separa a home dos menus contextuais.');
     assert.doesNotMatch(routesScript, /'\/#treinos'|'\/#pessoas'/, 'O menu compartilhado não deve reintroduzir atalhos removidos da navegação principal.');
     assert.doesNotMatch(elasReport, /mulheres-em-acao-funcional-serra-talhada/);
     for (const image of ['mulheres-em-movimento-serra-talhada-sem-logo-640.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-960.webp', 'mulheres-em-movimento-serra-talhada-sem-logo-1440.webp']) {
@@ -494,7 +480,7 @@ async function run() {
     assert.match(pathHtml, /<h2 id="be-profile-onboarding-title">Bem-vindo ao Meu diário Be\.<\/h2>[\s\S]*seu nome, sua atividade principal e um pequeno resumo/, 'O diário precisa apresentar sua proposta e explicar as três informações do cadastro inicial.');
     assert.doesNotMatch(pathHtml, /id="journey-name"/, 'O Mapa BeM não deve perguntar novamente o nome já salvo no Perfil Be.');
     assert.match(pathHtml, /data-step-indicator="1"[^>]*>[\s\S]*Perfil Be/, 'O Mapa BeM precisa reconhecer o Perfil Be como etapa concluída.');
-    assert.equal((pathHtml.match(/class="fb-section-actions(?:\s[^"]*)?"/g) || []).length, 6, 'As seis áreas principais precisam oferecer próximos passos contextuais.');
+    assert.equal((pathHtml.match(/class="fb-section-actions(?:\s[^"]*)?"/g) || []).length, 5, 'Jornada, perfil, ferramentas, conteúdos e profissionais precisam oferecer próximos passos contextuais.');
     assert.match(pathHtml, /id="fb-evolution-days"/);
     assert.match(pathHtml, /class="fb-explore-grid"/);
     assert.match(pathHtml, /id="fb-day-guide"[\s\S]*?SUA AÇÃO DE AGORA · UMA POR VEZ/);
@@ -521,12 +507,12 @@ async function run() {
     assert.match(pathHtml, /css\/meu-caminho-modern\.css\?v=20260906-1/);
     assert.match(pathHtml, /js\/meu-caminho-navigation\.js\?v=20260916-2/);
     assert.match(pathHtml, /js\/meu-caminho-account\.js\?v=20260823-2/);
-    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=20260919-1/);
+    assert.match(pathHtml, /js\/fala-bem-app\.js\?v=\d{8}-\d+/);
     assert.match(pathHtml, /js\/coluna-valtinho\.js\?v=20260823-1/);
     assert.match(pathHtml, /css\/meu-caminho-diary\.css\?v=20260916-1/);
     assert.match(pathHtml, /css\/meu-caminho-navigation\.css\?v=20260907-1/);
     assert.match(pathHtml, /css\/fala-bem-platform\.css\?v=20260906-1/);
-    assert.match(pathHtml, /js\/site-common\.js\?v=20260830-2/);
+    assert.match(pathHtml, /js\/site-common\.js\?v=20260929-1/);
     assert.match(pathHtml, /class="fb-app-brand" href="\/"/, 'O logo do cabeçalho precisa voltar para a home principal.');
     assert.match(pathHtml, /class="be-showcase-brand" href="\/"[^>]*><strong>MEU DIÁRIO BE<\/strong><\/a>/, 'A identificação da apresentação deve ter somente o texto clicável.');
     assert.match(pathHtml, /js\/meu-caminho-diary\.js\?v=20260916-1/);

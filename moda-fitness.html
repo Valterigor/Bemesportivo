@@ -18,15 +18,20 @@
   <script src="/js/moda-fitness-catalog.js?v=20260919-2" defer></script>
   <script src="/js/moda-fitness.js?v=20260919-4" defer></script>
   <script type="module" src="/js/home-access-entry.js?v=20260919-2"></script>
+  <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 </head>
 <body class="fashion-page">
   <a class="fashion-skip" href="#conteudo">Pular para o conteúdo</a>
-  <header class="fashion-header">
-    <a class="fashion-brand" href="/" aria-label="Bem Esportivo — voltar ao início"><img src="/img/logobemoficial.png" width="39" height="34" alt=""><span>bem esportivo<span class="fashion-brand-note">UM OLHAR ALÉM DO ESPORTE</span></span></a>
-    <nav aria-label="Navegação do ateliê"><a href="#editorial">Editorial</a><a href="#catalogo">Catálogo</a><a href="/contato">Contato <span aria-hidden="true">↗</span></a></nav>
-  </header>
+  <!-- shared-site-navigation:start -->
+<div id="be-site-header" class="be-site-header" data-menu-context="section" data-menu-scroll>
+  <header class="be-site-header-inner">
+    <a class="be-site-brand" href="/" aria-label="Bem Esportivo — início"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="Bem Esportivo" width="2263" height="1937"></a>
+    <nav id="be-site-navigation" aria-label="Menu de Moda Fitness"><a data-site-link href="/">Início</a><a data-site-link href="#conceito">Conceito</a><a data-site-link href="#editorial">Editorial</a><a data-site-link href="#catalogo">Catálogo</a><a data-site-link href="/contato">Contato</a></nav>
 
-  <main id="conteudo">
+  </header>
+</div>
+<!-- shared-site-navigation:end -->
+<main id="conteudo">
     <section class="fashion-intro" aria-labelledby="fashion-title">
       <div class="fashion-intro-top"><span>ATELIÊ BE / MODA FITNESS</span><span>ESTILO QUE ACOMPANHA A VIDA</span></div>
       <div class="fashion-intro-copy"><h1 id="fashion-title">Moda em<br><em>movimento.</em></h1><div><p>O corpo se expressa.<br>A roupa acompanha.</p><a class="fashion-text-link" href="#editorial">Explore o editorial <span aria-hidden="true">↓</span></a></div></div>
@@ -87,5 +92,6 @@
     <figure><img id="fashion-lightbox-image" alt=""><figcaption id="fashion-lightbox-caption"></figcaption></figure>
     <div class="fashion-lightbox-controls"><button type="button" id="fashion-lightbox-previous" aria-label="Fotografia anterior">← Anterior</button><button type="button" id="fashion-lightbox-next" aria-label="Próxima fotografia">Próxima →</button></div>
   </dialog>
+  <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body>
 </html>

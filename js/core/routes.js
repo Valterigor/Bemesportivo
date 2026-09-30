@@ -1,13 +1,51 @@
-export const primaryNavigation = [
-  ['/', 'Início', '<path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path>'],
-  ['/meu-caminho-be', 'Meu Caminho Be', '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"></path>'],
-  ['/meu-caminho-be/perfil', 'Perfil', '<circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path>'],
-  ['/game', 'Game 3D', '<path d="M6 8h12a4 4 0 0 1 4 4v3a3 3 0 0 1-5 2l-2-2H9l-2 2a3 3 0 0 1-5-2v-3a4 4 0 0 1 4-4Z"></path><path d="M7 11v4M5 13h4M16 12h.01M19 14h.01"></path>'],
-  ['/reportagens', 'Reportagens', '<path d="M5 4h14v16H5z"></path><path d="M8 8h8M8 12h8M8 16h5"></path>'],
-  ['/fala-bem', 'Fala Bem!', '<path d="M5 5h14v10H9l-4 4V5Z"></path><path d="M9 9h6"></path>'],
-  ['/beplay', 'BEplay', '<path d="M6 8h12l-1 12H7L6 8Z"></path><path d="M9 8a3 3 0 0 1 6 0"></path>'],
-  ['/profissionais', 'Profissionais', '<path d="M16 21v-2a4 4 0 0 0-8 0v2"></path><circle cx="12" cy="7" r="4"></circle>'],
-  ['/produtos', 'Produtos', '<path d="M20 7 12 3 4 7l8 4 8-4Z"></path><path d="M4 7v10l8 4 8-4V7"></path><path d="M12 11v10"></path>']
+export const siteNavigation = [
+  ['/', 'Início'], ['/reportagens', 'Reportagens'], ['/beplay', 'BePlay'],
+  ['/fala-bem', 'Fala Bem!']
+];
+
+// A shared visual shell, with navigation specific to each area.
+export const pageNavigation = {
+  'reportagens.html': { label: 'Menu de reportagens', links: [['/', 'Início'], ['/reportagens', 'Reportagens'], ['#report-featured-title', 'Destaque'], ['#report-more-title', 'Mais histórias']] },
+  'beplay.html': { label: 'Menu do BePlay', links: [['/', 'Início'], ['#videos', 'Assistir'], ['#relatedVideos', 'Playlist'], ['#opinioes', 'Comentários'], ['#perfil', 'Minha lista']] },
+  'fala-bem.html': { label: 'Menu do Fala Bem!', links: [['/', 'Início'], ['/fala-bem', 'Fala Bem!'], ['#editoria-title', 'A editoria'], ['#colunas', 'Colunas'], ['/contato', 'Enviar uma ideia']] },
+  'fala-bem-selecao-australia.html': { label: 'Menu da opinião', links: [['/', 'Início'], ['/fala-bem', 'Fala Bem!'], ['#conteudo', 'Ler opinião'], ['#comments-title', 'Comentários']] },
+  'moda-fitness.html': { label: 'Menu de Moda Fitness', links: [['/', 'Início'], ['#conceito', 'Conceito'], ['#editorial', 'Editorial'], ['#catalogo', 'Catálogo'], ['/contato', 'Contato']] },
+  'radar-esportivo.html': { label: 'Menu do Radar SP', links: [['/', 'Início'], ['/radar-esportivo', 'Radar SP'], ['#opportunities-title', 'Onde praticar'], ['#contribute-title', 'Indicar um local']] },
+  'profissionais.html': { label: 'Menu de profissionais', links: [['/', 'Início'], ['#como-funciona', 'Como funciona'], ['#profissionais', 'Encontrar apoio'], ['/contato', 'Contato']] },
+  'produtos.html': { label: 'Menu de produtos', links: [['/', 'Início'], ['#productsGrid', 'Produtos'], ['/moda-fitness', 'Moda Fitness'], ['/contato', 'Contato']] },
+  'criar-postagem.html': { label: 'Menu de criação de postagem', links: [['/', 'Início'], ['#post-maker-form', 'Criar postagem'], ['#be-maker-preview-title', 'Ver prévia'], ['/meu-caminho-be', 'Meu diário']] },
+  'perfil-publico.html': { label: 'Menu do perfil público', links: [['/', 'Início'], ['/meu-caminho-be', 'Meu diário'], ['/meu-caminho-be/perfil', 'Meu perfil'], ['/diretrizes-da-comunidade', 'Comunidade']] }
+};
+
+export const institutionalNavigation = {
+  label: 'Menu institucional',
+  links: [['/', 'Início'], ['/sobre', 'Sobre'], ['/contato', 'Contato']],
+  moreLabel: 'Políticas',
+  groups: [{ label: 'Transparência e comunidade', links: [
+    ['/politica-de-valores', 'Nossos valores', 'Compromissos do Bem Esportivo'],
+    ['/diretrizes-da-comunidade', 'Diretrizes da comunidade', 'Convivência e participação'],
+    ['/politica-de-privacidade', 'Privacidade', 'Dados e preferências'],
+    ['/termos', 'Termos de uso', 'Condições de uso do site']
+  ] }]
+};
+
+export const navigationGroups = [
+  { label: 'Praticar e aprender', links: [
+    ['/radar-esportivo', 'Radar SP', 'Onde praticar em São Paulo'],
+    ['/meu-caminho-be?tela=conteudos', 'Conhecimento', 'Guias e dicas para aprender'],
+    ['/meu-caminho-be?tela=ferramentas', 'Ferramentas', 'Pace, hidratação e outras referências'],
+    ['/profissionais', 'Profissionais', 'Encontre apoio para sua prática']
+  ] },
+  { label: 'Sua jornada', links: [
+    ['/meu-caminho-be', 'Meu Caminho Be', 'Seu diário esportivo digital'],
+    ['/meu-caminho-be/perfil', 'Meu perfil', 'Seu espaço no diário']
+  ] },
+  { label: 'Estilo e recursos', links: [
+    ['/moda-fitness', 'Moda Fitness', 'Editorial e catálogo de looks'],
+    ['/produtos', 'Produtos', 'Curadoria de itens esportivos'],
+    ['/game', 'Game 3D', 'Corrida da Hidratação'],
+    ['/criar-postagem', 'Criar postagem', 'Prepare uma imagem para suas redes']
+  ] }
 ];
 
 export const breadcrumbPages = {

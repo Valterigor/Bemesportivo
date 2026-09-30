@@ -11,7 +11,7 @@ export function initSiteBreadcrumb() {
     breadcrumb.setAttribute('aria-label', 'Navegação estrutural');
     breadcrumb.innerHTML = `<a href="/">Início</a><span aria-hidden="true">/</span><span aria-current="page">${label}</span>`;
     const headers = [...document.querySelectorAll('body > header')];
-    headers.at(-1)?.insertAdjacentElement('afterend', breadcrumb);
+    (document.getElementById('be-site-header') || headers.at(-1))?.insertAdjacentElement('afterend', breadcrumb);
   }
 
   const structuredData = document.createElement('script');

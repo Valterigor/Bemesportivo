@@ -22,20 +22,18 @@
 <link rel="stylesheet" href="css/mobile-typography.css?v=20260906-1">
 <link rel="stylesheet" href="css/readability.css?v=20260906-1">
 <link rel="stylesheet" href="/css/visual-system.css?v=20260906-1">
+  <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 </head>
 <body>
-<header>
-<a href="/"><img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo"></a>
-<nav>
-<a href="/">Início</a>
-<a href="/#posts">Posts</a>
-<a href="/reportagens">Reportagens</a>
-<a href="/meu-caminho-be">Meu Caminho Be</a>
-<a href="/#treinos">Treinos</a>
-<a href="/beplay">BEplay</a>
-<a href="/profissionais">Profissionais</a>
-<a href="/produtos">Produtos</a></nav>
-</header>
+<!-- shared-site-navigation:start -->
+<div id="be-site-header" class="be-site-header" data-menu-context="section">
+  <header class="be-site-header-inner">
+    <a class="be-site-brand" href="/" aria-label="Bem Esportivo — início"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="Bem Esportivo" width="2263" height="1937"></a>
+    <nav id="be-site-navigation" aria-label="Menu institucional"><a data-site-link href="/">Início</a><a data-site-link href="/sobre">Sobre</a><a data-site-link href="/contato">Contato</a><details class="be-site-more"><summary>Políticas <span aria-hidden="true">⌄</span></summary><div class="be-site-more-links"><div class="be-site-menu-group"><strong>Transparência e comunidade</strong><a data-site-link href="/politica-de-valores"><span>Nossos valores</span><small>Compromissos do Bem Esportivo</small></a><a data-site-link href="/diretrizes-da-comunidade"><span>Diretrizes da comunidade</span><small>Convivência e participação</small></a><a data-site-link href="/politica-de-privacidade"><span>Privacidade</span><small>Dados e preferências</small></a><a data-site-link href="/termos"><span>Termos de uso</span><small>Condições de uso do site</small></a></div></div></details></nav>
+
+  </header>
+</div>
+<!-- shared-site-navigation:end -->
 
 <main class="legal-page">
 <p class="legal-kicker">Regras do site</p>
@@ -106,6 +104,7 @@
 <small>© 2026 Bem Esportivo</small>
 </div>
 </footer>
-<script type="module" src="js/site-common.js?v=20260813-1"></script>
+<script type="module" src="js/site-common.js?v=20260929-1"></script>
+  <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body>
 </html>

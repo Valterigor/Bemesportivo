@@ -1,6 +1,6 @@
 export function initHomeAccess() {
   const path = window.location.pathname.replace(/index\.html$/i, '').replace(/\/$/, '') || '/';
-  if (path === '/' || document.querySelector('.be-home-access')) return;
+  if (path === '/' || document.querySelector('#be-site-header, .be-home-access')) return;
   const stylesheetHref = '/css/components/home-access.css?v=20260919-2';
   if (!document.querySelector(`link[href="${stylesheetHref}"]`)) {
     const stylesheet = document.createElement('link');

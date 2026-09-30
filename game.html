@@ -60,8 +60,12 @@
     @media(max-width:370px){.status small{font-size:.56rem}.game-actions a,.game-actions span{font-size:.68rem}}
   </style>
 <link rel="stylesheet" href="/css/visual-system.css?v=20260906-1">
+  <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 </head>
 <body class="game-page">
+<!-- shared-site-navigation:start -->
+<!-- Navegação própria da área; aparência definida no CSS compartilhado. -->
+<!-- shared-site-navigation:end -->
   <main id="game-container" aria-label="Jogo Corrida da Hidratação 3D"></main>
   <div id="danger-warning" class="danger-warning" role="status"><span>⚠</span> O marcador está perto!</div>
   <div id="capture-flash" class="capture-flash"><strong><span class="red-card" aria-hidden="true"></span>CARTÃO VERMELHO!</strong></div>
@@ -185,5 +189,6 @@
   <script src="js/vendor/three.min.js?v=20260717-2"></script>
   <script src="js/game.js?v=20260717-2" defer></script>
   <script type="module" src="js/privacy-entry.js?v=20260723-2"></script>
+  <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body>
 </html>

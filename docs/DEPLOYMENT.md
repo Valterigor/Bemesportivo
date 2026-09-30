@@ -1,5 +1,7 @@
 # Publicação
 
+Para guardar versões e retornar a uma publicação anterior, consulte [Versões e restauração](VERSOES-E-RESTAURACAO.md).
+
 ## Site e Pages Functions
 
 O projeto `bemesportivo` usa `wrangler.toml`, executa `npm run build` e publica `dist/`. O diretório `functions/` deve ser incluído como Pages Functions.

@@ -12,15 +12,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="site-common.css?v=20260906-1">
   <link rel="stylesheet" href="css/radar-esportivo.css?v=2">
+  <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 </head>
 <body class="radar-page">
-  <header class="menu">
-    <div class="menu-content">
-      <a href="/" class="logo"><img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo"></a>
-      <nav id="menu" aria-label="Menu principal"><a href="/">Início</a><a href="/radar-esportivo" class="active">Radar BE</a></nav>
-      <div class="menu-actions"><a href="/contato" class="btn-contato">Fale conosco</a></div>
-    </div>
+  <!-- shared-site-navigation:start -->
+<div id="be-site-header" class="be-site-header" data-menu-context="section" data-menu-scroll>
+  <header class="be-site-header-inner">
+    <a class="be-site-brand" href="/" aria-label="Bem Esportivo — início"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="Bem Esportivo" width="2263" height="1937"></a>
+    <nav id="be-site-navigation" aria-label="Menu do Radar SP"><a data-site-link href="/">Início</a><a data-site-link href="/radar-esportivo">Radar SP</a><a data-site-link href="#opportunities-title">Onde praticar</a><a data-site-link href="#contribute-title">Indicar um local</a></nav>
+
   </header>
+</div>
+<!-- shared-site-navigation:end -->
 
   <main>
     <section class="radar-hero" aria-labelledby="radar-title">
@@ -108,7 +111,8 @@
     </section>
   </main>
   <footer class="site-footer"><div class="site-footer-inner"><div class="site-footer-brand"><strong>Bem Esportivo</strong><p>Histórias e caminhos para viver o esporte.</p></div><nav aria-label="Links institucionais"><a href="/sobre">Sobre</a><a href="/contato">Contato</a><a href="/politica-de-privacidade">Privacidade</a></nav><small>© 2026 Bem Esportivo</small></div></footer>
-  <script type="module" src="js/site-common.js?v=20260830-2"></script>
+  <script type="module" src="js/site-common.js?v=20260929-1"></script>
   <script src="js/radar-esportivo.js?v=2" defer></script>
+  <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body>
 </html>

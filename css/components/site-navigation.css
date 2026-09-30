@@ -1,0 +1,90 @@
+/* The home header is the visual reference for every public page. */
+:root { --be-site-header-height: 92px; }
+#be-site-header { position: relative; z-index: 1100; display: block; width: 100%; margin: 0; padding: 0; border: 0; border-bottom: 1px solid #303030; background: #080808; color: #f5f5f5; color-scheme: dark; font: 500 14px/1.4 Inter, system-ui, sans-serif; letter-spacing: normal; text-transform: none; }
+#be-site-header *, #be-site-header *::before, #be-site-header *::after { box-sizing: border-box; }
+#be-site-header .be-site-header-inner { justify-content: flex-start !important; }
+#be-site-header :is(a, summary, span, header, nav) { font-family: Inter, system-ui, sans-serif !important; }
+#be-site-header .be-site-brand img { height: 74px !important; max-height: none !important; }
+#be-site-header .be-site-header-inner { position: relative; display: flex; align-items: center; gap: 50px; width: min(1280px, calc(100% - 64px)); max-width: 1280px; min-height: var(--be-site-header-height); height: auto; margin: 0 auto; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: inherit; }
+#be-site-header a { text-decoration: none; box-shadow: none; text-transform: none; letter-spacing: normal; }
+#be-site-header .be-site-brand { display: inline-flex; align-items: center; flex: 0 0 108px; margin: 0; padding: 0; border: 0; background: transparent; color: #f5f5f5; }
+#be-site-header .be-site-brand img { display: block; width: 86px; height: 74px; max-width: none; margin: 0; padding: 0; border: 0; border-radius: 0; object-fit: contain; }
+#be-site-header #be-site-navigation { position: static; display: flex; align-items: center; justify-content: flex-start; gap: 36px; width: auto; max-width: none; margin: 0; padding: 0; overflow: visible; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+#be-site-header #be-site-navigation > a, #be-site-header summary { display: flex; align-items: center; justify-content: center; min-height: 60px; margin: 0; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; color: #b0b0b0; font: 500 14px/1.4 Inter, system-ui, sans-serif; text-transform: none; white-space: nowrap; cursor: pointer; }
+#be-site-header #be-site-navigation > a:hover, #be-site-header #be-site-navigation > a[aria-current], #be-site-header summary:hover, #be-site-header .has-current > summary { color: #ff8b16; border-bottom-color: #ff8b16; }
+#be-site-header .be-site-more { position: relative; display: block; margin: 0; padding: 0; border: 0; background: transparent; }
+#be-site-header summary { gap: 5px; list-style: none; }
+#be-site-header summary::-webkit-details-marker { display: none; }
+#be-site-header .be-site-more { position: static; }
+#be-site-header .be-site-more-links { position: absolute; right: 0; top: calc(100% - 1px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: min(820px, 100%); max-height: calc(100dvh - 112px); overflow-y: auto; overscroll-behavior: contain; padding: 20px; gap: 16px; border: 1px solid #373737; border-radius: 12px; background: #141414; box-shadow: 0 16px 40px #0005; }
+#be-site-header .be-site-more-links a { display: flex; align-items: center; min-height: 44px; margin: 0; padding: 11px 12px; border: 0; border-radius: 7px; color: #dedede; background: transparent; font: 500 13px/1.4 Inter, system-ui, sans-serif; }
+#be-site-header .be-site-more-links a:hover, #be-site-header .be-site-more-links a[aria-current] { color: #ff8b16; background: #ffffff08; }
+#be-site-header .be-site-menu-group { min-width: 0; }
+#be-site-header .be-site-menu-group > strong { display: block; padding: 4px 12px 12px; color: #ff8b16; font: 700 12px/1.4 Inter, system-ui, sans-serif; }
+#be-site-header .be-site-menu-group a { display: flex; align-items: flex-start; flex-direction: column; gap: 4px; }
+#be-site-header .be-site-menu-group small { color: #a8a8a8; font: 400 11px/1.4 Inter, system-ui, sans-serif; }
+#be-site-header .be-site-menu-about { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; padding-top: 10px; border-top: 1px solid #303030; }
+#be-site-header .be-site-journey { display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex: 0 0 auto; margin-left: auto; padding: 10px 14px; min-height: 44px; border: 1px solid #825123; border-radius: 9px; background: transparent; color: #ff8b16; font: 600 13px/1.4 Inter, system-ui, sans-serif; white-space: nowrap; }
+#be-site-header .be-site-journey:hover, #be-site-header .be-site-journey[aria-current] { background: #24180d; border-color: #ff8b16; }
+#be-site-header :is(a, button, summary):focus-visible { outline: 2px solid #ff8b16; outline-offset: 3px; }
+.be-section-navigation { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 24px; width: min(1280px, calc(100% - 64px)); margin: 0 auto; padding: 14px 0; font: 500 13px/1.4 Inter, system-ui, sans-serif; }
+.be-section-navigation a { color: inherit; text-decoration: none; padding: 8px 0; }
+.home-feed-page .feed-theme-setting { display: flex; justify-content: flex-end; margin-top: 12px; }
+.home-feed-page .feed-theme-setting .home-theme-control { margin-left: 0; }
+#be-site-header[data-menu-scroll] #be-site-navigation { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: #825123 transparent; }
+/* Application menus retain their own controls and layout constraints. */
+#fala-bem-app .fb-app-topbar,
+#fala-bem-app .fb-app-nav,
+#fb-mobile-drawer,
+body .admin-header,
+body.ds-page .ds-header { background: #080808 !important; color: #f5f5f5 !important; border-color: #303030 !important; box-shadow: none !important; font-family: Inter, system-ui, sans-serif !important; }
+body.fala-bem-app-page .fb-app-topbar { border-radius: 0 !important; }
+#fala-bem-app .fb-app-topbar :is(strong, .fb-app-saved-status),
+#fb-mobile-drawer :is(strong, h2, a, button),
+body.ds-page .ds-header :is(a, span) { color: #f5f5f5 !important; }
+#fala-bem-app .fb-app-brand small,
+#fb-mobile-drawer small { color: #b0b0b0 !important; }
+#fala-bem-app .fb-app-topbar-actions button,
+#fb-mobile-drawer a,
+#fb-mobile-drawer button { background: #141414 !important; border-color: #303030 !important; color: #f5f5f5 !important; }
+#fala-bem-app .fb-app-nav > :is(a, button) { background: transparent !important; color: #b0b0b0 !important; border-color: transparent !important; box-shadow: none !important; font-family: Inter, system-ui, sans-serif !important; }
+#fala-bem-app .fb-app-nav > :is(a, button):is(:hover, .active, .is-active, [aria-current]),
+#fb-mobile-drawer :is(a, button):is(:hover, .active, [aria-current]) { color: #ff8b16 !important; border-bottom-color: #ff8b16 !important; }
+body .admin-header img { width: 86px; height: 74px; object-fit: contain; }
+body .admin-header { min-height: 92px; }
+body .admin-header :is(button, .admin-private) { color: #ff8b16; border-color: #825123; }
+body.ds-page .ds-header__inner { min-height: 92px; }
+body.ds-page .ds-brand img { width: 86px; height: 74px; object-fit: contain; }
+.game-page .game-toolbar :is(button, a), .game-page #back-menu { background: #141414 !important; color: #f5f5f5 !important; border-color: #303030 !important; font-family: Inter, system-ui, sans-serif; }
+.game-page .game-toolbar button:hover, .game-page #back-menu:hover { color: #ff8b16 !important; border-color: #ff8b16 !important; }
+@media (max-width: 1050px) {
+  #be-site-header .be-site-header-inner { gap: 25px; }
+  #be-site-header #be-site-navigation { gap: 22px; }
+  #be-site-header .be-site-more { position: static; }
+  #be-site-header .be-site-more-links { left: auto; right: 0; top: 100%; }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  :root { --be-site-header-height: 118px; }
+  #be-site-header .be-site-header-inner { flex-wrap: wrap; column-gap: 20px; row-gap: 0; padding-top: 6px; }
+  #be-site-header .be-site-brand { flex-basis: auto; }
+  #be-site-header .be-site-brand img { width: 70px; height: 60px !important; }
+  #be-site-header #be-site-navigation { order: 2; flex-basis: 100%; justify-content: flex-start; }
+  #be-site-header #be-site-navigation > a, #be-site-header summary { min-height: 52px; }
+  #be-site-header .be-site-journey { order: 1; }
+}
+@media (max-width: 600px) {
+  :root { --be-site-header-height: 108px; }
+  #be-site-header .be-site-header-inner { flex-wrap: wrap; gap: 0; width: calc(100% - 32px); padding-top: 6px; }
+  #be-site-header .be-site-brand { flex-basis: auto; }
+  #be-site-header .be-site-brand img { width: 66px; height: 58px !important; }
+  #be-site-header #be-site-navigation { order: 2; width: 100%; justify-content: space-between; gap: 6px; }
+  #be-site-header .be-site-journey { order: 1; padding: 8px 10px; font-size: 12px; }
+  #be-site-header #be-site-navigation > a, #be-site-header summary { font-size: 12px; min-height: 44px; }
+  #be-site-header .be-site-more-links { width: calc(100vw - 32px); max-height: calc(100dvh - 124px); grid-template-columns: 1fr; padding: 12px; gap: 12px; }
+  #be-site-header .be-site-menu-group { display: grid; grid-template-columns: 1fr 1fr; }
+  #be-site-header .be-site-menu-group > strong { grid-column: 1 / -1; padding-bottom: 6px; }
+  #be-site-header .be-site-more-links a { font-size: 12px; padding: 10px; }
+  body .admin-header img, body.ds-page .ds-brand img { width: 66px; height: 58px; }
+  body .admin-header, body.ds-page .ds-header__inner { min-height: 70px; }
+}
+@media (prefers-reduced-motion: reduce) { #be-site-header * { scroll-behavior: auto; } }

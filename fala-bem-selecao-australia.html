@@ -9,17 +9,19 @@
   <title>Sem um meia armador, o Brasil perde a conversa do jogo | Fala Bem!</title>
   <link rel="stylesheet" href="site-common.css">
   <link rel="stylesheet" href="css/fala-bem-opiniao.css">
+  <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <header class="menu" id="topo">
-    <div class="menu-content">
-      <a class="logo" href="/" aria-label="Bem Esportivo, página inicial"><img src="img/brand/be-logo-refinado-v2.png" alt="Bem Esportivo"></a>
-      <nav id="menu" class="nav-menu" aria-label="Menu principal"></nav>
-      <div class="menu-actions"><a href="/contato" class="btn-contato">Entre em contato</a></div>
-      <button id="menu-toggle" class="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
-    </div>
+  <!-- shared-site-navigation:start -->
+<div id="be-site-header" class="be-site-header" data-menu-context="section" data-menu-scroll>
+  <header class="be-site-header-inner">
+    <a class="be-site-brand" href="/" aria-label="Bem Esportivo — início"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="Bem Esportivo" width="2263" height="1937"></a>
+    <nav id="be-site-navigation" aria-label="Menu da opinião"><a data-site-link href="/">Início</a><a data-site-link href="/fala-bem">Fala Bem!</a><a data-site-link href="#conteudo">Ler opinião</a><a data-site-link href="#comments-title">Comentários</a></nav>
+
   </header>
+</div>
+<!-- shared-site-navigation:end -->
   <main id="conteudo" class="opinion-page">
     <header class="opinion-header">
       <div class="opinion-header__inner">
@@ -72,7 +74,8 @@
     </section>
   </main>
   <footer class="site-footer"><div class="site-footer-inner"><div class="site-footer-brand"><strong>Bem Esportivo</strong><p>Conteúdo esportivo, futebol, opinião, projetos e serviços ligados ao esporte.</p></div><nav aria-label="Links institucionais"><a href="/sobre">Sobre</a><a href="/contato">Contato</a><a href="/politica-de-privacidade">Privacidade</a><a href="/termos">Termos</a></nav><small>© 2026 Bem Esportivo</small></div></footer>
-  <script type="module" src="js/site-common.js?v=20260830-2"></script>
+  <script type="module" src="js/site-common.js?v=20260929-1"></script>
   <script src="js/fala-bem-engagement.js"></script>
+  <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body>
 </html>

@@ -15,8 +15,12 @@
   <link rel="stylesheet" href="css/design-system-showcase.css?v=20260906-1">
 <link rel="stylesheet" href="/css/visual-system.css?v=20260906-1">
   <script type="module" src="/js/home-access-entry.js?v=20260919-2"></script>
+  <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 </head>
 <body class="ds-page">
+<!-- shared-site-navigation:start -->
+<!-- Navegação própria da área; aparência definida no CSS compartilhado. -->
+<!-- shared-site-navigation:end -->
   <header class="ds-header">
     <div class="ds-shell ds-header__inner">
       <a class="ds-brand" href="/" aria-label="Voltar ao BeMEsportivo">
@@ -199,5 +203,6 @@
     document.getElementById('open-demo-modal').addEventListener('click', () => modal.showModal());
     document.querySelectorAll('[data-close-modal]').forEach(button => button.addEventListener('click', () => modal.close()));
   </script>
+  <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body>
 </html>

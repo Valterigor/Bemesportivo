@@ -36,43 +36,18 @@
 <link rel="stylesheet" href="css/mobile-typography.css?v=20260906-1">
 <link rel="stylesheet" href="css/readability.css?v=20260906-1">
 <link rel="stylesheet" href="/css/visual-system.css?v=20260906-1">
+  <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 </head>
 <body class="beplay-page">
-<header class="site-menu" id="topo">
-  <div class="site-menu-content">
-    <a class="site-logo" href="/" aria-label="Bem Esportivo">
-      <img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
-    </a>
-    <nav id="siteNav" class="site-nav" aria-label="Menu principal">
-<a href="/">Início</a>
-<a href="/#posts">Posts</a>
-<a href="/reportagens">Reportagens</a>
-<a href="/meu-caminho-be">Meu Caminho Be</a>
-<a href="/#treinos">Treinos</a>
-<a href="/beplay" class="active">BEplay</a>
-<a href="/profissionais">Profissionais</a>
-<a href="/produtos">Produtos</a></nav>
-    <a class="site-contact" href="/contato">Entre em contato</a>
-    <button class="site-menu-btn" id="siteMenuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="siteNav">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </div>
-</header>
+<!-- shared-site-navigation:start -->
+<div id="be-site-header" class="be-site-header" data-menu-context="section" data-menu-scroll>
+  <header class="be-site-header-inner">
+    <a class="be-site-brand" href="/" aria-label="Bem Esportivo — início"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="Bem Esportivo" width="2263" height="1937"></a>
+    <nav id="be-site-navigation" aria-label="Menu do BePlay"><a data-site-link href="/">Início</a><a data-site-link href="#videos">Assistir</a><a data-site-link href="#relatedVideos">Playlist</a><a data-site-link href="#opinioes">Comentários</a><a data-site-link href="#perfil">Minha lista</a></nav>
 
-<header class="topbar">
-  <div class="brand-kicker">
-    <span>BEPlay</span>
-    <strong>Plataforma de vídeos</strong>
-  </div>
-  <nav class="topnav" aria-label="Navegação principal">
-    <a class="is-active" href="#inicio">Início</a>
-    <a href="#videos">Vídeos</a>
-    <a href="#relatedVideos">Playlist</a>
-    <a href="#perfil">Perfil</a>
-  </nav>
-</header>
+  </header>
+</div>
+<!-- shared-site-navigation:end -->
 
 <main class="app-shell" id="inicio">
   <section class="beplay-intro" aria-labelledby="beplayTitle">
@@ -208,7 +183,8 @@
 
 <div class="toast" id="pageToast" role="status" aria-live="polite"></div>
 
-<script type="module" src="js/site-common.js?v=20260816-1"></script>
+<script type="module" src="js/site-common.js?v=20260929-1"></script>
 <script src="js/beplay.js?v=20260813-2" defer></script>
+  <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body>
 </html>

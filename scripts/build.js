@@ -70,7 +70,12 @@ for (const [slug, sourceFile] of Object.entries(reportRoutes)) {
   fs.copyFileSync(path.join(rootDir, sourceFile), path.join(routeDirectory, 'index.html'));
 }
 
+let revision = process.env.CF_PAGES_COMMIT_SHA || null;
+if (!revision) {
+  try { revision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: rootDir, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim(); } catch { /* Builds from source archives may not have Git metadata. */ }
+}
 fs.writeFileSync(path.join(distDir, 'build-manifest.json'), `${JSON.stringify({
+  revision,
   generatedAt: new Date().toISOString(),
   deployment: 'cloudflare-pages',
   pages,

@@ -27,36 +27,19 @@
 <link rel="stylesheet" href="css/mobile-typography.css?v=20260906-1">
 <link rel="stylesheet" href="css/readability.css?v=20260906-1">
 <link rel="stylesheet" href="/css/visual-system.css?v=20260906-1">
+  <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 </head>
 <body class="professionals-page">
 
-<header class="menu">
-<div class="menu-content">
-<a href="/" class="logo">
-<img src="img/Bem Esportivo Logo Laranja@33x.png" alt="Bem Esportivo">
-</a>
+<!-- shared-site-navigation:start -->
+<div id="be-site-header" class="be-site-header" data-menu-context="section" data-menu-scroll>
+  <header class="be-site-header-inner">
+    <a class="be-site-brand" href="/" aria-label="Bem Esportivo — início"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="Bem Esportivo" width="2263" height="1937"></a>
+    <nav id="be-site-navigation" aria-label="Menu de profissionais"><a data-site-link href="/">Início</a><a data-site-link href="#como-funciona">Como funciona</a><a data-site-link href="#profissionais">Encontrar apoio</a><a data-site-link href="/contato">Contato</a></nav>
 
-<nav id="menu" aria-label="Menu principal">
-<a href="/">Início</a>
-<a href="/#posts">Posts</a>
-<a href="/reportagens">Reportagens</a>
-<a href="/meu-caminho-be">Meu Caminho Be</a>
-<a href="/#treinos">Treinos</a>
-<a href="/beplay">BEplay</a>
-<a href="/profissionais" class="active">Profissionais</a>
-<a href="/produtos">Produtos</a></nav>
-
-<div class="menu-actions">
-<a href="/contato" class="btn-contato">Fale conosco</a>
+  </header>
 </div>
-
-<button id="menu-toggle" class="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
-<span></span>
-<span></span>
-<span></span>
-</button>
-</div>
-</header>
+<!-- shared-site-navigation:end -->
 
 <main>
 <section class="hero" aria-labelledby="professionals-hero-title">
@@ -166,8 +149,9 @@ ORIENTAÇÃO PARA CADA CAMINHO
 </div>
 </footer>
 
-<script type="module" src="js/site-common.js?v=20260830-2"></script>
+<script type="module" src="js/site-common.js?v=20260929-1"></script>
 <script src="js/profissionais.js?v=20260823-2" defer></script>
 
+  <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body>
 </html>

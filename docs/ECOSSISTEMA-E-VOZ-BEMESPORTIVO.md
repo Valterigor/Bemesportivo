@@ -20,12 +20,14 @@ Não existe um único percurso obrigatório. A Home identifica a necessidade exp
                        experiência pessoal
 ```
 
-A Home apresenta as áreas do ecossistema sem assumir o papel de painel pessoal. Sua abertura preserva esta ordem:
+A Home apresenta as áreas do ecossistema sem assumir o papel de painel pessoal. Após a revisão solicitada em setembro de 2026, sua abertura segue esta ordem:
 
 1. **Busca Be** — recebe, em linguagem natural, o que a pessoa procura e indica um destino real do site.
-2. **Produtos do ecossistema** — explica a função de cada área sem criar hierarquia artificial entre elas.
-3. **Meu Caminho Be** — apresenta a experiência pessoal de registro e acompanhamento.
-4. **Conteúdo e demais produtos** — oferece reportagens, vídeos, ferramentas, profissionais e outras possibilidades.
+2. **Atalhos das áreas** — imagens circulares com nomes e uma descrição curta da função.
+3. **Feed editorial e de prática** — reportagens, vídeos e opinião; depois Radar SP, conhecimento e profissionais; em seguida diário, moda e acervo.
+4. **Ferramentas** — acessos diretos às referências de prática, também disponíveis nos atalhos e no menu Explorar.
+
+Meu Caminho Be permanece um destino do ecossistema, com acesso direto no cabeçalho da home para quem retorna. A justificativa e as limitações desta avaliação estão na [revisão de UX da home e navegação](UX-NAVEGACAO-HOME-2026-09.md).
 
 ## Função de cada produto
 
@@ -44,18 +46,11 @@ Capas e imagens editoriais aprovadas não devem ser substituídas durante ajuste
 
 ## Navegação pública oficial
 
-O menu principal, na mesma ordem em todas as páginas públicas, é:
+O padrão compartilhado é **visual**, conforme a orientação do responsável pelo site: fundo preto, logo, tipografia, espaçamento e destaques laranja da home. O conteúdo do menu pertence a cada área.
 
-1. Início;
-2. Meu Caminho Be;
-3. Perfil do atleta;
-4. Game 3D;
-5. Reportagens;
-6. BEplay;
-7. Profissionais;
-8. Produtos.
+Na home: Início, Reportagens, BePlay, Fala Bem!, Explorar e acesso direto ao Meu Caminho Be. No BePlay: assistir, playlist, comentários e lista pessoal. Em Moda Fitness: conceito, editorial e catálogo. Nas reportagens: leitura, relacionadas e comentários. Diário, jogo e administração mantêm seus próprios controles.
 
-`js/core/routes.js` é a fonte compartilhada desse menu. A Home mantém sua apresentação própria, mas deve respeitar o mesmo conteúdo e a mesma ordem. Se um item mudar, o teste funcional precisa ser atualizado para impedir divergência entre páginas.
+`js/core/routes.js` define a navegação contextual. `npm run navigation:sync` aplica o modelo e `npm run navigation:check` verifica consistência e âncoras. Não repetir o menu da home em outras áreas para padronizar a aparência.
 
 ## Papel de cada ambiente
 
