@@ -1,3 +1,4 @@
+const { enterDiary } = require('./helpers/diary-entry');
 const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 
@@ -54,6 +55,7 @@ for (const viewport of VIEWPORTS) {
       page.on('response', onResponse);
 
       const response = await page.goto(route, { waitUntil: 'domcontentloaded', timeout: 10_000 });
+      await enterDiary(page);
       await page.waitForTimeout(120);
       const health = await page.evaluate(() => {
         const visible = element => {
@@ -148,6 +150,7 @@ test('links internos visiveis respondem e apontam para secoes existentes', async
 
   for (const route of ROUTES) {
     await page.goto(route, { waitUntil: 'domcontentloaded', timeout: 10_000 });
+      await enterDiary(page);
     const currentPath = new URL(page.url()).pathname;
     const links = await page.locator('a[href]').evaluateAll(elements => elements
       .filter(element => {

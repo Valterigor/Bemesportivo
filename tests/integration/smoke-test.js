@@ -477,7 +477,7 @@ async function run() {
     assert.match(pathHtml, /aria-label="Próximos passos após usar uma ferramenta"[\s\S]*?data-fb-view="dicas">Dicas práticas<\/button>[\s\S]*?data-fb-view="especialistas">Ver profissionais<\/button>/, 'O primeiro próximo passo de Ferramentas precisa abrir somente Dicas práticas.');
     assert.match(pathHtml, /class="be-journey-switcher"[\s\S]*?data-fb-view="progresso"[\s\S]*?data-fb-view="evolucao"[\s\S]*?data-fb-view="explorar"/, 'Diário, Evolução e História precisam permanecer dentro da Jornada.');
     assert.match(pathHtml, /id="be-profile-onboarding"[\s\S]*Seu acesso[\s\S]*Seu Perfil Be[\s\S]*Primeiro registro/, 'O primeiro acesso precisa explicar a criação do acesso, do perfil e do primeiro registro.');
-    assert.match(pathHtml, /<h2 id="be-profile-onboarding-title">Bem-vindo ao Meu diário Be\.<\/h2>[\s\S]*seu nome, sua atividade principal e um pequeno resumo/, 'O diário precisa apresentar sua proposta e explicar as três informações do cadastro inicial.');
+    assert.match(pathHtml, /<h1 id="be-profile-onboarding-title">Bem-vindo ao Meu diário Be\.<\/h1>[\s\S]*seu nome, sua atividade principal e um pequeno resumo/, 'O diário precisa apresentar sua proposta e explicar as três informações do cadastro inicial.');
     assert.doesNotMatch(pathHtml, /id="journey-name"/, 'O Mapa BeM não deve perguntar novamente o nome já salvo no Perfil Be.');
     assert.match(pathHtml, /data-step-indicator="1"[^>]*>[\s\S]*Perfil Be/, 'O Mapa BeM precisa reconhecer o Perfil Be como etapa concluída.');
     assert.equal((pathHtml.match(/class="fb-section-actions(?:\s[^"]*)?"/g) || []).length, 5, 'Jornada, perfil, ferramentas, conteúdos e profissionais precisam oferecer próximos passos contextuais.');

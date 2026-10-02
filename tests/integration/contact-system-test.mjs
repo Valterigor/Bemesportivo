@@ -22,7 +22,8 @@ const contactHtml = read('contato.html');
 const privacyHtml = read('politica-de-privacidade.html');
 const contactScript = read('js/contact-form.js');
 const wranglerConfig = read('wrangler.toml');
-for (const html of [homeHtml, contactHtml]) {
+assert.match(homeHtml, /href="\/contato"/, 'A home mantém o acesso à página de contato.');
+for (const html of [contactHtml]) {
   assert.match(html, /data-contact-whatsapp href="https:\/\/wa\.me\/5511986366965"/);
   assert.match(html, /Prefere e-mail\?[\s\S]*bemesportivo@yahoo\.com/);
   assert.doesNotMatch(html, /data-contact-form|contact-form\.js/, 'Contato geral deve abrir WhatsApp sem envio automatico de e-mail.');

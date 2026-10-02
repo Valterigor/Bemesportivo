@@ -1,3 +1,4 @@
+const { enterDiary } = require('./helpers/diary-entry');
 const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 
@@ -71,6 +72,7 @@ test('todas as páginas preservam o layout ao reduzir e ampliar a janela', async
   for (const route of ROUTES) {
     await page.setViewportSize(RESIZE_CYCLE[0]);
     await page.goto(route, { waitUntil: 'domcontentloaded', timeout: 10_000 });
+      await enterDiary(page);
 
     for (const viewport of RESIZE_CYCLE.slice(1)) {
       await page.setViewportSize(viewport);

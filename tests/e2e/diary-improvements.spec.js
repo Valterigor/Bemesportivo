@@ -1,3 +1,4 @@
+const { enterDiary } = require('./helpers/diary-entry');
 const { test, expect } = require('@playwright/test');
 
 test('weekly summary, repeat activity and photo backup round trip', async ({ page }) => {
@@ -12,6 +13,7 @@ test('weekly summary, repeat activity and photo backup round trip', async ({ pag
     ]));
   });
   await page.goto('/meu-caminho-be', { waitUntil: 'domcontentloaded' });
+  await enterDiary(page);
   await expect(page.locator('#be-weekly-summary')).toContainText('1 dia nesta semana: 30 min');
   // Exercise the handlers independently of the welcome overlay.
   await page.evaluate(() => document.getElementById('be-repeat-last').click());

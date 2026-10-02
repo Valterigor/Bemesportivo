@@ -1,0 +1,23 @@
+/* Scoped corrections for interior pages; never loaded by the home or diary. */
+body.beplay-page .brand-kicker span,
+body.radar-page .eyebrow { color: #934300 !important; }
+body.reportagens-listing-page .report-path-bridge a { color: #20170d !important; }
+body.fala-opinion-page .eyebrow--orange { color: #934000 !important; }
+body.fala-opinion-page .fala-button { color: #17110b !important; }
+body.fala-opinion-page .fala-callout .eyebrow { color: #492000 !important; }
+body.fala-opinion-page #comment-count { color: #514940 !important; }
+body.fala-opinion-page .opinion-card > span { color: #6b6056; }
+body.fala-opinion-page .opinion-card--dark > span { color: #ded7d0; }
+body.fala-opinion-page .opinion-card--image { background: #171717 !important; }
+body.fala-opinion-page .opinion-card--image > span { z-index: 2; color: #fff; }
+body.fala-opinion-page .opinion-card--image h3 { color: #fff !important; }
+body.fala-opinion-page .opinion-card--image .opinion-card__tag { color: #ffbd7a !important; }
+body.fala-opinion-page .opinion-card h3 { line-height: 1.18; }
+body.fala-opinion-page :is(.comment-form input,.comment-form textarea) { font-size: 16px; }
+body.fala-opinion-page :is(a,button,input,textarea):focus-visible { outline: 3px solid #9b4700; outline-offset: 4px; }
+body.fala-opinion-page .skip-link { position: absolute; top: 8px; left: 8px; z-index: 1000; padding: 12px 16px; background: #fff; color: #171717; border-radius: 6px; transform: translateY(-160%); }
+body.fala-opinion-page .skip-link:focus { transform: translateY(0); }
+@media (max-width: 520px) {
+  body.fala-opinion-page .fala-wrap { width: calc(100% - 32px); }
+  body.fala-opinion-page .fala-button { min-height: 44px; }
+}

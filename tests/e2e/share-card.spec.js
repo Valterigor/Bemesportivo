@@ -1,9 +1,11 @@
+const { enterDiary } = require('./helpers/diary-entry');
 const { test, expect } = require('@playwright/test');
 
 test.use({ serviceWorkers: 'block' });
 
 test('gera imagens adaptadas para Instagram e WhatsApp', async ({ page }) => {
   await page.goto('/meu-caminho-be', { waitUntil: 'domcontentloaded' });
+  await enterDiary(page);
   await expect.poll(() => page.evaluate(() => Boolean(window.BeShareCard))).toBe(true);
   const dimensions = await page.evaluate(async () => {
     const input = {
@@ -31,6 +33,7 @@ test('gera imagens adaptadas para Instagram e WhatsApp', async ({ page }) => {
 
 test('gera cartão social próprio para o perfil esportivo', async ({ page }) => {
   await page.goto('/meu-caminho-be', { waitUntil: 'domcontentloaded' });
+  await enterDiary(page);
   await expect.poll(() => page.evaluate(() => Boolean(window.BeShareCard))).toBe(true);
   const dimensions = await page.evaluate(async () => {
     const result = {};
@@ -55,6 +58,7 @@ test('gera cartão social próprio para o perfil esportivo', async ({ page }) =>
 test('seletor de compartilhamento se adapta ao celular', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 700 });
   await page.goto('/meu-caminho-be', { waitUntil: 'domcontentloaded' });
+  await enterDiary(page);
   await page.evaluate(() => window.BeShareCard.open({
     post: { id: 'teste', title: 'Meu treino', text: 'Um momento no esporte.' },
     profile: { name: 'Pessoa esportista' }

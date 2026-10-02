@@ -1,10 +1,9 @@
+const { enterDiary } = require('./helpers/diary-entry');
 const { test, expect } = require('@playwright/test');
 
 test.use({ serviceWorkers: 'block' });
 async function openDiary(page, view) {
-  await page.locator('#be-diary-cover').click();
-  await page.locator('#be-diary-welcome-continue').click();
-  await expect(page.locator('#be-diary-welcome')).toBeHidden();
+  await enterDiary(page);
   await page.evaluate(view => window.falaBemOpenView(view), view);
 }
 test.beforeEach(async ({ page }) => {
@@ -32,6 +31,7 @@ test('private post preview explains audience without publishing', async ({ page 
   let publications = 0;
   await page.route('**/api/public-profiles/publish', route => { publications += 1; return route.abort(); });
   await page.goto('/meu-caminho-be/perfil');
+  await enterDiary(page);
   await openDiary(page, 'perfil');
   await page.locator('#be-profile-create-post').click();
   await page.locator('#be-public-compose-text').fill('Minha primeira caminhada no parque.');
@@ -60,6 +60,7 @@ test('owner can pin and unpin a public moment', async ({ page }) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(payload) });
   });
   await page.goto('/meu-caminho-be/perfil');
+  await enterDiary(page);
   await openDiary(page, 'perfil');
   const pin = page.locator('[data-be-public-pin="moment-1"]');
   await expect(pin).toHaveText('Fixar no perfil');

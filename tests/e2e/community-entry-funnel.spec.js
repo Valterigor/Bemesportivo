@@ -1,3 +1,4 @@
+const { enterDiary } = require('./helpers/diary-entry');
 const { test, expect } = require('@playwright/test');
 
 test.use({ serviceWorkers: 'block' });
@@ -19,9 +20,10 @@ test('visitante começa pelo Perfil Be com o registro preservado como destino', 
   const cta = page.locator('#be-home-path-cta');
   await expect(cta).toContainText('Registrar minha atividade');
   await cta.click();
+  await enterDiary(page);
 
-  await expect(page).toHaveURL(/\/meu-caminho-be\/registrar$/);
-  await expect(page.getByRole('heading', { name: 'Crie um perfil com a sua identidade.' })).toBeVisible();
+  await expect(page).toHaveURL(/\/meu-caminho-be\/perfil$/);
+  await expect(page.getByRole('heading', { name: 'Bem-vindo ao Meu diário Be.' })).toBeVisible();
   await expect.poll(() => page.evaluate(() => sessionStorage.getItem('meuCaminhoBePendingRegistrationV1'))).toBe('registrar');
 });
 
@@ -43,6 +45,7 @@ test('perfil pronto vai direto ao registro e recebe o card após salvar', async 
   const cta = page.locator('#be-home-path-cta');
   await expect(cta).toContainText('Registrar minha atividade');
   await cta.click();
+  await enterDiary(page);
 
   await expect(page).toHaveURL(/\/meu-caminho-be\/registrar$/);
   await expect(page.locator('[data-fb-panel="registrar"]')).toBeVisible();
@@ -68,7 +71,10 @@ test('primeiro acesso registra sem Mapa BeM e reencontra sua mensagem ao voltar'
   }, consent);
   await page.goto('/');
   await page.locator('#be-home-path-cta').click();
+  await enterDiary(page);
   await page.locator('#fb-profile-name').fill('Ana');
+  await page.locator('#fb-profile-sport').selectOption('corrida');
+  await page.locator('#fb-profile-story').fill('Estou começando a correr e quero guardar meus treinos.');
   await page.locator('#fb-profile-save').click();
   await expect(page.locator('[data-fb-panel="registrar"]')).toBeVisible();
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('meuCaminhoBeProfileV1')).objective)).toBeFalsy();
@@ -82,6 +88,7 @@ test('primeiro acesso registra sem Mapa BeM e reencontra sua mensagem ao voltar'
   await page.locator('#be-recognition-done').click();
   await expect(dialog).not.toBeVisible();
   await page.reload();
+  await enterDiary(page);
   await expect(page.locator('[data-fb-panel="registrar"] [data-recognition-message]')).toHaveText(phrase);
   await expect(dialog).not.toBeVisible();
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('meuCaminhoBeDiaryV1')).length)).toBe(1);
@@ -98,6 +105,7 @@ test('falha ao guardar não apresenta recompensa nem perde o formulário', async
     };
   }, consent);
   await page.goto('/meu-caminho-be/registrar');
+  await enterDiary(page);
   await page.locator('[data-fb-panel="registrar"] [data-be-new-entry]').click();
   await page.locator('#be-entry-duration').fill('15');
   await page.locator('#be-entry-form button[type="submit"]').click();

@@ -930,6 +930,16 @@ function openViewFromRoute() {
 }
 
 window.falaBemOpenView = openView;
+// Preserve the requested destination after the existing cover and welcome finish.
+// The opening itself keeps its markup, sound, animation and controls unchanged.
+const diaryEntryUrl = new URL(location.href);
+window.addEventListener('meuDiarioBe:opened', () => {
+  const legacyRoute = diaryEntryUrl.searchParams.get('tela');
+  const destination = legacyViewForRoute[legacyRoute] || viewFromAppPath(diaryEntryUrl.pathname);
+  if (destination && destination !== 'inicio') {
+    openView(destination, { scroll: false, instant: true });
+  }
+}, { once: true });
 window.falaBemOpenTarget = target => {
   const targetViews = {
     'minha-jornada': 'jornada', trilhas: 'trilhas', ferramentas: 'ferramentas',
@@ -4086,7 +4096,13 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
   });
   showCelebration(interaction.title, interaction.message, { detail: interaction.detail });
   if (wasIdentityPending && hasProfileIdentity()) {
+    let continueRegistration = false;
+    try { continueRegistration = sessionStorage.getItem(PENDING_REGISTRATION_KEY) === 'registrar'; } catch {}
     try { sessionStorage.removeItem(PENDING_REGISTRATION_KEY); } catch {}
+    if (continueRegistration) {
+      openView('registrar');
+      return;
+    }
     openView('perfil');
     const ready = document.getElementById('be-profile-ready');
     if (ready) ready.hidden = false;
