@@ -1,10 +1,11 @@
 const videos=[
-  {id:'o-esporte-comeca-nas-pessoas',type:'local',kind:'institutional',src:'videos/beplay-o-esporte-comeca-nas-pessoas.mp4',poster:'img/3.jpeg',title:'O esporte começa com pessoas',duration:'9 segundos',views:'Filme institucional',date:'Manifesto BeMEsportivo',category:'Institucional',highlight:'Manifesto BeMEsportivo',desc:'Diferentes modalidades, uma mesma essência: o esporte nasce quando alguém decide participar.'},
+  {id:'o-esporte-comeca-nas-pessoas',type:'local',kind:'institutional',src:'videos/beplay-o-esporte-comeca-nas-pessoas.mp4',poster:'img/beplay-capas/pessoas-v1.webp',title:'O esporte começa com pessoas',duration:'9 segundos',views:'Filme institucional',date:'Manifesto BeMEsportivo',category:'Institucional',highlight:'Manifesto BeMEsportivo',desc:'Diferentes modalidades, uma mesma essência: o esporte nasce quando alguém decide participar.'},
+  {id:'thais-garcez-relato',type:'local',src:'/img/Thais%20Garcez/thais-garcez-relato-audio-v2.mp4',poster:'img/beplay-capas/thais-v1.webp',title:'Uma mensagem de Thais Garcez para você',duration:'45 segundos',views:'Relato de Thais Garcez',date:'Da reportagem: uma nova versão',category:'História',highlight:'Transformação e constância',desc:'Um convite de Thais Garcez para acreditar na mudança, dar o primeiro passo e continuar mesmo quando o caminho parecer difícil.'},
   {
     id:'treino-agilidade-futebol',
     type:'local',
     src:'videos/treino-agilidade-futebol.mp4',
-    poster:'img/beplay-treino-agilidade-futebol.jpg',
+    poster:'img/beplay-capas/agilidade-v1.webp',
     title:'Resultado não acontece por acaso',
     duration:'28 segundos',
     views:'Novo no BEPlay',
@@ -32,7 +33,7 @@ Porque os grandes resultados são construídos um treino de cada vez. 🧡💪
     id:'treino-forca-performance',
     type:'local',
     src:'videos/treino-forca-performance.mp4',
-    poster:'img/beplay-treino-forca-performance.jpg',
+    poster:'img/beplay-capas/forca-v1.webp',
     title:'Treine por você. Sua saúde agradece.',
     duration:'11 segundos',
     views:'Novo no BEPlay',
@@ -52,9 +53,9 @@ Treine por você. Sua saúde agradece. 🧡💪
 
 #BemEsportivo #Saúde #Treino #Motivação #Disciplina #QualidadeDeVida`
   },
-  {id:'gBkon6LC2OU',title:'Treino técnico e tático',duration:'6min 18s',views:'8,7 mil visualizações',date:'Publicado ontem',category:'Treino',highlight:'Evolução de jogo',desc:'Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.'},
-  {id:'Qi1lRW18kvM',title:'Duda e o futebol',duration:'5min 02s',views:'6,1 mil visualizações',date:'Publicado nesta semana',category:'História',highlight:'Trajetória no futebol',desc:'História, bastidor e inspiração para quem acompanha o futebol por dentro.'},
-  {id:'dYiX4fvxGG8',title:'Futebol e areia',duration:'7min 33s',views:'9,4 mil visualizações',date:'Publicado nesta semana',category:'Performance',highlight:'Modalidades e preparo',desc:'A importância de diferentes modalidades na evolução física e técnica.'}
+  {id:'gBkon6LC2OU',poster:'img/beplay-capas/tatico-v1.webp',title:'Treino técnico e tático',duration:'6min 18s',views:'8,7 mil visualizações',date:'Publicado ontem',category:'Treino',highlight:'Evolução de jogo',desc:'Leitura de jogo, ocupação de espaços e ajustes técnicos para evoluir em campo.'},
+  {id:'Qi1lRW18kvM',poster:'img/beplay-capas/duda-v1.webp',title:'Duda e o futebol',duration:'5min 02s',views:'6,1 mil visualizações',date:'Publicado nesta semana',category:'História',highlight:'Trajetória no futebol',desc:'História, bastidor e inspiração para quem acompanha o futebol por dentro.'},
+  {id:'dYiX4fvxGG8',poster:'img/beplay-capas/areia-v1.webp',title:'Futebol e areia',duration:'7min 33s',views:'9,4 mil visualizações',date:'Publicado nesta semana',category:'Performance',highlight:'Modalidades e preparo',desc:'A importância de diferentes modalidades na evolução física e técnica.'}
 ];
 
 let currentVideo=videos[0];
@@ -111,7 +112,7 @@ function getYoutubeEmbedUrl(video, autoplay=false){
 }
 
 function getVideoThumbnail(video){
-  return video.type==='local' ? video.poster : `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+  return video.poster || `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
 }
 
 function getInternalVideoUrl(video=currentVideo){
@@ -131,6 +132,9 @@ function prepareLocalVideo(video){
   const localPlayer=document.getElementById('localPlayer');
   if(localPlayer.dataset.videoId!==video.id){
     localPlayer.pause();
+    localPlayer.defaultMuted=false;
+    localPlayer.muted=false;
+    localPlayer.volume=1;
     localPlayer.dataset.videoId=video.id;
     localPlayer.src=video.src;
     localPlayer.poster=video.poster||'';

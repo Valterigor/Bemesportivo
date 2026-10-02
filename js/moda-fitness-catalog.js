@@ -10,26 +10,10 @@ window.FASHION_CATALOG = [
   {
     "category": "azul",
     "categoryLabel": "Azul",
-    "src": "/img/moda-fitness/catalogo/azul-002.webp",
-    "width": 1024,
-    "height": 1536,
-    "alt": "Heloísa Gouvea veste look fitness azul — foto 2"
-  },
-  {
-    "category": "azul",
-    "categoryLabel": "Azul",
     "src": "/img/moda-fitness/catalogo/azul-003.webp",
     "width": 1024,
     "height": 1536,
     "alt": "Heloísa Gouvea veste look fitness azul — foto 3"
-  },
-  {
-    "category": "azul",
-    "categoryLabel": "Azul",
-    "src": "/img/moda-fitness/catalogo/azul-004.webp",
-    "width": 1024,
-    "height": 1536,
-    "alt": "Heloísa Gouvea veste look fitness azul — foto 4"
   },
   {
     "category": "azul",
@@ -42,26 +26,10 @@ window.FASHION_CATALOG = [
   {
     "category": "azul",
     "categoryLabel": "Azul",
-    "src": "/img/moda-fitness/catalogo/azul-006.webp",
-    "width": 1024,
-    "height": 1536,
-    "alt": "Heloísa Gouvea veste look fitness azul — foto 6"
-  },
-  {
-    "category": "azul",
-    "categoryLabel": "Azul",
     "src": "/img/moda-fitness/catalogo/azul-007.webp",
     "width": 1024,
     "height": 1536,
     "alt": "Heloísa Gouvea veste look fitness azul — foto 7"
-  },
-  {
-    "category": "azul",
-    "categoryLabel": "Azul",
-    "src": "/img/moda-fitness/catalogo/azul-008.webp",
-    "width": 1024,
-    "height": 1536,
-    "alt": "Heloísa Gouvea veste look fitness azul — foto 8"
   },
   {
     "category": "azul",
@@ -130,14 +98,6 @@ window.FASHION_CATALOG = [
   {
     "category": "azul",
     "categoryLabel": "Azul",
-    "src": "/img/moda-fitness/catalogo/azul-017.webp",
-    "width": 1200,
-    "height": 1800,
-    "alt": "Heloísa Gouvea veste look fitness azul — foto 17"
-  },
-  {
-    "category": "azul",
-    "categoryLabel": "Azul",
     "src": "/img/moda-fitness/catalogo/azul-018.webp",
     "width": 1200,
     "height": 1800,
@@ -166,14 +126,6 @@ window.FASHION_CATALOG = [
     "width": 1200,
     "height": 1800,
     "alt": "Heloísa Gouvea veste look fitness azul — foto 21"
-  },
-  {
-    "category": "azul",
-    "categoryLabel": "Azul",
-    "src": "/img/moda-fitness/catalogo/azul-022.webp",
-    "width": 1200,
-    "height": 1800,
-    "alt": "Heloísa Gouvea veste look fitness azul — foto 22"
   },
   {
     "category": "azul",
@@ -390,14 +342,6 @@ window.FASHION_CATALOG = [
     "width": 1024,
     "height": 1536,
     "alt": "Heloísa Gouvea veste look fitness roxa / lilás — foto 2"
-  },
-  {
-    "category": "roxa-lilas",
-    "categoryLabel": "Roxa / lilás",
-    "src": "/img/moda-fitness/catalogo/roxa-lilas-003.webp",
-    "width": 1024,
-    "height": 1536,
-    "alt": "Heloísa Gouvea veste look fitness roxa / lilás — foto 3"
   },
   {
     "category": "roxa-lilas",

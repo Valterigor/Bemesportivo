@@ -48,8 +48,7 @@
   document.querySelector('#clear-filters').addEventListener('click', () => {
     region.value = 'todos';
     interest.value = 'todos';
-    list.hidden = true;
-    empty.hidden = true;
-    count.textContent = 'Use os filtros e clique em Buscar oportunidades para ver os locais.';
+    update();
   });
+  update();
 })();

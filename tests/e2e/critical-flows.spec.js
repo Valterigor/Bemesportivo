@@ -592,7 +592,7 @@ test('Profissionais orienta a escolha e preserva busca, perfil e contato no resp
 
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/profissionais');
-  await expect(page.getByRole('heading', { name: 'Encontre quem pode ajudar no seu próximo passo.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Profissionais do esporte' })).toBeVisible();
   await expect(page.locator('.card')).toHaveCount(4);
 
   await page.getByRole('button', { name: /Quero cuidar da mente/ }).click();

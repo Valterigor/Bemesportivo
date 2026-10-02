@@ -1,0 +1,40 @@
+/* Only the diary's Hoje panel, after the original opening screens. */
+body.fala-bem-app-page.fb-view-inicio .be-product-showcase { min-height: 0 !important; padding: 28px 32px !important; border-radius: 16px !important; }
+body.fala-bem-app-page.fb-view-inicio .be-product-showcase .be-showcase-copy { padding: 0 !important; }
+body.fala-bem-app-page.fb-view-inicio .be-product-showcase h1 { max-width: 580px !important; margin: 10px 0 16px !important; font-size: clamp(25px,3vw,34px) !important; line-height: 1.15 !important; }
+body.fala-bem-app-page.fb-view-inicio .be-product-showcase :is(ul,.be-showcase-sequence) { display: none !important; }
+body.fala-bem-app-page .be-diary-home #be-dashboard-since { display: none; }
+body.fala-bem-app-page .be-diary-home .be-home-actions { color: #202020; }
+body.fala-bem-app-page .be-diary-home .be-home-action-secondary button { color: #202020 !important; grid-template-columns: 32px 1fr; gap: 8px; }
+body.fala-bem-app-page .be-diary-home .be-home-action-secondary button > span { width: 32px; height: 32px; color: #914300; background: #fff3e2; }
+body.fala-bem-app-page .fb-app-panel[data-fb-panel="inicio"] .be-diary-home { padding: 24px; gap: 24px; }
+body.fala-bem-app-page .be-diary-home .be-dashboard-overview { padding: 0; border: 0; background: transparent; box-shadow: none; }
+body.fala-bem-app-page .be-diary-home .be-dashboard-overview > header { padding: 0 0 20px; border-bottom: 1px solid #e2ddd5; background: transparent; }
+body.fala-bem-app-page .be-diary-home #be-dashboard-greeting { font-size: clamp(26px,3vw,34px) !important; line-height: 1.2 !important; }
+body.fala-bem-app-page .be-diary-home #be-dashboard-since { font-size: 13px !important; color: #69615a !important; }
+body.fala-bem-app-page .be-diary-home .be-home-actions { margin-top: 20px; padding: 0; border: 0; background: transparent; box-shadow: none; }
+body.fala-bem-app-page .be-diary-home #be-diary-home-title { font-size: 22px !important; line-height: 1.25 !important; margin: 0 0 16px; }
+body.fala-bem-app-page .be-diary-home .be-home-action-primary { min-height: 100px; padding: 22px; border: 1px solid #ff8b16 !important; border-radius: 14px; background: #ff8b16 !important; color: #17100a !important; box-shadow: none; }
+body.fala-bem-app-page .be-diary-home .be-home-action-primary :is(strong,small,span) { color: #17100a !important; }
+body.fala-bem-app-page .be-diary-home .be-home-action-primary strong { font-size: 21px; }
+body.fala-bem-app-page .be-diary-home .be-home-action-primary small { font-size: 13px; }
+body.fala-bem-app-page .be-diary-home .be-home-action-secondary { margin-top: 12px; gap: 12px; }
+body.fala-bem-app-page .be-diary-home .be-home-action-secondary button { padding: 18px; min-height: 88px; border: 1px solid #ded8cf !important; border-radius: 12px; background: #fff !important; box-shadow: none; }
+body.fala-bem-app-page .be-diary-home .be-home-action-secondary small { display: none; }
+body.fala-bem-app-page .be-diary-home .be-dashboard-status { margin-top: 24px; gap: 12px; }
+body.fala-bem-app-page .be-diary-home .be-dashboard-status article { padding: 18px; border: 1px solid #e2ddd5; border-radius: 12px; background: #faf9f7; box-shadow: none; }
+body.fala-bem-app-page .be-diary-home .be-dashboard-status article > small { display: none; }
+body.fala-bem-app-page .be-diary-home .be-dashboard-status article > span { color: #69615a; font-size: 10px; }
+body.fala-bem-app-page .be-diary-home .be-weekly-card { padding: 20px; margin-top: 20px; border: 1px solid #e2ddd5; border-radius: 12px; background: #fff; box-shadow: none; }
+body.fala-bem-app-page .be-diary-home .be-weekly-card > small:last-child { display: none; }
+body.fala-bem-app-page .be-diary-home .be-weekly-card:has(#be-repeat-last:not([hidden])) > small:last-child { display: block; }
+body.fala-bem-app-page .be-diary-home .be-today-preview { padding: 20px; border: 1px solid #e2ddd5; border-radius: 12px; background: #fff; box-shadow: none; }
+body.fala-bem-app-page .be-diary-home button:focus-visible { outline: 3px solid #a64a00; outline-offset: 3px; }
+@media(max-width:600px) {
+ body.fala-bem-app-page .fb-app-panel[data-fb-panel="inicio"] .be-diary-home { padding: 16px 12px 88px; gap: 20px; }
+ body.fala-bem-app-page .be-diary-home .be-home-action-secondary { grid-template-columns: 1fr 1fr; }
+ body.fala-bem-app-page .be-diary-home .be-home-action-secondary button { padding: 14px 10px; }
+ body.fala-bem-app-page .be-diary-home .be-dashboard-status { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+ body.fala-bem-app-page .be-diary-home .be-dashboard-status article { padding: 12px 8px; min-width: 0; }
+ body.fala-bem-app-page .be-diary-home .be-dashboard-status strong { font-size: 20px; overflow-wrap: anywhere; }
+}

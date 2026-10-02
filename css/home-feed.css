@@ -35,7 +35,8 @@ main:focus { outline: none; }
 .home-feed-page .feed-intro .be-search-form:focus-within { outline: 2px solid var(--feed-orange); outline-offset: 3px; }
 .feed-stories { display: flex; justify-content: space-between; gap: 14px; overflow-x: auto; padding: 32px 6px 12px; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: var(--feed-border) transparent; }
 .feed-story { display: grid; justify-items: center; align-content: start; gap: 9px; flex: 1 0 112px; scroll-snap-align: start; border-radius: 8px; }
-.feed-story > span { display: block; width: 96px; height: 96px; padding: 4px; border: 2px solid #f58a1f; border-radius: 50%; transition: transform .2s; }
+.feed-story > span { display: grid; place-items: center; width: 96px; height: 96px; padding: 4px; border: 2px solid #f58a1f; border-radius: 50%; background: #16120e; color: #ff9c2b; transition: transform .2s; }
+.feed-story svg { display: block; width: 46%; height: 46%; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
 .feed-story img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: center 30%; }
 .feed-story strong { font-size: 13px; font-weight: 600; white-space: nowrap; }
 .feed-story small { margin-top: -6px; color: var(--feed-muted); font-size: 10px; white-space: nowrap; }

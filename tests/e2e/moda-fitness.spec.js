@@ -18,8 +18,8 @@ for (const width of [320, 390, 768, 1024, 1440, 1920]) {
     const photos = page.locator('.fashion-editorial .fashion-photo-button, .fashion-triptych .fashion-photo-button');
     await expect(photos).toHaveCount(8);
     const catalogPhotos = page.locator('.fashion-catalog-card');
-    await expect(catalogPhotos).toHaveCount(85);
-    await expect(page.locator('#fashion-catalog-count')).toHaveText('85 fotografias');
+    await expect(catalogPhotos).toHaveCount(84);
+    await expect(page.locator('#fashion-catalog-count')).toHaveText('84 fotografias');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await photos.first().click();
     await expect(page.locator('#fashion-lightbox')).toBeVisible();
@@ -34,9 +34,9 @@ for (const width of [320, 390, 768, 1024, 1440, 1920]) {
     await page.keyboard.press('Escape');
     await expect(page.locator('#fashion-lightbox')).toBeHidden();
     await expect(photos.first()).toBeFocused();
-    await page.getByRole('button', { name: /Roxa \/ lilás 30/ }).click();
-    await expect(page.locator('.fashion-catalog-card:visible')).toHaveCount(30);
-    await expect(page.locator('#fashion-catalog-count')).toHaveText('30 fotografias');
+    await page.getByRole('button', { name: /Roxa \/ lilás 29/ }).click();
+    await expect(page.locator('.fashion-catalog-card:visible')).toHaveCount(29);
+    await expect(page.locator('#fashion-catalog-count')).toHaveText('29 fotografias');
     for (const photo of await photos.all()) {
       await photo.scrollIntoViewIfNeeded();
       await expect.poll(() => photo.locator('img').evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true);

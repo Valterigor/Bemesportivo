@@ -1,0 +1,54 @@
+/* BePlay only: compact discovery and a focused viewing area. */
+body.beplay-page { background: #faf9f7 !important; }
+body.beplay-page main.app-shell { width: min(1240px,calc(100% - 64px)) !important; max-width: 1240px; padding: 28px 0 48px !important; margin: 0 auto !important; }
+body.beplay-page .beplay-intro { padding: 0 0 24px !important; margin: 0; gap: 24px; align-items: center; background: transparent !important; box-shadow: none; }
+body.beplay-page .beplay-intro h1 { margin: 8px 0 10px !important; font-size: clamp(32px,4vw,46px) !important; line-height: 1.15 !important; letter-spacing: -.04em !important; }
+body.beplay-page main .beplay-intro p { margin: 0; font-size: 15px !important; color: #626262 !important; }
+body.beplay-page .channel-card { padding: 16px 18px; border: 1px solid #dedbd6; border-radius: 12px; box-shadow: none; background: #fff; }
+body.beplay-page .channel-card > strong { font-size: 14px; }
+body.beplay-page .channel-card > span { font-size: 12px; }
+body.beplay-page .channel-follow { margin-top: 8px; min-height: 44px; padding: 10px 12px; border-radius: 8px; font-size: 12px; background: #181818 !important; color: #ffb15f !important; }
+body.beplay-page .beplay-layout { display: grid; grid-template-columns: minmax(0,1fr) 350px; gap: 24px; align-items: start; }
+body.beplay-page :is(.watch-column,.side-column) { min-width: 0; }
+body.beplay-page .panel { border: 1px solid #e1ddd7 !important; border-radius: 14px !important; box-shadow: none !important; }
+body.beplay-page #videos { overflow: hidden; padding: 0 !important; background: #141414 !important; }
+body.beplay-page .video-frame { width: 100%; margin: 0; border-radius: 0; background: #080808; box-shadow: none; }
+body.beplay-page .video-meta { padding: 24px !important; }
+body.beplay-page #videoTitle { color: #f5f5f5 !important; font-size: clamp(23px,2.3vw,30px) !important; line-height: 1.25 !important; }
+body.beplay-page #videos #videoDescription { color: #c7c7c7 !important; font-size: 14px !important; }
+body.beplay-page .video-facts { gap: 8px; margin-block: 12px; }
+body.beplay-page .video-facts span { background: #252525 !important; border-color: #3b3b3b !important; color: #d0d0d0 !important; font-size: 11px; }
+body.beplay-page #videos .action-btn { min-height: 44px; background: #252525 !important; border: 1px solid #484848 !important; border-radius: 8px; color: #f5f5f5 !important; font-size: 13px; }
+body.beplay-page :is(.playlist-panel,.comment-panel,.history-panel) { padding: 20px !important; }
+body.beplay-page .section-title h2 { font-size: 21px !important; }
+body.beplay-page .video-search { min-height: 44px; font-size: 14px; }
+body.beplay-page .video-filter-tabs { gap: 6px; flex-wrap: wrap; }
+body.beplay-page .video-filter-tabs button { min-height: 40px; padding: 7px 10px; font-size: 12px; border-radius: 20px; }
+body.beplay-page .related-list { gap: 12px; padding: 0; }
+body.beplay-page .related-card { padding: 10px; border-radius: 10px; box-shadow: none; grid-template-columns: minmax(0,1fr); gap: 12px; background: #faf9f7; }
+body.beplay-page .related-card.is-current { border-color: #ae5600; background: #fff3e2; }
+body.beplay-page .related-thumb { width: 100%; height: auto; min-height: 0; aspect-ratio: 16 / 9; border-radius: 6px; background-size: contain; background-position: center; background-repeat: no-repeat; background-color: #111; }
+body.beplay-page .related-body strong { font-size: 13px; line-height: 1.4; }
+body.beplay-page .related-body span, body.beplay-page .related-card-meta { font-size: 11px; line-height: 1.5; color: #69615a; }
+body.beplay-page .related-card button { min-height: 40px; font-size: 12px; border-radius: 7px; }
+body.beplay-page #resumo .summary-item { padding: 14px; box-shadow: none; }
+body.beplay-page #resumo .summary-item strong { font-size: 13px; line-height: 1.5; }
+body.beplay-page #be-site-header #be-site-navigation { flex-direction: row; flex-wrap: nowrap; }
+body.beplay-page #be-site-header #be-site-navigation > a { flex: 0 0 auto; }
+body.beplay-page :is(button,input,a):focus-visible { outline: 3px solid #c56700; outline-offset: 3px; }
+body.beplay-page :is(#videos,#relatedVideos,#opinioes,#perfil) { scroll-margin-top: 20px; }
+@media(max-width:1000px) {
+ body.beplay-page .beplay-layout { grid-template-columns: minmax(0,1fr) 310px; gap: 16px; }
+ body.beplay-page .related-card { gap: 10px; }
+}
+@media(max-width:760px) {
+ body.beplay-page main.app-shell { width: calc(100% - 32px) !important; padding-top: 24px !important; }
+ body.beplay-page .beplay-intro { grid-template-columns: 1fr; }
+ body.beplay-page .channel-card { display: none; }
+ body.beplay-page .beplay-layout { display: flex; flex-direction: column; gap: 24px; }
+ body.beplay-page .watch-column { display: contents; }
+ body.beplay-page #videos { order: 0; width: 100%; }
+ body.beplay-page .side-column { order: 1; width: 100%; }
+ body.beplay-page .watch-column > :not(#videos) { order: 2; width: 100%; }
+ body.beplay-page .video-meta { padding: 20px !important; }
+}

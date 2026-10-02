@@ -28,6 +28,7 @@
 <link rel="stylesheet" href="css/readability.css?v=20260906-1">
 <link rel="stylesheet" href="/css/visual-system.css?v=20260906-1">
   <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
+<link rel="stylesheet" href="/css/profissionais-listing.css?v=20260930-1">
 </head>
 <body class="professionals-page">
 
@@ -42,34 +43,18 @@
 <!-- shared-site-navigation:end -->
 
 <main>
-<section class="hero" aria-labelledby="professionals-hero-title">
-<div class="container hero-grid">
+<section class="professionals-intro" aria-labelledby="professionals-hero-title"><span>APOIO PARA O SEU CAMINHO</span><h1 id="professionals-hero-title">Profissionais do esporte</h1><p>Encontre apoio para treinar, cuidar de você e contar sua história.</p></section>
 
-<div class="hero-copy">
-<div class="hero-badge">
-ORIENTAÇÃO PARA CADA CAMINHO
-</div>
 
-<h1 id="professionals-hero-title">Encontre quem pode ajudar no seu próximo passo.</h1>
 
-<p>Conheça pessoas que unem conhecimento técnico e cuidado humano para orientar sua relação com o esporte.</p>
 
-<div class="hero-actions">
-<a class="hero-primary" href="#profissionais">Conhecer profissionais</a>
-<a class="hero-secondary" href="#como-funciona">Entender como funciona</a>
-</div>
-
-<div class="metrics">
-<span><strong>4</strong> perfis apresentados</span>
-<span><strong>3</strong> áreas de apoio</span>
-<span><strong>1</strong> contato consciente</span>
-</div>
-</div>
+<section class="section professionals-section" id="profissionais" aria-labelledby="professionals-title">
+<div class="container">
 
 <div class="hero-search" id="professional-search">
-<span>COMECE PELO QUE VOCÊ PRECISA</span>
-<h2>Que tipo de apoio você procura?</h2>
-<p>Você pode explorar todos os perfis ou escolher uma área para começar.</p>
+
+<h2 id="professionals-title">Que tipo de apoio você procura?</h2>
+
 <label class="sr-only" for="busca">Buscar profissional por nome ou especialidade</label>
 <input id="busca" class="search-main" type="search" autocomplete="off" placeholder="Buscar nome, área ou especialidade">
 
@@ -81,9 +66,18 @@ ORIENTAÇÃO PARA CADA CAMINHO
 </div>
 </div>
 
+<strong id="result-count" class="result-count" role="status" aria-live="polite"></strong>
+<p class="professionals-note">Conheça o perfil antes de entrar em contato. Disponibilidade e condições são confirmadas na conversa.</p>
+
+<div id="lista" class="grid"></div>
+
+<div class="professional-cta-grid">
+<article><span>PRECISA DE OUTRA ORIENTAÇÃO?</span><h3>Não encontrou o que procurava?</h3><p>Conte sua necessidade para que o Bem Esportivo possa indicar o próximo caminho possível.</p><a href="/contato?assunto=solicitacao">Enviar dúvida ou solicitação →</a></article>
+<article><span>FAÇA PARTE DO ECOSSISTEMA</span><h3>Você atua no esporte?</h3><p>Apresente seu trabalho para avaliação editorial e futura inclusão na página.</p><a href="/contato?assunto=parceria">Quero apresentar meu trabalho →</a></article>
+</div>
+
 </div>
 </section>
-
 <section class="guidance-section" id="como-funciona" aria-labelledby="guidance-title">
 <div class="container">
 <div class="section-head section-head-left">
@@ -103,26 +97,6 @@ ORIENTAÇÃO PARA CADA CAMINHO
 <li><span>2</span><div><strong>Escolha</strong><small>Abra o perfil que combina com sua necessidade.</small></div></li>
 <li><span>3</span><div><strong>Converse</strong><small>Envie uma solicitação sem compromisso pelo canal indicado.</small></div></li>
 </ol>
-</div>
-</section>
-
-<section class="section professionals-section" id="profissionais" aria-labelledby="professionals-title">
-<div class="container">
-
-<div class="section-head">
-<span>PESSOAS DO ECOSSISTEMA BEM ESPORTIVO</span>
-<h2 id="professionals-title">Profissionais para o seu caminho</h2>
-<p>Conheça cada trajetória e escolha com clareza. O contato inicial não representa contratação nem confirmação de horário.</p>
-<strong id="result-count" class="result-count" role="status" aria-live="polite"></strong>
-</div>
-
-<div id="lista" class="grid"></div>
-
-<div class="professional-cta-grid">
-<article><span>PRECISA DE OUTRA ORIENTAÇÃO?</span><h3>Não encontrou o que procurava?</h3><p>Conte sua necessidade para que o Bem Esportivo possa indicar o próximo caminho possível.</p><a href="/contato?assunto=solicitacao">Enviar dúvida ou solicitação →</a></article>
-<article><span>FAÇA PARTE DO ECOSSISTEMA</span><h3>Você atua no esporte?</h3><p>Apresente seu trabalho para avaliação editorial e futura inclusão na página.</p><a href="/contato?assunto=parceria">Quero apresentar meu trabalho →</a></article>
-</div>
-
 </div>
 </section>
 </main>

@@ -1,3 +1,31 @@
+/* Keep legacy header rules from stacking the contextual article navigation. */
+body.reportagens-page #be-site-header #be-site-navigation {
+  flex-direction: row !important;
+  flex-wrap: nowrap;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+body.reportagens-page #be-site-header #be-site-navigation > a {
+  flex: 0 0 auto;
+}
+@media (max-width: 900px) {
+  body.reportagens-page #be-site-header .be-site-header-inner {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  body.reportagens-page #be-site-header #be-site-navigation {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 22px;
+    padding-inline: 3px;
+  }
+  body.reportagens-page #be-site-header #be-site-navigation > a {
+    min-height: 44px;
+  }
+}
 body.reportagens-page {
   background: #ffffff !important;
   padding-top: 0 !important;

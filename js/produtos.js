@@ -3,8 +3,9 @@ const cards=document.querySelectorAll('.product');
 
 filters.forEach(btn=>{
 btn.addEventListener('click',()=>{
-filters.forEach(b=>b.classList.remove('active'));
+filters.forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
 btn.classList.add('active');
+btn.setAttribute('aria-pressed','true');
 
 let cat=btn.dataset.filter;
 
@@ -15,6 +16,9 @@ card.classList.remove('hidden');
 card.classList.add('hidden');
 }
 });
+const count=[...cards].filter(card=>!card.classList.contains('hidden')).length;
+const status=document.getElementById('products-count');
+if(status)status.textContent=`${count} produtos para explorar`;
 });
 });
 

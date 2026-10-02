@@ -32,7 +32,7 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 
       }
       await page.getByRole('button', { name: 'Recusar opcionais' }).click();
       await expect(page.locator(`[data-fb-panel="${hasProfile ? 'inicio' : 'perfil'}"]`)).toBeVisible();
-      await expect(page.locator(hasProfile ? '#be-diary-home-title' : '#be-profile-onboarding')).toContainText(hasProfile ? 'O que você quer fazer agora?' : 'Bem-vindo ao Meu diário Be');
+      await expect(page.locator(hasProfile ? '#be-diary-home-title' : '#be-profile-onboarding')).toContainText(hasProfile ? 'Seu próximo momento' : 'Bem-vindo ao Meu diário Be');
       await expect(page.locator('#fb-daily-welcome')).not.toBeVisible();
       await page.reload();
       await expect(cover).toBeVisible();

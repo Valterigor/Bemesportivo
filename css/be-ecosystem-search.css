@@ -285,7 +285,7 @@
 .be-search-result-placeholder b { font: 900 30px/1 Manrope, Inter, sans-serif; letter-spacing: -.08em; }
 .be-search-result-placeholder small { font-size: 10px; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
 .be-search-result-card.is-conteudo .be-search-result-media img { object-position: center 22%; }
-.be-search-result-card.is-beplay .be-search-result-media img { object-position: center 20%; }
+.be-search-result-card.is-beplay .be-search-result-media img { object-fit: contain; object-position: center; background: #111; }
 .be-search-result-card.is-profissionais .be-search-result-media img { object-position: center 30%; }
 .be-search-result-card.is-reportagens .be-search-result-media img { object-position: center 42%; }
 .be-search-result-card.is-meu-caminho .be-search-result-media img { object-position: center 32%; }

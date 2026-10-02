@@ -24,8 +24,9 @@
 <link rel="stylesheet" href="css/readability.css?v=20260906-1">
 <link rel="stylesheet" href="/css/visual-system.css?v=20260906-1">
   <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
+<link rel="stylesheet" href="/css/produtos-vitrine.css?v=20260930-1">
 </head>
-<body>
+<body class="products-page">
 
 <!-- shared-site-navigation:start -->
 <div id="be-site-header" class="be-site-header" data-menu-context="section" data-menu-scroll>
@@ -37,32 +38,22 @@
 </div>
 <!-- shared-site-navigation:end -->
 
-<section class="hero">
-<div class="hero-wrap">
-<div class="badge">TOP PRODUTOS ESPORTIVOS</div>
-<h1>Equipamentos para elevar sua performance</h1>
-<p>Curadoria com produtos para futebol, treino, recuperação e evolução esportiva.</p>
-
-<div class="hero-stats">
-<span>Futebol</span>
-<span>Treino</span>
-<span>Mais vendidos</span>
-</div>
-</div>
+<section class="products-intro" aria-labelledby="products-title">
+<span class="products-kicker">Para a sua prática</span>
+<h1 id="products-title">Produtos esportivos</h1>
+<p>Explore equipamentos e acessórios para o futebol, a corrida e o treino.</p>
 </section>
 
 <main class="container">
-<p class="sub"><a href="/moda-fitness">Conheça o Ateliê BE → Moda fitness em um editorial de fotos.</a></p>
-
-<div class="filters">
-<button class="filter-btn active" type="button" data-filter="all">Todos</button>
-<button class="filter-btn" type="button" data-filter="futebol">Futebol</button>
-<button class="filter-btn" type="button" data-filter="treino">Treino</button>
+<div class="products-toolbar">
+<div><h2 class="section-title">Encontre seu próximo equipamento</h2><p id="products-count" role="status" aria-live="polite">4 produtos para explorar</p></div>
+<div class="filters" role="group" aria-label="Filtrar produtos por modalidade">
+<button class="filter-btn active" type="button" data-filter="all" aria-pressed="true">Todos</button>
+<button class="filter-btn" type="button" data-filter="futebol" aria-pressed="false">Futebol</button>
+<button class="filter-btn" type="button" data-filter="treino" aria-pressed="false">Treino e corrida</button>
 </div>
-
-<h2 class="section-title">Produtos em Destaque</h2>
-<p class="sub">Seleção pensada para performance e custo-benefício.</p>
-<p class="sub"><strong>Transparência:</strong> alguns links são de afiliados e podem gerar remuneração ao BeMEsportivo, sem custo adicional informado pela loja. Preços, avaliações, estoque e entrega devem ser conferidos no site do vendedor.</p>
+</div>
+<p class="products-disclosure"><strong>Links de afiliados.</strong> O Be pode receber uma comissão. Confira preços, estoque, entrega e condições no site do vendedor.</p>
 
 <div class="grid" id="productsGrid">
 
@@ -136,9 +127,7 @@
 
 </div>
 
-<div class="bar">
-Produtos escolhidos com foco em utilidade, desempenho e custo-benefício.
-</div>
+<aside class="products-fashion"><div><span class="products-kicker">Estilo em movimento</span><h2>Seu próximo look também está no Be.</h2><p>Explore o editorial e os looks do Ateliê BE.</p></div><a href="/moda-fitness">Conhecer Moda Fitness <span aria-hidden="true">→</span></a></aside>
 
 </main>
 
@@ -176,7 +165,7 @@ Produtos escolhidos com foco em utilidade, desempenho e custo-benefício.
 </div>
 
 <script type="module" src="js/site-common.js?v=20260929-1"></script>
-<script src="js/produtos.js?v=20260718-2" defer></script>
+<script src="js/produtos.js?v=20260930-1" defer></script>
 
   <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body>

@@ -185,12 +185,12 @@ async function run() {
     const thaisReport = fs.readFileSync(path.join(root, 'reportagem-thais-garcez-metamorfose.html'), 'utf8');
     assert.match(thaisReport, /<h1>Thais Garcez, uma nova versão<\/h1>/);
     assert.match(thaisReport, /class="report-video-layout"/);
-    assert.match(thaisReport, /img\/Thais%20Garcez\/thais-garcez-relato\.mp4/);
+    assert.match(thaisReport, /img\/Thais%20Garcez\/thais-garcez-relato-audio-v2\.mp4/);
     assert.match(thaisReport, /data-share-cover="\/img\/Thais%20Garcez\/thais-garcez-capa\.jpg"/);
     assert.match(thaisReport, /data-share-cover-button/);
     assert.match(thaisReport, /data-share-download/);
-    assert.ok(fs.existsSync(path.join(root, 'img', 'Thais Garcez', 'thais-garcez-relato.mp4')), 'Vídeo do relato de Thais ausente.');
-    const thaisVideo = await fetch(`${baseUrl}/img/Thais%20Garcez/thais-garcez-relato.mp4`, {
+    assert.ok(fs.existsSync(path.join(root, 'img', 'Thais Garcez', 'thais-garcez-relato-audio-v2.mp4')), 'Vídeo do relato de Thais ausente.');
+    const thaisVideo = await fetch(`${baseUrl}/img/Thais%20Garcez/thais-garcez-relato-audio-v2.mp4`, {
       headers: { Range: 'bytes=0-1023' }
     });
     assert.equal(thaisVideo.status, 206);
@@ -210,7 +210,7 @@ async function run() {
     assert.ok(fs.existsSync(path.join(root, 'img', 'elas-em-movimento-video-poster.jpg')));
     assert.match(elasReport, /<div class="elas-story-header">/);
     assert.doesNotMatch(elasReport, /<header class="elas-story-header">/);
-    assert.match(elasReport, /site-common\.css\?v=20260906-1[\s\S]*reportagens\.css\?v=20260906-1/);
+    assert.match(elasReport, /site-common\.css\?v=20260906-1[\s\S]*reportagens\.css\?v=20260930-2/);
     assert.doesNotMatch(elasReport, /elas-photo-badge/);
     assert.match(elasReport, /mulheres-em-movimento-serra-talhada-interna\.jpg/);
     assert.match(elasReport, /class="report-byline"[\s\S]*4 min de leitura/);
@@ -263,7 +263,7 @@ async function run() {
     assert.ok(fs.existsSync(path.join(root, 'img', 'sergio-lima-exemplo-de-vida.jpg')), 'Capa da entrevista de Sergio Lima ausente.');
     for (const reportFile of ['reportagem-elas-em-movimento-serra-talhada.html', 'reportagem-treino-funcional.html', 'reportagem-dedicacao-talento-mirim.html', 'reportagem-duda-e-o-futebol.html', 'reportagem-elas-trazem-esperanca.html', 'reportagem-mayara-magnolia-papo-bem-esportivo.html', 'reportagem-sergio-lima-exemplo-de-vida.html']) {
       const reportHtml = fs.readFileSync(path.join(root, reportFile), 'utf8');
-      assert.match(reportHtml, /reportagens\.css\?v=20260906-1/, `A reportagem precisa carregar o modelo editorial atualizado: ${reportFile}`);
+      assert.match(reportHtml, /reportagens\.css\?v=20260930-2/, `A reportagem precisa carregar o modelo editorial atualizado: ${reportFile}`);
       assert.match(reportHtml, /data-share-copy/, `A reportagem precisa oferecer cópia direta do link: ${reportFile}`);
       assert.match(reportHtml, /class="report-path-bridge"[\s\S]*Começar minha trajetória/, `A reportagem precisa conectar leitura e trajetória: ${reportFile}`);
     }
@@ -309,10 +309,10 @@ async function run() {
     assert.match(homeHtml, /js\/home-feed\.js\?v=/, 'Os filtros do feed precisam estar disponíveis.');
     const professionalsHtml = fs.readFileSync(path.join(root, 'profissionais.html'), 'utf8');
     const professionalsScript = fs.readFileSync(path.join(root, 'js/profissionais.js'), 'utf8');
-    assert.match(professionalsHtml, /id="professionals-hero-title">Encontre quem pode ajudar no seu próximo passo\./, 'Profissionais precisa começar pela necessidade da pessoa.');
+    assert.match(professionalsHtml, /id="professionals-hero-title">Profissionais do esporte/, 'Profissionais precisa apresentar um título direto.');
     assert.match(professionalsHtml, /css\/profissionais\.css\?v=20260906-1/);
     assert.match(professionalsHtml, /js\/profissionais\.js\?v=20260823-2/);
-    assert.match(professionalsHtml, /id="como-funciona"[\s\S]*data-guide-category="personal"[\s\S]*data-guide-category="psicologia"[\s\S]*data-guide-category="fotografia"[\s\S]*data-guide-category="todos"/, 'Profissionais precisa orientar a escolha antes de exibir os perfis.');
+    assert.match(professionalsHtml, /id="como-funciona"[\s\S]*data-guide-category="personal"[\s\S]*data-guide-category="psicologia"[\s\S]*data-guide-category="fotografia"[\s\S]*data-guide-category="todos"/, 'Profissionais precisa manter a orientação de escolha disponível.');
     assert.match(professionalsHtml, /id="profissionais"[\s\S]*id="result-count"[\s\S]*id="lista"/, 'A lista precisa informar quantos profissionais correspondem à busca.');
     assert.doesNotMatch(professionalsHtml, /(?:ai-agent-data|ai-agent-service|profissionais-ai)\.js/, 'Profissionais não deve solicitar scripts antigos que não existem.');
     assert.match(professionalsScript, /data-profile-index/);
@@ -355,7 +355,7 @@ async function run() {
     for (const destination of ['/game', '/meu-caminho-be?tela=conteudos', '/meu-caminho-be?tela=ferramentas']) {
       assert.ok(homeHtml.includes('href="' + destination + '"'), 'Destino da home ausente: ' + destination);
     }
-    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20260919-1"/, 'A biblioteca carrega antes da busca.');
+    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20261001-1"/, 'A biblioteca carrega antes da busca.');
     const ecosystemSearch = require(path.join(root, 'js', 'be-ecosystem-search.js'));
     assert.equal(ecosystemSearch.search('Quero saber como melhorar meu chute').primary.id, 'conteudo');
     assert.equal(ecosystemSearch.search('Quero assistir').primary.id, 'beplay');
@@ -685,7 +685,7 @@ async function run() {
     for (const view of declaredViews) {
       assert.match(routeContract, new RegExp(`\\b${view}:`), `O destino “${view}” precisa ter uma rota canônica.`);
     }
-    assert.match(pathHtml, /fb-goals-panel[\s\S]*fb-panel-back" data-fb-view="ferramentas">← Voltar às Ferramentas/);
+    assert.match(pathHtml, /be-profile-goals-section[\s\S]*id="be-profile-goals-title">O que gostaria de encontrar no esporte\?/, 'Os objetivos continuam disponíveis dentro do Perfil Be.');
     assert.match(pathHtml, /fb-tips-panel[\s\S]*fb-panel-back" data-fb-view="ferramentas">← Voltar às Ferramentas/);
     assert.match(pathHtml, /trail-running[\s\S]*data-fb-tip="correr"[\s\S]*trail-football[\s\S]*data-fb-tip="futebol"[\s\S]*trail-performance[\s\S]*data-fb-tip="evoluir"[\s\S]*trail-health[\s\S]*data-fb-tip="saude"/);
     assert.doesNotMatch(pathHtml, /trail-card[\s\S]{0,500}data-platform-target=/, 'Cada trilha precisa abrir seu próprio guia, não uma seção genérica.');
@@ -749,7 +749,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v151`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v153`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]

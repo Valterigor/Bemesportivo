@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="site-common.css?v=20260906-1">
   <link rel="stylesheet" href="css/radar-esportivo.css?v=2">
   <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
+  <link rel="stylesheet" href="/css/radar-listing.css?v=20260930-1">
 </head>
 <body class="radar-page">
   <!-- shared-site-navigation:start -->
@@ -29,18 +30,14 @@
     <section class="radar-hero" aria-labelledby="radar-title">
       <div class="radar-shell">
         <p class="eyebrow">RADAR BE · SÃO PAULO</p>
-        <h1 id="radar-title">O esporte que cabe na sua cidade e na sua rotina.</h1>
-        <p class="intro">Uma seleção inicial de caminhos públicos e acessíveis para começar, voltar ou seguir em movimento em São Paulo.</p>
-        <div class="hero-points" aria-label="O que o Radar BE mostra">
-          <span>✓ Informação de fonte oficial</span><span>✓ Sem inscrição pelo site</span><span>✓ Atualização em curadoria</span>
-        </div>
+        <h1 id="radar-title">Onde praticar em São Paulo</h1>
+        <p class="intro">Encontre centros esportivos, atividades e espaços para se movimentar na cidade.</p>
       </div>
     </section>
 
     <section class="radar-content radar-shell" aria-labelledby="opportunities-title">
       <div class="radar-intro">
-        <div><p class="eyebrow">COMECE POR AQUI</p><h2 id="opportunities-title">Oportunidades para explorar</h2></div>
-        <p>Use os filtros para encontrar um ponto de partida. Antes de sair, confirme horários, vagas e regras diretamente com a instituição responsável.</p>
+        <div><h2 id="opportunities-title">Explore por região e interesse</h2></div>
       </div>
       <div class="radar-filters" aria-label="Filtros do Radar BE">
         <label><span>Região</span><select id="region-filter"><option value="todos">Toda São Paulo</option><option value="centro">Centro</option><option value="norte">Zona Norte</option><option value="sul">Zona Sul</option><option value="leste">Zona Leste</option><option value="oeste">Zona Oeste</option></select></label>
@@ -48,8 +45,9 @@
         <button id="search-opportunities" class="radar-search-button" type="button">Buscar oportunidades</button>
         <button id="clear-filters" type="button">Limpar filtros</button>
       </div>
-      <p id="radar-count" class="radar-count" aria-live="polite">Use os filtros e clique em Buscar oportunidades para ver os locais.</p>
-      <div id="radar-list" class="radar-grid" hidden>
+      <p id="radar-count" class="radar-count" aria-live="polite">Explore os locais ou refine sua busca nos filtros.</p>
+      <p class="radar-note">Antes de sair, confirme horários, vagas e regras com a instituição. Os links levam às fontes oficiais; não há inscrição pelo Be.</p>
+      <div id="radar-list" class="radar-grid">
         <article class="opportunity" data-region="sul" data-interest="multiesporte atividade">
           <figure class="opportunity-media"><img src="img/radar/centros-esportivos-sp.jpg" alt="Arte de divulgação dos Centros Esportivos da Prefeitura de São Paulo" loading="lazy"><figcaption>Divulgação · Prefeitura de São Paulo</figcaption></figure>
           <div class="card-top"><span class="tag free">Gratuito</span><span class="verified">Fonte oficial</span></div>
@@ -112,7 +110,7 @@
   </main>
   <footer class="site-footer"><div class="site-footer-inner"><div class="site-footer-brand"><strong>Bem Esportivo</strong><p>Histórias e caminhos para viver o esporte.</p></div><nav aria-label="Links institucionais"><a href="/sobre">Sobre</a><a href="/contato">Contato</a><a href="/politica-de-privacidade">Privacidade</a></nav><small>© 2026 Bem Esportivo</small></div></footer>
   <script type="module" src="js/site-common.js?v=20260929-1"></script>
-  <script src="js/radar-esportivo.js?v=2" defer></script>
+  <script src="js/radar-esportivo.js?v=20260930-1" defer></script>
   <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body>
 </html>
