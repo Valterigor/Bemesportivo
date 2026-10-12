@@ -45,6 +45,7 @@ const CORE_SHELL = [
   '/js/routine-calendar.js',
   '/js/meu-caminho-account.js',
   '/js/coluna-valtinho.js',
+  '/js/be-tools.js',
   '/js/be-knowledge-library.js',
   '/js/be-sports-library.js',
   '/js/meu-caminho-navigation.js',

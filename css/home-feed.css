@@ -24,6 +24,7 @@ main:focus { outline: none; }
 .home-theme-control { margin-left: auto; }
 .home-theme-control select { background: var(--feed-card); color: var(--feed-muted); border: 1px solid var(--feed-border); border-radius: 8px; padding: 8px; font-size: 12px; min-height: 44px; }
 .feed-intro { text-align: center; padding-top: 34px; }
+.feed-intro-brand { margin: 0 0 12px; color: var(--feed-orange); font-size: clamp(16px, 1.8vw, 20px); font-weight: 800; line-height: 1.3; }
 .feed-intro h1 { margin: 0 0 18px; font-size: clamp(22px, 2.2vw, 30px); font-weight: 800; letter-spacing: -.04em; }
 .feed-intro-description { max-width: 54ch; margin: -8px auto 20px; color: var(--feed-muted); font-size: 14px; text-wrap: pretty; }
 .home-feed-page .feed-intro .be-search-form { display: flex; width: min(740px, 100%); margin: 0 auto; gap: 8px; min-height: 54px; padding: 5px 6px 5px 18px; background: var(--feed-card); border: 1px solid #454545; border-radius: 15px; box-shadow: none; }
