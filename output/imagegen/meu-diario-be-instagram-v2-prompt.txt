@@ -1,0 +1,4 @@
+Mode: built-in image_gen edit.
+Input: meu-diario-be-instagram-v1.png.
+Output: meu-diario-be-instagram-v2.png (1080x1350).
+Prompt: Precise localized edit of this finished Instagram post: remove ONLY the small 'BEM ESPORTIVO' heading at the very top left, replacing that lettering with the matching uninterrupted dark background. Keep every other element exactly unchanged: woman's identity and photo, pose, shirt emblem, all remaining Portuguese text, website URL, orange lines, typography sizes, positions, spacing, colors, margins, and 4:5 portrait composition. Do not move the main title upward, do not redesign or add anything. Keep output 1080x1350.

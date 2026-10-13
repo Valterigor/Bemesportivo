@@ -1,4 +1,23 @@
 /* Perfil Be: identidade, publicações, evolução e conquistas esportivas. */
+/* Keep profile sections and public controls inside their available column. */
+.be-sports-profile > *,
+.be-profile-public-access-head > *,
+.be-public-manager-toolbar > * { min-width: 0; }
+
+@media (max-width: 760px) {
+  body.fala-bem-app-page .be-profile-public-access-head,
+  body.fala-bem-app-page .be-public-manager-toolbar { display: grid; grid-template-columns: minmax(0, 1fr); }
+  body.fala-bem-app-page .be-profile-public-access-actions,
+  body.fala-bem-app-page .be-profile-public-access-actions button { width: 100%; min-width: 0; }
+  body.fala-bem-app-page .be-public-manager-toolbar > div:last-child { display: flex; flex-wrap: wrap; }
+  body.fala-bem-app-page .be-public-manager-toolbar button { flex: 1 1 140px; min-height: 44px; padding: 10px 12px; }
+  body.fala-bem-app-page .be-public-manage-post-actions { flex-wrap: wrap; }
+  body.fala-bem-app-page .be-public-manage-post-actions button { min-height: 44px; }
+  body.fala-bem-app-page .be-sports-profile-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body.fala-bem-app-page .be-sports-profile-actions .be-sports-primary-action { grid-column: 1 / -1; }
+  body.fala-bem-app-page .be-sports-profile-actions button { min-width: 0; padding: 10px; }
+}
+
 body.fala-bem-app-page .fb-profile-panel,
 body.fala-bem-app-page .fb-profile-panel button,
 body.fala-bem-app-page .fb-profile-panel input,

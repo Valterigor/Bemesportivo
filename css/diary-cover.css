@@ -266,7 +266,7 @@ body.fala-bem-app-page.fb-view-perfil .be-profile-cover {
 }
 body.fala-bem-app-page.fb-view-perfil .be-profile-cover strong { margin: 8px 0 0; font-size: 24px; }
 body.fala-bem-app-page.fb-view-perfil .be-profile-social-identity {
-  grid-template-columns: 84px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 22px;
   align-items: center;
   padding: 30px;
@@ -307,7 +307,7 @@ body.fala-bem-app-page.fb-view-perfil .fb-profile-form > :nth-child(4) { --be-pr
   body.fala-bem-app-page.fb-view-perfil .be-profile-social-card { grid-template-columns: 1fr; }
   body.fala-bem-app-page.fb-view-perfil .be-profile-cover { min-height: 96px; padding: 22px; }
   body.fala-bem-app-page.fb-view-perfil .be-profile-cover strong { max-width: 270px; font-size: 22px; }
-  body.fala-bem-app-page.fb-view-perfil .be-profile-social-identity { grid-template-columns: 70px minmax(0, 1fr); gap: 15px; padding: 22px 18px; }
+  body.fala-bem-app-page.fb-view-perfil .be-profile-social-identity { grid-template-columns: minmax(0, 1fr); gap: 15px; padding: 22px 18px; }
   body.fala-bem-app-page.fb-view-perfil .be-profile-social-identity .be-profile-photo-preview { width: 70px; height: 70px; }
   body.fala-bem-app-page.fb-view-perfil .be-profile-social-copy > p { display: none; }
 }

@@ -34,13 +34,14 @@
 <link rel="stylesheet" href="/css/meu-caminho-modern.css?v=20260906-1">
 <link rel="stylesheet" href="/css/meu-caminho-diary.css?v=20260916-1">
 <link rel="stylesheet" href="/css/meu-caminho-navigation.css?v=20260907-1">
-<link rel="stylesheet" href="/css/meu-caminho-profile.css?v=20260916-2">
+<link rel="stylesheet" href="/css/meu-caminho-profile.css?v=20261012-1">
+<link rel="stylesheet" href="/css/be-diary-goals.css?v=20261012-1">
 <link rel="stylesheet" href="/css/share-card.css?v=20260906-1">
 <link rel="stylesheet" href="/css/mobile-typography.css?v=20260906-1">
 <link rel="stylesheet" href="/css/readability.css?v=20260906-1">
 <link rel="stylesheet" href="/css/visual-system.css?v=20260906-1">
 <link rel="stylesheet" href="/css/diary-recognition.css?v=20260906-1">
-<link rel="stylesheet" href="/css/diary-cover.css?v=20260911-2">
+<link rel="stylesheet" href="/css/diary-cover.css?v=20261012-1">
 <link rel="stylesheet" href="/css/meu-diario-ui.css?v=20260916-4">
   <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 <link rel="stylesheet" href="/css/diary-home-refinement.css?v=20261002-1">
@@ -252,6 +253,25 @@
 </div>
 </section>
 <section class="be-today-preview" aria-labelledby="be-today-preview-title"><div class="be-section-heading"><div><span>SEU DIA</span><h3 id="be-today-preview-title">Hoje no diário</h3></div><button type="button" data-fb-view="progresso">Ver diário completo →</button></div><div id="be-today-list" class="be-entry-list"></div></section>
+<section class="be-goals" id="be-goals" aria-labelledby="be-goals-title">
+<header><span>UM PASSO DE CADA VEZ</span><h2 id="be-goals-title">Meus objetivos e metas</h2><p>Escolha o que deseja alcançar. Os registros do diário atualizam seu progresso automaticamente.</p></header>
+<div class="be-goal-list" id="be-goal-list"></div>
+<form class="be-goal-form" id="be-goal-form">
+<label>Meu objetivo<select name="objective"><option value="consistency">Criar constância</option><option value="training">Acompanhar meus treinos</option><option value="nutrition">Observar minha alimentação</option><option value="movement">Movimentar-me mais</option></select></label>
+<label>Como acompanhar<select name="metric"><option value="days">Dias com atividade</option><option value="sessions">Número de atividades</option><option value="minutes">Minutos registrados</option><option value="meals">Dias com refeições registradas</option></select></label>
+<label>Quantidade que quero alcançar<input name="target" type="number" min="1" max="100000" step="1" required placeholder="Escolha sua quantidade"></label>
+<label>Atividade<select name="sport"><option value="all">Todas as atividades</option><option value="corrida">Corrida</option><option value="treino">Treino</option><option value="jogo">Jogo</option><option value="caminhada">Caminhada</option><option value="ciclismo">Ciclismo</option><option value="natacao">Natação</option><option value="outro">Outra atividade</option></select></label>
+<label>Começa em<input name="start" type="date" required></label><label>Até quando<input name="end" type="date" required></label>
+<button type="submit" id="be-goal-save">Salvar meta</button><button type="button" id="be-goal-cancel" hidden>Cancelar edição</button>
+</form>
+<p id="be-goal-status" role="status" aria-live="polite"></p>
+<p>Você pode editar, pausar ou excluir suas metas. Contamos os registros dentro do período escolhido, inclusive os já existentes. Para alimentação, contamos dias registrados, sem avaliar o prato. Metas ficam privadas neste navegador e entram no seu backup.</p>
+</section>
+<section class="be-library-tips" aria-labelledby="be-library-tips-title">
+<header><span>BIBLIOTECA BeM</span><h2 id="be-library-tips-title">Informações para sua rotina</h2><p>Explore os conteúdos da nossa biblioteca para o seu momento no esporte.</p></header>
+<label for="be-tip-topic">Sobre o que você quer saber?<select id="be-tip-topic"><option value="training">Treino</option><option value="nutrition">Alimentação</option><option value="movement">Atividades e primeiros passos</option><option value="recovery">Descanso e recuperação</option></select></label>
+<div id="be-goal-tip" aria-live="polite"></div>
+</section>
 </main>
 <section class="fb-minor-restriction" id="fb-minor-restriction" hidden aria-labelledby="fb-minor-restriction-title">
 <span>PROTEÇÃO PARA MENORES</span>
@@ -736,7 +756,7 @@
 <span>COMECE EM MENOS DE UM MINUTO</span>
 <h1 id="be-profile-onboarding-title">Bem-vindo ao Meu diário Be.</h1>
 <p>Seu espaço para registrar corridas, treinos e outras atividades, planejar o dia e encontrar dicas, incentivo e profissionais para cuidar de você.</p>
-<p>Informe seu nome, sua atividade principal e um pequeno resumo da sua vida no esporte. Você poderá completar o perfil quando quiser.</p>
+<p>Para começar, informe apenas seu nome e sua atividade principal. História e foto são opcionais; você pode completar o perfil depois.</p>
 </section>
 <section class="fb-profile-next-step" id="fb-profile-next-step" aria-labelledby="fb-profile-next-title" hidden>
 <span>SEU PRÓXIMO PASSO</span>
@@ -745,7 +765,7 @@
 <div><button type="button" class="fb-primary-action" id="fb-profile-next-professionals">Encontrar um profissional</button><button type="button" data-fb-view="inicio">Ir para Meu Hoje</button></div>
 </section>
 <section class="be-profile-presentation be-sports-profile" id="be-profile-presentation" aria-labelledby="be-profile-display-name" hidden>
-<section class="be-profile-ready" id="be-profile-ready" aria-labelledby="be-profile-ready-title" hidden><div><span>SEU PERFIL ESTÁ PRONTO</span><h2 id="be-profile-ready-title">Agora sua história tem um lugar.</h2><p>Faça seu primeiro registro para começar o diário.</p></div><div><button type="button" class="be-profile-ready-register" data-be-new-entry>Fazer meu primeiro registro</button><button type="button" data-be-view-profile>Visualizar perfil</button></div></section>
+<section class="be-profile-ready" id="be-profile-ready" aria-labelledby="be-profile-ready-title" hidden><div><span>PASSO 2 · SEU PRIMEIRO REGISTRO</span><h2 id="be-profile-ready-title">Seu perfil está pronto!</h2><p>Conte qual atividade você fez para começar seu diário. Você pode completar o perfil depois.</p></div><div><button type="button" class="be-profile-ready-register" data-be-new-entry>Fazer meu primeiro registro</button><button type="button" data-be-view-profile>Visualizar perfil</button></div></section>
 <header class="be-sports-profile-header">
 <div class="be-sports-profile-photo"><div class="be-profile-presentation-avatar"><img id="be-profile-card-photo" alt="Foto do perfil esportivo" hidden><span id="be-profile-card-fallback" aria-hidden="true">BE</span></div></div>
 <div class="be-profile-presentation-identity"><span>PERFIL BE</span><h2 id="be-profile-display-name" tabindex="-1">Seu perfil esportivo</h2><p id="be-profile-display-handle">@meucaminhobe</p><div id="be-profile-display-tags" class="be-profile-display-tags"></div><p class="be-profile-presentation-bio" id="be-profile-display-bio">O esporte faz parte da minha história.</p></div>
@@ -787,7 +807,7 @@
 <section class="be-profile-form-section" aria-labelledby="be-profile-registration-title">
 <header><span>1 · SEU ACESSO</span><h3 id="be-profile-registration-title">Como podemos chamar você?</h3><p>Use seu nome ou apelido. Não é preciso informar e-mail nem criar senha.</p></header>
 <div class="be-profile-form-grid be-profile-essential-fields">
-<label for="fb-profile-name">Nome de acesso <em>(nome ou apelido)</em><input id="fb-profile-name" name="name" maxlength="40" placeholder="Como podemos chamar você?" autocomplete="name" required><small>Usado somente para reconhecer seu perfil neste aparelho.</small></label>
+<label for="fb-profile-name">Nome de acesso <em>(nome ou apelido)</em><input id="fb-profile-name" name="name" maxlength="40" placeholder="Como podemos chamar você?" autocomplete="name" required><small>Seu perfil fica salvo neste navegador, neste aparelho.</small></label>
 </div>
 </section>
 <section class="be-profile-form-section be-profile-moment-section" aria-labelledby="be-profile-moment-title">
@@ -839,11 +859,11 @@
 </fieldset>
 </section>
 <section class="be-profile-form-section be-profile-story-section" aria-labelledby="be-profile-story-title">
-<header><span>3 · SUA HISTÓRIA</span><h3 id="be-profile-story-title">Conte um pouco da sua vida no esporte.</h3><p>Pode ser um começo, um recomeço, uma lembrança ou aquilo que você deseja viver. Este texto fica privado até você decidir compartilhá-lo.</p></header>
-<label for="fb-profile-story">Resumo da minha vida no esporte<textarea id="fb-profile-story" name="story" maxlength="600" rows="5" placeholder="Ex.: Joguei futebol na escola, fiquei um tempo parado e agora quero voltar a correr e cuidar melhor da minha rotina."></textarea><small><span id="fb-profile-story-count">0</span>/600 caracteres</small></label>
+<header><span>OPCIONAL · SUA HISTÓRIA</span><h3 id="be-profile-story-title">Conte um pouco da sua vida no esporte.</h3><p>Pode ser um começo, um recomeço, uma lembrança ou aquilo que você deseja viver. Este texto fica privado até você decidir compartilhá-lo.</p></header>
+<label for="fb-profile-story">Resumo da minha vida no esporte <em>(opcional)</em><textarea id="fb-profile-story" name="story" maxlength="600" rows="5" placeholder="Ex.: Joguei futebol na escola, fiquei um tempo parado e agora quero voltar a correr e cuidar melhor da minha rotina."></textarea><small><span id="fb-profile-story-count">0</span>/600 caracteres</small></label>
 </section>
 <section class="be-profile-form-section be-profile-photo-step" aria-labelledby="be-profile-photo-step-title">
-<header><span>4 · SUA FOTO</span><h3 id="be-profile-photo-step-title">Quer incluir uma foto no perfil?</h3><p>A foto é opcional, fica guardada neste aparelho e poderá ser trocada ou removida quando você quiser.</p></header>
+<header><span>OPCIONAL · SUA FOTO</span><h3 id="be-profile-photo-step-title">Quer incluir uma foto no perfil?</h3><p>A foto é opcional, fica guardada neste aparelho e poderá ser trocada ou removida quando você quiser.</p></header>
 <div class="be-profile-photo-step-content"><div class="be-profile-photo-preview"><img id="fb-profile-photo-preview" alt="Sua foto de perfil" hidden><span id="fb-profile-photo-fallback" aria-hidden="true">BE</span></div><div class="be-profile-photo-step-actions"><strong>Foto do Perfil Be</strong><small>Use uma imagem JPG, PNG ou WebP.</small><div class="be-profile-photo-actions"><label for="fb-profile-photo">Escolher foto<input type="file" id="fb-profile-photo" name="photo" accept="image/jpeg,image/png,image/webp" hidden></label><button type="button" id="fb-profile-photo-remove" hidden>Remover foto</button></div></div></div>
 </section>
 <details class="be-profile-optional-fields">
@@ -1593,9 +1613,11 @@ Seu navegador não consegue reproduzir este vídeo.
 <script src="/js/be-knowledge-library.js?v=20260821-4" defer></script>
 <script src="/js/meu-caminho-navigation.js?v=20260916-2" defer></script>
 <script src="/js/be-tools.js?v=20261012-1" defer></script>
-<script src="/js/fala-bem-app.js?v=20261002-1" defer></script>
+<script src="/js/fala-bem-app.js?v=20261012-1" defer></script>
 <script src="/js/be-ia.js?v=20260806-1" defer></script>
 <script src="/js/meu-caminho-diary.js?v=20260916-1" defer></script>
+<script src="/js/be-sports-library.js?v=20261012-1" defer></script>
+<script src="/js/be-diary-goals.js?v=20261012-1" defer></script>
 <script src="/js/meu-caminho-public.js?v=20260916-2" defer></script>
 <script src="/js/be-share-card.js?v=20260903-1" defer></script>
 <script src="/js/meu-caminho-profile.js?v=20260916-2" defer></script>

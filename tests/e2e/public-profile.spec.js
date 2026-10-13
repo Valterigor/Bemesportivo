@@ -3,6 +3,20 @@ const { test, expect } = require('@playwright/test');
 
 test.use({ serviceWorkers: 'block' });
 
+for (const width of [320, 390, 768]) {
+  test(`public profile fits ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1' ? route.continue() : route.abort());
+    await page.goto('/perfil-publico?preview=1');
+    await expect(page.locator('#be-public-name')).toHaveText('Marina em Movimento');
+    const name = await page.locator('#be-public-name').boundingBox();
+    expect(name.width).toBeGreaterThan(200);
+    expect(name.x + name.width).toBeLessThanOrEqual(width);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    if (width === 390) await page.screenshot({ path: 'test-results/public-profile-mobile-updated.png', fullPage: true });
+  });
+}
+
 test('demonstração local apresenta o novo modelo sem depender de um perfil real', async ({ page }) => {
   await page.goto('/perfil-publico?preview=1');
   await expect(page.locator('#be-public-name')).toHaveText('Marina em Movimento');

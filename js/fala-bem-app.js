@@ -4062,11 +4062,6 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
     visual: document.getElementById('fb-profile-visual')?.value || 'energia'
   };
   const story = sanitizeProfileStory(document.getElementById('fb-profile-story')?.value);
-  if (wasIdentityPending && story.length < 10) {
-    document.getElementById('fb-profile-feedback').textContent = 'Conte um pouco da sua vida no esporte para completar seu perfil.';
-    document.getElementById('fb-profile-story')?.focus();
-    return;
-  }
   const photoDataUrl = pendingProfilePhoto === undefined
     ? sanitizeProfilePhoto(currentProfile?.photoDataUrl)
     : sanitizeProfilePhoto(pendingProfilePhoto);
@@ -4107,10 +4102,10 @@ document.getElementById('fb-profile-form')?.addEventListener('submit', event => 
     const ready = document.getElementById('be-profile-ready');
     if (ready) ready.hidden = false;
     const feedback = document.getElementById('fb-profile-feedback');
-    if (feedback) feedback.textContent = 'Perfil Be criado. Sua apresentação está pronta para visualizar.';
+    if (feedback) feedback.textContent = 'Perfil Be criado. Faça seu primeiro registro para começar o diário.';
     window.setTimeout(() => {
       ready?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      document.querySelector('[data-be-view-profile]')?.focus({ preventScroll: true });
+      ready?.querySelector('[data-be-new-entry]')?.focus({ preventScroll: true });
     }, 180);
     return;
   }
@@ -4593,7 +4588,8 @@ document.getElementById('fb-export-profile')?.addEventListener('click', () => {
     profile: currentProfile,
     routineTasks,
     diary,
-    meals
+    meals,
+    goals: window.BeDiaryGoals?.sanitize(readBackupArray('meuCaminhoBeGoalsV1', 100, true)) || []
   }, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -4669,7 +4665,8 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
       document.getElementById('fb-profile-feedback').textContent = 'Importação cancelada. Seus dados atuais foram mantidos.';
       return;
     }
-    const keys = [PROFILE_STORAGE_KEY, 'meuCaminhoBeTasksV1', 'meuCaminhoBeDiaryV1', 'meuCaminhoBeMealsV1'];
+    const goals = window.BeDiaryGoals?.sanitize(parsed.goals) || [];
+    const keys = [PROFILE_STORAGE_KEY, 'meuCaminhoBeTasksV1', 'meuCaminhoBeDiaryV1', 'meuCaminhoBeMealsV1', 'meuCaminhoBeGoalsV1'];
     const previousValues = Object.fromEntries(keys.map(key => [key, localStorage.getItem(key)]));
     try {
       if (sanitized) localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(sanitized));
@@ -4677,6 +4674,7 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
       localStorage.setItem('meuCaminhoBeTasksV1', JSON.stringify(routineTasks));
       localStorage.setItem('meuCaminhoBeDiaryV1', JSON.stringify(diary));
       localStorage.setItem('meuCaminhoBeMealsV1', JSON.stringify(meals));
+      localStorage.setItem('meuCaminhoBeGoalsV1', JSON.stringify(goals));
     } catch (storageError) {
       restoreLocalBackup(previousValues);
       throw storageError;
@@ -4684,6 +4682,7 @@ document.getElementById('fb-import-profile')?.addEventListener('change', async e
     currentProfile = sanitized;
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:diary-imported'));
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:meals-imported'));
+    window.dispatchEvent(new CustomEvent('meuCaminhoBe:goals-imported'));
     renderPersonalizedExperience();
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:tasks-imported'));
     window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated', { detail: { ready: Boolean(sanitized?.objective), source: 'backup' } }));

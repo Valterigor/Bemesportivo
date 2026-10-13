@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'meu-caminho-be-';
-const CACHE_NAME = `${CACHE_PREFIX}v153`;
+const CACHE_NAME = `${CACHE_PREFIX}v154`;
 const CORE_SHELL = [
   '/css/components/site-navigation.css',
   '/css/diary-home-refinement.css',
@@ -25,6 +25,7 @@ const CORE_SHELL = [
   '/css/ui-polish.css',
   '/css/meu-caminho-modern.css',
   '/css/meu-caminho-diary.css',
+  '/css/be-diary-goals.css',
   '/css/meu-diario-ui.css',
   '/css/meu-caminho-profile.css',
   '/css/meu-caminho-navigation.css',
@@ -52,6 +53,7 @@ const CORE_SHELL = [
   '/js/fala-bem-app.js',
   '/js/be-ia.js',
   '/js/meu-caminho-diary.js',
+  '/js/be-diary-goals.js',
   '/js/meu-caminho-public.js',
   '/js/be-share-card.js',
   '/js/meu-caminho-profile.js'
