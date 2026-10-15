@@ -2,6 +2,8 @@
 
 Revisão de 19 de setembro de 2026. Estas mudanças não garantem aprovação.
 
+Veja também a [revisão de outubro após o aviso de conteúdo de baixo valor](ADSENSE-REVISAO-2026-10.md), com guias públicos, mudanças de navegação e pendências de apuração.
+
 ## Implementado no projeto
 
 - Reportagens no menu principal da home.

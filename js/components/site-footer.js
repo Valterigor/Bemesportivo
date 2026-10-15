@@ -9,7 +9,7 @@ const footerContent = `
     <strong>Explore</strong>
     <nav aria-label="Links principais">
       <a href="/reportagens">Reportagens</a><a href="/beplay">BePlay</a><a href="/fala-bem">Fala Bem!</a>
-      <a href="/radar-esportivo">Radar SP</a><a href="/meu-caminho-be?tela=conteudos">Conhecimento</a>
+      <a href="/radar-esportivo">Radar SP</a><a href="/guias">Conhecimento</a>
       <a href="/meu-caminho-be?tela=ferramentas">Ferramentas</a><a href="/profissionais">Profissionais</a>
       <a href="/meu-caminho-be">Meu Caminho Be</a><a href="/moda-fitness">Moda Fitness</a>
       <a href="/produtos">Produtos</a><a href="/game">Game 3D</a><a href="/criar-postagem">Criar postagem</a>

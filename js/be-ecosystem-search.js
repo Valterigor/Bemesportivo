@@ -2,7 +2,7 @@
   'use strict';
 
   const PRODUCTS = Object.freeze([
-    { id: 'conteudo', name: 'Conhecimento', purpose: 'Aprenda com conteúdos especiais.', response: 'Encontre orientações e trilhas da Biblioteca BeM.', action: 'Explorar conhecimento', href: '/meu-caminho-be?tela=conteudos', keywords: ['aprender', 'melhorar', 'como fazer', 'como posso', 'saber', 'conteudo', 'conhecimento', 'dica', 'tecnica', 'chute', 'passe', 'comecar', 'retomar'] },
+    { id: 'conteudo', name: 'Conhecimento', purpose: 'Aprenda com conteúdos especiais.', response: 'Encontre orientações e trilhas da Biblioteca BeM.', action: 'Explorar conhecimento', href: '/guias', keywords: ['aprender', 'melhorar', 'como fazer', 'como posso', 'saber', 'conteudo', 'conhecimento', 'dica', 'tecnica', 'chute', 'passe', 'comecar', 'retomar'] },
     { id: 'beplay', name: 'BEplay', purpose: 'Assista ao esporte.', response: 'Assista a vídeos, treinos, entrevistas e histórias em movimento.', action: 'Abrir o BEplay', href: '/beplay', keywords: ['assistir', 'video', 'ver video', 'filme', 'entrevista', 'beplay', 'play'] },
     { id: 'reportagens', name: 'Reportagens', purpose: 'Conheça histórias reais do esporte.', response: 'Leia histórias de pessoas, projetos e comunidades do esporte.', action: 'Explorar reportagens', href: '/reportagens', keywords: ['reportagem', 'historia', 'historias', 'ler', 'noticia', 'materia', 'trajetoria', 'inspiracao'] },
     { id: 'comunidade', name: 'Comunidade', purpose: 'Converse sobre esporte.', response: 'Pergunte, compartilhe experiências e ouça outras pessoas.', action: 'Abrir a Comunidade', href: '/meu-caminho-be?tela=comunidade', keywords: ['conversar', 'conversa', 'comunidade', 'perguntar', 'pergunta', 'duvida', 'opinar', 'opiniao', 'debater', 'compartilhar', 'pessoas'] },
@@ -70,7 +70,7 @@
   });
 
   const SEARCH_ITEMS = Object.freeze([
-    { product: 'conteudo', title: 'Minha primeira corrida', summary: 'Uma trilha em quatro passos para organizar o começo da prática.', href: '/meu-caminho-be?tela=trilhas', image: '/img/fala-bem-hero-pessoas-optimized-480.webp', action: 'Abrir trilha', keywords: ['corrida', 'correr', 'comecar', 'parado', 'primeiro passo', 'retomar'] },
+    { product: 'conteudo', title: 'Escolha uma atividade para sua rotina', summary: 'Compare horários, acesso e companhia para escolher seu próximo passo.', href: '/guia-escolher-atividade', image: '/img/fala-bem-hero-pessoas-optimized-480.webp', action: 'Ler guia', keywords: ['corrida', 'correr', 'comecar', 'parado', 'primeiro passo', 'retomar'] },
     { product: 'conteudo', title: 'Futebol com inteligência', summary: 'Uma trilha sobre fundamentos, leitura de jogo e evolução no futebol.', href: '/meu-caminho-be?tela=trilhas', image: '/img/IMG_0957-optimized.webp', action: 'Abrir trilha', keywords: ['futebol', 'chute', 'passe', 'tecnica', 'jogo', 'melhorar'] },
     { product: 'conteudo', title: 'Comece pelo que cabe na sua rotina', summary: 'Orientações curtas para construir uma prática possível no dia a dia.', href: '/meu-caminho-be?tela=dicas', image: '/img/app-treino-card.png', action: 'Ler orientação', keywords: ['rotina', 'tempo', 'comecar', 'voltar', 'retomar', 'constancia', 'parado'] },
     { product: 'beplay', title: 'Resultado não acontece por acaso', summary: 'Treino de agilidade no futebol, disciplina e evolução.', href: '/beplay?video=treino-agilidade-futebol', image: '/img/beplay-capas/agilidade-v1.webp', action: 'Assistir', keywords: ['assistir', 'video', 'futebol', 'chute', 'tecnica', 'agilidade', 'treino'] },
@@ -163,7 +163,7 @@
       opensAnswer: true,
       title: topic.title,
       summary: topic.summary,
-      href: '/meu-caminho-be?tela=conteudos',
+      href: '/guias',
       image: null,
       visualLabel: topic.label,
       action: 'Ler orientação',
@@ -299,7 +299,7 @@
       {
         product: 'conteudo', title: 'Explore a Biblioteca BeM',
         summary: 'Veja as orientações e trilhas que já fazem parte do Bem Esportivo.',
-        href: '/meu-caminho-be?tela=conteudos', image: EDITORIAL_IMAGES.guidance,
+        href: '/guias', image: EDITORIAL_IMAGES.guidance,
         action: 'Explorar conhecimento', keywords: []
       },
       {

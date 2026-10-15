@@ -54,14 +54,14 @@ test('home oferece teclado, busca direta e preferencia reversivel', async ({ pag
   await page.locator('#be-ecosystem-search-input').fill('Quero começar a correr');
   await page.locator('#be-ecosystem-search-form').getByRole('button', { name: 'Encontrar' }).click();
   await expect(page.locator('#be-search-result-title')).toBeFocused();
-  await expect(page.locator('#be-ecosystem-search-results')).toContainText('Minha primeira corrida');
+  await expect(page.locator('#be-ecosystem-search-results')).toContainText('Escolha uma atividade para sua rotina');
   await page.locator('#home-interest').selectOption('futebol');
   await page.reload();
   await expect(page.locator('#home-interest')).toHaveValue('futebol');
   await page.locator('#be-ecosystem-search-input').fill('Quero começar a correr');
   await page.locator('#be-ecosystem-search-form').getByRole('button', { name: 'Encontrar' }).click();
   await page.locator('#home-interest').selectOption('corrida');
-  await expect(page.locator('#be-ecosystem-search-results')).toContainText('Minha primeira corrida');
+  await expect(page.locator('#be-ecosystem-search-results')).toContainText('Escolha uma atividade para sua rotina');
   await page.locator('#home-interest').selectOption('');
   expect(await page.evaluate(() => localStorage.getItem('bemEsportivoSportPreferenceV1'))).toBeNull();
   await expect(page.locator('.be-search-discovery')).toBeHidden();

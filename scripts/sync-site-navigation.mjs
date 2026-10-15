@@ -13,6 +13,7 @@ const embedded = new Set(['game.html', 'meu-caminho-be.html', 'admin.html', 'des
 function configuration(name) {
   if (name === 'index.html') return { label: 'Menu principal', links: siteNavigation, moreLabel: 'Explorar', groups: navigationGroups };
   if (name.startsWith('reportagem-')) return { label: 'Menu da reportagem', links: [['/', 'Início'], ['/reportagens', 'Reportagens'], ['#report-reading', 'Ler história'], ['#report-related', 'Relacionadas'], ['#report-comments', 'Comentários']] };
+  if (name === 'guias.html' || name.startsWith('guia-')) return { label: 'Menu da biblioteca', links: [['/', 'Início'], ['/guias', 'Guias'], ['/reportagens', 'Reportagens'], ['/sobre', 'Sobre'], ['/contato', 'Contato']] };
   return pageNavigation[name] || institutionalNavigation;
 }
 function template(name) {

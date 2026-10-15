@@ -32,7 +32,7 @@ export const institutionalNavigation = {
 export const navigationGroups = [
   { label: 'Praticar e aprender', links: [
     ['/radar-esportivo', 'Radar SP', 'Onde praticar em São Paulo'],
-    ['/meu-caminho-be?tela=conteudos', 'Conhecimento', 'Guias e dicas para aprender'],
+    ['/guias', 'Conhecimento', 'Guias públicos para aprender'],
     ['/meu-caminho-be?tela=ferramentas', 'Ferramentas', 'Pace, hidratação e outras referências'],
     ['/profissionais', 'Profissionais', 'Encontre apoio para sua prática']
   ] },

@@ -351,8 +351,8 @@ async function run() {
     assert.match(adsenseConsentDefault, /ad_personalization: 'denied'/);
     assert.doesNotMatch(privacyConsentScript, /ca-pub-5270723987412757/);
     assert.match(homeHtml, /id="be-ecosystem-search-form"[\s\S]*id="be-ecosystem-search-input"[\s\S]*id="be-ecosystem-search-results"/, 'A busca mantém formulário, entrada e resultados.');
-    assert.match(homeHtml, /class="shell be-search-discovery"[\s\S]*Minha primeira corrida[\s\S]*Como a Busca Be funciona[\s\S]*Sem IA generativa/, 'A busca explica a origem editorial das respostas.');
-    for (const destination of ['/game', '/meu-caminho-be?tela=conteudos', '/meu-caminho-be?tela=ferramentas']) {
+    assert.match(homeHtml, /class="shell be-search-discovery"[\s\S]*Escolha uma atividade para sua rotina[\s\S]*Como a Busca Be funciona[\s\S]*Sem IA generativa/, 'A busca explica a origem editorial das respostas.');
+    for (const destination of ['/game', '/guias', '/meu-caminho-be?tela=ferramentas']) {
       assert.ok(homeHtml.includes('href="' + destination + '"'), 'Destino da home ausente: ' + destination);
     }
     assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20261001-1"/, 'A biblioteca carrega antes da busca.');
@@ -365,7 +365,7 @@ async function run() {
     assert.equal(ecosystemSearch.search('Quero registrar o que fiz hoje').primary.href, '/meu-caminho-be/registrar');
     assert.equal(ecosystemSearch.search('Quero acompanhar minha evolução').primary.href, '/meu-caminho-be/jornada');
     assert.ok(ecosystemSearch.search('Quero melhorar meu chute').items.some(item => item.title === 'Futebol com inteligência'));
-    assert.ok(ecosystemSearch.search('Quero começar a correr').items.some(item => item.title === 'Minha primeira corrida'));
+    assert.ok(ecosystemSearch.search('Quero começar a correr').items.some(item => item.href === '/guia-escolher-atividade'));
     const bmiCards = ecosystemSearch.SEARCH_ITEMS.filter(item => item.title === 'Calculadora IMC');
     assert.ok(bmiCards.length > 0, 'A busca precisa oferecer a Calculadora IMC.');
     assert.ok(bmiCards.every(item => item.image === '/img/calculadora-imc-balanca-fita.webp'), 'A Calculadora IMC precisa usar sua imagem temática exclusiva.');

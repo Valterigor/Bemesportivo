@@ -11,6 +11,7 @@ export function initSiteNavigation() {
   const more = header.querySelector('details');
   const current = normalizePath(location.pathname);
   const section = current.startsWith('/reportagens/') || current.startsWith('/reportagem-') ? '/reportagens'
+    : current.startsWith('/guia-') ? '/guias'
     : current.startsWith('/fala-bem-') ? '/fala-bem'
     : current.startsWith('/meu-caminho-be/') ? '/meu-caminho-be' : current;
   header.querySelectorAll('a[data-site-link]').forEach(link => {
