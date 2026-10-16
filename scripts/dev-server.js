@@ -12,6 +12,8 @@ const GE_BRASILEIRAO_URL = 'https://ge.globo.com/futebol/brasileirao-serie-a/';
 const SELECAO_NEWS_RSS_URL = 'https://news.google.com/rss/search?q=sele%C3%A7%C3%A3o%20brasileira%20futebol%20when%3A1d&hl=pt-BR&gl=BR&ceid=BR:pt-419';
 const apiCache = new Map();
 const publicProfileRecords = new Map();
+const storeInterestRecords = new Map();
+const storePreviewSecret = crypto.randomBytes(32).toString('hex');
 let publicProfileHandlerPromise;
 const REPORT_HIDE_THRESHOLD = 3;
 const COMMUNITY_RETENTION_MS = 1000 * 60 * 60 * 24 * 730;
@@ -881,6 +883,33 @@ function resolveRequest(urlPath){
 
 const server = http.createServer(async (request, response) => {
   const parsedUrl = new URL(request.url || '/', `http://${request.headers.host || 'localhost'}`);
+
+  if (parsedUrl.pathname === '/api/store-interest') {
+    try {
+      const chunks = [];
+      let length = 0;
+      for await (const chunk of request) {
+        length += chunk.length;
+        if (length > 2048) { sendJson(response, 413, { error: 'Dados excedem o limite.' }); return; }
+        chunks.push(chunk);
+      }
+      const { handleInterest } = await import('../server/store-interest.mjs');
+      const previewStore = {
+        get: async key => {
+          const record = storeInterestRecords.get(key);
+          return record && record.expires > Date.now() ? JSON.parse(record.value) : null;
+        },
+        put: async (key, value, options) => storeInterestRecords.set(key, { value, expires: Date.now() + options.expirationTtl * 1000 }),
+        delete: async key => storeInterestRecords.delete(key),
+        list: async ({ prefix }) => ({ keys: [...storeInterestRecords].filter(([key, value]) => key.startsWith(prefix) && value.expires > Date.now()).map(([name]) => ({ name })), list_complete: true })
+      };
+      const webRequest = new Request(parsedUrl, { method: request.method, headers: request.headers, body: chunks.length ? Buffer.concat(chunks) : undefined });
+      const result = await handleInterest(webRequest, { BE_DATA: previewStore, STORE_INTEREST_SECRET: storePreviewSecret, BE_ADMIN_TOKEN: process.env.BE_ADMIN_TOKEN, STORE_PREVIEW: true }, JSON.parse(fs.readFileSync(path.join(root, 'js/store-catalog.json'), 'utf8')));
+      response.writeHead(result.status, Object.fromEntries(result.headers));
+      response.end(await result.text());
+    } catch { sendJson(response, 503, { error: 'Cadastro indisponível.' }); }
+    return;
+  }
 
   if(parsedUrl.pathname === '/coluna-valtinho' || parsedUrl.pathname === '/coluna-valtinho.html' || parsedUrl.pathname === '/meucaminhobe'){
     response.writeHead(301, {Location:'/meu-caminho-be'});

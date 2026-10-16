@@ -5,6 +5,7 @@ export const siteNavigation = [
 
 // A shared visual shell, with navigation specific to each area.
 export const pageNavigation = {
+  'loja.html': { label: 'Menu da coleção BE', links: [['/', 'Início'], ['#store-products-title', 'Coleção BE'], ['/contato', 'Contato']] },
   'reportagens.html': { label: 'Menu de reportagens', links: [['/', 'Início'], ['/reportagens', 'Reportagens'], ['#report-featured-title', 'Destaque'], ['#report-more-title', 'Mais histórias']] },
   'beplay.html': { label: 'Menu do BePlay', links: [['/', 'Início'], ['#videos', 'Assistir'], ['#relatedVideos', 'Playlist'], ['#opinioes', 'Comentários'], ['#perfil', 'Minha lista']] },
   'fala-bem.html': { label: 'Menu do Fala Bem!', links: [['/', 'Início'], ['/fala-bem', 'Fala Bem!'], ['#editoria-title', 'A editoria'], ['#colunas', 'Colunas'], ['/contato', 'Enviar uma ideia']] },
@@ -41,6 +42,7 @@ export const navigationGroups = [
     ['/meu-caminho-be/perfil', 'Meu perfil', 'Seu espaço no diário']
   ] },
   { label: 'Estilo e recursos', links: [
+    ['/loja', 'Coleção BE', 'Conheça as peças e registre seu interesse'],
     ['/moda-fitness', 'Moda Fitness', 'Editorial e catálogo de looks'],
     ['/produtos', 'Produtos', 'Curadoria de itens esportivos'],
     ['/game', 'Game 3D', 'Corrida da Hidratação'],

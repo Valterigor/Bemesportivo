@@ -165,11 +165,45 @@ function render(data) {
   }
 }
 
+async function loadStoreInterest() {
+  const summary = document.getElementById('storeInterestSummary');
+  const entries = document.getElementById('storeInterestEntries');
+  entries.replaceChildren();
+  try {
+    const response = await fetch('/api/store-interest', { headers: { 'X-BE-Admin-Token': sessionToken() }, cache: 'no-store' });
+    if (!response.ok) throw new Error();
+    const data = await response.json();
+    summary.textContent = data.uniquePhones + ' telefones distintos · ' + data.registrations + ' interesses em produtos.';
+    for (const product of data.products) {
+      const row = document.createElement('p');
+      row.textContent = product.name + ': ' + product.count + ' — ' + Object.entries(product.sizes).map(([size, count]) => size + ': ' + count).join(' / ');
+      summary.append(row);
+    }
+    for (const entry of data.entries) {
+      const row = document.createElement('p');
+      row.textContent = [entry.name, entry.phone, entry.productId, entry.size].join(' · ') + ' ';
+      const button = document.createElement('button');
+      button.type = 'button'; button.textContent = 'Excluir cadastro';
+      button.addEventListener('click', async () => {
+        if (!confirm('Excluir este cadastro de interesse?')) return;
+        button.disabled = true;
+        try {
+          const result = await fetch('/api/store-interest?id=' + encodeURIComponent(entry.id), { method: 'DELETE', headers: { 'X-BE-Admin-Token': sessionToken() } });
+          if (!result.ok) throw new Error();
+          await loadStoreInterest();
+        } catch { button.disabled = false; summary.textContent = 'Não foi possível excluir. Tente novamente.'; }
+      });
+      row.append(button); entries.append(row);
+    }
+  } catch { summary.textContent = 'Cadastro de interesse indisponível. Verifique a configuração do serviço.'; }
+}
+
 async function loadDashboard() {
   setFeedback(feedback, 'Atualizando dados…');
   try {
     const data = await request('overview');
     render(data);
+    await loadStoreInterest();
     login.hidden = true;
     dashboard.hidden = false;
     exitButton.hidden = false;
@@ -204,6 +238,8 @@ async function moderate(event, item, container) {
 }
 
 function logout(showMessage = true) {
+  document.getElementById('storeInterestEntries').replaceChildren();
+  document.getElementById('storeInterestSummary').replaceChildren();
   try { sessionStorage.removeItem(tokenKey); } catch {}
   dashboard.hidden = true;
   exitButton.hidden = true;

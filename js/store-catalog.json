@@ -1,0 +1,117 @@
+{
+  "mode": "interest",
+  "products": [
+    {
+      "id": "camiseta-be",
+      "name": "Camiseta BE preta",
+      "description": "Camiseta preta com símbolo BE laranja na frente e nome Bem Esportivo nas costas.",
+      "priceCents": 5990,
+      "priceStatus": "provisional",
+      "unit": "unidade",
+      "available": false,
+      "stock": null,
+      "images": [
+        "/img/loja/camiseta.webp"
+      ],
+      "interestSizes": [
+        "PP",
+        "P",
+        "M",
+        "G",
+        "GG",
+        "Outro / não sei"
+      ]
+    },
+    {
+      "id": "short-be",
+      "name": "Short BE preto",
+      "description": "Short preto com cós elástico, cordão frontal e símbolo BE laranja.",
+      "priceCents": 5990,
+      "priceStatus": "provisional",
+      "unit": "unidade",
+      "available": false,
+      "stock": null,
+      "images": [
+        "/img/loja/short.webp"
+      ],
+      "interestSizes": [
+        "PP",
+        "P",
+        "M",
+        "G",
+        "GG",
+        "Outro / não sei"
+      ]
+    },
+    {
+      "id": "viseira-be",
+      "name": "Viseira BE preta",
+      "description": "Viseira preta com símbolo BE laranja na frente.",
+      "priceCents": 3990,
+      "priceStatus": "provisional",
+      "unit": "unidade",
+      "available": false,
+      "stock": null,
+      "images": [
+        "/img/loja/viseira.webp"
+      ],
+      "interestSizes": [
+        "Único / ajustável",
+        "Outro / não sei"
+      ]
+    },
+    {
+      "id": "bone-be",
+      "name": "Boné BE preto",
+      "description": "Boné preto de aba curva com símbolo BE laranja na frente.",
+      "priceCents": 4990,
+      "priceStatus": "provisional",
+      "unit": "unidade",
+      "available": false,
+      "stock": null,
+      "images": [
+        "/img/loja/bone.webp"
+      ],
+      "interestSizes": [
+        "Único / ajustável",
+        "Outro / não sei"
+      ]
+    },
+    {
+      "id": "munhequeira-be",
+      "name": "Munhequeira BE preta",
+      "description": "Munhequeira preta com símbolo BE laranja.",
+      "priceCents": 1990,
+      "priceStatus": "provisional",
+      "unit": "unidade",
+      "available": false,
+      "stock": null,
+      "images": [
+        "/img/loja/munhequeira.webp"
+      ],
+      "interestSizes": [
+        "Único / ajustável",
+        "Outro / não sei"
+      ]
+    },
+    {
+      "id": "meia-be",
+      "name": "Meia BE preta — par",
+      "description": "Par de meias pretas com símbolo BE laranja no cano.",
+      "priceCents": 2490,
+      "priceStatus": "provisional",
+      "unit": "par",
+      "available": false,
+      "stock": null,
+      "images": [
+        "/img/loja/meia.webp"
+      ],
+      "interestSizes": [
+        "33–36",
+        "37–40",
+        "41–44",
+        "Outro / não sei"
+      ]
+    }
+  ]
+}
