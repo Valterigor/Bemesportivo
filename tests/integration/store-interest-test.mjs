@@ -35,4 +35,26 @@ assert.equal((await handleInterest(new Request('https://bemesportivo.com/api/sto
 assert.equal((await read()).registrations, 1);
 for (let i = 0; i < 17; i++) await post(base);
 assert.equal((await post(base)).status, 429);
-console.log('Interesse BE: deduplicação, tamanhos, consentimento, origem, acesso, exclusão e limite aprovados.');
+records.clear();
+await post(base);
+const wishlist = { name: base.name, phone: base.phone, consent: true, items: [
+  { productId: 'camiseta-be', size: 'M' }, { productId: 'short-be', size: 'G' }
+] };
+assert.equal((await post(wishlist)).status, 200);
+result = await read();
+assert.equal(result.registrations, 2);
+assert.equal(result.uniquePhones, 1);
+assert.equal(result.entries.length, 1, 'Lista substitui interesses legados no painel');
+assert.equal(result.entries[0].items.length, 2);
+assert.equal((await post({ ...wishlist, items: [...wishlist.items, wishlist.items[0]] })).status, 400);
+assert.equal((await post({ ...wishlist, items: [] })).status, 400);
+assert.equal((await post({ ...wishlist, items: [{ productId: 'nao-existe', size: 'M' }] })).status, 400);
+assert.equal((await read()).registrations, 2, 'Envio inválido não grava parte da lista');
+assert.equal((await post({ ...wishlist, phone: '+55 11 99999-0000', items: [{ productId: 'short-be', size: 'P' }] })).status, 200);
+result = await read();
+assert.equal(result.registrations, 1);
+assert.equal(result.entries[0].items[0].size, 'P');
+assert.equal(result.products.find(p => p.id === 'camiseta-be').count, 0);
+await handleInterest(new Request('https://bemesportivo.com/api/store-interest?id=' + result.entries[0].id, { method: 'DELETE', headers: { 'x-be-admin-token': env.BE_ADMIN_TOKEN } }), env, catalog);
+assert.equal((await read()).registrations, 0, 'Exclusão não restaura cadastros legados');
+console.log('Interesse BE: legado, lista completa, substituição, consentimento, deduplicação, exclusão e limite aprovados.');

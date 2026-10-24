@@ -181,7 +181,17 @@ async function loadStoreInterest() {
     }
     for (const entry of data.entries) {
       const row = document.createElement('p');
-      row.textContent = [entry.name, entry.phone, entry.productId, entry.size].join(' · ') + ' ';
+      const selections = entry.items || [{ productId: entry.productId, size: entry.size }];
+      const description = selections.map(item => (data.products.find(p => p.id === item.productId)?.name || item.productId) + ' (' + item.size + ')').join(', ');
+      row.textContent = [entry.name, entry.phone, description].join(' · ') + ' ';
+      const notify = document.createElement('button');
+      notify.type = 'button'; notify.textContent = 'Preparar aviso no WhatsApp';
+      notify.addEventListener('click', () => {
+        if (!confirm('As vendas dessas peças já foram liberadas? O WhatsApp será aberto com uma mensagem para você revisar e enviar.')) return;
+        const message = 'Olá, ' + entry.name + '! Aqui é a equipe Bem Esportivo. Você pediu para receber novidades destas peças: ' + description + '. As vendas foram liberadas! Fale com a gente para conferir os tamanhos e a disponibilidade. Sua lista não é uma reserva. Se não quiser receber mais avisos, é só nos dizer.';
+        window.open('https://wa.me/' + entry.phone.replace(/\D/g, '') + '?text=' + encodeURIComponent(message), '_blank', 'noopener,noreferrer');
+      });
+      row.append(notify);
       const button = document.createElement('button');
       button.type = 'button'; button.textContent = 'Excluir cadastro';
       button.addEventListener('click', async () => {

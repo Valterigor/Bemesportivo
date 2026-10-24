@@ -1,6 +1,13 @@
 .be-store-page{background:#faf8f4;color:#28221e;font-family:Inter,Arial,sans-serif;margin:0}
 .store-photo-pending{aspect-ratio:1;display:grid;place-content:center;padding:28px;box-sizing:border-box;background:linear-gradient(135deg,#211c18,#51402b);color:#fff;font-size:22px;text-align:center}
 .store-consent{display:flex;align-items:flex-start;gap:12px;line-height:1.6}
+.store-wishlist-bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;background:#fff4e5;border:1px solid #dbc6ad;border-radius:12px}
+.store-wishlist-bar a{font-weight:800;text-decoration:none}.store-wishlist-bar strong{display:inline-block;background:#9e4b06;color:white;padding:4px 10px;border-radius:20px}
+.store-size{display:grid;gap:8px;margin:16px 0;font-weight:600}.store-product-body>button{width:100%}
+.store-wish-row{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:16px;align-items:center;border-bottom:1px solid #e7dfd5;padding:18px 0}
+.store-wish-row img{width:72px;height:72px;object-fit:contain;border-radius:8px}.store-wish-row h3{margin:0;font-size:18px}.store-wish-row p{margin:6px 0}
+#store-wishlist{scroll-margin-top:95px}
+@media(max-width:600px){.store-wishlist-bar{padding:12px;font-size:14px}.store-wishlist-bar>span{display:none}.store-wishlist-bar a{width:100%;display:flex;justify-content:space-between;align-items:center}.store-wish-row{grid-template-columns:60px minmax(0,1fr);gap:12px}.store-wish-row img{width:60px;height:60px}.store-wish-row button{grid-column:2;justify-self:start}}
 .store-launch-note{padding:24px 28px;border-left:4px solid #bd5d14;border-radius:0 14px 14px 0;background:#fff1e1;margin:12px 0 32px}
 .store-launch-note strong{font-size:20px}.store-launch-note p{margin:8px 0}.store-launch-note small{display:block;color:#655548;line-height:1.6;font-size:13px}
 .store-collection{margin:32px 0 48px;display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:0;align-items:stretch;background:#26221e;border-radius:22px;overflow:hidden}

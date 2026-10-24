@@ -19,6 +19,9 @@ export async function handleInterest(request, env, catalog) {
       if (request.method === 'DELETE') {
         const id = new URL(request.url).searchParams.get('id') || '';
         if (!/^[a-z0-9-]+:[a-f0-9]{64}$/.test(id)) return json({ error: 'Registro inválido.' }, 400);
+        if (id.startsWith('wishlist:')) {
+          for (const product of catalog.products) await store.delete(prefix + product.id + ':' + id.split(':')[1]);
+        }
         await store.delete(prefix + id);
         return json({ ok: true });
       }
@@ -31,13 +34,16 @@ export async function handleInterest(request, env, catalog) {
         entries.push(...values.filter(Boolean));
         cursor = page.list_complete ? undefined : page.cursor;
       } while (cursor);
+      const wishlistPhones = new Set(entries.filter(e => Array.isArray(e.items)).map(e => e.phone));
+      const activeEntries = entries.filter(e => Array.isArray(e.items) || !wishlistPhones.has(e.phone));
+      const selections = activeEntries.flatMap(e => (e.items || [{ productId: e.productId, size: e.size }]).map(item => ({ ...item, phone: e.phone })));
       const products = catalog.products.map(p => {
-        const matches = entries.filter(e => e.productId === p.id);
+        const matches = selections.filter(e => e.productId === p.id);
         const sizes = {};
         for (const e of matches) sizes[e.size] = (sizes[e.size] || 0) + 1;
         return { id: p.id, name: p.name, count: matches.length, sizes };
       });
-      return json({ products, registrations: entries.length, uniquePhones: new Set(entries.map(e => e.phone)).size, entries, preview: !!env.STORE_PREVIEW });
+      return json({ products, registrations: selections.length, uniquePhones: new Set(activeEntries.map(e => e.phone)).size, entries: activeEntries, preview: !!env.STORE_PREVIEW });
     }
     if (request.method !== 'POST') return json({ error: 'Método não permitido.' }, 405);
     if (!request.headers.get('content-type')?.includes('application/json')) return json({ error: 'Use JSON.' }, 415);
@@ -47,18 +53,32 @@ export async function handleInterest(request, env, catalog) {
     let data;
     try { data = JSON.parse(raw); } catch { return json({ error: 'Dados inválidos.' }, 400); }
     if (!data || typeof data !== 'object') return json({ error: 'Dados inválidos.' }, 400);
-    const product = catalog.products.find(p => p.id === data.productId);
+    const isWishlist = Object.hasOwn(data, 'items');
+    const items = isWishlist ? data.items : [{ productId: data.productId, size: data.size }];
+    const seen = new Set();
+    if (!Array.isArray(items) || !items.length || items.length > catalog.products.length || items.some(item => {
+      const product = catalog.products.find(p => p.id === item?.productId);
+      if (!product || !product.interestSizes.includes(item.size) || seen.has(item.productId)) return true;
+      seen.add(item.productId); return false;
+    })) return json({ error: 'Confira as peças e os tamanhos da lista.' }, 400);
     let phone = typeof data.phone === 'string' ? data.phone.replace(/\D/g, '') : '';
     if (phone.length === 13 && phone.startsWith('55')) phone = phone.slice(2);
     const name = typeof data.name === 'string' ? data.name.trim().replace(/[\u0000-\u001f]/g, '') : '';
-    if (!product || !product.interestSizes.includes(data.size) || !/^[1-9][0-9]9[0-9]{8}$/.test(phone) || name.length < 2 || name.length > 80 || data.consent !== true) return json({ error: 'Confira nome, WhatsApp, produto, tamanho e autorização.' }, 400);
+    if (!/^[1-9][0-9]9[0-9]{8}$/.test(phone) || name.length < 2 || name.length > 80 || data.consent !== true) return json({ error: 'Confira nome, WhatsApp e autorização.' }, 400);
     const ip = request.headers.get('CF-Connecting-IP') || 'local';
     const rateKey = 'store-interest:rate:' + await hash(ip, secret);
     const rate = await store.get(rateKey, { type: 'json' });
     if (Number(rate?.count || 0) >= 20) return json({ error: 'Aguarde para tentar novamente.' }, 429);
     await store.put(rateKey, JSON.stringify({ count: Number(rate?.count || 0) + 1 }), { expirationTtl: 3600 });
-    const id = product.id + ':' + await hash(phone, secret);
-    const entry = { id, productId: product.id, size: data.size, name, phone: '55' + phone, consentVersion: 'store-interest-v1', updatedAt: new Date().toISOString() };
+    const id = (isWishlist ? 'wishlist' : items[0].productId) + ':' + await hash(phone, secret);
+    const entry = { id, name, phone: '55' + phone, consentVersion: isWishlist ? 'store-wishlist-v1' : 'store-interest-v1', updatedAt: new Date().toISOString() };
+    if (isWishlist) {
+      entry.items = items.map(({ productId, size }) => ({ productId, size }));
+      entry.notificationChannel = 'whatsapp';
+    } else {
+      entry.productId = items[0].productId;
+      entry.size = items[0].size;
+    }
     await store.put(prefix + id, JSON.stringify(entry), { expirationTtl: ttl });
     return json({ ok: true, preview: !!env.STORE_PREVIEW });
   } catch { return json({ error: 'Não foi possível registrar agora.' }, 503); }

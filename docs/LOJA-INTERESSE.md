@@ -9,15 +9,32 @@ com controles para pausar ou ativar o áudio.
 
 ## Registro e painel
 
-POST /api/store-interest grava nome, telefone normalizado, produto, tamanho,
-versão do consentimento e data. Uma chave HMAC por telefone/produto faz novos
-envios atualizarem a preferência. Não há verificação por SMS: as contagens são
+O carrinho de desejos guarda somente IDs e tamanhos no navegador por até 180 dias,
+sem nome ou telefone. O visitante pode reunir várias peças e remover itens.
+Há uma preferência de tamanho por produto; adicionar de novo atualiza o tamanho.
+Os valores são estimados, sem frete e sem compromisso de compra.
+
+POST /api/store-interest recebe items, nome, telefone e consentimento. Valida toda
+a lista antes de gravar uma única chave HMAC por telefone, com TTL de 180 dias.
+Reenviar substitui a lista anterior inteira. O endpoint continua aceitando o
+formato legado produto/tamanho. No painel, a lista nova substitui os registros
+legados do mesmo telefone, evitando duplicidade. A exclusão da lista remove também
+as chaves legadas desse telefone. Não há verificação por SMS: as contagens são
 de telefones informados, não pessoas comprovadas.
 
 O painel /admin usa a chave administrativa existente e mostra totais por produto,
 tamanho e telefones distintos, além dos cadastros e botão de exclusão.
 Uma pessoa pode demonstrar interesse em vários produtos.
 Não se contam cliques nem conversas no WhatsApp como cadastros.
+
+## Aviso de abertura das vendas
+
+O canal consentido é WhatsApp. No painel, “Preparar aviso no WhatsApp” confirma
+se as vendas foram liberadas e abre uma mensagem com as peças e tamanhos daquela
+lista. O administrador revisa e envia manualmente no WhatsApp. Não há disparo
+automático, comprovação de entrega ou mensagem enviada ao salvar o cadastro.
+Não acionar avisos antes de os produtos estarem disponíveis. Automação futura
+exige integrar um provedor de envio; abrir wa.me não equivale a envio.
 
 ## Configuração antes de publicar
 

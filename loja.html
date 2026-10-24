@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://bemesportivo.com/loja">
 <link rel="stylesheet" href="/site-common.css?v=20260906-1">
 <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
-<link rel="stylesheet" href="/css/store.css?v=20261016-3">
+<link rel="stylesheet" href="/css/store.css?v=20261024-1">
 </head>
 <body class="be-store-page">
 <!-- shared-site-navigation:start -->
@@ -30,26 +30,30 @@
 </figure>
 <p id="store-status" role="status" aria-live="polite">Carregando a coleção…</p>
 <noscript>Ative o JavaScript para conhecer a coleção e registrar seu interesse.</noscript>
-<section aria-labelledby="store-products-title"><h2 id="store-products-title">Qual peça combina com você?</h2><div class="store-products" id="store-products"></div></section>
-<form id="store-interest-form" class="store-panel" hidden>
-<h2 tabindex="-1" id="store-form-title">Tenho interesse</h2>
-<p>Seu cadastro ajuda a planejar a coleção. Não há cobrança nem compromisso de compra.</p>
+<nav class="store-wishlist-bar" aria-label="Sua lista de desejos"><span>Escolha suas peças favoritas</span><a href="#store-wishlist">Meu carrinho de desejos <strong id="store-wishlist-count">0</strong></a></nav>
+<section aria-labelledby="store-products-title"><h2 id="store-products-title">Monte sua lista. Imagine seu próximo look.</h2><p>Escolha o tamanho de cada peça e adicione suas favoritas. No final, deixe seu WhatsApp para receber o aviso de abertura das vendas.</p><div class="store-products" id="store-products"></div></section>
+<section id="store-wishlist" class="store-panel" aria-labelledby="store-wishlist-title">
+<h2 id="store-wishlist-title">Seu carrinho de desejos</h2><p>Uma seleção do que você gostaria de usar, sem cobrança ou reserva de estoque.</p>
+<div id="store-wishlist-items"></div><p id="store-wishlist-total" class="store-subtotal"></p>
+<p id="store-wishlist-note" class="store-privacy">Sua seleção fica neste navegador. Para receber o aviso, cadastre a lista abaixo.</p>
+</section>
+<form id="store-interest-form" class="store-panel">
+<h2 tabindex="-1" id="store-form-title">Avise-me quando as vendas abrirem</h2>
+<p>Cadastre sua lista e a equipe BE avisará pelo WhatsApp sobre a disponibilidade das peças escolhidas. Não há compromisso de compra.</p>
 <div class="store-fields">
-<label>Produto<select name="productId" required></select></label>
-<label>Tamanho desejado<select name="size" required></select></label>
 <label>Seu nome<input name="name" autocomplete="given-name" maxlength="80" required></label>
 <label>WhatsApp com DDD<input name="phone" type="tel" autocomplete="tel" maxlength="20" required placeholder="(11) 99999-9999"></label>
 </div>
 <p>Os tamanhos indicam sua preferência; a grade final ainda será definida.</p>
-<label class="store-consent"><input type="checkbox" name="consent" required> Autorizo o Bem Esportivo a guardar meu nome, WhatsApp e preferências por até 180 dias para planejar a coleção e me avisar sobre este produto.</label>
+<label class="store-consent"><input type="checkbox" name="consent" required> Quero receber pelo WhatsApp o aviso de abertura das vendas das peças da minha lista. Autorizo o Bem Esportivo a guardar meu nome, telefone e preferências por até 180 dias para esse fim.</label>
 <p class="store-privacy">Seus dados não aparecem publicamente. Para cancelar seu interesse ou pedir a exclusão, use nosso <a href="/contato">contato</a>. Leia a <a href="/politica-de-privacidade">Política de Privacidade</a>.</p>
-<button type="submit" class="store-primary">Registrar meu interesse</button>
+<button type="submit" class="store-primary" disabled>Salvar lista e receber aviso</button>
 <p id="store-form-status" role="status" aria-live="polite"></p>
 </form>
 <p>Quer conversar sobre a coleção? <a href="https://wa.me/5511986366965" target="_blank" rel="noopener noreferrer">Fale com a BE pelo WhatsApp</a>. Conversas pelo WhatsApp não entram automaticamente na contagem do formulário.</p>
 </main>
 <footer class="site-footer"><div class="site-footer-inner"></div></footer>
-<script src="/js/store.js?v=20261015-2" defer></script>
+<script src="/js/store.js?v=20261024-1" defer></script>
 <script type="module" src="/js/site-common.js?v=20260929-1"></script>
 <script type="module" src="/js/site-navigation-entry.js?v=20260929-1"></script>
 </body></html>
