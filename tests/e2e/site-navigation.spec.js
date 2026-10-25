@@ -18,9 +18,15 @@ for (const file of pages) {
     const nav = header.locator('#be-site-navigation');
     await expect(header).toHaveCount(1);
     await expect(header).toHaveAttribute('data-navigation-ready', 'true');
-    await expect(header).toHaveCSS('background-color', 'rgb(8, 8, 8)');
-    await expect(header.locator('.be-site-brand img')).toHaveCSS('height', '74px');
-    expect(await header.evaluate(element => element.querySelector('nav').getBoundingClientRect().left - element.querySelector('.be-site-brand').getBoundingClientRect().left)).toBe(158);
+    if (file === 'index.html') {
+      await expect(header).toHaveCSS('background-color', 'rgb(250, 249, 246)');
+      await expect(header.locator('.be-site-brand img')).toHaveCSS('width', '57px');
+      expect(await header.evaluate(element => element.querySelector('nav').getBoundingClientRect().left > element.querySelector('.be-site-brand').getBoundingClientRect().right)).toBe(true);
+    } else {
+      await expect(header).toHaveCSS('background-color', 'rgb(8, 8, 8)');
+      await expect(header.locator('.be-site-brand img')).toHaveCSS('height', '74px');
+      expect(await header.evaluate(element => element.querySelector('nav').getBoundingClientRect().left - element.querySelector('.be-site-brand').getBoundingClientRect().left)).toBe(158);
+    }
     if (file !== 'index.html') {
       await expect(header.locator('.be-site-journey')).toHaveCount(0);
       await expect(header.getByText('Praticar e aprender', { exact: true })).toHaveCount(0);
