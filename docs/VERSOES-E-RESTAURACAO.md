@@ -2,7 +2,17 @@
 
 O site é publicado pelo Cloudflare Pages a partir da branch `main`. Cada versão pode ser marcada com uma tag Git e recuperada sem apagar o histórico.
 
-## Voltar à versão anterior ao feed
+## Modelo anterior à home com vídeo (25/10/2026)
+
+O site anterior está preservado na tag `site-2026-10-25-before-video-home`, commit `0bfa7fe`. Para preparar sua restauração:
+
+```powershell
+npm run site:rollback -- site-2026-10-25-before-video-home
+```
+
+Também foi salvo um arquivo local completo do código versionado em `.local-reference/home-before-video/site-2026-10-25-before-video-home.zip`, além do HTML anterior nessa mesma pasta. A nova home usa `css/home-video.css`, `js/home-video.js`, `img/home-video-poster-v2.jpg` e `videos/home-tres-esportes-v2.mp4`. Os clipes brutos e as prévias locais não fazem parte da publicação.
+
+## Modelo anterior ao feed
 
 Ponto de retorno: `site-2026-09-30-before-feed`, commit `1c5efa4`.
 

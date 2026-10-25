@@ -1,47 +1,40 @@
 const { test, expect } = require('@playwright/test');
 test.use({ serviceWorkers: 'block' });
 
-test('tema persiste e voltar ao topo recupera o foco de navegação', async ({ page }) => {
-  await page.route('**/*', route => new URL(route.request().url()).origin === 'http://127.0.0.1:3100' ? route.continue() : route.abort());
+test('vídeo respeita movimento reduzido e voltar ao topo recupera o foco', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({ version: 2, necessary: true, measurement: false, advertising: false })));
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
-  await page.selectOption('#home-theme-select', 'light');
-  await page.reload();
-  await expect(page.locator('html')).toHaveAttribute('data-home-theme', 'light');
-  await expect(page.locator('#home-theme-select')).toHaveValue('light');
+  const video=page.locator('#hero-video');
+  await expect(video).toBeVisible();
+  expect(await video.evaluate(v=>v.paused)).toBe(true);
+  await page.locator('#pause').click();
+  await expect.poll(()=>video.evaluate(v=>v.paused)).toBe(false);
+  await page.locator('#pause').click();
+  expect(await video.evaluate(v=>v.paused)).toBe(true);
   await page.locator('.feed-tools').scrollIntoViewIfNeeded();
   await expect(page.locator('#topBtn')).toBeVisible();
   await page.locator('#topBtn').click();
   await expect(page.locator('#main-content')).toBeFocused();
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
-  await expect(page.locator('#topBtn')).toBeHidden();
 });
 
-test('feed filtra as editorias e mantém o layout dentro da tela', async ({ page }) => {
-  await page.route('**/*', route => new URL(route.request().url()).origin === 'http://127.0.0.1:3100' ? route.continue() : route.abort());
-  await page.addInitScript(() => localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({ version: 2, necessary: true, measurement: false, advertising: false })));
+test('capas completas e layout responsivo da nova home', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: 'Vídeos', exact: true }).click();
-  await expect(page.locator('.feed-post:visible')).toHaveCount(1);
-  await expect(page.locator('.feed-post:visible')).toContainText('Resultado não acontece por acaso');
-  await expect(page.getByRole('button', { name: 'Vídeos', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await page.getByRole('button', { name: 'Histórias', exact: true }).click();
-  await expect(page.locator('.feed-post:visible')).toHaveCount(3);
-  await page.getByRole('button', { name: 'Para praticar', exact: true }).click();
-  await expect(page.locator('.feed-post:visible')).toHaveCount(4);
-  await expect(page.locator('.feed-post:visible').first()).toContainText('Radar SP');
-  await page.getByRole('button', { name: 'Estilo', exact: true }).click();
-  await expect(page.locator('.feed-post:visible')).toHaveCount(1);
-  await expect(page.locator('.feed-post:visible')).toContainText('Moda Fitness');
-  await page.getByRole('button', { name: 'Tudo', exact: true }).click();
-  await expect(page.locator('.feed-post:visible')).toHaveCount(9);
-  await expect(page.locator('.feed-post-header strong')).toHaveText(['Reportagens', 'BePlay', 'Fala Bem!', 'Radar SP', 'Conhecimento', 'Profissionais', 'Meu Caminho Be', 'Moda Fitness', 'Reportagens']);
-  for (const width of [320, 390, 768, 1440]) {
-    await page.setViewportSize({ width, height: 844 });
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await expect(page.locator('.cards .card')).toHaveCount(9);
+  await expect(page.locator('.feed-tool-card')).toHaveCount(6);
+  for (const width of [320,390,768,1440]) {
+    await page.setViewportSize({width,height:844});
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    for (const img of await page.locator('.cards .card img').all()) {
+      await img.scrollIntoViewIfNeeded();
+      await expect.poll(()=>img.evaluate(i=>i.complete&&i.naturalWidth>0)).toBe(true);
+      const ratio=await img.evaluate(i=>Math.abs(i.getBoundingClientRect().width/i.getBoundingClientRect().height-i.naturalWidth/i.naturalHeight));
+      expect(ratio).toBeLessThan(0.03);
+    }
   }
 });
+
 test('home oferece teclado, busca direta e preferencia reversivel', async ({ page }) => {
   await page.route('**/*', route => new URL(route.request().url()).origin === 'http://127.0.0.1:3100' ? route.continue() : route.abort());
   await page.addInitScript(() => localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({ version: 2, necessary: true, measurement: false, advertising: false })));

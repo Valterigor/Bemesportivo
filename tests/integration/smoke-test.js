@@ -301,11 +301,12 @@ async function run() {
     assert.match(reportCss, /\.report-preview-media \.report-preview-hope\s*\{[\s\S]*?object-fit:\s*contain;/);
     assert.match(reportCss, /\.report-related > div\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-    assert.match(homeHtml, /id="home-hero-title">O que você busca no esporte\?<\/h1>/, 'A home parte da necessidade da pessoa.');
+    assert.match(homeHtml, /id="home-hero-title">Seu ritmo\.<br>Seu esporte\.<br><em>Seu lugar\.<\/em><\/h1>/, 'A home apresenta a chamada aprovada.');
+    assert.match(homeHtml, /id="hero-video"[^>]*muted[^>]*loop[^>]*playsinline/, 'O destaque usa vídeo silencioso em loop.');
     assert.match(homeHtml, /id="be-ecosystem-search-input"[^>]*aria-label="O que você busca no esporte\?"/, 'A busca mantém um nome acessível.');
     assert.match(homeHtml, /class="shell be-search-discovery"[^>]*hidden/, 'Os resultados aparecem depois de uma busca.');
     assert.match(homeHtml, /id="be-site-header"[\s\S]*id="be-site-navigation"/, 'A home usa o mesmo menu das demais páginas.');
-    assert.match(homeHtml, /class="shell feed-stories" id="como-funciona"/, 'Os atalhos de seções continuam disponíveis.');
+    assert.match(homeHtml, /class="paths" id="como-funciona"/, 'Os atalhos de seções continuam disponíveis.');
     assert.match(homeHtml, /js\/home-feed\.js\?v=/, 'Os filtros do feed precisam estar disponíveis.');
     const professionalsHtml = fs.readFileSync(path.join(root, 'profissionais.html'), 'utf8');
     const professionalsScript = fs.readFileSync(path.join(root, 'js/profissionais.js'), 'utf8');
