@@ -1,0 +1,96 @@
+/* Visual da home aplicado exclusivamente à página de listagem. */
+body.reportagens-page.reportagens-listing-page {
+  --report-accent: #b83d08;
+  background: #faf9f6 !important;
+  color: #16191c;
+  font-family: Inter, Arial, sans-serif;
+}
+body.reportagens-page.reportagens-listing-page #be-site-header {
+  background: #faf9f6;
+  color: #16191c;
+  color-scheme: light;
+  border-bottom: 1px solid #e6e3dc;
+}
+body.reportagens-page.reportagens-listing-page #be-site-header .be-site-header-inner {
+  width: min(1280px, calc(100% - 80px));
+  min-height: 98px;
+  gap: 36px;
+}
+body.reportagens-page.reportagens-listing-page #be-site-header .be-site-brand {
+  flex: 0 0 auto;
+  gap: 10px;
+  color: #16191c;
+}
+body.reportagens-page.reportagens-listing-page #be-site-header .be-site-brand::after {
+  content: 'bem esportivo';
+  font: 800 22px Arial, sans-serif;
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+body.reportagens-page.reportagens-listing-page #be-site-header .be-site-brand img { width: 57px; height: auto; }
+body.reportagens-page.reportagens-listing-page #be-site-header #be-site-navigation { margin-left: auto; gap: 30px; }
+body.reportagens-page.reportagens-listing-page #be-site-header #be-site-navigation > a { color: #383b3d; }
+body.reportagens-page.reportagens-listing-page #be-site-header #be-site-navigation > a:is(:hover,[aria-current]) { color: var(--report-accent); border-bottom-color: var(--report-accent); }
+body.reportagens-page.reportagens-listing-page :is(.page-hero, main.report-listing, .site-breadcrumb) { width: min(1280px, calc(100% - 80px)) !important; max-width: 1280px; }
+body.reportagens-page.reportagens-listing-page .site-breadcrumb { color: #60635f; }
+body.reportagens-page.reportagens-listing-page .site-breadcrumb a { color: var(--report-accent); }
+body.reportagens-page.reportagens-listing-page .page-hero { padding: 32px 0 38px !important; margin-top: 0 !important; text-align: left; }
+body.reportagens-page.reportagens-listing-page .page-hero .page-hero-kicker { display: flex; align-items: center; gap: 14px; color: var(--report-accent) !important; letter-spacing: .15em; text-transform: uppercase; margin-bottom: 18px !important; }
+body.reportagens-page.reportagens-listing-page .page-hero-kicker::before { content: ''; width: 30px; height: 2px; background: var(--report-accent); }
+body.reportagens-page.reportagens-listing-page .page-hero h1 { font-size: clamp(40px, 5vw, 68px) !important; letter-spacing: -.055em; color: #16191c !important; }
+body.reportagens-page.reportagens-listing-page .page-hero p:last-child { max-width: 650px; font-size: 19px !important; color: #606367 !important; }
+body.reportagens-page.reportagens-listing-page main.report-listing { gap: 60px; }
+body.reportagens-page.reportagens-listing-page .report-preview-featured { grid-template-columns: 1fr 1fr; min-height: 0; border: 1px solid #e4e0d8; background: #f0eee8; border-radius: 20px !important; overflow: hidden; }
+body.reportagens-page.reportagens-listing-page .report-preview-featured .report-preview-media { min-height: 0; aspect-ratio: 1; align-self: center; background: #eeeae0; }
+body.reportagens-page.reportagens-listing-page .report-preview-featured .report-preview-media img { position: static; display: block; height: auto !important; width: 100% !important; aspect-ratio: 1; object-fit: contain; object-position: center; transform: none !important; }
+body.reportagens-page.reportagens-listing-page .report-preview-featured .report-preview-body { padding: clamp(26px, 3.5vw, 52px); }
+body.reportagens-page.reportagens-listing-page .report-featured-label { border: 1px solid #c7b9a9; color: #904014; background: transparent; border-radius: 30px; padding: 6px 12px; margin-bottom: 25px; }
+body.reportagens-page.reportagens-listing-page .report-preview-featured .report-category { color: var(--report-accent) !important; }
+body.reportagens-page.reportagens-listing-page .report-preview-featured h2 { color: #16191c !important; font-size: clamp(30px, 3.2vw, 46px) !important; line-height: 1.12 !important; }
+body.reportagens-page.reportagens-listing-page .report-preview-featured .report-preview-body > p:not(.report-preview-meta) { color: #555b55 !important; font-size: 17px !important; line-height: 1.7 !important; }
+body.reportagens-page.reportagens-listing-page .report-preview-featured .report-preview-meta { color: #65645d !important; }
+body.reportagens-page.reportagens-listing-page #report-listing .report-preview-featured .report-preview-body a.report-read-button { background: var(--report-accent) !important; color: white !important; padding: 15px 21px; border-radius: 8px; }
+body.reportagens-page.reportagens-listing-page .report-read-button:hover { background: #963006 !important; }
+body.reportagens-page.reportagens-listing-page .report-category,
+body.reportagens-page.reportagens-listing-page .report-section-eyebrow { color: var(--report-accent); }
+body.reportagens-page.reportagens-listing-page .report-section-heading h2 { color: #16191c !important; letter-spacing: -.04em; }
+body.reportagens-page.reportagens-listing-page .report-grid { align-items: start; gap: 26px; }
+body.reportagens-page.reportagens-listing-page .report-grid .report-preview { min-width: 0; overflow: hidden; border-color: #e4e0d8; }
+body.reportagens-page.reportagens-listing-page .report-grid .report-preview-media { aspect-ratio: auto; height: 300px; background: #eeece5; display: flex; justify-content: center; align-items: center; }
+body.reportagens-page.reportagens-listing-page .report-grid .report-preview-media picture { display: block; width: 100%; height: 100%; }
+body.reportagens-page.reportagens-listing-page .report-grid .report-preview-media img { display: block; position: static; width: 100%; height: 100% !important; min-height: 0 !important; max-height: none !important; aspect-ratio: auto; object-fit: contain !important; object-position: center !important; transform: none !important; }
+body.reportagens-page.reportagens-listing-page .report-grid .report-preview-body { padding: 25px; }
+body.reportagens-page.reportagens-listing-page .report-grid h3 { color: #16191c !important; font-size: 22px !important; letter-spacing: -.025em; }
+body.reportagens-page.reportagens-listing-page .report-read-link { color: var(--report-accent) !important; }
+body.reportagens-page.reportagens-listing-page .report-path-bridge { background: #eeeae0; border: 0; padding: 38px; }
+body.reportagens-page.reportagens-listing-page .report-path-bridge > span { color: #a13709; }
+body.reportagens-page.reportagens-listing-page .report-path-bridge a { background: var(--report-accent); color: #fff !important; border: 0; border-radius: 8px; padding: 14px 20px; display: inline-flex; }
+body.reportagens-page.reportagens-listing-page .site-footer { background: #faf9f6 !important; color: #555b55 !important; border-top: 1px solid #e1ddd4; }
+body.reportagens-page.reportagens-listing-page .site-footer-inner { width: min(1280px, calc(100% - 80px)); }
+body.reportagens-page.reportagens-listing-page .site-footer :is(strong,a) { color: #292d29 !important; }
+body.reportagens-page.reportagens-listing-page .site-footer :is(p,small) { color: #61665f !important; }
+body.reportagens-page.reportagens-listing-page .site-footer :is(button,.site-footer-bottom,.site-footer-bottom span) { color: #61665f !important; }
+body.reportagens-page.reportagens-listing-page a:focus-visible { outline: 3px solid var(--report-accent); outline-offset: 4px; }
+@media (max-width: 900px) {
+  body.reportagens-page.reportagens-listing-page #be-site-header .be-site-header-inner { flex-wrap: wrap; gap: 8px; padding: 16px 0 0; }
+  body.reportagens-page.reportagens-listing-page #be-site-header #be-site-navigation { width: 100%; gap: 24px; margin-left: 0; }
+  body.reportagens-page.reportagens-listing-page .report-preview-featured .report-preview-body { padding: 26px; }
+}
+@media (max-width: 700px) {
+  body.reportagens-page.reportagens-listing-page :is(.page-hero, main.report-listing, .site-breadcrumb) { width: calc(100% - 40px) !important; }
+  body.reportagens-page.reportagens-listing-page #be-site-header .be-site-header-inner,
+  body.reportagens-page.reportagens-listing-page .site-footer-inner { width: calc(100% - 40px); }
+  body.reportagens-page.reportagens-listing-page #be-site-header .be-site-brand img { width: 42px; height: auto; }
+  body.reportagens-page.reportagens-listing-page #be-site-header .be-site-brand::after { font-size: 20px; }
+  body.reportagens-page.reportagens-listing-page #be-site-header #be-site-navigation { gap: 18px; justify-content: space-between; }
+  body.reportagens-page.reportagens-listing-page #be-site-header #be-site-navigation > a { font-size: 12px; }
+  body.reportagens-page.reportagens-listing-page .page-hero { padding: 22px 0 28px !important; }
+  body.reportagens-page.reportagens-listing-page .page-hero p:last-child { font-size: 17px !important; }
+  body.reportagens-page.reportagens-listing-page .report-preview-featured { grid-template-columns: 1fr; }
+  body.reportagens-page.reportagens-listing-page .report-preview-featured .report-preview-media { aspect-ratio: 1; }
+  body.reportagens-page.reportagens-listing-page .report-preview-featured .report-preview-body { padding: 26px; }
+  body.reportagens-page.reportagens-listing-page main.report-listing { gap: 40px; }
+  body.reportagens-page.reportagens-listing-page .report-grid .report-preview-media { height: auto; }
+  body.reportagens-page.reportagens-listing-page .report-grid .report-preview-media img { height: auto !important; max-height: 460px !important; }
+  body.reportagens-page.reportagens-listing-page .report-path-bridge { padding: 26px; }
+}

@@ -18,7 +18,7 @@ for (const file of pages) {
     const nav = header.locator('#be-site-navigation');
     await expect(header).toHaveCount(1);
     await expect(header).toHaveAttribute('data-navigation-ready', 'true');
-    if (file === 'index.html') {
+    if (['index.html', 'reportagens.html'].includes(file)) {
       await expect(header).toHaveCSS('background-color', 'rgb(250, 249, 246)');
       await expect(header.locator('.be-site-brand img')).toHaveCSS('width', '57px');
       expect(await header.evaluate(element => element.querySelector('nav').getBoundingClientRect().left > element.querySelector('.be-site-brand').getBoundingClientRect().right)).toBe(true);
