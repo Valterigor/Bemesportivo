@@ -9,7 +9,7 @@ const esbuild = require('esbuild');
 
 const rootDir = path.resolve(__dirname, '..');
 const distDir = path.join(rootDir, 'dist');
-const publicDirectories = ['css', 'data', 'img', 'js', 'videos'];
+const publicDirectories = ['css', 'data', 'img', 'js', 'videos', 'diario-app'];
 const publicRootFiles = [
   '_headers',
   '_redirects',
