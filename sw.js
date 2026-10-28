@@ -1,8 +1,14 @@
 'use strict';
 
 const CACHE_PREFIX = 'meu-caminho-be-';
-const CACHE_NAME = `${CACHE_PREFIX}v154`;
+const CACHE_NAME = `${CACHE_PREFIX}v155`;
 const CORE_SHELL = [
+  '/js/diario-dashboard-entry.js',
+  '/diario-app/',
+  '/diario-app/diario-simples.css',
+  '/diario-app/diario-dashboard.css',
+  '/diario-app/diario-simples.js',
+  '/diario-app/diario-resultados.js',
   '/css/components/site-navigation.css',
   '/css/diary-home-refinement.css',
   '/js/site-navigation-entry.js',

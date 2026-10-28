@@ -16,7 +16,7 @@ for (const width of [390, 1440]) {
       localStorage.setItem('meuCaminhoBeProfileV1', JSON.stringify({ name: 'Ana', identityCreatedAt: new Date().toISOString(), sportProfile: { modality: 'corrida' } }));
       localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({ version: 2, necessary: true, measurement: false, advertising: false, updatedAt: new Date().toISOString() }));
     });
-    await page.goto('/meu-caminho-be'); await enterDiary(page);
+    await page.goto('/meu-caminho-be?versao=anterior'); await enterDiary(page);
     const form = page.locator('#be-goal-form');
     await expect(form).toBeVisible();
     await form.locator('[name=target]').fill('2');

@@ -12,7 +12,7 @@ test('weekly summary, repeat activity and photo backup round trip', async ({ pag
       { id: 'future-test', date: '2099-12-31', type: 'corrida', duration: 90 }
     ]));
   });
-  await page.goto('/meu-caminho-be', { waitUntil: 'domcontentloaded' });
+  await page.goto('/meu-caminho-be?versao=anterior', { waitUntil: 'domcontentloaded' });
   await enterDiary(page);
   await expect(page.locator('#be-weekly-summary')).toContainText('1 dia nesta semana: 30 min');
   // Exercise the handlers independently of the welcome overlay.

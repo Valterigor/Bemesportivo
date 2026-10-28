@@ -200,7 +200,7 @@ test('Meu Hoje preserva o layout entre a identidade e a criação do Mapa BeM', 
     }));
   });
 
-  await page.goto('/meu-caminho-be');
+  await page.goto('/meu-caminho-be?versao=anterior');
   await enterDiary(page);
   await expect(page.locator('#be-section-banner')).toBeHidden();
   await expect(page.locator('.be-product-showcase')).toBeVisible();
@@ -337,7 +337,7 @@ test('recursos do menu móvel abrem a rota e a seção exatas', async ({ page })
     }));
   });
 
-  await page.goto('/meu-caminho-be');
+  await page.goto('/meu-caminho-be?versao=anterior');
   await enterDiary(page);
   const destinations = [
     ['dicas', /\/meu-caminho-be\/ferramentas\/guias$/, '[data-fb-panel="dicas"]'],
@@ -479,7 +479,7 @@ test('PWA abre uma subpágina do Meu Caminho Be sem conexão', async ({ page, co
       createdAt: new Date().toISOString()
     }));
   });
-  await page.goto('/meu-caminho-be');
+  await page.goto('/meu-caminho-be?versao=anterior');
   await enterDiary(page);
   await page.evaluate(() => navigator.serviceWorker.ready);
   await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));

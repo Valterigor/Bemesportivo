@@ -14,7 +14,7 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 
       if (hasProfile) await page.addInitScript(() => {
         localStorage.setItem('meuCaminhoBeProfileV1', JSON.stringify({ name: 'Maria', identityCreatedAt: new Date().toISOString() }));
       });
-      await page.goto('/meu-caminho-be');
+      await page.goto('/meu-caminho-be?versao=anterior');
       const cover = page.getByRole('button', { name: 'Abrir Meu diário Be', exact: true });
       expect(await page.evaluate(() => window.diarySpokenGreetings)).toEqual([]);
       {

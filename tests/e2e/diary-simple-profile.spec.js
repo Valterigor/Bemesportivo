@@ -7,7 +7,7 @@ for (const width of [320, 390, 768, 1440]) {
     await page.addInitScript(() => {
       localStorage.setItem('bemEsportivoPrivacyConsentV1', JSON.stringify({ version: 2, necessary: true, measurement: false, advertising: false, updatedAt: new Date().toISOString() }));
     });
-    await page.goto('/meu-caminho-be');
+    await page.goto('/meu-caminho-be?versao=anterior');
     await enterDiary(page);
     await page.locator('#fb-profile-name').fill('Ana');
     await page.locator('#fb-profile-sport').selectOption('corrida');
