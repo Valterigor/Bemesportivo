@@ -8,7 +8,7 @@ export const pageNavigation = {
   'loja.html': { label: 'Menu da coleção BE', links: [['/', 'Início'], ['#store-products-title', 'Coleção BE'], ['/contato', 'Contato']] },
   'reportagens.html': { label: 'Menu de reportagens', links: [['/', 'Início'], ['/reportagens', 'Reportagens'], ['#report-featured-title', 'Destaque'], ['#report-more-title', 'Mais histórias']] },
   'beplay.html': { label: 'Menu do BePlay', links: [['/', 'Início'], ['#videos', 'Assistir'], ['#relatedVideos', 'Playlist'], ['#opinioes', 'Comentários'], ['#perfil', 'Minha lista']] },
-  'fala-bem.html': { label: 'Menu do Fala Bem!', links: [['/', 'Início'], ['/fala-bem', 'Fala Bem!'], ['#editoria-title', 'A editoria'], ['#colunas', 'Colunas'], ['/contato', 'Enviar uma ideia']] },
+  'fala-bem.html': { label: 'Menu do Fala Bem!', links: [['/', 'Início'], ['/fala-bem', 'Fala Bem!'], ['#editoria-title', 'A editoria'], ['#tema-do-dia', 'Tema do dia'], ['/contato', 'Enviar uma ideia']] },
   'fala-bem-selecao-australia.html': { label: 'Menu da opinião', links: [['/', 'Início'], ['/fala-bem', 'Fala Bem!'], ['#conteudo', 'Ler opinião'], ['#comments-title', 'Comentários']] },
   'moda-fitness.html': { label: 'Menu de Moda Fitness', links: [['/', 'Início'], ['#conceito', 'Conceito'], ['#editorial', 'Editorial'], ['#catalogo', 'Catálogo'], ['/contato', 'Contato']] },
   'radar-esportivo.html': { label: 'Menu do Radar SP', links: [['/', 'Início'], ['/radar-esportivo', 'Radar SP'], ['#opportunities-title', 'Onde praticar'], ['#contribute-title', 'Indicar um local']] },
