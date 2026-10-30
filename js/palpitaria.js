@@ -2,6 +2,7 @@
   const root = document.getElementById('palpitaria');
   if (!root) return;
   const storageKey = 'bemEsportivoPalpitariaPicksV1';
+  const clientStorageKey = 'bemEsportivoCommunityClientId';
   const labels = { brasileirao: 'Brasileirão Série A', ingles: 'Campeonato Inglês', espanhol: 'Campeonato Espanhol', champions: 'Champions League' };
   const localLogos = {
     corinthians: '/img/palpitaria/corinthians.png',
@@ -19,11 +20,24 @@
   const dateKey = localPreview ? requestedDate : [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('');
   const displayDate = localPreview ? new Date(`${dateKey.slice(0, 4)}-${dateKey.slice(4, 6)}-${dateKey.slice(6, 8)}T12:00:00`) : today;
   let picks = {};
+  let voteTotals = {};
   let refreshTimer = 0;
   try { const saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); if (saved && typeof saved === 'object' && !Array.isArray(saved)) picks = saved; } catch {}
   document.getElementById('palpitaria-date').textContent = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(displayDate).replace('.', '').toUpperCase();
   const save = () => { try { localStorage.setItem(storageKey, JSON.stringify(picks)); } catch {} };
   const escapeHtml = value => String(value || '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
+  const cleanId = value => String(value || '').toLowerCase().replace(/[^a-z0-9:_-]+/g, '-').replace(/^-+|-+$/g, '');
+  const getClientId = () => {
+    try {
+      let id = localStorage.getItem(clientStorageKey);
+      if (!id) {
+        id = crypto.randomUUID ? crypto.randomUUID() : `device-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        localStorage.setItem(clientStorageKey, id);
+      }
+      return id;
+    } catch { return `session-${Date.now()}`; }
+  };
+  const pollIdFor = match => cleanId(`palpitaria:${dateKey}:${match.home.id}:${match.away.id}`);
   const previewMatches = [
     { competition: 'brasileirao', state: 'post', completed: true, detail: 'Encerrado', startsAt: `${dateKey.slice(0, 4)}-${dateKey.slice(4, 6)}-${dateKey.slice(6, 8)}T19:00:00-03:00`, home: { id: 'atletico-mg', name: 'Atlético-MG', logo: '/img/palpitaria/atletico-mg.png', score: '2' }, away: { id: 'cruzeiro', name: 'Cruzeiro', logo: '/img/palpitaria/cruzeiro.png', score: '1' } },
     { competition: 'brasileirao', state: 'in', completed: false, detail: '72 min', startsAt: `${dateKey.slice(0, 4)}-${dateKey.slice(4, 6)}-${dateKey.slice(6, 8)}T20:30:00-03:00`, home: { id: 'vasco', name: 'Vasco', logo: '/img/palpitaria/vasco.png', score: '1' }, away: { id: 'flamengo', name: 'Flamengo', logo: '/img/palpitaria/flamengo.png', score: '1' } },
@@ -59,20 +73,58 @@
     const crest = hasLogo ? `<img src="${escapeHtml(teamLogo)}" alt="Escudo do ${escapeHtml(team.name)}">` : `<span aria-hidden="true">${escapeHtml(initials)}</span>`;
     return `<span class="team-crest${hasLogo ? '' : ' team-crest-fallback'}">${crest}</span><strong>${escapeHtml(team.name)}</strong><span class="team-score" data-score>${team.score ?? '–'}</span><small>seu palpite</small>`;
   }
+  function renderVoteTotals(card, match, totals = {}) {
+    const homeId = cleanId(match.home.id);
+    const awayId = cleanId(match.away.id);
+    const homeVotes = Number(totals[homeId] || 0);
+    const awayVotes = Number(totals[awayId] || 0);
+    const total = homeVotes + awayVotes;
+    const homePercent = total ? Math.round((homeVotes / total) * 100) : 50;
+    const area = card.querySelector('.palpite-counts');
+    if (!area) return;
+    area.querySelector('[data-count="home"] b').textContent = homeVotes;
+    area.querySelector('[data-count="away"] b').textContent = awayVotes;
+    area.querySelector('[data-vote-balance]').style.setProperty('--home-share', `${homePercent}%`);
+    const leader = area.querySelector('[data-vote-leader]');
+    if (!total) leader.textContent = 'Seja o primeiro a palpitar';
+    else if (homeVotes === awayVotes) leader.textContent = `Empate nos palpites · ${total} no total`;
+    else leader.textContent = `${homeVotes > awayVotes ? match.home.name : match.away.name} lidera · ${total} ${total === 1 ? 'palpite' : 'palpites'}`;
+  }
   function bindCard(card, match) {
     const key = `${dateKey}:${match.competition}:${match.home.id}:${match.away.id}`;
+    const pollId = pollIdFor(match);
+    card.dataset.pollId = pollId;
+    card._palpitariaMatch = match;
     const renderPick = () => {
       const selected = picks[key] || '';
       card.classList.toggle('has-pick', Boolean(selected));
       card.querySelectorAll('[data-pick]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.pick === selected)));
-      card.querySelector('.palpite-status').textContent = selected ? `Seu palpite: ${selected}` : 'Toque no seu escolhido';
+      const selectedTeam = selected === cleanId(match.home.id) ? match.home.name : selected === cleanId(match.away.id) ? match.away.name : '';
+      card.querySelector('.palpite-status').textContent = selectedTeam ? `Seu palpite: ${selectedTeam}` : 'Toque no seu escolhido';
     };
-    card.querySelectorAll('[data-pick]').forEach(button => button.addEventListener('click', () => {
-      const changed = picks[key] && picks[key] !== button.dataset.pick;
-      picks[key] = button.dataset.pick; save(); renderPick();
-      feedback.textContent = changed ? `Palpite alterado para ${button.dataset.pick}.` : `Seu palpite em ${button.dataset.pick} foi salvo.`;
+    card.querySelectorAll('[data-pick]').forEach(button => button.addEventListener('click', async () => {
+      const choiceId = button.dataset.pick;
+      const teamName = button.dataset.teamName;
+      const changed = picks[key] && picks[key] !== choiceId;
+      card.querySelectorAll('[data-pick]').forEach(item => { item.disabled = true; });
+      try {
+        const response = await fetch('/api/community/vote', {
+          method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pollId, choiceId, clientId: getClientId() })
+        });
+        const payload = await response.json();
+        if (!response.ok || payload.ok === false) throw new Error(payload.error || 'Falha ao registrar o palpite.');
+        picks[key] = choiceId; save(); renderPick();
+        voteTotals[pollId] = payload.vote?.totals || {};
+        renderVoteTotals(card, match, voteTotals[pollId]);
+        feedback.textContent = changed ? `Palpite alterado para ${teamName}. O total foi recalculado.` : `Seu palpite em ${teamName} foi computado.`;
+      } catch {
+        feedback.textContent = 'Não foi possível computar seu palpite agora. Tente novamente.';
+      } finally {
+        card.querySelectorAll('[data-pick]').forEach(item => { item.disabled = false; });
+      }
     }));
-    renderPick();
+    renderPick(); renderVoteTotals(card, match, voteTotals[pollId]?.totals || voteTotals[pollId]);
   }
   function renderCompetition(competition, matches) {
     const panel = panels.find(item => item.dataset.palpitariaPanel === competition);
@@ -92,7 +144,7 @@
     matches.forEach(match => {
       const status = matchStatus(match);
       const card = document.createElement('article'); card.className = `palpite-card${status.live ? ' is-live' : ''}`;
-      card.innerHTML = `<p class="palpite-time" data-live-status>${escapeHtml(status.text)}</p><div class="palpite-versus"><button type="button" class="palpite-team" data-pick="${escapeHtml(match.home.name)}" aria-pressed="false">${teamMarkup(match.home)}</button><span class="palpite-x">X</span><button type="button" class="palpite-team" data-pick="${escapeHtml(match.away.name)}" aria-pressed="false">${teamMarkup(match.away)}</button></div><p class="palpite-status" aria-live="polite">Toque no seu escolhido</p>`;
+      card.innerHTML = `<p class="palpite-time" data-live-status>${escapeHtml(status.text)}</p><div class="palpite-versus"><button type="button" class="palpite-team" data-pick="${escapeHtml(cleanId(match.home.id))}" data-team-name="${escapeHtml(match.home.name)}" aria-pressed="false">${teamMarkup(match.home)}</button><span class="palpite-x">X</span><button type="button" class="palpite-team" data-pick="${escapeHtml(cleanId(match.away.id))}" data-team-name="${escapeHtml(match.away.name)}" aria-pressed="false">${teamMarkup(match.away)}</button></div><p class="palpite-status" aria-live="polite">Toque no seu escolhido</p><div class="palpite-counts" aria-live="polite"><div class="palpite-count-row"><span data-count="home">${escapeHtml(match.home.name)} <b>0</b></span><span data-count="away">${escapeHtml(match.away.name)} <b>0</b></span></div><div class="palpite-balance" data-vote-balance><i></i></div><small data-vote-leader>Seja o primeiro a palpitar</small></div>`;
       bindCard(card, match); games.append(card);
     });
     panel.append(league, games);
@@ -115,15 +167,31 @@
       updated.textContent = 'Não foi possível atualizar agora. Tentaremos novamente.';
     }
   }
-  document.getElementById('palpitaria-clear')?.addEventListener('click', () => {
-    picks = {}; save();
-    root.querySelectorAll('.palpite-status').forEach(status => { status.textContent = 'Toque no seu escolhido'; });
-    root.querySelectorAll('[data-pick]').forEach(button => button.setAttribute('aria-pressed', 'false'));
-    root.querySelectorAll('.palpite-card').forEach(card => card.classList.remove('has-pick'));
-    feedback.textContent = 'Seus palpites foram removidos deste navegador.';
+  async function loadVoteTotals() {
+    try {
+      const response = await fetch('/api/community/state', { cache: 'no-store', credentials: 'same-origin' });
+      const payload = await response.json();
+      if (response.ok && payload.ok !== false) {
+        voteTotals = payload.votes || {};
+        root.querySelectorAll('.palpite-card[data-poll-id]').forEach(card => {
+          const poll = voteTotals[card.dataset.pollId];
+          if (card._palpitariaMatch) renderVoteTotals(card, card._palpitariaMatch, poll?.totals || poll);
+        });
+      }
+    } catch {}
+  }
+  document.getElementById('palpitaria-clear')?.addEventListener('click', async event => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    feedback.textContent = 'Atualizando os resultados dos palpites…';
+    await loadVoteTotals();
+    await refreshScores();
+    feedback.textContent = 'Resultados atualizados.';
+    button.disabled = false;
   });
   panels.forEach(panel => { panel.className = 'palpitaria-panel palpitaria-empty'; panel.innerHTML = '<span class="champions-mark" aria-hidden="true">✦</span><h3>Buscando jogos do dia…</h3>'; });
-  selectTab(tabs[0]); refreshScores();
-  refreshTimer = window.setInterval(() => { if (!document.hidden) refreshScores(); }, 30000);
+  selectTab(tabs[0]);
+  refreshScores().finally(loadVoteTotals);
+  refreshTimer = window.setInterval(() => { if (!document.hidden) refreshScores().finally(loadVoteTotals); }, 30000);
   window.addEventListener('pagehide', () => window.clearInterval(refreshTimer), { once: true });
 })();
