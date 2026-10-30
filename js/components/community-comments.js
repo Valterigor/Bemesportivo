@@ -86,20 +86,20 @@ class CommunityComments {
   }
 
   renderShell() {
-    const heading = this.scope === 'beplay' ? 'Converse sobre este vídeo' : 'Participe da conversa';
+    const heading = 'Comentários';
     this.root.dataset.communityStandard = 'true';
     this.root.className = `${this.root.className} be-community`.trim();
     this.root.innerHTML = `<header class="be-community-heading">
-      <div><span>COMUNIDADE BEM ESPORTIVO</span><h2>${heading}</h2><p>Comentários públicos e visíveis para todas as pessoas que acessarem esta página.</p></div>
-      <button type="button" data-community-refresh aria-label="Atualizar comentários">↻ Atualizar</button>
+      <div><h2>${heading} <span class="be-comment-count" aria-label="Total de comentários"></span></h2><p>Uma conversa aberta. Deixe sua opinião.</p></div>
+      <button type="button" data-community-refresh aria-label="Atualizar comentários">Atualizar</button>
     </header>
     <form class="be-community-form">
       <div class="be-community-fields">
         <label>Seu nome ou apelido<input name="name" maxlength="40" autocomplete="nickname" value="${escapeHtml(savedName())}" placeholder="Como quer aparecer?" required></label>
-        <label class="be-community-message">Seu comentário<textarea name="text" maxlength="500" rows="3" placeholder="Compartilhe uma experiência, dúvida ou incentivo..." required></textarea></label>
+        <label class="be-community-message">Seu comentário<textarea name="text" maxlength="500" rows="3" placeholder="O que você pensa sobre isso?" required></textarea></label>
       </div>
       <input class="be-community-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <footer><label class="be-community-consent"><input type="checkbox" name="adult" required> Tenho 18 anos ou mais e aceito as <a href="/diretrizes-da-comunidade" target="_blank" rel="noopener noreferrer">Diretrizes da Comunidade</a>.</label><button type="submit">Publicar comentário</button></footer>
+      <footer><label class="be-community-consent"><input type="checkbox" name="adult" required> <span>Tenho 18 anos ou mais e aceito as <a href="/diretrizes-da-comunidade" target="_blank" rel="noopener noreferrer">Diretrizes da Comunidade</a>.</span></label><button type="submit">Comentar</button></footer>
     </form>
     <p class="be-community-feedback" role="status" aria-live="polite"></p>
     <div class="be-community-list" aria-live="polite"><div class="be-community-loading">Carregando a conversa…</div></div>`;
@@ -122,9 +122,10 @@ class CommunityComments {
 
   render() {
     const list = this.root.querySelector('.be-community-list');
+    this.root.querySelector('.be-comment-count').textContent = this.comments.length ? `(${this.comments.length})` : '';
     list.innerHTML = this.comments.length
       ? [...this.comments].reverse().map(commentTemplate).join('')
-      : '<div class="be-community-empty"><span>✦</span><strong>Comece esta conversa</strong><p>Uma pergunta ou experiência sua pode ajudar outra pessoa a continuar.</p></div>';
+      : '<div class="be-community-empty"><p>Ainda não há comentários. Seja o primeiro.</p></div>';
   }
 
   async load(announce = false) {
@@ -163,7 +164,7 @@ class CommunityComments {
       form.elements.text.value = '';
       form.elements.adult.checked = false;
       this.render();
-      this.feedback('Comentário publicado. Ele já está visível para todos.', 'success');
+      this.feedback('Comentário publicado.', 'success');
     } catch (error) {
       this.feedback(error.message, 'error');
     } finally {
@@ -253,7 +254,7 @@ export function initCommunityComments() {
   if (!document.querySelector('link[href*="community-comments.css"]')) {
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
-    stylesheet.href = '/css/components/community-comments.css?v=20260813-1';
+    stylesheet.href = '/css/components/community-comments.css?v=20261029-2';
     document.head.append(stylesheet);
   }
   document.querySelectorAll('[data-report-comments]').forEach(root => mount(root, 'report', root.dataset.reportComments));

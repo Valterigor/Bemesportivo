@@ -1,0 +1,35 @@
+﻿/* Shared viewport sizing. Reading columns keep their own measure. */
+:root{--be-page-gutter:clamp(16px,3vw,96px);--be-page-width:calc(100% - var(--be-page-gutter)*2);--be-grid-gap:clamp(18px,1.6vw,38px)}
+@media(min-width:1300px){
+html body:not(.fashion-page) #be-site-header .be-site-header-inner,
+html body:not(.fashion-page) .site-footer .site-footer-inner,
+html body:not(.fashion-page) .site-breadcrumb,
+html body:not(.fashion-page) .be-section-navigation{width:var(--be-page-width)!important;max-width:none!important;margin-inline:auto!important}
+html body.home-video-page .wrap,
+html body.reportagens-listing-page :is(.page-hero,main.report-listing),
+html body.fala-opinion-page main.newsroom,
+html body.beplay-page main.app-shell,
+html body.radar-page .radar-shell,
+html body.professionals-page .container,
+html body.products-page main.container,
+html body.be-store-page main.store-shell,
+html body.be-guides-page main.guide-layout,
+html body.be-maker-page main.be-maker-main{width:var(--be-page-width)!important;max-width:none!important;margin-inline:auto!important;box-sizing:border-box}
+html body.fala-opinion-page main.newsroom{padding-inline:0}
+body.home-video-page :is(.hero,.cards,.feed-tools-grid,.home-editorial-grid),body.reportagens-listing-page .report-grid{gap:var(--be-grid-gap)}
+body.home-video-page .hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+body.home-video-page .hero h1{font-size:clamp(62px,4.7vw,116px)}
+body.home-video-page .film{height:clamp(590px,37vw,880px)}
+body.fala-opinion-page .news-lead{grid-template-columns:minmax(0,2fr) minmax(300px,1fr);gap:var(--be-grid-gap)}
+body.fala-opinion-page .news-cover img{height:clamp(330px,25vw,650px)}
+body.fala-opinion-page .news-main-copy h2{max-width:28ch;font-size:clamp(40px,2.8vw,70px)}
+body.fala-opinion-page .news-main-copy>p:not(.news-kicker){max-width:65ch}
+body.fala-opinion-page .daily-topic{padding:clamp(32px,3vw,64px)}
+body.fala-opinion-page .daily-topic h2{max-width:35ch}
+body.be-diary-dashboard main.wrap{max-width:none;padding-inline:clamp(28px,2.5vw,80px)}
+}
+/* Intrinsic sizing prevents long titles from stretching grids. */
+body:not(.fashion-page) :is(.news-lead,.news-grid,.report-grid,.feed-tools-grid,.home-editorial-grid,.beplay-layout,.progress-expanded,.day-grid)>*{min-width:0}
+body:not(.fashion-page) :is(.newsroom,.report-listing,.guide-layout) :is(h1,h2,h3,p){overflow-wrap:break-word}
+@media(min-width:1800px){body.reportagens-listing-page .report-grid{grid-template-columns:repeat(3,minmax(0,1fr))}body.home-video-page .feed-tools-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:480px){body.fala-opinion-page .news-signature{flex-wrap:wrap}body.fala-opinion-page .news-signature>a{margin-left:0}}

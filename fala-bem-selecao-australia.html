@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/fala-bem-opiniao.css">
   <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 <link rel="stylesheet" href="/css/site-review.css?v=20261002-1">
+  <link rel="stylesheet" href="/css/responsive-layout.css?v=20261029-1">
 </head>
 <body class="fala-opinion-page">
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -42,37 +43,8 @@
       <p>O novo ciclo é o momento de buscar alternativas. O Brasil sempre foi reconhecido por jogadores que entendem o jogo, fazem a bola circular e encontram uma solução quando o espaço parece fechado. Não dá para abrir mão disso.</p>
       <p class="opinion-signoff">Essa é a minha opinião. E você, escalaria um meia armador?</p>
     </article>
-    <section class="opinion-engagement" aria-label="Interaja com esta opinião">
-      <div class="opinion-engagement__inner">
-        <div class="reaction-row">
-          <button id="opinion-like" class="reaction-button" type="button" aria-pressed="false"><span aria-hidden="true">♥</span> Concordo <strong id="like-count">0</strong></button>
-          <p id="like-message" class="reaction-message" aria-live="polite"></p>
-        </div>
-        <div class="share-row">
-          <p>Compartilhe nas redes</p>
-          <div class="share-buttons">
-            <button class="share-button share-button--whatsapp" type="button" data-share="whatsapp" aria-label="Compartilhar no WhatsApp"><span class="share-icon" aria-hidden="true">◔</span><span>WhatsApp</span></button>
-            <button class="share-button share-button--instagram" type="button" data-share="instagram" aria-label="Compartilhar nos Stories do Instagram"><span class="share-icon" aria-hidden="true">◎</span><span>Stories</span></button>
-            <button class="share-button share-button--x" type="button" data-share="x" aria-label="Compartilhar no X"><span class="share-icon" aria-hidden="true">𝕏</span><span>X</span></button>
-            <button class="share-button share-button--facebook" type="button" data-share="facebook" aria-label="Compartilhar no Facebook"><span class="share-icon" aria-hidden="true">f</span><span>Facebook</span></button>
-            <button class="share-button share-button--more" type="button" data-share="native" aria-label="Mais opções de compartilhamento"><span class="share-icon" aria-hidden="true">↗</span><span>Mais</span></button>
-          </div>
-        </div>
-        <p id="share-feedback" class="share-feedback" aria-live="polite"></p>
-      </div>
-    </section>
-    <section class="comments-section" aria-labelledby="comments-title">
-      <div class="comments-section__inner">
-        <div class="comments-heading"><p class="eyebrow eyebrow--orange">CONVERSA</p><h2 id="comments-title">O que você acha?</h2><p id="comment-count" aria-live="polite">Seja o primeiro a comentar.</p></div>
-        <form id="comment-form" class="comment-form">
-          <label for="comment-name">Seu nome</label><input id="comment-name" name="name" type="text" maxlength="50" autocomplete="name" placeholder="Como quer ser identificado?" required>
-          <label for="comment-text">Seu comentário</label><textarea id="comment-text" name="comment" maxlength="500" rows="4" placeholder="Escreva sua opinião com respeito." required></textarea>
-          <div class="comment-form__bottom"><span id="comment-remaining">0/500</span><button type="submit" class="fala-button">Publicar comentário <span aria-hidden="true">→</span></button></div>
-          <p id="comment-feedback" class="comment-feedback" aria-live="polite"></p>
-        </form>
-        <div id="comments-list" class="comments-list" aria-live="polite"></div>
-      </div>
-    </section>
+    <section id="comments-title" class="opinion-public-comments" data-community-scope="fala-bem-opiniao" data-community-id="selecao-australia" aria-label="Comentários sobre a opinião de Válter"></section>
+    <details id="legacy-opinion-comments" class="opinion-local-history" hidden><summary>Comentários antigos deste navegador</summary><p>Estas anotações são locais e não foram publicadas para outras pessoas.</p><div></div></details>
   </main>
   <footer class="site-footer"><div class="site-footer-inner"><div class="site-footer-brand"><strong>Bem Esportivo</strong><p>Conteúdo esportivo, futebol, opinião, projetos e serviços ligados ao esporte.</p></div><nav aria-label="Links institucionais"><a href="/sobre">Sobre</a><a href="/contato">Contato</a><a href="/politica-de-privacidade">Privacidade</a><a href="/termos">Termos</a></nav><small>© 2026 Bem Esportivo</small></div></footer>
   <script type="module" src="js/site-common.js?v=20260929-1"></script>
