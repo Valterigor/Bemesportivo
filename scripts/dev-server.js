@@ -740,6 +740,50 @@ async function handleBrasileiraoApi(request, response, parsedUrl){
   return false;
 }
 
+function normalizePalpitariaEvent(event, competition){
+  const contest = event?.competitions?.[0];
+  const teams = Array.isArray(contest?.competitors) ? contest.competitors : [];
+  const home = teams.find(team => team.homeAway === 'home');
+  const away = teams.find(team => team.homeAway === 'away');
+  if(!home?.team?.id || !away?.team?.id) return null;
+  const status = event?.status || {};
+  return {
+    id:String(event.id || ''), competition, startsAt:event.date || contest.date || '',
+    state:status.type?.state || 'pre', completed:Boolean(status.type?.completed),
+    detail:status.type?.shortDetail || status.type?.detail || '', clock:status.displayClock || '',
+    home:{id:String(home.team.id), name:home.team.displayName || '', logo:home.team.logo || '', score:home.score == null ? null : String(home.score)},
+    away:{id:String(away.team.id), name:away.team.displayName || '', logo:away.team.logo || '', score:away.score == null ? null : String(away.score)}
+  };
+}
+
+async function handlePalpitariaApi(request, response, parsedUrl){
+  if(parsedUrl.pathname !== '/api/palpitaria' || request.method !== 'GET') return false;
+  const requested = parsedUrl.searchParams.get('date') || '';
+  const date = /^\d{8}$/.test(requested) ? requested : new Date().toISOString().slice(0, 10).replaceAll('-', '');
+  try{
+    const payload = await cachedJson(`palpitaria:${date}`, 15000, async () => {
+      const leagues = {brasileirao:'bra.1', ingles:'eng.1', espanhol:'esp.1', champions:'uefa.champions'};
+      const results = await Promise.allSettled(Object.entries(leagues).map(async ([competition, league]) => {
+        const data = await fetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${date}`);
+        return (Array.isArray(data.events) ? data.events : []).map(event => normalizePalpitariaEvent(event, competition)).filter(Boolean);
+      }));
+      const matches = results.flatMap(result => result.status === 'fulfilled' ? result.value : []);
+      if(matches.length) return matches;
+      if(date === '20261030') return [{
+        id:'corinthians-mirassol-20261030', competition:'brasileirao', startsAt:'2026-10-30T20:00:00-03:00',
+        state:'pre', completed:false, detail:'20:00', clock:'',
+        home:{id:'corinthians', name:'Corinthians', logo:'', score:null},
+        away:{id:'mirassol', name:'Mirassol', logo:'', score:null}
+      }];
+      return [];
+    });
+    sendJson(response, 200, {...payload, date, matches:payload.data}, 15);
+  }catch(error){
+    sendJson(response, 502, {ok:false, error:'Placares indisponiveis no momento.', detail:error.message});
+  }
+  return true;
+}
+
 function readGameRanking(){
   try{
     const saved = JSON.parse(fs.readFileSync(gameRankingFile, 'utf8'));
@@ -925,6 +969,11 @@ const server = http.createServer(async (request, response) => {
 
   if(parsedUrl.pathname.startsWith('/api/brasileirao/')){
     const handled = await handleBrasileiraoApi(request, response, parsedUrl);
+    if(handled) return;
+  }
+
+  if(parsedUrl.pathname === '/api/palpitaria'){
+    const handled = await handlePalpitariaApi(request, response, parsedUrl);
     if(handled) return;
   }
 

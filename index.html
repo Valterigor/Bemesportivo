@@ -59,6 +59,7 @@
   <link rel="stylesheet" href="/css/components/site-navigation.css?v=20260929-1">
 
 <link rel="stylesheet" href="/css/home-video.css?v=20261025-1">
+<link rel="stylesheet" href="/css/palpitaria.css?v=20261030-4">
 
   <link rel="stylesheet" href="/css/responsive-layout.css?v=20261029-1">
 </head>
@@ -108,6 +109,36 @@
       </section>
 <nav class="paths" id="como-funciona" aria-label="Caminhos para explorar"><a class="path" href="/reportagens"><span class="icon" aria-hidden="true">▤</span><span><strong>Histórias que inspiram</strong><small>Reportagens</small></span></a><a class="path" href="/guias"><span class="icon" aria-hidden="true">◇</span><span><strong>Aprenda no seu ritmo</strong><small>Guias e conhecimento</small></span></a><a class="path" href="/radar-esportivo"><span class="icon" aria-hidden="true">◎</span><span><strong>Encontre seu lugar</strong><small>Radar BE</small></span></a><a class="path" href="/meu-caminho-be"><span class="icon" aria-hidden="true">↗</span><span><strong>Registre sua evolução</strong><small>Meu Caminho Be</small></span></a></nav>
 <section class="editorial" id="explorar"><div class="section-heading"><h2>Inspiração para o seu próximo passo</h2><a href="/reportagens">Explorar conteúdos →</a></div><div class="cards"><a class="card" href="/reportagens/thais-garcez-metamorfose"><img src="/img/home-capas/reportagem.webp" alt="Thais Garcez durante um treino" loading="lazy"><div class="card-body"><small>REPORTAGENS</small><h3>Thais Garcez, uma nova versão</h3><p>Disciplina e uma nova forma de viver o esporte.</p><span class="link">Conheça essa história →</span></div></a><a class="card" href="/radar-esportivo"><img src="/img/radar/radar-esporte-localizacao.webp" alt="Pessoas praticando esporte no parque, com mapa e marcador de localização em laranja" loading="lazy"><div class="card-body"><small>RADAR BE</small><h3>Mais esporte perto de você</h3><p>Encontre espaços e oportunidades para se movimentar.</p><span class="link">Explore o Radar BE →</span></div></a><a class="card" href="/beplay"><img src="/img/home-capas/beplay.webp" alt="Treino de agilidade no futebol" loading="lazy"><div class="card-body"><small>BEPLAY</small><h3>Movimento que inspira</h3><p>Uma evolução construída um treino de cada vez.</p><span class="link">Assista no BePlay →</span></div></a></div></section>
+<section id="palpitaria" class="palpitaria home-palpitaria" aria-labelledby="palpitaria-title">
+  <header class="palpitaria-header">
+    <div><p class="palpitaria-kicker">JOGOS DO DIA · PLACAR AO VIVO</p><h2 id="palpitaria-title">PALPITARIA</h2><p class="palpitaria-question">Quem leva essa?</p><p class="palpitaria-intro">Acompanhe o placar e escolha um time em cada confronto.</p></div>
+    <div class="palpitaria-now"><span class="live-dot" aria-hidden="true"></span><span id="palpitaria-live-label">ATUALIZANDO PLACARES</span><time id="palpitaria-date"></time></div>
+  </header>
+  <div class="palpitaria-tabs" role="tablist" aria-label="Competições da Palpitaria">
+    <button type="button" role="tab" aria-selected="true" data-palpitaria-tab="brasileirao">Brasileirão Série A <span>0</span></button>
+    <button type="button" role="tab" aria-selected="false" data-palpitaria-tab="ingles">Campeonato Inglês <span>0</span></button>
+    <button type="button" role="tab" aria-selected="false" data-palpitaria-tab="espanhol">Campeonato Espanhol <span>0</span></button>
+    <button type="button" role="tab" aria-selected="false" data-palpitaria-tab="champions">Champions League <span>0</span></button>
+  </div>
+  <div class="palpitaria-panel" role="tabpanel" data-palpitaria-panel="brasileirao">
+    <p class="palpitaria-league"><strong>Brasileirão Série A</strong><span>33ª rodada · horário de Brasília</span></p>
+    <div class="palpitaria-games">
+      <article class="palpite-card" data-match="bra-atletico-cruzeiro" data-home-id="7632" data-away-id="2022"><p class="palpite-time" data-live-status>19:30</p><div class="palpite-versus"><button type="button" class="palpite-team" data-pick="Atlético-MG" aria-pressed="false"><span class="team-crest"><img src="/img/palpitaria/atletico-mg.png" alt="Escudo do Atlético-MG"></span><strong>Atlético-MG</strong><span class="team-score" data-score>–</span><small>seu palpite</small></button><span class="palpite-x">X</span><button type="button" class="palpite-team" data-pick="Cruzeiro" aria-pressed="false"><span class="team-crest"><img src="/img/palpitaria/cruzeiro.png" alt="Escudo do Cruzeiro"></span><strong>Cruzeiro</strong><span class="team-score" data-score>–</span><small>seu palpite</small></button></div><p class="palpite-status" aria-live="polite">Toque no seu escolhido</p></article>
+      <article class="palpite-card" data-match="bra-vasco-flamengo" data-home-id="3454" data-away-id="819"><p class="palpite-time" data-live-status>20:00</p><div class="palpite-versus"><button type="button" class="palpite-team" data-pick="Vasco" aria-pressed="false"><span class="team-crest"><img src="/img/palpitaria/vasco.png" alt="Escudo do Vasco"></span><strong>Vasco</strong><span class="team-score" data-score>–</span><small>seu palpite</small></button><span class="palpite-x">X</span><button type="button" class="palpite-team" data-pick="Flamengo" aria-pressed="false"><span class="team-crest"><img src="/img/palpitaria/flamengo.png" alt="Escudo do Flamengo"></span><strong>Flamengo</strong><span class="team-score" data-score>–</span><small>seu palpite</small></button></div><p class="palpite-status" aria-live="polite">Toque no seu escolhido</p></article>
+      <article class="palpite-card" data-match="bra-gremio-athletico" data-home-id="6273" data-away-id="3458"><p class="palpite-time" data-live-status>21:30</p><div class="palpite-versus"><button type="button" class="palpite-team" data-pick="Grêmio" aria-pressed="false"><span class="team-crest"><img src="/img/palpitaria/gremio.png" alt="Escudo do Grêmio"></span><strong>Grêmio</strong><span class="team-score" data-score>–</span><small>seu palpite</small></button><span class="palpite-x">X</span><button type="button" class="palpite-team" data-pick="Athletico-PR" aria-pressed="false"><span class="team-crest"><img src="/img/palpitaria/athletico-pr.png" alt="Escudo do Athletico-PR"></span><strong>Athletico-PR</strong><span class="team-score" data-score>–</span><small>seu palpite</small></button></div><p class="palpite-status" aria-live="polite">Toque no seu escolhido</p></article>
+    </div>
+  </div>
+  <div class="palpitaria-panel" role="tabpanel" data-palpitaria-panel="ingles" hidden>
+    <p class="palpitaria-league"><strong>Campeonato Inglês</strong><span>horário de Brasília</span></p>
+    <div class="palpitaria-games">
+      <article class="palpite-card" data-match="ita-frosinone-lecce" data-home-id="4057" data-away-id="113"><p class="palpite-time" data-live-status>14:30</p><div class="palpite-versus"><button type="button" class="palpite-team" data-pick="Frosinone" aria-pressed="false"><span class="team-crest"><img src="/img/palpitaria/frosinone.png" alt="Escudo do Frosinone"></span><strong>Frosinone</strong><span class="team-score" data-score>–</span><small>seu palpite</small></button><span class="palpite-x">X</span><button type="button" class="palpite-team" data-pick="Lecce" aria-pressed="false"><span class="team-crest"><img src="/img/palpitaria/lecce.png" alt="Escudo do Lecce"></span><strong>Lecce</strong><span class="team-score" data-score>–</span><small>seu palpite</small></button></div><p class="palpite-status" aria-live="polite">Toque no seu escolhido</p></article>
+      <article class="palpite-card" data-match="ita-fiorentina-atalanta" data-home-id="109" data-away-id="105"><p class="palpite-time" data-live-status>16:45</p><div class="palpite-versus"><button type="button" class="palpite-team" data-pick="Fiorentina" aria-pressed="false"><span class="team-crest"><img src="/img/palpitaria/fiorentina.png" alt="Escudo da Fiorentina"></span><strong>Fiorentina</strong><span class="team-score" data-score>–</span><small>seu palpite</small></button><span class="palpite-x">X</span><button type="button" class="palpite-team" data-pick="Atalanta" aria-pressed="false"><span class="team-crest"><img src="/img/palpitaria/atalanta.png" alt="Escudo da Atalanta"></span><strong>Atalanta</strong><span class="team-score" data-score>–</span><small>seu palpite</small></button></div><p class="palpite-status" aria-live="polite">Toque no seu escolhido</p></article>
+    </div>
+  </div>
+  <div class="palpitaria-panel palpitaria-empty" role="tabpanel" data-palpitaria-panel="espanhol" hidden><span class="champions-mark" aria-hidden="true">✦</span><h3>Buscando jogos do Campeonato Espanhol…</h3></div>
+  <div class="palpitaria-panel palpitaria-empty" role="tabpanel" data-palpitaria-panel="champions" hidden><span class="champions-mark" aria-hidden="true">✦</span><h3>Buscando jogos da Champions League…</h3></div>
+  <footer class="palpitaria-footer"><div><p id="palpitaria-feedback" aria-live="polite">Você pode mudar o palpite a qualquer momento.</p><p id="palpitaria-updated">Buscando placares…</p></div><button type="button" id="palpitaria-clear">Limpar meus palpites</button></footer>
+</section>
 <div id="home-complete-sections"><section class="shell home-editorial" aria-labelledby="home-editorial-title">
         <header><h2 id="home-editorial-title">Histórias para ler. Ideias para praticar.</h2><a href="/reportagens">Todas as reportagens →</a></header>
         <div class="home-editorial-grid">
@@ -214,6 +245,7 @@
 </dialog><script src="/js/be-tools.js?v=20261012-1" defer></script>
 <button id="topBtn" type="button" aria-label="Voltar ao topo" hidden>↑</button>
 <script src="/js/home-video.js?v=20261025-1" defer></script>
+<script src="/js/palpitaria.js?v=20261030-5" defer></script>
 <script type="module" src="js/privacy-entry.js?v=20260723-2"></script>
 <script src="js/be-sports-library.js?v=20260829-5" defer></script>
 <script src="js/be-ecosystem-search.js?v=20261001-1" defer></script>
