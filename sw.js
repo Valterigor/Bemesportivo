@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'meu-caminho-be-';
-const CACHE_NAME = `${CACHE_PREFIX}v157`;
+const CACHE_NAME = `${CACHE_PREFIX}v158`;
 const CORE_SHELL = [
   '/css/responsive-layout.css',
   '/js/diario-dashboard-entry.js',

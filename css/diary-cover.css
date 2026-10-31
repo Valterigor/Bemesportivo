@@ -63,7 +63,7 @@ body.be-cover-opening > #be-diary-welcome { animation: be-diary-arrival 1.05s cu
   body.be-cover-opening > #be-diary-welcome { animation: none; }
 }
 body.be-welcome-active { overflow: hidden; }
-body.be-welcome-active:not(.be-welcome-leaving) > :not(#be-diary-cover):not(#be-diary-welcome):not(script):not(link) { visibility: hidden; }
+body.be-welcome-active > :not(#be-diary-cover):not(#be-diary-welcome):not(script):not(link) { visibility: hidden; }
 #be-diary-welcome {
   position: fixed; inset: 0; z-index: 2147483646; overflow-y: auto;
   display: flex; flex-direction: column; background: #f8f7f4; color: #181818; overscroll-behavior: contain;
@@ -106,7 +106,6 @@ body.be-welcome-active:not(.be-welcome-leaving) > :not(#be-diary-cover):not(#be-
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 #be-diary-welcome.is-leaving { animation: be-welcome-departure .7s cubic-bezier(.4, 0, .2, 1) both; pointer-events: none; }
-body.be-welcome-leaving > .container.page { animation: be-diary-arrival .7s ease both; }
 @keyframes be-welcome-departure {
   from { opacity: 1; transform: scale(1); }
   to { opacity: 0; transform: scale(1.025); }

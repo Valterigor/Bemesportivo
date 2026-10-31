@@ -5178,17 +5178,10 @@ if (diaryCover) {
       window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated', { detail: { ready: true, source: 'diary-entry' } }));
       speakDiaryGreeting(name);
     }
-    openView('inicio', { scroll: false, focus: false, instant: true });
     diaryWelcome.classList.add('is-leaving');
     document.body.classList.add('be-welcome-leaving');
     const finishWelcome = () => {
-      diaryWelcome.hidden = true;
-      diaryWelcome.classList.remove('is-leaving');
-      document.body.classList.remove('be-welcome-active', 'be-welcome-leaving');
-      const target = document.querySelector('#be-diary-home-title');
-      if (target) { target.tabIndex = -1; target.focus({ preventScroll: true }); }
-      window.scrollTo(0, 0);
-      window.dispatchEvent(new CustomEvent('meuDiarioBe:opened'));
+      window.location.replace('/diario-app/');
     };
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) finishWelcome();
     else welcomeExitTimer = window.setTimeout(finishWelcome, 720);
