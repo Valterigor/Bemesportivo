@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'meu-caminho-be-';
-const CACHE_NAME = `${CACHE_PREFIX}v155`;
+const CACHE_NAME = `${CACHE_PREFIX}v156`;
 const CORE_SHELL = [
   '/css/responsive-layout.css',
   '/js/diario-dashboard-entry.js',
@@ -10,6 +10,7 @@ const CORE_SHELL = [
   '/diario-app/diario-dashboard.css',
   '/diario-app/diario-simples.js',
   '/diario-app/diario-resultados.js',
+  '/diario-app/diario-planner.js',
   '/css/components/site-navigation.css',
   '/css/diary-home-refinement.css',
   '/js/site-navigation-entry.js',
@@ -121,15 +122,16 @@ self.addEventListener('fetch', event => {
   if (url.pathname.startsWith('/api/')) return;
 
   if (request.mode === 'navigate') {
-    const isAppNavigation = url.pathname === '/meu-caminho-be.html' || url.pathname === '/meu-caminho-be' || url.pathname.startsWith('/meu-caminho-be/');
+    const isDiaryNavigation = url.pathname === '/diario-app' || url.pathname.startsWith('/diario-app/');
+    const isAppNavigation = isDiaryNavigation || url.pathname === '/meu-caminho-be.html' || url.pathname === '/meu-caminho-be' || url.pathname.startsWith('/meu-caminho-be/');
     event.respondWith(fetch(request).then(response => {
       if (isAppNavigation && response.ok) {
         const copy = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put('/meu-caminho-be', copy));
+        caches.open(CACHE_NAME).then(cache => cache.put(isDiaryNavigation ? '/diario-app/' : '/meu-caminho-be', copy));
       }
       return response;
     }).catch(() => {
-      if (isAppNavigation) return caches.match('/meu-caminho-be');
+      if (isAppNavigation) return caches.match(isDiaryNavigation ? '/diario-app/' : '/meu-caminho-be');
       return caches.match(request).then(cached => cached || new Response('Sem conexão. Abra o Meu Caminho Be para continuar offline.', {
         status: 503,
         headers: { 'Content-Type': 'text/plain; charset=utf-8' }

@@ -33,7 +33,9 @@ function cleanReminders(value) {
     const timestamp = Date.parse(item?.dueAt || '');
     return {
       key: String(item?.key || '').replace(/[^a-z0-9:_-]/gi, '').slice(0, 140),
-      dueAt: Number.isFinite(timestamp) ? new Date(timestamp).toISOString() : ''
+      dueAt: Number.isFinite(timestamp) ? new Date(timestamp).toISOString() : '',
+      title: String(item?.title || '').replace(/[\r\n]+/g, ' ').trim().slice(0, 100),
+      url: /^\/(?!\/)[a-z0-9/_?=&.-]*$/i.test(String(item?.url || '')) ? String(item.url).slice(0, 300) : ''
     };
   }).filter(item => (
     item.key

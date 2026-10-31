@@ -17,6 +17,7 @@
   window.scrollTo({top:0,behavior:'instant'});
  };
  document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.tab)));
+ if(new URLSearchParams(location.search).get('planner')==='1')show('planner');
  function identity(){const name=profileName().trim().split(' ')[0];$('greeting').textContent=name?`${name}, o que vale guardar hoje?`:'O que vale guardar hoje?';}
  window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data?.type==='diary-preview-ready')identity();});
  identity();

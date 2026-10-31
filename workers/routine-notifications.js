@@ -61,9 +61,9 @@ async function processNotifications(env) {
       try {
         await webpush.sendNotification(record.subscription, JSON.stringify({
           title: 'Meu Caminho Be',
-          body: 'Você tem um compromisso planejado para agora.',
+          body: due[0].title ? `Compromisso: ${due[0].title}` : 'Você tem um compromisso planejado para agora.',
           tag: due[0].key,
-          url: '/meu-caminho-be#agenda'
+          url: due[0].url || '/meu-caminho-be#agenda'
         }), { TTL: 3600, urgency: 'normal' });
         const sentKeys = new Set(due.map(reminder => reminder.key));
         record.reminders = record.reminders.filter(reminder => !sentKeys.has(reminder.key));

@@ -761,7 +761,7 @@ async function run() {
     assert.doesNotMatch(redirects, /^\/reportagens\s+/m, 'A rota /reportagens deve ser resolvida diretamente pelo arquivo reportagens.html, sem redirecionamento de caixa.');
 
     const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v155`/);
+    assert.match(serviceWorker, /CACHE_NAME = `\$\{CACHE_PREFIX\}v156`/);
     const coreShellSource = serviceWorker.match(/const CORE_SHELL = \[([\s\S]*?)\];/)?.[1] || '';
     const coreShell = [...coreShellSource.matchAll(/'([^']+)'/g)].map(match => match[1]);
     const currentAppAssets = [...pathHtml.matchAll(/(?:href|src)="(\/(?:css|js)\/[^"?]+|\/site-common\.css)(?:\?[^"#]+)?"/g)]
@@ -773,11 +773,13 @@ async function run() {
       assert.doesNotMatch(asset, /\?v=/, 'O app shell deve usar caminhos estáveis e ignorar a query somente no fallback offline.');
     }
     assert.ok(coreShell.includes('/css/components/community-comments.css'), 'O estilo carregado dinamicamente pelos comentários precisa funcionar offline.');
+    assert.ok(coreShell.includes('/diario-app/diario-planner.js'), 'O Planner Esportivo Be precisa funcionar offline.');
     assert.match(serviceWorker, /cache\.addAll\(CORE_SHELL\)/, 'As dependências essenciais precisam ser instaladas como um conjunto completo.');
     assert.match(serviceWorker, /Promise\.allSettled\(OPTIONAL_SHELL\.map/, 'Uma mídia opcional indisponível não pode cancelar a instalação do PWA.');
     assert.match(serviceWorker, /caches\.match\(request, \{ ignoreSearch: true \}\)/, 'O fallback offline precisa aceitar a versão atual do HTML sem manter URLs antigas manualmente.');
     assert.match(serviceWorker, /key\.startsWith\(CACHE_PREFIX\)/, 'A ativação deve remover apenas caches pertencentes ao Meu Caminho Be.');
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/meu-caminho-be\/'\)/, 'O app precisa continuar acessível offline em suas subpáginas.');
+    assert.match(serviceWorker, /url\.pathname\.startsWith\('\/diario-app\/'\)/, 'O Planner Esportivo Be precisa abrir offline.');
     assert.match(serviceWorker, /url\.pathname\.startsWith\('\/api\/'\)/, 'O service worker não deve armazenar respostas privadas de API.');
 
     const syncFunction = fs.readFileSync(path.join(root, 'functions/api/meu-caminho-sync.js'), 'utf8');
@@ -791,9 +793,12 @@ async function run() {
     const routineConfig = fs.readFileSync(path.join(root, 'workers/wrangler.notifications.jsonc'), 'utf8');
     assert.match(routineFunction, /handleRoutineNotifications/);
     assert.match(routineCore, /routine:install:/);
+    assert.match(routineCore, /title: String\(item\?\.title/);
+    assert.match(routineCore, /url: \/\^\\\//);
     assert.match(routineCore, /bemesportivo\.pages\.dev/);
     assert.match(routineWorker, /async scheduled/);
     assert.match(routineWorker, /sendNotification/);
+    assert.match(routineWorker, /due\[0\]\.url/);
     assert.match(routineConfig, /"\* \* \* \* \*"/);
     assert.match(routineConfig, /"binding": "BE_DATA"/);
 
