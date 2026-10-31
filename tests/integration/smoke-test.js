@@ -447,7 +447,7 @@ async function run() {
     assert.doesNotMatch(simpleDiaryHtml, /id="post-canvas"|id="download-post"/, 'O diário não deve manter um segundo editor de artes.');
     assert.match(simpleDiaryScript, /bemEsportivoPostMakerDraftV1/, 'O diário precisa preparar o registro para o gerador oficial.');
     assert.match(makerScript, /bemEsportivoPostMakerDraftV1/, 'O gerador oficial precisa receber registros vindos do diário.');
-    assert.match(simpleDiaryHtml, /data-tab="planner">Planner Be/, 'O Planner Be precisa ficar acessível depois de Meus registros.');
+    assert.match(simpleDiaryHtml, /data-tab="planner">Planner Esportivo Be/, 'O Planner Esportivo Be precisa ficar acessível depois de Meus registros.');
     assert.match(simpleDiaryHtml, /id="planner-form"[\s\S]*id="planner-list"[\s\S]*id="planner-finish"/, 'O planner precisa oferecer criação, agenda e encerramento do período.');
     assert.match(simpleDiaryHtml, /id="planner-calendar-title"[\s\S]*id="planner-calendar-grid"/, 'O Planner Be precisa exibir um calendário mensal clicável.');
     assert.ok(fs.existsSync(path.join(root, 'diario-app/diario-planner.js')), 'O comportamento local do Planner Be está ausente.');

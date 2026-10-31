@@ -5,6 +5,7 @@ test('planner organiza o dia e mantém a conclusão no aparelho',async({page})=>
  await page.addInitScript(({profile})=>{localStorage.setItem('meuCaminhoBeProfileV1',JSON.stringify(profile));localStorage.setItem('bemEsportivoPrivacyConsentV1',JSON.stringify({version:2,necessary:true,measurement:false,advertising:false}));},{profile});
  await page.goto('/diario-app/');
  await page.locator('nav [data-tab=planner]').click();
+ await expect(page.locator('#planner .intro h1')).toHaveText('Planner Esportivo Be');
  await expect(page.locator('#planner-calendar-grid button')).toHaveCount(await page.evaluate(()=>new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate()));
  await expect(page.locator('#planner-calendar-grid .is-today')).toHaveCount(1);
  await page.locator('#planner-title').fill('Caminhar por 30 minutos');
