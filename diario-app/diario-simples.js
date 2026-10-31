@@ -11,7 +11,7 @@
  const notify=text=>{clearTimeout(toastTimer);$('status').textContent=text;toastTimer=setTimeout(()=>$('status').textContent='',9000);};
  const dateLabel=value=>new Date(value+'T12:00:00').toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'});
  const show=tab=>{
-  const crumb=document.querySelector('.dashboard-bar b');if(crumb)crumb.textContent='/ '+({today:'Visão geral',records:'Meus registros',planner:'Planner Esportivo Be',post:'Criar arte'}[tab]);
+  const crumb=document.querySelector('.dashboard-bar b');if(crumb)crumb.textContent='/ '+({today:'Visão geral',records:'Meus registros',planner:'Planner Esportivo Be',post:'Criar arte',profile:'Meu perfil'}[tab]);
   document.querySelectorAll('.panel').forEach(el=>el.hidden=el.id!==tab);
   document.querySelectorAll('nav [data-tab]').forEach(el=>{if(el.dataset.tab===tab)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current');});
   window.scrollTo({top:0,behavior:'instant'});
@@ -21,6 +21,7 @@
  function identity(){const name=profileName().trim().split(' ')[0];$('greeting').textContent=name?`${name}, o que vale guardar hoje?`:'O que vale guardar hoje?';}
  window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data?.type==='diary-preview-ready')identity();});
  identity();
+ window.addEventListener('diary:profile-updated',identity);
  $('today-date').textContent=today.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'}).toUpperCase();
  $('entry-date').value=localDate;
  function openDB(){return new Promise((resolve,reject)=>{const request=indexedDB.open('be-diary-dashboard-v1:'+ownerKey,1);request.onupgradeneeded=()=>{request.result.createObjectStore('records',{keyPath:'id'});request.result.createObjectStore('imports',{keyPath:'id'});};request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);});}

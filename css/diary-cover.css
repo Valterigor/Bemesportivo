@@ -118,6 +118,10 @@ body.be-welcome-leaving > .container.page { animation: be-diary-arrival .7s ease
 #be-diary-welcome-title { margin: 0 0 28px; font: 800 clamp(40px, 6.4vw, 84px)/1.04 'Manrope', sans-serif; letter-spacing: -.065em; overflow-wrap: anywhere; text-wrap: balance; }
 #be-diary-welcome-title:focus { outline: none; }
 #be-diary-welcome .be-welcome-description { max-width: 410px; margin: 0 auto; font-size: 16px; line-height: 1.8; color: #64635f; text-wrap: pretty; }
+.be-welcome-name { width: min(100%, 360px); margin: 28px auto 0; display: flex; flex-direction: column; gap: 9px; text-align: left; color: #353431; font: 600 13px/1.4 'Manrope', sans-serif; }
+.be-welcome-name[hidden] { display: none; }
+.be-welcome-name input { width: 100%; min-height: 52px; border: 1px solid #cfcac1; border-radius: 3px; background: #fff; padding: 13px 15px; color: #181818; font: 500 16px/1.4 'Manrope', sans-serif; }
+.be-welcome-name input:focus { border-color: #a75b0d; outline: 3px solid #f3d8b4; outline-offset: 2px; }
 .be-welcome-footer { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 36px; }
 #be-diary-welcome-continue { min-height: 56px; width: 100%; max-width: 300px; border: 1px solid #181818; border-radius: 2px; padding: 18px 24px; background: #181818; color: #fff; font: 600 14px/1.4 'Manrope', sans-serif; letter-spacing: .035em; cursor: pointer; transition: background .2s ease, color .2s ease, transform .2s ease; }
 #be-diary-welcome-continue:hover { background: #f8f7f4; color: #181818; transform: translateY(-2px); }

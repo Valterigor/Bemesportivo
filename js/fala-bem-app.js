@@ -5071,12 +5071,13 @@ async function playDiaryOpeningSound() {
 }
 
 let diaryGreeting = null;
-function speakDiaryGreeting() {
+function speakDiaryGreeting(nameOverride = '') {
   if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return;
   try {
     const speech = window.speechSynthesis;
-    const greeting = new SpeechSynthesisUtterance(hasProfileIdentity()
-      ? `Olá, ${String(currentProfile.name).trim()}.` : 'Seja bem-vindo.');
+    const spokenName = String(nameOverride || (hasProfileIdentity() ? currentProfile.name : '')).trim();
+    const greeting = new SpeechSynthesisUtterance(spokenName
+      ? `Olá, ${spokenName}. Seja bem-vindo ao seu diário.` : 'Seja bem-vindo ao seu diário.');
     greeting.lang = 'pt-BR';
     greeting.rate = 0.92;
     greeting.pitch = 1;
@@ -5130,10 +5131,11 @@ if (diaryCover) {
     document.body.classList.add('be-welcome-active');
     document.getElementById('be-diary-welcome-title').textContent = hasProfileIdentity()
       ? `Seja bem-vindo, ${currentProfile.name}!` : 'Seja bem-vindo ao seu diário.';
+    document.getElementById('be-welcome-name-field').hidden = hasProfileIdentity();
     document.getElementById('be-diary-welcome-continue').textContent = hasProfileIdentity() ? 'Abrir meu diário →' : 'Vamos começar →';
     document.getElementById('be-diary-welcome-note').textContent = hasProfileIdentity()
       ? 'Seu diário continua de onde você parou.'
-      : 'Primeiro, vamos criar seu perfil.';
+      : 'Seu perfil completo é opcional e pode ser preenchido depois.';
     diaryCover.classList.add('is-opening');
     document.body.classList.add('be-cover-opening');
     const finishOpening = () => {
@@ -5160,14 +5162,30 @@ if (diaryCover) {
   document.getElementById('be-diary-welcome-continue').addEventListener('click', () => {
     if (diaryWelcome.hidden || !diaryCover.hidden || diaryWelcome.classList.contains('is-leaving')) return;
     stopDiaryGreeting();
-    openView(hasProfileIdentity() ? 'inicio' : 'perfil', { scroll: false, focus: false, instant: true });
+    if (!hasProfileIdentity()) {
+      const nameInput = document.getElementById('be-diary-welcome-name');
+      const name = String(nameInput?.value || '').trim().replace(/\s+/g, ' ').slice(0, 40);
+      if (!name) {
+        nameInput?.setCustomValidity('Digite seu nome ou apelido para continuar.');
+        nameInput?.reportValidity();
+        nameInput?.focus();
+        return;
+      }
+      nameInput.setCustomValidity('');
+      const now = new Date().toISOString();
+      currentProfile = { ...(currentProfile || {}), name, createdAt: currentProfile?.createdAt || now, identityCreatedAt: currentProfile?.identityCreatedAt || now, updatedAt: now };
+      try { localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(currentProfile)); } catch (error) {}
+      window.dispatchEvent(new CustomEvent('meuCaminhoBe:profile-updated', { detail: { ready: true, source: 'diary-entry' } }));
+      speakDiaryGreeting(name);
+    }
+    openView('inicio', { scroll: false, focus: false, instant: true });
     diaryWelcome.classList.add('is-leaving');
     document.body.classList.add('be-welcome-leaving');
     const finishWelcome = () => {
       diaryWelcome.hidden = true;
       diaryWelcome.classList.remove('is-leaving');
       document.body.classList.remove('be-welcome-active', 'be-welcome-leaving');
-      const target = document.querySelector(hasProfileIdentity() ? '#be-diary-home-title' : '#be-profile-onboarding-title');
+      const target = document.querySelector('#be-diary-home-title');
       if (target) { target.tabIndex = -1; target.focus({ preventScroll: true }); }
       window.scrollTo(0, 0);
       window.dispatchEvent(new CustomEvent('meuDiarioBe:opened'));
