@@ -447,6 +447,9 @@ async function run() {
     assert.doesNotMatch(simpleDiaryHtml, /id="post-canvas"|id="download-post"/, 'O diário não deve manter um segundo editor de artes.');
     assert.match(simpleDiaryScript, /bemEsportivoPostMakerDraftV1/, 'O diário precisa preparar o registro para o gerador oficial.');
     assert.match(makerScript, /bemEsportivoPostMakerDraftV1/, 'O gerador oficial precisa receber registros vindos do diário.');
+    assert.match(simpleDiaryHtml, /data-tab="planner">Planner Be/, 'O Planner Be precisa ficar acessível depois de Meus registros.');
+    assert.match(simpleDiaryHtml, /id="planner-form"[\s\S]*id="planner-list"[\s\S]*id="planner-finish"/, 'O planner precisa oferecer criação, agenda e encerramento do período.');
+    assert.ok(fs.existsSync(path.join(root, 'diario-app/diario-planner.js')), 'O comportamento local do Planner Be está ausente.');
     assert.match(publicProfileHtml, /class="be-public-print-block"/, 'A impressão da página pública precisa ocultar o conteúdo.');
     assert.match(publicProfileScript, /dataset\.watermark/, 'Publicações públicas precisam exibir identificação contra cópias sem origem.');
     assert.match(shareCardScript, /story: \{ width: 1080, height: 1920[\s\S]*feed: \{ width: 1080, height: 1350/, 'O compartilhamento precisa oferecer formatos próprios para Stories, Status, Feed e WhatsApp.');

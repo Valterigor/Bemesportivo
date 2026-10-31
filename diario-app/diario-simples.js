@@ -11,7 +11,7 @@
  const notify=text=>{clearTimeout(toastTimer);$('status').textContent=text;toastTimer=setTimeout(()=>$('status').textContent='',9000);};
  const dateLabel=value=>new Date(value+'T12:00:00').toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'});
  const show=tab=>{
-  const crumb=document.querySelector('.dashboard-bar b');if(crumb)crumb.textContent='/ '+({today:'Visão geral',records:'Meus registros',post:'Criar arte'}[tab]);
+  const crumb=document.querySelector('.dashboard-bar b');if(crumb)crumb.textContent='/ '+({today:'Visão geral',records:'Meus registros',planner:'Planner do Dia Be',post:'Criar arte'}[tab]);
   document.querySelectorAll('.panel').forEach(el=>el.hidden=el.id!==tab);
   document.querySelectorAll('nav [data-tab]').forEach(el=>{if(el.dataset.tab===tab)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current');});
   window.scrollTo({top:0,behavior:'instant'});
