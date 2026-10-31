@@ -449,6 +449,7 @@ async function run() {
     assert.match(makerScript, /bemEsportivoPostMakerDraftV1/, 'O gerador oficial precisa receber registros vindos do diário.');
     assert.match(simpleDiaryHtml, /data-tab="planner">Planner Be/, 'O Planner Be precisa ficar acessível depois de Meus registros.');
     assert.match(simpleDiaryHtml, /id="planner-form"[\s\S]*id="planner-list"[\s\S]*id="planner-finish"/, 'O planner precisa oferecer criação, agenda e encerramento do período.');
+    assert.match(simpleDiaryHtml, /id="planner-calendar-title"[\s\S]*id="planner-calendar-grid"/, 'O Planner Be precisa exibir um calendário mensal clicável.');
     assert.ok(fs.existsSync(path.join(root, 'diario-app/diario-planner.js')), 'O comportamento local do Planner Be está ausente.');
     assert.match(publicProfileHtml, /class="be-public-print-block"/, 'A impressão da página pública precisa ocultar o conteúdo.');
     assert.match(publicProfileScript, /dataset\.watermark/, 'Publicações públicas precisam exibir identificação contra cópias sem origem.');
