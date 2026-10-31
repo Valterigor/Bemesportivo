@@ -55,6 +55,7 @@
     $('profile-name').value = String(profile.name || '');
     $('profile-story').value = String(profile.story || '');
     selectedSports = Array.isArray(profile.practicedSports) ? profile.practicedSports.filter(sport => SPORTS.includes(sport)).slice(0, 5) : [];
+    $('profile-sports-toggle').firstChild.textContent = selectedSports.length ? 'Alterar modalidades ' : 'Escolher modalidades ';
     photo = /^data:image\/(jpeg|png|webp);base64,/i.test(profile.photoDataUrl || '') ? profile.photoDataUrl : '';
     $('profile-form').dataset.profileSaved = String(Boolean(profile.profileCompletedAt || profile.story?.trim() || photo || selectedSports.length));
     renderPhoto();
@@ -78,11 +79,21 @@
     } catch (error) { event.target.value = ''; alert(error.message); }
   });
   $('profile-photo-remove').addEventListener('click', () => { photo = ''; $('profile-photo').value = ''; renderPhoto(); });
+  const sportsActions = document.createElement('div'), confirmSports = document.createElement('button');
+  sportsActions.className = 'sports-panel-actions'; confirmSports.id = 'profile-sports-confirm'; confirmSports.type = 'button'; confirmSports.className = 'primary'; confirmSports.textContent = 'Concluir seleção';
+  sportsActions.append(confirmSports); $('profile-sports-panel').append(sportsActions);
   $('profile-sports-toggle').addEventListener('click', event => {
     const panel = $('profile-sports-panel'), opening = panel.hidden;
     panel.hidden = !opening; event.currentTarget.setAttribute('aria-expanded', String(opening));
     event.currentTarget.querySelector('span').textContent = opening ? '↑' : '↓';
     if (opening) $('profile-sports-search').focus();
+  });
+  confirmSports.addEventListener('click', () => {
+    $('profile-sports-panel').hidden = true;
+    $('profile-sports-toggle').setAttribute('aria-expanded', 'false');
+    $('profile-sports-toggle').querySelector('span').textContent = '↓';
+    $('profile-sports-toggle').firstChild.textContent = selectedSports.length ? 'Alterar modalidades ' : 'Escolher modalidades ';
+    $('profile-sports-toggle').focus();
   });
   $('profile-sports-search').addEventListener('input', event => renderSports(event.target.value));
   $('profile-form').addEventListener('submit', event => {
