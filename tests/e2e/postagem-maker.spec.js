@@ -18,6 +18,8 @@ test('qualquer pessoa cria e baixa uma postagem esportiva sem cadastro', async (
 
   await page.goto('/criar-postagem');
   await expect(page.getByText('GRÁTIS · SEM CADASTRO')).toBeVisible();
+  await expect(page.locator('#post-maker-template')).toHaveValue('moment');
+  await page.locator('#post-maker-template').selectOption('profile');
   await page.locator('#post-maker-name').fill('Marina em Movimento');
   await page.locator('#post-maker-sport').selectOption({ label: 'Corrida' });
   await page.locator('#post-maker-type').selectOption('achievement');
@@ -80,6 +82,19 @@ test('qualquer pessoa cria e baixa uma postagem esportiva sem cadastro', async (
     name: 'meu-caminho-be-postagem-feed.png'
   });
   await page.locator('.be-share-close').click();
+  await page.locator('#post-maker-template').selectOption('moment');
+  await expect(page.locator('[data-maker-profile-field]').first()).toBeHidden();
+  const cleanTemplate = await page.evaluate(async () => {
+    const source = document.createElement('canvas'); source.width = 100; source.height = 400;
+    const sourceContext = source.getContext('2d'); sourceContext.fillStyle = '#ee2211'; sourceContext.fillRect(0, 0, 100, 400);
+    const file = await window.BeSocialCard.build({template:'moment',format:'feed',profile:{name:'Não deve aparecer',handle:'@oculto',favoriteSport:'Corrida'},post:{title:'Meu treino',text:'Um momento importante.',activity:'Corrida',imageDataUrl:source.toDataURL('image/png')}});
+    const bitmap = await createImageBitmap(file),canvas=document.createElement('canvas');canvas.width=bitmap.width;canvas.height=bitmap.height;const context=canvas.getContext('2d');context.drawImage(bitmap,0,0);bitmap.close();
+    const left=[...context.getImageData(100,700,1,1).data],right=[...context.getImageData(970,700,1,1).data];
+    return {name:file.name,left,right};
+  });
+  expect(cleanTemplate.name).toBe('bem-esportivo-postagem-feed.png');
+  expect(cleanTemplate.left[0]).toBeGreaterThan(220);expect(cleanTemplate.left[1]).toBeLessThan(70);
+  expect(cleanTemplate.right[0]).toBeGreaterThan(220);expect(cleanTemplate.right[1]).toBeLessThan(70);
   expect(writes).toEqual([]);
 
   for (const viewport of [{ width: 390, height: 844 }, { width: 1024, height: 800 }]) {

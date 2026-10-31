@@ -6,7 +6,7 @@
     img.onerror = () => reject(new Error('Não foi possível carregar a imagem. Escolha a foto novamente.'));
     img.src = src;
   });
-  async function build({ post, profile, format = 'feed' }) {
+  async function build({ post, profile, format = 'feed', template = 'profile' }) {
     await document.fonts.ready;
     const canvas = document.createElement('canvas');
     canvas.width = 1080;
@@ -37,19 +37,24 @@
     box(0, 0, 1080, height, 0, '#11151c');
     box(40, 40, 1000, height - 80, 28, '#1e232c');
     const logo = await image('/img/Bem%20Esportivo%20Logo%20Laranja@33x.png');
-    box(84, 90, 88, 88, 44, '#383f4b');
-    if (profile.photoDataUrl) {
-      const avatar = await image(profile.photoDataUrl);
-      ctx.save(); ctx.beginPath(); ctx.arc(128, 134, 44, 0, Math.PI * 2); ctx.clip();
-      const scale = Math.max(88 / avatar.width, 88 / avatar.height);
-      ctx.drawImage(avatar, 128 - avatar.width * scale / 2, 134 - avatar.height * scale / 2, avatar.width * scale, avatar.height * scale);
-      ctx.restore();
-    } else text((profile.name || 'B').charAt(0).toUpperCase(), 112, 146, 34, '#ffb51b', 800);
-    const name = lines(profile.name, 30, 650, 700);
-    name.slice(0, 2).forEach((line, i) => text(line, 194, 119 + i * 34, 30, '#f6f7f9', 700));
-    text([profile.handle, post.activity].filter(Boolean).join(' · '), 194, 181, 21, '#aeb7c5');
     ctx.drawImage(logo, 935, 103, 56, 48);
-    let y = 255;
+    if (template === 'profile') {
+      box(84, 90, 88, 88, 44, '#383f4b');
+      if (profile.photoDataUrl) {
+        const avatar = await image(profile.photoDataUrl);
+        ctx.save(); ctx.beginPath(); ctx.arc(128, 134, 44, 0, Math.PI * 2); ctx.clip();
+        const scale = Math.max(88 / avatar.width, 88 / avatar.height);
+        ctx.drawImage(avatar, 128 - avatar.width * scale / 2, 134 - avatar.height * scale / 2, avatar.width * scale, avatar.height * scale);
+        ctx.restore();
+      } else text((profile.name || 'B').charAt(0).toUpperCase(), 112, 146, 34, '#ffb51b', 800);
+      const name = lines(profile.name, 30, 650, 700);
+      name.slice(0, 2).forEach((line, i) => text(line, 194, 119 + i * 34, 30, '#f6f7f9', 700));
+      text([profile.handle, post.activity].filter(Boolean).join(' · '), 194, 181, 21, '#aeb7c5');
+    } else {
+      text('MEU MOMENTO ESPORTIVO', 88, 139, 28, '#f6f7f9', 800);
+      text('UMA HISTÓRIA EM MOVIMENTO', 88, 176, 18, '#aeb7c5', 700);
+    }
+    let y = template === 'profile' ? 255 : 235;
     const titleLines = lines(post.title, 40, 904, 800);
     titleLines.forEach(line => { text(line, 88, y, 40, '#fff', 800); y += 50; });
     y += 16;
@@ -68,7 +73,7 @@
     if (post.imageDataUrl && photoHeight > 0) {
       const photo = await image(post.imageDataUrl);
       box(88, y, 904, photoHeight, 20, '#353c47');
-      const scale = Math.min(904 / photo.width, photoHeight / photo.height);
+      const scale = Math.max(904 / photo.width, photoHeight / photo.height);
       ctx.save(); ctx.beginPath(); ctx.roundRect(88, y, 904, photoHeight, 20); ctx.clip();
       ctx.drawImage(photo, 88 + (904 - photo.width * scale) / 2, y + (photoHeight - photo.height * scale) / 2, photo.width * scale, photo.height * scale);
       ctx.restore();

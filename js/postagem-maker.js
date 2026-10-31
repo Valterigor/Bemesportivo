@@ -17,7 +17,7 @@
     previewTimer = setTimeout(async () => {
       try {
         const current = data();
-        current.profile.name ||= 'Seu nome';
+        if (current.template === 'profile') current.profile.name ||= 'Seu nome';
         current.post.title ||= 'Seu momento no esporte';
         current.post.text ||= 'Conte sua história, adicione uma foto e leve esse momento para as redes.';
         const file = await window.BeSocialCard.build({ ...current, format: field('post-maker-format').value });
@@ -65,6 +65,7 @@
 
   function data() {
     return {
+      template: field('post-maker-template').value,
       post: {
         id: 'postagem',
         kind: photoDataUrl ? 'photo' : 'text',
@@ -86,6 +87,17 @@
         favoriteSport: safe(field('post-maker-sport').value)
       }
     };
+  }
+
+  function applyTemplate() {
+    const profileMode = field('post-maker-template').value === 'profile';
+    document.querySelectorAll('[data-maker-profile-field]').forEach(element => { element.hidden = !profileMode; });
+    field('post-maker-avatar-remove').hidden = !profileMode || !avatarDataUrl;
+    field('post-maker-name').required = profileMode;
+    field('post-maker-sport').required = profileMode;
+    field('post-maker-photo-feedback').textContent = photoDataUrl
+      ? 'Foto pronta. O recorte se ajusta automaticamente, sem criar bordas laterais.'
+      : '';
   }
 
   function updatePreview() {
@@ -135,6 +147,7 @@
   field('post-maker-format').addEventListener('change', () => {
     document.querySelector('.be-maker-preview-column > header > small').textContent = field('post-maker-format').value === 'story' ? 'Formato 9:16' : 'Formato 4:5';
   });
+  field('post-maker-template').addEventListener('change', () => { applyTemplate(); updatePreview(); });
   field('post-maker-avatar').addEventListener('change', async event => {
     const input = event.currentTarget;
     const file = input.files?.[0];
@@ -213,5 +226,6 @@
     window.BeShareCard.open({ ...data(), variant: 'social', onStatus: message => { feedback.textContent = message; } });
   });
   applyDiaryDraft();
+  applyTemplate();
   updatePreview();
 })();

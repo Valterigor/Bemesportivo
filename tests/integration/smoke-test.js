@@ -440,6 +440,8 @@ async function run() {
     assert.match(pathHtml, /js\/meu-caminho-public\.js\?v=20260916-2[\s\S]*js\/be-share-card\.js\?v=20260903-1/, 'A área privada precisa carregar a versão compartilhável do perfil.');
     assert.match(publicDiaryScript, /BeShareCard\.open\(\{ variant: 'profile'/, 'O proprietário precisa criar o cartão social sem sair da área privada.');
     assert.match(makerHtml, /GRÁTIS · SEM CADASTRO[\s\S]*id="post-maker-form"[\s\S]*Gerar minha postagem/, 'O gerador precisa apresentar o fluxo direto sem cadastro.');
+    assert.match(makerHtml, /id="post-maker-template"[\s\S]*Meu momento esportivo[\s\S]*Com perfil e modalidade/, 'O gerador precisa preservar o modelo atual e oferecer o modelo sem perfil.');
+    assert.match(makerScript, /template: field\('post-maker-template'\)\.value/, 'A escolha do modelo precisa chegar à geração da arte.');
     assert.match(makerHtml, /Nada é enviado ou publicado automaticamente/, 'O gerador precisa explicar a privacidade antes da ação.');
     assert.doesNotMatch(makerScript, /\bfetch\s*\(|localStorage/, 'O gerador não deve enviar nem armazenar os dados preenchidos.');
     assert.match(pathHtml, /href="\/criar-postagem">Criar arte sem cadastro/, 'O primeiro acesso ao Meu Caminho Be precisa oferecer o gerador de artes livre.');
