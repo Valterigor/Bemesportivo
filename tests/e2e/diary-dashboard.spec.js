@@ -24,8 +24,8 @@ test('abertura original leva ao dashboard e histórico é preservado',async({pag
  await page.reload();await expect(page.locator('#record-list')).not.toContainText('Minha corrida anterior');
  expect(await page.evaluate(()=>localStorage.getItem('meuCaminhoBeDiaryV1'))).toBe(old);
  for(const width of [320,390,1440]){await page.setViewportSize({width,height:900});await page.locator('nav [data-tab=today]').click();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.locator('.profile').click();await expect(page).toHaveURL(/\/meu-caminho-be\/perfil/);
- await expect(page.locator('#be-public-manager')).toHaveCount(1);
+ await page.locator('.profile').click();await expect(page).toHaveURL(/\/$/);
+ await expect(page.locator('#be-site-header')).toHaveCount(1);
 });
 test('restaurar cópia não sobrescreve registros e novos perfis têm armazenamento separado',async({page})=>{
  await page.goto('/');await page.evaluate(p=>localStorage.setItem('meuCaminhoBeProfileV1',JSON.stringify(p)),profile);await page.goto('/diario-app/');

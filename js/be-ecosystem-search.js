@@ -10,7 +10,7 @@
     { id: 'ferramentas', name: 'Ferramentas', purpose: 'Entenda melhor sua prática.', response: 'Use recursos educativos para compreender ritmo, hidratação e outros indicadores.', action: 'Ver ferramentas', href: '/meu-caminho-be?tela=ferramentas', keywords: ['ferramenta', 'calcular', 'calculadora', 'pace', 'ritmo', 'imc', 'hidratacao', 'agua', 'medir', 'entender minha pratica'] },
     { id: 'radar', name: 'Radar BE', purpose: 'Encontre onde praticar em São Paulo.', response: 'Veja oportunidades esportivas, centros e programações para começar perto de você em São Paulo.', action: 'Abrir o Radar BE', href: '/radar-esportivo', keywords: ['onde praticar', 'onde treinar', 'esporte perto', 'perto de mim', 'sao paulo', 'são paulo', 'quadra', 'centro esportivo', 'ceu', 'atividade gratuita', 'local para esporte'] },
     { id: 'produtos', name: 'Produtos', purpose: 'Encontre o que precisa para praticar.', response: 'Explore produtos relacionados à sua prática esportiva.', action: 'Explorar produtos', href: '/produtos', keywords: ['produto', 'comprar', 'equipamento', 'material', 'acessorio', 'roupa', 'tenis', 'chuteira', 'bola', 'loja'] },
-    { id: 'meu-caminho', name: 'Meu Caminho Be', purpose: 'Acompanhe o seu esporte.', response: 'Registre o que fez, organize sua rotina e acompanhe sua evolução.', action: 'Abrir Meu Caminho Be', href: '/meu-caminho-be', keywords: ['registrar', 'registro', 'atividade', 'fiz hoje', 'treinei hoje', 'meu treino', 'meu caminho', 'diario', 'jornada', 'evolucao', 'progresso', 'acompanhar', 'rotina', 'perfil'] }
+    { id: 'meu-caminho', name: 'Meu Diário Be', purpose: 'Acompanhe o seu esporte.', response: 'Registre o que fez, organize sua rotina e acompanhe sua evolução.', action: 'Abrir Meu Diário Be', href: '/meu-caminho-be', keywords: ['registrar', 'registro', 'atividade', 'fiz hoje', 'treinei hoje', 'meu treino', 'meu diario', 'diario', 'jornada', 'evolucao', 'progresso', 'acompanhar', 'rotina'] }
   ]);
 
   /*
@@ -173,7 +173,7 @@
 
   function supportingItemsForTopic(topic) {
     const items = [{
-      product: 'meu-caminho', sourceLabel: 'Meu Caminho Be',
+      product: 'meu-caminho', sourceLabel: 'Meu Diário Be',
       title: 'Acompanhar meu objetivo',
       summary: 'Registre sua prática e acompanhe a evolução ao longo das semanas.',
       href: '/meu-caminho-be/jornada', image: EDITORIAL_IMAGES.journey,
@@ -266,7 +266,7 @@
 
   function journeyItemForSport(sport) {
     return {
-      product: 'meu-caminho', sourceLabel: 'Meu Caminho Be',
+      product: 'meu-caminho', sourceLabel: 'Meu Diário Be',
       title: `Registrar uma atividade de ${sport.label}`,
       summary: 'Guarde o que fez hoje e acompanhe sua continuidade no esporte.',
       href: '/meu-caminho-be/registrar', image: EDITORIAL_IMAGES.journey,

@@ -15,7 +15,7 @@ export const pageNavigation = {
   'profissionais.html': { label: 'Menu de profissionais', links: [['/', 'Início'], ['#como-funciona', 'Como funciona'], ['#profissionais', 'Encontrar apoio'], ['/contato', 'Contato']] },
   'produtos.html': { label: 'Menu de produtos', links: [['/', 'Início'], ['#productsGrid', 'Produtos'], ['/moda-fitness', 'Moda Fitness'], ['/contato', 'Contato']] },
   'criar-postagem.html': { label: 'Menu do gerador de artes', links: [['/', 'Início'], ['#post-maker-form', 'Criar arte'], ['#be-maker-preview-title', 'Ver prévia'], ['/meu-caminho-be', 'Meu diário']] },
-  'perfil-publico.html': { label: 'Menu do perfil público', links: [['/', 'Início'], ['/meu-caminho-be', 'Meu diário'], ['/meu-caminho-be/perfil', 'Meu perfil'], ['/diretrizes-da-comunidade', 'Comunidade']] }
+  'perfil-publico.html': { label: 'Menu do perfil público', links: [['/', 'Início'], ['/meu-caminho-be', 'Meu Diário Be'], ['/diretrizes-da-comunidade', 'Comunidade']] }
 };
 
 export const institutionalNavigation = {
@@ -37,9 +37,8 @@ export const navigationGroups = [
     ['/meu-caminho-be?tela=ferramentas', 'Ferramentas', 'Pace, hidratação e outras referências'],
     ['/profissionais', 'Profissionais', 'Encontre apoio para sua prática']
   ] },
-  { label: 'Sua jornada', links: [
-    ['/meu-caminho-be', 'Meu Caminho Be', 'Seu diário esportivo digital'],
-    ['/meu-caminho-be/perfil', 'Meu perfil', 'Seu espaço no diário']
+  { label: 'Seu diário', links: [
+    ['/meu-caminho-be', 'Meu Diário Be', 'Registros, planejamento e evolução']
   ] },
   { label: 'Estilo e recursos', links: [
     ['/loja', 'Coleção BE', 'Conheça as peças e registre seu interesse'],

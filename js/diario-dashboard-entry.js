@@ -11,7 +11,11 @@ if (legacy) {
   const continuity=document.getElementById('fb-continuity-output-help');
   if(continuity){const note=document.createElement('p');note.textContent='Os registros do novo painel têm uma cópia própria: use Baixar meus registros e Restaurar cópia. O código desta área mantém os dados do modelo anterior.';note.style.cssText='font-size:13px;line-height:1.6;color:inherit';continuity.parentElement.append(note);}
 } else {
-  const directArea=/\/(perfil|ferramentas|conteudos|explorar|progresso|evolucao|jornada|comunidade)(?:\/|$)/.test(initial.pathname)||['perfil','ferramentas','conteudos','explorar','progresso','evolucao','comunidade'].includes(initial.searchParams.get('tela'));
+  if (/\/perfil(?:\/|$)/.test(initial.pathname)) {
+    let existingProfile;try{existingProfile=JSON.parse(localStorage.getItem('meuCaminhoBeProfileV1')||'null');}catch{}
+    if(existingProfile?.name?.trim())location.replace('/diario-app/');
+  }
+  const directArea=/\/(ferramentas|conteudos|explorar)(?:\/|$)/.test(initial.pathname)||['ferramentas','conteudos','explorar'].includes(initial.searchParams.get('tela'));
   if(!directArea){
     let scheduled=false,departed=false;
     const check=()=>{scheduled=false;if(departed)return;let profile;try{profile=JSON.parse(localStorage.getItem('meuCaminhoBeProfileV1')||'null');}catch{}

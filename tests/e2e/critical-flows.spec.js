@@ -437,7 +437,7 @@ test('produtos da home abrem seus destinos exatos', async ({ page }) => {
     { name: /Profissionais/, href: '/profissionais', finalPath: '/profissionais', ready: '#professionals-hero-title' },
     { name: /Ferramentas/, href: '/meu-caminho-be?tela=ferramentas', finalPath: '/meu-caminho-be/ferramentas', ready: '#tools-title' },
     { name: /Produtos/, href: '/produtos', finalPath: '/produtos', ready: 'h1' },
-    { name: /Meu Caminho Be/, href: '/meu-caminho-be', finalPath: '/meu-caminho-be', ready: '#fala-bem-app' }
+    { name: /Meu Diário Be/, href: '/meu-caminho-be', finalPath: '/meu-caminho-be', ready: '#fala-bem-app' }
   ];
 
   for (const destination of destinations) {

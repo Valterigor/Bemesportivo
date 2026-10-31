@@ -402,10 +402,10 @@ async function run() {
       assert.ok(homeHtml.includes(title), 'Conteúdo editorial ausente: ' + title);
     }
     assert.doesNotMatch(homeHtml, /home-latest-reports\.js|data-latest-reports-source/, 'A seleção editorial permanece estável.');
-    for (const destination of ['/reportagens', '/moda-fitness', '/radar-esportivo', '/meu-caminho-be', '/profissionais', '/meu-caminho-be/perfil']) {
+    for (const destination of ['/reportagens', '/moda-fitness', '/radar-esportivo', '/meu-caminho-be', '/profissionais']) {
       assert.ok(homeHtml.includes('href="' + destination + '"'), 'Link de exploração ausente: ' + destination);
     }
-    assert.match(reportListing, /class="report-path-bridge"[\s\S]*Conhecer o Meu Caminho Be/);
+    assert.match(reportListing, /class="report-path-bridge"[\s\S]*Conhecer o Meu Diário Be/);
     const routesScript = fs.readFileSync(path.join(root, 'js', 'core', 'routes.js'), 'utf8');
     assert.match(routesScript, /export const siteNavigation[\s\S]*export const pageNavigation/, 'A navegação separa a home dos menus contextuais.');
     assert.doesNotMatch(routesScript, /'\/#treinos'|'\/#pessoas'/, 'O menu compartilhado não deve reintroduzir atalhos removidos da navegação principal.');

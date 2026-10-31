@@ -28,7 +28,7 @@ function template(name) {
   <header class="be-site-header-inner">
     <a class="be-site-brand" href="/" aria-label="Bem Esportivo — início"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="Bem Esportivo" width="2263" height="1937"></a>
     <nav id="be-site-navigation" aria-label="${config.label}">${links(config.links)}${dropdown}</nav>
-    ${name === 'index.html' ? '<a class="be-site-journey" data-site-link href="/meu-caminho-be" title="Abrir meu diário esportivo">Meu Caminho Be <span aria-hidden="true">↗</span></a>' : ''}
+    ${name === 'index.html' ? '<a class="be-site-journey" data-site-link href="/meu-caminho-be" title="Abrir meu diário esportivo">Meu Diário Be <span aria-hidden="true">↗</span></a>' : ''}
   </header>
 </div>
 ${end}`.replace(/[ \t]+$/gm, '');
