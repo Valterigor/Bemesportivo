@@ -175,6 +175,32 @@
     renderPhoto();
     field('post-maker-photo-feedback').textContent = '';
   });
+  function applyDiaryDraft() {
+    let draft;
+    try {
+      draft = JSON.parse(sessionStorage.getItem('bemEsportivoPostMakerDraftV1') || 'null');
+      sessionStorage.removeItem('bemEsportivoPostMakerDraftV1');
+    } catch { return; }
+    if (!draft || draft.version !== 1 || draft.source !== 'diario') return;
+    const post = draft.post || {};
+    const profile = draft.profile || {};
+    field('post-maker-name').value = safe(profile.name).slice(0, 40);
+    field('post-maker-title').value = safe(post.title).slice(0, 80);
+    field('post-maker-text').value = safe(post.text).slice(0, 600);
+    field('post-maker-duration').value = Number(post.duration) > 0 ? String(Math.min(1440, Number(post.duration))) : '';
+    const type = Object.prototype.hasOwnProperty.call(typeLabels, post.postType) ? post.postType : 'photo';
+    field('post-maker-type').value = type;
+    const activity = safe(post.activity).slice(0, 60);
+    if (activity) {
+      const option = [...field('post-maker-sport').options].find(item => item.textContent.toLocaleLowerCase('pt-BR') === activity.toLocaleLowerCase('pt-BR'));
+      field('post-maker-sport').value = option?.value || 'Outro esporte';
+    }
+    if (/^data:image\/(?:jpeg|png|webp);base64,/i.test(post.imageDataUrl || '') && post.imageDataUrl.length <= 6 * 1024 * 1024) {
+      photoDataUrl = post.imageDataUrl;
+      renderPhoto();
+    }
+    field('post-maker-feedback').textContent = 'Registro do diário carregado. Suas anotações privadas não foram incluídas.';
+  }
   form.addEventListener('submit', event => {
     event.preventDefault();
     const feedback = field('post-maker-feedback');
@@ -186,5 +212,6 @@
     feedback.textContent = '';
     window.BeShareCard.open({ ...data(), variant: 'social', onStatus: message => { feedback.textContent = message; } });
   });
+  applyDiaryDraft();
   updatePreview();
 })();

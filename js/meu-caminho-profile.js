@@ -509,7 +509,7 @@
     if (publicControl) publicControl.disabled = profile()?.publicEnabled !== true;
     pendingPhoto = value?.imageDataUrl || '';
     setText('be-public-compose-count', (value?.text || '').length);
-    setText('be-public-compose-title', value ? 'Editar publicação' : 'Nova publicação');
+    setText('be-public-compose-title', value ? 'Editar publicação do Perfil Be' : 'Nova publicação no Perfil Be');
     setText('be-public-compose-submit', value ? 'Salvar alterações' : 'Salvar momento');
     setText('be-public-compose-feedback', profile()?.publicEnabled ? '' : 'Publicações começam privadas. Para torná-las públicas, ative seu perfil público nas configurações.');
     fieldsForType(value?.postType || 'training');
@@ -672,7 +672,7 @@
       feedback.textContent = error.message || 'Não foi possível salvar agora.';
     } finally {
       submit.disabled = false;
-      submit.textContent = previous ? 'Salvar alterações' : 'Salvar publicação';
+      submit.textContent = previous ? 'Salvar alterações' : 'Salvar no Perfil Be';
     }
   }
 

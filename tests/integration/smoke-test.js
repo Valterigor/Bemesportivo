@@ -423,6 +423,8 @@ async function run() {
     const publicProfileHtml = fs.readFileSync(path.join(root, 'perfil-publico.html'), 'utf8');
     const makerHtml = fs.readFileSync(path.join(root, 'criar-postagem.html'), 'utf8');
     const makerScript = fs.readFileSync(path.join(root, 'js/postagem-maker.js'), 'utf8');
+    const simpleDiaryHtml = fs.readFileSync(path.join(root, 'diario-app/index.html'), 'utf8');
+    const simpleDiaryScript = fs.readFileSync(path.join(root, 'diario-app/diario-simples.js'), 'utf8');
     const publicProfileScript = fs.readFileSync(path.join(root, 'js/perfil-publico.js'), 'utf8');
     const shareCardScript = fs.readFileSync(path.join(root, 'js/be-share-card.js'), 'utf8');
     const publicDiaryScript = fs.readFileSync(path.join(root, 'js/meu-caminho-public.js'), 'utf8');
@@ -440,7 +442,11 @@ async function run() {
     assert.match(makerHtml, /GRÁTIS · SEM CADASTRO[\s\S]*id="post-maker-form"[\s\S]*Gerar minha postagem/, 'O gerador precisa apresentar o fluxo direto sem cadastro.');
     assert.match(makerHtml, /Nada é enviado ou publicado automaticamente/, 'O gerador precisa explicar a privacidade antes da ação.');
     assert.doesNotMatch(makerScript, /\bfetch\s*\(|localStorage/, 'O gerador não deve enviar nem armazenar os dados preenchidos.');
-    assert.match(pathHtml, /href="\/criar-postagem">Criar postagem sem cadastro/, 'O primeiro acesso ao Meu Caminho Be precisa oferecer o gerador livre.');
+    assert.match(pathHtml, /href="\/criar-postagem">Criar arte sem cadastro/, 'O primeiro acesso ao Meu Caminho Be precisa oferecer o gerador de artes livre.');
+    assert.match(simpleDiaryHtml, /href="\/criar-postagem\?origem=diario"/, 'O diário precisa encaminhar a criação visual ao gerador oficial.');
+    assert.doesNotMatch(simpleDiaryHtml, /id="post-canvas"|id="download-post"/, 'O diário não deve manter um segundo editor de artes.');
+    assert.match(simpleDiaryScript, /bemEsportivoPostMakerDraftV1/, 'O diário precisa preparar o registro para o gerador oficial.');
+    assert.match(makerScript, /bemEsportivoPostMakerDraftV1/, 'O gerador oficial precisa receber registros vindos do diário.');
     assert.match(publicProfileHtml, /class="be-public-print-block"/, 'A impressão da página pública precisa ocultar o conteúdo.');
     assert.match(publicProfileScript, /dataset\.watermark/, 'Publicações públicas precisam exibir identificação contra cópias sem origem.');
     assert.match(shareCardScript, /story: \{ width: 1080, height: 1920[\s\S]*feed: \{ width: 1080, height: 1350/, 'O compartilhamento precisa oferecer formatos próprios para Stories, Status, Feed e WhatsApp.');

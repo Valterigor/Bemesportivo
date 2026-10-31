@@ -14,7 +14,7 @@ export const pageNavigation = {
   'radar-esportivo.html': { label: 'Menu do Radar SP', links: [['/', 'Início'], ['/radar-esportivo', 'Radar SP'], ['#opportunities-title', 'Onde praticar'], ['#contribute-title', 'Indicar um local']] },
   'profissionais.html': { label: 'Menu de profissionais', links: [['/', 'Início'], ['#como-funciona', 'Como funciona'], ['#profissionais', 'Encontrar apoio'], ['/contato', 'Contato']] },
   'produtos.html': { label: 'Menu de produtos', links: [['/', 'Início'], ['#productsGrid', 'Produtos'], ['/moda-fitness', 'Moda Fitness'], ['/contato', 'Contato']] },
-  'criar-postagem.html': { label: 'Menu de criação de postagem', links: [['/', 'Início'], ['#post-maker-form', 'Criar postagem'], ['#be-maker-preview-title', 'Ver prévia'], ['/meu-caminho-be', 'Meu diário']] },
+  'criar-postagem.html': { label: 'Menu do gerador de artes', links: [['/', 'Início'], ['#post-maker-form', 'Criar arte'], ['#be-maker-preview-title', 'Ver prévia'], ['/meu-caminho-be', 'Meu diário']] },
   'perfil-publico.html': { label: 'Menu do perfil público', links: [['/', 'Início'], ['/meu-caminho-be', 'Meu diário'], ['/meu-caminho-be/perfil', 'Meu perfil'], ['/diretrizes-da-comunidade', 'Comunidade']] }
 };
 
@@ -46,7 +46,7 @@ export const navigationGroups = [
     ['/moda-fitness', 'Moda Fitness', 'Editorial e catálogo de looks'],
     ['/produtos', 'Produtos', 'Curadoria de itens esportivos'],
     ['/game', 'Game 3D', 'Corrida da Hidratação'],
-    ['/criar-postagem', 'Criar postagem', 'Prepare uma imagem para suas redes']
+    ['/criar-postagem', 'Criar arte para redes', 'Prepare uma imagem para compartilhar']
   ] }
 ];
 
