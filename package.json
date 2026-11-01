@@ -48,7 +48,7 @@
   "author": "Valterigor",
   "license": "MIT",
   "devDependencies": {
-    "@playwright/test": "^1.62.1",
+    "@playwright/test": "^1.64.1",
     "sharp": "^0.35.3"
   }
 }
