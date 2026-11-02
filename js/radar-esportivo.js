@@ -11,6 +11,14 @@
   const mapFallback = document.querySelector('#radar-map-fallback');
   const mapList = document.querySelector('#radar-map-list');
   const viewMapButton = document.querySelector('#radar-view-map');
+  const opportunitiesMore = document.querySelector('#opportunities-more');
+  const academyRegion = document.querySelector('#academy-region-filter');
+  const academyPrice = document.querySelector('#academy-price-filter');
+  const academyList = document.querySelector('#academy-list');
+  const academyCount = document.querySelector('#academy-count');
+  const academyEmpty = document.querySelector('#academy-empty');
+  const academyMore = document.querySelector('#academy-more');
+  const academiesSection = document.querySelector('.radar-academies');
 
   if (!region || !interest || !list) return;
 
@@ -53,6 +61,75 @@
     source.textContent = 'Abrir fonte oficial ↗';
   });
   if (heroTotal) heroTotal.textContent = String(cards.length);
+
+  let academies = [
+    { name: 'Smart Fit', locality: 'Centro', address: 'Endereço a confirmar', region: 'centro', price: 'economica' },
+    { name: 'Bluefit', locality: 'Santana', address: 'Endereço a confirmar', region: 'norte', price: 'economica' },
+    { name: 'Bio Ritmo', locality: 'Vila Mariana', address: 'Endereço a confirmar', region: 'sul', price: 'premium' },
+    { name: 'Bodytech', locality: 'Itaim Bibi', address: 'Endereço a confirmar', region: 'oeste', price: 'premium' },
+    { name: 'Competition', locality: 'Moema', address: 'Endereço a confirmar', region: 'sul', price: 'premium' },
+    { name: 'Panobianco', locality: 'Tatuapé', address: 'Endereço a confirmar', region: 'leste', price: 'intermediaria' },
+    { name: 'Selfit', locality: 'Lapa', address: 'Endereço a confirmar', region: 'oeste', price: 'economica' },
+    { name: 'Academia Gaviões', locality: 'Bom Retiro', address: 'Endereço a confirmar', region: 'centro', price: 'intermediaria' },
+    { name: 'Runner', locality: 'Morumbi', address: 'Endereço a confirmar', region: 'sul', price: 'premium' }
+  ];
+  let academiesExpanded = false;
+  let opportunitiesExpanded = false;
+  academies = [
+    { brand: 'Smart Fit', name: 'Smart Fit Augusta', locality: 'Consolação', address: 'Rua Augusta, 1585 - Consolação, São Paulo - SP', region: 'centro', price: 'economica' },
+    { brand: 'Smart Fit', name: 'Smart Fit Alameda Santos', locality: 'Cerqueira César', address: 'Alameda Santos, 1347 - Cerqueira César, São Paulo - SP', region: 'centro', price: 'economica' },
+    { brand: 'Smart Fit', name: 'Smart Fit Avenida Angélica', locality: 'Consolação', address: 'Avenida Angélica, 2424 - Consolação, São Paulo - SP', region: 'centro', price: 'economica' },
+    { brand: 'Smart Fit', name: 'Smart Fit SP Market', locality: 'Jurubatuba', address: 'Shopping SP Market, São Paulo - SP', region: 'sul', price: 'economica' },
+    { brand: 'Smart Fit', name: 'Smart Fit Cantareira Norte Shopping', locality: 'Freguesia do Ó', address: 'Avenida Raimundo Pereira de Magalhães, 11001 - São Paulo - SP', region: 'norte', price: 'economica' },
+    { brand: 'Smart Fit', name: 'Smart Fit Rio Pequeno', locality: 'Rio Pequeno', address: 'Avenida do Rio Pequeno, 1234 - São Paulo - SP', region: 'oeste', price: 'economica' },
+    { brand: 'Bio Ritmo', name: 'Bio Ritmo Pátio Higienópolis', locality: 'Higienópolis', address: 'Avenida Higienópolis, 618 - Piso Buenos Aires - Higienópolis, São Paulo - SP', region: 'centro', price: 'premium' },
+    { brand: 'Bio Ritmo', name: 'Bio Ritmo Morumbi Town', locality: 'Vila Andrade', address: 'Avenida Giovanni Gronchi, 5930 - Piso 02 - Vila Andrade, São Paulo - SP', region: 'sul', price: 'premium' },
+    { brand: 'Bio Ritmo', name: 'Bio Ritmo Partage Santana', locality: 'Santana', address: 'Rua Conselheiro Moreira de Barros, 2780 - Santana, São Paulo - SP', region: 'norte', price: 'premium' },
+    { brand: 'Bodytech', name: 'Bodytech Itaim', locality: 'Itaim Bibi', address: 'Rua Leopoldo Couto de Magalhães Júnior, 500 - Itaim Bibi, São Paulo - SP', region: 'oeste', price: 'premium' },
+    { brand: 'Bodytech', name: 'Bodytech Alto de Pinheiros', locality: 'Alto de Pinheiros', address: 'Avenida São Gualter, 108 - Alto de Pinheiros, São Paulo - SP', region: 'oeste', price: 'premium' },
+    { brand: 'Bodytech', name: 'Bodytech Jardins', locality: 'Cerqueira César', address: 'Rua da Consolação, 2970 - Cerqueira César, São Paulo - SP', region: 'centro', price: 'premium' }
+  ];
+  const renderAcademies = () => {
+    if (!academyList) return;
+    const visible = academies.filter(item => (!academyRegion || academyRegion.value === 'todos' || item.region === academyRegion.value) && (!academyPrice || academyPrice.value === 'todos' || item.price === academyPrice.value));
+    const initialByBrand = [];
+    const brandsShown = new Set();
+    visible.forEach(item => {
+      const brand = item.brand || item.name;
+      if (!brandsShown.has(brand) && initialByBrand.length < 4) {
+        brandsShown.add(brand);
+        initialByBrand.push(item);
+      }
+    });
+    const shown = academiesExpanded ? visible : initialByBrand;
+    academyList.replaceChildren(...shown.map(item => {
+      const row = document.createElement('article');
+      row.className = 'radar-academy-item';
+      row.tabIndex = 0;
+      row.setAttribute('role', 'button');
+      row.setAttribute('aria-expanded', 'false');
+      row.innerHTML = '<h3></h3><p class="academy-locality"></p><p class="academy-address" hidden></p>';
+      row.querySelector('h3').textContent = item.name;
+      row.querySelector('.academy-locality').textContent = item.locality;
+      row.querySelector('.academy-address').textContent = item.address;
+      const toggle = () => { const open = row.classList.toggle('is-open'); row.setAttribute('aria-expanded', String(open)); row.querySelector('.academy-address').hidden = !open; };
+      row.addEventListener('click', toggle);
+      row.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggle(); } });
+      return row;
+    }));
+    if (academyCount) academyCount.textContent = `${visible.length} ${visible.length === 1 ? 'academia encontrada' : 'academias encontradas'}`;
+    if (academyEmpty) academyEmpty.hidden = visible.length !== 0;
+    if (academyMore) {
+      const canExpand = visible.length > 4;
+      academyMore.hidden = !canExpand;
+      academyMore.setAttribute('aria-expanded', String(academiesExpanded));
+      academyMore.innerHTML = academiesExpanded ? 'Mostrar menos <span aria-hidden="true">↑</span>' : 'Mostrar mais <span aria-hidden="true">↓</span>';
+    }
+  };
+  academyRegion?.addEventListener('change', renderAcademies);
+  academyPrice?.addEventListener('change', renderAcademies);
+  academyMore?.addEventListener('click', () => { academiesExpanded = !academiesExpanded; renderAcademies(); });
+  renderAcademies();
 
   let map;
   let markerLayer;
@@ -147,16 +224,30 @@
   };
 
   const update = () => {
+    if (interest.value === 'academia') {
+      cards.forEach(card => { card.hidden = true; });
+      if (count) count.textContent = 'Consulte a lista de academias abaixo.';
+      if (empty) empty.hidden = true;
+      updateMap([]);
+      academiesSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
     const visibleCards = [];
     cards.forEach(card => {
       const matchesRegion = region.value === 'todos' || (card.dataset.region || '').split(' ').includes(region.value);
       const matchesInterest = interest.value === 'todos' || (card.dataset.interest || '').split(' ').includes(interest.value);
       const visible = matchesRegion && matchesInterest;
-      card.hidden = !visible;
       if (visible) visibleCards.push(card);
     });
+    cards.forEach(card => { card.hidden = !visibleCards.includes(card) || (!opportunitiesExpanded && visibleCards.indexOf(card) >= 4); });
     if (count) count.textContent = String(visibleCards.length);
     if (empty) empty.hidden = visibleCards.length !== 0;
+    if (opportunitiesMore) {
+      const canExpand = visibleCards.length > 4;
+      opportunitiesMore.hidden = !canExpand;
+      opportunitiesMore.setAttribute('aria-expanded', String(opportunitiesExpanded));
+      opportunitiesMore.innerHTML = opportunitiesExpanded ? 'Mostrar menos <span aria-hidden="true">↑</span>' : 'Mostrar mais <span aria-hidden="true">↓</span>';
+    }
     updateMap(visibleCards.filter(card => markers.has(card)));
   };
 
@@ -164,6 +255,7 @@
   interest.addEventListener('change', update);
   searchButton?.addEventListener('click', update);
   clearButton?.addEventListener('click', () => { region.value = 'todos'; interest.value = 'todos'; update(); });
+  opportunitiesMore?.addEventListener('click', () => { opportunitiesExpanded = !opportunitiesExpanded; update(); });
   viewMapButton?.addEventListener('click', () => mapElement?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
   initMap();
   update();

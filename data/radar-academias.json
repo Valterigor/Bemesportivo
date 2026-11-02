@@ -1,0 +1,14 @@
+[
+  {"brand":"Smart Fit","name":"Smart Fit Augusta","locality":"Consolação","region":"centro","price":"economica","address":"Rua Augusta, 1585 - Consolação, São Paulo - SP","source":"https://www.smartfit.com.br/locations?uf=SP"},
+  {"brand":"Smart Fit","name":"Smart Fit Alameda Santos","locality":"Cerqueira César","region":"centro","price":"economica","address":"Alameda Santos, 1347 - Cerqueira César, São Paulo - SP","source":"https://www.smartfit.com.br/locations?uf=SP"},
+  {"brand":"Smart Fit","name":"Smart Fit Avenida Angélica","locality":"Consolação","region":"centro","price":"economica","address":"Avenida Angélica, 2424 - Consolação, São Paulo - SP","source":"https://www.smartfit.com.br/locations?uf=SP"},
+  {"brand":"Smart Fit","name":"Smart Fit SP Market","locality":"Jurubatuba","region":"sul","price":"economica","address":"Shopping SP Market, São Paulo - SP","source":"https://www.smartfit.com.br/sedes/sp-market"},
+  {"brand":"Smart Fit","name":"Smart Fit Cantareira Norte Shopping","locality":"Freguesia do Ó","region":"norte","price":"economica","address":"Avenida Raimundo Pereira de Magalhães, 11001 - São Paulo - SP","source":"https://www.smartfit.com.br/locations?uf=SP"},
+  {"brand":"Smart Fit","name":"Smart Fit Rio Pequeno","locality":"Rio Pequeno","region":"oeste","price":"economica","address":"Avenida do Rio Pequeno, 1234 - São Paulo - SP","source":"https://www.smartfit.com.br/locations?uf=SP"},
+  {"brand":"Bio Ritmo","name":"Bio Ritmo Pátio Higienópolis","locality":"Higienópolis","region":"centro","price":"premium","address":"Avenida Higienópolis, 618 - Piso Buenos Aires - Higienópolis, São Paulo - SP","source":"https://www.bioritmo.com.br/pt-BR/unidades"},
+  {"brand":"Bio Ritmo","name":"Bio Ritmo Morumbi Town","locality":"Vila Andrade","region":"sul","price":"premium","address":"Avenida Giovanni Gronchi, 5930 - Piso 02 - Vila Andrade, São Paulo - SP","source":"https://www.bioritmo.com.br/pt-BR/unidades"},
+  {"brand":"Bio Ritmo","name":"Bio Ritmo Partage Santana","locality":"Santana","region":"norte","price":"premium","address":"Rua Conselheiro Moreira de Barros, 2780 - Santana, São Paulo - SP","source":"https://www.bioritmo.com.br/pt-BR/unidades"},
+  {"brand":"Bodytech","name":"Bodytech Itaim","locality":"Itaim Bibi","region":"oeste","price":"premium","address":"Rua Leopoldo Couto de Magalhães Júnior, 500 - Itaim Bibi, São Paulo - SP","source":"https://www.bodytech.com.br/pt/academias/"},
+  {"brand":"Bodytech","name":"Bodytech Alto de Pinheiros","locality":"Alto de Pinheiros","region":"oeste","price":"premium","address":"Avenida São Gualter, 108 - Alto de Pinheiros, São Paulo - SP","source":"https://www.bodytech.com.br/pt/academias/"},
+  {"brand":"Bodytech","name":"Bodytech Jardins","locality":"Cerqueira César","region":"centro","price":"premium","address":"Rua da Consolação, 2970 - Cerqueira César, São Paulo - SP","source":"https://www.bodytech.com.br/pt/academias/"}
+]

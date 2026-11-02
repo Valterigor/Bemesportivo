@@ -895,7 +895,7 @@ async function handleContactApi(request, response){
 
 function resolveRequest(urlPath){
   const cleanPath = decodeURIComponent(urlPath.split('?')[0]).replace(/^\/+/, '');
-  if(cleanPath === 'data' || cleanPath.startsWith('data/')){
+  if(cleanPath === 'data' || (cleanPath.startsWith('data/') && cleanPath !== 'data/radar-academias.json')){
     return null;
   }
   const cleanRoutes = {
