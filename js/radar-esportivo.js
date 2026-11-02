@@ -239,11 +239,11 @@
       const visible = matchesRegion && matchesInterest;
       if (visible) visibleCards.push(card);
     });
-    cards.forEach(card => { card.hidden = !visibleCards.includes(card) || (!opportunitiesExpanded && visibleCards.indexOf(card) >= 4); });
+    cards.forEach(card => { card.hidden = !visibleCards.includes(card) || (!opportunitiesExpanded && visibleCards.indexOf(card) >= 2); });
     if (count) count.textContent = String(visibleCards.length);
     if (empty) empty.hidden = visibleCards.length !== 0;
     if (opportunitiesMore) {
-      const canExpand = visibleCards.length > 4;
+      const canExpand = visibleCards.length > 2;
       opportunitiesMore.hidden = !canExpand;
       opportunitiesMore.setAttribute('aria-expanded', String(opportunitiesExpanded));
       opportunitiesMore.innerHTML = opportunitiesExpanded ? 'Mostrar menos <span aria-hidden="true">↑</span>' : 'Mostrar mais <span aria-hidden="true">↓</span>';
