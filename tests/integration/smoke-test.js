@@ -301,7 +301,7 @@ async function run() {
     assert.match(reportCss, /\.report-preview-media \.report-preview-hope\s*\{[\s\S]*?object-fit:\s*contain;/);
     assert.match(reportCss, /\.report-related > div\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3/);
     const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-    assert.match(homeHtml, /id="home-hero-title">Seu ritmo\.<br>Seu esporte\.<br><em>Seu lugar\.<\/em><\/h1>/, 'A home apresenta a chamada aprovada.');
+    assert.match(homeHtml, /id="home-hero-title">O esporte<br>começa com<br><em>pessoas\.<\/em><\/h1>/, 'A home apresenta a chamada aprovada.');
     assert.match(homeHtml, /id="hero-video"[^>]*muted[^>]*loop[^>]*playsinline/, 'O destaque usa vídeo silencioso em loop.');
     assert.match(homeHtml, /id="be-ecosystem-search-input"[^>]*aria-label="O que você busca no esporte\?"/, 'A busca mantém um nome acessível.');
     assert.match(homeHtml, /class="shell be-search-discovery"[^>]*hidden/, 'Os resultados aparecem depois de uma busca.');
@@ -356,7 +356,7 @@ async function run() {
     for (const destination of ['/game', '/guias', '/meu-caminho-be?tela=ferramentas']) {
       assert.ok(homeHtml.includes('href="' + destination + '"'), 'Destino da home ausente: ' + destination);
     }
-    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20261001-1"/, 'A biblioteca carrega antes da busca.');
+    assert.match(homeHtml, /src="js\/be-sports-library\.js\?v=20260829-5"[\s\S]*src="js\/be-ecosystem-search\.js\?v=20261102-3"/, 'A biblioteca carrega antes da busca.');
     const ecosystemSearch = require(path.join(root, 'js', 'be-ecosystem-search.js'));
     assert.equal(ecosystemSearch.search('Quero saber como melhorar meu chute').primary.id, 'conteudo');
     assert.equal(ecosystemSearch.search('Quero assistir').primary.id, 'beplay');

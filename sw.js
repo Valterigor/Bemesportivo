@@ -13,6 +13,7 @@ const CORE_SHELL = [
   '/diario-app/diario-planner.js',
   '/css/components/site-navigation.css',
   '/css/diary-home-refinement.css',
+  '/css/meu-diario-dashboard-layout.css',
   '/js/site-navigation-entry.js',
   '/meu-caminho-be',
   '/site-common.css',

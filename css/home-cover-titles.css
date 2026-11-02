@@ -1,0 +1,6 @@
+/* Títulos visíveis diretamente sobre as capas editoriais. */
+#explorar .card{position:relative;isolation:isolate}
+#explorar .card-body{position:relative;z-index:1;margin-top:-92px;padding-top:68px;background:linear-gradient(180deg,transparent 0%,rgba(255,255,255,.92) 42%,#fff 60%)}
+#explorar .card-body h3{position:relative;margin-top:8px;color:#16191c;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+#explorar .card-body small{position:relative}
+@media(max-width:650px){#explorar .card-body{margin-top:-84px;padding-top:60px}}

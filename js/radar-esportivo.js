@@ -220,7 +220,11 @@
       markers.set(card, marker);
     });
     updateMap(available);
-    window.setTimeout(() => map.invalidateSize(), 50);
+    const refreshMapSize = () => { if (map) window.setTimeout(() => map.invalidateSize({ pan: false }), 80); };
+    window.setTimeout(refreshMapSize, 50);
+    window.addEventListener('load', refreshMapSize, { once: true });
+    window.addEventListener('resize', refreshMapSize, { passive: true });
+    window.addEventListener('orientationchange', refreshMapSize, { passive: true });
   };
 
   const update = () => {
