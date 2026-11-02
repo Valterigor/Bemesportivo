@@ -1,0 +1,14 @@
+/* Hierarquia da home: condução clara sem alterar a estrutura existente. */
+#explorar .card:nth-child(2){position:relative;border-color:#e87516;box-shadow:0 14px 30px rgba(200,75,13,.12)}
+#explorar .card:nth-child(2)::before{position:absolute;z-index:2;top:14px;left:14px;padding:6px 9px;border-radius:999px;background:#c84b0d;color:#fff;content:"RADAR BE · PRINCIPAL";font-size:9px;font-weight:900;letter-spacing:.08em}
+#explorar .card:nth-child(2) .card-body h3{color:#a83e09}
+body.home-video-page .paths .path:nth-child(3){padding:14px 16px;border:1px solid #f0c8ad;border-radius:14px;background:#fff8f2;box-shadow:0 8px 20px rgba(200,75,13,.07)}
+body.home-video-page .paths .path:nth-child(3) strong{color:#a83e09}
+body.home-video-page .paths .path:nth-child(4){border-left-color:#d8e5dd}
+@media(max-width:650px){
+  body.home-video-page .paths{gap:9px}
+  body.home-video-page .paths .path:nth-child(3){padding:12px 10px}
+  #explorar .card:nth-child(2)::before{top:11px;left:11px;font-size:8px}
+  #explorar .card:nth-child(2){box-shadow:0 10px 24px rgba(200,75,13,.1)}
+  body.home-video-page .editorial{padding-bottom:34px}
+}
