@@ -1,14 +1,14 @@
 .be-privacy-dialog {
-  width: min(calc(100% - 24px), 560px);
+  width: min(calc(100% - 32px), 660px);
   max-width: calc(100vw - 24px);
   max-height: min(88vh, 760px);
   padding: 0;
   overflow: auto;
   border: 1px solid rgb(218 121 11 / 20%);
-  border-radius: 24px;
+  border-radius: 28px;
   background: #fffdfa;
   color: #231f1c;
-  box-shadow: 0 24px 70px rgb(35 31 28 / 24%);
+  box-shadow: 0 28px 90px rgb(35 31 28 / 30%);
 }
 
 .be-privacy-dialog::backdrop {
@@ -16,20 +16,20 @@
   backdrop-filter: blur(5px);
 }
 
-.be-privacy-dialog__body { padding: clamp(22px, 3.5vw, 30px); }
+.be-privacy-dialog__body { padding: clamp(28px, 4.5vw, 42px); }
 .be-privacy-dialog__body > * { max-width: 100%; }
 .be-privacy-dialog__eyebrow { color: #c06b0a; font-size: 12px; font-weight: 900; letter-spacing: .08em; }
-.be-privacy-dialog h2 { margin: 8px 0 6px; font-size: clamp(24px, 4vw, 31px); line-height: 1.08; }
-.be-privacy-dialog p { color: #665d57; font-size: 14px; line-height: 1.5; }
-.be-privacy-dialog details { margin: 14px 0; border: 1px solid #e7ddd7; border-radius: 14px; background: #fff; }
+.be-privacy-dialog h2 { max-width: 560px; margin: 10px 0 12px; font-size: clamp(28px, 4vw, 40px); line-height: 1.04; letter-spacing: -.045em; }
+.be-privacy-dialog p { max-width: 570px; color: #665d57; font-size: 15px; line-height: 1.55; }
+.be-privacy-dialog details { margin: 20px 0 14px; border: 1px solid #dfd4cb; border-radius: 16px; background: #fff; }
 .be-privacy-dialog summary {
   display: flex;
   align-items: center;
-  min-height: 48px;
+  min-height: 58px;
   padding: 14px 16px;
   border-radius: 15px;
   cursor: pointer;
-  font-weight: 800;
+  font-weight: 850;
   outline: 0;
 }
 .be-privacy-dialog summary:focus-visible {
@@ -42,9 +42,11 @@
 .be-privacy-categories small { color: #716862; line-height: 1.45; }
 .be-privacy-categories input { width: 22px; height: 22px; accent-color: #da790b; }
 .be-privacy-dialog__links a { color: #945308; font-weight: 800; }
-.be-privacy-dialog__actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
-.be-privacy-dialog__actions button { min-height: 46px; padding: 11px 17px; border: 1px solid #d9cec7; border-radius: 999px; background: #fff; color: #231f1c; cursor: pointer; font: inherit; font-weight: 800; }
-.be-privacy-dialog__actions .be-privacy-primary { border-color: #da790b; background: #da790b; color: #fff; }
+.be-privacy-dialog__actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+.be-privacy-dialog__actions button { min-height: 52px; padding: 12px 14px; border: 1px solid #d9cec7; border-radius: 12px; background: #fff; color: #231f1c; cursor: pointer; font: inherit; font-weight: 800; transition: border-color .2s, background .2s, transform .2s; }
+.be-privacy-dialog__actions button:hover { border-color: #a9907e; background: #fffaf6; transform: translateY(-1px); }
+.be-privacy-dialog__actions .be-privacy-primary { border-color: #d86f05; background: #d86f05; color: #fff; box-shadow: 0 8px 18px rgb(216 111 5 / 20%); }
+.be-privacy-dialog__actions .be-privacy-primary:hover { border-color: #b95d00; background: #b95d00; }
 .be-privacy-dialog button:focus-visible,
 .site-footer [data-privacy-settings]:focus-visible { outline: 3px solid rgb(218 121 11 / 35%); outline-offset: 3px; }
 .site-footer [data-privacy-settings] { appearance: none; min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; text-align: left; text-decoration: underline; text-underline-offset: 3px; }
@@ -52,10 +54,10 @@
 
 @media (max-width: 640px) {
   .be-privacy-dialog { width: calc(100vw - 16px); max-width: calc(100vw - 16px); max-height: calc(100dvh - 16px); margin: auto 8px 8px; overflow-x: hidden; border-radius: 20px; }
-  .be-privacy-dialog__body { padding: 18px 16px; }
+  .be-privacy-dialog__body { padding: 24px 20px 20px; }
   .be-privacy-dialog__eyebrow { font-size: 10px; }
-  .be-privacy-dialog h2 { font-size: 25px; }
-  .be-privacy-dialog p { font-size: 13px; }
+  .be-privacy-dialog h2 { font-size: 28px; }
+  .be-privacy-dialog p { font-size: 14px; }
   .be-privacy-dialog summary { min-height: 44px; padding: 11px 13px; font-size: 13px; }
   .be-privacy-dialog__actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .be-privacy-dialog__actions button { width: 100%; min-height: 44px; padding: 8px 6px; font-size: 11px; line-height: 1.15; }

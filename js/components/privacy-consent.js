@@ -68,9 +68,9 @@ function createDialog() {
       </details>
       <p class="be-privacy-dialog__links"><a href="/politica-de-privacidade">Política de Privacidade</a></p>
       <div class="be-privacy-dialog__actions">
-        <button type="button" data-privacy-reject>Recusar opcionais</button>
-        <button type="button" data-privacy-save>Salvar escolhas</button>
-        <button type="button" class="be-privacy-primary" data-privacy-accept>Aceitar opcionais</button>
+        <button type="button" data-privacy-reject>Recusar todos</button>
+        <button type="button" data-privacy-save>Gerenciar preferências</button>
+        <button type="button" class="be-privacy-primary" data-privacy-accept>Aceitar todos</button>
       </div>
     </form>`;
   document.body.append(dialog);
