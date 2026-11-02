@@ -382,6 +382,9 @@
     const normalized = normalize(query);
     const displayQuery = String(query || '').trim().slice(0, 180);
     if (!normalized) return { query: '', displayQuery: '', primary: null, related: PRODUCTS.slice(0, 4), items: [], coverage: 'empty', sport: null, intent: null };
+    if (normalized === 'academia' || normalized === 'academias' || normalized.includes('smart fit') || normalized.includes('bluefit') || normalized.includes('bio ritmo') || normalized.includes('bodytech')) {
+      return { query: normalized, displayQuery, primary: findProduct('radar'), related: [], items: [{ product: 'radar', title: 'Academias em São Paulo', summary: 'Encontre academias por região e faixa de preço no Radar BE.', href: '/radar-esportivo#academies-title', image: '/img/beplay-capa-forca-performance.webp', action: 'Buscar academias', keywords: ['academia'] }], coverage: 'exact', sport: null, topic: null, relatedTopics: [], intent: null };
+    }
     const sport = detectFromTaxonomy(normalized, SPORTS);
     const topic = SPORTS_LIBRARY?.findTopic?.(normalized) || null;
     const intent = detectFromTaxonomy(normalized, INTENTS) || (sport && /\bquero\b/.test(normalized) ? INTENTS.find(entry => entry.id === 'start') : null);

@@ -289,6 +289,7 @@
 .be-search-result-card.is-profissionais .be-search-result-media img { object-position: center 30%; }
 .be-search-result-card.is-reportagens .be-search-result-media img { object-position: center 42%; }
 .be-search-result-card.is-meu-caminho .be-search-result-media img { object-position: center 32%; }
+.be-search-result-card.is-radar .be-search-result-media img { object-position: center 16%; }
 .be-search-result-card.is-ferramentas .be-search-result-media img { object-fit: cover; object-position: center; background: #f7f7f7; }
 .be-search-result-card:hover img { transform: scale(1.035); }
 .be-search-result-body { display: grid; align-content: start; gap: 7px; min-height: 190px; padding: 14px; }
