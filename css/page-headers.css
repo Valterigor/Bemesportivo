@@ -1,0 +1,56 @@
+/* Shared final layer for page headers. Loaded after page-specific styles. */
+:where(body.reportagens-page .page-hero, body.be-guides-page .guide-hero, body.professionals-page .professionals-intro, body.be-store-page .store-hero) {
+  position: relative !important;
+  width: min(1280px, calc(100% - 64px)) !important;
+  max-width: none !important;
+  margin: 28px auto 34px !important;
+  padding: clamp(38px, 5vw, 68px) clamp(24px, 5vw, 64px) !important;
+  border: 1px solid #e1e7e0 !important;
+  border-radius: 24px !important;
+  background: linear-gradient(135deg, #fbfaf7 0%, #eef4ee 100%) !important;
+  box-shadow: 0 18px 45px rgba(35, 58, 44, .07) !important;
+  overflow: hidden !important;
+}
+:where(body.reportagens-page .page-hero, body.be-guides-page .guide-hero, body.professionals-page .professionals-intro, body.be-store-page .store-hero)::after {
+  content: '';
+  position: absolute;
+  right: -70px;
+  bottom: -105px;
+  width: 270px;
+  height: 270px;
+  border: 1px solid rgba(41, 76, 61, .14);
+  border-radius: 50%;
+  box-shadow: 0 0 0 26px rgba(255,255,255,.38), 0 0 0 54px rgba(255,255,255,.2);
+  pointer-events: none;
+}
+:where(body.reportagens-page .page-hero > *, body.be-guides-page .guide-hero > *, body.professionals-page .professionals-intro > *, body.be-store-page .store-hero > *) { position: relative; z-index: 1; }
+:where(body.reportagens-page .page-hero h1, body.be-guides-page .guide-hero h1, body.professionals-page .professionals-intro h1, body.be-store-page .store-hero h1) {
+  max-width: 900px !important;
+  margin: 12px 0 0 !important;
+  color: #172824 !important;
+  font-size: clamp(36px, 5vw, 68px) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.055em !important;
+}
+:where(body.reportagens-page .page-hero-kicker, body.be-guides-page .guide-hero > span, body.professionals-page .professionals-intro > span, body.be-store-page .store-hero > span) {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 10px;
+  color: #b84d0b !important;
+  font-size: 11px !important;
+  font-weight: 850 !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase;
+}
+:where(body.reportagens-page .page-hero-kicker, body.be-guides-page .guide-hero > span, body.professionals-page .professionals-intro > span, body.be-store-page .store-hero > span)::before { content: ''; width: 28px; height: 2px; background: currentColor; }
+:where(body.reportagens-page .page-hero p:last-child, body.be-guides-page .guide-hero .guide-lead, body.professionals-page .professionals-intro p, body.be-store-page .store-hero p) {
+  max-width: 680px !important;
+  margin-top: 18px !important;
+  color: #5e6b64 !important;
+  font-size: clamp(16px, 1.5vw, 19px) !important;
+  line-height: 1.6 !important;
+}
+@media (max-width: 700px) {
+  :where(body.reportagens-page .page-hero, body.be-guides-page .guide-hero, body.professionals-page .professionals-intro, body.be-store-page .store-hero) { width: calc(100% - 32px) !important; margin: 18px auto 26px !important; padding: 34px 20px !important; border-radius: 17px !important; }
+  :where(body.reportagens-page .page-hero h1, body.be-guides-page .guide-hero h1, body.professionals-page .professionals-intro h1, body.be-store-page .store-hero h1) { font-size: clamp(32px, 10vw, 48px) !important; }
+}
