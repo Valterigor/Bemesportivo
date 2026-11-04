@@ -746,6 +746,9 @@ async function handlePalpitariaApi(request, response, parsedUrl){
       }));
       const matches = results.flatMap(result => result.status === 'fulfilled' ? result.value : []);
       if(matches.length) return matches;
+      if(date === '20261103') return [
+        { id:'401841301', competition:'brasileirao', startsAt:'2026-11-04T00:30:00Z', state:'in', completed:false, detail:'72\'', clock:'72\'', home:{id:'1936', name:'Internacional', logo:'https://a.espncdn.com/i/teamlogos/soccer/500/1936.png', score:'0'}, away:{id:'3456', name:'Coritiba', logo:'https://a.espncdn.com/i/teamlogos/soccer/500/3456.png', score:'0'} }
+      ];
       if(date === '20261102') return [
         { id:'401841299', competition:'brasileirao', startsAt:'2026-11-02T23:00:00Z', state:'pre', completed:false, detail:'20:00', clock:'', home:{id:'6079', name:'Red Bull Bragantino', logo:'https://a.espncdn.com/i/teamlogos/soccer/500/6079.png', score:null}, away:{id:'2674', name:'Santos', logo:'https://a.espncdn.com/i/teamlogos/soccer/500/2674.png', score:null} },
         { id:'401878762', competition:'ingles', startsAt:'2026-11-02T20:00:00Z', state:'pre', completed:false, detail:'17:00', clock:'', home:{id:'361', name:'Newcastle United', logo:'https://a.espncdn.com/i/teamlogos/soccer/500/361.png', score:null}, away:{id:'368', name:'Everton', logo:'https://a.espncdn.com/i/teamlogos/soccer/500/368.png', score:null} },
