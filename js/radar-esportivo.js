@@ -1,6 +1,7 @@
 (() => {
   const region = document.querySelector('#region-filter');
   const interest = document.querySelector('#interest-filter');
+  const locationSearch = document.querySelector('#location-search');
   const list = document.querySelector('#radar-list');
   const count = document.querySelector('#radar-count');
   const heroTotal = document.querySelector('#radar-hero-total');
@@ -228,6 +229,7 @@
   };
 
   const update = () => {
+    const locationTerm = String(locationSearch?.value || '').trim().toLocaleLowerCase('pt-BR');
     if (interest.value === 'academia') {
       cards.forEach(card => { card.hidden = true; });
       if (count) count.textContent = 'Consulte a lista de academias abaixo.';
@@ -240,7 +242,9 @@
     cards.forEach(card => {
       const matchesRegion = region.value === 'todos' || (card.dataset.region || '').split(' ').includes(region.value);
       const matchesInterest = interest.value === 'todos' || (card.dataset.interest || '').split(' ').includes(interest.value);
-      const visible = matchesRegion && matchesInterest;
+      const searchableText = card.textContent.toLocaleLowerCase('pt-BR');
+      const matchesLocation = !locationTerm || searchableText.includes(locationTerm);
+      const visible = matchesRegion && matchesInterest && matchesLocation;
       if (visible) visibleCards.push(card);
     });
     cards.forEach(card => { card.hidden = !visibleCards.includes(card) || (!opportunitiesExpanded && visibleCards.indexOf(card) >= 2); });
@@ -257,8 +261,9 @@
 
   region.addEventListener('change', update);
   interest.addEventListener('change', update);
+  locationSearch?.addEventListener('input', update);
   searchButton?.addEventListener('click', update);
-  clearButton?.addEventListener('click', () => { region.value = 'todos'; interest.value = 'todos'; update(); });
+  clearButton?.addEventListener('click', () => { region.value = 'todos'; interest.value = 'todos'; if (locationSearch) locationSearch.value = ''; update(); });
   opportunitiesMore?.addEventListener('click', () => { opportunitiesExpanded = !opportunitiesExpanded; update(); });
   viewMapButton?.addEventListener('click', () => mapElement?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
   initMap();

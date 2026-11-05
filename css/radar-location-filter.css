@@ -1,0 +1,6 @@
+body.radar-page .radar-filters{grid-template-columns:minmax(150px,1fr) minmax(220px,1.45fr) minmax(190px,1.2fr) auto auto}
+body.radar-page .radar-location-field input{width:100%;min-height:42px;padding:9px 11px;border:1px solid #d7d3ca;border-radius:7px;background:#fbfaf7;color:#253b31;font:inherit;font-size:13px}
+body.radar-page .radar-location-field input::placeholder{color:#8b918c}
+body.radar-page .radar-location-field input:focus{border-color:#e56818;outline:3px solid rgba(229,104,24,.16);outline-offset:1px}
+@media(max-width:850px){body.radar-page .radar-filters{grid-template-columns:1fr 1fr}.radar-location-field{grid-column:1/-1}}
+@media(max-width:440px){body.radar-page .radar-location-field{grid-column:auto}.radar-location-field input{font-size:12px}}
