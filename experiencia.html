@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#176b50">
+  <meta name="description" content="Sua experiência também faz parte do esporte.">
+  <title>Minha experiência · BeMEsportivo</title>
+  <link rel="icon" href="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png">
+  <link rel="stylesheet" href="/css/experiencia-mvp.css?v=20261104-1">
+</head>
+<body>
+  <section id="onboarding" class="onboarding" aria-label="Primeiro acesso">
+    <div class="onboarding-screen onboarding-intro active-onboarding" data-onboarding="intro">
+      <div class="onboarding-brand"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt=""><strong>BeMEsportivo</strong></div>
+      <div class="intro-art"><img src="/img/fala-bem-hero-pessoas-optimized-480.webp" alt="Pessoas vivendo diferentes experiências esportivas"></div>
+      <div class="onboarding-copy"><p class="eyebrow">SUA EXPERIÊNCIA TAMBÉM FAZ PARTE</p><h1>do esporte.</h1><p>Um espaço para compreender como você vive o esporte e a atividade física.</p><button class="primary onboarding-next" data-onboarding-next="profile">Começar minha experiência <span>→</span></button><div class="page-dots"><b></b><i></i></div></div>
+    </div>
+    <div class="onboarding-screen" data-onboarding="access"><div class="onboarding-top"><button class="onboarding-back" data-onboarding-back="intro">←</button><span>2 de 3</span></div><div class="onboarding-copy access-copy"><p class="eyebrow">SEU ESPAÇO PESSOAL</p><h2>Entre na sua conta</h2><p>Acesse seu espaço e continue sua experiência no BeMEsportivo.</p><label class="field">E-mail<input type="email" placeholder="voce@exemplo.com"></label><label class="field">Senha<input type="password" placeholder="Sua senha"></label><button class="primary onboarding-next" data-onboarding-next="profile">Continuar <span>→</span></button><p class="or-line">ou</p><button class="social-button" type="button">Continuar com o Google</button><p class="signup-copy">Ainda não tem uma conta? <button type="button" class="text-link" data-onboarding-next="profile">Criar minha conta</button></p></div></div>
+    <div class="onboarding-screen" data-onboarding="profile"><div class="onboarding-top"><button class="onboarding-back" data-onboarding-back="intro">←</button><span>2 de 2</span></div><div class="onboarding-copy access-copy"><p class="eyebrow">CONHECENDO VOCÊ</p><h2>Como você se relaciona atualmente com o esporte?</h2><p>Você pode mudar isso depois. Não é preciso praticar para começar.</p><div class="onboarding-options"><button>Já pratico atividades físicas.</button><button>Estou tentando voltar.</button><button>Quero começar.</button><button>Pratico ocasionalmente.</button><button>Atualmente estou sem praticar.</button></div><button class="primary onboarding-finish">Entrar no meu espaço <span>→</span></button></div></div>
+  </section>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegação principal">
+      <a class="brand" href="/" aria-label="Voltar ao BeMEsportivo">
+        <img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt="">
+        <span>BeMEsportivo<small>Minha experiência</small></span>
+      </a>
+      <nav class="side-nav">
+        <button data-view="home" class="active"><span>⌂</span> Início</button>
+        <button data-view="experience"><span>♡</span> Experiência</button>
+        <button data-view="record" class="record-link"><span>＋</span> Registrar</button>
+        <button data-view="evolution"><span>↗</span> Evolução</button>
+        <button data-view="profile"><span>◎</span> Perfil</button>
+      </nav>
+      <div class="sidebar-note"><span>BE</span><p>O esporte começa com pessoas.</p></div>
+    </aside>
+
+    <main class="main-content">
+      <header class="mobile-header"><a href="/" class="brand"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt=""><span>BeMEsportivo<small data-pt="Minha experiência" data-en="My experience">Minha experiência</small></span></a><div class="header-actions"><select id="language-switcher" aria-label="Idioma"><option value="pt">PT</option><option value="en">EN</option></select><button id="mobile-menu" aria-label="Abrir menu">☰</button></div></header>
+
+      <section id="view-home" class="view active-view">
+        <div class="topline"><div><p class="eyebrow" id="home-date"></p><h1>Olá, <span id="home-name">pessoa</span>.</h1></div><button class="avatar" data-view="profile" id="home-avatar">P</button></div>
+        <section class="welcome-card"><div><p class="eyebrow light">UM MOMENTO PARA VOCÊ</p><h2>Como você está vivendo o esporte hoje?</h2><p>Não precisa ter uma resposta pronta. Perceber já é uma forma de começar.</p><button class="primary light-button" data-view="record">Registrar minha experiência <span>→</span></button></div><div class="welcome-orbit" aria-hidden="true"><span>◌</span><i>♡</i><b>BE</b></div></section>
+        <div class="section-heading"><div><p class="eyebrow">SEU ESPAÇO</p><h2>O que faz sentido agora?</h2></div></div>
+        <div class="home-grid">
+          <button class="feature-card feature-main" data-view="record"><span class="card-icon green">♡</span><h3>Registrar minha experiência</h3><p>Como você chegou, viveu e terminou este momento.</p><strong>Começar agora →</strong></button>
+          <button class="feature-card" data-view="experience"><span class="card-icon lilac">☼</span><h3>Minhas reflexões</h3><p>Releia o que você percebeu sobre si.</p></button>
+          <button class="feature-card" data-view="evolution"><span class="card-icon peach">↗</span><h3>Minha evolução</h3><p>Observe mudanças sem pressa ou comparação.</p></button>
+          <button class="feature-card" data-view="experience"><span class="card-icon blue">◷</span><h3>Meu histórico</h3><p>Uma linha do tempo das suas experiências.</p></button>
+          <button class="feature-card diary-card" data-view="diary"><span class="card-icon green">▤</span><h3>Meu diário</h3><p>Guarde relatos, momentos e detalhes do seu dia.</p><strong>Abrir meu diário →</strong></button>
+        </div>
+        <section class="empty-insight" id="home-insight"><span>✦</span><div><strong>Seu espaço é seu.</strong><p>Se hoje não foi um dia de atividade, tudo bem. Você também pode registrar como está se sentindo.</p></div></section>
+        <div class="section-heading support-heading"><div><p class="eyebrow">APOIO PARA SUA ROTINA</p><h2>Mais leve viver o esporte</h2></div></div>
+        <div class="support-grid"><button class="support-card" data-support="treino"><span>↗</span><strong>Treino e movimento</strong><small>Ideias para começar, adaptar e respeitar seu ritmo.</small></button><button class="support-card" data-support="alimentacao"><span>◌</span><strong>Alimentação</strong><small>Informações simples para acompanhar sua rotina.</small></button><button class="support-card" data-support="rotina"><span>◷</span><strong>Rotina esportiva</strong><small>Organize tempo, descanso e pequenos passos.</small></button></div>
+        <section id="support-panel" class="support-panel" hidden></section>
+      </section>
+
+      <section id="view-record" class="view" hidden>
+        <div class="page-heading"><button class="back-button" data-view="home">←</button><div><p class="eyebrow">REGISTRAR EXPERIÊNCIA</p><h1>Um momento para perceber.</h1><p>Escolha o que quiser compartilhar consigo. Você pode salvar mesmo sem praticar atividade.</p></div></div>
+        <div class="stepper" aria-label="Etapas do registro"><span class="active" data-step-indicator="1">1 <b>Antes</b></span><i></i><span data-step-indicator="2">2 <b>Durante</b></span><i></i><span data-step-indicator="3">3 <b>Depois</b></span></div>
+        <form id="record-form" class="record-flow">
+          <div class="record-step active-step" data-step="1"><p class="eyebrow">ANTES DA ATIVIDADE</p><h2>Como você está chegando?</h2><p class="muted">Escolha a atividade e perceba como você está antes de começar.</p><label class="field">Qual atividade ou treino você vai realizar?<select id="record-activity" required><option value="">Escolha uma atividade</option><option>Academia</option><option>Corrida</option><option>Caminhada</option><option>Ciclismo</option><option>Futebol</option><option>Natação</option><option>Musculação</option><option>Dança</option><option>Yoga</option><option>Outra atividade</option></select></label><div class="choice-grid" id="before-choices"></div><label class="field">O que está influenciando este momento?<textarea id="before-note" rows="3" placeholder="Se quiser, escreva algumas palavras..."></textarea></label><div class="flow-actions"><button type="button" class="secondary" data-view="home">Agora não</button><button type="button" class="primary" data-next-step="2">Continuar →</button></div></div>
+          <div class="record-step" data-step="2"><p class="eyebrow">DURANTE A ATIVIDADE</p><h2>Como está sendo sua experiência?</h2><p class="muted">Este registro é opcional e pode ser rápido.</p><div class="choice-grid" id="during-choices"></div><label class="toggle-line"><input type="checkbox" id="no-activity"> Hoje não pratiquei atividade <span></span></label><div class="flow-actions"><button type="button" class="secondary" data-prev-step="1">← Voltar</button><button type="button" class="primary" data-next-step="3">Continuar →</button></div></div>
+          <div class="record-step" data-step="3"><p class="eyebrow">DEPOIS DA ATIVIDADE</p><h2>Como você termina hoje?</h2><p class="muted">O que você leva desta experiência?</p><div class="choice-grid" id="after-choices"></div><label class="field">Quer guardar algum detalhe?<textarea id="after-note" rows="4" placeholder="O que você gostou, percebeu ou faria diferente?"></textarea></label><div class="flow-actions"><button type="button" class="secondary" data-prev-step="2">← Voltar</button><button type="submit" class="primary">Guardar minha experiência ✓</button></div></div>
+        </form>
+      </section>
+
+      <section id="view-experience" class="view" hidden><div class="page-heading"><div><p class="eyebrow">MINHA EXPERIÊNCIA</p><h1>O que você tem percebido?</h1><p>Suas experiências, sentimentos e reflexões reunidos com cuidado.</p></div><button class="primary" data-view="record">＋ Novo registro</button></div><div id="feedback-banner" class="feedback-banner" hidden></div><div id="history-list" class="timeline"></div></section>
+
+      <section id="view-evolution" class="view" hidden><div class="page-heading"><div><p class="eyebrow">MINHA EVOLUÇÃO</p><h1>Perceber também é evoluir.</h1><p>Este espaço mostra apenas o que seus registros já permitem observar.</p></div></div><div id="evolution-content" class="evolution-grid"></div></section>
+
+      <section id="view-profile" class="view" hidden><div class="page-heading"><div><p class="eyebrow">MEU PERFIL</p><h1>Do seu jeito.</h1><p>Você pode mudar estas informações quando quiser.</p></div></div><form id="profile-form" class="profile-card"><div class="profile-head"><div class="big-avatar" id="profile-avatar">P</div><div><p class="eyebrow">COMO PODEMOS CHAMAR VOCÊ?</p><input id="profile-name" class="name-input" maxlength="40" required placeholder="Seu nome"></div></div><label class="field">Como está sua relação atual com o esporte?<select id="profile-relation"><option value="">Escolha uma opção</option><option>Já pratico atividades físicas</option><option>Estou tentando voltar</option><option>Quero começar</option><option>Pratico ocasionalmente</option><option>Atualmente estou sem praticar</option></select></label><label class="field">O que gostaria de melhorar nessa experiência?<textarea id="profile-goal" rows="4" placeholder="Ex.: voltar a sentir prazer em me movimentar..."></textarea></label><div class="privacy-note">🔒 Seus registros ficam somente neste aparelho neste MVP. Não usamos IA paga nem enviamos seus relatos para um servidor.</div><button class="primary" type="submit">Salvar meu perfil</button><p id="profile-status" class="status" role="status"></p></form></section>
+      <section id="view-diary" class="view" hidden><div class="page-heading"><button class="back-button" data-view="home">←</button><div><p class="eyebrow">DENTRO DA SUA EXPERIÊNCIA</p><h1>Meu diário</h1><p>Guarde o que aconteceu, como você se sentiu e o que deseja lembrar.</p></div></div><div class="diary-handoff"><div><span class="card-icon green">▤</span><h2>Seu dia também faz parte do esporte.</h2><p>Um registro livre para os momentos que não cabem apenas em um treino.</p><form id="quick-diary-form" class="quick-diary-form"><label class="field">Título do momento<input id="quick-diary-title" required maxlength="80" placeholder="Ex.: Caminhada no fim da tarde"></label><label class="field">O que você quer lembrar?<textarea id="quick-diary-note" rows="4" maxlength="800" placeholder="Escreva do seu jeito..."></textarea></label><button class="primary" type="submit">Guardar no meu diário ✓</button><p id="diary-status" class="status" role="status"></p></form></div><div class="diary-connection"><strong>Conectado à Experiência</strong><span>Este diário usa o mesmo aparelho e a mesma jornada do seu app.</span><div id="quick-diary-list"></div></div></div></section>
+      <footer class="app-footer"><a href="/">← Voltar ao BeMEsportivo</a><span>BeMEsportivo · O esporte começa com pessoas.</span></footer>
+    </main>
+  </div>
+  <nav class="bottom-nav" aria-label="Navegação móvel"><button data-view="home">⌂<small>Início</small></button><button data-view="experience">♡<small>Experiência</small></button><button data-view="record" class="bottom-record">＋<small>Registrar</small></button><button data-view="evolution">↗<small>Evolução</small></button><button data-view="profile">◎<small>Perfil</small></button></nav>
+  <script src="/js/experiencia-mvp.js?v=20261104-1" defer></script>
+</body>
+</html>
