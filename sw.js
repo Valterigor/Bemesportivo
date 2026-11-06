@@ -3,6 +3,11 @@
 const CACHE_PREFIX = 'meu-caminho-be-';
 const CACHE_NAME = `${CACHE_PREFIX}v158`;
 const CORE_SHELL = [
+  '/experiencia',
+  '/experiencia.html',
+  '/experiencia.webmanifest',
+  '/css/experiencia-mvp.css',
+  '/js/experiencia-mvp.js',
   '/css/responsive-layout.css',
   '/js/diario-dashboard-entry.js',
   '/diario-app/',

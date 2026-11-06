@@ -1,0 +1,16 @@
+{
+  "name": "Minha Experiência · BeMEsportivo",
+  "short_name": "Minha Experiência",
+  "description": "Registre como você vive o esporte antes, durante e depois das atividades.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "/experiencia",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f47b16",
+  "icons": [
+    {"src":"/img/app-icon-192.png","sizes":"192x192","type":"image/png"},
+    {"src":"/img/app-icon-512.png","sizes":"512x512","type":"image/png"}
+  ]
+}

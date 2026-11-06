@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#176b50">
+  <link rel="manifest" href="/experiencia.webmanifest">
   <meta name="description" content="Sua experiência também faz parte do esporte.">
   <title>Minha experiência · BeMEsportivo</title>
   <link rel="icon" href="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png">
@@ -12,9 +13,11 @@
 <body>
   <section id="onboarding" class="onboarding" aria-label="Primeiro acesso">
     <div class="onboarding-screen onboarding-intro active-onboarding" data-onboarding="intro">
-      <div class="onboarding-brand"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt=""><strong>BeMEsportivo</strong></div>
-      <div class="intro-art"><img src="/img/fala-bem-hero-pessoas-optimized-480.webp" alt="Pessoas vivendo diferentes experiências esportivas"></div>
-      <div class="onboarding-copy"><p class="eyebrow">SUA EXPERIÊNCIA TAMBÉM FAZ PARTE</p><h1>do esporte.</h1><p>Um espaço para compreender como você vive o esporte e a atividade física.</p><button class="primary onboarding-next" data-onboarding-next="profile">Começar minha experiência <span>→</span></button><small class="privacy-intro">Seus registros ficam neste aparelho. O app não faz diagnóstico nem prescreve treino, alimentação ou tratamento.</small><div class="page-dots"><b></b><i></i></div></div>
+      <div class="entry-topbar"><div class="onboarding-brand"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt=""><strong>BeMEsportivo</strong></div><span class="entry-time">09:41</span></div>
+      <div class="entry-greeting"><p class="eyebrow">SEU ESPAÇO</p><h1>Como você quer viver o esporte hoje?</h1><p>Comece pelo que fizer sentido para este momento.</p></div>
+      <div class="intro-art"><img src="/img/fala-bem-hero-pessoas-optimized-480.webp" alt="Pessoas vivendo diferentes experiências esportivas"><div class="intro-art-label"><strong>Minha experiência</strong><span>Antes, durante e depois da atividade.</span></div></div>
+      <div class="entry-actions"><button class="primary onboarding-next" data-onboarding-next="profile">Começar uma atividade <span>→</span></button><button class="entry-secondary onboarding-next" data-onboarding-next="profile">Registrar como estou <span>＋</span></button></div>
+      <small class="privacy-intro">Sem login por enquanto. Seus registros ficam neste aparelho. O app não faz diagnóstico nem prescreve treino, alimentação ou tratamento.</small><div class="page-dots"><b></b><i></i></div>
     </div>
     <div class="onboarding-screen" data-onboarding="access"><div class="onboarding-top"><button class="onboarding-back" data-onboarding-back="intro">←</button><span>2 de 3</span></div><div class="onboarding-copy access-copy"><p class="eyebrow">SEU ESPAÇO PESSOAL</p><h2>Entre na sua conta</h2><p>Acesse seu espaço e continue sua experiência no BeMEsportivo.</p><label class="field">E-mail<input type="email" placeholder="voce@exemplo.com"></label><label class="field">Senha<input type="password" placeholder="Sua senha"></label><button class="primary onboarding-next" data-onboarding-next="profile">Continuar <span>→</span></button><p class="or-line">ou</p><button class="social-button" type="button">Continuar com o Google</button><p class="signup-copy">Ainda não tem uma conta? <button type="button" class="text-link" data-onboarding-next="profile">Criar minha conta</button></p></div></div>
     <div class="onboarding-screen" data-onboarding="profile"><div class="onboarding-top"><button class="onboarding-back" data-onboarding-back="intro">←</button><span>2 de 2</span></div><div class="onboarding-copy access-copy"><p class="eyebrow">CONHECENDO VOCÊ</p><h2>Como você se relaciona atualmente com o esporte?</h2><p>Você pode mudar isso depois. Não é preciso praticar para começar.</p><div class="onboarding-options"><button>Já pratico atividades físicas.</button><button>Estou tentando voltar.</button><button>Quero começar.</button><button>Pratico ocasionalmente.</button><button>Atualmente estou sem praticar.</button></div><button class="primary onboarding-finish">Entrar no meu espaço <span>→</span></button></div></div>
@@ -40,6 +43,7 @@
 
       <section id="view-home" class="view active-view">
         <div class="topline"><div><p class="eyebrow" id="home-date"></p><h1>Olá, <span id="home-name">pessoa</span>.</h1></div><button class="avatar" data-view="profile" id="home-avatar">P</button></div>
+        <section class="daily-context"><div class="daily-context-icon">◷</div><div><p class="eyebrow">AGORA</p><strong id="daily-context-title">Qual é o seu próximo passo?</strong><span id="daily-context-text">Comece uma atividade ou registre como você está.</span></div></section>
         <section class="welcome-card"><div><p class="eyebrow light">SEU PRÓXIMO MOMENTO</p><h2>O que você quer viver hoje?</h2><p>Escolha uma atividade para começar a acompanhar sua experiência.</p><div class="quick-starts"><button data-quick-activity="Academia">Academia</button><button data-quick-activity="Corrida">Corrida</button><button data-quick-activity="Caminhada">Caminhada</button><button data-quick-activity="Outra atividade">Outra</button></div><button class="primary light-button" data-view="record">Começar minha sessão <span>→</span></button></div><div class="welcome-orbit" aria-hidden="true"><span>◌</span><i>♡</i><b>BE</b></div></section>
         <div class="section-heading"><div><p class="eyebrow">SEU ESPAÇO</p><h2>O que faz sentido agora?</h2></div></div>
         <div class="home-grid">
@@ -50,6 +54,7 @@
           <button class="feature-card support-card-link" data-support="rotina"><span class="card-icon green">◷</span><h3>Apoio para minha rotina</h3><p>Encontre ideias para treino, alimentação e organização.</p></button>
         </div>
         <section class="empty-insight" id="home-insight"><span>✦</span><div><strong>Comece pelo que cabe no seu dia.</strong><p>Você não precisa fazer muito para criar uma experiência. Um treino, uma caminhada ou um registro já são parte da sua jornada.</p></div></section>
+        <section id="home-last-session" class="last-session" hidden></section>
         <div class="section-heading support-heading"><div><p class="eyebrow">APOIO PARA SUA ROTINA</p><h2>Mais leve viver o esporte</h2></div></div>
         <div class="support-grid"><button class="support-card" data-support="treino"><span>↗</span><strong>Treino e movimento</strong><small>Ideias para começar, adaptar e respeitar seu ritmo.</small></button><button class="support-card" data-support="alimentacao"><span>◌</span><strong>Alimentação</strong><small>Informações simples para acompanhar sua rotina.</small></button><button class="support-card" data-support="rotina"><span>◷</span><strong>Rotina esportiva</strong><small>Organize tempo, descanso e pequenos passos.</small></button></div>
         <section id="support-panel" class="support-panel" hidden></section>
@@ -65,7 +70,7 @@
         </form>
       </section>
 
-      <section id="view-experience" class="view" hidden><div class="page-heading"><button class="back-button" data-view="home" aria-label="Voltar para o início">←</button><div><p class="eyebrow">MINHA EXPERIÊNCIA</p><h1>O que você tem percebido?</h1><p>Suas experiências, sentimentos e reflexões reunidos com cuidado.</p></div><button class="primary" data-view="record">＋ Novo registro</button></div><div id="feedback-banner" class="feedback-banner" hidden></div><div id="history-list" class="timeline"></div></section>
+      <section id="view-experience" class="view" hidden><div class="page-heading"><button class="back-button" data-view="home" aria-label="Voltar para o início">←</button><div><p class="eyebrow">MINHA EXPERIÊNCIA</p><h1>O que você tem percebido?</h1><p>Suas experiências, sentimentos e reflexões reunidos com cuidado.</p></div><button class="primary" data-view="record">＋ Novo registro</button></div><div class="history-tools"><label>Filtrar por atividade<select id="history-activity-filter" aria-label="Filtrar histórico por atividade"><option value="all">Todas as atividades</option></select></label><button type="button" class="secondary" id="clear-history-filter">Limpar</button></div><div id="feedback-banner" class="feedback-banner" hidden></div><div id="history-list" class="timeline"></div></section>
 
       <section id="view-evolution" class="view" hidden><div class="page-heading"><button class="back-button" data-view="home" aria-label="Voltar para o início">←</button><div><p class="eyebrow">MINHA EVOLUÇÃO</p><h1>Perceber também é evoluir.</h1><p>Este espaço mostra apenas o que seus registros já permitem observar.</p></div></div><div id="evolution-content" class="evolution-grid"></div></section>
 
