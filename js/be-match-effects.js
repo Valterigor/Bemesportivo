@@ -1,0 +1,13 @@
+(() => {
+  const board = document.querySelector('#board');
+  const message = document.querySelector('#game-message');
+  const goal = document.querySelector('#goal');
+  if (!board) return;
+  const burst = (x, y, amount = 12) => { for (let i = 0; i < amount; i++) { const p = document.createElement('i'); p.className = 'fx-particle'; p.style.left = `${x}px`; p.style.top = `${y}px`; p.style.setProperty('--dx', `${Math.round(Math.cos(i / amount * Math.PI * 2) * (28 + Math.random() * 34))}px`); p.style.setProperty('--dy', `${Math.round(Math.sin(i / amount * Math.PI * 2) * (28 + Math.random() * 34))}px`); document.body.append(p); p.addEventListener('animationend', () => p.remove(), { once: true }); } };
+  const label = (text, x, y) => { const el = document.createElement('strong'); el.className = 'fx-label'; el.textContent = text; el.style.left = `${x}px`; el.style.top = `${y}px`; document.body.append(el); el.addEventListener('animationend', () => el.remove(), { once: true }); };
+  const observer = new MutationObserver(records => { let matches = []; let special = false; records.forEach(record => { if (record.type === 'attributes' && record.target instanceof HTMLElement && record.target.classList.contains('tile')) { if (record.target.dataset.special === 'true') special = true; if (record.target.classList.contains('matching')) matches.push(record.target); } record.addedNodes.forEach(node => { if (!(node instanceof HTMLElement)) return; if (node.classList.contains('tile')) { if (node.dataset.special === 'true') special = true; if (node.classList.contains('matching')) matches.push(node); } }); }); if (matches.length) { const rect = matches[Math.floor(matches.length / 2)].getBoundingClientRect(); board.classList.remove('combo-pulse'); void board.offsetWidth; board.classList.add('combo-pulse'); burst(rect.left + rect.width / 2, rect.top + rect.height / 2, Math.min(18, matches.length * 4)); if (matches.length >= 5) label('PODER BE!', rect.left + rect.width / 2, rect.top + rect.height / 2); } if (special) { const tile = board.querySelector('[data-special]'); if (tile) { const rect = tile.getBoundingClientRect(); burst(rect.left + rect.width / 2, rect.top + rect.height / 2, 8); } } });
+  observer.observe(board, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'data-special'] });
+  let lastGoal = '';
+  const goalObserver = new MutationObserver(() => { const value = goal?.textContent || ''; if (value && value !== lastGoal) { lastGoal = value; goal.classList.remove('mission-flash'); void goal.offsetWidth; goal.classList.add('mission-flash'); } });
+  if (goal) goalObserver.observe(goal, { childList: true, characterData: true, subtree: true });
+})();
