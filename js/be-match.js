@@ -5,6 +5,7 @@
   const savedProgress=JSON.parse(localStorage.getItem('be-match-progress')||'{"unlockedLevel":1,"completed":[],"best":{},"stars":{}}');savedProgress.best=savedProgress.best||{};savedProgress.stars=savedProgress.stars||{};
   const mapEl=document.querySelector('#phase-nodes'),mapStatus=document.querySelector('#map-status'),lossSheet=document.querySelector('#loss-sheet');
   const state={grid:[],selected:null,score:0,moves:20,movesUsed:0,level:Math.max(1,Number(savedProgress.unlockedLevel||localStorage.getItem('be-match-level')||1)),lives:Math.max(5,Number(localStorage.getItem('be-match-lives')||5)),combos:0,power:Number(localStorage.getItem('be-match-power')||0),juiceDestroyed:0,specialIndexes:new Set(),locked:false};
+  const lifeRecoveryMs=1800000;function recoverLives(){const now=Date.now(),last=Number(localStorage.getItem('be-match-life-timestamp')||now);if(state.lives<5&&now-last>=lifeRecoveryMs){const recovered=Math.min(5-state.lives,Math.floor((now-last)/lifeRecoveryMs));state.lives+=recovered;localStorage.setItem('be-match-life-timestamp',String(last+recovered*lifeRecoveryMs));localStorage.setItem('be-match-lives',String(state.lives))}if(state.lives<5&&!localStorage.getItem('be-match-life-timestamp'))localStorage.setItem('be-match-life-timestamp',String(now))}recoverLives();setInterval(()=>{recoverLives();render()},60000);
   const movesForLevel=()=>26+(state.level-1)*4;
   const missionTarget=()=>6+(state.level-1)*3;
   const missionComplete=()=>state.juiceDestroyed>=missionTarget();
