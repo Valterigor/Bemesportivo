@@ -1,0 +1,7 @@
+/* Cores únicas por categoria para leitura imediata no tabuleiro */
+.tile-halter{background:linear-gradient(145deg,#ffad39,#b84c00)!important}
+.tile-bottle{background:linear-gradient(145deg,#78d9ff,#166eaa)!important}
+.tile-watch{background:linear-gradient(145deg,#d7f36a,#5e9d28)!important}
+.tile-cap{background:linear-gradient(145deg,#575757,#080808)!important}
+.tile-shoe{background:linear-gradient(145deg,#ff6b62,#a7141a)!important}
+.tile-fruit{background:linear-gradient(145deg,#d99aff,#6525a3)!important}
