@@ -1,0 +1,1 @@
+(() => { const actions=document.querySelector('.hero .actions'); if(!actions||actions.querySelector('[data-be-match]')) return; const link=document.createElement('a'); link.href='/bematch'; link.className='secondary'; link.dataset.beMatch='true'; link.innerHTML='Jogar BE Match <span aria-hidden="true">↗</span>'; actions.append(link); })();
