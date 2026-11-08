@@ -1,0 +1,1 @@
+.result-stats{grid-template-columns:repeat(3,1fr)!important}@media(max-width:360px){.result-stats{gap:5px}.result-stats div{padding:10px 5px}}
