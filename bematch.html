@@ -8,16 +8,18 @@
   <title>BE Match · BeMEsportivo</title>
   <link rel="icon" href="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png">
   <link rel="stylesheet" href="/css/be-match.css?v=20261108-1">
+  <link rel="stylesheet" href="/css/be-match-interactions.css?v=20261108-1">
 </head>
 <body>
   <main class="match-app">
     <header class="match-header"><a class="match-brand" href="/"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt=""><span>BeMEsportivo<small>BE Match</small></span></a><button id="sound-toggle" class="icon-button" type="button" aria-label="Ativar ou desativar sons">Som</button></header>
     <section class="match-hero"><div><p class="kicker">BE MATCH</p><h1>Combine.<br><em>Conquiste.</em><br>Evolua.</h1><p>Um movimento de cada vez. Combine peças esportivas e construa sua sequência.</p></div><div class="hero-orbit" aria-hidden="true"><span>BE</span><i></i><b></b></div></section>
     <section class="game-panel" aria-label="Partida BE Match">
-      <div class="game-top"><div><span class="label">FASE</span><strong id="level">1</strong></div><div><span class="label">PONTOS</span><strong id="score">0</strong></div><div><span class="label">MOVIMENTOS</span><strong id="moves">24</strong></div><button id="restart" class="small-button" type="button">Recomeçar</button></div>
+      <div class="game-top"><div><span class="label">FASE</span><strong id="level">1</strong></div><div><span class="label">PONTOS</span><strong id="score">0</strong></div><div><span class="label">MOVIMENTOS</span><strong id="moves">24</strong></div><div><span class="label">PODER BE</span><strong id="power">0</strong></div><button id="restart" class="small-button" type="button">Recomeçar</button></div>
       <div class="progress-line"><span id="progress-bar"></span></div>
       <div id="board" class="board" role="grid" aria-label="Tabuleiro BE Match"></div>
       <div class="game-message" id="game-message" role="status">Combine três ou mais peças iguais.</div>
+      <button id="use-power" class="power-button" type="button" disabled>Usar Poder BE · limpar uma linha</button>
     </section>
     <section class="match-bottom"><div class="life-card"><span class="label">VIDAS</span><strong id="lives">● ● ●</strong><small>Seu progresso fica neste aparelho.</small></div><div class="goal-card"><span class="label">OBJETIVO DA FASE</span><strong id="goal">Alcance 500 pontos</strong><small>Combinações maiores liberam mais energia.</small></div></section>
     <footer class="match-footer"><a href="/experiencia">Voltar para Minha Experiência</a><span>BeMEsportivo · Combine. Conquiste. Evolua.</span></footer>
