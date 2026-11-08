@@ -1,0 +1,3 @@
+/* Direção visual minimalista: somente brilho, sem elementos flutuantes */
+.tile.hint:before{display:none!important}.fx-particle,.fx-ring,.fx-trail,.fx-label,.hint-label{display:none!important}
+.tile.hint{animation:hint-glow 1.1s ease-in-out infinite alternate!important}
