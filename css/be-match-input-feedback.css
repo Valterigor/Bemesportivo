@@ -1,0 +1,1 @@
+.board.is-dragging{outline:2px solid #fa8a0170;outline-offset:4px}.tile.is-touching{transform:scale(.92);filter:brightness(1.35);box-shadow:0 0 0 3px #fa8a01,0 0 18px #fa8a0180;z-index:6}.tile:active{transform:scale(.94)}
