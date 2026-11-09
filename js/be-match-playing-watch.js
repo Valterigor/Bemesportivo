@@ -1,0 +1,1 @@
+(() => { const sync=()=>{const sheet=document.querySelector('#start-sheet');if(sheet?.hidden)document.body.classList.add('game-playing');else document.body.classList.remove('game-playing')};sync();setInterval(sync,250);})();
