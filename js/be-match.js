@@ -34,7 +34,7 @@
     grid: [], score: 0, moves: 20, movesUsed: 0,
     level: Math.min(8, Math.max(1, Number(savedProgress.unlockedLevel || localStorage.getItem('be-match-level') || 1))),
     lives: Math.max(0, Math.min(5, Number(localStorage.getItem('be-match-lives') || 5))),
-    combos: 0, power: Number(localStorage.getItem('be-match-power') || 0),
+    combos: 0, bestChain: 0, power: Number(localStorage.getItem('be-match-power') || 0),
     juiceDestroyed: 0, specialKinds: new Map(), locked: false
   };
   const key = (x, y) => y * size + x;
@@ -226,6 +226,7 @@
     while (info.base.size) {
       chain += 1;
       state.combos += 1;
+      state.bestChain = Math.max(state.bestChain, chain);
       const createdKind = window.BeMatchRules.powerForGroups(info.groups);
       const candidates = [...info.base];
       const specialIndex = createdKind && preferredIndex !== null && info.base.has(preferredIndex) ? preferredIndex : createdKind ? candidates[Math.floor(candidates.length / 2)] : null;
@@ -373,7 +374,7 @@
   function resetPhase(hideSheet = true) {
     boardEl.dispatchEvent(new CustomEvent('be-match:phase-reset'));
     window.BeMatchScenes?.apply(state.level);
-    Object.assign(state, { score: 0, moves: movesForLevel(), movesUsed: 0, combos: 0, juiceDestroyed: 0, locked: false });
+    Object.assign(state, { score: 0, moves: movesForLevel(), movesUsed: 0, combos: 0, bestChain: 0, juiceDestroyed: 0, locked: false });
     state.specialKinds.clear();
     if (hideSheet) sheet.hidden = true;
     createGrid();
@@ -396,7 +397,7 @@
     renderMap();
     document.querySelector('#result-score').textContent = state.score;
     document.querySelector('#result-best').textContent = best;
-    document.querySelector('#result-combos').textContent = state.combos;
+    document.querySelector('#result-combos').textContent = `×${Math.max(1, state.bestChain)}`;
     document.querySelector('#result-moves').textContent = state.movesUsed;
     document.querySelector('#result-stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
     document.querySelector('#result-copy').textContent = `Missão concluída: ${state.juiceDestroyed}/${missionTarget()} relógios capturados. ${efficient ? 'Excelente eficiência!' : 'Boa estratégia. Continue evoluindo no seu tempo.'}`;
