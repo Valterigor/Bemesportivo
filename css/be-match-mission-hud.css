@@ -49,7 +49,7 @@
 .mission-hud-secondary[hidden] { display: none !important; }
 
 @media (max-width: 620px) {
-  body[data-match-scene]:has(#start-sheet[hidden]) .game-top {
+  .game-top {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     gap: 7px 5px;
     padding: 9px 10px;
@@ -85,7 +85,7 @@
 }
 
 @media (max-height: 640px) and (max-width: 620px) {
-  body[data-match-scene]:has(#start-sheet[hidden]) .game-panel { padding-block: 6px; }
+  body[data-match-scene]:has(#start-sheet[hidden]) .game-panel { min-height: 100svh; justify-content: flex-start; padding-block: 6px; }
   .scene-name { margin-bottom: 4px; }
   body[data-match-scene]:has(#start-sheet[hidden]) .progress-line { margin: 7px 0 9px; }
   .match-score-goal { margin-bottom: 7px; }

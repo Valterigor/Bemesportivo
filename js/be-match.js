@@ -26,7 +26,7 @@
     halter: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M10 18v12M15 14v20M20 20h8M28 20h5M33 14v20M38 18v12"/></svg>',
     bottle: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M19 11h10M21 11v6l-5 7v13a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V24l-5-7v-6M17 26h16"/></svg>',
     watch: '<svg viewBox="0 0 48 48" fill="none" stroke="#161616" stroke-width="3"><rect x="14" y="13" width="20" height="22" rx="7"/><path d="M20 7h8M20 41h8M24 18v6l4 3"/></svg>',
-    cap: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M10 29c2-9 8-14 15-14 7 0 12 4 14 11-8-2-17-1-29 3Z"/><path d="M10 29c-3 1-4 4-1 5 8 2 18 0 27-3"/></svg>',
+    cap: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="16"/><path d="m24 16 6 4-2 7h-8l-2-7 6-4Z"/><path d="m24 16-2-8M30 20l8-3M28 27l5 8M20 27l-5 8M18 20l-8-3"/></svg>',
     shoe: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13c4 5 7 10 13 13l9 4c4 2 5 6 0 6H12c-5 0-6-4-3-7l6-6"/><path d="m20 20 5 2M16 24l5 2M13 28l5 2"/></svg>',
     fruit: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M24 17c-8-5-15 2-13 11 2 9 8 13 13 7 5 6 11 2 13-7 2-9-5-16-13-11Z"/><path d="M24 16c0-5 4-8 8-8M28 9c3-2 6-1 8 1"/></svg>'
   };

@@ -1,10 +1,13 @@
 (() => {
   const board = document.querySelector('#board');
   const toggle = document.querySelector('#sound-toggle');
+  const startSoundButton = document.querySelector('#start-sound');
+  const playButton = document.querySelector('#continue-game');
   if (!board || !toggle) return;
 
   let audio = null;
   let master = null;
+  let ambience = null;
   let enabled = localStorage.getItem('be-match-sound') !== 'off';
   const history = [];
   const record = name => { history.push(name); if (history.length > 24) history.shift(); };
@@ -23,6 +26,18 @@
     master = audio.createGain();
     master.gain.value = .9;
     master.connect(compressor).connect(audio.destination);
+    const reverb = audio.createConvolver();
+    const reverbSeconds = .85;
+    const impulse = audio.createBuffer(2, Math.ceil(audio.sampleRate * reverbSeconds), audio.sampleRate);
+    for (let channel = 0; channel < impulse.numberOfChannels; channel += 1) {
+      const data = impulse.getChannelData(channel);
+      for (let i = 0; i < data.length; i += 1) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 3.2);
+    }
+    reverb.buffer = impulse;
+    ambience = audio.createGain();
+    ambience.gain.value = .13;
+    reverb.connect(ambience).connect(compressor);
+    ambience.input = reverb;
     return audio;
   };
 
@@ -37,6 +52,9 @@
     const ac = resume();
     if (!ac || !master) return;
     const now = ac.currentTime + (options.delay || 0);
+    const attack = options.attack ?? Math.min(.024, duration / 3);
+    const release = options.release ?? (options.type === 'sine' ? .16 : .1);
+    const peak = options.gain || .035;
     const oscillator = ac.createOscillator();
     const gain = ac.createGain();
     oscillator.type = options.type || 'sine';
@@ -44,11 +62,14 @@
     if (options.to) oscillator.frequency.exponentialRampToValueAtTime(options.to, now + duration);
     if (options.detune) oscillator.detune.value = options.detune;
     gain.gain.setValueAtTime(.0001, now);
-    gain.gain.exponentialRampToValueAtTime(options.gain || .035, now + Math.min(.018, duration / 4));
-    gain.gain.exponentialRampToValueAtTime(.0001, now + duration);
-    oscillator.connect(gain).connect(master);
+    gain.gain.exponentialRampToValueAtTime(peak, now + attack);
+    gain.gain.exponentialRampToValueAtTime(Math.max(.0002, peak * .62), now + duration);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + duration + release);
+    oscillator.connect(gain);
+    gain.connect(master);
+    if (ambience?.input) gain.connect(ambience.input);
     oscillator.start(now);
-    oscillator.stop(now + duration + .02);
+    oscillator.stop(now + duration + release + .03);
   };
 
   const noise = (duration = .12, options = {}) => {
@@ -56,9 +77,13 @@
     const ac = resume();
     if (!ac || !master) return;
     const now = ac.currentTime + (options.delay || 0);
-    const buffer = ac.createBuffer(1, Math.ceil(ac.sampleRate * duration), ac.sampleRate);
+    const attack = options.attack ?? .008;
+    const release = options.release ?? .11;
+    const totalDuration = duration + release;
+    const peak = options.gain || .018;
+    const buffer = ac.createBuffer(1, Math.ceil(ac.sampleRate * totalDuration), ac.sampleRate);
     const data = buffer.getChannelData(0);
-    for (let i = 0; i < data.length; i += 1) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+    for (let i = 0; i < data.length; i += 1) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 1.7);
     const source = ac.createBufferSource();
     const filter = ac.createBiquadFilter();
     const gain = ac.createGain();
@@ -66,10 +91,15 @@
     filter.type = options.filter || 'bandpass';
     filter.frequency.value = options.frequency || 1100;
     filter.Q.value = options.q || .7;
-    gain.gain.setValueAtTime(options.gain || .018, now);
-    gain.gain.exponentialRampToValueAtTime(.0001, now + duration);
-    source.connect(filter).connect(gain).connect(master);
+    gain.gain.setValueAtTime(.0001, now);
+    gain.gain.exponentialRampToValueAtTime(peak, now + attack);
+    gain.gain.exponentialRampToValueAtTime(Math.max(.0002, peak * .5), now + duration);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + totalDuration);
+    source.connect(filter).connect(gain);
+    gain.connect(master);
+    if (ambience?.input) gain.connect(ambience.input);
     source.start(now);
+    source.stop(now + totalDuration + .02);
   };
 
   const focus = (duration = 420, intensity = .35) => {
@@ -172,6 +202,19 @@
     [392, 330, 262].forEach((note, index) => tone(note, .24, { type: 'triangle', gain: .024, delay: index * .13 }));
   };
 
+  const menuSound = () => {
+    record('menu-open');
+    [392, 523.25, 659.25].forEach((note, index) => tone(note, .34, { type: 'sine', gain: .024, delay: index * .075, release: .28 }));
+    tone(196, .5, { type: 'triangle', gain: .016, delay: .04, release: .3 });
+  };
+
+  const playSound = () => {
+    record('play');
+    focus(680, .18);
+    impact(0, .7);
+    [440, 587.33, 739.99, 987.77].forEach((note, index) => tone(note, .25, { type: index < 2 ? 'triangle' : 'sine', gain: .032, delay: index * .065, release: .22 }));
+  };
+
   board.addEventListener('be-match:points', ({ detail }) => {
     if (detail.power) powerSound();
     else matchSound(detail.chain, detail.indices?.length || 3);
@@ -189,6 +232,10 @@
     toggle.textContent = enabled ? 'Som: ligado' : 'Som: desligado';
     toggle.setAttribute('aria-pressed', String(enabled));
     toggle.setAttribute('aria-label', enabled ? 'Desativar sons e música' : 'Ativar sons e música');
+    if (!enabled && startSoundButton) {
+      startSoundButton.textContent = '♪ Ativar trilha';
+      startSoundButton.setAttribute('aria-pressed', 'false');
+    }
   };
   toggle.addEventListener('click', () => {
     enabled = !enabled;
@@ -200,10 +247,22 @@
       tone(880, .12, { type: 'sine', gain: .018, delay: .06 });
     }
   });
+  startSoundButton?.addEventListener('click', () => {
+    if (!enabled) {
+      enabled = true;
+      localStorage.setItem('be-match-sound', 'on');
+      syncToggle();
+    }
+    resume();
+    menuSound();
+    startSoundButton.textContent = '♫ Trilha ativa';
+    startSoundButton.setAttribute('aria-pressed', 'true');
+  });
+  playButton?.addEventListener('click', playSound);
   ['pointerdown', 'touchstart', 'keydown'].forEach(eventName => window.addEventListener(eventName, resume, { once: true, passive: true }));
   syncToggle();
 
   if (['localhost', '127.0.0.1'].includes(location.hostname)) {
-    window.__beMatchSoundDebug = { history, isEnabled: () => enabled };
+    window.__beMatchSoundDebug = { history, isEnabled: () => enabled, profile: { smoothRelease: true, ambienceSeconds: .85, musicDucking: true } };
   }
 })();
