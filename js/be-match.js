@@ -196,6 +196,7 @@
         const collectRemaining = Math.max(0, collect.target - collectedForGoal());
         secondaryGoalCountEl.textContent = collectRemaining;
         secondaryGoalLabelEl.textContent = collect.label;
+        secondaryGoalIconEl.className = `mission-piece mission-piece-${collect.type}`;
         secondaryGoalIconEl.innerHTML = icons[collect.type] || '';
         secondaryGoalEl.setAttribute('aria-label', `${collectRemaining} ${collect.label} restantes`);
       }

@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="/css/be-match-score-flight.css?v=20261111-5">
   <link rel="stylesheet" href="/css/be-match-achievements.css?v=20261111-4">
   <link rel="stylesheet" href="/css/be-match-coach.css?v=20261111-1">
-  <link rel="stylesheet" href="/css/be-match-mission-hud.css?v=20261111-1">
+  <link rel="stylesheet" href="/css/be-match-mission-hud.css?v=20261112-1">
 </head>
 <body>
   <main class="match-app">
@@ -46,7 +46,17 @@
     <section class="phase-map" aria-label="Mapa de fases"><div><p class="kicker">SUA JORNADA</p><h2>Mapa BE</h2><p id="map-status">Complete uma missão para desbloquear a próxima fase.</p></div><div id="phase-nodes" class="phase-nodes"></div></section>
     <section class="game-panel" aria-label="Partida BE Match">
       <p id="scene-name" class="scene-name" aria-live="polite"></p>
-      <div class="game-top"><div><span class="label">FASE</span><strong id="level">1</strong></div><div><span class="label">PONTOS</span><strong id="score">0</strong></div><div><span class="label">MOVIMENTOS</span><strong id="moves">24</strong></div><div class="mission-hud"><span class="label">CAPTURE</span><div class="mission-hud-items"><span class="mission-hud-target clock-counter"><svg class="clock-counter-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true" focusable="false"><rect x="13" y="12" width="22" height="24" rx="8"/><path d="M20 6h8M20 42h8M24 18v7l5 3"/></svg><strong id="remaining-clocks">6</strong><small>relógios</small></span><span class="mission-hud-target mission-hud-secondary" id="secondary-goal" hidden><i id="secondary-goal-icon" aria-hidden="true"></i><strong id="secondary-goal-count">0</strong><small id="secondary-goal-label"></small></span></div></div><div><span class="label">PODERES</span><strong id="power">0</strong></div><button id="restart" class="small-button" type="button">Recomeçar</button></div>
+      <div class="game-top">
+        <div class="hud-stat hud-phase"><span class="label">FASE</span><strong id="level">1</strong></div>
+        <div class="hud-stat hud-score"><span class="label">PONTOS</span><strong id="score">0</strong></div>
+        <div class="hud-stat hud-moves"><span class="label">MOVIMENTOS</span><strong id="moves">24</strong></div>
+        <div class="mission-hud"><span class="label">CAPTURE</span><div class="mission-hud-items">
+          <span class="mission-hud-target clock-counter"><i class="mission-piece mission-piece-watch"><svg class="clock-counter-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true" focusable="false"><rect x="13" y="12" width="22" height="24" rx="8"/><path d="M20 6h8M20 42h8M24 18v7l5 3"/></svg></i><strong id="remaining-clocks">6</strong><small>relógios</small></span>
+          <span class="mission-hud-target mission-hud-secondary" id="secondary-goal" hidden><i class="mission-piece" id="secondary-goal-icon" aria-hidden="true"></i><strong id="secondary-goal-count">0</strong><small id="secondary-goal-label"></small></span>
+        </div></div>
+        <div class="hud-stat hud-powers"><span class="label">PODERES</span><strong id="power">0</strong></div>
+        <button id="restart" class="small-button" type="button">Recomeçar</button>
+      </div>
       <div class="progress-line"><span id="progress-bar"></span></div>
       <div class="scene-panorama" aria-hidden="true"></div>
       <div id="board" class="board" role="grid" aria-label="Tabuleiro BE Match"></div>
