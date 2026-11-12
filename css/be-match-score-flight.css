@@ -10,9 +10,11 @@
 .match-light-beam.is-vertical{background:linear-gradient(0deg,transparent,#ef9aff 12%,#fff 45%,#fff 55%,#a8edff 88%,transparent)}
 .match-light-core{width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,#fff 0 12%,#fff8cf 22%,#f58aff99 42%,transparent 70%)}
 .match-light-star{width:18px;height:18px;background:currentColor;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
-.match-light-beam{box-shadow:0 0 8px #fff,0 0 20px #f5a7ff,0 0 34px #b65fff;border:1px solid #ffffffaa}
+.match-light-beam{box-shadow:0 0 10px #fff,0 0 24px #f5a7ff,0 0 40px #b65fff;border:1px solid #ffffffcc}
+.match-light-beam::after{content:'';position:absolute;inset:40% 6%;border-radius:50%;background:#fff;box-shadow:0 0 6px #fff}
+.match-light-beam.is-vertical::after{inset:6% 40%}
 .match-light-wave{position:absolute;border:3px solid #fff1b6;border-radius:50%;box-shadow:0 0 12px #fff0b8,inset 0 0 10px #ff93ec;pointer-events:none;will-change:transform,opacity}
 .score-flight-piece{box-shadow:0 0 8px #fff,0 0 18px #ffe69c,0 6px 24px #ffb940aa}
-.score-flight-piece::before{content:'';position:absolute;z-index:-1;left:7px;top:14px;width:14px;height:48px;transform-origin:50% 0;transform:rotate(var(--trail-angle,0deg));border-radius:50%;background:linear-gradient(#fff5b9cc,#ffb65066,transparent)}
+.score-flight-piece::before{content:'';position:absolute;z-index:-1;left:5px;top:14px;width:18px;height:70px;transform-origin:50% 0;transform:rotate(var(--trail-angle,0deg));border-radius:50%;background:linear-gradient(#fffbe4ee,#ffe28e99 28%,#ffb65044 60%,transparent)}
 .score-flight-flash{width:40px;height:40px;background:radial-gradient(circle,#fff 0 10%,#fff3b6bb 30%,#ffd36a55 50%,transparent 72%)}
 .score-flight-bonus{font-size:20px;text-shadow:0 0 8px #ffbc45,0 2px 4px #271800}

@@ -33,8 +33,8 @@
     // Keep light inside the cleared area so it does not imply extra pieces were hit.
     for (const vertical of [false, true]) {
       const beam = make(`match-light-beam${vertical ? ' is-vertical' : ''}`);
-      beam.style.width = `${vertical ? 16 + intensity*3 : width + 24}px`;
-      beam.style.height = `${vertical ? height + 24 : 16 + intensity*3}px`;
+      beam.style.width = `${vertical ? 20 + intensity*4 : width + 28}px`;
+      beam.style.height = `${vertical ? height + 28 : 20 + intensity*4}px`;
       animate(beam, [
         {transform:`translate(-50%, -50%) scale(${vertical ? '1,.15' : '.15,1'})`, opacity:0},
         {transform:'translate(-50%, -50%) scale(1)', opacity:1, offset:.23},
@@ -42,20 +42,22 @@
       ], {duration:380, easing:'ease-out'});
     }
     const core = make('match-light-core');
-    core.style.width = core.style.height = `${72 + intensity*14}px`;
+    core.style.width = core.style.height = `${80 + intensity*18}px`;
     animate(core, [
       {transform:'translate(-50%, -50%) scale(.3)', opacity:0},
       {transform:'translate(-50%, -50%) scale(1)', opacity:1, offset:.25},
       {transform:'translate(-50%, -50%) scale(1.5)', opacity:0}
     ], {duration:300});
-    const wave = make('match-light-wave');
-    wave.style.width = `${Math.min(width + 30, 180)}px`;
-    wave.style.height = `${Math.min(height + 30, 180)}px`;
-    animate(wave, [
-      {transform:'translate(-50%, -50%) scale(.25)', opacity:.9},
-      {transform:'translate(-50%, -50%) scale(1.25)', opacity:0}
-    ], {duration:420, easing:'ease-out'});
-    const count = 10 + intensity*2;
+    for (let ring = 0; ring < (intensity === 4 ? 2 : 1); ring++) {
+      const wave = make('match-light-wave');
+      wave.style.width = `${Math.min(width + 36, 200)}px`;
+      wave.style.height = `${Math.min(height + 36, 200)}px`;
+      animate(wave, [
+        {transform:'translate(-50%, -50%) scale(.25)', opacity:.9},
+        {transform:'translate(-50%, -50%) scale(1.35)', opacity:0}
+      ], {duration:420, delay:ring*70, fill:'both', easing:'ease-out'});
+    }
+    const count = 12 + intensity*3;
     for (let i = 0; i < count; i++) {
       const angle = i * Math.PI * 2 / count;
       const spark = make('match-light-star', x + Math.cos(angle)*width*.3, y + Math.sin(angle)*height*.3);
@@ -82,7 +84,7 @@
     }, reducedMotion.matches ? 0 : 440);
     if (reducedMotion.matches) return;
     const tiles = detail.indices.map(index => board.querySelector(`[data-index="${index}"]`)).filter(Boolean);
-    const intensity = detail.power ? 3 : Math.min(3, Math.max(1, Number(detail.chain) || 1));
+    const intensity = detail.power ? 4 : Math.min(3, Math.max(1, Number(detail.chain) || 1));
     lightBurst(tiles, intensity);
     tiles.slice(0, 16).forEach((tile, i) => {
       if (layer.childElementCount >= 60) return;

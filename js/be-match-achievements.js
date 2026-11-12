@@ -55,7 +55,7 @@
     layer.append(halo);
     const haloAnimation = halo.animate([
       {transform:'translate(-50%, -50%) scale(.3)', opacity:.85},
-      {transform:`translate(-50%, -50%) scale(${milestone ? 2 : 1.4})`, opacity:0}
+      {transform:`translate(-50%, -50%) scale(${milestone ? 2.4 : 1.65})`, opacity:0}
     ], {duration:550, easing:'ease-out'});
     haloAnimation.onfinish = () => halo.remove();
     setTimeout(() => halo.remove(), 900);
@@ -65,7 +65,7 @@
       {transform:'translate(-50%,-100%) scale(1.06)', offset:.45},
       {transform:'translate(-50%,-100%) scale(1)'}
     ], {duration:280, easing:'ease-out'});
-    for (let i = 0; i < (milestone ? 32 : 12 + tier*4); i++) {
+    for (let i = 0; i < (milestone ? 40 : 14 + tier*5); i++) {
       const spark = document.createElement('i');
       spark.className = milestone ? 'achievement-confetti' : 'achievement-spark';
       spark.style.left = `${x}px`; spark.style.top = `${y}px`;
@@ -73,12 +73,12 @@
       layer.append(spark);
       const angle = i * 2.39996;
       const dx = Math.cos(angle) * Math.min(rect.width*.46, 70+tier*22);
-      const dy = Math.sin(angle) * 90;
+      const dy = Math.sin(angle) * (milestone ? 115 : 95);
       const animation = spark.animate([
         {transform:'translate(-50%, -50%) scale(.2)', opacity:0},
         {transform:`translate(${dx*.6}px, ${dy-25}px) scale(1) rotate(90deg)`, opacity:1, offset:.35},
         {transform:`translate(${dx}px, ${dy+65}px) scale(.3) rotate(230deg)`, opacity:0}
-      ], {duration:milestone ? 700 : 480, delay:i*6, fill:'both', easing:'ease-out'});
+      ], {duration:milestone ? 700 : 480, delay:i*5, fill:'both', easing:'ease-out'});
       animation.onfinish = () => spark.remove();
       animation.oncancel = () => spark.remove();
       setTimeout(() => spark.remove(), 1000);
