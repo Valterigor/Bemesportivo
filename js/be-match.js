@@ -254,10 +254,12 @@
   async function clearCells(affected, points, chain, power = false, bonus = null) {
     const indexes = [...affected];
     const collect = collectGoal();
-    if (collect) state.collected[collect.type] = collectedForGoal() + indexes.filter(index => state.grid[index] === collect.type).length;
+    const captured = indexes.filter(index => state.grid[index] === 'watch').length;
+    const collected = collect ? indexes.filter(index => state.grid[index] === collect.type).length : 0;
+    if (collect) state.collected[collect.type] = collectedForGoal() + collected;
     indexes.forEach(index => boardEl.querySelector(`[data-index="${index}"]`)?.classList.add(power ? 'power-hit' : 'matching'));
     state.score += points;
-    boardEl.dispatchEvent(new CustomEvent('be-match:points', { detail: { indices: indexes, points, total: state.score, chain, power, bonus } }));
+    boardEl.dispatchEvent(new CustomEvent('be-match:points', { detail: { indices: indexes, points, total: state.score, chain, power, bonus, captured, collected } }));
     await wait(power ? 380 : 250);
     indexes.forEach(index => { state.grid[index] = null; state.specialKinds.delete(index); });
     collapseAndFill();
@@ -324,6 +326,7 @@
       attempts += 1;
     } while ((!hasValidMove() || !hasProductiveMove() || findMatchInfo().base.size) && attempts < 250);
     messageEl.textContent = 'Sem jogadas disponíveis. Reorganizando sem gastar movimento.';
+    boardEl.dispatchEvent(new CustomEvent('be-match:shuffle'));
     render();
     boardEl.classList.add('is-shuffling');
     setTimeout(() => boardEl.classList.remove('is-shuffling'), 450);
@@ -337,6 +340,7 @@
     else if (state.moves <= 5) {
       const remaining = Math.max(0, missionTarget() - state.juiceDestroyed);
       messageEl.textContent = `Reta final: ${state.moves} movimentos para capturar ${remaining} relógio${remaining === 1 ? '' : 's'}.`;
+      boardEl.dispatchEvent(new CustomEvent('be-match:low-moves', { detail: { moves: state.moves } }));
     }
   }
 
@@ -344,6 +348,7 @@
     if (state.locked || state.moves <= 0 || !adjacent(a, b)) return;
     if (state.grid[a] === 'watch' || state.grid[b] === 'watch') {
       messageEl.textContent = 'Os relógios são alvos fixos. Faça combinações ao lado deles para capturá-los.';
+      boardEl.dispatchEvent(new CustomEvent('be-match:invalid', { detail: { reason: 'fixed-target' } }));
       return;
     }
     const firstPower = state.specialKinds.get(a);
@@ -361,6 +366,7 @@
       render();
       [a, b].forEach(index => boardEl.querySelector(`[data-index="${index}"]`)?.classList.add('invalid-swap'));
       messageEl.textContent = 'Essa troca não forma combinação. Tente aproximar três peças iguais.';
+      boardEl.dispatchEvent(new CustomEvent('be-match:invalid', { detail: { reason: 'no-match' } }));
       return;
     }
     state.moves -= 1;
@@ -472,6 +478,7 @@
     const missing = `${remaining} relógio${remaining === 1 ? '' : 's'}${collect && collectRemaining ? ` e ${collectRemaining} ${collect.label}` : ''}`;
     document.querySelector('#loss-copy').textContent = state.lives > 0 ? `Faltaram ${missing}. Combine ao lado dos alvos e use os Poderes BE para alcançar mais de um por vez.` : 'Suas vidas acabaram por agora. Elas serão recuperadas com o tempo.';
     lossSheet.hidden = false;
+    window.dispatchEvent(new CustomEvent('be-match-loss', { detail: { lives: state.lives } }));
     render();
   }
 
@@ -489,7 +496,6 @@
   });
   document.querySelector('#close-loss').addEventListener('click', () => { lossSheet.hidden = true; });
   document.querySelector('#close-sheet').addEventListener('click', () => { sheet.hidden = true; });
-  document.querySelector('#sound-toggle').addEventListener('click', event => { event.currentTarget.textContent = event.currentTarget.textContent === 'Som' ? 'Som: off' : 'Som'; });
 
   if (['localhost', '127.0.0.1'].includes(location.hostname)) {
     window.__beMatchDebug = {

@@ -1,1 +1,178 @@
-(() => { const board=document.querySelector('#board'),toggle=document.querySelector('#sound-toggle');if(!board)return;let audio=null,enabled=localStorage.getItem('be-match-sound')!=='off';const ctx=()=>audio||(audio=new (window.AudioContext||window.webkitAudioContext)());const tone=(frequency,duration=.08,type='sine',gain=.035)=>{if(!enabled)return;const ac=ctx(),osc=ac.createOscillator(),amp=ac.createGain();osc.type=type;osc.frequency.value=frequency;amp.gain.setValueAtTime(gain,ac.currentTime);amp.gain.exponentialRampToValueAtTime(.001,ac.currentTime+duration);osc.connect(amp).connect(ac.destination);osc.start();osc.stop(ac.currentTime+duration)};const combo=()=>{tone(520,.07,'triangle');setTimeout(()=>tone(680,.09,'triangle'),45)};const power=()=>{tone(260,.1,'sawtooth',.045);setTimeout(()=>tone(520,.18,'sine',.05),80);setTimeout(()=>tone(880,.22,'sine',.04),160)};const win=()=>[660,780,980].forEach((f,i)=>setTimeout(()=>tone(f,.13,'triangle',.045),i*90));const sync=()=>{if(toggle)toggle.textContent=enabled?'Som':'Som: off'};toggle?.addEventListener('click',()=>{enabled=!enabled;localStorage.setItem('be-match-sound',enabled?'on':'off');sync();if(enabled)tone(620)});sync();let last=0;new MutationObserver(records=>{const now=Date.now();if(now-last<90)return;let matched=false,special=false;records.forEach(record=>{if(record.target instanceof HTMLElement&&(record.target.classList.contains('matching')||record.target.classList.contains('power-hit')))matched=true;if(record.target instanceof HTMLElement&&record.target.dataset.special==='true')special=true});if(special){power();last=now}else if(matched){combo();last=now}}).observe(board,{subtree:true,attributes:true,attributeFilter:['class','data-special']});document.addEventListener('click',()=>{if(audio?.state==='suspended')audio.resume()},{once:true});window.addEventListener('be-match-win',win);})();
+(() => {
+  const board = document.querySelector('#board');
+  const toggle = document.querySelector('#sound-toggle');
+  if (!board || !toggle) return;
+
+  let audio = null;
+  let master = null;
+  let enabled = localStorage.getItem('be-match-sound') !== 'off';
+  const history = [];
+  const record = name => { history.push(name); if (history.length > 24) history.shift(); };
+
+  const context = () => {
+    if (audio) return audio;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return null;
+    audio = new AudioContext();
+    const compressor = audio.createDynamicsCompressor();
+    compressor.threshold.value = -18;
+    compressor.knee.value = 14;
+    compressor.ratio.value = 7;
+    compressor.attack.value = .004;
+    compressor.release.value = .16;
+    master = audio.createGain();
+    master.gain.value = .72;
+    master.connect(compressor).connect(audio.destination);
+    return audio;
+  };
+
+  const resume = () => {
+    const ac = context();
+    if (enabled && ac?.state === 'suspended') ac.resume();
+    return ac;
+  };
+
+  const tone = (frequency, duration = .1, options = {}) => {
+    if (!enabled) return;
+    const ac = resume();
+    if (!ac || !master) return;
+    const now = ac.currentTime + (options.delay || 0);
+    const oscillator = ac.createOscillator();
+    const gain = ac.createGain();
+    oscillator.type = options.type || 'sine';
+    oscillator.frequency.setValueAtTime(frequency, now);
+    if (options.to) oscillator.frequency.exponentialRampToValueAtTime(options.to, now + duration);
+    if (options.detune) oscillator.detune.value = options.detune;
+    gain.gain.setValueAtTime(.0001, now);
+    gain.gain.exponentialRampToValueAtTime(options.gain || .035, now + Math.min(.018, duration / 4));
+    gain.gain.exponentialRampToValueAtTime(.0001, now + duration);
+    oscillator.connect(gain).connect(master);
+    oscillator.start(now);
+    oscillator.stop(now + duration + .02);
+  };
+
+  const noise = (duration = .12, options = {}) => {
+    if (!enabled) return;
+    const ac = resume();
+    if (!ac || !master) return;
+    const now = ac.currentTime + (options.delay || 0);
+    const buffer = ac.createBuffer(1, Math.ceil(ac.sampleRate * duration), ac.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i += 1) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+    const source = ac.createBufferSource();
+    const filter = ac.createBiquadFilter();
+    const gain = ac.createGain();
+    source.buffer = buffer;
+    filter.type = options.filter || 'bandpass';
+    filter.frequency.value = options.frequency || 1100;
+    filter.Q.value = options.q || .7;
+    gain.gain.setValueAtTime(options.gain || .018, now);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + duration);
+    source.connect(filter).connect(gain).connect(master);
+    source.start(now);
+  };
+
+  const matchSound = (chain = 1, size = 3) => {
+    record(`match-${chain}`);
+    const scale = [392, 440, 523.25, 587.33, 659.25, 783.99];
+    const root = scale[Math.min(scale.length - 1, Math.max(0, chain - 1))];
+    tone(root, .075, { type: 'triangle', gain: .026 });
+    tone(root * 1.5, .11, { type: 'sine', gain: .022, delay: .035 });
+    if (size >= 5) tone(root * 2, .15, { type: 'sine', gain: .018, delay: .07 });
+  };
+
+  const targetSound = count => {
+    record('target');
+    const repeats = Math.min(3, Math.max(1, count));
+    for (let i = 0; i < repeats; i += 1) {
+      tone(880 + i * 120, .14, { type: 'sine', gain: .025, delay: .07 + i * .055 });
+      tone(1760 + i * 120, .09, { type: 'triangle', gain: .012, delay: .085 + i * .055 });
+    }
+  };
+
+  const bonusSound = kind => {
+    record(`bonus-${kind}`);
+    if (kind === 'row' || kind === 'column') {
+      tone(360, .24, { type: 'sawtooth', gain: .018, to: 1280 });
+      tone(720, .2, { type: 'sine', gain: .022, to: 1440, delay: .025 });
+    } else if (kind === 'burst') {
+      tone(150, .28, { type: 'sine', gain: .05, to: 55 });
+      noise(.22, { filter: 'lowpass', frequency: 950, gain: .032 });
+      tone(740, .16, { type: 'triangle', gain: .025, delay: .09 });
+    } else if (kind === 'cross') {
+      [523.25, 659.25, 783.99, 1046.5].forEach((note, index) => tone(note, .25, { type: 'sine', gain: .023, delay: index * .045 }));
+    }
+  };
+
+  const powerSound = () => {
+    record('power');
+    noise(.3, { filter: 'bandpass', frequency: 720, gain: .032 });
+    tone(110, .34, { type: 'sawtooth', gain: .035, to: 55 });
+    [392, 523.25, 659.25, 987.77].forEach((note, index) => tone(note, .3, { type: index < 2 ? 'triangle' : 'sine', gain: .026, delay: .045 + index * .055 }));
+  };
+
+  const invalidSound = () => {
+    record('invalid');
+    tone(190, .11, { type: 'square', gain: .018, to: 145 });
+    tone(145, .1, { type: 'triangle', gain: .016, delay: .08 });
+  };
+
+  const shuffleSound = () => {
+    record('shuffle');
+    noise(.26, { filter: 'highpass', frequency: 650, gain: .018 });
+    [294, 370, 440].forEach((note, index) => tone(note, .11, { type: 'triangle', gain: .018, delay: index * .07 }));
+  };
+
+  const lowMovesSound = moves => {
+    record(`low-${moves}`);
+    const frequency = moves <= 2 ? 330 : 440;
+    tone(frequency, .07, { type: 'square', gain: .015 });
+    tone(frequency, .07, { type: 'square', gain: .012, delay: .1 });
+  };
+
+  const winSound = stars => {
+    record('win');
+    const notes = stars === 3 ? [523.25, 659.25, 783.99, 1046.5] : [523.25, 659.25, 783.99];
+    notes.forEach((note, index) => tone(note, .28, { type: 'triangle', gain: .032, delay: index * .095 }));
+    tone(261.63, .55, { type: 'sine', gain: .022, delay: .08 });
+  };
+
+  const lossSound = () => {
+    record('loss');
+    [392, 330, 262].forEach((note, index) => tone(note, .24, { type: 'triangle', gain: .024, delay: index * .13 }));
+  };
+
+  board.addEventListener('be-match:points', ({ detail }) => {
+    if (detail.power) powerSound();
+    else matchSound(detail.chain, detail.indices?.length || 3);
+    if (detail.bonus) setTimeout(() => bonusSound(detail.bonus), 65);
+    if (detail.captured || detail.collected) setTimeout(() => targetSound((detail.captured || 0) + (detail.collected || 0)), 90);
+  });
+  board.addEventListener('be-match:invalid', invalidSound);
+  board.addEventListener('be-match:shuffle', shuffleSound);
+  board.addEventListener('be-match:low-moves', event => lowMovesSound(event.detail.moves));
+  window.addEventListener('be-match-win', event => winSound(event.detail.stars));
+  window.addEventListener('be-match-loss', lossSound);
+
+  const syncToggle = () => {
+    toggle.textContent = enabled ? 'Som: ligado' : 'Som: desligado';
+    toggle.setAttribute('aria-pressed', String(enabled));
+    toggle.setAttribute('aria-label', enabled ? 'Desativar sons e música' : 'Ativar sons e música');
+  };
+  toggle.addEventListener('click', () => {
+    enabled = !enabled;
+    localStorage.setItem('be-match-sound', enabled ? 'on' : 'off');
+    syncToggle();
+    if (enabled) {
+      resume();
+      tone(660, .09, { type: 'triangle', gain: .02 });
+      tone(880, .12, { type: 'sine', gain: .018, delay: .06 });
+    }
+  });
+  ['pointerdown', 'touchstart', 'keydown'].forEach(eventName => window.addEventListener(eventName, resume, { once: true, passive: true }));
+  syncToggle();
+
+  if (['localhost', '127.0.0.1'].includes(location.hostname)) {
+    window.__beMatchSoundDebug = { history, isEnabled: () => enabled };
+  }
+})();
