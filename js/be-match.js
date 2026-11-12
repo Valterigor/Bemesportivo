@@ -483,6 +483,14 @@
   }
 
   document.querySelector('#restart').addEventListener('click', () => resetPhase());
+  window.addEventListener('be-match:select-level', event => {
+    const level = Math.max(1, Math.min(8, Number(event.detail?.level) || 1));
+    if (level > Number(savedProgress.unlockedLevel || 1)) return;
+    state.level = level;
+    sheet.hidden = true;
+    lossSheet.hidden = true;
+    resetPhase(false);
+  });
   document.querySelector('#next-level').addEventListener('click', () => {
     state.level = Math.min(8, state.level + 1);
     savedProgress.unlockedLevel = Math.max(savedProgress.unlockedLevel || 1, state.level);

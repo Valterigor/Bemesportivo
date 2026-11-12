@@ -10,9 +10,10 @@
   let mode = 'menu';
   let step = 0;
   const enabled = () => localStorage.getItem('be-match-sound') !== 'off';
-  const normalVolume = () => mode === 'menu' ? .014 : .018;
+  const normalVolume = () => mode === 'game' ? .018 : mode === 'tactical' ? .016 : .014;
   const melodies = {
     menu: [261.63, 329.63, 392, 523.25, 392, 329.63, 293.66, 349.23],
+    tactical: [220, 293.66, 349.23, 440, 349.23, 293.66, 261.63, 329.63],
     game: [220, 261.63, 329.63, 392, 329.63, 261.63, 293.66, 349.23]
   };
 
@@ -22,14 +23,14 @@
     const now = audio.currentTime;
     const oscillator = audio.createOscillator();
     const gain = audio.createGain();
-    oscillator.type = mode === 'menu' ? 'sine' : 'triangle';
+    oscillator.type = mode === 'game' ? 'triangle' : 'sine';
     oscillator.frequency.value = notes[step++ % notes.length];
     gain.gain.setValueAtTime(.001, now);
-    gain.gain.linearRampToValueAtTime(mode === 'menu' ? .12 : .16, now + .06);
-    gain.gain.exponentialRampToValueAtTime(.001, now + (mode === 'menu' ? .65 : .48));
+    gain.gain.linearRampToValueAtTime(mode === 'game' ? .16 : .12, now + .06);
+    gain.gain.exponentialRampToValueAtTime(.001, now + (mode === 'game' ? .48 : .65));
     oscillator.connect(gain).connect(master);
     oscillator.start(now);
-    oscillator.stop(now + (mode === 'menu' ? .72 : .54));
+    oscillator.stop(now + (mode === 'game' ? .54 : .72));
     if (step % 4 === 1) {
       const bass = audio.createOscillator();
       const bassGain = audio.createGain();
@@ -42,7 +43,7 @@
       bass.start(now);
       bass.stop(now + .82);
     }
-    timer = setTimeout(playBeat, mode === 'menu' ? 720 : 520);
+    timer = setTimeout(playBeat, mode === 'game' ? 520 : mode === 'tactical' ? 620 : 720);
   };
 
   const start = requestedMode => {
@@ -96,7 +97,10 @@
 
   const sync = () => { if (enabled()) start(mode); else stop(); };
   startSoundButton?.addEventListener('click', () => start('menu'));
-  playButton?.addEventListener('click', () => changeMode('game'));
+  playButton?.addEventListener('click', () => changeMode('tactical'));
   toggle?.addEventListener('click', () => setTimeout(sync, 20));
   window.addEventListener('be-match:audio-focus', duck);
+  window.addEventListener('be-match:tactical-open', () => changeMode('tactical'));
+  window.addEventListener('be-match:enter-game', () => changeMode('game'));
+  window.addEventListener('be-match:return-menu', () => changeMode('menu'));
 })();

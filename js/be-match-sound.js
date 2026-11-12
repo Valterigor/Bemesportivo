@@ -215,6 +215,13 @@
     [440, 587.33, 739.99, 987.77].forEach((note, index) => tone(note, .25, { type: index < 2 ? 'triangle' : 'sine', gain: .032, delay: index * .065, release: .22 }));
   };
 
+  const fieldEntrySound = () => {
+    record('field-entry');
+    focus(760, .16);
+    tone(980, .16, { type: 'sine', gain: .03, to: 1320, release: .2 });
+    [392, 523.25, 659.25, 987.77].forEach((note, index) => tone(note, .28, { type: 'triangle', gain: .033, delay: .12 + index * .055, release: .2 }));
+  };
+
   board.addEventListener('be-match:points', ({ detail }) => {
     if (detail.power) powerSound();
     else matchSound(detail.chain, detail.indices?.length || 3);
@@ -259,6 +266,7 @@
     startSoundButton.setAttribute('aria-pressed', 'true');
   });
   playButton?.addEventListener('click', playSound);
+  window.addEventListener('be-match:enter-game', fieldEntrySound);
   ['pointerdown', 'touchstart', 'keydown'].forEach(eventName => window.addEventListener(eventName, resume, { once: true, passive: true }));
   syncToggle();
 
