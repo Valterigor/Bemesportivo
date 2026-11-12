@@ -10,7 +10,7 @@
   let mode = 'menu';
   let step = 0;
   const enabled = () => localStorage.getItem('be-match-sound') !== 'off';
-  const normalVolume = () => mode === 'game' ? .018 : mode === 'tactical' ? .016 : .014;
+  const normalVolume = () => mode === 'game' ? .12 : mode === 'tactical' ? .105 : .09;
   const melodies = {
     menu: [261.63, 329.63, 392, 523.25, 392, 329.63, 293.66, 349.23],
     tactical: [220, 293.66, 349.23, 440, 349.23, 293.66, 261.63, 329.63],
@@ -46,13 +46,15 @@
     timer = setTimeout(playBeat, mode === 'game' ? 520 : mode === 'tactical' ? 620 : 720);
   };
 
-  const start = requestedMode => {
+  const start = async requestedMode => {
     if (!enabled()) return;
     if (requestedMode) mode = requestedMode;
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (!AudioContext) return;
     audio = audio || new AudioContext();
-    if (audio.state === 'suspended') audio.resume();
+    if (audio.state === 'suspended') {
+      try { await audio.resume(); } catch { return; }
+    }
     master = master || audio.createGain();
     if (!master.__connected) { master.connect(audio.destination); master.__connected = true; }
     master.gain.cancelScheduledValues(audio.currentTime);
@@ -103,4 +105,7 @@
   window.addEventListener('be-match:tactical-open', () => changeMode('tactical'));
   window.addEventListener('be-match:enter-game', () => changeMode('game'));
   window.addEventListener('be-match:return-menu', () => changeMode('menu'));
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && playing && enabled()) start(mode);
+  });
 })();
