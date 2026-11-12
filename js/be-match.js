@@ -38,7 +38,8 @@
     juiceDestroyed: 0, specialKinds: new Map(), locked: false
   };
   const key = (x, y) => y * size + x;
-  const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+  let animationScale = 1;
+  const wait = ms => new Promise(resolve => setTimeout(resolve, ms * animationScale));
   const randomType = () => regularTypes[Math.floor(Math.random() * regularTypes.length)];
   const movesForLevel = () => window.BeMatchRules.levelConfig(state.level).moves;
   const missionTarget = () => window.BeMatchRules.levelConfig(state.level).target;
@@ -107,6 +108,25 @@
     return false;
   }
 
+  function productiveMoves() {
+    const moves = [];
+    for (let index = 0; index < state.grid.length; index += 1) {
+      for (const next of [index + 1, index + size]) {
+        if (next >= state.grid.length || !adjacent(index, next)) continue;
+        if (state.grid[index] === 'watch' || state.grid[next] === 'watch') continue;
+        [state.grid[index], state.grid[next]] = [state.grid[next], state.grid[index]];
+        const info = findMatchInfo();
+        const captures = [...info.affected].filter(cell => state.grid[cell] === 'watch').length;
+        const createsPower = Boolean(window.BeMatchRules.powerForGroups(info.groups));
+        [state.grid[index], state.grid[next]] = [state.grid[next], state.grid[index]];
+        if (info.base.size) moves.push({ from: index, to: next, captures, createsPower, matched: info.base.size });
+      }
+    }
+    return moves.sort((a, b) => b.captures - a.captures || Number(b.createsPower) - Number(a.createsPower) || b.matched - a.matched);
+  }
+
+  const hasProductiveMove = () => state.specialKinds.size > 0 || productiveMoves().some(move => move.captures > 0 || move.createsPower);
+
   function createGrid() {
     state.specialKinds.clear();
     let attempts = 0;
@@ -115,7 +135,7 @@
       Array.from({ length: size * size }, (_, index) => index).sort(() => Math.random() - .5)
         .slice(0, Math.min(missionTarget(), size * size - 1)).forEach(index => { state.grid[index] = 'watch'; });
       attempts += 1;
-    } while ((findMatchInfo().base.size || !hasValidMove()) && attempts < 300);
+    } while ((findMatchInfo().base.size || !hasValidMove() || !hasProductiveMove()) && attempts < 500);
   }
 
   function renderMap() {
@@ -161,6 +181,7 @@
     remainingClocksEl.textContent = remaining;
     progressEl.style.width = `${Math.min(100, state.juiceDestroyed / target * 100)}%`;
     goalEl.textContent = `Restam ${remaining} relógios · ${state.juiceDestroyed}/${target}`;
+    boardEl.classList.toggle('is-low-moves', state.moves <= 5 && !missionComplete());
     renderMap();
   }
 
@@ -277,7 +298,7 @@
       values.sort(() => Math.random() - .5);
       movable.forEach((item, position) => { state.grid[item.index] = values[position]; });
       attempts += 1;
-    } while ((!hasValidMove() || findMatchInfo().base.size) && attempts < 150);
+    } while ((!hasValidMove() || !hasProductiveMove() || findMatchInfo().base.size) && attempts < 250);
     messageEl.textContent = 'Sem jogadas disponíveis. Reorganizando sem gastar movimento.';
     render();
     boardEl.classList.add('is-shuffling');
@@ -289,6 +310,10 @@
     if (missionComplete()) complete();
     else if (state.moves <= 0) endLife();
     else if (!hasValidMove()) shuffleBoard();
+    else if (state.moves <= 5) {
+      const remaining = Math.max(0, missionTarget() - state.juiceDestroyed);
+      messageEl.textContent = `Reta final: ${state.moves} movimentos para capturar ${remaining} relógio${remaining === 1 ? '' : 's'}.`;
+    }
   }
 
   async function swap(a, b) {
@@ -400,7 +425,7 @@
     document.querySelector('#result-combos').textContent = `×${Math.max(1, state.bestChain)}`;
     document.querySelector('#result-moves').textContent = state.movesUsed;
     document.querySelector('#result-stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
-    document.querySelector('#result-copy').textContent = `Missão concluída: ${state.juiceDestroyed}/${missionTarget()} relógios capturados. ${efficient ? 'Excelente eficiência!' : 'Boa estratégia. Continue evoluindo no seu tempo.'}`;
+    document.querySelector('#result-copy').textContent = `Missão concluída: ${state.juiceDestroyed}/${missionTarget()} relógios capturados com ${state.moves} movimento${state.moves === 1 ? '' : 's'} restante${state.moves === 1 ? '' : 's'}. ${efficient ? 'Excelente eficiência!' : 'Boa estratégia. Continue evoluindo no seu tempo.'}`;
     document.querySelector('#next-level').textContent = state.level === 8 ? 'Jogar novamente' : 'Próxima fase →';
     sheet.hidden = false;
   }
@@ -412,7 +437,8 @@
     state.moves = 0;
     document.querySelector('#loss-clocks').textContent = `${state.juiceDestroyed}/${missionTarget()}`;
     document.querySelector('#loss-lives').textContent = state.lives;
-    document.querySelector('#loss-copy').textContent = state.lives > 0 ? 'Os movimentos acabaram. Ajuste a estratégia e tente novamente.' : 'Suas vidas acabaram por agora. Elas serão recuperadas com o tempo.';
+    const remaining = Math.max(0, missionTarget() - state.juiceDestroyed);
+    document.querySelector('#loss-copy').textContent = state.lives > 0 ? `Faltaram ${remaining} relógio${remaining === 1 ? '' : 's'}. Combine ao lado dos alvos e use os Poderes BE para alcançar mais de um por vez.` : 'Suas vidas acabaram por agora. Elas serão recuperadas com o tempo.';
     lossSheet.hidden = false;
     render();
   }
@@ -448,6 +474,15 @@
         render();
       },
       snapshot: () => ({ ...state, grid: [...state.grid], specials: [...state.specialKinds.entries()] }),
+      listMoves: productiveMoves,
+      setAnimationScale(value) { animationScale = Math.max(0, Number(value) || 0); },
+      resetLevel(level) {
+        state.level = Math.max(1, Math.min(8, Number(level) || 1));
+        state.lives = 5;
+        sheet.hidden = true;
+        lossSheet.hidden = true;
+        resetPhase(false);
+      },
       swap,
       activatePower
     };

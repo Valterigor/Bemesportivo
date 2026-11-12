@@ -1,10 +1,10 @@
 (() => {
   const size = 8;
   const levels = [
-    { moves: 24, target: 6 }, { moves: 26, target: 9 },
-    { moves: 28, target: 12 }, { moves: 30, target: 15 },
-    { moves: 32, target: 18 }, { moves: 34, target: 21 },
-    { moves: 36, target: 24 }, { moves: 38, target: 27 }
+    { moves: 24, target: 6 }, { moves: 25, target: 7 },
+    { moves: 26, target: 8 }, { moves: 28, target: 10 },
+    { moves: 29, target: 11 }, { moves: 30, target: 12 },
+    { moves: 32, target: 14 }, { moves: 34, target: 16 }
   ];
   const levelConfig = level => levels[Math.max(0, Math.min(levels.length - 1, level - 1))];
 
