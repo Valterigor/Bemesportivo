@@ -1,1 +1,13 @@
-(() => { const sync=()=>{const sheet=document.querySelector('#start-sheet');if(sheet?.hidden)document.body.classList.add('game-playing');else document.body.classList.remove('game-playing')};sync();setInterval(sync,250);})();
+(() => {
+  const start = document.querySelector('#start-sheet');
+  const tactical = document.querySelector('#tactical-sheet');
+  const sync = () => {
+    const isPlaying = Boolean(start?.hidden && tactical?.hidden);
+    document.body.classList.toggle('game-playing', isPlaying);
+  };
+  sync();
+  setInterval(sync, 250);
+  window.addEventListener('be-match:enter-game', sync);
+  window.addEventListener('be-match:tactical-open', sync);
+  window.addEventListener('be-match:return-menu', sync);
+})();

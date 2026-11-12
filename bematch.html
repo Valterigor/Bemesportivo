@@ -39,6 +39,7 @@
   <link rel="stylesheet" href="/css/be-match-mission-hud.css?v=20261112-2">
   <link rel="stylesheet" href="/css/be-match-audio-ui.css?v=20261112-1">
   <link rel="stylesheet" href="/css/be-match-tactical-map.css?v=20261112-3">
+  <link rel="stylesheet" href="/css/be-match-game-nav.css?v=20261112-1">
 </head>
 <body>
   <main class="match-app">
@@ -47,7 +48,7 @@
     <section class="game-guide" aria-label="Como jogar"><div class="guide-icon">↔</div><div><p class="kicker">COMO JOGAR</p><h2>Capture os relógios da missão</h2><p>Deslize para combinar <strong>3 ou mais peças</strong>. Relógios ao lado da combinação são capturados.</p><small>4 peças criam um raio; formatos T ou L criam uma explosão; 5 peças criam o Poder BE cruzado. Toque no poder para ativar.</small></div></section>
     <section class="phase-map" aria-label="Mapa de fases"><div><p class="kicker">SUA JORNADA</p><h2>Mapa BE</h2><p id="map-status">Complete uma missão para desbloquear a próxima fase.</p></div><div id="phase-nodes" class="phase-nodes"></div></section>
     <section class="game-panel" aria-label="Partida BE Match">
-      <p id="scene-name" class="scene-name" aria-live="polite"></p>
+      <div class="game-heading"><button id="game-back" class="game-back-button" type="button" aria-label="Voltar ao mapa de fases" title="Voltar ao mapa"><span aria-hidden="true">←</span></button><p id="scene-name" class="scene-name" aria-live="polite"></p><span class="game-heading-spacer" aria-hidden="true"></span></div>
       <div class="game-top">
         <div class="hud-stat hud-phase"><span class="label">FASE</span><strong id="level">1</strong></div>
         <div class="hud-stat hud-score"><span class="label">PONTOS</span><strong id="score">0</strong></div>
@@ -80,7 +81,7 @@
   <script src="/js/be-match-overall.js?v=20261108-1" defer></script>
   <script src="/js/be-match-play-label.js?v=20261108-1" defer></script>
   <script src="/js/be-match-playing.js?v=20261112-1" defer></script>
-  <script src="/js/be-match-playing-watch.js?v=20261108-1" defer></script>
+  <script src="/js/be-match-playing-watch.js?v=20261112-1" defer></script>
   <script src="/js/be-match-sound.js?v=20261112-5" defer></script>
   <script src="/js/be-match-music.js?v=20261112-5" defer></script>
   <script src="/js/be-match-clock-display.js?v=20261111-2" defer></script>
@@ -94,6 +95,6 @@
   <script src="/js/be-match-score-flight.js?v=20261111-5" defer></script>
   <script src="/js/be-match-achievements.js?v=20261112-1" defer></script>
   <script src="/js/be-match-coach.js?v=20261111-1" defer></script>
-  <script src="/js/be-match-tactical-map.js?v=20261112-3" defer></script>
+  <script src="/js/be-match-tactical-map.js?v=20261112-4" defer></script>
 </body>
 </html>

@@ -3,6 +3,7 @@
   const startSheet = document.querySelector('#start-sheet');
   const openButton = document.querySelector('#continue-game');
   const backButton = document.querySelector('#tactical-back');
+  const gameBackButton = document.querySelector('#game-back');
   const nextButton = document.querySelector('#next-level');
   const nodesEl = document.querySelector('#tactical-nodes');
   if (!sheet || !nodesEl) return;
@@ -51,4 +52,5 @@
   openButton?.addEventListener('click', open);
   nextButton?.addEventListener('click', () => setTimeout(open, 0));
   backButton?.addEventListener('click', () => { close(); startSheet.hidden = false; document.body.classList.add('game-start-open'); window.dispatchEvent(new CustomEvent('be-match:return-menu')); });
+  gameBackButton?.addEventListener('click', () => { document.body.classList.remove('game-playing'); open(); });
 })();
