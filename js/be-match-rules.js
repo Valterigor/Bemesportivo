@@ -11,6 +11,11 @@
     { moves: 34, target: 16, collect: { type: 'shoe', target: 12, label: 'tênis' }, tutorial: 'Desafio final: use poderes e cascatas com estratégia.' }
   ];
   const levelConfig = level => levels[Math.max(0, Math.min(levels.length - 1, level - 1))];
+  const powerGuide = Object.freeze([
+    { trigger: '4 peças em linha', name: 'Raio', effect: 'limpa uma linha ou coluna inteira' },
+    { trigger: 'formato T ou L', name: 'Explosão', effect: 'limpa uma área 3×3' },
+    { trigger: '5 ou mais peças em linha', name: 'Poder BE cruzado', effect: 'limpa a linha e a coluna' }
+  ]);
 
   const powerForGroups = groups => {
     const regularGroups = groups.filter(group => group.length >= 3);
@@ -43,5 +48,5 @@
     return Math.round((count * 10 + matchBonus + powerBonus) * (1 + Math.max(0, chain - 1) * .5));
   };
 
-  window.BeMatchRules = { powerForGroups, affectedByPower, scoreForClear, levelConfig };
+  window.BeMatchRules = { powerForGroups, affectedByPower, scoreForClear, levelConfig, powerGuide };
 })();

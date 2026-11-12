@@ -18,6 +18,8 @@
   const livesEl = document.querySelector('#lives');
   const sheet = document.querySelector('#result-sheet');
   const lossSheet = document.querySelector('#loss-sheet');
+  const lossSummaryEl = document.querySelector('#loss-summary');
+  const retryButton = document.querySelector('#retry-level');
   const mapEl = document.querySelector('#phase-nodes');
   const mapStatus = document.querySelector('#map-status');
   const powerEl = document.querySelector('#power');
@@ -34,10 +36,11 @@
   let savedProgress;
   try { savedProgress = JSON.parse(localStorage.getItem('be-match-progress') || '{}'); } catch { savedProgress = {}; }
   savedProgress = { unlockedLevel: 1, completed: [], best: {}, stars: {}, ...savedProgress };
+  const storedLives = Number(localStorage.getItem('be-match-lives'));
   const state = {
     grid: [], score: 0, moves: 20, movesUsed: 0,
     level: Math.min(8, Math.max(1, Number(savedProgress.unlockedLevel || localStorage.getItem('be-match-level') || 1))),
-    lives: Math.max(0, Math.min(5, Number(localStorage.getItem('be-match-lives') || 5))),
+    lives: Number.isFinite(storedLives) ? Math.max(0, Math.min(5, storedLives)) : 5,
     combos: 0, bestChain: 0, power: Number(localStorage.getItem('be-match-power') || 0),
     juiceDestroyed: 0, collected: {}, specialKinds: new Map(), locked: false
   };
@@ -56,13 +59,17 @@
     const interval = 1800000;
     const now = Date.now();
     const last = Number(localStorage.getItem('be-match-life-timestamp') || now);
+    let changed = false;
     if (state.lives < 5 && now - last >= interval) {
       const recovered = Math.min(5 - state.lives, Math.floor((now - last) / interval));
       state.lives += recovered;
-      localStorage.setItem('be-match-life-timestamp', String(last + recovered * interval));
       localStorage.setItem('be-match-lives', String(state.lives));
+      changed = recovered > 0;
+      if (state.lives < 5) localStorage.setItem('be-match-life-timestamp', String(last + recovered * interval));
     }
     if (state.lives < 5 && !localStorage.getItem('be-match-life-timestamp')) localStorage.setItem('be-match-life-timestamp', String(now));
+    if (state.lives >= 5) localStorage.removeItem('be-match-life-timestamp');
+    return changed;
   }
 
   function findMatchInfo() {
@@ -185,6 +192,10 @@
     movesEl.textContent = state.moves;
     if (powerEl) powerEl.textContent = state.specialKinds.size;
     livesEl.textContent = '● '.repeat(Math.max(0, state.lives)).trim() || 'Sem vidas';
+    if (retryButton) {
+      retryButton.disabled = state.lives <= 0;
+      retryButton.textContent = state.lives > 0 ? 'Tentar novamente' : 'Aguarde a próxima vida';
+    }
     const target = missionTarget();
     const remaining = Math.max(0, target - state.juiceDestroyed);
     remainingClocksEl.textContent = remaining;
@@ -465,15 +476,34 @@
     window.dispatchEvent(new CustomEvent('be-match-win', { detail: { stars, level: state.level } }));
   }
 
+  function renderLossSummary() {
+    const collect = collectGoal();
+    const summary = [
+      { value: `${state.juiceDestroyed}/${missionTarget()}`, label: 'relógios capturados' },
+      ...(collect ? [{ value: `${Math.min(collectedForGoal(), collect.target)}/${collect.target}`, label: `${collect.label} na missão` }] : []),
+      { value: String(state.lives), label: 'vidas restantes' }
+    ];
+    if (lossSummaryEl) lossSummaryEl.replaceChildren(...summary.map((item, index) => {
+      const card = document.createElement('div');
+      const value = document.createElement('strong');
+      const label = document.createElement('small');
+      if (index === 0) value.id = 'loss-clocks';
+      if (index === summary.length - 1) value.id = 'loss-lives';
+      value.textContent = item.value;
+      label.textContent = item.label;
+      card.append(value, label);
+      return card;
+    }));
+  }
+
   function endLife() {
     state.lives = Math.max(0, state.lives - 1);
     localStorage.setItem('be-match-lives', String(state.lives));
-    localStorage.setItem('be-match-life-timestamp', String(Date.now()));
+    if (!localStorage.getItem('be-match-life-timestamp')) localStorage.setItem('be-match-life-timestamp', String(Date.now()));
     state.moves = 0;
-    document.querySelector('#loss-clocks').textContent = `${state.juiceDestroyed}/${missionTarget()}`;
-    document.querySelector('#loss-lives').textContent = state.lives;
-    const remaining = Math.max(0, missionTarget() - state.juiceDestroyed);
     const collect = collectGoal();
+    renderLossSummary();
+    const remaining = Math.max(0, missionTarget() - state.juiceDestroyed);
     const collectRemaining = collect ? Math.max(0, collect.target - collectedForGoal()) : 0;
     const missing = `${remaining} relógio${remaining === 1 ? '' : 's'}${collect && collectRemaining ? ` e ${collectRemaining} ${collect.label}` : ''}`;
     document.querySelector('#loss-copy').textContent = state.lives > 0 ? `Faltaram ${missing}. Combine ao lado dos alvos e use os Poderes BE para alcançar mais de um por vez.` : 'Suas vidas acabaram por agora. Elas serão recuperadas com o tempo.';
@@ -497,7 +527,7 @@
     localStorage.setItem('be-match-progress', JSON.stringify(savedProgress));
     resetPhase();
   });
-  document.querySelector('#retry-level').addEventListener('click', () => {
+  retryButton.addEventListener('click', () => {
     lossSheet.hidden = true;
     if (state.lives > 0) resetPhase(false);
     else messageEl.textContent = 'Suas vidas acabaram por agora. Volte quando uma vida for recuperada.';
@@ -537,5 +567,11 @@
 
   recoverLives();
   resetPhase(false);
-  setInterval(() => { recoverLives(); render(); }, 60000);
+  setInterval(() => {
+    if (recoverLives()) {
+      render();
+      if (!lossSheet.hidden) renderLossSummary();
+      window.dispatchEvent(new CustomEvent('be-match:life-recovered', { detail: { lives: state.lives } }));
+    }
+  }, 1000);
 })();
