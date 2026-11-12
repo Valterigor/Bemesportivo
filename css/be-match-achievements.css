@@ -1,0 +1,17 @@
+.match-score-goal{display:grid;gap:5px;margin:0 auto 12px;width:100%;max-width:460px;color:#fff;font-size:10px;font-weight:600;text-shadow:0 1px 3px #000}
+.match-score-meter{display:block;height:3px;background:#001c2b88;border-radius:8px;overflow:hidden}
+.match-score-meter i{display:block;height:100%;background:#ffe285;transition:width .2s ease}
+.match-achievement-layer{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden;contain:strict}
+.match-achievement-notice{position:fixed;z-index:4;pointer-events:none;transform:translate(-50%,-100%);width:max-content;max-width:calc(100vw - 40px);padding:9px 15px;border:1px solid #ffe697;border-radius:999px;background:#342440ed;color:#fff3b6;font:800 13px Rubik,system-ui,sans-serif;text-align:center;box-shadow:0 0 20px #ffd66a55;opacity:0;transition:opacity .12s}
+.match-achievement-notice.is-visible{opacity:1}
+.match-achievement-notice[data-tier="2"]{border-color:#eea9ff;box-shadow:0 0 22px #dd7aff77}
+.match-achievement-notice[data-tier="3"]{border-color:#fff1b6;background:#4c3042f5;box-shadow:0 0 26px #ffdf6e88}
+.achievement-spark,.achievement-confetti{position:absolute;width:7px;height:7px;pointer-events:none}
+.achievement-spark{clip-path:polygon(50% 0,65% 35%,100% 50%,65% 65%,50% 100%,35% 65%,0 50%,35% 35%)}
+.achievement-confetti{width:6px;height:11px;border-radius:2px}
+.achievement-halo{position:absolute;width:140px;height:55px;border:2px solid #ffeba7;border-radius:50%;box-shadow:0 0 16px #ffbc63,inset 0 0 12px #f4b5ff;pointer-events:none}
+.achievement-spark{width:12px;height:12px}
+.achievement-confetti{box-shadow:0 0 6px #ffe5a8}
+.match-achievement-notice[data-tier="3"]{box-shadow:0 0 12px #fff1b677,0 0 30px #ffbf6488;text-shadow:0 0 8px #ffd16a66}
+@media(max-width:620px){body[data-match-scene]:has(#start-sheet[hidden]) .board{width:min(100%,calc(100svh - 270px))}}
+@media(prefers-reduced-motion:reduce){.match-achievement-layer{display:none}.match-achievement-notice,.match-score-meter i{transition:none}}

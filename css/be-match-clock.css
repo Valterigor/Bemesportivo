@@ -1,1 +1,5 @@
 .tile-watch{background:linear-gradient(145deg,#ffe76b,#c59400)!important}
+.clock-counter{display:flex;align-items:center;gap:6px;margin-top:5px}
+.clock-counter-icon{display:block;flex:0 0 24px;width:24px;height:28px;color:#ffe76b}
+.game-top .clock-counter strong{margin-top:0}
+@media(max-width:620px){.clock-counter{gap:4px}.clock-counter-icon{flex-basis:20px;width:20px;height:24px}}

@@ -1,0 +1,16 @@
+.sheet-card > .phase-motivation {
+  margin: 16px 0;
+  padding: 12px 14px;
+  border-left: 3px solid #fa8a01;
+  border-radius: 0 10px 10px 0;
+  background: #fa8a0114;
+  color: #fff2dc;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+}
+#result-sheet .sheet-card, #loss-sheet .sheet-card {
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+}

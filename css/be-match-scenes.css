@@ -1,0 +1,75 @@
+/* One landscape per phase; opaque tiles preserve recognition and contrast. */
+body.game-playing[data-match-scene],
+body[data-match-scene]:has(#start-sheet[hidden]) {
+  background: var(--scene-surface) var(--scene-image) center / cover fixed no-repeat !important;
+}
+body.game-playing[data-match-scene]::after,
+body[data-match-scene]:has(#start-sheet[hidden])::after {
+  background: linear-gradient(180deg, #07152718, #07152755);
+}
+.scene-name {
+  margin: 0 0 12px;
+  text-align: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-shadow: 0 2px 5px #000;
+}
+body[data-match-scene] .board {
+  background: var(--scene-surface);
+  border: 2px solid var(--scene-accent);
+  box-shadow: 0 0 0 5px #ffffff18, 0 18px 48px #0006;
+}
+body[data-match-scene]:has(#start-sheet[hidden]) .game-top,
+body[data-match-scene]:has(#start-sheet[hidden]) .game-message {
+  background: var(--scene-surface);
+  border-color: var(--scene-accent);
+}
+body[data-match-scene] .progress-line span { background: var(--scene-accent); }
+.scene-panorama { display: none; }
+@media (max-width:620px) {
+  .scene-name { font-size: 12px; margin-bottom: 8px; }
+  /* A single play surface: scenery surrounds the board instead of a separate card. */
+  body[data-match-scene]:has(#start-sheet[hidden]) {
+    background-attachment: scroll !important;
+  }
+  body[data-match-scene]:has(#start-sheet[hidden]) .scene-panorama {
+    display: none;
+  }
+  body[data-match-scene]:has(#start-sheet[hidden]) .board {
+    flex: 0 0 auto;
+    width: min(100%, calc(100svh - 235px));
+    max-width: 460px;
+    margin: 0 auto;
+    background: color-mix(in srgb, var(--scene-surface) 85%, transparent);
+  }
+  body[data-match-scene]:has(#start-sheet[hidden]) .game-panel {
+    min-height: 100svh;
+    justify-content: center;
+    padding: max(18px, env(safe-area-inset-top)) 12px max(18px, env(safe-area-inset-bottom));
+  }
+  body[data-match-scene]:has(#start-sheet[hidden]) .match-app {
+    padding: 0 8px;
+  }
+  body[data-match-scene]:has(#start-sheet[hidden]) .progress-line {
+    flex: 0 0 5px;
+    margin: 12px 0 18px;
+  }
+  body[data-match-scene]:has(#start-sheet[hidden]) .game-message {
+    margin-top: 18px;
+    font-size: 11px;
+    line-height: 1.5;
+    border-radius: 14px;
+  }
+  body[data-match-scene]:has(#start-sheet[hidden]) .game-top {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 4px;
+    padding: 10px 8px;
+  }
+  body[data-match-scene]:has(#start-sheet[hidden]) .game-top .label {
+    font-size: 7px;
+    letter-spacing: 0;
+  }
+  body[data-match-scene]:has(#start-sheet[hidden]) .game-top strong { font-size: 18px; }
+}
