@@ -36,7 +36,8 @@
   let savedProgress;
   try { savedProgress = JSON.parse(localStorage.getItem('be-match-progress') || '{}'); } catch { savedProgress = {}; }
   savedProgress = { unlockedLevel: 1, completed: [], best: {}, stars: {}, ...savedProgress };
-  const storedLives = Number(localStorage.getItem('be-match-lives'));
+  const storedLivesValue = localStorage.getItem('be-match-lives');
+  const storedLives = storedLivesValue === null ? 5 : Number(storedLivesValue);
   const state = {
     grid: [], score: 0, moves: 20, movesUsed: 0,
     level: Math.min(8, Math.max(1, Number(savedProgress.unlockedLevel || localStorage.getItem('be-match-level') || 1))),
