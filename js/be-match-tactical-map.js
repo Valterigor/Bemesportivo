@@ -3,7 +3,6 @@
   const startSheet = document.querySelector('#start-sheet');
   const openButton = document.querySelector('#continue-game');
   const backButton = document.querySelector('#tactical-back');
-  const playButton = document.querySelector('#tactical-play');
   const nextButton = document.querySelector('#next-level');
   const nodesEl = document.querySelector('#tactical-nodes');
   if (!sheet || !nodesEl) return;
@@ -22,20 +21,25 @@
     document.querySelector('#tactical-stars').textContent = `${Number(progress.stars?.[selected] || 0)}/3`;
     document.querySelector('#tactical-status').textContent = done ? 'Concluída' : selected === Number(progress.unlockedLevel || 1) ? 'Atual' : 'Disponível';
     document.querySelector('#tactical-tip').textContent = config.tutorial;
-    playButton.textContent = `Entrar na fase ${selected} →`;
     nodesEl.querySelectorAll('.tactical-node').forEach(node => node.classList.toggle('is-selected', Number(node.dataset.level) === selected));
+  };
+  const enterLevel = level => {
+    selected = level;
+    window.dispatchEvent(new CustomEvent('be-match:select-level', { detail: { level } }));
+    close();
+    window.dispatchEvent(new CustomEvent('be-match:enter-game', { detail: { level } }));
   };
   const renderNodes = () => {
     const completed = new Set(progress.completed || []);
     nodesEl.replaceChildren(...positions.map(([x,y], index) => {
       const level = index + 1;
       const button = document.createElement('button');
-      const open = level <= Number(progress.unlockedLevel || 1);
+      const open = completed.has(level) || level === Number(progress.unlockedLevel || 1);
       button.type = 'button'; button.className = `tactical-node ${completed.has(level) ? 'is-done' : ''}`; button.dataset.level = level;
       button.style.left = `${x}%`; button.style.top = `${y}%`; button.disabled = !open;
       button.setAttribute('aria-label', open ? `Fase ${level}, ${scenes[index]}` : `Fase ${level} bloqueada`);
       button.innerHTML = `<strong>${completed.has(level) ? '✓' : level}</strong><small>${open ? `${Number(progress.stars?.[level] || 0)}★` : '🔒'}</small>`;
-      button.addEventListener('click', () => { selected = level; renderBriefing(); });
+      button.addEventListener('click', () => enterLevel(level));
       return button;
     }));
     renderBriefing();
@@ -45,5 +49,4 @@
   openButton?.addEventListener('click', open);
   nextButton?.addEventListener('click', () => setTimeout(open, 0));
   backButton?.addEventListener('click', () => { close(); startSheet.hidden = false; document.body.classList.add('game-start-open'); window.dispatchEvent(new CustomEvent('be-match:return-menu')); });
-  playButton?.addEventListener('click', () => { window.dispatchEvent(new CustomEvent('be-match:select-level', { detail: { level: selected } })); close(); window.dispatchEvent(new CustomEvent('be-match:enter-game', { detail: { level: selected } })); });
 })();

@@ -103,9 +103,12 @@
   toggle?.addEventListener('click', () => setTimeout(sync, 20));
   window.addEventListener('be-match:audio-focus', duck);
   window.addEventListener('be-match:tactical-open', () => changeMode('tactical'));
-  window.addEventListener('be-match:enter-game', () => changeMode('game'));
+  window.addEventListener('be-match:enter-game', stop);
   window.addEventListener('be-match:return-menu', () => changeMode('menu'));
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && playing && enabled()) start(mode);
   });
+  if (['localhost', '127.0.0.1'].includes(location.hostname)) {
+    window.__beMatchMusicDebug = { snapshot: () => ({ playing, mode, state: audio?.state || 'idle' }) };
+  }
 })();
