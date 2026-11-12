@@ -95,6 +95,7 @@
       const reached = [...milestones, Math.floor(score/2500)*2500].filter(value => value <= score && value >= target);
       baseline = Math.max(...reached);
       target = nextGoal(score);
+      board.dispatchEvent(new CustomEvent('be-match:milestone', { detail: { score: baseline, tier: 3 } }));
       celebrate(`${format(baseline)} pontos! Meta alcançada!${combo ? ` ${combo}` : ''}`, 3, true);
     } else if (combo) celebrate(combo, tier, false);
     lastScore = score;

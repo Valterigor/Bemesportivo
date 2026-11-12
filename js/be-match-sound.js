@@ -21,7 +21,7 @@
     compressor.attack.value = .004;
     compressor.release.value = .16;
     master = audio.createGain();
-    master.gain.value = .72;
+    master.gain.value = .9;
     master.connect(compressor).connect(audio.destination);
     return audio;
   };
@@ -72,43 +72,64 @@
     source.start(now);
   };
 
+  const focus = (duration = 420, intensity = .35) => {
+    window.dispatchEvent(new CustomEvent('be-match:audio-focus', { detail: { duration, intensity } }));
+  };
+
+  const impact = (delay = 0, strength = 1) => {
+    tone(95, .1, { type: 'sine', gain: .035 * strength, to: 58, delay });
+    noise(.055, { filter: 'highpass', frequency: 1250, gain: .024 * strength, delay });
+  };
+
   const matchSound = (chain = 1, size = 3) => {
     record(`match-${chain}`);
     const scale = [392, 440, 523.25, 587.33, 659.25, 783.99];
     const root = scale[Math.min(scale.length - 1, Math.max(0, chain - 1))];
-    tone(root, .075, { type: 'triangle', gain: .026 });
-    tone(root * 1.5, .11, { type: 'sine', gain: .022, delay: .035 });
-    if (size >= 5) tone(root * 2, .15, { type: 'sine', gain: .018, delay: .07 });
+    impact(0, chain > 1 ? 1.15 : .8);
+    tone(root, .085, { type: 'triangle', gain: .038 });
+    tone(root * 1.5, .13, { type: 'sine', gain: .031, delay: .032 });
+    if (chain >= 2) tone(root * 2, .18, { type: 'triangle', gain: .025, delay: .075 });
+    if (chain >= 3) tone(root * 2.5, .22, { type: 'sine', gain: .022, delay: .13 });
+    if (size >= 5) tone(root * 3, .2, { type: 'sine', gain: .022, delay: .095 });
+    if (chain >= 2) focus(300 + chain * 70, .28);
   };
 
   const targetSound = count => {
     record('target');
     const repeats = Math.min(3, Math.max(1, count));
     for (let i = 0; i < repeats; i += 1) {
-      tone(880 + i * 120, .14, { type: 'sine', gain: .025, delay: .07 + i * .055 });
-      tone(1760 + i * 120, .09, { type: 'triangle', gain: .012, delay: .085 + i * .055 });
+      tone(880 + i * 120, .17, { type: 'sine', gain: .036, delay: .07 + i * .06 });
+      tone(1760 + i * 120, .11, { type: 'triangle', gain: .019, delay: .085 + i * .06 });
     }
   };
 
   const bonusSound = kind => {
     record(`bonus-${kind}`);
     if (kind === 'row' || kind === 'column') {
-      tone(360, .24, { type: 'sawtooth', gain: .018, to: 1280 });
-      tone(720, .2, { type: 'sine', gain: .022, to: 1440, delay: .025 });
+      focus(520, .25);
+      impact(0, .9);
+      tone(320, .3, { type: 'sawtooth', gain: .026, to: 1480 });
+      tone(720, .26, { type: 'sine', gain: .034, to: 1760, delay: .025 });
     } else if (kind === 'burst') {
-      tone(150, .28, { type: 'sine', gain: .05, to: 55 });
-      noise(.22, { filter: 'lowpass', frequency: 950, gain: .032 });
-      tone(740, .16, { type: 'triangle', gain: .025, delay: .09 });
+      focus(620, .2);
+      impact(0, 1.4);
+      tone(150, .34, { type: 'sine', gain: .07, to: 48 });
+      noise(.26, { filter: 'lowpass', frequency: 950, gain: .045 });
+      tone(740, .2, { type: 'triangle', gain: .038, delay: .09 });
     } else if (kind === 'cross') {
-      [523.25, 659.25, 783.99, 1046.5].forEach((note, index) => tone(note, .25, { type: 'sine', gain: .023, delay: index * .045 }));
+      focus(760, .16);
+      impact(0, 1.2);
+      [523.25, 659.25, 783.99, 1046.5].forEach((note, index) => tone(note, .32, { type: 'sine', gain: .035, delay: index * .055 }));
     }
   };
 
   const powerSound = () => {
     record('power');
-    noise(.3, { filter: 'bandpass', frequency: 720, gain: .032 });
-    tone(110, .34, { type: 'sawtooth', gain: .035, to: 55 });
-    [392, 523.25, 659.25, 987.77].forEach((note, index) => tone(note, .3, { type: index < 2 ? 'triangle' : 'sine', gain: .026, delay: .045 + index * .055 }));
+    focus(900, .12);
+    impact(0, 1.7);
+    noise(.38, { filter: 'bandpass', frequency: 720, gain: .052 });
+    tone(110, .42, { type: 'sawtooth', gain: .052, to: 48 });
+    [392, 523.25, 659.25, 987.77, 1318.5].forEach((note, index) => tone(note, .38, { type: index < 2 ? 'triangle' : 'sine', gain: .037, delay: .04 + index * .06 }));
   };
 
   const invalidSound = () => {
@@ -132,9 +153,18 @@
 
   const winSound = stars => {
     record('win');
+    focus(1400, .08);
     const notes = stars === 3 ? [523.25, 659.25, 783.99, 1046.5] : [523.25, 659.25, 783.99];
     notes.forEach((note, index) => tone(note, .28, { type: 'triangle', gain: .032, delay: index * .095 }));
     tone(261.63, .55, { type: 'sine', gain: .022, delay: .08 });
+  };
+
+  const milestoneSound = tier => {
+    record('milestone');
+    focus(950, .12);
+    impact(0, 1.15);
+    const notes = tier >= 3 ? [523.25, 659.25, 783.99, 1046.5, 1318.5] : [523.25, 659.25, 783.99];
+    notes.forEach((note, index) => tone(note, .3, { type: index % 2 ? 'sine' : 'triangle', gain: .034, delay: .05 + index * .065 }));
   };
 
   const lossSound = () => {
@@ -151,6 +181,7 @@
   board.addEventListener('be-match:invalid', invalidSound);
   board.addEventListener('be-match:shuffle', shuffleSound);
   board.addEventListener('be-match:low-moves', event => lowMovesSound(event.detail.moves));
+  board.addEventListener('be-match:milestone', event => milestoneSound(event.detail?.tier || 3));
   window.addEventListener('be-match-win', event => winSound(event.detail.stars));
   window.addEventListener('be-match-loss', lossSound);
 
