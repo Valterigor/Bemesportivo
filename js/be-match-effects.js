@@ -7,6 +7,26 @@
   const label = (text, x, y) => { const el = document.createElement('strong'); el.className = 'fx-label'; el.textContent = text; el.style.left = `${x}px`; el.style.top = `${y}px`; document.body.append(el); el.addEventListener('animationend', () => el.remove(), { once: true }); };
   const ring = (x, y, power = false) => { const el = document.createElement('i'); el.className = `fx-ring${power ? ' power' : ''}`; el.style.left = `${x}px`; el.style.top = `${y}px`; document.body.append(el); el.addEventListener('animationend', () => el.remove(), { once: true }); };
   const trail = (x, y) => { for (let i = 0; i < 5; i++) { const el = document.createElement('i'); el.className = 'fx-trail'; el.style.left = `${x + (Math.random() * 34 - 17)}px`; el.style.top = `${y + (Math.random() * 34 - 17)}px`; el.style.animationDelay = `${i * 25}ms`; document.body.append(el); el.addEventListener('animationend', () => el.remove(), { once: true }); } };
+  const callout = (text, tier = 'good') => {
+    document.querySelector('.fx-callout')?.remove();
+    const rect = board.getBoundingClientRect();
+    const el = document.createElement('strong');
+    el.className = `fx-callout is-${tier}`;
+    el.textContent = text;
+    el.style.left = `${rect.left + rect.width / 2}px`;
+    el.style.top = `${rect.top + rect.height / 2}px`;
+    document.body.append(el);
+    el.addEventListener('animationend', () => el.remove(), { once: true });
+  };
+  board.addEventListener('be-match:points', ({ detail }) => {
+    if (detail.power) callout('PODER BE!', 'power');
+    else if (detail.chain >= 4) callout('LENDÁRIO!', 'legendary');
+    else if (detail.chain === 3) callout('ESPETACULAR!', 'spectacular');
+    else if (detail.chain === 2) callout('INCRÍVEL!', 'amazing');
+    else if (detail.bonus === 'cross') callout('PODER BE!', 'power');
+    else if (detail.bonus === 'burst') callout('EXPLOSÃO!', 'spectacular');
+    else if (detail.bonus === 'row' || detail.bonus === 'column') callout('RAIO!', 'amazing');
+  });
   const observer = new MutationObserver(records => { let matches = []; let special = false; records.forEach(record => { if (record.type === 'attributes' && record.target instanceof HTMLElement && record.target.classList.contains('tile')) { if (record.target.dataset.special === 'true') special = true; if (record.target.classList.contains('matching')) matches.push(record.target); } record.addedNodes.forEach(node => { if (!(node instanceof HTMLElement)) return; if (node.classList.contains('tile')) { if (node.dataset.special === 'true') special = true; if (node.classList.contains('matching')) matches.push(node); } }); }); if (matches.length) { const rect = matches[Math.floor(matches.length / 2)].getBoundingClientRect(); board.classList.remove('combo-pulse'); void board.offsetWidth; board.classList.add('combo-pulse'); burst(rect.left + rect.width / 2, rect.top + rect.height / 2, Math.min(18, matches.length * 4)); ring(rect.left + rect.width / 2, rect.top + rect.height / 2); trail(rect.left + rect.width / 2, rect.top + rect.height / 2); if (matches.length >= 5) { label('PODER BE!', rect.left + rect.width / 2, rect.top + rect.height / 2); ring(rect.left + rect.width / 2, rect.top + rect.height / 2, true); } else if (matches.length >= 3) label(`COMBO ×${matches.length}`, rect.left + rect.width / 2, rect.top + rect.height / 2); } if (special) { const tile = board.querySelector('[data-special]'); if (tile) { const rect = tile.getBoundingClientRect(); board.classList.add('explosion-pulse'); burst(rect.left + rect.width / 2, rect.top + rect.height / 2, 16); ring(rect.left + rect.width / 2, rect.top + rect.height / 2, true); } } });
   observer.observe(board, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'data-special'] });
   let lastGoal = '';

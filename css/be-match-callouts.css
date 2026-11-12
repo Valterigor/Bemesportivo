@@ -1,0 +1,35 @@
+.fx-callout {
+  position: fixed;
+  z-index: 28;
+  max-width: 90vw;
+  pointer-events: none;
+  white-space: nowrap;
+  color: #fff6b2;
+  font: 900 clamp(28px, 8vw, 58px)/.9 Rubik, system-ui, sans-serif;
+  letter-spacing: -.055em;
+  text-align: center;
+  -webkit-text-stroke: 1px #7a3000;
+  text-shadow: 0 3px 0 #7a3000, 0 7px 18px #000, 0 0 24px #ff9f1a;
+  transform: translate(-50%, -50%);
+  animation: fx-callout-pop 1.05s cubic-bezier(.16, .85, .25, 1) forwards;
+}
+.fx-callout.is-amazing { color: #fff; }
+.fx-callout.is-spectacular { color: #ffe76b; }
+.fx-callout.is-power,
+.fx-callout.is-legendary {
+  color: #fff4a8;
+  -webkit-text-stroke: 1px #942755;
+  text-shadow: 0 3px 0 #942755, 0 7px 20px #000, 0 0 18px #ffdc60, 0 0 38px #ff4fa3;
+}
+@keyframes fx-callout-pop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.25) rotate(-6deg); }
+  18% { opacity: 1; transform: translate(-50%, -50%) scale(1.2) rotate(2deg); }
+  38% { transform: translate(-50%, -50%) scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -72%) scale(1.08); }
+}
+@media (max-width: 420px) { .fx-callout { font-size: clamp(27px, 10vw, 43px); } }
+@media (prefers-reduced-motion: reduce) {
+  .fx-callout { animation: fx-callout-fade .7s ease forwards; }
+  @keyframes fx-callout-fade { 0%, 15% { opacity: 0; } 25%, 70% { opacity: 1; } 100% { opacity: 0; } }
+}

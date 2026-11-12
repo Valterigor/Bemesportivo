@@ -236,13 +236,13 @@
     }
   }
 
-  async function clearCells(affected, points, chain, power = false) {
+  async function clearCells(affected, points, chain, power = false, bonus = null) {
     const indexes = [...affected];
     const collect = collectGoal();
     if (collect) state.collected[collect.type] = collectedForGoal() + indexes.filter(index => state.grid[index] === collect.type).length;
     indexes.forEach(index => boardEl.querySelector(`[data-index="${index}"]`)?.classList.add(power ? 'power-hit' : 'matching'));
     state.score += points;
-    boardEl.dispatchEvent(new CustomEvent('be-match:points', { detail: { indices: indexes, points, total: state.score, chain, power } }));
+    boardEl.dispatchEvent(new CustomEvent('be-match:points', { detail: { indices: indexes, points, total: state.score, chain, power, bonus } }));
     await wait(power ? 380 : 250);
     indexes.forEach(index => { state.grid[index] = null; state.specialKinds.delete(index); });
     collapseAndFill();
@@ -264,7 +264,7 @@
       const triggered = expandTriggeredPowers(affected);
       state.juiceDestroyed += [...affected].filter(index => state.grid[index] === 'watch').length;
       const points = window.BeMatchRules.scoreForClear(affected.size, chain, createdKind, triggered.size > 0);
-      await clearCells(affected, points, chain, triggered.size > 0);
+      await clearCells(affected, points, chain, triggered.size > 0, createdKind);
       if (createdKind && specialIndex !== null) {
         const placement = [specialIndex, ...candidates].find(index => state.grid[index] !== 'watch') ?? specialIndex;
         state.grid[placement] = randomType();
