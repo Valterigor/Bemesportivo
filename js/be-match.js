@@ -8,6 +8,10 @@
   const scoreEl = document.querySelector('#score');
   const movesEl = document.querySelector('#moves');
   const remainingClocksEl = document.querySelector('#remaining-clocks');
+  const secondaryGoalEl = document.querySelector('#secondary-goal');
+  const secondaryGoalIconEl = document.querySelector('#secondary-goal-icon');
+  const secondaryGoalCountEl = document.querySelector('#secondary-goal-count');
+  const secondaryGoalLabelEl = document.querySelector('#secondary-goal-label');
   const progressEl = document.querySelector('#progress-bar');
   const messageEl = document.querySelector('#game-message');
   const goalEl = document.querySelector('#goal');
@@ -186,6 +190,16 @@
     remainingClocksEl.textContent = remaining;
     progressEl.style.width = `${Math.min(100, state.juiceDestroyed / target * 100)}%`;
     const collect = collectGoal();
+    if (secondaryGoalEl) {
+      secondaryGoalEl.hidden = !collect;
+      if (collect) {
+        const collectRemaining = Math.max(0, collect.target - collectedForGoal());
+        secondaryGoalCountEl.textContent = collectRemaining;
+        secondaryGoalLabelEl.textContent = collect.label;
+        secondaryGoalIconEl.innerHTML = icons[collect.type] || '';
+        secondaryGoalEl.setAttribute('aria-label', `${collectRemaining} ${collect.label} restantes`);
+      }
+    }
     const collectText = collect ? ` · ${Math.min(collectedForGoal(), collect.target)}/${collect.target} ${collect.label}` : '';
     goalEl.textContent = `Restam ${remaining} relógios · ${state.juiceDestroyed}/${target}${collectText}`;
     boardEl.classList.toggle('is-low-moves', state.moves <= 5 && !missionComplete());
