@@ -34,11 +34,13 @@
     nodesEl.replaceChildren(...positions.map(([x,y], index) => {
       const level = index + 1;
       const button = document.createElement('button');
-      const open = completed.has(level) || level === Number(progress.unlockedLevel || 1);
-      button.type = 'button'; button.className = `tactical-node ${completed.has(level) ? 'is-done' : ''}`; button.dataset.level = level;
+      const current = level === Number(progress.unlockedLevel || 1);
+      const done = completed.has(level);
+      const open = done || current;
+      button.type = 'button'; button.className = `tactical-node ${done ? 'is-done' : ''} ${current ? 'is-current' : ''}`; button.dataset.level = level;
       button.style.left = `${x}%`; button.style.top = `${y}%`; button.disabled = !open;
       button.setAttribute('aria-label', open ? `Fase ${level}, ${scenes[index]}` : `Fase ${level} bloqueada`);
-      button.innerHTML = `<strong>${completed.has(level) ? '✓' : level}</strong><small>${open ? `${Number(progress.stars?.[level] || 0)}★` : '🔒'}</small>`;
+      button.innerHTML = `<strong>${level}</strong><small>${current ? 'ATUAL' : done ? `✓ ${Number(progress.stars?.[level] || 0)}★` : 'BLOQ.'}</small>`;
       button.addEventListener('click', () => enterLevel(level));
       return button;
     }));
