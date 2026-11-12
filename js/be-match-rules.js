@@ -1,10 +1,14 @@
 (() => {
   const size = 8;
   const levels = [
-    { moves: 24, target: 6 }, { moves: 25, target: 7 },
-    { moves: 26, target: 8 }, { moves: 28, target: 10 },
-    { moves: 29, target: 11 }, { moves: 30, target: 12 },
-    { moves: 32, target: 14 }, { moves: 34, target: 16 }
+    { moves: 24, target: 6, tutorial: 'Combine 4 peças para criar um raio esportivo.' },
+    { moves: 25, target: 7, tutorial: 'Raios limpam uma linha inteira e alcançam relógios distantes.' },
+    { moves: 26, target: 8, collect: { type: 'bottle', target: 6, label: 'garrafas' }, tutorial: 'Nova meta: combine garrafas enquanto captura os relógios.' },
+    { moves: 28, target: 10, collect: { type: 'shoe', target: 7, label: 'tênis' }, tutorial: 'Formatos T ou L criam uma explosão 3×3.' },
+    { moves: 29, target: 11, collect: { type: 'fruit', target: 8, label: 'frutas' }, tutorial: 'Combine 5 peças para criar o Poder BE cruzado.' },
+    { moves: 30, target: 12, collect: { type: 'bottle', target: 9, label: 'garrafas' }, tutorial: 'Combine dois poderes para ampliar o efeito.' },
+    { moves: 32, target: 14, collect: { type: 'cap', target: 10, label: 'bonés' }, tutorial: 'Planeje cascatas para cumprir as duas metas juntas.' },
+    { moves: 34, target: 16, collect: { type: 'shoe', target: 12, label: 'tênis' }, tutorial: 'Desafio final: use poderes e cascatas com estratégia.' }
   ];
   const levelConfig = level => levels[Math.max(0, Math.min(levels.length - 1, level - 1))];
 

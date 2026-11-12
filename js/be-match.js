@@ -35,7 +35,7 @@
     level: Math.min(8, Math.max(1, Number(savedProgress.unlockedLevel || localStorage.getItem('be-match-level') || 1))),
     lives: Math.max(0, Math.min(5, Number(localStorage.getItem('be-match-lives') || 5))),
     combos: 0, bestChain: 0, power: Number(localStorage.getItem('be-match-power') || 0),
-    juiceDestroyed: 0, specialKinds: new Map(), locked: false
+    juiceDestroyed: 0, collected: {}, specialKinds: new Map(), locked: false
   };
   const key = (x, y) => y * size + x;
   let animationScale = 1;
@@ -43,7 +43,9 @@
   const randomType = () => regularTypes[Math.floor(Math.random() * regularTypes.length)];
   const movesForLevel = () => window.BeMatchRules.levelConfig(state.level).moves;
   const missionTarget = () => window.BeMatchRules.levelConfig(state.level).target;
-  const missionComplete = () => state.juiceDestroyed >= missionTarget() || !state.grid.includes('watch');
+  const collectGoal = () => window.BeMatchRules.levelConfig(state.level).collect || null;
+  const collectedForGoal = () => collectGoal() ? Number(state.collected[collectGoal().type] || 0) : 0;
+  const missionComplete = () => (state.juiceDestroyed >= missionTarget() || !state.grid.includes('watch')) && (!collectGoal() || collectedForGoal() >= collectGoal().target);
   const adjacent = (a, b) => Math.abs(a % size - b % size) + Math.abs(Math.floor(a / size) - Math.floor(b / size)) === 1;
 
   function recoverLives() {
@@ -117,15 +119,17 @@
         [state.grid[index], state.grid[next]] = [state.grid[next], state.grid[index]];
         const info = findMatchInfo();
         const captures = [...info.affected].filter(cell => state.grid[cell] === 'watch').length;
+        const collect = collectGoal();
+        const collects = collect ? [...info.affected].filter(cell => state.grid[cell] === collect.type).length : 0;
         const createsPower = Boolean(window.BeMatchRules.powerForGroups(info.groups));
         [state.grid[index], state.grid[next]] = [state.grid[next], state.grid[index]];
-        if (info.base.size) moves.push({ from: index, to: next, captures, createsPower, matched: info.base.size });
+        if (info.base.size) moves.push({ from: index, to: next, captures, collects, createsPower, matched: info.base.size });
       }
     }
-    return moves.sort((a, b) => b.captures - a.captures || Number(b.createsPower) - Number(a.createsPower) || b.matched - a.matched);
+    return moves.sort((a, b) => b.captures - a.captures || b.collects - a.collects || Number(b.createsPower) - Number(a.createsPower) || b.matched - a.matched);
   }
 
-  const hasProductiveMove = () => state.specialKinds.size > 0 || productiveMoves().some(move => move.captures > 0 || move.createsPower);
+  const hasProductiveMove = () => state.specialKinds.size > 0 || productiveMoves().some(move => move.captures > 0 || move.collects > 0 || move.createsPower);
 
   function createGrid() {
     state.specialKinds.clear();
@@ -140,6 +144,7 @@
 
   function renderMap() {
     const completed = new Set(savedProgress.completed || []);
+    const totalStars = Object.values(savedProgress.stars || {}).reduce((sum, value) => sum + Number(value || 0), 0);
     mapEl.replaceChildren(...Array.from({ length: 8 }, (_, n) => {
       const level = n + 1;
       const done = completed.has(level);
@@ -153,7 +158,7 @@
       button.addEventListener('click', () => { if (open && level !== state.level) { state.level = level; resetPhase(false); } });
       return button;
     }));
-    mapStatus.textContent = `Fase ${state.level} de 8 · ${completed.size} concluída${completed.size === 1 ? '' : 's'}`;
+    mapStatus.textContent = `Fase ${state.level} de 8 · ${completed.size} concluída${completed.size === 1 ? '' : 's'} · ${totalStars}/24 estrelas`;
   }
 
   function render() {
@@ -180,7 +185,9 @@
     const remaining = Math.max(0, target - state.juiceDestroyed);
     remainingClocksEl.textContent = remaining;
     progressEl.style.width = `${Math.min(100, state.juiceDestroyed / target * 100)}%`;
-    goalEl.textContent = `Restam ${remaining} relógios · ${state.juiceDestroyed}/${target}`;
+    const collect = collectGoal();
+    const collectText = collect ? ` · ${Math.min(collectedForGoal(), collect.target)}/${collect.target} ${collect.label}` : '';
+    goalEl.textContent = `Restam ${remaining} relógios · ${state.juiceDestroyed}/${target}${collectText}`;
     boardEl.classList.toggle('is-low-moves', state.moves <= 5 && !missionComplete());
     renderMap();
   }
@@ -231,6 +238,8 @@
 
   async function clearCells(affected, points, chain, power = false) {
     const indexes = [...affected];
+    const collect = collectGoal();
+    if (collect) state.collected[collect.type] = collectedForGoal() + indexes.filter(index => state.grid[index] === collect.type).length;
     indexes.forEach(index => boardEl.querySelector(`[data-index="${index}"]`)?.classList.add(power ? 'power-hit' : 'matching'));
     state.score += points;
     boardEl.dispatchEvent(new CustomEvent('be-match:points', { detail: { indices: indexes, points, total: state.score, chain, power } }));
@@ -399,19 +408,21 @@
   function resetPhase(hideSheet = true) {
     boardEl.dispatchEvent(new CustomEvent('be-match:phase-reset'));
     window.BeMatchScenes?.apply(state.level);
-    Object.assign(state, { score: 0, moves: movesForLevel(), movesUsed: 0, combos: 0, bestChain: 0, juiceDestroyed: 0, locked: false });
+    Object.assign(state, { score: 0, moves: movesForLevel(), movesUsed: 0, combos: 0, bestChain: 0, juiceDestroyed: 0, collected: {}, locked: false });
     state.specialKinds.clear();
     if (hideSheet) sheet.hidden = true;
     createGrid();
     render();
+    messageEl.textContent = window.BeMatchRules.levelConfig(state.level).tutorial;
   }
 
   function complete() {
     if (!missionComplete() || !sheet.hidden) return;
     const completed = new Set(savedProgress.completed || []);
     completed.add(state.level);
-    const efficient = state.movesUsed <= Math.ceil(movesForLevel() * .6);
-    const stars = efficient ? 3 : state.movesUsed <= Math.ceil(movesForLevel() * .85) ? 2 : 1;
+    const remainingRatio = state.moves / movesForLevel();
+    const stars = remainingRatio >= .4 ? 3 : remainingRatio >= .15 ? 2 : 1;
+    const efficient = stars === 3;
     const best = Math.max(Number(savedProgress.best[state.level] || 0), state.score);
     savedProgress.best[state.level] = best;
     savedProgress.stars[state.level] = Math.max(Number(savedProgress.stars[state.level] || 0), stars);
@@ -425,9 +436,12 @@
     document.querySelector('#result-combos').textContent = `×${Math.max(1, state.bestChain)}`;
     document.querySelector('#result-moves').textContent = state.movesUsed;
     document.querySelector('#result-stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
-    document.querySelector('#result-copy').textContent = `Missão concluída: ${state.juiceDestroyed}/${missionTarget()} relógios capturados com ${state.moves} movimento${state.moves === 1 ? '' : 's'} restante${state.moves === 1 ? '' : 's'}. ${efficient ? 'Excelente eficiência!' : 'Boa estratégia. Continue evoluindo no seu tempo.'}`;
+    const collect = collectGoal();
+    const secondary = collect ? ` e ${Math.min(collectedForGoal(), collect.target)}/${collect.target} ${collect.label}` : '';
+    document.querySelector('#result-copy').textContent = `Missão concluída: ${state.juiceDestroyed}/${missionTarget()} relógios${secondary}. ${state.moves} movimento${state.moves === 1 ? '' : 's'} restante${state.moves === 1 ? '' : 's'}. Estrelas: 1 por concluir, 2 com 15% e 3 com 40% dos movimentos restantes.`;
     document.querySelector('#next-level').textContent = state.level === 8 ? 'Jogar novamente' : 'Próxima fase →';
     sheet.hidden = false;
+    window.dispatchEvent(new CustomEvent('be-match-win', { detail: { stars, level: state.level } }));
   }
 
   function endLife() {
@@ -438,7 +452,10 @@
     document.querySelector('#loss-clocks').textContent = `${state.juiceDestroyed}/${missionTarget()}`;
     document.querySelector('#loss-lives').textContent = state.lives;
     const remaining = Math.max(0, missionTarget() - state.juiceDestroyed);
-    document.querySelector('#loss-copy').textContent = state.lives > 0 ? `Faltaram ${remaining} relógio${remaining === 1 ? '' : 's'}. Combine ao lado dos alvos e use os Poderes BE para alcançar mais de um por vez.` : 'Suas vidas acabaram por agora. Elas serão recuperadas com o tempo.';
+    const collect = collectGoal();
+    const collectRemaining = collect ? Math.max(0, collect.target - collectedForGoal()) : 0;
+    const missing = `${remaining} relógio${remaining === 1 ? '' : 's'}${collect && collectRemaining ? ` e ${collectRemaining} ${collect.label}` : ''}`;
+    document.querySelector('#loss-copy').textContent = state.lives > 0 ? `Faltaram ${missing}. Combine ao lado dos alvos e use os Poderes BE para alcançar mais de um por vez.` : 'Suas vidas acabaram por agora. Elas serão recuperadas com o tempo.';
     lossSheet.hidden = false;
     render();
   }
@@ -470,6 +487,7 @@
         state.moves = 26;
         state.movesUsed = 0;
         state.juiceDestroyed = 0;
+        state.collected = {};
         state.locked = false;
         render();
       },
