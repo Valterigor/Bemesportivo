@@ -21,6 +21,8 @@
   const lossSheet = document.querySelector('#loss-sheet');
   const lossSummaryEl = document.querySelector('#loss-summary');
   const retryButton = document.querySelector('#retry-level');
+  const restartButton = document.querySelector('#restart');
+  const gameBackButton = document.querySelector('#game-back');
   const mapEl = document.querySelector('#phase-nodes');
   const mapStatus = document.querySelector('#map-status');
   const powerEl = document.querySelector('#power');
@@ -50,6 +52,13 @@
   const key = (x, y) => y * size + x;
   let animationScale = 1;
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms * animationScale));
+  const setLocked = value => {
+    state.locked = Boolean(value);
+    boardEl.classList.toggle('is-resolving', state.locked);
+    boardEl.setAttribute('aria-busy', String(state.locked));
+    if (restartButton) restartButton.disabled = state.locked;
+    if (gameBackButton) gameBackButton.disabled = state.locked;
+  };
   const activeTypes = () => state.level <= 2 ? regularTypes.slice(0, 4) : regularTypes;
   const randomType = () => { const types = activeTypes(); return types[Math.floor(Math.random() * types.length)]; };
   const movesForLevel = () => window.BeMatchRules.levelConfig(state.level).moves;
@@ -387,20 +396,25 @@
 
   async function activatePower(index, consumeMove = true, forcedKind = null) {
     if (state.locked || state.moves <= 0 || (!state.specialKinds.has(index) && !forcedKind)) return;
-    state.locked = true;
-    if (consumeMove) { state.moves -= 1; state.movesUsed += 1; }
-    const kind = forcedKind || state.specialKinds.get(index);
-    const affected = new Set(window.BeMatchRules.affectedByPower(index, kind));
-    const triggered = expandTriggeredPowers(affected);
-    state.juiceDestroyed += [...affected].filter(cell => state.grid[cell] === 'watch').length;
-    const points = window.BeMatchRules.scoreForClear([...affected].filter(cell => state.grid[cell] !== 'wall').length, 1, null, true);
-    messageEl.textContent = `${powerNames[kind]} ativado · ${affected.size} peças alcançadas!`;
-    messageEl.classList.add('power-notice');
-    await clearCells(affected, points, 1, true);
-    await resolve(null, triggered.size > 1 ? 1 : 0);
-    setTimeout(() => messageEl.classList.remove('power-notice'), 800);
-    state.locked = false;
-    finishMove();
+    setLocked(true);
+    let resolved = false;
+    try {
+      if (consumeMove) { state.moves -= 1; state.movesUsed += 1; }
+      const kind = forcedKind || state.specialKinds.get(index);
+      const affected = new Set(window.BeMatchRules.affectedByPower(index, kind));
+      const triggered = expandTriggeredPowers(affected);
+      state.juiceDestroyed += [...affected].filter(cell => state.grid[cell] === 'watch').length;
+      const points = window.BeMatchRules.scoreForClear([...affected].filter(cell => state.grid[cell] !== 'wall').length, 1, null, true);
+      messageEl.textContent = `${powerNames[kind]} ativado · ${affected.size} peças alcançadas!`;
+      messageEl.classList.add('power-notice');
+      await clearCells(affected, points, 1, true);
+      await resolve(null, triggered.size > 1 ? 1 : 0);
+      setTimeout(() => messageEl.classList.remove('power-notice'), 800);
+      resolved = true;
+    } finally {
+      setLocked(false);
+    }
+    if (resolved) finishMove();
   }
 
   function shuffleBoard() {
@@ -458,10 +472,15 @@
     }
     state.moves -= 1;
     state.movesUsed += 1;
-    state.locked = true;
-    await resolve(b);
-    state.locked = false;
-    finishMove();
+    setLocked(true);
+    let resolved = false;
+    try {
+      await resolve(b);
+      resolved = true;
+    } finally {
+      setLocked(false);
+    }
+    if (resolved) finishMove();
   }
 
   let dragStart = null;
@@ -516,7 +535,8 @@
   function resetPhase(hideSheet = true) {
     boardEl.dispatchEvent(new CustomEvent('be-match:phase-reset'));
     window.BeMatchScenes?.apply(state.level);
-    Object.assign(state, { score: 0, moves: movesForLevel(), movesUsed: 0, combos: 0, bestChain: 0, juiceDestroyed: 0, collected: {}, locked: false });
+    Object.assign(state, { score: 0, moves: movesForLevel(), movesUsed: 0, combos: 0, bestChain: 0, juiceDestroyed: 0, collected: {} });
+    setLocked(false);
     state.specialKinds.clear();
     if (hideSheet) sheet.hidden = true;
     createGrid();
@@ -589,7 +609,10 @@
     render();
   }
 
-  document.querySelector('#restart').addEventListener('click', () => resetPhase());
+  restartButton.addEventListener('click', () => {
+    if (state.locked) { messageEl.textContent = 'Aguarde a jogada terminar antes de reiniciar.'; return; }
+    resetPhase();
+  });
   window.addEventListener('be-match:select-level', event => {
     const level = Math.max(1, Math.min(100, Number(event.detail?.level) || 1));
     if (level > Number(savedProgress.unlockedLevel || 1)) return;
@@ -624,7 +647,7 @@
         state.movesUsed = 0;
         state.juiceDestroyed = 0;
         state.collected = {};
-        state.locked = false;
+        setLocked(false);
         render();
       },
       snapshot: () => ({ ...state, grid: [...state.grid], specials: [...state.specialKinds.entries()] }),

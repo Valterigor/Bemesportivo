@@ -70,3 +70,40 @@ O núcleo do BE Match foi homologado com 100 fases, 10 rodadas, missões, pontua
 ## Garantia de preservação
 
 Nenhuma funcionalidade foi removida. Permanecem as 100 fases, 10 rodadas, objetivos, regras, pontuação, vidas, recuperação, poderes, estrelas, troféus, mapa, música de menu/mapa, efeitos no tabuleiro, campeonato, ranking, PWA e progresso existente. As alterações são de robustez, privacidade, validação, acessibilidade e apresentação.
+
+## Refinamento P0/P1 complementar
+
+### P0 — integridade do campeonato
+
+- O cliente passou a enviar o melhor resultado e as estrelas por fase.
+- O servidor recalcula os totais e não confia mais apenas nos campos agregados.
+- Resultados fora da fase alcançada, estrelas sem resultado correspondente, pontuação por fase acima do limite e totais divergentes são rejeitados.
+- Reenvios são idempotentes: prevalece o melhor resultado por fase, sem somar a mesma fase novamente.
+- Os resultados existentes foram preservados durante a migração.
+
+Validação automatizada: resultado íntegro aceito; total adulterado, fase incompatível, pontuação excessiva e estrelas incompatíveis rejeitados; duplicidade não alterou o total.
+
+Limite conhecido: como jogo web casual sem conta autenticada e sem simulação autoritativa da partida no servidor, um invasor avançado ainda pode tentar fabricar um resultado plausível dentro dos limites. Eliminar essa classe de fraude exigiria partidas reproduzidas/validadas no servidor ou identidade autenticada. Isso é uma evolução de arquitetura, não uma regressão do jogo atual.
+
+### P0 — condições de corrida
+
+- Tabuleiro, reinício e retorno ao mapa ficam indisponíveis enquanto uma jogada, poder ou cascata está sendo resolvida.
+- O desbloqueio ocorre em `finally`, inclusive se uma animação ou resolução produzir uma exceção.
+- `aria-busy` comunica o estado às tecnologias assistivas.
+
+Validação automatizada: 13 comandos simultâneos resultaram em exatamente um movimento consumido, zero células vazias e tabuleiro desbloqueado ao final.
+
+### P1 — microtextos e estados
+
+- Métricas do plano de jogo receberam separação semântica entre valor e rótulo.
+- Os valores de derrota permanecem dinâmicos e representam a partida real.
+- A classificação distingue carregamento, sucesso, lista vazia, cópia local e falha de conexão.
+- Requisições de classificação têm timeout de oito segundos; nenhuma falha mantém carregamento infinito.
+
+### P1 — fluxo de entrada
+
+O fluxo foi mantido por decisão de produto: apresentação → mapa/plano → fase. O convite do campeonato pode ser recusado em um toque, não bloqueia o mapa e não reaparece depois da escolha. Isso preserva o pedido anterior de apresentar a competição ao entrar no plano sem criar confirmação obrigatória para jogar.
+
+### Oportunidades dependentes de dados reais
+
+A curva de dificuldade, taxa de conclusão e retenção das 100 fases não pode ser medida apenas por inspeção estática. A próxima evolução recomendada é telemetria anônima agregada de tentativas, vitórias, movimentos restantes e abandono, com revisão de privacidade antes da ativação.

@@ -28,10 +28,14 @@
   };
   const totals = () => {
     const saved = progress();
+    const best = Object.fromEntries(Object.entries(saved.best || {}).map(([phase, value]) => [phase, Math.max(0, Math.floor(Number(value) || 0))]).filter(([, value]) => value > 0));
+    const starsByLevel = Object.fromEntries(Object.entries(saved.stars || {}).map(([phase, value]) => [phase, Math.max(0, Math.min(3, Math.floor(Number(value) || 0)))]).filter(([, value]) => value > 0));
     return {
-      score: Object.values(saved.best || {}).reduce((sum, value) => sum + Number(value || 0), 0),
-      stars: Object.values(saved.stars || {}).reduce((sum, value) => sum + Number(value || 0), 0),
-      level: Math.min(100, Number(saved.unlockedLevel || 1))
+      score: Object.values(best).reduce((sum, value) => sum + value, 0),
+      stars: Object.values(starsByLevel).reduce((sum, value) => sum + value, 0),
+      level: Math.min(100, Math.max(1, Math.floor(Number(saved.unlockedLevel || 1)))),
+      best,
+      starsByLevel
     };
   };
   const render = () => {
@@ -53,15 +57,26 @@
     if (!visible.length) body.innerHTML = '<tr><td colspan="5">Seja o primeiro atleta desta classificação.</td></tr>';
   };
   const load = async () => {
+    body.dataset.state = 'loading';
+    body.innerHTML = '<tr><td colspan="5">Carregando classificação global…</td></tr>';
+    body.closest('table')?.setAttribute('aria-busy', 'true');
+    status.textContent = 'Conectando ao campeonato…';
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
     try {
-      const response = await fetch(`/api/be-match-ranking?deviceId=${encodeURIComponent(deviceId)}`, { cache: 'no-store' });
+      const response = await fetch(`/api/be-match-ranking?deviceId=${encodeURIComponent(deviceId)}`, { cache: 'no-store', signal: controller.signal });
       if (!response.ok) throw new Error('offline');
       const data = await response.json();
       ranking = Array.isArray(data.ranking) ? data.ranking : [];
-      status.textContent = 'Classificação online atualizada.';
+      status.textContent = ranking.length ? 'Classificação online atualizada.' : 'Campeonato conectado. Ainda não há resultados.';
+      body.dataset.state = ranking.length ? 'success' : 'empty';
     } catch {
-      ranking = JSON.parse(localStorage.getItem('be-match-local-ranking') || '[]');
-      status.textContent = 'Classificação local — o ranking online será sincronizado quando voltar.';
+      try { ranking = JSON.parse(localStorage.getItem('be-match-local-ranking') || '[]'); } catch { ranking = []; }
+      status.textContent = ranking.length ? 'Sem conexão. Exibindo a classificação salva neste aparelho.' : 'Não foi possível conectar. Tente novamente quando houver internet.';
+      body.dataset.state = 'error';
+    } finally {
+      clearTimeout(timeout);
+      body.closest('table')?.setAttribute('aria-busy', 'false');
     }
     render();
   };
