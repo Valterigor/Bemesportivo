@@ -7,6 +7,9 @@
   const positionEl = document.querySelector('#ranking-position');
   const totalEl = document.querySelector('#ranking-total');
   const levelEl = document.querySelector('#ranking-level');
+  const rankingTitle = document.querySelector('#ranking-title');
+  const rankingKicker = document.querySelector('.match-ranking .kicker');
+  const rankingDescription = document.querySelector('.match-ranking header p:not(.kicker)');
   const invite = document.querySelector('#competition-invite');
   const inviteYes = document.querySelector('#competition-yes');
   const inviteNo = document.querySelector('#competition-no');
@@ -15,6 +18,9 @@
   let playerName = localStorage.getItem('be-match-player-name') || 'Atleta BE';
   let ranking = [];
   nameInput.value = playerName;
+  if (rankingTitle) rankingTitle.textContent = 'Classificação global';
+  if (rankingKicker) rankingKicker.textContent = 'CAMPEONATO BE MATCH · GLOBAL';
+  if (rankingDescription) rankingDescription.textContent = 'Compare sua pontuação acumulada com jogadores de todos os aparelhos.';
   const progress = () => {
     try { return { unlockedLevel: 1, best: {}, stars: {}, ...JSON.parse(localStorage.getItem('be-match-progress') || '{}') }; }
     catch { return { unlockedLevel: 1, best: {}, stars: {} }; }
@@ -108,5 +114,6 @@
     closeInvite();
   });
   window.addEventListener('be-match-win', submit);
+  window.addEventListener('online', () => { load(); if (localStorage.getItem('be-match-competition-choice') === 'joined') submit(); });
   load();
 })();

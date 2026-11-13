@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'meu-caminho-be-';
-const CACHE_NAME = `${CACHE_PREFIX}v158`;
+const CACHE_NAME = `${CACHE_PREFIX}v159`;
 const CORE_SHELL = [
   '/experiencia',
   '/experiencia.html',
@@ -120,6 +120,12 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
+self.addEventListener('message', event => {
+  if (event.data?.type !== 'CACHE_BE_MATCH' || !Array.isArray(event.data.assets)) return;
+  const assets = event.data.assets.filter(asset => typeof asset === 'string' && asset.startsWith('/')).slice(0, 150);
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => Promise.allSettled(assets.map(asset => cache.add(asset)))));
+});
+
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
@@ -129,15 +135,16 @@ self.addEventListener('fetch', event => {
 
   if (request.mode === 'navigate') {
     const isDiaryNavigation = url.pathname === '/diario-app' || url.pathname.startsWith('/diario-app/');
-    const isAppNavigation = isDiaryNavigation || url.pathname === '/meu-caminho-be.html' || url.pathname === '/meu-caminho-be' || url.pathname.startsWith('/meu-caminho-be/');
+    const isBeMatchNavigation = url.pathname === '/bematch' || url.pathname === '/bematch.html';
+    const isAppNavigation = isDiaryNavigation || isBeMatchNavigation || url.pathname === '/meu-caminho-be.html' || url.pathname === '/meu-caminho-be' || url.pathname.startsWith('/meu-caminho-be/');
     event.respondWith(fetch(request).then(response => {
       if (isAppNavigation && response.ok) {
         const copy = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(isDiaryNavigation ? '/diario-app/' : '/meu-caminho-be', copy));
+        caches.open(CACHE_NAME).then(cache => cache.put(isDiaryNavigation ? '/diario-app/' : isBeMatchNavigation ? '/bematch.html' : '/meu-caminho-be', copy));
       }
       return response;
     }).catch(() => {
-      if (isAppNavigation) return caches.match(isDiaryNavigation ? '/diario-app/' : '/meu-caminho-be');
+      if (isAppNavigation) return caches.match(isDiaryNavigation ? '/diario-app/' : isBeMatchNavigation ? '/bematch.html' : '/meu-caminho-be');
       return caches.match(request).then(cached => cached || new Response('Sem conexão. Abra o Meu Caminho Be para continuar offline.', {
         status: 503,
         headers: { 'Content-Type': 'text/plain; charset=utf-8' }

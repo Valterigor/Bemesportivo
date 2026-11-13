@@ -1,0 +1,23 @@
+{
+  "name": "BE Match · BeMEsportivo",
+  "short_name": "BE Match",
+  "id": "/bematch",
+  "description": "Combine peças esportivas, complete 100 fases e participe do campeonato BE Match.",
+  "lang": "pt-BR",
+  "start_url": "/bematch?fonte=app",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#07191b",
+  "theme_color": "#07191b",
+  "categories": ["games", "sports", "entertainment"],
+  "icons": [
+    { "src": "/img/be-match-app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/img/be-match-app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/img/be-match-app-icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Jogar agora", "short_name": "Jogar", "url": "/bematch?fonte=atalho", "icons": [{ "src": "/img/be-match-app-icon-192.png", "sizes": "192x192", "type": "image/png" }] }
+  ]
+}
