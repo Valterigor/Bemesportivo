@@ -19,6 +19,7 @@
   const livesEl = document.querySelector('#lives');
   const sheet = document.querySelector('#result-sheet');
   const lossSheet = document.querySelector('#loss-sheet');
+  const roundCelebrationEl = document.querySelector('#round-celebration');
   const lossSummaryEl = document.querySelector('#loss-summary');
   const retryButton = document.querySelector('#retry-level');
   const restartButton = document.querySelector('#restart');
@@ -539,6 +540,8 @@
     setLocked(false);
     state.specialKinds.clear();
     if (hideSheet) sheet.hidden = true;
+    sheet.classList.remove('round-complete');
+    if (roundCelebrationEl) roundCelebrationEl.hidden = true;
     createGrid();
     render();
     messageEl.textContent = window.BeMatchRules.levelConfig(state.level).tutorial;
@@ -568,9 +571,22 @@
     const collect = collectGoal();
     const secondary = collect ? ` e ${Math.min(collectedForGoal(), collect.target)}/${collect.target} ${collect.label}` : '';
     document.querySelector('#result-copy').textContent = `Missão concluída: ${state.juiceDestroyed}/${missionTarget()} relógios${secondary}. ${state.moves} movimento${state.moves === 1 ? '' : 's'} restante${state.moves === 1 ? '' : 's'}. Estrelas: 1 por concluir, 2 com 15% e 3 com 40% dos movimentos restantes.`;
-    document.querySelector('#next-level').textContent = state.level === 100 ? 'Rejogar fase final' : 'Próxima fase →';
+    const completedRound = state.level % 10 === 0;
+    if (roundCelebrationEl) {
+      roundCelebrationEl.hidden = !completedRound;
+      sheet.classList.toggle('round-complete', completedRound);
+      if (completedRound) {
+        const round = state.level / 10;
+        const roundName = window.BeMatchRules.roundName(state.level);
+        document.querySelector('#round-kicker').textContent = `RODADA ${round} DE 10 CONCLUÍDA`;
+        document.querySelector('#round-title').textContent = round === 10 ? 'Campeão das 100 fases!' : `${roundName} concluído!`;
+        document.querySelector('#round-copy').textContent = round === 10 ? 'Você venceu todas as rodadas do BE Match. Uma conquista de campeão!' : `Você venceu as 10 fases da rodada ${round}. O próximo treino já está liberado.`;
+      }
+    }
+    document.querySelector('#next-level').textContent = state.level === 100 ? 'Celebrar no mapa →' : completedRound ? 'Abrir próxima rodada →' : 'Próxima fase →';
     sheet.hidden = false;
     window.dispatchEvent(new CustomEvent('be-match-win', { detail: { stars, level: state.level, totalScore: savedProgress.totalScore } }));
+    if (completedRound) window.dispatchEvent(new CustomEvent('be-match:round-complete', { detail: { round: state.level / 10, level: state.level, name: window.BeMatchRules.roundName(state.level) } }));
   }
 
   function renderLossSummary() {

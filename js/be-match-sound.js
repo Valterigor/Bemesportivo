@@ -224,6 +224,15 @@
     [392, 523.25, 659.25, 987.77].forEach((note, index) => tone(note, .28, { type: 'triangle', gain: .033, delay: .12 + index * .055, release: .2 }));
   };
 
+  const roundCompleteSound = event => {
+    record('round-complete');
+    focus(1250, .14);
+    impact(.04, 1.05);
+    const finalRound = Number(event.detail?.round) === 10;
+    const notes = finalRound ? [392, 523.25, 659.25, 783.99, 1046.5, 1318.5] : [392, 523.25, 659.25, 783.99, 1046.5];
+    notes.forEach((note, index) => tone(note, .34, { type: index % 2 ? 'sine' : 'triangle', gain: .03, delay: .22 + index * .085, release: .26 }));
+  };
+
   board.addEventListener('be-match:points', ({ detail }) => {
     if (detail.power) powerSound();
     else matchSound(detail.chain, detail.indices?.length || 3);
@@ -236,6 +245,7 @@
   board.addEventListener('be-match:milestone', event => milestoneSound(event.detail?.tier || 3));
   board.addEventListener('be-match:cascade-reward', event => bonusSound(event.detail?.kind));
   window.addEventListener('be-match-win', event => winSound(event.detail.stars));
+  window.addEventListener('be-match:round-complete', roundCompleteSound);
   window.addEventListener('be-match-loss', lossSound);
 
   const syncToggle = () => {
