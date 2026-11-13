@@ -11,7 +11,7 @@
   let musicRequested = false;
   let mode = 'menu';
   let step = 0;
-  const enabled = () => localStorage.getItem('be-match-sound') !== 'off';
+  const enabled = () => localStorage.getItem('be-match-music') === 'on';
   const normalVolume = () => mode === 'game' ? .12 : mode === 'tactical' ? .105 : .09;
   const melodies = {
     menu: [261.63, 329.63, 392, 523.25, 392, 329.63, 293.66, 349.23],
@@ -100,9 +100,15 @@
   };
 
   const sync = () => { if (!enabled() || document.body.classList.contains('game-playing')) stop(); else start(mode); };
-  startSoundButton?.addEventListener('click', () => { musicRequested = true; start('menu'); });
+  startSoundButton?.addEventListener('click', () => { musicRequested = true; localStorage.setItem('be-match-music', 'on'); start('menu'); window.dispatchEvent(new CustomEvent('be-match:music-state', { detail: { enabled: true } })); });
   playButton?.addEventListener('click', () => changeMode('tactical'));
-  toggles.forEach(toggle => toggle.addEventListener('click', () => setTimeout(sync, 20)));
+  window.addEventListener('be-match:music-setting', event => {
+    const next = Boolean(event.detail?.enabled);
+    localStorage.setItem('be-match-music', next ? 'on' : 'off');
+    musicRequested = next;
+    if (next && !document.body.classList.contains('game-playing')) start(mode); else stop();
+    window.dispatchEvent(new CustomEvent('be-match:music-state', { detail: { enabled: next } }));
+  });
   window.addEventListener('be-match:audio-focus', duck);
   window.addEventListener('be-match:tactical-open', () => changeMode('tactical'));
   window.addEventListener('be-match:enter-game', stop);

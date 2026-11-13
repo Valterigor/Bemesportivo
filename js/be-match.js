@@ -459,7 +459,10 @@
     if (firstPower || secondPower) {
       const target = firstPower ? b : a;
       const combinedKind = firstPower && secondPower ? 'cross' : null;
-      if (combinedKind) state.specialKinds.set(target, combinedKind);
+      if (combinedKind) {
+        state.specialKinds.set(target, combinedKind);
+        boardEl.dispatchEvent(new CustomEvent('be-match:power-combo', { detail: { first: firstPower, second: secondPower, index: target } }));
+      }
       await activatePower(target, true, combinedKind);
       return;
     }

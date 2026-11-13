@@ -52,16 +52,17 @@
   <link rel="stylesheet" href="/css/be-match-cover-readability.css?v=20261112-1">
   <link rel="stylesheet" href="/css/be-match-100.css?v=20261113-4">
   <link rel="stylesheet" href="/css/be-match-round-celebration.css?v=20261113-1">
+  <link rel="stylesheet" href="/css/be-match-premium-feedback.css?v=20261113-1">
 </head>
 <body>
   <main class="match-app">
-    <header class="match-header"><a class="match-brand" href="/"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt=""><span>BeMEsportivo<small>BE Match</small></span></a><button id="sound-toggle" class="icon-button" type="button" data-sound-toggle aria-label="Ativar ou desativar sons">Som</button></header>
+    <header class="match-header"><a class="match-brand" href="/"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt=""><span>BeMEsportivo<small>BE Match</small></span></a><div class="feedback-settings-wrap"><button id="sound-toggle" class="icon-button" type="button" data-sound-toggle aria-label="Ativar ou desativar efeitos sonoros">Som</button><button id="feedback-settings-toggle" class="icon-button feedback-settings-toggle" type="button" aria-expanded="false" aria-controls="feedback-settings" aria-label="Abrir controles de áudio e vibração">⚙</button></div></header><div id="feedback-settings" class="feedback-settings" role="dialog" aria-label="Controles do jogo" hidden><strong>CONTROLES</strong><button type="button" data-feedback-control="effects">Efeitos: ligados</button><button type="button" data-feedback-control="music">Música: desligada</button><button type="button" data-feedback-control="vibration">Vibração: ligada</button></div>
     <section class="match-hero"><div><p class="kicker">BE MATCH</p><h1>Combine.<br><em>Conquiste.</em><br>Evolua.</h1><p>Um movimento de cada vez. Combine peças esportivas e construa sua sequência.</p></div><div class="hero-orbit" aria-hidden="true"><span>BE</span><i></i><b></b></div></section>
     <section class="game-guide" aria-label="Como jogar"><div class="guide-icon">↔</div><div><p class="kicker">COMO JOGAR</p><h2>Capture os relógios da missão</h2><p>Deslize para combinar <strong>3 ou mais peças</strong>. Relógios ao lado da combinação são capturados.</p><small>4 peças criam um raio; formatos T ou L criam uma explosão; 5 peças criam o Poder BE cruzado. Toque no poder para ativar.</small></div></section>
     <section class="phase-map" aria-label="Mapa de fases"><div><p class="kicker">SUA JORNADA</p><h2>Mapa BE</h2><p id="map-status">Complete uma missão para desbloquear a próxima fase.</p></div><div id="phase-nodes" class="phase-nodes"></div></section>
     <section class="match-ranking" aria-labelledby="ranking-title" role="dialog" aria-modal="true"><header><div><p class="kicker">CAMPEONATO BE MATCH</p><h2 id="ranking-title">Tabela de classificação</h2><p>Sua pontuação total é a soma do melhor resultado conquistado em cada fase.</p></div><button id="ranking-close" class="ranking-close" type="button" aria-label="Fechar classificação">×</button><div class="ranking-player"><label for="ranking-name">Nome no campeonato</label><div><input id="ranking-name" maxlength="16" autocomplete="nickname" placeholder="Atleta BE"><button id="ranking-save" type="button">Salvar</button></div></div></header><div class="ranking-own" aria-live="polite"><span><small>SUA POSIÇÃO</small><strong id="ranking-position">—</strong></span><span><small>PONTUAÇÃO TOTAL</small><strong id="ranking-total">0</strong></span><span><small>FASE ATUAL</small><strong id="ranking-level">1/100</strong></span></div><div class="ranking-table-wrap"><table aria-busy="true"><thead><tr><th>POS.</th><th>JOGADOR</th><th>FASE</th><th>ESTRELAS</th><th>PTS</th></tr></thead><tbody id="ranking-body"><tr><td colspan="5">Carregando classificação…</td></tr></tbody></table></div><p id="ranking-status" class="ranking-status" role="status">Conectando ao campeonato…</p></section>
     <section class="game-panel" aria-label="Partida BE Match">
-      <div class="game-heading"><button id="game-back" class="game-back-button" type="button" aria-label="Voltar ao mapa de fases" title="Voltar ao mapa"><span aria-hidden="true">←</span></button><p id="scene-name" class="scene-name" aria-live="polite"></p><button id="game-sound-toggle" class="game-back-button game-sound-button" type="button" data-sound-toggle data-sound-compact aria-label="Ativar ou desativar sons" title="Som do jogo">🔊</button></div>
+      <div class="game-heading"><button id="game-back" class="game-back-button" type="button" aria-label="Voltar ao mapa de fases" title="Voltar ao mapa"><span aria-hidden="true">←</span></button><p id="scene-name" class="scene-name" aria-live="polite"></p><button id="game-sound-toggle" class="game-back-button game-sound-button" type="button" data-sound-toggle data-sound-compact aria-label="Ativar ou desativar sons" title="Som do jogo">🔊</button><button id="feedback-game-toggle" class="game-back-button feedback-game-toggle" type="button" aria-expanded="false" aria-controls="feedback-settings" aria-label="Abrir controles de áudio e vibração" title="Controles">⚙</button></div>
       <div class="game-top">
         <div class="hud-stat hud-phase"><span class="label">FASE</span><strong id="level">1</strong></div>
         <div class="hud-stat hud-score"><span class="label">PONTOS</span><strong id="score">0</strong></div>
@@ -89,7 +90,7 @@
   <script src="/js/be-match-storage.js?v=20261113-1" defer></script>
   <script src="/js/be-match-scenes.js?v=20261109-1" defer></script>
   <script src="/js/be-match-rules.js?v=20261113-3" defer></script>
-  <script src="/js/be-match.js?v=20261113-6" defer></script>
+  <script src="/js/be-match.js?v=20261113-7" defer></script>
   <script src="/js/be-match-life-recovery.js?v=20261112-2" defer></script>
   <script src="/js/be-match-start.js?v=20261111-4" defer></script>
   <script src="/js/be-match-start-map.js?v=20261108-1" defer></script>
@@ -98,7 +99,8 @@
   <script src="/js/be-match-playing.js?v=20261112-1" defer></script>
   <script src="/js/be-match-playing-watch.js?v=20261112-1" defer></script>
   <script src="/js/be-match-sound.js?v=20261113-2" defer></script>
-  <script src="/js/be-match-music.js?v=20261113-2" defer></script>
+  <script src="/js/be-match-music.js?v=20261113-3" defer></script>
+  <script src="/js/be-match-premium-feedback.js?v=20261113-1" defer></script>
   <script src="/js/be-match-clock-display.js?v=20261111-2" defer></script>
   <script src="/js/be-match-copy.js?v=20261112-1" defer></script>
   <script src="/js/be-match-input-feedback.js?v=20261108-1" defer></script>
@@ -107,7 +109,7 @@
   <script src="/js/be-match-clock.js?v=20261108-1" defer></script>
   <script src="/js/be-match-effects.js?v=20261112-2" defer></script>
   <script src="/js/be-match-motivation.js?v=20261109-1" defer></script>
-  <script src="/js/be-match-score-flight.js?v=20261111-5" defer></script>
+  <script src="/js/be-match-score-flight.js?v=20261113-1" defer></script>
   <script src="/js/be-match-achievements.js?v=20261112-1" defer></script>
   <script src="/js/be-match-coach.js?v=20261112-1" defer></script>
   <script src="/js/be-match-tactical-map.js?v=20261113-2" defer></script>

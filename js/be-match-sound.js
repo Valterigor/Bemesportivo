@@ -268,6 +268,7 @@
       tone(660, .09, { type: 'triangle', gain: .02 });
       tone(880, .12, { type: 'sine', gain: .018, delay: .06 });
     }
+    window.dispatchEvent(new CustomEvent('be-match:effects-setting', { detail: { enabled } }));
   }));
   startSoundButton?.addEventListener('click', () => {
     if (!enabled) {

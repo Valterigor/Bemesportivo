@@ -90,7 +90,7 @@
     const score = detail.total;
     const chain = Number(detail.chain) || 1;
     const tier = Math.min(3, Math.max(1, chain-1));
-    const combo = chain >= 4 ? `Combo épico · ${chain} em sequência!` : chain === 3 ? 'Supercombo · 3 em sequência!' : chain === 2 ? 'Combo · 2 em sequência!' : '';
+    const combo = chain >= 5 ? `IMPARÁVEL! · Combo ×${chain}` : chain === 4 ? 'INCRÍVEL! · Combo ×4' : chain === 3 ? 'ÓTIMA! · Combo ×3' : chain === 2 ? 'BOA! · Combo ×2' : '';
     if (score >= target) {
       const reached = [...milestones, Math.floor(score/2500)*2500].filter(value => value <= score && value >= target);
       baseline = Math.max(...reached);

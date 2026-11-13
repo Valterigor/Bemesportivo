@@ -69,6 +69,34 @@
       ], {duration:380, delay:i*9, fill:'both'});
     }
   };
+  const flyObjective = (tile, targetElement, index) => {
+    const targetCard = targetElement?.closest('.mission-hud-target');
+    if (!targetElement || !targetCard) return;
+    clearTimeout(targetCard.__arrivalTimer);
+    targetCard.__arrivalTimer = setTimeout(() => {
+      targetCard.classList.remove('objective-arrival');
+      void targetCard.offsetWidth;
+      targetCard.classList.add('objective-arrival');
+      targetCard.__arrivalTimer = setTimeout(() => targetCard.classList.remove('objective-arrival'), 380);
+    }, reducedMotion.matches ? 0 : 360 + index * 22);
+    if (reducedMotion.matches || layer.childElementCount > 58) return;
+    const from = tile.getBoundingClientRect();
+    const to = targetElement.getBoundingClientRect();
+    const x = from.left + from.width / 2, y = from.top + from.height / 2;
+    const tx = to.left + to.width / 2, ty = to.top + to.height / 2;
+    const piece = document.createElement('span');
+    piece.className = 'objective-flight-piece';
+    piece.style.left = `${x}px`; piece.style.top = `${y}px`;
+    const icon = tile.querySelector('svg');
+    if (icon) piece.append(icon.cloneNode(true));
+    layer.append(piece);
+    animate(piece, [
+      {transform:'translate(-50%,-50%) scale(.8)',opacity:0},
+      {transform:'translate(-50%,-50%) scale(1.08)',opacity:1,offset:.16},
+      {transform:`translate(calc(-50% + ${(tx-x)*.45 + (index%2 ? 18 : -18)}px),calc(-50% + ${(ty-y)*.42}px)) scale(.78)`,opacity:1,offset:.5},
+      {transform:`translate(calc(-50% + ${tx-x}px),calc(-50% + ${ty-y}px)) scale(.25)`,opacity:0}
+    ], {duration:430,delay:index*22,easing:'cubic-bezier(.2,.72,.32,1)',fill:'both'});
+  };
   board.addEventListener('be-match:points', ({detail}) => {
     if (document.hidden || !detail?.indices?.length) return;
     const target = score.getBoundingClientRect();
@@ -84,9 +112,16 @@
     }, reducedMotion.matches ? 0 : 440);
     if (reducedMotion.matches) return;
     const tiles = detail.indices.map(index => board.querySelector(`[data-index="${index}"]`)).filter(Boolean);
+    const objectiveTiles = new Set();
+    const clockTiles = tiles.filter(tile => tile.classList.contains('tile-watch')).slice(0, Number(detail.captured) || 0);
+    clockTiles.forEach((tile, index) => { objectiveTiles.add(tile); flyObjective(tile, document.querySelector('#remaining-clocks'), index); });
+    const secondaryClass = [...(document.querySelector('#secondary-goal-icon')?.classList || [])].find(name => name.startsWith('mission-piece-') && name !== 'mission-piece-watch');
+    const secondaryType = secondaryClass?.replace('mission-piece-', '');
+    if (secondaryType) tiles.filter(tile => tile.classList.contains(`tile-${secondaryType}`)).slice(0, Number(detail.collected) || 0).forEach((tile, index) => { objectiveTiles.add(tile); flyObjective(tile, document.querySelector('#secondary-goal-count'), index); });
     const intensity = detail.power ? 4 : Math.min(3, Math.max(1, Number(detail.chain) || 1));
     lightBurst(tiles, intensity);
-    tiles.slice(0, 16).forEach((tile, i) => {
+    const scoreTiles = tiles.filter(tile => !objectiveTiles.has(tile));
+    (scoreTiles.length ? scoreTiles : tiles).slice(0, 16).forEach((tile, i) => {
       if (layer.childElementCount >= 60) return;
       const rect = tile.getBoundingClientRect();
       const x = rect.left + rect.width / 2, y = rect.top + rect.height / 2;
