@@ -254,10 +254,6 @@
       button.setAttribute('aria-pressed', String(enabled));
       button.setAttribute('aria-label', enabled ? 'Desativar sons do jogo' : 'Ativar sons do jogo');
     });
-    if (!enabled && startSoundButton) {
-      startSoundButton.textContent = '♪ Ativar trilha';
-      startSoundButton.setAttribute('aria-pressed', 'false');
-    }
   };
   toggles.forEach(button => button.addEventListener('click', () => {
     enabled = !enabled;
@@ -270,17 +266,7 @@
     }
     window.dispatchEvent(new CustomEvent('be-match:effects-setting', { detail: { enabled } }));
   }));
-  startSoundButton?.addEventListener('click', () => {
-    if (!enabled) {
-      enabled = true;
-      localStorage.setItem('be-match-sound', 'on');
-      syncToggle();
-    }
-    resume();
-    menuSound();
-    startSoundButton.textContent = '♫ Trilha ativa';
-    startSoundButton.setAttribute('aria-pressed', 'true');
-  });
+  window.addEventListener('be-match:music-state', event => { if (event.detail?.enabled && enabled) { resume(); menuSound(); } });
   playButton?.addEventListener('click', playSound);
   window.addEventListener('be-match:enter-game', fieldEntrySound);
   ['pointerdown', 'touchstart', 'keydown'].forEach(eventName => window.addEventListener(eventName, resume, { once: true, passive: true }));

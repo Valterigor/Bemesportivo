@@ -100,14 +100,23 @@
   };
 
   const sync = () => { if (!enabled() || document.body.classList.contains('game-playing')) stop(); else start(mode); };
-  startSoundButton?.addEventListener('click', () => { musicRequested = true; localStorage.setItem('be-match-music', 'on'); start('menu'); window.dispatchEvent(new CustomEvent('be-match:music-state', { detail: { enabled: true } })); });
-  playButton?.addEventListener('click', () => changeMode('tactical'));
-  window.addEventListener('be-match:music-setting', event => {
-    const next = Boolean(event.detail?.enabled);
+  const syncStartButton = active => {
+    if (!startSoundButton) return;
+    startSoundButton.textContent = active ? '♫ Desligar trilha' : '♪ Ouvir trilha';
+    startSoundButton.setAttribute('aria-pressed', String(active));
+  };
+  const setMusic = next => {
     localStorage.setItem('be-match-music', next ? 'on' : 'off');
     musicRequested = next;
     if (next && !document.body.classList.contains('game-playing')) start(mode); else stop();
+    syncStartButton(next);
     window.dispatchEvent(new CustomEvent('be-match:music-state', { detail: { enabled: next } }));
+  };
+  startSoundButton?.addEventListener('click', () => setMusic(!musicRequested));
+  playButton?.addEventListener('click', () => changeMode('tactical'));
+  window.addEventListener('be-match:music-setting', event => {
+    const next = Boolean(event.detail?.enabled);
+    setMusic(next);
   });
   window.addEventListener('be-match:audio-focus', duck);
   window.addEventListener('be-match:tactical-open', () => changeMode('tactical'));
@@ -116,6 +125,7 @@
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && playing && enabled()) start(mode);
   });
+  syncStartButton(false);
   if (['localhost', '127.0.0.1'].includes(location.hostname)) {
     window.__beMatchMusicDebug = { snapshot: () => ({ playing, mode, requested: musicRequested, state: audio?.state || 'idle' }) };
   }
