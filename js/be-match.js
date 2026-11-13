@@ -629,6 +629,7 @@
       snapshot: () => ({ ...state, grid: [...state.grid], specials: [...state.specialKinds.entries()] }),
       listMoves: productiveMoves,
       setAnimationScale(value) { animationScale = Math.max(0, Number(value) || 0); },
+      setMoves(value) { state.moves = Math.max(0, Number(value) || 0); render(); },
       resolve,
       resetLevel(level) {
         state.level = Math.max(1, Math.min(100, Number(level) || 1));

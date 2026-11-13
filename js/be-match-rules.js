@@ -31,9 +31,11 @@
       walls.add(y * size + x);
     }
     const collectType = collectRotation[(level + chapter) % collectRotation.length];
+    const target = Math.min(24, 7 + Math.floor(level * .17));
+    const progressiveMoves = 24 + Math.floor(level / 8) + (level % 3);
     return {
-      moves: Math.min(40, 24 + Math.floor(level / 8) + (level % 3)),
-      target: Math.min(24, 7 + Math.floor(level * .17)),
+      moves: Math.min(44, Math.max(progressiveMoves, Math.ceil(target * 1.7))),
+      target,
       walls: [...walls],
       collect: level % 4 === 1 ? null : { ...collectType, target: Math.min(18, 5 + Math.floor(level * .11)) },
       tutorial: `Rodada ${chapter} · ${roundName(level)}: observe os corredores de pneus e prepare cascatas antes de usar seus poderes.`
