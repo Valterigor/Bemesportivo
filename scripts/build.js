@@ -14,6 +14,7 @@ const publicRootFiles = [
   '_headers',
   '_redirects',
   'ads.txt',
+  'bematch.webmanifest',
   'manifest.webmanifest',
   'robots.txt',
   'sitemap.xml'
