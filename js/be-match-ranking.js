@@ -78,9 +78,13 @@
     playerName = nameInput.value.replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 16) || 'Atleta BE';
     nameInput.value = playerName;
     localStorage.setItem('be-match-player-name', playerName);
+    localStorage.setItem('be-match-competition-choice', 'joined');
     submit();
   });
-  document.querySelectorAll('[data-ranking-open]').forEach(button => button.addEventListener('click', () => document.body.classList.add('ranking-open')));
+  document.querySelectorAll('[data-ranking-open]').forEach(button => button.addEventListener('click', () => {
+    document.body.classList.add('ranking-open');
+    requestAnimationFrame(() => { nameInput.focus(); nameInput.select(); });
+  }));
   document.querySelector('#ranking-close')?.addEventListener('click', () => document.body.classList.remove('ranking-open'));
   document.addEventListener('keydown', event => { if (event.key === 'Escape') document.body.classList.remove('ranking-open'); });
   const closeInvite = () => {
