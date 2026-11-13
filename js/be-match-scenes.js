@@ -11,14 +11,15 @@
   ];
   window.BeMatchScenes = {
     apply(level) {
-      const index = Math.max(0, Math.min(scenes.length - 1, level - 1));
+      const safeLevel = Math.max(1, Math.min(100, Number(level) || 1));
+      const index = (safeLevel - 1) % scenes.length;
       const [name, accent, surface] = scenes[index];
       document.body.dataset.matchScene = String(index + 1);
       document.body.style.setProperty('--scene-image', `url('/img/be-match/scenes/phase-${index + 1}.svg')`);
       document.body.style.setProperty('--scene-accent', accent);
       document.body.style.setProperty('--scene-surface', surface);
       const label = document.querySelector('#scene-name');
-      if (label) label.textContent = name;
+      if (label) label.textContent = `${name} · Rodada ${Math.ceil(safeLevel / 10)}`;
       document.querySelector('#board').setAttribute('aria-label', `Tabuleiro BE Match · ${name}`);
     }
   };

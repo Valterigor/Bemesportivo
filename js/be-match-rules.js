@@ -1,6 +1,6 @@
 (() => {
   const size = 8;
-  const levels = [
+  const starterLevels = [
     { moves: 24, target: 6, walls: [], tutorial: 'Combine 4 peças para criar um raio esportivo.' },
     { moves: 25, target: 7, walls: [27,28,35,36], tutorial: 'Novo campo: as barreiras centrais dividem as jogadas.' },
     { moves: 26, target: 8, walls: [18,21,42,45], collect: { type: 'bottle', target: 6, label: 'garrafas' }, tutorial: 'Use as laterais para contornar as quatro barreiras.' },
@@ -10,7 +10,37 @@
     { moves: 32, target: 14, walls: [17,22,25,30,33,38,41,46], collect: { type: 'cap', target: 10, label: 'bolas' }, tutorial: 'Planeje cascatas entre os portões laterais.' },
     { moves: 34, target: 16, walls: [9,14,18,21,42,45,49,54], collect: { type: 'shoe', target: 12, label: 'tênis' }, tutorial: 'Desafio final: supere a fortaleza com poderes e cascatas.' }
   ];
-  const levelConfig = level => levels[Math.max(0, Math.min(levels.length - 1, level - 1))];
+  const collectRotation = [
+    { type: 'bottle', label: 'garrafas' },
+    { type: 'shoe', label: 'tênis' },
+    { type: 'fruit', label: 'frutas' },
+    { type: 'cap', label: 'bolas' }
+  ];
+  const generatedLevel = level => {
+    const chapter = Math.ceil(level / 10);
+    let seed = level * 7919 + chapter * 104729;
+    const next = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed; };
+    const wallCount = 4 + (level % 3) * 2;
+    const walls = new Set();
+    while (walls.size < wallCount) {
+      const candidate = next() % 36;
+      const x = 1 + candidate % 6;
+      const y = 1 + Math.floor(candidate / 6);
+      walls.add(y * size + x);
+    }
+    const collectType = collectRotation[(level + chapter) % collectRotation.length];
+    return {
+      moves: Math.min(40, 24 + Math.floor(level / 8) + (level % 3)),
+      target: Math.min(24, 7 + Math.floor(level * .17)),
+      walls: [...walls],
+      collect: level % 4 === 1 ? null : { ...collectType, target: Math.min(18, 5 + Math.floor(level * .11)) },
+      tutorial: `Rodada ${chapter}: observe os corredores de pneus e prepare cascatas antes de usar seus poderes.`
+    };
+  };
+  const levelConfig = rawLevel => {
+    const level = Math.max(1, Math.min(100, Number(rawLevel) || 1));
+    return level <= starterLevels.length ? starterLevels[level - 1] : generatedLevel(level);
+  };
   const powerGuide = Object.freeze([
     { trigger: '4 peças em linha', name: 'Raio', effect: 'limpa uma linha ou coluna inteira' },
     { trigger: 'formato T ou L', name: 'Explosão', effect: 'limpa uma área 3×3' },

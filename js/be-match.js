@@ -41,7 +41,7 @@
   const storedLives = storedLivesValue === null ? 5 : Number(storedLivesValue);
   const state = {
     grid: [], score: 0, moves: 20, movesUsed: 0,
-    level: Math.min(8, Math.max(1, Number(savedProgress.unlockedLevel || localStorage.getItem('be-match-level') || 1))),
+    level: Math.min(100, Math.max(1, Number(savedProgress.unlockedLevel || localStorage.getItem('be-match-level') || 1))),
     lives: Number.isFinite(storedLives) ? Math.max(0, Math.min(5, storedLives)) : 5,
     combos: 0, bestChain: 0, power: Number(localStorage.getItem('be-match-power') || 0),
     juiceDestroyed: 0, collected: {}, specialKinds: new Map(), locked: false
@@ -163,8 +163,10 @@
   function renderMap() {
     const completed = new Set(savedProgress.completed || []);
     const totalStars = Object.values(savedProgress.stars || {}).reduce((sum, value) => sum + Number(value || 0), 0);
-    mapEl.replaceChildren(...Array.from({ length: 8 }, (_, n) => {
-      const level = n + 1;
+    const current = Math.max(1, Number(savedProgress.unlockedLevel || state.level));
+    const first = Math.max(1, Math.min(94, current - 3));
+    mapEl.replaceChildren(...Array.from({ length: 7 }, (_, n) => {
+      const level = first + n;
       const done = completed.has(level);
       const open = level <= Number(savedProgress.unlockedLevel || state.level);
       const stars = '★'.repeat(Number(savedProgress.stars[level] || 0)) || '☆';
@@ -176,7 +178,7 @@
       button.addEventListener('click', () => { if (open && level !== state.level) { state.level = level; resetPhase(false); } });
       return button;
     }));
-    mapStatus.textContent = `Fase ${state.level} de 8 · ${completed.size} concluída${completed.size === 1 ? '' : 's'} · ${totalStars}/24 estrelas`;
+    mapStatus.textContent = `Fase ${state.level} de 100 · ${completed.size} concluída${completed.size === 1 ? '' : 's'} · ${totalStars}/300 estrelas`;
   }
 
   function render(movements = null) {
@@ -532,7 +534,8 @@
     savedProgress.best[state.level] = best;
     savedProgress.stars[state.level] = Math.max(Number(savedProgress.stars[state.level] || 0), stars);
     savedProgress.completed = [...completed].sort((a, b) => a - b);
-    savedProgress.unlockedLevel = Math.max(Number(savedProgress.unlockedLevel || 1), Math.min(8, state.level + 1));
+    savedProgress.unlockedLevel = Math.max(Number(savedProgress.unlockedLevel || 1), Math.min(100, state.level + 1));
+    savedProgress.totalScore = Object.values(savedProgress.best).reduce((sum, value) => sum + Number(value || 0), 0);
     localStorage.setItem('be-match-progress', JSON.stringify(savedProgress));
     localStorage.setItem('be-match-level', String(savedProgress.unlockedLevel));
     renderMap();
@@ -544,9 +547,9 @@
     const collect = collectGoal();
     const secondary = collect ? ` e ${Math.min(collectedForGoal(), collect.target)}/${collect.target} ${collect.label}` : '';
     document.querySelector('#result-copy').textContent = `Missão concluída: ${state.juiceDestroyed}/${missionTarget()} relógios${secondary}. ${state.moves} movimento${state.moves === 1 ? '' : 's'} restante${state.moves === 1 ? '' : 's'}. Estrelas: 1 por concluir, 2 com 15% e 3 com 40% dos movimentos restantes.`;
-    document.querySelector('#next-level').textContent = state.level === 8 ? 'Jogar novamente' : 'Próxima fase →';
+    document.querySelector('#next-level').textContent = state.level === 100 ? 'Rejogar fase final' : 'Próxima fase →';
     sheet.hidden = false;
-    window.dispatchEvent(new CustomEvent('be-match-win', { detail: { stars, level: state.level } }));
+    window.dispatchEvent(new CustomEvent('be-match-win', { detail: { stars, level: state.level, totalScore: savedProgress.totalScore } }));
   }
 
   function renderLossSummary() {
@@ -587,7 +590,7 @@
 
   document.querySelector('#restart').addEventListener('click', () => resetPhase());
   window.addEventListener('be-match:select-level', event => {
-    const level = Math.max(1, Math.min(8, Number(event.detail?.level) || 1));
+    const level = Math.max(1, Math.min(100, Number(event.detail?.level) || 1));
     if (level > Number(savedProgress.unlockedLevel || 1)) return;
     state.level = level;
     sheet.hidden = true;
@@ -595,7 +598,7 @@
     resetPhase(false);
   });
   document.querySelector('#next-level').addEventListener('click', () => {
-    state.level = Math.min(8, state.level + 1);
+    state.level = Math.min(100, state.level + 1);
     savedProgress.unlockedLevel = Math.max(savedProgress.unlockedLevel || 1, state.level);
     localStorage.setItem('be-match-progress', JSON.stringify(savedProgress));
     resetPhase();
@@ -628,7 +631,7 @@
       setAnimationScale(value) { animationScale = Math.max(0, Number(value) || 0); },
       resolve,
       resetLevel(level) {
-        state.level = Math.max(1, Math.min(8, Number(level) || 1));
+        state.level = Math.max(1, Math.min(100, Number(level) || 1));
         state.lives = 5;
         sheet.hidden = true;
         lossSheet.hidden = true;

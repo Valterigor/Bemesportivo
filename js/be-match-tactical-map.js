@@ -8,21 +8,23 @@
   const nodesEl = document.querySelector('#tactical-nodes');
   if (!sheet || !nodesEl) return;
   const scenes = ['Parque da largada','Praia em movimento','Quadra urbana','Trilha da serra','Velódromo ao pôr do sol','Arena de inverno','Estádio das estrelas','Arena dos campeões'];
-  const positions = [[50,88],[24,68],[50,65],[76,68],[18,42],[40,38],[62,38],[82,42]];
   let progress = {};
   let selected = 1;
-  const readProgress = () => { try { progress = JSON.parse(localStorage.getItem('be-match-progress') || '{}'); } catch { progress = {}; } progress = { unlockedLevel:1, completed:[], stars:{}, ...progress }; };
+  const readProgress = () => {
+    try { progress = JSON.parse(localStorage.getItem('be-match-progress') || '{}'); } catch { progress = {}; }
+    progress = { unlockedLevel: 1, completed: [], stars: {}, ...progress };
+  };
+  const phaseName = level => `${scenes[(level - 1) % scenes.length]} · Rodada ${Math.ceil(level / 10)}`;
   const renderBriefing = () => {
     const config = window.BeMatchRules.levelConfig(selected);
     const collect = config.collect ? ` e colete ${config.collect.target} ${config.collect.label}` : '';
     const done = (progress.completed || []).includes(selected);
-    document.querySelector('#tactical-number').textContent = String(selected).padStart(2,'0');
-    document.querySelector('#tactical-name').textContent = scenes[selected - 1];
+    document.querySelector('#tactical-number').textContent = String(selected).padStart(3, '0');
+    document.querySelector('#tactical-name').textContent = phaseName(selected);
     document.querySelector('#tactical-goal').textContent = `Capture ${config.target} relógios${collect} em até ${config.moves} movimentos.`;
     document.querySelector('#tactical-stars').textContent = `${Number(progress.stars?.[selected] || 0)}/3`;
     document.querySelector('#tactical-status').textContent = done ? 'Concluída' : selected === Number(progress.unlockedLevel || 1) ? 'Atual' : 'Disponível';
     document.querySelector('#tactical-tip').textContent = config.tutorial;
-    nodesEl.querySelectorAll('.tactical-node').forEach(node => node.classList.toggle('is-selected', Number(node.dataset.level) === selected));
   };
   const enterLevel = level => {
     selected = level;
@@ -32,22 +34,44 @@
   };
   const renderNodes = () => {
     const completed = new Set(progress.completed || []);
-    nodesEl.replaceChildren(...positions.map(([x,y], index) => {
-      const level = index + 1;
-      const button = document.createElement('button');
-      const current = level === Number(progress.unlockedLevel || 1);
-      const done = completed.has(level);
-      const open = done || current;
-      button.type = 'button'; button.className = `tactical-node ${done ? 'is-done' : ''} ${current ? 'is-current' : ''}`; button.dataset.level = level;
-      button.style.left = `${x}%`; button.style.top = `${y}%`; button.disabled = !open;
-      button.setAttribute('aria-label', open ? `Fase ${level}, ${scenes[index]}` : `Fase ${level} bloqueada`);
-      button.innerHTML = `<strong>${level}</strong><small>${current ? 'ATUAL' : done ? `✓ ${Number(progress.stars?.[level] || 0)}★` : 'BLOQ.'}</small>`;
-      button.addEventListener('click', () => enterLevel(level));
-      return button;
-    }));
+    const fragment = document.createDocumentFragment();
+    for (let round = 1; round <= 10; round += 1) {
+      const group = document.createElement('section');
+      group.className = 'tactical-round';
+      group.innerHTML = `<header><span>RODADA ${round}</span><small>Fases ${(round - 1) * 10 + 1}–${round * 10}</small></header>`;
+      const track = document.createElement('div');
+      track.className = 'tactical-round-track';
+      for (let offset = 1; offset <= 10; offset += 1) {
+        const level = (round - 1) * 10 + offset;
+        const current = level === Number(progress.unlockedLevel || 1);
+        const done = completed.has(level);
+        const open = done || current;
+        const button = document.createElement('button');
+        button.type = 'button';
+        const finalRound = offset === 10;
+        button.className = `tactical-node ${done ? 'is-done' : ''} ${current ? 'is-current' : ''} ${finalRound ? 'is-trophy' : ''}`;
+        button.dataset.level = level;
+        button.disabled = !open;
+        button.setAttribute('aria-label', open ? `Fase ${level}, ${phaseName(level)}` : `Fase ${level} bloqueada`);
+        button.innerHTML = `<i aria-hidden="true">${finalRound ? '🏆' : ''}</i><strong>${level}</strong><small>${current ? 'ATUAL' : done ? `✓ ${Number(progress.stars?.[level] || 0)}★` : finalRound ? 'FINAL' : 'BLOQ.'}</small>`;
+        button.addEventListener('click', () => enterLevel(level));
+        track.append(button);
+      }
+      group.append(track);
+      fragment.append(group);
+    }
+    nodesEl.replaceChildren(fragment);
     renderBriefing();
+    requestAnimationFrame(() => nodesEl.querySelector('.is-current')?.scrollIntoView({ block: 'center', inline: 'center' }));
   };
-  const open = () => { readProgress(); selected = Math.min(8, Math.max(1, Number(progress.unlockedLevel || 1))); renderNodes(); sheet.hidden = false; document.body.classList.add('tactical-open'); window.dispatchEvent(new CustomEvent('be-match:tactical-open')); };
+  const open = () => {
+    readProgress();
+    selected = Math.min(100, Math.max(1, Number(progress.unlockedLevel || 1)));
+    renderNodes();
+    sheet.hidden = false;
+    document.body.classList.add('tactical-open');
+    window.dispatchEvent(new CustomEvent('be-match:tactical-open'));
+  };
   const close = () => { sheet.hidden = true; document.body.classList.remove('tactical-open'); };
   openButton?.addEventListener('click', open);
   nextButton?.addEventListener('click', () => setTimeout(open, 0));
