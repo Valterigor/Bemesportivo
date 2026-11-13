@@ -5,7 +5,7 @@
   if (!board) return;
   const burst = (x, y, amount = 12) => { for (let i = 0; i < amount; i++) { const p = document.createElement('i'); p.className = 'fx-particle'; p.style.left = `${x}px`; p.style.top = `${y}px`; p.style.setProperty('--dx', `${Math.round(Math.cos(i / amount * Math.PI * 2) * (28 + Math.random() * 34))}px`); p.style.setProperty('--dy', `${Math.round(Math.sin(i / amount * Math.PI * 2) * (28 + Math.random() * 34))}px`); document.body.append(p); p.addEventListener('animationend', () => p.remove(), { once: true }); } };
   const label = (text, x, y) => { const el = document.createElement('strong'); el.className = 'fx-label'; el.textContent = text; el.style.left = `${x}px`; el.style.top = `${y}px`; document.body.append(el); el.addEventListener('animationend', () => el.remove(), { once: true }); };
-  const ring = (x, y, power = false) => { const el = document.createElement('i'); el.className = `fx-ring${power ? ' power' : ''}`; el.style.left = `${x}px`; el.style.top = `${y}px`; document.body.append(el); el.addEventListener('animationend', () => el.remove(), { once: true }); };
+  const ring = () => {};
   const trail = (x, y) => { for (let i = 0; i < 5; i++) { const el = document.createElement('i'); el.className = 'fx-trail'; el.style.left = `${x + (Math.random() * 34 - 17)}px`; el.style.top = `${y + (Math.random() * 34 - 17)}px`; el.style.animationDelay = `${i * 25}ms`; document.body.append(el); el.addEventListener('animationend', () => el.remove(), { once: true }); } };
   const callout = (text, tier = 'good') => {
     document.querySelector('.fx-callout')?.remove();
