@@ -179,7 +179,7 @@
     mapStatus.textContent = `Fase ${state.level} de 8 · ${completed.size} concluída${completed.size === 1 ? '' : 's'} · ${totalStars}/24 estrelas`;
   }
 
-  function render() {
+  function render(movements = null) {
     boardEl.replaceChildren(...state.grid.map((type, index) => {
       const button = document.createElement('button');
       const kind = state.specialKinds.get(index);
@@ -189,6 +189,12 @@
       button.setAttribute('aria-label', kind ? `${powerNames[kind]}. Toque para ativar ou arraste para combinar.` : `Peça ${type}`);
       if (type === 'wall') button.setAttribute('aria-label', 'Barreira fixa de pneus');
       if (kind) { button.dataset.special = 'true'; button.dataset.powerKind = kind; }
+      const movement = movements?.get(index);
+      if (movement && type !== 'wall') {
+        button.classList.add('settling');
+        button.style.setProperty('--settle-from', `translate(${movement.dx * 112}%, ${movement.dy * 112}%)`);
+        button.style.setProperty('--settle-delay', `${Math.min(120, movement.distance * 18)}ms`);
+      }
       button.innerHTML = icons[type];
       button.addEventListener('pointerdown', event => startDrag(event, index));
       button.addEventListener('touchstart', event => startTouch(event, index), { passive: false });
@@ -254,27 +260,62 @@
   }
 
   function collapseAndFill() {
-    for (let x = 0; x < size; x += 1) {
-      let start = 0;
-      for (let boundary = 0; boundary <= size; boundary += 1) {
-        const boundaryIndex = boundary < size ? key(x, boundary) : -1;
-        if (boundary < size && state.grid[boundaryIndex] !== 'wall') continue;
-        const items = [];
-        for (let y = boundary - 1; y >= start; y -= 1) {
-          const index = key(x, y);
-          if (state.grid[index]) items.push({ type: state.grid[index], kind: state.specialKinds.get(index) });
+    const origins = state.grid.map((type, index) => type && type !== 'wall' ? index : null);
+    const specials = state.grid.map((_, index) => state.specialKinds.get(index) || null);
+    let changed = true;
+    let passes = 0;
+    while (changed && passes < size * size * 3) {
+      changed = false;
+      passes += 1;
+      for (let y = size - 1; y >= 0; y -= 1) {
+        for (let x = 0; x < size; x += 1) {
+          const target = key(x, y);
+          if (state.grid[target] !== null) continue;
+          if (y === 0) {
+            state.grid[target] = randomType();
+            origins[target] = key(x, -1 - (passes % 2));
+            specials[target] = null;
+            changed = true;
+            continue;
+          }
+          const above = key(x, y - 1);
+          let source = state.grid[above] && state.grid[above] !== 'wall' ? above : null;
+          // When a tire blocks the vertical route, a neighbouring piece may slide
+          // diagonally into the gap, as in irregular match-3 boards.
+          if (source === null && state.grid[above] === 'wall') {
+            const directions = (x + y + passes) % 2 ? [-1, 1] : [1, -1];
+            source = directions.map(dx => x + dx).filter(nx => nx >= 0 && nx < size)
+              .map(nx => key(nx, y - 1)).find(candidate => state.grid[candidate] && state.grid[candidate] !== 'wall') ?? null;
+          }
+          if (source === null) continue;
+          state.grid[target] = state.grid[source];
+          state.grid[source] = null;
+          origins[target] = origins[source];
+          origins[source] = null;
+          specials[target] = specials[source];
+          specials[source] = null;
+          changed = true;
         }
-        for (let y = boundary - 1, position = 0; y >= start; y -= 1, position += 1) {
-          const index = key(x, y);
-          const item = items[position];
-          state.grid[index] = item?.type || randomType();
-          state.specialKinds.delete(index);
-          if (item?.kind) state.specialKinds.set(index, item.kind);
-        }
-        if (boundary < size) { state.grid[boundaryIndex] = 'wall'; state.specialKinds.delete(boundaryIndex); }
-        start = boundary + 1;
       }
     }
+    // Defensive fallback for a future fully enclosed board shape.
+    state.grid.forEach((type, index) => {
+      if (type !== null) return;
+      state.grid[index] = randomType();
+      origins[index] = key(index % size, -1);
+    });
+    state.specialKinds.clear();
+    specials.forEach((kind, index) => { if (kind) state.specialKinds.set(index, kind); });
+    const movements = new Map();
+    origins.forEach((origin, target) => {
+      if (origin === null || origin === target || state.grid[target] === 'wall') return;
+      const fromX = ((origin % size) + size) % size;
+      const fromY = Math.floor(origin / size);
+      const toX = target % size;
+      const toY = Math.floor(target / size);
+      movements.set(target, { dx: fromX - toX, dy: fromY - toY, distance: Math.abs(fromX - toX) + Math.abs(fromY - toY) });
+    });
+    return movements;
   }
 
   async function clearCells(affected, points, chain, power = false, bonus = null) {
@@ -288,9 +329,9 @@
     boardEl.dispatchEvent(new CustomEvent('be-match:points', { detail: { indices: indexes, points, total: state.score, chain, power, bonus, captured, collected } }));
     await wait(power ? 380 : 250);
     indexes.forEach(index => { state.grid[index] = null; state.specialKinds.delete(index); });
-    collapseAndFill();
-    render();
-    await wait(170);
+    const movements = collapseAndFill();
+    render(movements);
+    await wait(300);
   }
 
   async function resolve(preferredIndex = null, initialChain = 0) {
