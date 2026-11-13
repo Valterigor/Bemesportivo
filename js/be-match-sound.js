@@ -232,6 +232,7 @@
   board.addEventListener('be-match:shuffle', shuffleSound);
   board.addEventListener('be-match:low-moves', event => lowMovesSound(event.detail.moves));
   board.addEventListener('be-match:milestone', event => milestoneSound(event.detail?.tier || 3));
+  board.addEventListener('be-match:cascade-reward', event => bonusSound(event.detail?.kind));
   window.addEventListener('be-match-win', event => winSound(event.detail.stars));
   window.addEventListener('be-match-loss', lossSound);
 

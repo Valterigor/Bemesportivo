@@ -42,6 +42,10 @@
     setTimeout(() => speak('Respire, observe e execute. Cada movimento deve aproximar você da meta.'), 120);
   });
 
+  board.addEventListener('be-match:cascade-reward', ({ detail }) => {
+    speak(`Combo ×${detail.chain}! Você conquistou um novo poder para a próxima jogada.`);
+  });
+
   window.addEventListener('be-match-win', ({ detail }) => {
     const praise = detail.stars === 3 ? 'Treino perfeito!' : detail.stars === 2 ? 'Ótimo treino!' : 'Missão cumprida!';
     speak(`${praise} Você concluiu a fase com ${detail.stars} estrela${detail.stars === 1 ? '' : 's'}.`);

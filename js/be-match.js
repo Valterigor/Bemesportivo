@@ -31,6 +31,7 @@
     cap: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="16"/><path d="m24 16 6 4-2 7h-8l-2-7 6-4Z"/><path d="m24 16-2-8M30 20l8-3M28 27l5 8M20 27l-5 8M18 20l-8-3"/></svg>',
     shoe: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13c4 5 7 10 13 13l9 4c4 2 5 6 0 6H12c-5 0-6-4-3-7l6-6"/><path d="m20 20 5 2M16 24l5 2M13 28l5 2"/></svg>',
     fruit: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M24 17c-8-5-15 2-13 11 2 9 8 13 13 7 5 6 11 2 13-7 2-9-5-16-13-11Z"/><path d="M24 16c0-5 4-8 8-8M28 9c3-2 6-1 8 1"/></svg>'
+    ,wall: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" aria-hidden="true"><path d="M7 13h34v22H7zM7 21h34M7 29h34M16 13v8M32 13v8M12 21v8M27 21v8M19 29v6M36 29v6"/></svg>'
   };
 
   let savedProgress;
@@ -48,10 +49,13 @@
   const key = (x, y) => y * size + x;
   let animationScale = 1;
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms * animationScale));
-  const randomType = () => regularTypes[Math.floor(Math.random() * regularTypes.length)];
+  const activeTypes = () => state.level <= 2 ? regularTypes.slice(0, 4) : regularTypes;
+  const randomType = () => { const types = activeTypes(); return types[Math.floor(Math.random() * types.length)]; };
   const movesForLevel = () => window.BeMatchRules.levelConfig(state.level).moves;
   const missionTarget = () => window.BeMatchRules.levelConfig(state.level).target;
   const collectGoal = () => window.BeMatchRules.levelConfig(state.level).collect || null;
+  const wallPositions = () => new Set(window.BeMatchRules.levelConfig(state.level).walls || []);
+  const isMovable = type => regularTypes.includes(type);
   const collectedForGoal = () => collectGoal() ? Number(state.collected[collectGoal().type] || 0) : 0;
   const missionComplete = () => (state.juiceDestroyed >= missionTarget() || !state.grid.includes('watch')) && (!collectGoal() || collectedForGoal() >= collectGoal().target);
   const adjacent = (a, b) => Math.abs(a % size - b % size) + Math.abs(Math.floor(a / size) - Math.floor(b / size)) === 1;
@@ -80,8 +84,8 @@
       while (x < size) {
         const start = x;
         const type = state.grid[key(x, y)];
-        while (x + 1 < size && type !== 'watch' && state.grid[key(x + 1, y)] === type) x += 1;
-        if (type !== 'watch' && x - start + 1 >= 3) groups.push(Array.from({ length: x - start + 1 }, (_, n) => key(start + n, y)));
+        while (x + 1 < size && isMovable(type) && state.grid[key(x + 1, y)] === type) x += 1;
+        if (isMovable(type) && x - start + 1 >= 3) groups.push(Array.from({ length: x - start + 1 }, (_, n) => key(start + n, y)));
         x += 1;
       }
     }
@@ -90,8 +94,8 @@
       while (y < size) {
         const start = y;
         const type = state.grid[key(x, y)];
-        while (y + 1 < size && type !== 'watch' && state.grid[key(x, y + 1)] === type) y += 1;
-        if (type !== 'watch' && y - start + 1 >= 3) groups.push(Array.from({ length: y - start + 1 }, (_, n) => key(x, start + n)));
+        while (y + 1 < size && isMovable(type) && state.grid[key(x, y + 1)] === type) y += 1;
+        if (isMovable(type) && y - start + 1 >= 3) groups.push(Array.from({ length: y - start + 1 }, (_, n) => key(x, start + n)));
         y += 1;
       }
     }
@@ -112,7 +116,7 @@
     for (let index = 0; index < state.grid.length; index += 1) {
       for (const next of [index + 1, index + size]) {
         if (next >= state.grid.length || !adjacent(index, next)) continue;
-        if (state.grid[index] === 'watch' || state.grid[next] === 'watch') continue;
+        if (!isMovable(state.grid[index]) || !isMovable(state.grid[next])) continue;
         [state.grid[index], state.grid[next]] = [state.grid[next], state.grid[index]];
         const valid = findMatchInfo().base.size > 0;
         [state.grid[index], state.grid[next]] = [state.grid[next], state.grid[index]];
@@ -127,7 +131,7 @@
     for (let index = 0; index < state.grid.length; index += 1) {
       for (const next of [index + 1, index + size]) {
         if (next >= state.grid.length || !adjacent(index, next)) continue;
-        if (state.grid[index] === 'watch' || state.grid[next] === 'watch') continue;
+        if (!isMovable(state.grid[index]) || !isMovable(state.grid[next])) continue;
         [state.grid[index], state.grid[next]] = [state.grid[next], state.grid[index]];
         const info = findMatchInfo();
         const captures = [...info.affected].filter(cell => state.grid[cell] === 'watch').length;
@@ -146,12 +150,14 @@
   function createGrid() {
     state.specialKinds.clear();
     let attempts = 0;
+    const walls = wallPositions();
     do {
       state.grid = Array.from({ length: size * size }, randomType);
-      Array.from({ length: size * size }, (_, index) => index).sort(() => Math.random() - .5)
+      walls.forEach(index => { state.grid[index] = 'wall'; });
+      Array.from({ length: size * size }, (_, index) => index).filter(index => !walls.has(index)).sort(() => Math.random() - .5)
         .slice(0, Math.min(missionTarget(), size * size - 1)).forEach(index => { state.grid[index] = 'watch'; });
       attempts += 1;
-    } while ((findMatchInfo().base.size || !hasValidMove() || !hasProductiveMove()) && attempts < 500);
+    } while ((findMatchInfo().base.size || !hasValidMove() || !hasProductiveMove() || productiveMoves().filter(move => move.createsPower).length < 2) && attempts < 700);
   }
 
   function renderMap() {
@@ -181,6 +187,7 @@
       button.dataset.index = index;
       button.setAttribute('role', 'gridcell');
       button.setAttribute('aria-label', kind ? `${powerNames[kind]}. Toque para ativar ou arraste para combinar.` : `Peça ${type}`);
+      if (type === 'wall') button.setAttribute('aria-label', 'Barreira fixa do campo');
       if (kind) { button.dataset.special = 'true'; button.dataset.powerKind = kind; }
       button.innerHTML = icons[type];
       button.addEventListener('pointerdown', event => startDrag(event, index));
@@ -248,23 +255,30 @@
 
   function collapseAndFill() {
     for (let x = 0; x < size; x += 1) {
-      const column = [];
-      for (let y = size - 1; y >= 0; y -= 1) {
-        const index = key(x, y);
-        if (state.grid[index]) column.push({ type: state.grid[index], kind: state.specialKinds.get(index) });
-      }
-      for (let y = size - 1; y >= 0; y -= 1) {
-        const index = key(x, y);
-        const item = column[size - 1 - y];
-        state.grid[index] = item?.type || randomType();
-        state.specialKinds.delete(index);
-        if (item?.kind) state.specialKinds.set(index, item.kind);
+      let start = 0;
+      for (let boundary = 0; boundary <= size; boundary += 1) {
+        const boundaryIndex = boundary < size ? key(x, boundary) : -1;
+        if (boundary < size && state.grid[boundaryIndex] !== 'wall') continue;
+        const items = [];
+        for (let y = boundary - 1; y >= start; y -= 1) {
+          const index = key(x, y);
+          if (state.grid[index]) items.push({ type: state.grid[index], kind: state.specialKinds.get(index) });
+        }
+        for (let y = boundary - 1, position = 0; y >= start; y -= 1, position += 1) {
+          const index = key(x, y);
+          const item = items[position];
+          state.grid[index] = item?.type || randomType();
+          state.specialKinds.delete(index);
+          if (item?.kind) state.specialKinds.set(index, item.kind);
+        }
+        if (boundary < size) { state.grid[boundaryIndex] = 'wall'; state.specialKinds.delete(boundaryIndex); }
+        start = boundary + 1;
       }
     }
   }
 
   async function clearCells(affected, points, chain, power = false, bonus = null) {
-    const indexes = [...affected];
+    const indexes = [...affected].filter(index => state.grid[index] !== 'wall');
     const collect = collectGoal();
     const captured = indexes.filter(index => state.grid[index] === 'watch').length;
     const collected = collect ? indexes.filter(index => state.grid[index] === collect.type).length : 0;
@@ -282,6 +296,7 @@
   async function resolve(preferredIndex = null, initialChain = 0) {
     let info = findMatchInfo();
     let chain = initialChain;
+    let powersCreated = 0;
     while (info.base.size) {
       chain += 1;
       state.combos += 1;
@@ -292,13 +307,14 @@
       const affected = new Set(info.affected);
       const triggered = expandTriggeredPowers(affected);
       state.juiceDestroyed += [...affected].filter(index => state.grid[index] === 'watch').length;
-      const points = window.BeMatchRules.scoreForClear(affected.size, chain, createdKind, triggered.size > 0);
+      const points = window.BeMatchRules.scoreForClear([...affected].filter(index => state.grid[index] !== 'wall').length, chain, createdKind, triggered.size > 0);
       await clearCells(affected, points, chain, triggered.size > 0, createdKind);
       if (createdKind && specialIndex !== null) {
         const placement = [specialIndex, ...candidates].find(index => state.grid[index] !== 'watch') ?? specialIndex;
         state.grid[placement] = randomType();
         state.specialKinds.set(placement, createdKind);
         state.power += 1;
+        powersCreated += 1;
         localStorage.setItem('be-match-power', String(state.power));
         messageEl.textContent = `${powerNames[createdKind]} criado! Toque nele ou combine para ativar.`;
         render();
@@ -306,7 +322,22 @@
       preferredIndex = null;
       info = findMatchInfo();
     }
-    if (chain > 1) messageEl.textContent = `Combo ×${chain}! Multiplicador de ${1 + (chain - 1) * .5}× aplicado.`;
+    let cascadeReward = false;
+    if (chain >= 3 && powersCreated === 0) {
+      const rewardKind = chain >= 5 ? 'cross' : chain >= 4 ? 'burst' : (Math.random() < .5 ? 'row' : 'column');
+      const options = state.grid.map((type, index) => isMovable(type) && !state.specialKinds.has(index) ? index : -1).filter(index => index >= 0);
+      const placement = options[Math.floor(Math.random() * options.length)];
+      if (placement !== undefined) {
+        state.specialKinds.set(placement, rewardKind);
+        state.power += 1;
+        localStorage.setItem('be-match-power', String(state.power));
+        messageEl.textContent = `Combo ×${chain}: ${powerNames[rewardKind]} conquistado!`;
+        cascadeReward = true;
+        render();
+        boardEl.dispatchEvent(new CustomEvent('be-match:cascade-reward', { detail: { kind: rewardKind, chain, index: placement } }));
+      }
+    }
+    if (chain > 1 && !cascadeReward) messageEl.textContent = `Combo ×${chain}! Multiplicador de ${1 + (chain - 1) * .5}× aplicado.`;
     return chain;
   }
 
@@ -318,7 +349,7 @@
     const affected = new Set(window.BeMatchRules.affectedByPower(index, kind));
     const triggered = expandTriggeredPowers(affected);
     state.juiceDestroyed += [...affected].filter(cell => state.grid[cell] === 'watch').length;
-    const points = window.BeMatchRules.scoreForClear(affected.size, 1, null, true);
+    const points = window.BeMatchRules.scoreForClear([...affected].filter(cell => state.grid[cell] !== 'wall').length, 1, null, true);
     messageEl.textContent = `${powerNames[kind]} ativado · ${affected.size} peças alcançadas!`;
     messageEl.classList.add('power-notice');
     await clearCells(affected, points, 1, true);
@@ -329,7 +360,7 @@
   }
 
   function shuffleBoard() {
-    const movable = state.grid.map((type, index) => ({ type, index })).filter(item => item.type !== 'watch' && !state.specialKinds.has(item.index));
+    const movable = state.grid.map((type, index) => ({ type, index })).filter(item => isMovable(item.type) && !state.specialKinds.has(item.index));
     const values = movable.map(item => item.type);
     let attempts = 0;
     do {
@@ -358,8 +389,8 @@
 
   async function swap(a, b) {
     if (state.locked || state.moves <= 0 || !adjacent(a, b)) return;
-    if (state.grid[a] === 'watch' || state.grid[b] === 'watch') {
-      messageEl.textContent = 'Os relógios são alvos fixos. Faça combinações ao lado deles para capturá-los.';
+    if (!isMovable(state.grid[a]) || !isMovable(state.grid[b])) {
+      messageEl.textContent = state.grid[a] === 'wall' || state.grid[b] === 'wall' ? 'As barreiras são fixas. Crie jogadas nos corredores ao redor delas.' : 'Os relógios são alvos fixos. Faça combinações ao lado deles para capturá-los.';
       boardEl.dispatchEvent(new CustomEvent('be-match:invalid', { detail: { reason: 'fixed-target' } }));
       return;
     }
@@ -554,6 +585,7 @@
       snapshot: () => ({ ...state, grid: [...state.grid], specials: [...state.specialKinds.entries()] }),
       listMoves: productiveMoves,
       setAnimationScale(value) { animationScale = Math.max(0, Number(value) || 0); },
+      resolve,
       resetLevel(level) {
         state.level = Math.max(1, Math.min(8, Number(level) || 1));
         state.lives = 5;

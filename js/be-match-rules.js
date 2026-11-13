@@ -1,14 +1,14 @@
 (() => {
   const size = 8;
   const levels = [
-    { moves: 24, target: 6, tutorial: 'Combine 4 peças para criar um raio esportivo.' },
-    { moves: 25, target: 7, tutorial: 'Raios limpam uma linha inteira e alcançam relógios distantes.' },
-    { moves: 26, target: 8, collect: { type: 'bottle', target: 6, label: 'garrafas' }, tutorial: 'Nova meta: combine garrafas enquanto captura os relógios.' },
-    { moves: 28, target: 10, collect: { type: 'shoe', target: 7, label: 'tênis' }, tutorial: 'Formatos T ou L criam uma explosão 3×3.' },
-    { moves: 29, target: 11, collect: { type: 'fruit', target: 8, label: 'frutas' }, tutorial: 'Combine 5 peças para criar o Poder BE cruzado.' },
-    { moves: 30, target: 12, collect: { type: 'bottle', target: 9, label: 'garrafas' }, tutorial: 'Combine dois poderes para ampliar o efeito.' },
-    { moves: 32, target: 14, collect: { type: 'cap', target: 10, label: 'bolas' }, tutorial: 'Planeje cascatas para cumprir as duas metas juntas.' },
-    { moves: 34, target: 16, collect: { type: 'shoe', target: 12, label: 'tênis' }, tutorial: 'Desafio final: use poderes e cascatas com estratégia.' }
+    { moves: 24, target: 6, walls: [], tutorial: 'Combine 4 peças para criar um raio esportivo.' },
+    { moves: 25, target: 7, walls: [27,28,35,36], tutorial: 'Novo campo: as barreiras centrais dividem as jogadas.' },
+    { moves: 26, target: 8, walls: [18,21,42,45], collect: { type: 'bottle', target: 6, label: 'garrafas' }, tutorial: 'Use as laterais para contornar as quatro barreiras.' },
+    { moves: 28, target: 10, walls: [11,12,19,20,43,44,51,52], collect: { type: 'shoe', target: 7, label: 'tênis' }, tutorial: 'Formatos T ou L criam uma explosão capaz de alcançar áreas separadas.' },
+    { moves: 29, target: 11, walls: [24,31,32,39], collect: { type: 'fruit', target: 8, label: 'frutas' }, tutorial: 'Combine 5 peças para criar o Poder BE cruzado entre os corredores.' },
+    { moves: 30, target: 12, walls: [10,13,26,29,34,37,50,53], collect: { type: 'bottle', target: 9, label: 'garrafas' }, tutorial: 'Combine dois poderes para romper o desenho em zigue-zague.' },
+    { moves: 32, target: 14, walls: [17,22,25,30,33,38,41,46], collect: { type: 'cap', target: 10, label: 'bolas' }, tutorial: 'Planeje cascatas entre os portões laterais.' },
+    { moves: 34, target: 16, walls: [9,14,18,21,42,45,49,54], collect: { type: 'shoe', target: 12, label: 'tênis' }, tutorial: 'Desafio final: supere a fortaleza com poderes e cascatas.' }
   ];
   const levelConfig = level => levels[Math.max(0, Math.min(levels.length - 1, level - 1))];
   const powerGuide = Object.freeze([
