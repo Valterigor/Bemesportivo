@@ -39,19 +39,19 @@
   <link rel="stylesheet" href="/css/be-match-mission-hud.css?v=20261112-2">
   <link rel="stylesheet" href="/css/be-match-audio-ui.css?v=20261112-1">
   <link rel="stylesheet" href="/css/be-match-tactical-map.css?v=20261112-3">
-  <link rel="stylesheet" href="/css/be-match-game-nav.css?v=20261112-2">
-  <link rel="stylesheet" href="/css/be-match-obstacles.css?v=20261112-1">
+  <link rel="stylesheet" href="/css/be-match-game-nav.css?v=20261113-1">
+  <link rel="stylesheet" href="/css/be-match-obstacles.css?v=20261113-1">
   <link rel="stylesheet" href="/css/be-match-impact-upgrade.css?v=20261112-2">
   <link rel="stylesheet" href="/css/be-match-cover-readability.css?v=20261112-1">
 </head>
 <body>
   <main class="match-app">
-    <header class="match-header"><a class="match-brand" href="/"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt=""><span>BeMEsportivo<small>BE Match</small></span></a><button id="sound-toggle" class="icon-button" type="button" aria-label="Ativar ou desativar sons">Som</button></header>
+    <header class="match-header"><a class="match-brand" href="/"><img src="/img/Bem%20Esportivo%20Logo%20Laranja@33x.png" alt=""><span>BeMEsportivo<small>BE Match</small></span></a><button id="sound-toggle" class="icon-button" type="button" data-sound-toggle aria-label="Ativar ou desativar sons">Som</button></header>
     <section class="match-hero"><div><p class="kicker">BE MATCH</p><h1>Combine.<br><em>Conquiste.</em><br>Evolua.</h1><p>Um movimento de cada vez. Combine peças esportivas e construa sua sequência.</p></div><div class="hero-orbit" aria-hidden="true"><span>BE</span><i></i><b></b></div></section>
     <section class="game-guide" aria-label="Como jogar"><div class="guide-icon">↔</div><div><p class="kicker">COMO JOGAR</p><h2>Capture os relógios da missão</h2><p>Deslize para combinar <strong>3 ou mais peças</strong>. Relógios ao lado da combinação são capturados.</p><small>4 peças criam um raio; formatos T ou L criam uma explosão; 5 peças criam o Poder BE cruzado. Toque no poder para ativar.</small></div></section>
     <section class="phase-map" aria-label="Mapa de fases"><div><p class="kicker">SUA JORNADA</p><h2>Mapa BE</h2><p id="map-status">Complete uma missão para desbloquear a próxima fase.</p></div><div id="phase-nodes" class="phase-nodes"></div></section>
     <section class="game-panel" aria-label="Partida BE Match">
-      <div class="game-heading"><button id="game-back" class="game-back-button" type="button" aria-label="Voltar ao mapa de fases" title="Voltar ao mapa"><span aria-hidden="true">←</span></button><p id="scene-name" class="scene-name" aria-live="polite"></p><span class="game-heading-spacer" aria-hidden="true"></span></div>
+      <div class="game-heading"><button id="game-back" class="game-back-button" type="button" aria-label="Voltar ao mapa de fases" title="Voltar ao mapa"><span aria-hidden="true">←</span></button><p id="scene-name" class="scene-name" aria-live="polite"></p><button id="game-sound-toggle" class="game-back-button game-sound-button" type="button" data-sound-toggle data-sound-compact aria-label="Ativar ou desativar sons" title="Som do jogo">🔊</button></div>
       <div class="game-top">
         <div class="hud-stat hud-phase"><span class="label">FASE</span><strong id="level">1</strong></div>
         <div class="hud-stat hud-score"><span class="label">PONTOS</span><strong id="score">0</strong></div>
@@ -77,7 +77,7 @@
   <div id="loss-sheet" class="sheet" hidden><div class="sheet-card"><span class="sheet-mark loss-mark">!</span><p class="kicker loss-kicker">TENTATIVA ENCERRADA</p><h2>Quase lá.</h2><p id="loss-copy">Os movimentos terminaram antes de concluir a missão.</p><div id="loss-summary" class="loss-summary"><div><strong id="loss-clocks">0/0</strong><small>relógios capturados</small></div><div><strong id="loss-lives">4</strong><small>vidas restantes</small></div></div><p id="life-recovery" class="life-recovery" hidden>Próxima vida em <strong>30:00</strong></p><button id="retry-level" class="primary-button" type="button">Tentar novamente</button><button id="close-loss" class="ghost-button" type="button">Sair da fase</button></div></div>
   <script src="/js/be-match-scenes.js?v=20261109-1" defer></script>
   <script src="/js/be-match-rules.js?v=20261112-3" defer></script>
-  <script src="/js/be-match.js?v=20261112-5" defer></script>
+  <script src="/js/be-match.js?v=20261113-1" defer></script>
   <script src="/js/be-match-life-recovery.js?v=20261112-2" defer></script>
   <script src="/js/be-match-start.js?v=20261111-4" defer></script>
   <script src="/js/be-match-start-map.js?v=20261108-1" defer></script>
@@ -85,8 +85,8 @@
   <script src="/js/be-match-play-label.js?v=20261108-1" defer></script>
   <script src="/js/be-match-playing.js?v=20261112-1" defer></script>
   <script src="/js/be-match-playing-watch.js?v=20261112-1" defer></script>
-  <script src="/js/be-match-sound.js?v=20261112-6" defer></script>
-  <script src="/js/be-match-music.js?v=20261112-5" defer></script>
+  <script src="/js/be-match-sound.js?v=20261113-1" defer></script>
+  <script src="/js/be-match-music.js?v=20261113-1" defer></script>
   <script src="/js/be-match-clock-display.js?v=20261111-2" defer></script>
   <script src="/js/be-match-copy.js?v=20261112-1" defer></script>
   <script src="/js/be-match-input-feedback.js?v=20261108-1" defer></script>

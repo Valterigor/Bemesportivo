@@ -1,5 +1,5 @@
 (() => {
-  const toggle = document.querySelector('#sound-toggle');
+  const toggles = [...document.querySelectorAll('[data-sound-toggle]')];
   const startSoundButton = document.querySelector('#start-sound');
   const playButton = document.querySelector('#continue-game');
   let audio = null;
@@ -97,10 +97,10 @@
     }, Number(detail?.duration) || 420);
   };
 
-  const sync = () => { if (enabled()) start(mode); else stop(); };
+  const sync = () => { if (!enabled() || document.body.classList.contains('game-playing')) stop(); else start(mode); };
   startSoundButton?.addEventListener('click', () => start('menu'));
   playButton?.addEventListener('click', () => changeMode('tactical'));
-  toggle?.addEventListener('click', () => setTimeout(sync, 20));
+  toggles.forEach(toggle => toggle.addEventListener('click', () => setTimeout(sync, 20)));
   window.addEventListener('be-match:audio-focus', duck);
   window.addEventListener('be-match:tactical-open', () => changeMode('tactical'));
   window.addEventListener('be-match:enter-game', stop);

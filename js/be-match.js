@@ -31,7 +31,7 @@
     cap: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="16"/><path d="m24 16 6 4-2 7h-8l-2-7 6-4Z"/><path d="m24 16-2-8M30 20l8-3M28 27l5 8M20 27l-5 8M18 20l-8-3"/></svg>',
     shoe: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13c4 5 7 10 13 13l9 4c4 2 5 6 0 6H12c-5 0-6-4-3-7l6-6"/><path d="m20 20 5 2M16 24l5 2M13 28l5 2"/></svg>',
     fruit: '<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M24 17c-8-5-15 2-13 11 2 9 8 13 13 7 5 6 11 2 13-7 2-9-5-16-13-11Z"/><path d="M24 16c0-5 4-8 8-8M28 9c3-2 6-1 8 1"/></svg>'
-    ,wall: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" aria-hidden="true"><path d="M7 13h34v22H7zM7 21h34M7 29h34M16 13v8M32 13v8M12 21v8M27 21v8M19 29v6M36 29v6"/></svg>'
+    ,wall: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="24" cy="24" r="17" fill="#101010"/><circle cx="24" cy="24" r="10" fill="#343434" stroke="#ff9a24"/><circle cx="24" cy="24" r="4" fill="#ff9a24"/><path d="M24 7v5M24 36v5M7 24h5M36 24h5M12 12l4 4M32 32l4 4M36 12l-4 4M16 32l-4 4" stroke="#777"/></svg>'
   };
 
   let savedProgress;
@@ -187,7 +187,7 @@
       button.dataset.index = index;
       button.setAttribute('role', 'gridcell');
       button.setAttribute('aria-label', kind ? `${powerNames[kind]}. Toque para ativar ou arraste para combinar.` : `Peça ${type}`);
-      if (type === 'wall') button.setAttribute('aria-label', 'Barreira fixa do campo');
+      if (type === 'wall') button.setAttribute('aria-label', 'Barreira fixa de pneus');
       if (kind) { button.dataset.special = 'true'; button.dataset.powerKind = kind; }
       button.innerHTML = icons[type];
       button.addEventListener('pointerdown', event => startDrag(event, index));

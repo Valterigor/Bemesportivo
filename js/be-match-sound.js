@@ -1,6 +1,7 @@
 (() => {
   const board = document.querySelector('#board');
-  const toggle = document.querySelector('#sound-toggle');
+  const toggles = [...document.querySelectorAll('[data-sound-toggle]')];
+  const toggle = toggles[0];
   const startSoundButton = document.querySelector('#start-sound');
   const playButton = document.querySelector('#continue-game');
   if (!board || !toggle) return;
@@ -237,15 +238,17 @@
   window.addEventListener('be-match-loss', lossSound);
 
   const syncToggle = () => {
-    toggle.textContent = enabled ? 'Som: ligado' : 'Som: desligado';
-    toggle.setAttribute('aria-pressed', String(enabled));
-    toggle.setAttribute('aria-label', enabled ? 'Desativar sons e música' : 'Ativar sons e música');
+    toggles.forEach(button => {
+      button.textContent = button.hasAttribute('data-sound-compact') ? (enabled ? '🔊' : '🔇') : (enabled ? 'Som: ligado' : 'Som: desligado');
+      button.setAttribute('aria-pressed', String(enabled));
+      button.setAttribute('aria-label', enabled ? 'Desativar sons do jogo' : 'Ativar sons do jogo');
+    });
     if (!enabled && startSoundButton) {
       startSoundButton.textContent = '♪ Ativar trilha';
       startSoundButton.setAttribute('aria-pressed', 'false');
     }
   };
-  toggle.addEventListener('click', () => {
+  toggles.forEach(button => button.addEventListener('click', () => {
     enabled = !enabled;
     localStorage.setItem('be-match-sound', enabled ? 'on' : 'off');
     syncToggle();
@@ -254,7 +257,7 @@
       tone(660, .09, { type: 'triangle', gain: .02 });
       tone(880, .12, { type: 'sine', gain: .018, delay: .06 });
     }
-  });
+  }));
   startSoundButton?.addEventListener('click', () => {
     if (!enabled) {
       enabled = true;
