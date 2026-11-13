@@ -11,10 +11,11 @@ body[data-match-scene]:has(#start-sheet[hidden])::after {
   margin: 0 0 12px;
   text-align: center;
   color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .04em;
-  text-shadow: 0 2px 5px #000;
+  font-size: clamp(16px, 2.2vw, 20px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: .015em;
+  text-shadow: 0 2px 7px #000, 0 0 12px #001c24aa;
 }
 body[data-match-scene] .board {
   background: var(--scene-surface);
@@ -29,7 +30,7 @@ body[data-match-scene]:has(#start-sheet[hidden]) .game-message {
 body[data-match-scene] .progress-line span { background: var(--scene-accent); }
 .scene-panorama { display: none; }
 @media (max-width:620px) {
-  .scene-name { font-size: 12px; margin-bottom: 8px; }
+  .scene-name { font-size: clamp(14px, 4vw, 17px); margin-bottom: 8px; }
   /* A single play surface: scenery surrounds the board instead of a separate card. */
   body[data-match-scene]:has(#start-sheet[hidden]) {
     background-attachment: scroll !important;

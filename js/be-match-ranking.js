@@ -7,6 +7,9 @@
   const positionEl = document.querySelector('#ranking-position');
   const totalEl = document.querySelector('#ranking-total');
   const levelEl = document.querySelector('#ranking-level');
+  const invite = document.querySelector('#competition-invite');
+  const inviteYes = document.querySelector('#competition-yes');
+  const inviteNo = document.querySelector('#competition-no');
   const deviceId = localStorage.getItem('be-match-device-id') || crypto.randomUUID();
   localStorage.setItem('be-match-device-id', deviceId);
   let playerName = localStorage.getItem('be-match-player-name') || 'Atleta BE';
@@ -80,6 +83,26 @@
   document.querySelectorAll('[data-ranking-open]').forEach(button => button.addEventListener('click', () => document.body.classList.add('ranking-open')));
   document.querySelector('#ranking-close')?.addEventListener('click', () => document.body.classList.remove('ranking-open'));
   document.addEventListener('keydown', event => { if (event.key === 'Escape') document.body.classList.remove('ranking-open'); });
+  const closeInvite = () => {
+    if (invite) invite.hidden = true;
+    document.body.classList.remove('competition-invite-open');
+  };
+  window.addEventListener('be-match:tactical-open', () => {
+    if (!invite || localStorage.getItem('be-match-competition-choice')) return;
+    invite.hidden = false;
+    document.body.classList.add('competition-invite-open');
+    inviteYes?.focus();
+  });
+  inviteYes?.addEventListener('click', () => {
+    localStorage.setItem('be-match-competition-choice', 'joined');
+    closeInvite();
+    document.body.classList.add('ranking-open');
+    requestAnimationFrame(() => { nameInput.focus(); nameInput.select(); });
+  });
+  inviteNo?.addEventListener('click', () => {
+    localStorage.setItem('be-match-competition-choice', 'declined');
+    closeInvite();
+  });
   window.addEventListener('be-match-win', submit);
   load();
 })();
