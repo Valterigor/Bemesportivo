@@ -14,7 +14,7 @@
     try { progress = JSON.parse(localStorage.getItem('be-match-progress') || '{}'); } catch { progress = {}; }
     progress = { unlockedLevel: 1, completed: [], stars: {}, ...progress };
   };
-  const phaseName = level => `${scenes[(level - 1) % scenes.length]} · Rodada ${Math.ceil(level / 10)}`;
+  const phaseName = level => `${scenes[(level - 1) % scenes.length]} · ${window.BeMatchRules.roundName(level)}`;
   const renderBriefing = () => {
     const config = window.BeMatchRules.levelConfig(selected);
     const collect = config.collect ? ` e colete ${config.collect.target} ${config.collect.label}` : '';
@@ -38,7 +38,7 @@
     for (let round = 1; round <= 10; round += 1) {
       const group = document.createElement('section');
       group.className = 'tactical-round';
-      group.innerHTML = `<header><span>RODADA ${round}</span><small>Fases ${(round - 1) * 10 + 1}–${round * 10}</small></header>`;
+      group.innerHTML = `<header><span>RODADA ${round} · ${window.BeMatchRules.roundName(round * 10)}</span><small>Fases ${(round - 1) * 10 + 1}–${round * 10}</small></header>`;
       const track = document.createElement('div');
       track.className = 'tactical-round-track';
       for (let offset = 1; offset <= 10; offset += 1) {

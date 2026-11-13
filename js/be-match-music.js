@@ -7,6 +7,7 @@
   let timer = null;
   let duckTimer = null;
   let playing = false;
+  let musicRequested = false;
   let mode = 'menu';
   let step = 0;
   const enabled = () => localStorage.getItem('be-match-sound') !== 'off';
@@ -47,7 +48,7 @@
   };
 
   const start = async requestedMode => {
-    if (!enabled()) return;
+    if (!enabled() || !musicRequested) return;
     if (requestedMode) mode = requestedMode;
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (!AudioContext) return;
@@ -98,7 +99,7 @@
   };
 
   const sync = () => { if (!enabled() || document.body.classList.contains('game-playing')) stop(); else start(mode); };
-  startSoundButton?.addEventListener('click', () => start('menu'));
+  startSoundButton?.addEventListener('click', () => { musicRequested = true; start('menu'); });
   playButton?.addEventListener('click', () => changeMode('tactical'));
   toggles.forEach(toggle => toggle.addEventListener('click', () => setTimeout(sync, 20)));
   window.addEventListener('be-match:audio-focus', duck);
@@ -109,6 +110,6 @@
     if (document.visibilityState === 'visible' && playing && enabled()) start(mode);
   });
   if (['localhost', '127.0.0.1'].includes(location.hostname)) {
-    window.__beMatchMusicDebug = { snapshot: () => ({ playing, mode, state: audio?.state || 'idle' }) };
+    window.__beMatchMusicDebug = { snapshot: () => ({ playing, mode, requested: musicRequested, state: audio?.state || 'idle' }) };
   }
 })();

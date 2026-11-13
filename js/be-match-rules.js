@@ -1,5 +1,7 @@
 (() => {
   const size = 8;
+  const roundNames = ['Polichinelo','Agachamento','Chute de esquerda','Corrida explosiva','Salto vertical','Prancha','Sprint','Embaixadinhas','Circuito campeão','Volta olímpica'];
+  const roundName = level => roundNames[Math.max(0, Math.min(9, Math.ceil((Number(level) || 1) / 10) - 1))];
   const starterLevels = [
     { moves: 24, target: 6, walls: [], tutorial: 'Combine 4 peças para criar um raio esportivo.' },
     { moves: 25, target: 7, walls: [27,28,35,36], tutorial: 'Novo campo: as barreiras centrais dividem as jogadas.' },
@@ -34,7 +36,7 @@
       target: Math.min(24, 7 + Math.floor(level * .17)),
       walls: [...walls],
       collect: level % 4 === 1 ? null : { ...collectType, target: Math.min(18, 5 + Math.floor(level * .11)) },
-      tutorial: `Rodada ${chapter}: observe os corredores de pneus e prepare cascatas antes de usar seus poderes.`
+      tutorial: `Rodada ${chapter} · ${roundName(level)}: observe os corredores de pneus e prepare cascatas antes de usar seus poderes.`
     };
   };
   const levelConfig = rawLevel => {
@@ -78,5 +80,5 @@
     return Math.round((count * 10 + matchBonus + powerBonus) * (1 + Math.max(0, chain - 1) * .5));
   };
 
-  window.BeMatchRules = { powerForGroups, affectedByPower, scoreForClear, levelConfig, powerGuide };
+  window.BeMatchRules = { powerForGroups, affectedByPower, scoreForClear, levelConfig, powerGuide, roundName };
 })();

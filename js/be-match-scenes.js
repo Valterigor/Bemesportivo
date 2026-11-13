@@ -19,7 +19,7 @@
       document.body.style.setProperty('--scene-accent', accent);
       document.body.style.setProperty('--scene-surface', surface);
       const label = document.querySelector('#scene-name');
-      if (label) label.textContent = `${name} · Rodada ${Math.ceil(safeLevel / 10)}`;
+      if (label) label.textContent = `${name} · ${window.BeMatchRules?.roundName(safeLevel) || `Rodada ${Math.ceil(safeLevel / 10)}`}`;
       document.querySelector('#board').setAttribute('aria-label', `Tabuleiro BE Match · ${name}`);
     }
   };
