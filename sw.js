@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'meu-caminho-be-';
-const CACHE_NAME = `${CACHE_PREFIX}v159`;
+const CACHE_NAME = `${CACHE_PREFIX}v160`;
 const CORE_SHELL = [
   '/experiencia',
   '/experiencia.html',
@@ -123,7 +123,9 @@ self.addEventListener('activate', event => {
 self.addEventListener('message', event => {
   if (event.data?.type !== 'CACHE_BE_MATCH' || !Array.isArray(event.data.assets)) return;
   const assets = event.data.assets.filter(asset => typeof asset === 'string' && asset.startsWith('/')).slice(0, 150);
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => Promise.allSettled(assets.map(asset => cache.add(asset)))));
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => Promise.allSettled(assets.map(asset => cache.add(asset)))).then(results => {
+    event.ports[0]?.postMessage({ ok: results.some(result => result.status === 'fulfilled'), cached: results.filter(result => result.status === 'fulfilled').length, total: results.length });
+  }));
 });
 
 self.addEventListener('fetch', event => {

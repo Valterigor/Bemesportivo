@@ -1,4 +1,5 @@
 (() => {
+  const localStorage = window.BeMatchStorage;
   const label = document.querySelector('#life-recovery');
   const retry = document.querySelector('#retry-level');
   if (!label) return;

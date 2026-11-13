@@ -3,7 +3,9 @@ import { readJson, writeJson } from '../../server/cloudflare-kv.mjs';
 
 const rankingKey = 'be-match:ranking:v1';
 const clean = (value, maximum = 16) => String(value || '').replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, maximum);
-const publicEntries = entries => entries.slice(0, 100).map(({ name, score, level, stars, deviceId, updatedAt }) => ({ name, score, level, stars, deviceId, updatedAt }));
+const publicEntries = (entries, currentDeviceId = '') => entries.slice(0, 100).map(({ name, score, level, stars, deviceId, updatedAt }) => ({
+  name, score, level, stars, updatedAt, isCurrent: Boolean(currentDeviceId && deviceId === currentDeviceId)
+}));
 
 export async function onRequest({ request, env }) {
   if (request.method === 'OPTIONS') return apiOptions();
@@ -15,7 +17,10 @@ export async function onRequest({ request, env }) {
     return apiJson({ ok: false, error: 'Classificação temporariamente indisponível.' }, 503);
   }
   data = data && Array.isArray(data.entries) ? data : { entries: [], updatedAt: null };
-  if (request.method === 'GET') return apiJson({ ok: true, ranking: publicEntries(data.entries), updatedAt: data.updatedAt });
+  if (request.method === 'GET') {
+    const currentDeviceId = clean(new URL(request.url).searchParams.get('deviceId'), 64);
+    return apiJson({ ok: true, ranking: publicEntries(data.entries, currentDeviceId), updatedAt: data.updatedAt });
+  }
   if (request.method !== 'POST') return apiJson({ ok: false, error: 'Método não permitido.' }, 405);
   let input = {};
   try { input = await request.json(); } catch {}
@@ -24,7 +29,7 @@ export async function onRequest({ request, env }) {
   const score = Math.floor(Number(input.score));
   const level = Math.floor(Number(input.level));
   const stars = Math.floor(Number(input.stars));
-  if (!deviceId || !Number.isFinite(score) || score < 0 || score > 100_000_000 || !Number.isFinite(level) || level < 1 || level > 100 || !Number.isFinite(stars) || stars < 0 || stars > 300) {
+  if (!deviceId || !Number.isFinite(score) || score < 0 || score > 100_000_000 || !Number.isFinite(level) || level < 1 || level > 100 || !Number.isFinite(stars) || stars < 0 || stars > Math.min(300, level * 3) || score > level * 500_000) {
     return apiJson({ ok: false, error: 'Resultado inválido.' }, 400);
   }
   const previous = data.entries.find(entry => entry.deviceId === deviceId);
@@ -41,5 +46,5 @@ export async function onRequest({ request, env }) {
     .slice(0, 500);
   data.updatedAt = entry.updatedAt;
   await writeJson(env, rankingKey, data);
-  return apiJson({ ok: true, ranking: publicEntries(data.entries), position: data.entries.findIndex(item => item.deviceId === deviceId) + 1, updatedAt: data.updatedAt });
+  return apiJson({ ok: true, ranking: publicEntries(data.entries, deviceId), position: data.entries.findIndex(item => item.deviceId === deviceId) + 1, updatedAt: data.updatedAt });
 }

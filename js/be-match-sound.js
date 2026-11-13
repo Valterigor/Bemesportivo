@@ -1,4 +1,5 @@
 (() => {
+  const localStorage = window.BeMatchStorage;
   const board = document.querySelector('#board');
   const toggles = [...document.querySelectorAll('[data-sound-toggle]')];
   const toggle = toggles[0];

@@ -1,4 +1,5 @@
 (() => {
+  const localStorage = window.BeMatchStorage;
   const body = document.querySelector('#ranking-body');
   if (!body) return;
   const nameInput = document.querySelector('#ranking-name');
@@ -35,7 +36,7 @@
   };
   const render = () => {
     const own = totals();
-    const key = entry => entry.deviceId === deviceId;
+    const key = entry => entry.isCurrent || entry.deviceId === deviceId;
     const position = ranking.findIndex(key) + 1;
     totalEl.textContent = own.score.toLocaleString('pt-BR');
     levelEl.textContent = `${own.level}/100`;
@@ -53,7 +54,7 @@
   };
   const load = async () => {
     try {
-      const response = await fetch('/api/be-match-ranking', { cache: 'no-store' });
+      const response = await fetch(`/api/be-match-ranking?deviceId=${encodeURIComponent(deviceId)}`, { cache: 'no-store' });
       if (!response.ok) throw new Error('offline');
       const data = await response.json();
       ranking = Array.isArray(data.ranking) ? data.ranking : [];

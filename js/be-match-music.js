@@ -1,4 +1,5 @@
 (() => {
+  const localStorage = window.BeMatchStorage;
   const toggles = [...document.querySelectorAll('[data-sound-toggle]')];
   const startSoundButton = document.querySelector('#start-sound');
   const playButton = document.querySelector('#continue-game');

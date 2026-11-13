@@ -7,14 +7,14 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const rootDir = path.resolve(__dirname, '..');
-const ignoredDirectories = new Set(['.git', 'archive', 'dist', 'node_modules']);
+const ignoredDirectories = new Set(['.git', 'archive', 'dist', 'node_modules', 'output']);
 const failures = [];
 
 function walk(directory, extension) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
     if (entry.name.startsWith('.') && entry.isDirectory()) return [];
     if (entry.isDirectory()) {
-      if (ignoredDirectories.has(entry.name)) return [];
+      if (ignoredDirectories.has(entry.name) || entry.name.startsWith('dist-publish')) return [];
       return walk(path.join(directory, entry.name), extension);
     }
     const filePath = path.join(directory, entry.name);

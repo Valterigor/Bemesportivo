@@ -1,4 +1,5 @@
 (() => {
+  const localStorage = window.BeMatchStorage;
   const boardEl = document.querySelector('#board');
   if (!boardEl || !window.BeMatchRules) return;
 
