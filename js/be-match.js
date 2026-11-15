@@ -557,8 +557,9 @@
     const remainingRatio = state.moves / movesForLevel();
     const stars = remainingRatio >= .4 ? 3 : remainingRatio >= .15 ? 2 : 1;
     const efficient = stars === 3;
-    const best = Math.max(Number(savedProgress.best[state.level] || 0), state.score);
-    savedProgress.best[state.level] = best;
+    const alreadyCompleted = completed.has(state.level);
+    const best = alreadyCompleted ? Number(savedProgress.best[state.level] || 0) : Math.max(0, state.score);
+    if (!alreadyCompleted) savedProgress.best[state.level] = best;
     savedProgress.stars[state.level] = Math.max(Number(savedProgress.stars[state.level] || 0), stars);
     savedProgress.completed = [...completed].sort((a, b) => a - b);
     savedProgress.unlockedLevel = Math.max(Number(savedProgress.unlockedLevel || 1), Math.min(100, state.level + 1));
